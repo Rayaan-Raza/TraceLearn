@@ -1,0 +1,27 @@
+{
+  "student_id": "SYN002",
+  "description": "Isolated loop error",
+  "attempts": [
+    {
+      "problem_id": "P01",
+      "attempt_number": 1,
+      "source_file": "code/SYN002_P01_a1.py",
+      "ground_truth_misconception": "M01_LOOP_BOUNDARY",
+      "ground_truth_state": "NEW"
+    },
+    {
+      "problem_id": "P01",
+      "attempt_number": 2,
+      "source_file": "code/SYN002_P01_a2.py",
+      "ground_truth_misconception": "NO_MISCONCEPTION",
+      "ground_truth_state": "NEW"
+    },
+    {
+      "problem_id": "P02",
+      "attempt_number": 1,
+      "source_file": "code/SYN002_P02_a1.py",
+      "ground_truth_misconception": "NO_MISCONCEPTION",
+      "ground_truth_state": "NEW"
+    }
+  ]
+}

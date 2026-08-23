@@ -1,0 +1,28 @@
+﻿from pathlib import Path
+ROOT = Path(".")
+(ROOT / "config").mkdir(parents=True, exist_ok=True)
+(ROOT / "config/evidence_weights.yaml").write_text("""# FROZEN for holdout evaluation — do not tune after observing evaluation_sequences results.
+version: poc-v1
+
+weights:
+  static_strong: 0.30
+  diagnostic_match: 0.35
+  runtime_support: 0.15
+  general_test_pattern: 0.10
+  previous_same_problem: 0.10
+  cross_problem_recurrence: 0.20
+  related_success: -0.20
+  conflicting_diagnostic: -0.20
+
+history:
+  decay_factor: 0.80
+
+thresholds:
+  review_confidence: 0.35
+  hypothesis_margin: 0.10
+
+learner_state:
+  min_cross_problem_for_persistent: 2
+  min_attempts_for_same_problem_new: 1
+""", encoding="utf-8")
+print("evidence_weights ok")
