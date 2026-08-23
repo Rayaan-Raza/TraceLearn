@@ -1,0 +1,27 @@
+{
+  "student_id": "SYN003",
+  "description": "Persistent index/value misconception",
+  "attempts": [
+    {
+      "problem_id": "P03",
+      "attempt_number": 1,
+      "source_file": "code/SYN003_P03_a1.py",
+      "ground_truth_misconception": "M02_INDEX_VALUE",
+      "ground_truth_state": "NEW"
+    },
+    {
+      "problem_id": "P04",
+      "attempt_number": 1,
+      "source_file": "code/SYN003_P04_a1.py",
+      "ground_truth_misconception": "M02_INDEX_VALUE",
+      "ground_truth_state": "PERSISTENT"
+    },
+    {
+      "problem_id": "P04",
+      "attempt_number": 2,
+      "source_file": "code/SYN003_P04_a2.py",
+      "ground_truth_misconception": "NO_MISCONCEPTION",
+      "ground_truth_state": "IMPROVING"
+    }
+  ]
+}

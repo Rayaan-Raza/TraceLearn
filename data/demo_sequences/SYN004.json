@@ -1,0 +1,34 @@
+{
+  "student_id": "SYN004",
+  "description": "Missing-return misconception that resolves",
+  "attempts": [
+    {
+      "problem_id": "P05",
+      "attempt_number": 1,
+      "source_file": "code/SYN004_P05_a1.py",
+      "ground_truth_misconception": "M03_MISSING_RETURN",
+      "ground_truth_state": "NEW"
+    },
+    {
+      "problem_id": "P06",
+      "attempt_number": 1,
+      "source_file": "code/SYN004_P06_a1.py",
+      "ground_truth_misconception": "M03_MISSING_RETURN",
+      "ground_truth_state": "PERSISTENT"
+    },
+    {
+      "problem_id": "P05",
+      "attempt_number": 2,
+      "source_file": "code/SYN004_P05_a2.py",
+      "ground_truth_misconception": "NO_MISCONCEPTION",
+      "ground_truth_state": "IMPROVING"
+    },
+    {
+      "problem_id": "P06",
+      "attempt_number": 2,
+      "source_file": "code/SYN004_P06_a2.py",
+      "ground_truth_misconception": "NO_MISCONCEPTION",
+      "ground_truth_state": "RESOLVED"
+    }
+  ]
+}

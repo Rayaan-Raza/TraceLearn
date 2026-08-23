@@ -1,0 +1,20 @@
+{
+  "student_id": "EVAL002",
+  "description": "Holdout evaluation sequence 2",
+  "attempts": [
+    {
+      "problem_id": "P05",
+      "attempt_number": 1,
+      "source_file": "code/EVAL002_P05_a1.py",
+      "ground_truth_misconception": "M03_MISSING_RETURN",
+      "ground_truth_state": "NEW"
+    },
+    {
+      "problem_id": "P02",
+      "attempt_number": 1,
+      "source_file": "code/EVAL002_P02_a1.py",
+      "ground_truth_misconception": "NO_MISCONCEPTION",
+      "ground_truth_state": "NEW"
+    }
+  ]
+}
