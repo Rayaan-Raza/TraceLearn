@@ -1,4 +1,5 @@
 import type {
+  AuthResponse,
   DiagnosisResult,
   EvidenceItem,
   LearnerProfile,
@@ -9,6 +10,19 @@ import type {
   TimelineEntry,
 } from '../types'
 
+function getToken(): string | null {
+  try {
+    return localStorage.getItem('tl_token')
+  } catch {
+    return null
+  }
+}
+
+function authHeader(): Record<string, string> {
+  const token = getToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
 const JSON_HEADERS = { 'Content-Type': 'application/json' }
 
 async function parseJson<T>(res: Response): Promise<T> {
@@ -17,6 +31,28 @@ async function parseJson<T>(res: Response): Promise<T> {
     throw new Error(`${res.status} ${res.statusText}: ${text || 'request failed'}`)
   }
   return res.json() as Promise<T>
+}
+
+export async function authLogin(email: string, password: string): Promise<AuthResponse> {
+  const body = new URLSearchParams({ username: email, password })
+  return parseJson(await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString(),
+  }))
+}
+
+export async function authRegister(
+  email: string,
+  password: string,
+  role: string,
+  display_name: string,
+): Promise<AuthResponse> {
+  return parseJson(await fetch('/api/auth/register', {
+    method: 'POST',
+    headers: JSON_HEADERS,
+    body: JSON.stringify({ email, password, role, display_name }),
+  }))
 }
 
 export async function fetchProblems(): Promise<ProblemSummary[]> {

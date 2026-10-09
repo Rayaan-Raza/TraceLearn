@@ -13,6 +13,14 @@ export type ProblemDetail = ProblemSummary & {
   test_cases: { id: string; name: string; test_type: string; input_json: unknown }[]
 }
 
+export type AuthResponse = {
+  access_token: string
+  token_type: string
+  role: string
+  user_id: number
+  student_id: number | null
+}
+
 export type StudentOption = {
   id: number
   display_name: string
