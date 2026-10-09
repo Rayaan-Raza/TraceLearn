@@ -7,7 +7,7 @@ import secrets
 from datetime import datetime
 from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Path, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Path, Request, Response, status
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -246,8 +246,8 @@ def list_members(classroom_id: IdPath, db: Session = Depends(get_db), teacher: U
     return [MemberRead(student_id=s.id, display_name=s.display_name, joined_at=m.joined_at) for m, s in rows]
 
 
-@router.delete("/classrooms/{classroom_id}/members/{student_id}", status_code=status.HTTP_204_NO_CONTENT)
-def remove_member(classroom_id: IdPath, student_id: IdPath, db: Session = Depends(get_db), teacher: User = Depends(require_teacher)) -> None:
+@router.delete("/classrooms/{classroom_id}/members/{student_id}", status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
+def remove_member(classroom_id: IdPath, student_id: IdPath, db: Session = Depends(get_db), teacher: User = Depends(require_teacher)) -> Response:
     room = get_owned_classroom(db, teacher, classroom_id)
     db.query(ClassroomMember).filter(ClassroomMember.classroom_id == room.id, ClassroomMember.student_id == student_id).delete()
     assignment_ids = [a.id for a in db.query(Assignment.id).filter(Assignment.classroom_id == room.id).all()]
@@ -256,6 +256,7 @@ def remove_member(classroom_id: IdPath, student_id: IdPath, db: Session = Depend
             AssignmentStudent.assignment_id.in_(assignment_ids), AssignmentStudent.student_id == student_id
         ).delete(synchronize_session=False)
     db.commit()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get("/classrooms/{classroom_id}/overview", response_model=ClassroomOverview)
