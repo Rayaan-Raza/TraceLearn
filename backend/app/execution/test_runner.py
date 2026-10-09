@@ -77,7 +77,12 @@ def _run_submission_tests(db: Session, submission: Submission) -> SubmissionExec
                 stdin_data = payload.get("stdin", "")
                 if not stdin_data and payload.get("args"):
                     stdin_data = " ".join(str(a) for a in payload["args"]) + "\n"
-                exec_result = cpp_session.run(stdin_data, settings.execution_timeout_seconds)
+                # Per-test limits win when the test case sets them.
+                timeout_s = (
+                    max(0.1, tc.time_limit_ms / 1000) if tc.time_limit_ms
+                    else settings.execution_timeout_seconds
+                )
+                exec_result = cpp_session.run(stdin_data, timeout_s, tc.memory_limit_mb)
                 if not isinstance(expected, str):
                     expected = str(expected).strip()
             else:
