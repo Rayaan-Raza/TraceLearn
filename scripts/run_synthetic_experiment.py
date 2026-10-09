@@ -13,8 +13,7 @@ from backend.app.db.seed import run_seed
 from backend.app.db.models import Diagnosis, EvidenceItem, LearnerStateHistory, Student, Submission
 from backend.app.evaluation.evaluator import ExperimentEvaluator
 from backend.app.services.submission_service import SubmissionService
-from fastapi.testclient import TestClient
-from backend.app.main import app
+from backend.app.services import demo_service
 
 EXPORT_DIR = ROOT / "data" / "exports"
 DEMO_DIR = ROOT / "data" / "demo_sequences"
@@ -26,14 +25,13 @@ def main() -> None:
     init_db()
     db = SessionLocal()
     service = SubmissionService()
-    client = TestClient(app)
     try:
         run_seed(db)
         for name in ["SYN001", "SYN002", "SYN003", "SYN004", "SYN005"]:
             if not db.query(Student).filter(Student.display_name == name).first():
                 db.add(Student(display_name=name, is_synthetic=True))
             db.commit()
-            client.post(f"/api/demo/run-sequence/{name}")
+            demo_service.run_sequence(db, name)
         evaluator = ExperimentEvaluator(db)
         summary = evaluator.collect_predictions()
         EXPORT_DIR.mkdir(parents=True, exist_ok=True)
