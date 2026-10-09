@@ -25,11 +25,11 @@
     "time_limit_ms": 2000,
     "memory_limit_mb": 256,
     "determinism_runs": 3,
-    "run_utc": "2026-10-09T22:25:35Z"
+    "run_utc": "2026-10-09T22:51:17Z"
   },
   "summary": {
-    "checks": 122,
-    "passed": 122,
+    "checks": 149,
+    "passed": 149,
     "failed": 0
   },
   "checks": [
@@ -41,7 +41,7 @@
     {
       "name": "probe 512MB allocation is stopped by the 256MB limit",
       "passed": true,
-      "detail": "returncode=-6 timed_out=False memory_limit_hit=True elapsed_ms=33"
+      "detail": "returncode=-6 timed_out=False memory_limit_hit=True elapsed_ms=17"
     },
     {
       "name": "probe infinite loop compiles",
@@ -51,7 +51,7 @@
     {
       "name": "probe infinite loop is stopped at the 2000ms wall clock",
       "passed": true,
-      "detail": "timed_out=True elapsed_ms=2002 returncode=-9"
+      "detail": "timed_out=True elapsed_ms=2003 returncode=-9"
     },
     {
       "name": "CP01 compiles with -O2 -Wall -Wextra",
@@ -122,6 +122,21 @@
       "name": "CP01 runs clean under UBSan at the 256MB judged limit",
       "passed": true,
       "detail": ""
+    },
+    {
+      "name": "CP01__CPP-M01_a.cpp fails the tests for CPP-M01",
+      "passed": true,
+      "detail": "failed 7 of 9: CP01-V1,CP01-V2,CP01-H1,CP01-H2,CP01-H3,CP01-D2 outcome=wrong_output"
+    },
+    {
+      "name": "CP01__HARDNEG_inclusive_other_range.cpp is a hard negative and passes every test",
+      "passed": true,
+      "detail": "failed 0 of 9: none"
+    },
+    {
+      "name": "CP01 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP01__CPP-M01_a.cpp=wrong_output, CP01__HARDNEG_inclusive_other_range.cpp=pass_all"
     },
     {
       "name": "CP02 compiles with -O2 -Wall -Wextra",
@@ -199,6 +214,16 @@
       "detail": ""
     },
     {
+      "name": "CP02__CPP-M02_a.cpp fails the tests for CPP-M02",
+      "passed": true,
+      "detail": "failed 8 of 10: CP02-V1,CP02-V2,CP02-V3,CP02-H1,CP02-H2,CP02-D1 outcome=wrong_output"
+    },
+    {
+      "name": "CP02 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP02__CPP-M02_a.cpp=wrong_output"
+    },
+    {
       "name": "CP03 compiles with -O2 -Wall -Wextra",
       "passed": true,
       "detail": ""
@@ -274,6 +299,16 @@
       "detail": "stdout='returned=8' rc=0"
     },
     {
+      "name": "CP03__CPP-M03_a.cpp fails the tests for CPP-M03",
+      "passed": true,
+      "detail": "failed 9 of 9: CP03-V1,CP03-V2,CP03-V3,CP03-H1,CP03-H2,CP03-H3 outcome=wrong_output"
+    },
+    {
+      "name": "CP03 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP03__CPP-M03_a.cpp=wrong_output"
+    },
+    {
       "name": "CP04 compiles with -O2 -Wall -Wextra",
       "passed": true,
       "detail": ""
@@ -342,6 +377,26 @@
       "name": "CP04 runs clean under UBSan at the 256MB judged limit",
       "passed": true,
       "detail": ""
+    },
+    {
+      "name": "CP04__CPP-M04_a.cpp fails the tests for CPP-M04",
+      "passed": true,
+      "detail": "failed 7 of 9: CP04-V1,CP04-V2,CP04-H1,CP04-H2,CP04-H3,CP04-D2 outcome=wrong_output"
+    },
+    {
+      "name": "CP04__CPP-M04_b.sanitize-only.cpp is detected by AddressSanitizer",
+      "passed": true,
+      "detail": "================================================================= ==1111==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x503000000054 at pc 0x5ebcb88b66a6 bp "
+    },
+    {
+      "name": "CP04__HARDNEG_full_traversal.cpp is a hard negative and passes every test",
+      "passed": true,
+      "detail": "failed 0 of 9: none"
+    },
+    {
+      "name": "CP04 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP04__CPP-M04_a.cpp=wrong_output, CP04__CPP-M04_b.sanitize-only.cpp=sanitizer_detected, CP04__HARDNEG_full_traversal.cpp=pass_all"
     },
     {
       "name": "CP05 compiles with -O2 -Wall -Wextra",
@@ -429,6 +484,26 @@
       "detail": ""
     },
     {
+      "name": "CP05__CPP-M05_a.cpp emits the expected compiler warning",
+      "passed": true,
+      "detail": "CP05__CPP-M05_a.cpp: In function ‘int main()’:"
+    },
+    {
+      "name": "CP05__CPP-M05_a.cpp fails the tests for CPP-M05",
+      "passed": true,
+      "detail": "failed 7 of 12: CP05-V2,CP05-H2,CP05-H3,CP05-H4,CP05-H5,CP05-D3 outcome=wrong_output"
+    },
+    {
+      "name": "CP05__HARDNEG_de_morgan.cpp is a hard negative and passes every test",
+      "passed": true,
+      "detail": "failed 0 of 12: none"
+    },
+    {
+      "name": "CP05 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP05__CPP-M05_a.cpp=wrong_output, CP05__HARDNEG_de_morgan.cpp=pass_all"
+    },
+    {
       "name": "CP06 compiles with -O2 -Wall -Wextra",
       "passed": true,
       "detail": ""
@@ -499,6 +574,36 @@
       "detail": ""
     },
     {
+      "name": "CP06__CPP-M06_a.cpp emits the expected compiler warning",
+      "passed": true,
+      "detail": "CP06__CPP-M06_a.cpp: In function ‘int main()’:"
+    },
+    {
+      "name": "CP06__CPP-M06_a.cpp fails the tests for CPP-M06",
+      "passed": true,
+      "detail": "failed 3 of 9: CP06-V1,CP06-H2,CP06-D1 outcome=wrong_output"
+    },
+    {
+      "name": "CP06__CPP-M06_b.cpp emits the expected compiler error",
+      "passed": true,
+      "detail": "CP06__CPP-M06_b.cpp: In function ‘int main()’:"
+    },
+    {
+      "name": "CP06__CPP-M06_b.cpp is rejected by the compiler (compile_error)",
+      "passed": true,
+      "detail": "CP06__CPP-M06_b.cpp: In function ‘int main()’:"
+    },
+    {
+      "name": "CP06__HARDNEG_assignment_with_comment.cpp is a hard negative and passes every test",
+      "passed": true,
+      "detail": "failed 0 of 9: none"
+    },
+    {
+      "name": "CP06 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP06__CPP-M06_a.cpp=wrong_output, CP06__CPP-M06_b.cpp=compile_error, CP06__HARDNEG_assignment_with_comment.cpp=pass_all"
+    },
+    {
       "name": "CP07 compiles with -O2 -Wall -Wextra",
       "passed": true,
       "detail": ""
@@ -567,6 +672,21 @@
       "name": "CP07 runs clean under UBSan at the 256MB judged limit",
       "passed": true,
       "detail": ""
+    },
+    {
+      "name": "CP07__CPP-M07_a.cpp fails the tests for CPP-M07",
+      "passed": true,
+      "detail": "failed 5 of 9: CP07-V2,CP07-H1,CP07-H2,CP07-H3,CP07-D3 outcome=timeout"
+    },
+    {
+      "name": "CP07__CPP-M07_b.cpp fails the tests for CPP-M07",
+      "passed": true,
+      "detail": "failed 5 of 9: CP07-V2,CP07-H1,CP07-H2,CP07-H3,CP07-D3 outcome=timeout"
+    },
+    {
+      "name": "CP07 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP07__CPP-M07_a.cpp=timeout, CP07__CPP-M07_b.cpp=timeout"
     },
     {
       "name": "CP08 compiles with -O2 -Wall -Wextra",
@@ -642,6 +762,21 @@
       "name": "CP08 runs clean under UBSan at the 256MB judged limit",
       "passed": true,
       "detail": ""
+    },
+    {
+      "name": "CP08__CPP-M08_a.cpp fails the tests for CPP-M08",
+      "passed": true,
+      "detail": "failed 7 of 10: CP08-V1,CP08-V2,CP08-H2,CP08-H3,CP08-H4,CP08-D2 outcome=wrong_output"
+    },
+    {
+      "name": "CP08__CPP-M08_b.cpp fails the tests for CPP-M08",
+      "passed": true,
+      "detail": "failed 7 of 10: CP08-V1,CP08-V2,CP08-H2,CP08-H3,CP08-H4,CP08-D2 outcome=timeout"
+    },
+    {
+      "name": "CP08 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP08__CPP-M08_a.cpp=wrong_output, CP08__CPP-M08_b.cpp=timeout"
     }
   ],
   "problems": {
@@ -767,7 +902,47 @@
           "stable": true
         }
       ],
-      "variants": [],
+      "variants": [
+        {
+          "variant": "CP01__CPP-M01_a.cpp",
+          "misconception": "CPP-M01",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP01-V1",
+            "CP01-V2",
+            "CP01-H1",
+            "CP01-H2",
+            "CP01-H3",
+            "CP01-D2",
+            "CP01-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP01-V1",
+            "expected": "10\n",
+            "actual": "15",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP01__HARDNEG_inclusive_other_range.cpp",
+          "misconception": "HARDNEG",
+          "sanitizer_only": false,
+          "expect": "pass_all",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "pass_all",
+          "compile_diagnostics": "",
+          "failed_at_least_one": false
+        }
+      ],
       "compile": {
         "flags": [
           "-std=c++17",
@@ -777,7 +952,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 1120.9,
+        "elapsed_ms": 1121.4,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -927,7 +1102,36 @@
           "stable": true
         }
       ],
-      "variants": [],
+      "variants": [
+        {
+          "variant": "CP02__CPP-M02_a.cpp",
+          "misconception": "CPP-M02",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP02-V1",
+            "CP02-V2",
+            "CP02-V3",
+            "CP02-H1",
+            "CP02-H2",
+            "CP02-D1",
+            "CP02-D2",
+            "CP02-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP02-V1",
+            "expected": "9\n",
+            "actual": "2",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        }
+      ],
       "compile": {
         "flags": [
           "-std=c++17",
@@ -937,7 +1141,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 1220.7,
+        "elapsed_ms": 1223.1,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1074,7 +1278,37 @@
           "stable": true
         }
       ],
-      "variants": [],
+      "variants": [
+        {
+          "variant": "CP03__CPP-M03_a.cpp",
+          "misconception": "CPP-M03",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP03-V1",
+            "CP03-V2",
+            "CP03-V3",
+            "CP03-H1",
+            "CP03-H2",
+            "CP03-H3",
+            "CP03-D1",
+            "CP03-D2",
+            "CP03-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP03-V1",
+            "expected": "9\n",
+            "actual": "81",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        }
+      ],
       "compile": {
         "flags": [
           "-std=c++17",
@@ -1084,7 +1318,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 1120.5,
+        "elapsed_ms": 1119.4,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1226,7 +1460,74 @@
           "stable": true
         }
       ],
-      "variants": [],
+      "variants": [
+        {
+          "variant": "CP04__CPP-M04_a.cpp",
+          "misconception": "CPP-M04",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP04-V1",
+            "CP04-V2",
+            "CP04-H1",
+            "CP04-H2",
+            "CP04-H3",
+            "CP04-D2",
+            "CP04-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP04-V1",
+            "expected": "50\n",
+            "actual": "",
+            "returncode": -6,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP04__CPP-M04_b.sanitize-only.cpp",
+          "misconception": "CPP-M04",
+          "sanitizer_only": true,
+          "expect": "sanitizer_detected",
+          "failed_tests": [
+            "CP04-V1",
+            "CP04-V2",
+            "CP04-H1",
+            "CP04-H2",
+            "CP04-H3",
+            "CP04-D2",
+            "CP04-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "sanitizer_detected",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP04-V1",
+            "expected": "50\n",
+            "actual": "0",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP04__HARDNEG_full_traversal.cpp",
+          "misconception": "HARDNEG",
+          "sanitizer_only": false,
+          "expect": "pass_all",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "pass_all",
+          "compile_diagnostics": "",
+          "failed_at_least_one": false
+        }
+      ],
       "compile": {
         "flags": [
           "-std=c++17",
@@ -1236,7 +1537,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 1270.9,
+        "elapsed_ms": 1171.4,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1412,7 +1713,48 @@
           "stable": true
         }
       ],
-      "variants": [],
+      "variants": [
+        {
+          "variant": "CP05__CPP-M05_a.cpp",
+          "misconception": "CPP-M05",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP05-V2",
+            "CP05-H2",
+            "CP05-H3",
+            "CP05-H4",
+            "CP05-H5",
+            "CP05-D3",
+            "CP05-D4"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "CP05__CPP-M05_a.cpp: In function ‘int main()’:\nCP05__CPP-M05_a.cpp:22:16: warning: comparison of constant ‘10’ with boolean expression is always true [-Wbool-compare]\n   22 |     if (1 <= x <= 10) {\n      |         ~~~~~~~^~~~~\nCP05__CPP-M05_a.cpp:22:11: warning: comparisons like ‘X<=Y<=Z’ do not have their mathematical meaning [-Wparentheses]\n   22 |     if (1 <= x <= 10) {\n      |         ~~^~~~",
+          "expected_warning_found": true,
+          "first_failure": {
+            "test_case_id": "CP05-V2",
+            "expected": "OUT\n",
+            "actual": "IN",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP05__HARDNEG_de_morgan.cpp",
+          "misconception": "HARDNEG",
+          "sanitizer_only": false,
+          "expect": "pass_all",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "pass_all",
+          "compile_diagnostics": "",
+          "failed_at_least_one": false
+        }
+      ],
       "compile": {
         "flags": [
           "-std=c++17",
@@ -1422,7 +1764,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 1120.3,
+        "elapsed_ms": 1070.4,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1559,7 +1901,57 @@
           "stable": true
         }
       ],
-      "variants": [],
+      "variants": [
+        {
+          "variant": "CP06__CPP-M06_a.cpp",
+          "misconception": "CPP-M06",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP06-V1",
+            "CP06-H2",
+            "CP06-D1"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "CP06__CPP-M06_a.cpp: In function ‘int main()’:\nCP06__CPP-M06_a.cpp:22:11: warning: suggest parentheses around assignment used as truth value [-Wparentheses]\n   22 |     if (x = 0) {\n      |         ~~^~~",
+          "expected_warning_found": true,
+          "first_failure": {
+            "test_case_id": "CP06-V1",
+            "expected": "ZERO\n",
+            "actual": "NONZERO",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP06__CPP-M06_b.cpp",
+          "misconception": "CPP-M06",
+          "sanitizer_only": false,
+          "expect": "compile_error",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": false,
+          "outcome": "compile_error",
+          "compile_diagnostics": "CP06__CPP-M06_b.cpp: In function ‘int main()’:\nCP06__CPP-M06_b.cpp:21:9: error: lvalue required as left operand of assignment\n   21 |     if (0 = x) {\n      |         ^",
+          "expected_error_found": true,
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP06__HARDNEG_assignment_with_comment.cpp",
+          "misconception": "HARDNEG",
+          "sanitizer_only": false,
+          "expect": "pass_all",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "pass_all",
+          "compile_diagnostics": "",
+          "failed_at_least_one": false
+        }
+      ],
       "compile": {
         "flags": [
           "-std=c++17",
@@ -1569,7 +1961,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 1071.9,
+        "elapsed_ms": 1120.4,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1706,7 +2098,70 @@
           "stable": true
         }
       ],
-      "variants": [],
+      "variants": [
+        {
+          "variant": "CP07__CPP-M07_a.cpp",
+          "misconception": "CPP-M07",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP07-V2",
+            "CP07-H1",
+            "CP07-H2",
+            "CP07-H3",
+            "CP07-D3"
+          ],
+          "timed_out_tests": [
+            "CP07-V2",
+            "CP07-H1",
+            "CP07-H2",
+            "CP07-H3",
+            "CP07-D3"
+          ],
+          "compiled": true,
+          "outcome": "timeout",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP07-V2",
+            "expected": "120\n",
+            "actual": "",
+            "returncode": -9,
+            "timed_out": true
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP07__CPP-M07_b.cpp",
+          "misconception": "CPP-M07",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP07-V2",
+            "CP07-H1",
+            "CP07-H2",
+            "CP07-H3",
+            "CP07-D3"
+          ],
+          "timed_out_tests": [
+            "CP07-V2",
+            "CP07-H1",
+            "CP07-H2",
+            "CP07-H3",
+            "CP07-D3"
+          ],
+          "compiled": true,
+          "outcome": "timeout",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP07-V2",
+            "expected": "120\n",
+            "actual": "",
+            "returncode": -9,
+            "timed_out": true
+          },
+          "failed_at_least_one": true
+        }
+      ],
       "compile": {
         "flags": [
           "-std=c++17",
@@ -1716,7 +2171,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 1171.9,
+        "elapsed_ms": 1070.6,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1866,7 +2321,70 @@
           "stable": true
         }
       ],
-      "variants": [],
+      "variants": [
+        {
+          "variant": "CP08__CPP-M08_a.cpp",
+          "misconception": "CPP-M08",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP08-V1",
+            "CP08-V2",
+            "CP08-H2",
+            "CP08-H3",
+            "CP08-H4",
+            "CP08-D2",
+            "CP08-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP08-V1",
+            "expected": "2\n",
+            "actual": "0",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP08__CPP-M08_b.cpp",
+          "misconception": "CPP-M08",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP08-V1",
+            "CP08-V2",
+            "CP08-H2",
+            "CP08-H3",
+            "CP08-H4",
+            "CP08-D2",
+            "CP08-D3"
+          ],
+          "timed_out_tests": [
+            "CP08-V1",
+            "CP08-V2",
+            "CP08-H2",
+            "CP08-H3",
+            "CP08-H4",
+            "CP08-D2",
+            "CP08-D3"
+          ],
+          "compiled": true,
+          "outcome": "timeout",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP08-V1",
+            "expected": "2\n",
+            "actual": "",
+            "returncode": -9,
+            "timed_out": true
+          },
+          "failed_at_least_one": true
+        }
+      ],
       "compile": {
         "flags": [
           "-std=c++17",
@@ -1876,7 +2394,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 1270.8,
+        "elapsed_ms": 1273.6,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1899,13 +2417,13 @@
       "returncode": -6,
       "timed_out": false,
       "memory_limit_hit": true,
-      "elapsed_ms": 33.1,
+      "elapsed_ms": 17.2,
       "stderr_tail": "terminate called after throwing an instance of 'std::bad_alloc'\n  what():  std::bad_alloc\n"
     },
     "wall_clock": {
       "limit_ms": 2000,
       "timed_out": true,
-      "elapsed_ms": 2002.3,
+      "elapsed_ms": 2002.9,
       "returncode": -9
     }
   }
