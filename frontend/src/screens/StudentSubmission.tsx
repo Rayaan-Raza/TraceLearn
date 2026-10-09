@@ -28,7 +28,7 @@ export function StudentSubmissionScreen() {
   const [problems, setProblems] = useState<ProblemSummary[]>([])
   const [problemId, setProblemId] = useState<string>('')
   const [problemDetail, setProblemDetail] = useState<ProblemDetail | null>(null)
-  const [code, setCode] = useState('# Select a problem to load starter code')
+  const [code, setCode] = useState('// Select a problem to load starter code')
   const [error, setError] = useState<string | null>(null)
   const editorRef = useRef<{ getValue: () => string } | null>(null)
 
@@ -130,7 +130,7 @@ export function StudentSubmissionScreen() {
         <div className="editor-pane">
           <Editor
             height="450px"
-            language="python"
+            language="cpp"
             value={code}
             onChange={(v) => setCode(v ?? '')}
             onMount={(editor) => {
