@@ -8,9 +8,22 @@ from backend.app.db.models import Problem, Student, TestCase, TestType
 
 PROBLEMS_JSON = Path("data/problems/problems.json")
 SEED_EXPECTED_COUNTS = {"problems": 6, "test_cases": 36, "students": 5}
+_TOPIC_BY_TAG = {"loops": "Loops", "lists": "Arrays", "functions": "Functions"}
+
+
+def _topic(row: dict) -> str:
+    if row.get("topic"):
+        return row["topic"]
+    for tag in row.get("concept_tags", []):
+        if tag in _TOPIC_BY_TAG:
+            return _TOPIC_BY_TAG[tag]
+    return "General"
 
 def seed_problems(db: Session) -> None:
     if db.query(Problem).count() > 0:
+        # Backfill metadata on databases created before these columns existed.
+        for p in db.query(Problem).filter(Problem.created_by_user_id.is_(None), Problem.topic == "").all():
+            p.topic = _topic({"concept_tags": json.loads(p.concept_tags or "[]")})
         return
     payload = json.loads(PROBLEMS_JSON.read_text(encoding="utf-8"))
     for row in payload["problems"]:
@@ -20,6 +33,10 @@ def seed_problems(db: Session) -> None:
             concept_tags=json.dumps(row.get("concept_tags", [])),
             prerequisite_tags=json.dumps(row.get("prerequisite_tags", [])),
             starter_code=row["starter_code"],
+            language=row.get("language") or "python",
+            topic=_topic(row),
+            difficulty=row.get("difficulty") or "Easy",
+            created_by_user_id=None,
         ))
         for tc in row["test_cases"]:
             db.add(TestCase(
