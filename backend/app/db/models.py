@@ -59,6 +59,11 @@ class TeacherReviewAction(str, enum.Enum):
     CORRECT = "CORRECT"
     MARK_UNCERTAIN = "MARK_UNCERTAIN"
 
+class VerificationStatus(str, enum.Enum):
+    UNVERIFIED = "unverified"
+    VERIFIED = "verified"
+    FAILED = "failed"
+
 class User(Base):
     """Authenticated user with role. Students get a linked Student record."""
     __tablename__ = "users"
@@ -96,8 +101,14 @@ class Problem(Base):
     starter_code: Mapped[str] = mapped_column(Text)
     # "python" (function-call tests) or "cpp" (stdin/stdout tests).
     language: Mapped[str] = mapped_column(String(16), default="python", server_default="python")
+    # C++ standard for compile and run, for example "cpp17".
+    language_standard: Mapped[str] = mapped_column(String(8), default="cpp17", server_default="cpp17")
     topic: Mapped[str] = mapped_column(String(64), default="", server_default="")
     difficulty: Mapped[str] = mapped_column(String(16), default="Easy", server_default="Easy")
+    # Canonical bank metadata. Additive columns; old rows keep the defaults.
+    input_spec: Mapped[str] = mapped_column(Text, default="", server_default="")
+    output_spec: Mapped[str] = mapped_column(Text, default="", server_default="")
+    constraints: Mapped[str] = mapped_column(Text, default="", server_default="")
     # NULL = part of the shared research dataset; otherwise the teacher who
     # created it. Custom problems are only visible to their owner and to
     # students they are assigned to.
@@ -105,6 +116,11 @@ class Problem(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     test_cases: Mapped[list["TestCase"]] = relationship(back_populates="problem")
     submissions: Mapped[list["Submission"]] = relationship(back_populates="problem")
+    solutions: Mapped[list["ProblemSolution"]] = relationship(back_populates="problem", cascade="all, delete-orphan")
+    tags: Mapped[list["ProblemTag"]] = relationship(back_populates="problem", cascade="all, delete-orphan")
+    hints: Mapped[list["ProblemHint"]] = relationship(back_populates="problem", cascade="all, delete-orphan")
+    provenance: Mapped["ProblemProvenance | None"] = relationship(back_populates="problem", cascade="all, delete-orphan", uselist=False)
+    quality_checks: Mapped[list["ProblemQualityCheck"]] = relationship(back_populates="problem", cascade="all, delete-orphan")
 
 class TestCase(Base):
     __test__ = False
@@ -116,6 +132,9 @@ class TestCase(Base):
     input_json: Mapped[str] = mapped_column(Text, default="{}")
     expected_output_json: Mapped[str] = mapped_column(Text, default="null")
     diagnostic_tag: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    # Per-test execution limits. NULL means "use the global settings".
+    time_limit_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    memory_limit_mb: Mapped[int | None] = mapped_column(Integer, nullable=True)
     problem: Mapped[Problem] = relationship(back_populates="test_cases")
     test_results: Mapped[list["TestResult"]] = relationship(back_populates="test_case")
 
@@ -285,3 +304,84 @@ class AssignmentStudent(Base):
     assignment_id: Mapped[int] = mapped_column(ForeignKey("assignments.id"), index=True)
     student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), index=True)
     assignment: Mapped[Assignment] = relationship(back_populates="students")
+
+
+# ---------------------------------------------------------------------------
+# Canonical problem bank tables.
+#
+# The existing `problems` and `test_cases` tables hold the practice website
+# data. These five tables add bank features without changing that data:
+# reference solutions, normalized tags, per-problem hints, source provenance,
+# and quality-check results. Public API code never reads solutions or
+# provenance under the student role (see backend/app/api/bank.py).
+# ---------------------------------------------------------------------------
+
+class ProblemSolution(Base):
+    """Reference solution for a problem. Internal only; never public."""
+    __tablename__ = "problem_solutions"
+    __table_args__ = (UniqueConstraint("problem_id", "language", name="uq_solution_problem_language"),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    problem_id: Mapped[str] = mapped_column(ForeignKey("problems.id"), index=True)
+    language: Mapped[str] = mapped_column(String(16), default="cpp", server_default="cpp")
+    language_standard: Mapped[str] = mapped_column(String(8), default="cpp17", server_default="cpp17")
+    source_code: Mapped[str] = mapped_column(Text, default="")
+    verification_status: Mapped[VerificationStatus] = mapped_column(Enum(VerificationStatus), default=VerificationStatus.UNVERIFIED)
+    verification_detail: Mapped[str] = mapped_column(Text, default="")
+    verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    license: Mapped[str] = mapped_column(String(64), default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    problem: Mapped[Problem] = relationship(back_populates="solutions")
+
+
+class ProblemTag(Base):
+    """Normalized search tag for a problem."""
+    __tablename__ = "problem_tags"
+    __table_args__ = (UniqueConstraint("problem_id", "tag", name="uq_problem_tag"),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    problem_id: Mapped[str] = mapped_column(ForeignKey("problems.id"), index=True)
+    tag: Mapped[str] = mapped_column(String(48), index=True)
+    problem: Mapped[Problem] = relationship(back_populates="tags")
+
+
+class ProblemHint(Base):
+    """Per-problem hint. It overrides the template hint for the same key."""
+    __tablename__ = "problem_hints"
+    __table_args__ = (UniqueConstraint("problem_id", "misconception_id", "level", name="uq_problem_hint_level"),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    problem_id: Mapped[str] = mapped_column(ForeignKey("problems.id"), index=True)
+    misconception_id: Mapped[str] = mapped_column(String(64))
+    level: Mapped[int] = mapped_column(Integer, default=1)
+    text: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    problem: Mapped[Problem] = relationship(back_populates="hints")
+
+
+class ProblemProvenance(Base):
+    """Source record for one problem. It links the bank row to its dataset."""
+    __tablename__ = "problem_provenance"
+    problem_id: Mapped[str] = mapped_column(ForeignKey("problems.id"), primary_key=True)
+    dataset_source: Mapped[str] = mapped_column(String(32), index=True)
+    source_problem_id: Mapped[str] = mapped_column(String(64), default="")
+    canonical_id: Mapped[str] = mapped_column(String(128), default="", index=True)
+    source_url: Mapped[str] = mapped_column(String(512), default="")
+    source_license: Mapped[str] = mapped_column(String(64), default="")
+    license_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    provenance_ref: Mapped[str] = mapped_column(String(512), default="")
+    source_sha256: Mapped[str] = mapped_column(String(64), default="")
+    parser_version: Mapped[str] = mapped_column(String(64), default="")
+    ingestion_run_id: Mapped[str] = mapped_column(String(64), default="")
+    ingested_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    problem: Mapped[Problem] = relationship(back_populates="provenance")
+
+
+class ProblemQualityCheck(Base):
+    """One quality-check result for a problem. The loader writes these."""
+    __tablename__ = "problem_quality_checks"
+    __table_args__ = (UniqueConstraint("problem_id", "check_code", name="uq_problem_quality_check"),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    problem_id: Mapped[str] = mapped_column(ForeignKey("problems.id"), index=True)
+    check_code: Mapped[str] = mapped_column(String(64))
+    passed: Mapped[bool] = mapped_column(Boolean, default=False)
+    detail: Mapped[str] = mapped_column(String(512), default="")
+    checked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    problem: Mapped[Problem] = relationship(back_populates="quality_checks")
