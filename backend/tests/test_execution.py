@@ -30,7 +30,7 @@ def test_timeout_is_captured(db, service, monkeypatch):
         def execute_function(self, source_code, function_name, args, timeout_seconds):
             return ExecutionResult(status="timeout", stderr="Execution timed out", error_type="Timeout")
     import backend.app.execution.test_runner as tr
-    monkeypatch.setattr(tr, "get_runner", lambda: TimeoutRunner())
+    monkeypatch.setattr(tr, "get_runner", lambda *a, **k: TimeoutRunner())
     student = db.query(Student).first()
     sub = service.create_submission(db, student.id, "P01", "def sum_first_n(n):\n    return 0")
     result = service.execute(db, sub.id)

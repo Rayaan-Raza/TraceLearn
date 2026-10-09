@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 import json, time
 from typing import Any
 from sqlalchemy.orm import Session
@@ -7,10 +7,16 @@ from backend.app.db.models import ExecutionStatus, Problem, Submission, TestCase
 from backend.app.execution.runner import ExecutionResult, SubmissionExecutionResult, TestCaseResult
 from backend.app.execution.subprocess_runner import SubprocessExecutionRunner
 from backend.app.execution.cpp_runner import CppExecutionRunner, compile_cpp
+from backend.app.execution.sandbox import SandboxUnavailable, execution_slot
 
 
 def _is_cpp_code(source_code: str) -> bool:
     return "#include" in source_code or "int main" in source_code
+
+
+def _tokens(text: str) -> list[str]:
+    """Judge-style comparison: whitespace/newline differences are ignored."""
+    return str(text).split()
 
 
 def get_runner(source_code: str = "", language: str = "python"):
@@ -25,6 +31,17 @@ def _parse_json(raw: str) -> Any:
         return None
 
 def run_submission_tests(db: Session, submission: Submission) -> SubmissionExecutionResult:
+    try:
+        with execution_slot():
+            return _run_submission_tests(db, submission)
+    except SandboxUnavailable as exc:
+        submission.execution_status = ExecutionStatus.SYSTEM_ERROR
+        submission.stderr = str(exc)
+        db.commit()
+        return SubmissionExecutionResult(execution_status="system_error", stderr=str(exc))
+
+
+def _run_submission_tests(db: Session, submission: Submission) -> SubmissionExecutionResult:
     problem = db.get(Problem, submission.problem_id)
     if problem is None:
         return SubmissionExecutionResult(execution_status="system_error", stderr="Problem not found")
@@ -83,7 +100,10 @@ def run_submission_tests(db: Session, submission: Submission) -> SubmissionExecu
             actual_val = exec_result.return_value
             if use_cpp and exec_result.status == "success":
                 actual_val = exec_result.stdout.strip()
-            passed = exec_result.status == "success" and actual_val == expected
+            if use_cpp:
+                passed = exec_result.status == "success" and _tokens(actual_val) == _tokens(expected)
+            else:
+                passed = exec_result.status == "success" and actual_val == expected
             error_type = None if passed else exec_result.error_type or ("AssertionError" if exec_result.status == "success" else exec_result.status)
             tr = TestCaseResult(
                 test_case_id=tc.id,
