@@ -6,6 +6,11 @@ from sqlalchemy import Boolean, DateTime, Enum, Float, ForeignKey, Integer, Stri
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.app.db.database import Base
 
+
+class UserRole(str, enum.Enum):
+    STUDENT = "student"
+    TEACHER = "teacher"
+
 class TestType(str, enum.Enum):
     VISIBLE = "visible"
     HIDDEN = "hidden"
@@ -53,6 +58,17 @@ class TeacherReviewAction(str, enum.Enum):
     REJECT = "REJECT"
     CORRECT = "CORRECT"
     MARK_UNCERTAIN = "MARK_UNCERTAIN"
+
+class User(Base):
+    """Authenticated user with role. Students get a linked Student record."""
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    email: Mapped[str] = mapped_column(String(256), unique=True, index=True)
+    hashed_password: Mapped[str] = mapped_column(String(256))
+    role: Mapped[UserRole] = mapped_column(Enum(UserRole))
+    student_id: Mapped[int | None] = mapped_column(ForeignKey("students.id"), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
 
 class Student(Base):
     __tablename__ = "students"
