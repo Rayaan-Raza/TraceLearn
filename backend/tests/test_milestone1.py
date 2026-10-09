@@ -25,9 +25,10 @@ def seeded_db() -> None:
 
 @pytest.fixture(scope="module")
 def client(seeded_db: None) -> TestClient:
-    from backend.app.main import app
+    from backend.tests.conftest import make_user
 
-    return TestClient(app)
+    tc, _ = make_user("student")
+    return tc
 
 
 def test_seed_counts(seeded_db: None) -> None:

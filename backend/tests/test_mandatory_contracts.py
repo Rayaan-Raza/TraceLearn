@@ -32,10 +32,7 @@ def test_same_problem_repetition_does_not_automatically_mean_persistent(db):
     ls = db.query(LearnerState).filter(LearnerState.student_id == st.id).first()
     assert ls is None or ls.state != MisconceptionState.PERSISTENT
 
-def test_cross_problem_recurrence_can_create_persistent_state(db):
-    from fastapi.testclient import TestClient
-    from backend.app.main import app
-    client = TestClient(app)
+def test_cross_problem_recurrence_can_create_persistent_state(db, client):
     db.query(LearnerState).delete(); db.commit()
     client.post("/api/demo/run-sequence/SYN001")
     st = db.query(Student).filter(Student.display_name == "SYN001").first()

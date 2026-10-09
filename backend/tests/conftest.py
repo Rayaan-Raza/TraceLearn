@@ -1,4 +1,4 @@
-﻿import os, sys, uuid
+import os, sys, uuid
 from pathlib import Path
 import pytest
 
@@ -8,6 +8,12 @@ if str(ROOT) not in sys.path:
 
 TEST_DB = ROOT / f"tracelearn_test_{uuid.uuid4().hex}.db"
 os.environ["DATABASE_URL"] = f"sqlite:///{TEST_DB.as_posix()}"
+os.environ["APP_ENV"] = "test"
+os.environ["SECRET_KEY"] = "test-secret-" + uuid.uuid4().hex
+os.environ["TEACHER_SIGNUP_CODE"] = "test-teacher-invite-code"
+os.environ["ENABLE_DEMO_ENDPOINTS"] = "true"
+
+TEACHER_CODE = "test-teacher-invite-code"
 
 
 def _dispose_engine() -> None:
@@ -41,11 +47,37 @@ def seeded_db():
         db.close()
 
 
-@pytest.fixture(scope="module")
-def client(seeded_db):
+@pytest.fixture(autouse=True)
+def _reset_rate_limits():
+    from backend.app.security.rate_limit import limiter
+    limiter.reset()
+    yield
+
+
+def make_user(role: str = "student", name: str | None = None):
+    """Register a fresh user and return (TestClient with Bearer auth, auth body)."""
     from backend.app.main import app
     from fastapi.testclient import TestClient
-    return TestClient(app)
+    tc = TestClient(app)
+    email = f"{role}-{uuid.uuid4().hex[:10]}@example.com"
+    body = {"email": email, "password": "correct-horse-battery", "role": role, "display_name": name or role.title()}
+    if role == "teacher":
+        body["teacher_code"] = TEACHER_CODE
+    r = tc.post("/api/auth/register", json=body)
+    assert r.status_code == 201, r.text
+    data = r.json()
+    tc.headers["Authorization"] = f"Bearer {data['access_token']}"
+    tc.cookies.clear()
+    data["email"] = email
+    data["password"] = body["password"]
+    return tc, data
+
+
+@pytest.fixture(scope="module")
+def client(seeded_db):
+    """An authenticated *teacher* client (legacy tests use research endpoints)."""
+    tc, _ = make_user("teacher")
+    return tc
 
 
 @pytest.fixture(scope="module")
