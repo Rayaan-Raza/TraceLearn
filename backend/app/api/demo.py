@@ -1,51 +1,50 @@
-import json
-from pathlib import Path
-from fastapi import APIRouter, Depends, HTTPException
+"""Research demo endpoints (synthetic data only).
+
+Disabled unless ENABLE_DEMO_ENDPOINTS=true, and teacher-only when enabled.
+They never touch real students' data.
+"""
+from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.orm import Session
-from backend.app.db.database import get_db, init_db
-from backend.app.db.models import Student, Submission
-from backend.app.db.seed import run_seed
-from backend.app.services.submission_service import SubmissionService
+
+from backend.app.auth.dependencies import require_teacher
+from backend.app.config import settings
+from backend.app.db.database import get_db
+from backend.app.db.models import User
+from backend.app.execution.sandbox import sandbox_status
+from backend.app.security.rate_limit import limiter
+from backend.app.services import demo_service
 
 router = APIRouter(prefix="/demo", tags=["demo"])
-service = SubmissionService()
-DEMO_DIR = Path("data/demo_sequences")
 
-@router.post("/reset")
-def reset_demo(db: Session = Depends(get_db)) -> dict:
-    from backend.app.db.database import Base, engine
-    Base.metadata.drop_all(bind=engine)
-    init_db()
-    run_seed(db)
-    for name in ("SYN001", "SYN002", "SYN003", "SYN004", "SYN005"):
-        if not db.query(Student).filter(Student.display_name == name).first():
-            db.add(Student(display_name=name, is_synthetic=True))
-    db.commit()
-    return {"status": "reset_complete"}
 
-@router.post("/run-sequence/{student_id}")
-def run_sequence(student_id: str, db: Session = Depends(get_db)) -> dict:
-    seq_path = DEMO_DIR / f"{student_id}.json"
-    if not seq_path.is_file():
+def _require_enabled() -> None:
+    if not settings.enable_demo_endpoints:
+        raise HTTPException(status_code=404, detail="Not found")
+
+
+@router.get("/status")
+def demo_status(_: User = Depends(require_teacher)) -> dict:
+    return {
+        "enabled": settings.enable_demo_endpoints,
+        "sequences": demo_service.available_sequences() if settings.enable_demo_endpoints else [],
+        "sandbox": sandbox_status(),
+    }
+
+
+@router.post("/reset", dependencies=[Depends(_require_enabled)])
+def reset_demo(db: Session = Depends(get_db), teacher: User = Depends(require_teacher)) -> dict:
+    limiter.hit(f"demo:{teacher.id}", 10, 60)
+    return demo_service.reset_synthetic(db)
+
+
+@router.post("/run-sequence/{student_id}", dependencies=[Depends(_require_enabled)])
+def run_sequence(
+    student_id: str = Path(pattern=r"^SYN\d{3}$"),
+    db: Session = Depends(get_db),
+    teacher: User = Depends(require_teacher),
+) -> dict:
+    limiter.hit(f"demo:{teacher.id}", 10, 60)
+    try:
+        return demo_service.run_sequence(db, student_id)
+    except FileNotFoundError:
         raise HTTPException(404, f"Sequence {student_id} not found")
-    student = db.query(Student).filter(Student.display_name == student_id).first()
-    if not student:
-        student = Student(display_name=student_id, is_synthetic=True)
-        db.add(student)
-        db.commit()
-        db.refresh(student)
-    payload = json.loads(seq_path.read_text(encoding="utf-8"))
-    results = []
-    for attempt in payload.get("attempts", []):
-        code_path = DEMO_DIR / attempt["source_file"]
-        code = code_path.read_text(encoding="utf-8")
-        sub = service.create_submission(
-            db, student.id, attempt["problem_id"], code,
-            attempt_number=attempt.get("attempt_number", 1),
-            is_synthetic=True,
-            ground_truth_label=attempt.get("ground_truth_misconception"),
-            ground_truth_state=attempt.get("ground_truth_state"),
-        )
-        r = service.run_and_analyze(db, sub.id)
-        results.append({"submission_id": sub.id, "problem_id": attempt["problem_id"], **r})
-    return {"student_id": student_id, "attempts_processed": len(results), "results": results}

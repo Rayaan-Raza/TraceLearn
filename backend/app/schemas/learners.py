@@ -25,4 +25,5 @@ class TimelineEntry(BaseModel):
 class LearnerProfile(BaseModel):
     student_id: int
     display_name: str
+    is_synthetic: bool = False
     learner_states: list[LearnerStateRead] = Field(default_factory=list)
