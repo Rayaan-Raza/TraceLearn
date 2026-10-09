@@ -22,6 +22,7 @@ htmlcov/
 .env
 *.db
 *.sqlite3
+data/Data_from_Datasets/
 
 # Node / frontend
 node_modules/
