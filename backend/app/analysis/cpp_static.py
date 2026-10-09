@@ -1,8 +1,10 @@
 """Static analysis for C++ source code using pattern matching and g++ diagnostics."""
 from __future__ import annotations
+import json
+import os
 import re
 import subprocess
-import tempfile
+import sys
 from pathlib import Path
 from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.diagnosis.taxonomy import (
@@ -12,15 +14,57 @@ from backend.app.diagnosis.taxonomy import (
 )
 
 
+REGEX_TIME_BUDGET_SECONDS = 3.0
+_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+
+
+def _run_pattern_detectors(source_code: str) -> list[EvidenceRecord]:
+    """Module-level so it can run in a worker process (see _PatternWorker)."""
+    a = CppStaticAnalyzer()
+    items: list[EvidenceRecord] = []
+    items.extend(a._detect_assign_vs_compare(source_code))
+    items.extend(a._detect_loop_boundary(source_code))
+    items.extend(a._detect_off_by_one(source_code))
+    items.extend(a._detect_uninitialized_patterns(source_code))
+    items.extend(a._detect_int_overflow_risk(source_code))
+    items.extend(a._detect_missing_base_case(source_code))
+    return items
+
+
+class _PatternWorker:
+    """Runs the regex detectors in a separate process with a time budget.
+
+    Several detectors use backtracking regexes whose cost grows polynomially
+    on adversarial input; Python's re module has no timeout, so a crafted
+    submission could otherwise pin a server thread. On timeout the worker is
+    killed and no pattern evidence is produced for that submission.
+    """
+
+    def run(self, source_code: str) -> list[EvidenceRecord]:
+        try:
+            proc = subprocess.run(
+                [sys.executable, "-m", "backend.app.analysis.cpp_patterns_worker"],
+                input=source_code, capture_output=True, text=True,
+                timeout=REGEX_TIME_BUDGET_SECONDS, cwd=str(_PROJECT_ROOT),
+                env={"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(_PROJECT_ROOT), "PYTHONIOENCODING": "utf-8"},
+            )
+        except subprocess.TimeoutExpired:
+            return []
+        if proc.returncode != 0:
+            return []
+        try:
+            return [EvidenceRecord(**row) for row in json.loads(proc.stdout)]
+        except (ValueError, TypeError):
+            return []
+
+
+_pattern_worker = _PatternWorker()
+
+
 class CppStaticAnalyzer:
     def analyze(self, source_code: str, function_name: str = "") -> list[EvidenceRecord]:
         items: list[EvidenceRecord] = []
-        items.extend(self._detect_assign_vs_compare(source_code))
-        items.extend(self._detect_loop_boundary(source_code))
-        items.extend(self._detect_off_by_one(source_code))
-        items.extend(self._detect_uninitialized_patterns(source_code))
-        items.extend(self._detect_int_overflow_risk(source_code))
-        items.extend(self._detect_missing_base_case(source_code))
+        items.extend(_pattern_worker.run(source_code))
         items.extend(self._parse_compiler_warnings(source_code))
         return items
 
@@ -105,18 +149,25 @@ class CppStaticAnalyzer:
         return []
 
     def _parse_compiler_warnings(self, src: str) -> list[EvidenceRecord]:
+        # Runs g++ on untrusted code, so it goes through the same sandbox as
+        # execution. Output is only pattern-matched, never returned to users.
+        from backend.app.execution.sandbox import check_cpp_source, new_workdir, run_in_sandbox
+
         items: list[EvidenceRecord] = []
-        with tempfile.TemporaryDirectory() as tmp:
-            src_path = Path(tmp) / "check.cpp"
-            src_path.write_text(src, encoding="utf-8")
-            try:
-                result = subprocess.run(
-                    ["g++", "-std=c++17", "-Wall", "-Wextra", "-fsyntax-only", str(src_path)],
-                    capture_output=True, text=True, timeout=10,
-                )
-                stderr = result.stderr
-            except Exception:
-                return items
+        if check_cpp_source(src):
+            return items
+        tmp = new_workdir()
+        try:
+            Path(tmp.name, "check.cpp").write_text(src, encoding="utf-8")
+            result = run_in_sandbox(
+                ["g++", "-std=c++17", "-Wall", "-Wextra", "-fsyntax-only", "check.cpp"],
+                Path(tmp.name), timeout=10, memory_mb=2048,
+            )
+            stderr = result.stderr
+        except Exception:
+            return items
+        finally:
+            tmp.cleanup()
 
         warn_map = [
             (r"uninitialized", CPP_UNINITIALIZED_VAR, "CPP_GCC_UNINIT", "g++ warns: uninitialized variable"),
