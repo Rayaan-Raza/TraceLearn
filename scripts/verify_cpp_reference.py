@@ -531,16 +531,21 @@ def verify_problem(sandbox: Sandbox, report: Report, problem: dict, *, sanitize:
                 report.add("CP03 return channel probe compiles", False,
                            (diag_a or diag_b or diag_l)[:200])
 
-    # 6. misconception variants
+    # 6. misconception variants and hard-negative controls
+    manifest = read_variant_manifest()
     variants = sorted((BANK_DIR / "variants").glob(f"{pid}__*.cpp")) \
         if (BANK_DIR / "variants").is_dir() else []
     for variant in variants:
-        entry["variants"].append(_verify_variant(sandbox, report, problem, variant))
+        entry["variants"].append(
+            _verify_variant(sandbox, report, problem, variant, manifest.get(variant.name)))
 
-    # summary check: every variant failed at least one test
+    # summary check: every variant met its manifest expectation
     if entry["variants"]:
-        all_fail = all(v["failed_at_least_one"] for v in entry["variants"])
-        report.add(f"{pid} every misconception variant fails at least one test", all_fail,
+        all_met = all(
+            (v["outcome"] == "pass_all") if v["expect"] == "pass_all"
+            else v["outcome"] != "passed_unexpectedly"
+            for v in entry["variants"])
+        report.add(f"{pid} every variant meets its expected result", all_met,
                    ", ".join(f"{v['variant']}={v['outcome']}" for v in entry["variants"]))
     return entry
 
@@ -558,15 +563,18 @@ def _read(path: Path) -> str:
 
 
 def _verify_variant(sandbox: Sandbox, report: Report, problem: dict,
-                    variant: Path) -> dict:
-    """Compile and run one misconception variant. It must fail somewhere."""
-    pid = problem["id"]
+                    variant: Path, spec: dict | None) -> dict:
+    """Compile and run one variant. It must meet its manifest expectation."""
     name = variant.name
     sanitizer_only = name.endswith(".sanitize-only.cpp")
+    expect = (spec or {}).get("expect") or "fail_at_least_one"
+    expected_warning = (spec or {}).get("expected_warning") or ""
+    expected_error = (spec or {}).get("expected_error") or ""
     result: dict = {"variant": name, "misconception": _variant_misconception(name),
-                    "sanitizer_only": sanitizer_only, "failed_tests": [],
+                    "sanitizer_only": sanitizer_only, "expect": expect,
+                    "failed_tests": [], "timed_out_tests": [],
                     "compiled": False, "outcome": ""}
-    with tempfile.TemporaryDirectory(prefix=f"tl-var-") as tmp_name:
+    with tempfile.TemporaryDirectory(prefix="tl-var-") as tmp_name:
         workdir = Path(tmp_name)
         src = workdir / name
         src.write_text(variant.read_text(encoding="utf-8"), encoding="utf-8")
@@ -574,13 +582,26 @@ def _verify_variant(sandbox: Sandbox, report: Report, problem: dict,
         ok, diag, _ = compile_source(sandbox, workdir, src, binary, COMPILE_FLAGS)
         result["compiled"] = ok
         result["compile_diagnostics"] = diag[:600]
+
+        # A required compiler warning is static evidence. Record it here.
+        if ok and expected_warning:
+            found = expected_warning in diag
+            report.add(f"{name} emits the expected compiler warning", found,
+                       (diag.strip().splitlines() or [""])[0][:170])
+            result["expected_warning_found"] = found
+
         if not ok:
-            outcome = "compile_error"
-            result["outcome"] = outcome
+            result["outcome"] = "compile_error"
+            as_expected = expect == "compile_error"
+            if as_expected and expected_error:
+                as_expected = expected_error in diag
+                result["expected_error_found"] = as_expected
+                report.add(f"{name} emits the expected compiler error", as_expected,
+                           (diag.strip().splitlines() or [""])[0][:170])
             report.add(
-                f"{name} is rejected by the compiler ({outcome})", True,
+                f"{name} is rejected by the compiler (compile_error)", as_expected,
                 (diag.strip().splitlines() or [""])[0][:170])
-            result["failed_at_least_one"] = True
+            result["failed_at_least_one"] = as_expected
             return result
 
         timed_out_any = False
@@ -593,8 +614,32 @@ def _verify_variant(sandbox: Sandbox, report: Report, problem: dict,
                       or tokens(res.stdout) != tokens(expected))
             if failed:
                 result["failed_tests"].append(tc["id"])
+                if "first_failure" not in result:
+                    result["first_failure"] = {
+                        "test_case_id": tc["id"],
+                        "expected": expected,
+                        "actual": res.stdout.strip(),
+                        "returncode": res.returncode,
+                        "timed_out": res.timed_out,
+                    }
                 if res.timed_out:
                     timed_out_any = True
+                    result["timed_out_tests"].append(tc["id"])
+
+        if expect == "pass_all" and "first_failure" in result:
+            result.setdefault("unexpected_failures",
+                              result["failed_tests"][:6])
+
+        # A hard negative is correct code. It must pass every test case.
+        if expect == "pass_all":
+            passed_all = not result["failed_tests"]
+            result["outcome"] = "pass_all" if passed_all else "failed_unexpectedly"
+            report.add(
+                f"{name} is a hard negative and passes every test", passed_all,
+                f"failed {len(result['failed_tests'])} of {len(problem['test_cases'])}: "
+                f"{','.join(result['failed_tests'][:6]) or 'none'}")
+            result["failed_at_least_one"] = not passed_all
+            return result
 
         if sanitizer_only:
             ok_s, diag_s, _ = compile_source(sandbox, workdir, src, workdir / "variant_asan",
@@ -613,14 +658,15 @@ def _verify_variant(sandbox: Sandbox, report: Report, problem: dict,
                         break
             result["outcome"] = "sanitizer_detected" if detected else "sanitizer_silent"
             report.add(
-                f"{name} is detected by AddressSanitizer", detected,
+                f"{name} is detected by AddressSanitizer",
+                detected and expect == "sanitizer_detected",
                 evidence.replace("\n", " ")[:170] or "no sanitizer report")
             result["failed_at_least_one"] = detected
             return result
 
         result["failed_at_least_one"] = bool(result["failed_tests"])
-        outcome = "timeout" if timed_out_any and len(result["failed_tests"]) > 0 else \
-            ("wrong_output" if result["failed_tests"] else "passed_unexpectedly")
+        outcome = "timeout" if timed_out_any and result["failed_tests"] else (
+            "wrong_output" if result["failed_tests"] else "passed_unexpectedly")
         result["outcome"] = outcome
         report.add(
             f"{name} fails the tests for {result['misconception']}",
@@ -632,8 +678,23 @@ def _verify_variant(sandbox: Sandbox, report: Report, problem: dict,
 
 def _variant_misconception(filename: str) -> str:
     """Return the misconception code from a variant file name."""
-    parts = filename.replace(".sanitize-only.cpp", "").replace(".cpp", "").split("__")
-    return parts[1] if len(parts) > 1 else "UNKNOWN"
+    stem = filename
+    for suffix in (".sanitize-only.cpp", ".cpp"):
+        if stem.endswith(suffix):
+            stem = stem[: -len(suffix)]
+            break
+    parts = stem.split("__")
+    code = parts[1] if len(parts) > 1 else "UNKNOWN"
+    return code.split("_")[0]
+
+
+def read_variant_manifest() -> dict[str, dict]:
+    """Return the variant manifest, keyed by file name."""
+    path = BANK_DIR / "variants" / "manifest.json"
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return {str(v["file"]): v for v in payload.get("variants", [])}
 
 
 # ---------------------------------------------------------------------------
