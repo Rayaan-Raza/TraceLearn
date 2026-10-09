@@ -1,80 +1,72 @@
-import { useState, useEffect } from 'react'
-import { SessionProvider } from './context/SessionContext'
-import { AuthScreen } from './screens/Auth'
-import { StudentSubmissionScreen } from './screens/StudentSubmission'
-import { EvidenceInspectorScreen } from './screens/EvidenceInspector'
-import { ComparisonScreen } from './screens/ComparisonView'
-import { LearnerTimelineScreen } from './screens/LearnerTimeline'
-import { TeacherExperimentScreen } from './screens/TeacherExperimentView'
-import type { AuthResponse } from './types'
-import './index.css'
-
-const TABS = [
-  ['submission', 'Submission'],
-  ['evidence', 'Evidence'],
-  ['compare', 'Compare'],
-  ['timeline', 'Timeline'],
-  ['teacher', 'Teacher'],
-] as const
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { Layout } from './components/Layout'
+import { Loading } from './components/PageState'
+import { useAuth } from './context/AuthContext'
+import { ClassProvider } from './context/ClassContext'
+import { AuthPage } from './pages/Auth'
+import { StudentDashboard } from './pages/student/Dashboard'
+import { PracticePage } from './pages/student/Practice'
+import { ProblemPage } from './pages/student/Problem'
+import { ResultPage } from './pages/student/Result'
+import { ProgressPage } from './pages/student/Progress'
+import { StudentSubmissionsPage } from './pages/student/Submissions'
+import { StudentSubmissionDetail } from './pages/student/SubmissionDetail'
+import { StudentClassroomPage } from './pages/student/Classroom'
+import { ClassOverview } from './pages/teacher/ClassOverview'
+import { ClassroomPage } from './pages/teacher/Classroom'
+import { AssignProblemPage } from './pages/teacher/AssignProblem'
+import { AssignedProblemsPage } from './pages/teacher/AssignedProblems'
+import { AssignedProblemDetail } from './pages/teacher/AssignedProblemDetail'
+import { MisconceptionsPage } from './pages/teacher/Misconceptions'
+import { StudentsPage } from './pages/teacher/Students'
+import { StudentDetails } from './pages/teacher/StudentDetails'
+import { SubmissionDetail } from './pages/teacher/SubmissionDetail'
+import { ResearchPage } from './pages/teacher/Research'
 
 export default function App() {
-  const [tab, setTab] = useState<(typeof TABS)[number][0]>('submission')
-  const [authed, setAuthed] = useState(false)
-  const [userRole, setUserRole] = useState<string>('')
+  const { user, checking } = useAuth()
 
-  useEffect(() => {
-    try {
-      const token = localStorage.getItem('tl_token')
-      if (token) {
-        setAuthed(true)
-        setUserRole(localStorage.getItem('tl_role') ?? '')
-      }
-    } catch {}
-  }, [])
+  if (checking) return <Loading label="Starting TraceLearn…" />
+  if (!user) return <AuthPage />
 
-  const handleAuth = (resp: AuthResponse) => {
-    setAuthed(true)
-    setUserRole(resp.role)
-  }
-
-  const handleLogout = () => {
-    try {
-      localStorage.removeItem('tl_token')
-      localStorage.removeItem('tl_role')
-      localStorage.removeItem('tl_user_id')
-      localStorage.removeItem('tl_student_id')
-    } catch {}
-    setAuthed(false)
-    setUserRole('')
-  }
-
-  if (!authed) {
-    return <AuthScreen onAuth={handleAuth} />
-  }
+  // Routes are chosen by the role the *server* reports. This is only for
+  // navigation; every API call is authorized server-side regardless.
+  const home = user.role === 'teacher' ? '/teacher' : '/student'
 
   return (
-    <SessionProvider>
-      <div className="app">
-        <div className="app-header">
-          <h1>TraceLearn</h1>
-          <div className="app-header-right">
-            <span className="role-badge">{userRole}</span>
-            <button type="button" className="logout-btn" onClick={handleLogout}>Logout</button>
-          </div>
-        </div>
-        <nav className="tabs">
-          {TABS.map(([id, label]) => (
-            <button key={id} type="button" className={tab === id ? 'active' : ''} onClick={() => setTab(id)}>
-              {label}
-            </button>
-          ))}
-        </nav>
-        {tab === 'submission' && <StudentSubmissionScreen />}
-        {tab === 'evidence' && <EvidenceInspectorScreen />}
-        {tab === 'compare' && <ComparisonScreen />}
-        {tab === 'timeline' && <LearnerTimelineScreen />}
-        {tab === 'teacher' && <TeacherExperimentScreen />}
-      </div>
-    </SessionProvider>
+    <ClassProvider key={user.user_id}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate to={home} replace />} />
+          {user.role === 'student' ? (
+            <>
+              <Route path="student" element={<StudentDashboard />} />
+              <Route path="student/practice" element={<PracticePage />} />
+              <Route path="student/classroom" element={<StudentClassroomPage />} />
+              <Route path="student/submissions" element={<StudentSubmissionsPage />} />
+              <Route path="student/submissions/:submissionId" element={<StudentSubmissionDetail />} />
+              <Route path="student/problem/:problemId" element={<ProblemPage />} />
+              <Route path="student/result/:submissionId" element={<ResultPage />} />
+              <Route path="student/progress" element={<ProgressPage />} />
+            </>
+          ) : (
+            <>
+              <Route path="teacher" element={<ClassOverview />} />
+              <Route path="teacher/classroom" element={<ClassroomPage />} />
+              <Route path="teacher/classroom/assign" element={<AssignProblemPage />} />
+              <Route path="teacher/assigned" element={<AssignedProblemsPage />} />
+              <Route path="teacher/assigned/:assignmentId" element={<AssignedProblemDetail />} />
+              <Route path="teacher/misconceptions" element={<MisconceptionsPage />} />
+              <Route path="teacher/misconceptions/:misconceptionId" element={<MisconceptionsPage />} />
+              <Route path="teacher/students" element={<StudentsPage />} />
+              <Route path="teacher/students/:studentId" element={<StudentDetails />} />
+              <Route path="teacher/submission/:submissionId" element={<SubmissionDetail />} />
+              <Route path="teacher/research" element={<ResearchPage />} />
+            </>
+          )}
+          <Route path="*" element={<Navigate to={home} replace />} />
+        </Route>
+      </Routes>
+    </ClassProvider>
   )
 }
