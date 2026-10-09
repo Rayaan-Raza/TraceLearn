@@ -14,6 +14,7 @@ from backend.app.db.models import (
     DiagnosisMode,
     EvidenceItem,
     HintEvent,
+    ProblemHint,
     Submission,
     TeacherReview,
     TestCase,
@@ -202,6 +203,15 @@ def _hint_target(db: Session, sub: Submission) -> tuple[str, dict[int, str]]:
     mid = diag.primary_misconception if diag else UNCERTAIN
     if diag is None or mid in (NO_MISCONCEPTION, UNCERTAIN) or diag.requires_teacher_review or mid not in HINTS:
         return "GENERIC", {1: GENERIC_HINT}
+    # A problem-specific hint in problem_hints overrides the template hint.
+    rows = (
+        db.query(ProblemHint)
+        .filter(ProblemHint.problem_id == sub.problem_id, ProblemHint.misconception_id == mid)
+        .order_by(ProblemHint.level)
+        .all()
+    )
+    if rows:
+        return mid, {r.level: r.text for r in rows}
     return mid, HINTS[mid]
 
 
