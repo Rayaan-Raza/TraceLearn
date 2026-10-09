@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
 from backend.app.api.auth import router as auth_router
+from backend.app.api.bank import router as bank_router
 from backend.app.api.classrooms import router as classrooms_router
 from backend.app.api.demo import router as demo_router
 from backend.app.api.evaluation import router as evaluation_router
@@ -62,7 +63,7 @@ app.add_middleware(
 app.add_middleware(BodySizeLimitMiddleware, max_bytes=settings.max_request_bytes)
 
 for r in (
-    auth_router, problems_router, students_router, submissions_router, learners_router,
+    auth_router, bank_router, problems_router, students_router, submissions_router, learners_router,
     teachers_router, evaluation_router, demo_router, classrooms_router,
 ):
     app.include_router(r, prefix="/api")
