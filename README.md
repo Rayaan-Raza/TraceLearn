@@ -1,10 +1,10 @@
-﻿# TraceLearn POC
+# TraceLearn POC
 
 **Misconception-aware programming practice platform — proposal-stage proof of concept.**
 
 TraceLearn investigates whether programming evidence accumulated across attempts and related problems can distinguish isolated coding mistakes from recurring conceptual misconceptions (and track improvement, resolution, and recurrence), rather than treating every submission independently.
 
-This repository is a **research POC**, not a production product. The UI is intentionally spartan. The diagnostic core is **rule-based and explainable** — not machine learning and not an LLM.
+This repository is a **research POC**, not a production product. The diagnostic core is **rule-based and explainable** — not machine learning and not an LLM.
 
 ---
 
@@ -23,8 +23,8 @@ This repository is a **research POC**, not a production product. The UI is inten
 11. [Evidence types](#11-evidence-types)
 12. [Current-only vs history-aware diagnosis](#12-current-only-vs-history-aware-diagnosis)
 13. [Learner-state machine](#13-learner-state-machine)
-14. [Code execution (important)](#14-code-execution-important)
-15. [Frontend (5 screens)](#15-frontend-5-screens)
+14. [Code execution and security (important)](#14-code-execution-and-security-important)
+15. [Frontend](#15-frontend)
 16. [API reference](#16-api-reference)
 17. [Synthetic datasets](#17-synthetic-datasets)
 18. [Experiment & metrics](#18-experiment--metrics)
@@ -138,12 +138,12 @@ The interesting part is the **structured diagnostic logic** and the **longitudin
 |-------|--------|
 | Backend | Python 3.11+ (verified on 3.14 if that is what is installed), FastAPI, SQLAlchemy, Pydantic, pytest |
 | Database | SQLite for POC simplicity (models designed so PostgreSQL can replace later) |
-| Frontend | React + Vite + TypeScript, plain CSS (spartan), Monaco Editor |
+| Frontend | React + Vite + TypeScript + react-router, plain CSS, Monaco Editor (bundled) |
 | Code analysis | Python built-in `ast` |
-| Code execution | **Subprocess runner for trusted synthetic/demo code only** |
+| Code execution | g++ / python3 inside a bubblewrap sandbox with resource limits |
 | Metrics | pandas, scikit-learn (F1 / confusion matrix only — **no ML in the diagnostic core**) |
 
-**Not used in this POC:** Docker, Pyodide, browser-side Python execution, authentication polish, payments, mobile apps, plagiarism detection, LSTM/XGBoost, unrestricted LLM debugging.
+**Not used in this POC:** Pyodide, browser-side execution, payments, mobile apps, plagiarism detection, LSTM/XGBoost, unrestricted LLM debugging.
 
 ---
 
@@ -161,9 +161,11 @@ POC/
 │   │   ├── main.py                    ← FastAPI app, CORS, routers
 │   │   ├── config.py
 │   │   ├── db/                        ← models, database, seed
-│   │   ├── api/                       ← problems, submissions, students, teachers, evaluation, demo
+│   │   ├── api/                       ← auth, problems, submissions, students, classrooms, teachers, evaluation, demo
+│   │   ├── auth/                      ← JWT, dependencies, object-level access rules
+│   │   ├── security/                  ← rate limiting, headers, body size limit
 │   │   ├── schemas/
-│   │   ├── execution/                 ← abstract runner + subprocess implementation + test runner
+│   │   ├── execution/                 ← sandbox (bubblewrap), C++/Python runners, test runner
 │   │   ├── analysis/                  ← static, test, runtime, diff, history, pipeline
 │   │   ├── diagnosis/                 ← taxonomy, rules, confidence, current_only, history_aware
 │   │   ├── learner_model/             ← states, history (temporal cutoff), updater
@@ -173,9 +175,9 @@ POC/
 │   └── tests/                         ← unit + contract tests
 ├── frontend/
 │   ├── src/
-│   │   ├── App.tsx                    ← 5-tab shell
-│   │   ├── screens/                   ← Submission, Evidence, Compare, Timeline, Teacher
-│   │   ├── api/client.ts
+│   │   ├── App.tsx                    ← role-based routes
+│   │   ├── pages/student, pages/teacher
+│   │   ├── api/client.ts              ← cookie + CSRF client
 │   │   └── ...
 │   └── package.json                   ← monaco-editor, @monaco-editor/react
 ├── data/
@@ -188,6 +190,7 @@ POC/
 │   ├── seed_database.py
 │   ├── run_synthetic_experiment.py
 │   ├── reset_demo.py
+│   ├── create_teacher.py
 │   └── export_results.py
 └── docs/
     ├── POC_SCOPE.md
@@ -298,73 +301,95 @@ This is an **explicit state machine**, not an ML model. See [`docs/LEARNER_STATE
 
 ---
 
-## 14. Code execution (important)
+## 14. Code execution and security (important)
 
-For this POC, Python submissions execute **server-side** using a **subprocess runner**.
+Submissions execute **server-side**, and every submission is treated as untrusted code.
 
-| Fact | Detail |
-|------|--------|
-| What runs | Student function loaded from submitted source; called with test-case arguments |
-| Timeout | Configurable (`EXECUTION_TIMEOUT_SECONDS`, default 5) |
-| Security | **Not a secure sandbox.** Does **not** claim network or filesystem isolation |
-| Allowed use | Trusted synthetic / demo code only |
-| Not used | Browser execution, Pyodide, Docker |
+| Layer | What it does |
+|-------|--------------|
+| **bubblewrap sandbox** | Compile and run happen in new mount/PID/network/IPC namespaces. The program sees a read-only `/usr`, an empty `/tmp` and its own scratch dir — **no network, no project files, no database, no `.env`, empty environment**. |
+| **Resource limits** | CPU seconds, address space (256 MB, 2 GB for the compiler), output size, open files, no core dumps; wall-clock timeout kills the whole process group. |
+| **Concurrency cap** | At most `MAX_CONCURRENT_EXECUTIONS` submissions run at once; per-user execution rate limit. |
+| **Source screening** | C++ may only `#include <standard headers>` (blocks `#include "/proc/self/environ"`-style file reads through compiler errors). |
+| **Analysis isolation** | The C++ regex detectors run in a separate process with a 3 s budget (some patterns backtrack catastrophically on crafted input). |
 
-The runner is abstracted behind an `ExecutionRunner` interface so a future isolated runner could replace subprocess without rewriting diagnosis or the API. **This repository does not include Docker or container orchestration.**
+Python submissions run in a fresh `python3 -I` process inside the sandbox — never inside the API server process. C++ output is compared token-by-token (spaces vs. newlines do not matter).
 
-Monaco Editor is **editor-only**: it does not execute Python in the browser. Flow:
+**Install bubblewrap on the server:** `sudo apt install bubblewrap`. In production (`APP_ENV=production`) execution is **refused** if bubblewrap is unavailable. On Windows/macOS development machines it falls back to resource limits only and logs a warning — that mode is not safe for untrusted users. If you run in Docker, the container needs to allow unprivileged namespaces (e.g. `--security-opt seccomp=unconfined` or a tailored profile); also set `--pids-limit` to bound process counts.
 
-1. Student edits code in Monaco.
-2. **Run & Analyze** reads editor contents.
-3. Frontend POSTs source to FastAPI.
-4. Backend executes tests, extracts evidence, runs both diagnoses, updates learner state, returns hint.
-5. UI shows results beside/below Monaco.
+### Security model (API)
+
+* **Every endpoint requires sign-in** (except `/health`, register and login).
+* **Students** see only their own submissions, diagnoses, evidence, hints and learner state. They submit as themselves — the student id comes from the session, never the request.
+* **Teachers** see only students in classrooms they own (plus synthetic `SYN*` research students). Teacher self-registration needs `TEACHER_SIGNUP_CODE`; otherwise create teachers with `python scripts/create_teacher.py`.
+* Data the caller may not see returns **404**, so ids cannot be probed.
+* Students never receive inputs or expected outputs of **hidden/diagnostic tests**. Ground-truth labels are never returned by any endpoint.
+* Browser sessions use an **httpOnly** cookie plus a **double-submit CSRF token**; API clients can use `Authorization: Bearer`. Logout revokes every token issued to that user. JWTs pin HS256 and check issuer/audience/expiry.
+* Rate limits on login, registration, class joining and code execution; 256 KB request body cap; 64 KB source cap.
+* Security headers on every response (CSP, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, HSTS when secure). Swagger is off in production.
+* `/api/demo/*` is disabled unless `ENABLE_DEMO_ENDPOINTS=true`, teacher-only, and only touches synthetic data (it no longer drops tables).
+* The server **refuses to start** in production with a default/short `SECRET_KEY`, wildcard CORS, or demo endpoints enabled.
+
+`backend/tests/test_security.py` covers all of the above (auth on every route, token forgery, CSRF, IDOR between students/teachers/classrooms, hidden-test leakage, input limits, sandbox file/network/env isolation).
 
 ---
 
-## 15. Frontend (5 screens)
+## 15. Frontend
 
-Intentionally **spartan** (plain CSS, serif text, black borders, no product polish) so reviewers see a research prototype.
+React + Vite + TypeScript, react-router, Monaco (bundled locally — no CDN). Fonts are self-hosted.
+
+**Student**
 
 | Screen | Purpose |
 |--------|---------|
-| **Submission** | Student + problem selectors, Monaco (`language=python`, line numbers, auto-indent, bracket matching, minimap off, ~14px, ~450px height), Run & Analyze, tests + dual diagnosis + hint |
-| **Evidence** | Grouped evidence (execution / test / static / sequence / history) with support/conflict and weights |
-| **Compare** | Side-by-side current-only vs history-aware; highlights when history changed the result |
-| **Timeline** | Learner state transitions over attempts |
-| **Teacher / Experiment** | Review actions + live metrics from evaluation API |
+| Dashboard | Focus area (worst learner state), progress counts, concept-state and mistake-timeline charts, assignments, recommended problems |
+| Practice | All problems visible to the student + class assignments, with status |
+| Problem | Monaco editor (C++ or Python per problem), visible test cases, **Run / Submit** |
+| Result | Tests passed, expected vs. your output (visible tests only), diagnosis summary, progressive hints |
+| Classroom | Join a class with a code; current and previous assignments with your attempts |
+| Submissions / Progress | Attempt history; per-concept learning story from real learner-state transitions |
 
-Vite proxies `/api` to `http://127.0.0.1:8000` in development.
+**Teacher**
+
+| Screen | Purpose |
+|--------|---------|
+| Class Overview | Class stats and misconception chart; create classrooms |
+| Classroom | Join code (copy/rotate), roster, assignments, recent submissions |
+| Assign Problem | Pick from the problem bank or author a C++ problem with visible/hidden tests |
+| Assigned Problems | Per-assignment results and misconception chart; close/reopen |
+| Misconceptions / Students | Who has which concept tracked and in what state |
+| Submission | Code, all tests incl. hidden, **current-only vs history-aware** comparison, grouped evidence, teacher review (CONFIRM/REJECT/CORRECT/MARK_UNCERTAIN) |
+| Research | Live experiment metrics (current-only vs history-aware), synthetic demo replay, sandbox status |
+
+The UI routes by the role the server reports; every API call is still authorized server-side.
 
 ---
 
 ## 16. API reference
 
-Base URL: `http://127.0.0.1:8000`
+Base URL: `http://127.0.0.1:8000`. All `/api` routes require authentication unless noted. Interactive docs at `/docs` in development.
 
-| Method | Path | Purpose |
-|--------|------|---------|
-| GET | `/health` | Health check |
-| GET | `/api/problems` | List problems |
-| GET | `/api/problems/{problem_id}` | Problem detail + tests |
-| GET | `/api/students` | List students |
-| POST | `/api/submissions` | Create submission |
-| GET | `/api/submissions/{id}` | Get submission |
-| POST | `/api/submissions/{id}/execute` | Run tests |
-| POST | `/api/submissions/{id}/analyze` | Extract evidence |
-| POST | `/api/submissions/{id}/diagnose` | Dual diagnosis + state update |
-| POST | `/api/submissions/{id}/run-and-analyze` | Combined pipeline (UI primary) |
-| GET | `/api/submissions/{id}/evidence` | Evidence items |
-| GET | `/api/submissions/{id}/diagnoses` | Diagnoses for both modes |
-| GET | `/api/submissions/{id}/test-results` | Test outcomes |
-| GET | `/api/students/{id}/timeline` | Attempt timeline |
-| GET | `/api/students/{id}/learner-profile` | Current learner states |
-| POST | `/api/diagnoses/{id}/teacher-review` | Teacher CONFIRM/REJECT/CORRECT/MARK_UNCERTAIN |
-| GET | `/api/evaluation/comparison` | Calculated current-only vs history-aware metrics |
-| POST | `/api/demo/reset` | Reset demo DB state |
-| POST | `/api/demo/run-sequence/{student_id}` | Replay a synthetic sequence |
-
-Interactive docs (when server is running): `http://127.0.0.1:8000/docs`
+| Method | Path | Who |
+|--------|------|-----|
+| GET | `/health` | public |
+| POST | `/api/auth/register` · `/api/auth/login` | public (rate limited) |
+| POST | `/api/auth/logout` · GET `/api/auth/me` | signed in |
+| GET | `/api/problems` · `/api/problems/{id}` | signed in (custom problems: owner / assigned students) |
+| POST | `/api/problems` | teacher (C++ stdin/stdout problem) |
+| POST | `/api/submissions` | student (as themselves) |
+| POST | `/api/submissions/{id}/run-and-analyze` (also `/execute`, `/analyze`, `/diagnose`, `/next-hint`) | owning student |
+| GET | `/api/submissions/{id}` and `/evidence`, `/diagnoses`, `/test-results`, `/hints`, `/reviews` | owning student or their teacher |
+| GET | `/api/students` | teacher (own class members + synthetic) |
+| GET | `/api/students/{id}/submissions` · `/timeline` · `/learner-profile` | that student or their teacher |
+| POST | `/api/diagnoses/{id}/teacher-review` | that student's teacher |
+| GET/POST | `/api/classrooms` | teacher creates; both list their own |
+| POST | `/api/classrooms/join` | student (join code) |
+| GET | `/api/classrooms/{id}` | owner or member |
+| GET | `/api/classrooms/{id}/overview` · `/members` · POST `/rotate-code` · DELETE `/members/{sid}` | owner |
+| GET/POST | `/api/classrooms/{id}/assignments` | owner creates; members see their own |
+| GET | `/api/assignments/mine` · `/api/assignments/{id}` · PATCH `/api/assignments/{id}` | owner / assigned student (PATCH: owner) |
+| GET | `/api/evaluation/comparison` | teacher |
+| GET | `/api/demo/status` · POST `/api/demo/reset` · `/api/demo/run-sequence/{SYNnnn}` | teacher, only if `ENABLE_DEMO_ENDPOINTS=true` |
 
 ---
 
@@ -425,11 +450,11 @@ Important reported quantities include:
 
 ## 19. Requirements
 
-- **Python** 3.11+ preferred (3.12 ideal). If only 3.14 is installed, verify `pip install -r requirements.txt` and tests pass.
+- **Python** 3.11+ (verified on 3.13)
 - **Node.js** 18+ (Vite frontend)
-- **OS** Windows / macOS / Linux
-
-No container runtime is required for this POC.
+- **g++** with C++17 support
+- **bubblewrap** (`apt install bubblewrap`) — required in production for sandboxed execution
+- **OS** Linux for production; Windows/macOS work for development (without the OS sandbox)
 
 ---
 
@@ -458,16 +483,28 @@ copy .env.example .env
 
 ## 21. Configure
 
-Key settings (`.env` or defaults in `backend/app/config.py`):
+Copy `.env.example` to `.env`. Every option is documented there. The important ones:
 
 | Variable | Default | Meaning |
 |----------|---------|---------|
+| `APP_ENV` | `development` | `production` enforces secure settings at startup |
+| `SECRET_KEY` | — | **Required in production**; random, ≥ 32 chars |
+| `TEACHER_SIGNUP_CODE` | empty | Invite code for teacher self-signup (empty = disabled) |
+| `SERVE_FRONTEND` | `false` | Serve `frontend/dist` from the backend (same origin) |
+| `ENABLE_DEMO_ENDPOINTS` | `false` | Research demo API (never in production) |
+| `SANDBOX_MODE` / `REQUIRE_SANDBOX` | `auto` / prod: on | Code execution isolation policy |
 | `DATABASE_URL` | `sqlite:///./tracelearn.db` | SQLAlchemy DB URL |
-| `EXECUTION_MODE` | `subprocess` | Trusted POC runner only |
-| `EXECUTION_TIMEOUT_SECONDS` | `5` | Per-call timeout |
 | `EVIDENCE_WEIGHTS_PATH` | `./config/evidence_weights.yaml` | Fusion weights file |
 
 Weights / thresholds / learner-state triggers: edit **`config/evidence_weights.yaml`** only (and freeze before holdout evaluation).
+
+Create a teacher account (prompts for a password):
+
+```bash
+python scripts/create_teacher.py teacher@school.edu "Dr. Sarah Ahmed"
+```
+
+Students register themselves and join a class with the join code shown on the teacher's Classroom page.
 
 ---
 
@@ -487,8 +524,18 @@ Seeds problems, test cases, and synthetic students. Re-run after `reset_demo` or
 uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-- Health: `http://127.0.0.1:8000/health`  
-- OpenAPI UI: `http://127.0.0.1:8000/docs`
+- Health: `http://127.0.0.1:8000/health`
+- OpenAPI UI (development only): `http://127.0.0.1:8000/docs`
+
+**Production (single origin, recommended):**
+
+```bash
+cd frontend && npm ci && npm run build && cd ..
+APP_ENV=production SECRET_KEY=... SERVE_FRONTEND=true \
+  uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --proxy-headers --forwarded-allow-ips 127.0.0.1
+```
+
+Put it behind an HTTPS reverse proxy (nginx/Caddy). Serving the UI and API from one origin keeps the session cookie first-party. If you host the frontend separately (e.g. Vercel), set `VITE_API_BASE_URL`, add that origin to `CORS_ORIGINS`, and use sibling subdomains with `COOKIE_DOMAIN` so the CSRF cookie is readable.
 
 ---
 
@@ -496,17 +543,11 @@ uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
 
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
 
-Open the URL Vite prints (typically `http://127.0.0.1:5173`). API calls go through the Vite proxy to port 8000.
-
-Production build check:
-
-```bash
-cd frontend
-npm run build
-```
+Open `http://127.0.0.1:5173`. Vite proxies `/api` to port 8000, so the browser sees one origin. Production build: `npm run build`.
 
 ---
 
@@ -518,15 +559,13 @@ python -m pytest backend/tests/ -v
 
 Coverage includes (among others):
 
-- Execution success / failure / timeout  
-- Static patterns for M01 / M02 / M03  
-- Current-only cannot access history  
-- History-aware uses related history with **no future leakage**  
-- Same-problem repetition ≠ automatic PERSISTENT  
-- Cross-problem recurrence can create PERSISTENT  
-- Ground truth not accessible to diagnosis  
-- Conflicting evidence / teacher review preserves original prediction  
-- Experiment metrics generated from database  
+- Execution success / failure / timeout, sandbox isolation (files, network, environment)
+- Static patterns for M01 / M02 / M03
+- Current-only cannot access history; history-aware uses related history with **no future leakage**
+- Same-problem repetition ≠ automatic PERSISTENT; cross-problem recurrence can create PERSISTENT
+- Ground truth not accessible to diagnosis or any endpoint
+- Teacher review preserves original prediction
+- **Security suite** (`test_security.py`): auth on every endpoint, IDOR, CSRF, token forgery/revocation, hidden-test leakage, rate limits, input limits
 
 ---
 
@@ -583,11 +622,12 @@ Actions: **CONFIRM**, **REJECT**, **CORRECT**, **MARK_UNCERTAIN**.
 
 ## 30. Known limitations
 
-- **Subprocess execution is not suitable for untrusted student code.** It is for trusted synthetic/demo code only and is not a secure sandbox.
+- **Execution isolation depends on bubblewrap.** Without it (Windows/macOS dev) code runs with resource limits only — never expose such a server to untrusted users. Production refuses to execute without it.
+- Rate limits are in-memory and per process; with several workers/replicas add limiting at the reverse proxy too.
+- C++ diagnosis is early-stage: the CPP_* evidence codes have no weights in `config/evidence_weights.yaml` and the learner-state updater only tracks M01–M03, so C++ attempts mostly show as "uncertain / no pattern yet" until those are added.
 - Rule-based diagnosis only (no ML / LLM in the diagnostic core).
 - Synthetic dataset only; metrics reflect POC feasibility, not clinical validity on real students.
-- Three misconception classes and six problems — not the full planned 8–12 / 30–40 scale.
-- UI is deliberately minimal (spartan), not a polished product experience.
+- Three Python misconception classes and six dataset problems — not the full planned scale.
 - Evidence weights are provisional engineering parameters, not empirically validated.
 
 ---
@@ -617,11 +657,13 @@ Actions: **CONFIRM**, **REJECT**, **CORRECT**, **MARK_UNCERTAIN**.
 | Problem | What to try |
 |---------|-------------|
 | `ModuleNotFoundError: backend` | Run commands from repo root; ensure `PYTHONPATH` includes project root if needed |
-| Frontend cannot reach API | Backend on `127.0.0.1:8000`; Vite proxy; CORS includes `5173` |
+| Server refuses to start in production | Read the listed problems: usually `SECRET_KEY` missing/short or demo endpoints enabled |
+| "Code execution requires bubblewrap" | `sudo apt install bubblewrap`; in Docker allow unprivileged user namespaces |
+| Frontend shows the sign-in page after every reload | Cookies blocked: use the Vite proxy in dev, or same-origin `SERVE_FRONTEND` in production; `COOKIE_SECURE=true` needs HTTPS |
+| "CSRF token missing or invalid" | Request was sent with the session cookie but without `X-CSRF-Token`; use the frontend client or a Bearer token |
+| 429 Too many requests | Rate limit hit; wait a minute |
 | Empty problem list | Run `python scripts/seed_database.py` |
-| Tests hang on execution | Timeout should fire; check `EXECUTION_TIMEOUT_SECONDS`; avoid infinite loops in fixtures |
-| Stale DB state | Delete `tracelearn.db` (or your SQLite path), re-seed, or `python scripts/reset_demo.py` |
-| Monaco blank | Ensure `monaco-editor` and `@monaco-editor/react` installed; rebuild frontend |
+| Stale DB state | Delete `tracelearn.db`, re-seed, or `python scripts/reset_demo.py` (synthetic data only) |
 | Experiment metrics look “too good” | Do not retune YAML after holdout; report what the frozen config actually produces |
 
 ---
