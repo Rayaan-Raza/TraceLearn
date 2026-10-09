@@ -66,9 +66,15 @@ COMPILE_FLAGS = ["-std=c++17", "-O2", "-Wall", "-Wextra"]
 BACKEND_FLAGS = ["-std=c++17", "-O2", "-Wall"]
 SANITIZE_FLAGS = ["-std=c++17", "-O1", "-g", "-fsanitize=address,undefined",
                   "-fno-omit-frame-pointer"]
+UBSAN_FLAGS = ["-std=c++17", "-O1", "-g", "-fsanitize=undefined",
+               "-fno-omit-frame-pointer"]
 COMPILE_TIMEOUT_S = 30
 COMPILE_MEMORY_MB = 2048
 DETERMINISM_RUNS = 3
+# A sanitizer run reserves a very large virtual range for its shadow memory
+# (about 16 TB on x86-64). The 256 MB cap is the judged run limit, so the
+# sanitizer run uses a much larger cap. It is still a cap, not unlimited.
+SANITIZE_MEMORY_MB = 8192
 
 
 # ---------------------------------------------------------------------------
@@ -140,8 +146,9 @@ def _mirror_run(argv, workdir, *, stdin_data="", timeout, memory_mb,
 
     def apply() -> None:  # runs in the child between fork and exec
         resource.setrlimit(resource.RLIMIT_CPU, (int(timeout) + 1, int(timeout) + 2))
-        mem = memory_mb * 1024 * 1024
-        resource.setrlimit(resource.RLIMIT_AS, (mem, mem))
+        if memory_mb:  # None means no address-space cap
+            mem = memory_mb * 1024 * 1024
+            resource.setrlimit(resource.RLIMIT_AS, (mem, mem))
         resource.setrlimit(resource.RLIMIT_FSIZE, (output_bytes + 1024, output_bytes + 1024))
         resource.setrlimit(resource.RLIMIT_NOFILE, (64, 64))
         resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
@@ -212,12 +219,20 @@ class Sandbox:
             return {"mode": "unknown", "isolated": False, "required": False}
 
     def run(self, argv, workdir, *, stdin_data="", timeout, memory_mb,
-            output_bytes=None) -> RunResult:
+            output_bytes=None, apply_memory_limit=True) -> RunResult:
         assert self._runner is not None, "call Sandbox.start() first"
-        res = self._runner(
-            [str(a) for a in argv], workdir, stdin_data=stdin_data,
-            timeout=timeout, memory_mb=memory_mb, output_bytes=output_bytes,
-        )
+        if apply_memory_limit:
+            res = self._runner(
+                [str(a) for a in argv], workdir, stdin_data=stdin_data,
+                timeout=timeout, memory_mb=memory_mb, output_bytes=output_bytes,
+            )
+        else:
+            # AddressSanitizer reserves about 16 TB of virtual address space for
+            # its shadow. Any RLIMIT_AS below that size stops it from starting.
+            # A sanitizer run is a quality check, not the judged run, so it runs
+            # without the memory cap. The judged runs keep the 256 MB cap.
+            res = _mirror_run([str(a) for a in argv], workdir, stdin_data=stdin_data,
+                              timeout=timeout, memory_mb=None, output_bytes=output_bytes)
         return RunResult(
             returncode=getattr(res, "returncode", 0),
             stdout=getattr(res, "stdout", ""),
@@ -437,14 +452,19 @@ def verify_problem(sandbox: Sandbox, report: Report, problem: dict, *, sanitize:
         if sanitize:
             ok_s, diag_s, _ = compile_source(sandbox, workdir, src, workdir / f"{pid}_asan",
                                              SANITIZE_FLAGS)
+            ok_u, diag_u, _ = compile_source(sandbox, workdir, src, workdir / f"{pid}_ubsan",
+                                             UBSAN_FLAGS)
             clean = True
             details = []
+            # Part A. AddressSanitizer and UndefinedBehaviorSanitizer. This run
+            # carries no memory cap, because the ASan shadow needs about 16 TB
+            # of virtual address space.
             if ok_s:
                 for tc in problem["test_cases"]:
                     stdin_data = tc["input_json"].get("stdin", "")
                     res = sandbox.run([f"./{pid}_asan"], workdir, stdin_data=stdin_data,
-                                      timeout=TIME_LIMIT_MS / 1000,
-                                      memory_mb=MEMORY_LIMIT_MB)
+                                      timeout=TIME_LIMIT_MS / 1000, memory_mb=None,
+                                      apply_memory_limit=False)
                     bad = ("ERROR: AddressSanitizer" in (res.stderr or "")
                            or "runtime error:" in (res.stderr or "")
                            or "ERROR: LeakSanitizer" in (res.stderr or ""))
@@ -458,16 +478,49 @@ def verify_problem(sandbox: Sandbox, report: Report, problem: dict, *, sanitize:
             report.add(f"{pid} runs clean under AddressSanitizer and UBSan", clean,
                        "; ".join(details)[:200])
 
+            # Part B. UndefinedBehaviorSanitizer inside the judged 256 MB limit.
+            ub_clean = True
+            ub_details = []
+            if ok_u:
+                for tc in problem["test_cases"]:
+                    stdin_data = tc["input_json"].get("stdin", "")
+                    res = sandbox.run([f"./{pid}_ubsan"], workdir, stdin_data=stdin_data,
+                                      timeout=TIME_LIMIT_MS / 1000,
+                                      memory_mb=MEMORY_LIMIT_MB)
+                    bad = "runtime error:" in (res.stderr or "")
+                    if bad:
+                        ub_clean = False
+                        ub_details.append(f"{tc['id']}: {(res.stderr or '')[:200]}")
+            else:
+                ub_clean = False
+                ub_details.append(diag_u[:200])
+            entry["sanitizer"]["ubsan_under_judged_limit"] = {
+                "built": ok_u, "clean": ub_clean, "details": ub_details}
+            report.add(f"{pid} runs clean under UBSan at the 256MB judged limit",
+                       ub_clean, "; ".join(ub_details)[:200])
+
         # 8. return-channel probe for CP03
         if pid == "CP03":
             driver = workdir / "driver.cpp"
             driver.write_text(RETURN_DRIVER, encoding="utf-8")
-            ok_d, diag_d, _ = compile_source(
-                sandbox, workdir, src, workdir / f"{pid}_channel",
-                COMPILE_FLAGS + ["-Dmain=disabled_main"])
-            if ok_d:
-                res = sandbox.run([f"./{pid}_channel"], workdir, timeout=5, memory_mb=256)
-                # The driver does not read stdin, so nothing is written to stdin.
+            # Rename the main of the student file only. Compile it as an
+            # object, compile the driver normally, then link the two objects.
+            # Thus stdout and the return channel are observed independently.
+            ok_a, diag_a, _ = compile_source(
+                sandbox, workdir, src, workdir / "solution.o",
+                COMPILE_FLAGS + ["-Dmain=disabled_main", "-c"])
+            ok_b, diag_b, _ = compile_source(
+                sandbox, workdir, driver, workdir / "driver.o", COMPILE_FLAGS + ["-c"])
+            ok_l = False
+            diag_l = ""
+            if ok_a and ok_b:
+                res = sandbox.run(
+                    ["g++", "solution.o", "driver.o", "-o", "channel"],
+                    workdir, timeout=COMPILE_TIMEOUT_S, memory_mb=COMPILE_MEMORY_MB)
+                ok_l = res.returncode == 0 and (workdir / "channel").exists()
+                diag_l = (res.stderr or "").replace(str(workdir) + os.sep, "").strip()
+            if ok_l:
+                res = sandbox.run(["./channel"], workdir, timeout=5, memory_mb=256)
                 channel_ok = "returned=8" in res.stdout
                 report.add("CP03 return channel carries the value, not 0", channel_ok,
                            f"stdout={res.stdout.strip()!r} rc={res.returncode}")
@@ -475,7 +528,8 @@ def verify_problem(sandbox: Sandbox, report: Report, problem: dict, *, sanitize:
                                            "passed": channel_ok,
                                            "returncode": res.returncode}
             else:
-                report.add("CP03 return channel probe compiles", False, diag_d[:200])
+                report.add("CP03 return channel probe compiles", False,
+                           (diag_a or diag_b or diag_l)[:200])
 
     # 6. misconception variants
     variants = sorted((BANK_DIR / "variants").glob(f"{pid}__*.cpp")) \
@@ -551,7 +605,8 @@ def _verify_variant(sandbox: Sandbox, report: Report, problem: dict,
                 for tc in problem["test_cases"]:
                     stdin_data = tc["input_json"].get("stdin", "")
                     res = sandbox.run(["./variant_asan"], workdir, stdin_data=stdin_data,
-                                      timeout=TIME_LIMIT_MS / 1000, memory_mb=MEMORY_LIMIT_MB)
+                                      timeout=TIME_LIMIT_MS / 1000, memory_mb=None,
+                                      apply_memory_limit=False)
                     if "ERROR: AddressSanitizer" in (res.stderr or ""):
                         detected = True
                         evidence = (res.stderr or "")[:400]
