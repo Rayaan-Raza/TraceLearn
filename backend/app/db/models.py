@@ -2,7 +2,7 @@
 from __future__ import annotations
 import enum
 from datetime import datetime
-from sqlalchemy import Boolean, DateTime, Enum, Float, ForeignKey, Integer, String, Text, func
+from sqlalchemy import Boolean, DateTime, Enum, Float, ForeignKey, Integer, String, Text, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.app.db.database import Base
 
@@ -66,7 +66,11 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(256), unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String(256))
     role: Mapped[UserRole] = mapped_column(Enum(UserRole))
+    display_name: Mapped[str] = mapped_column(String(128), default="")
     student_id: Mapped[int | None] = mapped_column(ForeignKey("students.id"), nullable=True)
+    # Incremented on logout / password change; tokens carrying an older
+    # version are rejected, which makes logout revoke every issued token.
+    token_version: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
@@ -90,6 +94,14 @@ class Problem(Base):
     concept_tags: Mapped[str] = mapped_column(Text, default="[]")
     prerequisite_tags: Mapped[str] = mapped_column(Text, default="[]")
     starter_code: Mapped[str] = mapped_column(Text)
+    # "python" (function-call tests) or "cpp" (stdin/stdout tests).
+    language: Mapped[str] = mapped_column(String(16), default="python", server_default="python")
+    topic: Mapped[str] = mapped_column(String(64), default="", server_default="")
+    difficulty: Mapped[str] = mapped_column(String(16), default="Easy", server_default="Easy")
+    # NULL = part of the shared research dataset; otherwise the teacher who
+    # created it. Custom problems are only visible to their owner and to
+    # students they are assigned to.
+    created_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     test_cases: Mapped[list["TestCase"]] = relationship(back_populates="problem")
     submissions: Mapped[list["Submission"]] = relationship(back_populates="problem")
@@ -222,3 +234,54 @@ class HintEvent(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     student: Mapped[Student] = relationship(back_populates="hint_events")
     submission: Mapped[Submission] = relationship(back_populates="hint_events")
+
+
+class Classroom(Base):
+    __tablename__ = "classrooms"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    code: Mapped[str] = mapped_column(String(32))
+    name: Mapped[str] = mapped_column(String(128))
+    teacher_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
+    # Random code students use to join. Unique; rotate to stop new joins.
+    join_code: Mapped[str] = mapped_column(String(16), unique=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    members: Mapped[list["ClassroomMember"]] = relationship(back_populates="classroom", cascade="all, delete-orphan")
+    assignments: Mapped[list["Assignment"]] = relationship(back_populates="classroom", cascade="all, delete-orphan")
+
+
+class ClassroomMember(Base):
+    __tablename__ = "classroom_members"
+    __table_args__ = (UniqueConstraint("classroom_id", "student_id", name="uq_classroom_student"),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    classroom_id: Mapped[int] = mapped_column(ForeignKey("classrooms.id"), index=True)
+    student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), index=True)
+    joined_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    classroom: Mapped[Classroom] = relationship(back_populates="members")
+
+
+class AssignmentState(str, enum.Enum):
+    ACTIVE = "active"
+    CLOSED = "closed"
+
+
+class Assignment(Base):
+    __tablename__ = "assignments"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    classroom_id: Mapped[int] = mapped_column(ForeignKey("classrooms.id"), index=True)
+    problem_id: Mapped[str] = mapped_column(ForeignKey("problems.id"), index=True)
+    assigned_by_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    due_date: Mapped[str] = mapped_column(String(32), default="")
+    notes: Mapped[str] = mapped_column(Text, default="")
+    state: Mapped[AssignmentState] = mapped_column(Enum(AssignmentState), default=AssignmentState.ACTIVE)
+    assigned_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    classroom: Mapped[Classroom] = relationship(back_populates="assignments")
+    students: Mapped[list["AssignmentStudent"]] = relationship(back_populates="assignment", cascade="all, delete-orphan")
+
+
+class AssignmentStudent(Base):
+    __tablename__ = "assignment_students"
+    __table_args__ = (UniqueConstraint("assignment_id", "student_id", name="uq_assignment_student"),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    assignment_id: Mapped[int] = mapped_column(ForeignKey("assignments.id"), index=True)
+    student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), index=True)
+    assignment: Mapped[Assignment] = relationship(back_populates="students")
