@@ -39,6 +39,14 @@ _ADDITIVE_COLUMNS: dict[str, dict[str, str]] = {
         "topic": "VARCHAR(64) NOT NULL DEFAULT ''",
         "difficulty": "VARCHAR(16) NOT NULL DEFAULT 'Easy'",
         "created_by_user_id": "INTEGER REFERENCES users(id)",
+        "language_standard": "VARCHAR(8) NOT NULL DEFAULT 'cpp17'",
+        "input_spec": "TEXT NOT NULL DEFAULT ''",
+        "output_spec": "TEXT NOT NULL DEFAULT ''",
+        "constraints": "TEXT NOT NULL DEFAULT ''",
+    },
+    "test_cases": {
+        "time_limit_ms": "INTEGER",
+        "memory_limit_mb": "INTEGER",
     },
 }
 
