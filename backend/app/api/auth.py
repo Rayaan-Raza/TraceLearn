@@ -165,7 +165,7 @@ def login(
     return _token_response(user, response)
 
 
-@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
 def logout(response: Response, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Response:
     # Bumping the version revokes every token issued to this user so far.
     current_user.token_version = (current_user.token_version or 0) + 1
