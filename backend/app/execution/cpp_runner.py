@@ -29,10 +29,13 @@ class CppCompileSession:
         self._workdir = workdir
         self._tmp = tmp  # kept alive to prevent cleanup until session is done
 
-    def run(self, stdin_data: str, timeout_seconds: int) -> ExecutionResult:
+    def run(self, stdin_data: str, timeout_seconds: int, memory_mb: int | None = None) -> ExecutionResult:
         start = time.perf_counter()
         try:
-            res = run_in_sandbox([f"./{BINARY_NAME}"], self._workdir, stdin_data=stdin_data, timeout=timeout_seconds)
+            res = run_in_sandbox(
+                [f"./{BINARY_NAME}"], self._workdir, stdin_data=stdin_data,
+                timeout=timeout_seconds, memory_mb=memory_mb,
+            )
         except SandboxUnavailable as exc:
             return ExecutionResult(status="system_error", stderr=str(exc), error_type="SandboxUnavailable")
         except Exception:
