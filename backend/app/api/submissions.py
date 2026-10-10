@@ -23,6 +23,7 @@ from backend.app.db.models import (
     User,
     UserRole,
 )
+from backend.app.diagnosis.cpp_mapping import hint_misconception_ids
 from backend.app.diagnosis.taxonomy import NO_MISCONCEPTION, UNCERTAIN
 from backend.app.hints.templates import GENERIC_HINT, HINTS
 from backend.app.schemas.evidence import EvidenceItemRead
@@ -201,18 +202,24 @@ def _hint_target(db: Session, sub: Submission) -> tuple[str, dict[int, str]]:
         .first()
     )
     mid = diag.primary_misconception if diag else UNCERTAIN
-    if diag is None or mid in (NO_MISCONCEPTION, UNCERTAIN) or diag.requires_teacher_review or mid not in HINTS:
+    if diag is None or mid in (NO_MISCONCEPTION, UNCERTAIN) or diag.requires_teacher_review:
         return "GENERIC", {1: GENERIC_HINT}
     # A problem-specific hint in problem_hints overrides the template hint.
+    # The bank stores its C++ hints under the bank code (`CPP-M05`) while a
+    # diagnosis holds the backend code (`CPP_RANGE_CHECK`), so the query
+    # accepts every spelling the mapping table knows.
     rows = (
         db.query(ProblemHint)
-        .filter(ProblemHint.problem_id == sub.problem_id, ProblemHint.misconception_id == mid)
+        .filter(
+            ProblemHint.problem_id == sub.problem_id,
+            ProblemHint.misconception_id.in_(hint_misconception_ids(mid)),
+        )
         .order_by(ProblemHint.level)
         .all()
     )
     if rows:
         return mid, {r.level: r.text for r in rows}
-    return mid, HINTS[mid]
+    return mid, HINTS.get(mid, {1: GENERIC_HINT})
 
 
 @router.get("/{submission_id}/hints", response_model=list[HintRead])

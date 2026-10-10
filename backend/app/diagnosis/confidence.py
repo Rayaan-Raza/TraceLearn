@@ -3,6 +3,7 @@ import yaml
 from pathlib import Path
 from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.config import settings
+from backend.app.diagnosis.cpp_mapping import TAG_TO_CODE
 from backend.app.diagnosis.rules import aggregate_scores
 from backend.app.diagnosis.taxonomy import ALL_MISCONCEPTIONS, NO_MISCONCEPTION, UNCERTAIN
 
@@ -37,6 +38,23 @@ def apply_evidence_weights(records: list[EvidenceRecord]) -> list[EvidenceRecord
         "EXECUTION_SYNTAX_ERROR": w.get("conflicting_diagnostic", -0.20),
         "DIAGNOSTIC_CONFLICTING_OUTCOMES": w.get("conflicting_diagnostic", -0.20),
     }
+    # The C++ static codes carry the same meaning as the Python strong
+    # patterns, so they take the same named weight. They are listed here
+    # rather than in the frozen YAML: the freeze protects the *values*, and
+    # an unmapped code silently fell back to 0.05, which is why no C++ attempt
+    # ever cleared the review threshold.
+    for code in (
+        "CPP_ASSIGN_IN_CONDITION", "CPP_LOOP_LE_BOUND", "CPP_ARRAY_AT_SIZE",
+        "CPP_UNINIT_VAR", "CPP_INT_OVERFLOW_RISK", "CPP_MISSING_BASE_CASE",
+        "CPP_GCC_UNINIT", "CPP_GCC_ASSIGN", "CPP_GCC_BOUNDS", "CPP_GCC_OVERFLOW",
+    ):
+        mapping[code] = w.get("static_strong", 0.30)
+    # One entry per diagnostic tag of both banks. The tag tables live in
+    # `cpp_mapping`, so a new bank tag picks up a weight without a change
+    # here.
+    for tags in TAG_TO_CODE.values():
+        for tag in tags:
+            mapping[f"DIAGNOSTIC_{tag.upper()}_FAIL"] = w.get("diagnostic_match", 0.35)
     decay = cfg.get("history", {}).get("decay_factor", 0.80)
     out: list[EvidenceRecord] = []
     for rec in records:

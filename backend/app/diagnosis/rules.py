@@ -1,13 +1,13 @@
 from __future__ import annotations
 from backend.app.analysis.evidence_models import EvidenceRecord
-from backend.app.diagnosis.taxonomy import ALL_MISCONCEPTIONS, NO_MISCONCEPTION, UNCERTAIN
+from backend.app.diagnosis.taxonomy import SCORED_MISCONCEPTIONS, NO_MISCONCEPTION, UNCERTAIN
 
 CODE_TO_MISCONCEPTION: dict[str, str] = {}
 
 def register(code: str, mid: str) -> None:
     CODE_TO_MISCONCEPTION[code] = mid
 
-for mid in ALL_MISCONCEPTIONS:
+for mid in SCORED_MISCONCEPTIONS:
     register(f"STATIC_{mid.split('_')[0]}_", mid)
 
 STATIC_MAP = {
@@ -23,7 +23,7 @@ def map_evidence(rec: EvidenceRecord) -> str | None:
     return STATIC_MAP.get(rec.evidence_code)
 
 def aggregate_scores(records: list[EvidenceRecord]) -> dict[str, float]:
-    scores = {m: 0.0 for m in ALL_MISCONCEPTIONS}
+    scores = {m: 0.0 for m in SCORED_MISCONCEPTIONS}
     for rec in records:
         mid = map_evidence(rec)
         if mid and mid in scores:

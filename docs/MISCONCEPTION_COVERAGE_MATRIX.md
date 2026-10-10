@@ -195,7 +195,7 @@ The audit mapped the CodeStream problem topics to the taxonomy. The in-repo prob
 3. PROGpedia holds only 659 C++ files. The C++ corpus is small.
 4. CodeStream holds only 1,284 C++ submissions. The corpus is small.
 5. CodeNet holds the largest C++ corpus but no verdicts.
-6. The taxonomy has no C++ diagnostic tests. Each misconception needs its own diagnostic test set.
+6. The taxonomy has no C++ diagnostic tests. Each misconception needs its own diagnostic test set. *Closed by `data/cpp_diagnostics`: 40 problems, 5 per misconception, each with 2 to 4 diagnostic tests, verified by `scripts/verify_cpp_diagnostics.py` and asserted by `backend/tests/test_cpp_diagnostics_bank.py`.*
 7. `CPP-M03` has no direct problem topic in the current CodeStream bank. The team must design a new problem with a return contract.
 
 ## 7. Rules for label creation
