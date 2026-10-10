@@ -384,6 +384,10 @@ def normalize(text: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+# The database `test_cases.test_type` enum uses these values.
+TEST_TYPE = {"public": "visible", "hidden": "hidden", "diagnostic": "diagnostic"}
+
+
 def case_id(problem_id: str, kind: str, index: int) -> str:
     """Return the test-case id. V is visible, H is hidden, D is diagnostic."""
     letter = {"public": "V", "hidden": "H", "diagnostic": "D"}[kind]
@@ -420,14 +424,18 @@ def build() -> dict:
             args = {k: v for k, v in case.items() if k not in ("kind", "tag", "boundary")}
             stdin_text = normalize(render_stdin(problem, args))
             expected = normalize(problem["model"](args))
-            index = counters[pid][kind]
-            cid = case_id(pid, kind, index)
+            kind_index = counters[pid][kind]
             sort_order += 1
+            cid = case_id(pid, kind, kind_index)
+            test_type = TEST_TYPE[kind]
 
+            # The file name uses the global order of the problem. The hidden
+            # folder holds hidden tests and diagnostic tests. A per-kind index
+            # would let a diagnostic file overwrite a hidden file.
             folder = OUT_DIR / "tests" / kind_dir(kind) / pid
             folder.mkdir(parents=True, exist_ok=True)
-            in_path = folder / f"{index:02d}.in"
-            out_path = folder / f"{index:02d}.out"
+            in_path = folder / f"{sort_order:02d}.in"
+            out_path = folder / f"{sort_order:02d}.out"
             in_path.write_bytes(stdin_text.encode("utf-8"))
             out_path.write_bytes(expected.encode("utf-8"))
 
@@ -435,12 +443,12 @@ def build() -> dict:
                 "test_case_id": cid,
                 "problem_id": pid,
                 "misconception": problem["misconception"],
-                "test_type": kind,
+                "test_type": test_type,
                 "partition": kind_dir(kind),
                 "boundary": bool(case.get("boundary", False)),
                 "diagnostic_tag": case.get("tag"),
-                "input_path": str(in_path.relative_to(OUT_DIR)).replace("\\", "/"),
-                "expected_path": str(out_path.relative_to(OUT_DIR)).replace("\\", "/"),
+                "input_file": str(in_path.relative_to(OUT_DIR)).replace("\\", "/"),
+                "expected_file": str(out_path.relative_to(OUT_DIR)).replace("\\", "/"),
                 "sha256_input": sha256(in_path),
                 "sha256_expected": sha256(out_path),
                 "time_limit_ms": TIME_LIMIT_MS,
@@ -451,7 +459,7 @@ def build() -> dict:
             entry: dict = {
                 "id": cid,
                 "name": _case_name(kind, case),
-                "test_type": kind,
+                "test_type": test_type,
                 "input_json": {"stdin": stdin_text},
                 "expected_output_json": expected,
                 "sort_order": sort_order,
