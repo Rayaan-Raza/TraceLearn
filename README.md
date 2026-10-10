@@ -970,6 +970,7 @@ The team obeys these rules:
 | [`docs/LEARNER_STATE_RULES.md`](docs/LEARNER_STATE_RULES.md) | Rules for `NEW` and `PERSISTENT`, and the state changes |
 | [`docs/EXPERIMENT.md`](docs/EXPERIMENT.md) | Fixed weights and the holdout policy |
 | [`docs/ui/`](docs/ui/) | User interface design documents and the demonstration script |
+| [`docs/CI_CD.md`](docs/CI_CD.md) | CI/CD workflows, release tags and the bundle smoke test |
 | [`.env.example`](.env.example) | All settings, with an explanation of each |
 
 ---
