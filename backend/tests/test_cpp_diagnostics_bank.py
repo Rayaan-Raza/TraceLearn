@@ -18,6 +18,7 @@ import json
 import os
 import subprocess
 import sys
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -216,6 +217,21 @@ def independent_expected(problem: dict, case: dict) -> str:
     raise AssertionError(f"no independent model for {pid}")
 
 
+def _normalize_out(text: str) -> str:
+    """Apply the `.out` file contract of `scripts/build_cpp_tests.normalize`.
+
+    Every stored `.out` file holds Unix endings, no trailing whitespace, and
+    exactly one final newline, so a program that prints nothing is stored as a
+    file that holds a single newline. The model returns raw program output, so
+    it must be normalized the same way before it is compared to a file.
+    """
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    lines = [line.rstrip() for line in text.split("\n")]
+    while lines and lines[-1] == "":
+        lines.pop()
+    return "\n".join(lines) + "\n"
+
+
 # ---------------------------------------------------------------------------
 # coverage and structure
 # ---------------------------------------------------------------------------
@@ -299,7 +315,12 @@ def test_variant_file_differs_from_the_reference():
     for problem in new_problems():
         reference = problem["reference_solution_source"]
         variant = problem["misconception_variant_source"]
-        changed = [a for a in reference.splitlines() if a not in variant.splitlines()]
+        # Compare line multisets, not line membership. A mutated line is often
+        # repeated in the reference: CP39 rewrites the `i < n` scan loop, but the
+        # same text also holds the input loop, so a membership test would still
+        # find it and report no change.
+        changed = list((Counter(reference.splitlines())
+                        - Counter(variant.splitlines())).elements())
         assert changed, f"{problem['id']} variant is identical to the reference"
 
 
@@ -433,7 +454,7 @@ def test_expected_output_matches_an_independent_model():
             index = case["sort_order"]
             folder = "public" if case["db_type"] == "visible" else "hidden"
             path = TESTS / folder / problem["id"] / f"{index:02d}.out"
-            assert path.read_bytes().decode("utf-8") == want, path
+            assert path.read_bytes().decode("utf-8") == _normalize_out(want), path
 
 
 def test_input_file_matches_the_manifest():
