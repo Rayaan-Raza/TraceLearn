@@ -16,6 +16,7 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
+reports/
 .mypy_cache/
 
 # Environment & local data
