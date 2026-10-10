@@ -389,6 +389,23 @@ def run_limit_probes(sandbox: Sandbox, report: Report, workdir: Path) -> None:
 # ---------------------------------------------------------------------------
 # per-problem verification
 # ---------------------------------------------------------------------------
+def _child_peak_rss_kb() -> int | None:
+    """Return the largest child peak RSS seen so far, in kilobytes.
+
+    `getrusage(RUSAGE_CHILDREN).ru_maxrss` is a running maximum over all
+    waited-for children. Only one child runs at a time, so the value after a
+    run is that run's peak, unless an earlier child used more memory.
+    """
+    if os.name != "posix":
+        return None
+    try:
+        import resource
+        value = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss
+    except Exception:
+        return None
+    return int(value) if value else None
+
+
 def verify_problem(sandbox: Sandbox, report: Report, problem: dict, *, sanitize: bool) -> dict:
     pid = problem["id"]
     entry: dict = {"problem_id": pid, "misconception": problem["designed_misconception"],
@@ -424,10 +441,12 @@ def verify_problem(sandbox: Sandbox, report: Report, problem: dict, *, sanitize:
             limit_ms = tc.get("time_limit_ms") or TIME_LIMIT_MS
             memory_mb = tc.get("memory_limit_mb") or MEMORY_LIMIT_MB
             runs = []
+            started = time.perf_counter()
             for _ in range(DETERMINISM_RUNS):
                 res = sandbox.run([f"./{pid}"], workdir, stdin_data=stdin_data,
                                   timeout=limit_ms / 1000, memory_mb=memory_mb)
                 runs.append(res)
+            elapsed_ms = (time.perf_counter() - started) * 1000 / DETERMINISM_RUNS
             first = runs[0]
             passed = (first.returncode == 0 and not first.timed_out
                       and tokens(first.stdout) == tokens(expected))
@@ -436,7 +455,8 @@ def verify_problem(sandbox: Sandbox, report: Report, problem: dict, *, sanitize:
                 f"{tc['id']} {tc['test_type']} {_label(tc)} passes and is deterministic",
                 passed and stable,
                 f"expected={expected!r} actual={first.stdout.strip()!r} "
-                f"rc={first.returncode} timed_out={first.timed_out} stable={stable}",
+                f"rc={first.returncode} timed_out={first.timed_out} stable={stable} "
+                f"runtime_ms={elapsed_ms:.1f} peak_rss_kb={_child_peak_rss_kb()}",
             )
             entry["tests"].append({
                 "id": tc["id"], "test_type": tc["test_type"],
@@ -445,7 +465,8 @@ def verify_problem(sandbox: Sandbox, report: Report, problem: dict, *, sanitize:
                 "passed": bool(passed and stable),
                 "expected": expected, "actual": first.stdout.strip(),
                 "returncode": first.returncode, "timed_out": first.timed_out,
-                "runtime_ms": None, "stable": stable,
+                "runtime_ms": round(elapsed_ms, 2), "stable": stable,
+                "peak_child_rss_kb": _child_peak_rss_kb(),
             })
 
         # 5. sanitizer build
