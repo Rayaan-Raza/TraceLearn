@@ -230,7 +230,9 @@ The POC has 3 Python misconception categories and 2 other results:
 
 The C++ analyzer can find evidence for these categories:
 
-`CPP_LOOP_BOUNDARY`, `CPP_OFF_BY_ONE`, `CPP_ARRAY_BOUNDS`, `CPP_UNINITIALIZED_VAR`, `CPP_INT_OVERFLOW`, `CPP_MISSING_BASE_CASE`, `CPP_ASSIGN_VS_COMPARE`, `CPP_WRONG_LOOP_DIR`.
+`CPP_LOOP_BOUNDARY`, `CPP_OFF_BY_ONE`, `CPP_ARRAY_BOUNDS`, `CPP_UNINITIALIZED_VAR`, `CPP_INT_OVERFLOW`, `CPP_MISSING_BASE_CASE`, `CPP_ASSIGN_VS_COMPARE`, `CPP_WRONG_LOOP_DIR`, `CPP_RANGE_CHECK`, `CPP_STALE_EXIT`.
+
+The C++ diagnostic bank writes its problems, hints, and diagnostic tests in a second vocabulary, `CPP-M01` to `CPP-M08`. [`backend/app/diagnosis/cpp_mapping.py`](backend/app/diagnosis/cpp_mapping.py) translates that vocabulary, and every diagnostic test tag, into the codes above. A failing C++ diagnostic test therefore reaches a diagnosis, the learner model, and a hint. The test suite [`backend/tests/test_cpp_end_to_end.py`](backend/tests/test_cpp_end_to_end.py) reads the bank at run time and fails when a tag or a misconception has no mapping.
 
 > **NOTE:** A code pattern is only **evidence** for a misconception. The system must not change one pattern into a permanent label for the student.
 
@@ -955,10 +957,10 @@ The team obeys these rules:
 
 - The isolation of submitted code requires bubblewrap. Without it, do not let other persons use the server.
 - The rate limits are in memory, for each process. If you use more than one worker, also add limits at the reverse proxy.
-- C++ diagnosis is not complete. The C++ evidence codes have no weights in `config/evidence_weights.yaml`. The learner-state updater uses only M01, M02, and M03. Thus the system shows most C++ attempts as "uncertain".
+- C++ runtime evidence is not complete. A C++ crash or timeout is recorded on the submission, but it is not yet linked to a misconception. The mapping table in `backend/app/diagnosis/cpp_mapping.py` covers the static and the diagnostic evidence.
 - The diagnosis uses rules only. It does not use ML or LLM.
 - The data is synthetic only. The metrics show that the POC operates. They do not show that it helps real students.
-- The POC has 3 Python misconceptions and 6 dataset problems. The planned full system has more.
+- The Python bank holds 3 misconceptions and 6 problems. The C++ diagnostic bank adds 8 misconceptions (`CPP-M01` to `CPP-M08`) across 40 problems, and all of them reach the same learner model. The planned full system has more.
 - The evidence weights are temporary values. They are not validated with real data.
 
 ---

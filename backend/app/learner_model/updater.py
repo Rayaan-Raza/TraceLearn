@@ -5,7 +5,7 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 from backend.app.config import settings
 from backend.app.db.models import Diagnosis, EvidenceItem, LearnerState, LearnerStateHistory, MisconceptionState, Submission
-from backend.app.diagnosis.taxonomy import ALL_MISCONCEPTIONS, NO_MISCONCEPTION, UNCERTAIN
+from backend.app.diagnosis.taxonomy import SCORED_MISCONCEPTIONS, NO_MISCONCEPTION, UNCERTAIN
 from backend.app.learner_model.history import HistoryProvider
 from backend.app.learner_model.states import can_become_persistent
 
@@ -21,7 +21,7 @@ class LearnerStateUpdater:
         mid = diagnosis.primary_misconception
         if mid in (NO_MISCONCEPTION, UNCERTAIN):
             return None
-        if mid not in ALL_MISCONCEPTIONS:
+        if mid not in SCORED_MISCONCEPTIONS:
             return None
         existing = (
             db.query(LearnerState)

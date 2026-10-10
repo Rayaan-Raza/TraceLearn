@@ -21,6 +21,8 @@ const MISCONCEPTION_LABELS: Record<string, string> = {
   CPP_MISSING_BASE_CASE: 'Recursion Base Case',
   CPP_ASSIGN_VS_COMPARE: 'Assignment vs Comparison',
   CPP_WRONG_LOOP_DIR: 'Loop Direction',
+  CPP_RANGE_CHECK: 'Range Checks',
+  CPP_STALE_EXIT: 'Stale Loop Exit',
   NO_MISCONCEPTION: 'No misconception',
   UNCERTAIN: 'Uncertain',
   GENERIC: 'General',

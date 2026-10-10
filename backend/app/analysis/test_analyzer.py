@@ -1,16 +1,8 @@
 from __future__ import annotations
-import json
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from backend.app.analysis.evidence_models import EvidenceRecord
-from backend.app.db.models import TestCase, TestResult, TestType
-from backend.app.diagnosis.taxonomy import M01_LOOP_BOUNDARY, M02_INDEX_VALUE, M03_MISSING_RETURN
-
-TAG_TO_MIS = {
-    "upper_boundary": M01_LOOP_BOUNDARY,
-    "empty_list": M02_INDEX_VALUE,
-    "return_value": M03_MISSING_RETURN,
-    "index_vs_value": M02_INDEX_VALUE,
-}
+from backend.app.db.models import Problem, TestCase, TestResult, TestType
+from backend.app.diagnosis.cpp_mapping import code_for_diagnostic_tag
 
 class TestAnalyzer:
     def analyze(self, db: Session, submission_id: int) -> list[EvidenceRecord]:
@@ -18,6 +10,7 @@ class TestAnalyzer:
         rows = (
             db.query(TestResult, TestCase)
             .join(TestCase, TestResult.test_case_id == TestCase.id)
+            .options(joinedload(TestResult.test_case).joinedload(TestCase.problem))
             .filter(TestResult.submission_id == submission_id)
             .all()
         )
@@ -27,7 +20,9 @@ class TestAnalyzer:
             code = f"TEST_{tc.test_type.value.upper()}_FAIL"
             if tc.test_type == TestType.DIAGNOSTIC and tc.diagnostic_tag:
                 code = f"DIAGNOSTIC_{tc.diagnostic_tag.upper()}_FAIL"
-                mid = TAG_TO_MIS.get(tc.diagnostic_tag)
+                # The tag alone is ambiguous: both banks hold `upper_boundary`
+                # under a different target, so the problem language decides.
+                mid = code_for_diagnostic_tag(_language_of(tc), tc.diagnostic_tag)
                 if mid:
                     items.append(EvidenceRecord(
                         source_type="test", evidence_code=code, misconception_id=mid,
@@ -42,13 +37,13 @@ class TestAnalyzer:
                     details={"test_case_id": tc.id},
                 ))
 
-        by_tag: dict[str, list[bool]] = {}
+        by_tag: dict[tuple[str | None, str], list[bool]] = {}
         for tr, tc in rows:
             if tc.test_type == TestType.DIAGNOSTIC and tc.diagnostic_tag:
-                by_tag.setdefault(tc.diagnostic_tag, []).append(tr.passed)
-        for tag, passes in by_tag.items():
+                by_tag.setdefault((_language_of(tc), tc.diagnostic_tag), []).append(tr.passed)
+        for (language, tag), passes in by_tag.items():
             if any(passes) and not all(passes):
-                mid = TAG_TO_MIS.get(tag)
+                mid = code_for_diagnostic_tag(language, tag)
                 items.append(EvidenceRecord(
                     source_type="test", evidence_code="DIAGNOSTIC_CONFLICTING_OUTCOMES",
                     misconception_id=mid, direction="conflict", weight=0.0,
@@ -56,3 +51,8 @@ class TestAnalyzer:
                     details={"tag": tag},
                 ))
         return items
+
+
+def _language_of(tc: TestCase) -> str | None:
+    problem: Problem | None = tc.problem
+    return problem.language if problem else None

@@ -15,8 +15,19 @@ CPP_INT_OVERFLOW = "CPP_INT_OVERFLOW"
 CPP_MISSING_BASE_CASE = "CPP_MISSING_BASE_CASE"
 CPP_ASSIGN_VS_COMPARE = "CPP_ASSIGN_VS_COMPARE"
 CPP_WRONG_LOOP_DIR = "CPP_WRONG_LOOP_DIR"
+# Added for the C++ diagnostic bank. `CPP-M05` (range checks) and `CPP-M08`
+# (a loop that never updates its exit condition) had no backend code of their
+# own, so their evidence could not be scored.
+CPP_RANGE_CHECK = "CPP_RANGE_CHECK"
+CPP_STALE_EXIT = "CPP_STALE_EXIT"
 CPP_MISCONCEPTIONS = [
     CPP_LOOP_BOUNDARY, CPP_OFF_BY_ONE, CPP_ARRAY_BOUNDS,
     CPP_UNINITIALIZED_VAR, CPP_INT_OVERFLOW, CPP_MISSING_BASE_CASE,
     CPP_ASSIGN_VS_COMPARE, CPP_WRONG_LOOP_DIR,
+    CPP_RANGE_CHECK, CPP_STALE_EXIT,
 ]
+
+# The codes the diagnosis scores, aggregates, and writes to the learner model.
+# The Python codes come first so that score ties still resolve to them, which
+# keeps the older evaluation behaviour stable.
+SCORED_MISCONCEPTIONS = ALL_MISCONCEPTIONS + CPP_MISCONCEPTIONS

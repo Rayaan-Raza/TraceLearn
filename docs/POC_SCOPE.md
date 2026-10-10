@@ -17,6 +17,13 @@ and documentation of learner-state and history rules used in later milestones.
 - Production code execution sandbox (see subprocess warning in root `README.md`)
 - Complete `HistoryProvider` implementation (design documented below)
 
+> **Status (October 2026):** all three items above are now implemented. The
+> diagnosis pipeline lives in `backend/app/diagnosis/`, the hint policy in
+> `backend/app/hints/`, the teacher UI in `frontend/src/pages/teacher/`, the
+> sandbox in `backend/app/execution/sandbox.py`, and `HistoryProvider` takes an
+> `as_of` timestamp in `backend/app/learner_model/history.py`. This document
+> keeps the Milestone 1 record unchanged.
+
 ## HistoryProvider and strict temporal causality
 
 Learner history used for diagnosis must never leak information from the future.
