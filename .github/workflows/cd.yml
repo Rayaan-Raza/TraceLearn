@@ -74,3 +74,69 @@ jobs:
           name: release-bundle
           path: release/
           retention-days: 90
+
+  smoke:
+    name: Smoke test the backend bundle
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      APP_ENV: production
+      SANDBOX_MODE: bwrap
+      ENABLE_DEMO_ENDPOINTS: "false"
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-bundle
+          path: release
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install g++ and bubblewrap
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends g++ bubblewrap
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Unpack the backend bundle
+        run: |
+          mkdir app
+          tar -xzf release/tracelearn-backend-*.tar.gz -C app --strip-components=1
+          pip install -r app/requirements.txt
+
+      - name: Set a one-off secret key
+        run: |
+          KEY="$(python -c 'import secrets; print(secrets.token_hex(32))')"
+          echo "::add-mask::${KEY}"
+          echo "SECRET_KEY=${KEY}" >> "$GITHUB_ENV"
+
+      - name: Seed the database and start the backend
+        working-directory: app
+        run: |
+          python scripts/seed_database.py
+          nohup python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 > ../uvicorn.log 2>&1 &
+          for _ in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/health; then echo; exit 0; fi
+            sleep 1
+          done
+          echo "The backend did not answer on /health"
+          exit 1
+
+      - name: Compile and run C++ in the sandbox
+        working-directory: app
+        run: python scripts/verify_cpp_reference.py --only CP01 --no-sanitize
+
+      - name: Check that the bundle matches this commit
+        run: |
+          python - <<'PY'
+          import json, os
+          info = json.load(open("app/BUILD_INFO.json"))
+          assert info["commit"] == os.environ["GITHUB_SHA"], info
+          print("Bundle commit:", info["commit"])
+          PY
+
+      - name: Show the backend log
+        if: always()
+        run: cat uvicorn.log || true
