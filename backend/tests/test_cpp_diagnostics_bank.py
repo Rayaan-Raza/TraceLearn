@@ -32,8 +32,19 @@ MANIFEST = BANK / "problems.json"
 MISCONCEPTIONS = [f"CPP-M0{i}" for i in range(1, 9)]
 TIME_LIMIT_MS = 2000
 MEMORY_LIMIT_MB = 256
-PROBLEMS_PER_MISCONCEPTION = 4
+# The bank holds 5 problems per misconception: one carried over from the first
+# bank (CP01-CP08) and four new ones (CP09-CP40).
+PROBLEMS_PER_MISCONCEPTION = 5
+NEW_PER_MISCONCEPTION = 4
 MIN_TEST_CASES = 7
+# The problems carried over from `data/cpp_problems` hold a valid but different
+# shape: no variant source and no `diagnostic_trait`.
+CARRIED_OVER = {f"CP{i:02d}" for i in range(1, 9)}
+
+
+def new_problems() -> list[dict]:
+    """Return the problems CP09 to CP40. They hold the full definition shape."""
+    return [p for p in load_bank() if p["id"] not in CARRIED_OVER]
 
 
 # ---------------------------------------------------------------------------
@@ -250,8 +261,21 @@ def test_every_problem_has_two_examples():
         assert len(problem["examples"]) >= 2, problem["id"]
         for example in problem["examples"]:
             assert example["input"].strip(), problem["id"]
-            assert example["expected_output"].strip(), problem["id"]
+            # An empty expected output is valid. CP11 prints nothing when the
+            # range holds zero values.
+            assert isinstance(example["expected_output"], str), problem["id"]
             assert example["explanation"].strip(), problem["id"]
+
+
+def test_an_empty_expected_output_only_occurs_where_it_is_valid():
+    """An empty output is valid only when the problem prints no line."""
+    for problem in load_bank():
+        for case in problem["test_cases"]:
+            if case["expected_output"].strip():
+                continue
+            assert problem["id"] == "CP11", (
+                f"{case['id']} holds an empty expected output, but {problem['id']} "
+                "does not permit an empty output")
 
 
 def test_every_problem_has_a_reference_solution():
@@ -263,7 +287,7 @@ def test_every_problem_has_a_reference_solution():
 
 
 def test_every_problem_has_a_misconception_variant():
-    for problem in load_bank():
+    for problem in new_problems():
         name = problem["misconception_variant_id"]
         assert name and name.endswith(".cpp"), problem["id"]
         source = problem["misconception_variant_source"]
@@ -272,11 +296,45 @@ def test_every_problem_has_a_misconception_variant():
 
 
 def test_variant_file_differs_from_the_reference():
-    for problem in load_bank():
+    for problem in new_problems():
         reference = problem["reference_solution_source"]
         variant = problem["misconception_variant_source"]
         changed = [a for a in reference.splitlines() if a not in variant.splitlines()]
         assert changed, f"{problem['id']} variant is identical to the reference"
+
+
+@pytest.mark.parametrize("code", MISCONCEPTIONS)
+def test_four_new_problems_per_misconception(code):
+    problems = new_problems()
+    hit = [p for p in problems if p["primary_misconception_id"] == code]
+    assert len(hit) == NEW_PER_MISCONCEPTION, (
+        f"{code} has {len(hit)} new problems, it needs {NEW_PER_MISCONCEPTION}")
+
+
+def test_carried_over_problems_hold_a_valid_shape():
+    """CP01 to CP08 hold no variant source and no diagnostic trait."""
+    for problem in load_bank():
+        if problem["id"] not in CARRIED_OVER:
+            continue
+        assert not problem.get("misconception_variant_source"), problem["id"]
+        assert len(problem["examples"]) >= 2, problem["id"]
+        for case in problem["test_cases"]:
+            if case["db_type"] == "diagnostic":
+                assert case.get("diagnostic_tag"), case["id"]
+                assert case.get("diagnostic_trait") is None, case["id"]
+
+
+def test_new_problems_carry_a_trait_on_every_diagnostic_test():
+    for problem in new_problems():
+        diagnostic = [c for c in problem["test_cases"] if c["db_type"] == "diagnostic"]
+        assert diagnostic, problem["id"]
+        for case in diagnostic:
+            assert case.get("diagnostic_trait") == problem["primary_misconception_id"], case["id"]
+
+
+def test_every_problem_holds_three_hints():
+    for problem in load_bank():
+        assert len(problem["hints"]) == 3, problem["id"]
 
 
 # ---------------------------------------------------------------------------
@@ -300,7 +358,7 @@ def test_at_least_one_boundary_test_per_problem():
 
 
 def test_diagnostic_tests_carry_the_trait_and_the_tag():
-    for problem in load_bank():
+    for problem in new_problems():
         code = problem["primary_misconception_id"]
         for case in problem["test_cases"]:
             if case["db_type"] == "diagnostic":
@@ -364,8 +422,12 @@ def test_test_files_are_normalized():
 
 
 def test_expected_output_matches_an_independent_model():
-    """The `.out` files must agree with a second, independent model."""
-    for problem in load_bank():
+    """The `.out` files must agree with a second, independent model.
+
+    The model covers the new problems CP09 to CP40. The carried-over problems
+    CP01 to CP08 hold a model in `scripts/build_cpp_tests.py`.
+    """
+    for problem in new_problems():
         for case in problem["test_cases"]:
             want = independent_expected(problem, case)
             index = case["sort_order"]
