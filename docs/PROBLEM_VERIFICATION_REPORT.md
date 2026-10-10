@@ -1,11 +1,21 @@
 # Problem Verification Report
 
-Report id: `CPP-VER-2026-10-10-01`
+Report id: `CPP-VER-2026-10-10-02`
 Date: 10 October 2026
 Author: Agent 4, C++ test author and quality judge
 Taxonomy version: `cpp-taxonomy-0.1`
 Standard: ASD-STE100 Simplified Technical English
-Companion document: [`CPP_MISCONCEPTION_TEST_PLAN.md`](CPP_MISCONCEPTION_TEST_PLAN.md)
+Companion documents: [`CPP_MISCONCEPTION_TEST_PLAN.md`](CPP_MISCONCEPTION_TEST_PLAN.md), [`CPP_DIAGNOSTIC_BANK_METHOD.md`](CPP_DIAGNOSTIC_BANK_METHOD.md)
+
+This report has two parts. Part A verifies the first 8 problems. Part B
+verifies the full 40-problem bank. A later report can supersede an earlier
+part. Always read the newest report id first.
+
+---
+
+# PART A: the first eight problems
+
+Report id: `CPP-VER-2026-10-10-01`
 
 ---
 
@@ -490,3 +500,155 @@ This report records a run of `scripts/verify_cpp_reference.py`. The run used
 `g++ 13.3.0` with `-std=c++17 -O2 -Wall -Wextra`. The run applied a 2000 ms
 wall-clock limit and a 256 MB memory cap. The run passed 149 of 149 checks.
 The report states the three pre-existing test failures by name.
+
+---
+
+# PART B: the full 40-problem bank
+
+Report id: `CPP-VER-2026-10-10-02`
+Date: 10 October 2026
+Author: Agent 4, Lead Curriculum Engineer and C++ QA Architect
+Taxonomy version: `cpp-taxonomy-0.1`
+
+## B1. Purpose
+
+This part records the verification of the unified bank in `data/cpp_diagnostics`. It holds 40 problems: the first 8 problems and 32 new problems. It records the compilation logs, the test assertions, the memory metrics, and the misconception triggers.
+
+Read the bank method in [`CPP_DIAGNOSTIC_BANK_METHOD.md`](CPP_DIAGNOSTIC_BANK_METHOD.md). That document states how the team selected, merged, and verified the bank.
+
+## B2. Result summary
+
+| Item | Measured value |
+|---|---|
+| Problems verified | 40 of 40 |
+| Test cases executed | 305 |
+| Test executions | 915 (each test case runs 3 times) |
+| Checks passed | 581 |
+| Checks failed | 0 |
+| Misconception variants detected | 32 of 32 |
+| Hints seeded | 120 |
+| Reference solutions with `verified` status | 40 of 40 |
+
+The verifier exits with code `0`.
+
+## B3. Check breakdown
+
+| Check family | Count |
+|---|---:|
+| Compile with `-O2 -Wall -Wextra` and no warning | 80 |
+| Compile with the backend flags `-O2 -Wall` | 40 |
+| Run, compare, and repeat 3 times | 305 |
+| AddressSanitizer and UndefinedBehaviorSanitizer | 40 |
+| UBSan inside the 256 MB judged limit | 40 |
+| Misconception variant fails at least one test | 32 |
+| Public examples match the visible test cases | 40 |
+| Sandbox limit probes | 4 |
+| **Total** | **581** |
+
+## B4. Environment
+
+| Item | Measured value |
+|---|---|
+| Compiler | `g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0` |
+| Execution host | WSL 2, Ubuntu 24.04, Linux `6.6.87.2-microsoft-standard` |
+| Sandbox engine | `backend.app.execution.sandbox.run_in_sandbox` |
+| Sandbox mode | `rlimit-only` |
+| Bubblewrap | Not installed in the WSL distribution |
+| Wall-clock limit | 2000 ms |
+| Memory limit | 256 MB |
+
+## B5. Runtime and memory metrics
+
+The verifier ran 305 test cases three times each. It measured the wall-clock time of each run and the child peak RSS.
+
+| Metric | Value |
+|---|---:|
+| Minimum runtime | 4.23 ms |
+| Median runtime | 4.55 ms |
+| Maximum runtime | 10.84 ms |
+| Minimum child peak RSS | 68,876 kB (67.3 MB) |
+| Median child peak RSS | 100,840 kB (98.5 MB) |
+| Maximum child peak RSS | 100,840 kB (98.5 MB) |
+| Memory cap | 262,144 kB (256 MB) |
+
+The wall clock leaves a large margin. The memory cap leaves about 157 MB at the median.
+
+## B6. Misconception triggers
+
+The bank holds 32 misconception variants. The generator builds each variant from a documented text mutation of the reference solution. The verifier compiles each variant and asserts that it fails at least one test case.
+
+All 32 variants failed at least one test case. A sample of the measured triggers:
+
+| Problem | Variant outcome | First failure | Expected | Actual |
+|---|---|---|---|---|
+| `CP09` (`CPP-M01`) | wrong output | `CP09-V1` | `14` | `30` |
+| `CP10` (`CPP-M01`) | wrong output | `CP10-V1` | `2` | `3` |
+| `CP13` (`CPP-M02`) | wrong output | `CP13-V1` | `5` | `0` |
+| `CP16` (`CPP-M02`) | wrong output | `CP16-V1` | `5` | `1` |
+| `CP17` (`CPP-M03`) | wrong output | `CP17-V1` | `7` | `70` |
+| `CP20` (`CPP-M03`) | wrong output | `CP20-V1` | `7` | `61` |
+| `CP21` (`CPP-M04`) | wrong output | `CP21-V1` | `4 1 2 3` | crash |
+| `CP24` (`CPP-M04`) | wrong output | `CP24-V2` | `OUT_OF_RANGE` | `50` |
+| `CP25` (`CPP-M05`) | wrong output | `CP25-V2` | `A` | `INVALID` |
+| `CP28` (`CPP-M05`) | wrong output | `CP28-V1` | `7` | `0` |
+| `CP29` (`CPP-M06`) | wrong output | `CP29-V1` | `ZERO` | `NEGATIVE` |
+| `CP32` (`CPP-M06`) | wrong output | `CP32-V1` | `VOWEL` | `CONSONANT` |
+| `CP33` (`CPP-M07`) | timeout | `CP33-D1` | `1` | no output |
+| `CP36` (`CPP-M07`) | timeout | `CP36-D1` | `1` | no output |
+| `CP37` (`CPP-M08`) | timeout | `CP37-D1` | `NOT FOUND` | no output |
+| `CP40` (`CPP-M08`) | wrong output | `CP40-V3` | `3 6` | `0 0` |
+
+The full machine-readable list is in `data/cpp_diagnostics/exports/verification_report.json`.
+
+## B7. Sanitizer results
+
+Every reference solution compiles with `-fsanitize=address,undefined`. Every test case runs clean. No solution reports a sanitizer error. Every solution also runs clean under `-fsanitize=undefined` inside the 256 MB judged limit.
+
+## B8. Sandbox limit validation
+
+Two probe programs validated the limits.
+
+| Probe | Request | Result |
+|---|---|---|
+| Memory | 512 MB allocation | `std::bad_alloc`, return code -6, `memory_limit_hit=True`, 33 ms |
+| Wall clock | infinite loop | timeout, return code -9, 2003 ms |
+
+## B9. Database seeding
+
+`scripts/seed_cpp_diagnostics.py` wrote the bank into the database.
+
+| Table | Rows written |
+|---|---:|
+| `problems` | 40 |
+| `test_cases` | 305 |
+| `problem_hints` | 120 |
+| `problem_solutions` | 40 |
+
+The seeder is idempotent. A second run replaces the same rows. The counts do not double.
+
+## B10. Known environment limit
+
+The backend judge needs `g++` on `PATH`. This Windows host has no `g++`. Thus `run_submission_tests` returns `syntax_error` with the message `Compiler failed to start` on this host. That is an environment limit, not a bank defect.
+
+The verifier proves the bank. It re-runs itself inside WSL, where `g++` exists. The 581 checks above ran in that environment.
+
+Three tests in `backend/tests/test_security.py` fail on this host for the same reason. They pass on a Linux host with `g++` and `bubblewrap`.
+
+## B11. Reproduce these results
+
+```
+python scripts/build_cpp_diagnostics.py
+python scripts/verify_cpp_diagnostics.py
+python scripts/seed_cpp_diagnostics.py
+python -m pytest backend/tests/ -q
+```
+
+Verify one problem only:
+
+```
+python scripts/verify_cpp_diagnostics.py --only CP25
+```
+
+## B12. Sign-off
+
+This part records a run of `scripts/verify_cpp_diagnostics.py`. The run used `g++ 13.3.0` with `-std=c++17 -O2 -Wall -Wextra`. The run applied a 2000 ms wall-clock limit and a 256 MB memory cap. The run passed 581 of 581 checks. All 32 misconception variants failed at least one test case.
