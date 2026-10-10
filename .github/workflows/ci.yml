@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install g++ and bubblewrap
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends g++ bubblewrap
+
+      # Ubuntu 24.04 blocks unprivileged user namespaces through AppArmor.
+      # bubblewrap needs them to build the sandbox.
+      - name: Allow unprivileged user namespaces
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
+      - name: Check that the sandbox works
+        run: python -c "from backend.app.execution.sandbox import bwrap_path; assert bwrap_path(), 'bubblewrap is not usable'"
+
+      - name: Run backend tests
+        env:
+          SANDBOX_MODE: bwrap
+        run: python -m pytest backend/tests -q
