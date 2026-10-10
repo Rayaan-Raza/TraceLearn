@@ -25,7 +25,7 @@
     "time_limit_ms": 2000,
     "memory_limit_mb": 256,
     "determinism_runs": 3,
-    "run_utc": "2026-10-10T08:28:42Z"
+    "run_utc": "2026-10-10T08:48:17Z"
   },
   "summary": {
     "checks": 149,
@@ -41,7 +41,7 @@
     {
       "name": "probe 512MB allocation is stopped by the 256MB limit",
       "passed": true,
-      "detail": "returncode=-6 timed_out=False memory_limit_hit=True elapsed_ms=33"
+      "detail": "returncode=-6 timed_out=False memory_limit_hit=True elapsed_ms=17"
     },
     {
       "name": "probe infinite loop compiles",
@@ -51,7 +51,7 @@
     {
       "name": "probe infinite loop is stopped at the 2000ms wall clock",
       "passed": true,
-      "detail": "timed_out=True elapsed_ms=2003 returncode=-9"
+      "detail": "timed_out=True elapsed_ms=2002 returncode=-9"
     },
     {
       "name": "CP01 compiles with -O2 -Wall -Wextra",
@@ -71,47 +71,47 @@
     {
       "name": "CP01-V1 visible CP01-V1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='10\\n' actual='10' rc=0 timed_out=False stable=True runtime_ms=10.3 peak_rss_kb=68740"
+      "detail": "expected='10\\n' actual='10' rc=0 timed_out=False stable=True runtime_ms=6.1 peak_rss_kb=68920"
     },
     {
       "name": "CP01-V2 visible CP01-V2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=68740"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=68920"
     },
     {
       "name": "CP01-V3 visible CP01-V3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=68740"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=68920"
     },
     {
       "name": "CP01-H1 hidden CP01-H1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='4950\\n' actual='4950' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=68740"
+      "detail": "expected='4950\\n' actual='4950' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=68920"
     },
     {
       "name": "CP01-H2 hidden CP01-H2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='499500\\n' actual='499500' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=68740"
+      "detail": "expected='499500\\n' actual='499500' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=68920"
     },
     {
       "name": "CP01-H3 hidden CP01-H3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='666\\n' actual='666' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=68740"
+      "detail": "expected='666\\n' actual='666' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=68920"
     },
     {
       "name": "CP01-D1 diagnostic upper_boundary passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=68740"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=68920"
     },
     {
       "name": "CP01-D2 diagnostic upper_boundary passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=68740"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=68920"
     },
     {
       "name": "CP01-D3 diagnostic upper_boundary passes and is deterministic",
       "passed": true,
-      "detail": "expected='36\\n' actual='36' rc=0 timed_out=False stable=True runtime_ms=4.8 peak_rss_kb=68740"
+      "detail": "expected='36\\n' actual='36' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=68920"
     },
     {
       "name": "CP01 runs clean under AddressSanitizer and UBSan",
@@ -156,52 +156,52 @@
     {
       "name": "CP02-V1 visible CP02-V1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=7.8 peak_rss_kb=73360"
+      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=6.5 peak_rss_kb=73196"
     },
     {
       "name": "CP02-V2 visible CP02-V2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='-2\\n' actual='-2' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73360"
+      "detail": "expected='-2\\n' actual='-2' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=73196"
     },
     {
       "name": "CP02-V3 visible CP02-V3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='4\\n' actual='4' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=73360"
+      "detail": "expected='4\\n' actual='4' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=73196"
     },
     {
       "name": "CP02-H1 hidden CP02-H1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='42\\n' actual='42' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73360"
+      "detail": "expected='42\\n' actual='42' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=73196"
     },
     {
       "name": "CP02-H2 hidden CP02-H2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='1000000\\n' actual='1000000' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73360"
+      "detail": "expected='1000000\\n' actual='1000000' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73196"
     },
     {
       "name": "CP02-H3 hidden CP02-H3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73360"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=73196"
     },
     {
       "name": "CP02-H4 hidden CP02-H4 passes and is deterministic",
       "passed": true,
-      "detail": "expected='NONE\\n' actual='NONE' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73360"
+      "detail": "expected='NONE\\n' actual='NONE' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=73196"
     },
     {
       "name": "CP02-D1 diagnostic value_not_index passes and is deterministic",
       "passed": true,
-      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=73360"
+      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73196"
     },
     {
       "name": "CP02-D2 diagnostic duplicate_values passes and is deterministic",
       "passed": true,
-      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=4.9 peak_rss_kb=73360"
+      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=73196"
     },
     {
       "name": "CP02-D3 diagnostic value_not_index passes and is deterministic",
       "passed": true,
-      "detail": "expected='-1\\n' actual='-1' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=73360"
+      "detail": "expected='-1\\n' actual='-1' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73196"
     },
     {
       "name": "CP02 runs clean under AddressSanitizer and UBSan",
@@ -241,47 +241,47 @@
     {
       "name": "CP03-V1 visible CP03-V1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=7.9 peak_rss_kb=86816"
+      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=7.5 peak_rss_kb=86700"
     },
     {
       "name": "CP03-V2 visible CP03-V2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86700"
     },
     {
       "name": "CP03-V3 visible CP03-V3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='21\\n' actual='21' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=86816"
+      "detail": "expected='21\\n' actual='21' rc=0 timed_out=False stable=True runtime_ms=7.4 peak_rss_kb=86700"
     },
     {
       "name": "CP03-H1 hidden CP03-H1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='3\\n' actual='3' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='3\\n' actual='3' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86700"
     },
     {
       "name": "CP03-H2 hidden CP03-H2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='51\\n' actual='51' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='51\\n' actual='51' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86700"
     },
     {
       "name": "CP03-H3 hidden CP03-H3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='-13\\n' actual='-13' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='-13\\n' actual='-13' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86700"
     },
     {
       "name": "CP03-D1 diagnostic return_channel passes and is deterministic",
       "passed": true,
-      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86816"
+      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86700"
     },
     {
       "name": "CP03-D2 diagnostic return_channel passes and is deterministic",
       "passed": true,
-      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=86816"
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86700"
     },
     {
       "name": "CP03-D3 diagnostic return_channel passes and is deterministic",
       "passed": true,
-      "detail": "expected='15\\n' actual='15' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='15\\n' actual='15' rc=0 timed_out=False stable=True runtime_ms=5.7 peak_rss_kb=86700"
     },
     {
       "name": "CP03 runs clean under AddressSanitizer and UBSan",
@@ -326,47 +326,47 @@
     {
       "name": "CP04-V1 visible CP04-V1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='50\\n' actual='50' rc=0 timed_out=False stable=True runtime_ms=6.1 peak_rss_kb=86816"
+      "detail": "expected='50\\n' actual='50' rc=0 timed_out=False stable=True runtime_ms=5.0 peak_rss_kb=86700"
     },
     {
       "name": "CP04-V2 visible CP04-V2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='7\\n' actual='7' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=86816"
+      "detail": "expected='7\\n' actual='7' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86700"
     },
     {
       "name": "CP04-V3 visible CP04-V3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='EMPTY\\n' actual='EMPTY' rc=0 timed_out=False stable=True runtime_ms=6.1 peak_rss_kb=86816"
+      "detail": "expected='EMPTY\\n' actual='EMPTY' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86700"
     },
     {
       "name": "CP04-H1 hidden CP04-H1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='4\\n' actual='4' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86816"
+      "detail": "expected='4\\n' actual='4' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86700"
     },
     {
       "name": "CP04-H2 hidden CP04-H2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=7.6 peak_rss_kb=86700"
     },
     {
       "name": "CP04-H3 hidden CP04-H3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='-3\\n' actual='-3' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='-3\\n' actual='-3' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86700"
     },
     {
       "name": "CP04-D1 diagnostic size_zero passes and is deterministic",
       "passed": true,
-      "detail": "expected='EMPTY\\n' actual='EMPTY' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='EMPTY\\n' actual='EMPTY' rc=0 timed_out=False stable=True runtime_ms=7.4 peak_rss_kb=86700"
     },
     {
       "name": "CP04-D2 diagnostic size_one passes and is deterministic",
       "passed": true,
-      "detail": "expected='99\\n' actual='99' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86816"
+      "detail": "expected='99\\n' actual='99' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86700"
     },
     {
       "name": "CP04-D3 diagnostic last_valid_index passes and is deterministic",
       "passed": true,
-      "detail": "expected='50\\n' actual='50' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='50\\n' actual='50' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86700"
     },
     {
       "name": "CP04 runs clean under AddressSanitizer and UBSan",
@@ -386,7 +386,7 @@
     {
       "name": "CP04__CPP-M04_b.sanitize-only.cpp is detected by AddressSanitizer",
       "passed": true,
-      "detail": "================================================================= ==1094==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x503000000054 at pc 0x603fabbd36a6 bp "
+      "detail": "================================================================= ==1094==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x503000000054 at pc 0x61546f8ee6a6 bp "
     },
     {
       "name": "CP04__HARDNEG_full_traversal.cpp is a hard negative and passes every test",
@@ -416,62 +416,62 @@
     {
       "name": "CP05-V1 visible CP05-V1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=7.8 peak_rss_kb=86816"
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=5.1 peak_rss_kb=86780"
     },
     {
       "name": "CP05-V2 visible CP05-V2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=7.5 peak_rss_kb=86816"
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86780"
     },
     {
       "name": "CP05-V3 visible CP05-V3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86780"
     },
     {
       "name": "CP05-H1 hidden CP05-H1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86816"
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86780"
     },
     {
       "name": "CP05-H2 hidden CP05-H2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86816"
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=6.2 peak_rss_kb=86780"
     },
     {
       "name": "CP05-H3 hidden CP05-H3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86780"
     },
     {
       "name": "CP05-H4 hidden CP05-H4 passes and is deterministic",
       "passed": true,
-      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86816"
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86780"
     },
     {
       "name": "CP05-H5 hidden CP05-H5 passes and is deterministic",
       "passed": true,
-      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86816"
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86780"
     },
     {
       "name": "CP05-D1 diagnostic lower_bound passes and is deterministic",
       "passed": true,
-      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.8 peak_rss_kb=86780"
     },
     {
       "name": "CP05-D2 diagnostic upper_bound passes and is deterministic",
       "passed": true,
-      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86816"
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86780"
     },
     {
       "name": "CP05-D3 diagnostic above_range passes and is deterministic",
       "passed": true,
-      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86780"
     },
     {
       "name": "CP05-D4 diagnostic below_range passes and is deterministic",
       "passed": true,
-      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86816"
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86780"
     },
     {
       "name": "CP05 runs clean under AddressSanitizer and UBSan",
@@ -521,47 +521,47 @@
     {
       "name": "CP06-V1 visible CP06-V1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86816"
+      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=4.8 peak_rss_kb=86780"
     },
     {
       "name": "CP06-V2 visible CP06-V2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86816"
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86780"
     },
     {
       "name": "CP06-V3 visible CP06-V3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86780"
     },
     {
       "name": "CP06-H1 hidden CP06-H1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86780"
     },
     {
       "name": "CP06-H2 hidden CP06-H2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86780"
     },
     {
       "name": "CP06-H3 hidden CP06-H3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86780"
     },
     {
       "name": "CP06-H4 hidden CP06-H4 passes and is deterministic",
       "passed": true,
-      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=5.7 peak_rss_kb=86816"
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86780"
     },
     {
       "name": "CP06-D1 diagnostic zero_input passes and is deterministic",
       "passed": true,
-      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86816"
+      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86780"
     },
     {
       "name": "CP06-D2 diagnostic nonzero_input passes and is deterministic",
       "passed": true,
-      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=7.3 peak_rss_kb=86816"
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86780"
     },
     {
       "name": "CP06 runs clean under AddressSanitizer and UBSan",
@@ -621,47 +621,47 @@
     {
       "name": "CP07-V1 visible CP07-V1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=8.0 peak_rss_kb=86816"
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=5.0 peak_rss_kb=86780"
     },
     {
       "name": "CP07-V2 visible CP07-V2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='120\\n' actual='120' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='120\\n' actual='120' rc=0 timed_out=False stable=True runtime_ms=7.4 peak_rss_kb=86780"
     },
     {
       "name": "CP07-V3 visible CP07-V3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=5.8 peak_rss_kb=86816"
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86780"
     },
     {
       "name": "CP07-H1 hidden CP07-H1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='3628800\\n' actual='3628800' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='3628800\\n' actual='3628800' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86780"
     },
     {
       "name": "CP07-H2 hidden CP07-H2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='2432902008176640000\\n' actual='2432902008176640000' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='2432902008176640000\\n' actual='2432902008176640000' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86780"
     },
     {
       "name": "CP07-H3 hidden CP07-H3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='6\\n' actual='6' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86816"
+      "detail": "expected='6\\n' actual='6' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86780"
     },
     {
       "name": "CP07-D1 diagnostic base_case passes and is deterministic",
       "passed": true,
-      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86816"
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=6.1 peak_rss_kb=86780"
     },
     {
       "name": "CP07-D2 diagnostic one_step passes and is deterministic",
       "passed": true,
-      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86816"
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=6.2 peak_rss_kb=86780"
     },
     {
       "name": "CP07-D3 diagnostic several_steps passes and is deterministic",
       "passed": true,
-      "detail": "expected='720\\n' actual='720' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86816"
+      "detail": "expected='720\\n' actual='720' rc=0 timed_out=False stable=True runtime_ms=5.9 peak_rss_kb=86780"
     },
     {
       "name": "CP07 runs clean under AddressSanitizer and UBSan",
@@ -706,52 +706,52 @@
     {
       "name": "CP08-V1 visible CP08-V1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='2\\n' actual='2' rc=0 timed_out=False stable=True runtime_ms=5.8 peak_rss_kb=86816"
+      "detail": "expected='2\\n' actual='2' rc=0 timed_out=False stable=True runtime_ms=4.2 peak_rss_kb=86780"
     },
     {
       "name": "CP08-V2 visible CP08-V2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=6.1 peak_rss_kb=86816"
+      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=6.2 peak_rss_kb=86780"
     },
     {
       "name": "CP08-V3 visible CP08-V3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.8 peak_rss_kb=86816"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=5.3 peak_rss_kb=86780"
     },
     {
       "name": "CP08-H1 hidden CP08-H1 passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=6.3 peak_rss_kb=86816"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=6.3 peak_rss_kb=86780"
     },
     {
       "name": "CP08-H2 hidden CP08-H2 passes and is deterministic",
       "passed": true,
-      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=6.0 peak_rss_kb=86780"
     },
     {
       "name": "CP08-H3 hidden CP08-H3 passes and is deterministic",
       "passed": true,
-      "detail": "expected='2\\n' actual='2' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='2\\n' actual='2' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=86780"
     },
     {
       "name": "CP08-H4 hidden CP08-H4 passes and is deterministic",
       "passed": true,
-      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=4.8 peak_rss_kb=86816"
+      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=4.8 peak_rss_kb=86780"
     },
     {
       "name": "CP08-D1 diagnostic immediate_find passes and is deterministic",
       "passed": true,
-      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=86816"
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=5.2 peak_rss_kb=86780"
     },
     {
       "name": "CP08-D2 diagnostic absent_target passes and is deterministic",
       "passed": true,
-      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86816"
+      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=5.5 peak_rss_kb=86780"
     },
     {
       "name": "CP08-D3 diagnostic last_index passes and is deterministic",
       "passed": true,
-      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=86816"
+      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=86780"
     },
     {
       "name": "CP08 runs clean under AddressSanitizer and UBSan",
@@ -794,9 +794,9 @@
           "actual": "10",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 10.34,
+          "runtime_ms": 6.14,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         },
         {
           "id": "CP01-V2",
@@ -808,9 +808,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.98,
+          "runtime_ms": 4.45,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         },
         {
           "id": "CP01-V3",
@@ -822,9 +822,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.53,
+          "runtime_ms": 4.44,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         },
         {
           "id": "CP01-H1",
@@ -836,9 +836,9 @@
           "actual": "4950",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.73,
+          "runtime_ms": 4.57,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         },
         {
           "id": "CP01-H2",
@@ -850,9 +850,9 @@
           "actual": "499500",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.55,
+          "runtime_ms": 4.54,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         },
         {
           "id": "CP01-H3",
@@ -864,9 +864,9 @@
           "actual": "666",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.53,
+          "runtime_ms": 4.38,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         },
         {
           "id": "CP01-D1",
@@ -878,9 +878,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.59,
+          "runtime_ms": 4.54,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         },
         {
           "id": "CP01-D2",
@@ -892,9 +892,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.67,
+          "runtime_ms": 6.01,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         },
         {
           "id": "CP01-D3",
@@ -906,9 +906,9 @@
           "actual": "36",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.8,
+          "runtime_ms": 4.62,
           "stable": true,
-          "peak_child_rss_kb": 68740
+          "peak_child_rss_kb": 68920
         }
       ],
       "variants": [
@@ -961,7 +961,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 918.9,
+        "elapsed_ms": 969.6,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -990,9 +990,9 @@
           "actual": "9",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 7.76,
+          "runtime_ms": 6.53,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-V2",
@@ -1004,9 +1004,9 @@
           "actual": "-2",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.48,
+          "runtime_ms": 5.94,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-V3",
@@ -1018,9 +1018,9 @@
           "actual": "4",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.33,
+          "runtime_ms": 5.85,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-H1",
@@ -1032,9 +1032,9 @@
           "actual": "42",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.43,
+          "runtime_ms": 5.91,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-H2",
@@ -1046,9 +1046,9 @@
           "actual": "1000000",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.46,
+          "runtime_ms": 4.44,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-H3",
@@ -1060,9 +1060,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.49,
+          "runtime_ms": 5.96,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-H4",
@@ -1074,9 +1074,9 @@
           "actual": "NONE",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.44,
+          "runtime_ms": 4.56,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-D1",
@@ -1088,9 +1088,9 @@
           "actual": "9",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.55,
+          "runtime_ms": 4.35,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-D2",
@@ -1102,9 +1102,9 @@
           "actual": "5",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.87,
+          "runtime_ms": 4.61,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         },
         {
           "id": "CP02-D3",
@@ -1116,9 +1116,9 @@
           "actual": "-1",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.61,
+          "runtime_ms": 4.46,
           "stable": true,
-          "peak_child_rss_kb": 73360
+          "peak_child_rss_kb": 73196
         }
       ],
       "variants": [
@@ -1160,7 +1160,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 969.2,
+        "elapsed_ms": 969.9,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1189,9 +1189,9 @@
           "actual": "9",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 7.85,
+          "runtime_ms": 7.53,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP03-V2",
@@ -1203,9 +1203,9 @@
           "actual": "1",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.63,
+          "runtime_ms": 5.9,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP03-V3",
@@ -1217,9 +1217,9 @@
           "actual": "21",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.65,
+          "runtime_ms": 7.37,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP03-H1",
@@ -1231,9 +1231,9 @@
           "actual": "3",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.63,
+          "runtime_ms": 4.64,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP03-H2",
@@ -1245,9 +1245,9 @@
           "actual": "51",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.52,
+          "runtime_ms": 6.04,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP03-H3",
@@ -1259,9 +1259,9 @@
           "actual": "-13",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.5,
+          "runtime_ms": 5.98,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP03-D1",
@@ -1273,9 +1273,9 @@
           "actual": "9",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.34,
+          "runtime_ms": 5.94,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP03-D2",
@@ -1287,9 +1287,9 @@
           "actual": "1",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.66,
+          "runtime_ms": 4.63,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP03-D3",
@@ -1301,9 +1301,9 @@
           "actual": "15",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.45,
+          "runtime_ms": 5.75,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         }
       ],
       "variants": [
@@ -1346,7 +1346,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 869.2,
+        "elapsed_ms": 868.6,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1380,9 +1380,9 @@
           "actual": "50",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 6.08,
+          "runtime_ms": 5.01,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP04-V2",
@@ -1394,9 +1394,9 @@
           "actual": "7",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.67,
+          "runtime_ms": 4.47,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP04-V3",
@@ -1408,9 +1408,9 @@
           "actual": "EMPTY",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 6.1,
+          "runtime_ms": 5.89,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP04-H1",
@@ -1422,9 +1422,9 @@
           "actual": "4",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 6.02,
+          "runtime_ms": 5.97,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP04-H2",
@@ -1436,9 +1436,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.6,
+          "runtime_ms": 7.56,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP04-H3",
@@ -1450,9 +1450,9 @@
           "actual": "-3",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.53,
+          "runtime_ms": 6.01,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP04-D1",
@@ -1464,9 +1464,9 @@
           "actual": "EMPTY",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.47,
+          "runtime_ms": 7.43,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP04-D2",
@@ -1478,9 +1478,9 @@
           "actual": "99",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.35,
+          "runtime_ms": 4.4,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         },
         {
           "id": "CP04-D3",
@@ -1492,9 +1492,9 @@
           "actual": "50",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.55,
+          "runtime_ms": 5.98,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86700
         }
       ],
       "variants": [
@@ -1574,7 +1574,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 919.2,
+        "elapsed_ms": 919.4,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1603,9 +1603,9 @@
           "actual": "IN",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 7.83,
+          "runtime_ms": 5.11,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-V2",
@@ -1617,9 +1617,9 @@
           "actual": "OUT",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 7.54,
+          "runtime_ms": 4.59,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-V3",
@@ -1631,9 +1631,9 @@
           "actual": "IN",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.62,
+          "runtime_ms": 4.55,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-H1",
@@ -1645,9 +1645,9 @@
           "actual": "IN",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.4,
+          "runtime_ms": 4.51,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-H2",
@@ -1659,9 +1659,9 @@
           "actual": "OUT",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 6.03,
+          "runtime_ms": 6.18,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-H3",
@@ -1673,9 +1673,9 @@
           "actual": "OUT",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.64,
+          "runtime_ms": 4.52,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-H4",
@@ -1687,9 +1687,9 @@
           "actual": "OUT",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 6.02,
+          "runtime_ms": 4.65,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-H5",
@@ -1701,9 +1701,9 @@
           "actual": "OUT",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.91,
+          "runtime_ms": 4.39,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-D1",
@@ -1715,9 +1715,9 @@
           "actual": "IN",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.57,
+          "runtime_ms": 4.79,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-D2",
@@ -1729,9 +1729,9 @@
           "actual": "IN",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.33,
+          "runtime_ms": 4.45,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-D3",
@@ -1743,9 +1743,9 @@
           "actual": "OUT",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.45,
+          "runtime_ms": 5.99,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP05-D4",
@@ -1757,9 +1757,9 @@
           "actual": "OUT",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 6.04,
+          "runtime_ms": 4.51,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         }
       ],
       "variants": [
@@ -1813,7 +1813,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 918.7,
+        "elapsed_ms": 919.8,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -1842,9 +1842,9 @@
           "actual": "ZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.4,
+          "runtime_ms": 4.77,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP06-V2",
@@ -1856,9 +1856,9 @@
           "actual": "NONZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.33,
+          "runtime_ms": 4.35,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP06-V3",
@@ -1870,9 +1870,9 @@
           "actual": "NONZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.51,
+          "runtime_ms": 4.36,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP06-H1",
@@ -1884,9 +1884,9 @@
           "actual": "NONZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.56,
+          "runtime_ms": 5.96,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP06-H2",
@@ -1898,9 +1898,9 @@
           "actual": "ZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.49,
+          "runtime_ms": 4.35,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP06-H3",
@@ -1912,9 +1912,9 @@
           "actual": "NONZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.49,
+          "runtime_ms": 4.35,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP06-H4",
@@ -1926,9 +1926,9 @@
           "actual": "NONZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.75,
+          "runtime_ms": 4.53,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP06-D1",
@@ -1940,9 +1940,9 @@
           "actual": "ZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.88,
+          "runtime_ms": 4.32,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP06-D2",
@@ -1954,9 +1954,9 @@
           "actual": "NONZERO",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 7.32,
+          "runtime_ms": 5.94,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         }
       ],
       "variants": [
@@ -2019,7 +2019,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 868.3,
+        "elapsed_ms": 868.9,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -2048,9 +2048,9 @@
           "actual": "1",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 8.0,
+          "runtime_ms": 4.98,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP07-V2",
@@ -2062,9 +2062,9 @@
           "actual": "120",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.62,
+          "runtime_ms": 7.39,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP07-V3",
@@ -2076,9 +2076,9 @@
           "actual": "1",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.78,
+          "runtime_ms": 4.54,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP07-H1",
@@ -2090,9 +2090,9 @@
           "actual": "3628800",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.65,
+          "runtime_ms": 6.02,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP07-H2",
@@ -2104,9 +2104,9 @@
           "actual": "2432902008176640000",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.6,
+          "runtime_ms": 6.01,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP07-H3",
@@ -2118,9 +2118,9 @@
           "actual": "6",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.88,
+          "runtime_ms": 4.61,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP07-D1",
@@ -2132,9 +2132,9 @@
           "actual": "1",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.93,
+          "runtime_ms": 6.12,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP07-D2",
@@ -2146,9 +2146,9 @@
           "actual": "1",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.91,
+          "runtime_ms": 6.16,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP07-D3",
@@ -2160,9 +2160,9 @@
           "actual": "720",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.49,
+          "runtime_ms": 5.93,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         }
       ],
       "variants": [
@@ -2238,7 +2238,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 868.9,
+        "elapsed_ms": 918.6,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -2267,9 +2267,9 @@
           "actual": "2",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 5.83,
+          "runtime_ms": 4.22,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-V2",
@@ -2281,9 +2281,9 @@
           "actual": "NOT FOUND",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 6.13,
+          "runtime_ms": 6.23,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-V3",
@@ -2295,9 +2295,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.79,
+          "runtime_ms": 5.31,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-H1",
@@ -2309,9 +2309,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 6.3,
+          "runtime_ms": 6.31,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-H2",
@@ -2323,9 +2323,9 @@
           "actual": "5",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.62,
+          "runtime_ms": 6.03,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-H3",
@@ -2337,9 +2337,9 @@
           "actual": "2",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.63,
+          "runtime_ms": 4.66,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-H4",
@@ -2351,9 +2351,9 @@
           "actual": "NOT FOUND",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.8,
+          "runtime_ms": 4.78,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-D1",
@@ -2365,9 +2365,9 @@
           "actual": "0",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.66,
+          "runtime_ms": 5.16,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-D2",
@@ -2379,9 +2379,9 @@
           "actual": "NOT FOUND",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.56,
+          "runtime_ms": 5.52,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         },
         {
           "id": "CP08-D3",
@@ -2393,9 +2393,9 @@
           "actual": "5",
           "returncode": 0,
           "timed_out": false,
-          "runtime_ms": 4.7,
+          "runtime_ms": 4.66,
           "stable": true,
-          "peak_child_rss_kb": 86816
+          "peak_child_rss_kb": 86780
         }
       ],
       "variants": [
@@ -2471,7 +2471,7 @@
         ],
         "ok": true,
         "diagnostics": "",
-        "elapsed_ms": 969.2,
+        "elapsed_ms": 1121.0,
         "backend_flags_ok": true,
         "backend_flag_diagnostics": ""
       },
@@ -2494,13 +2494,13 @@
       "returncode": -6,
       "timed_out": false,
       "memory_limit_hit": true,
-      "elapsed_ms": 32.8,
+      "elapsed_ms": 16.7,
       "stderr_tail": "terminate called after throwing an instance of 'std::bad_alloc'\n  what():  std::bad_alloc\n"
     },
     "wall_clock": {
       "limit_ms": 2000,
       "timed_out": true,
-      "elapsed_ms": 2002.6,
+      "elapsed_ms": 2002.4,
       "returncode": -9
     }
   }
