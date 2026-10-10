@@ -251,3 +251,30 @@ set TRACELEARN_SKIP_CPP_VERIFY=1
 The plan uses a model to produce the expected output. A bug in the model can
 pass a wrong expected output to both the C++ solution and the test. The second
 independent model reduces this risk. It does not remove the risk.
+
+## 13. The 32-problem extension
+
+The bank grew from 8 problems to 40 problems. The method for the 32 new
+problems is in [`CPP_DIAGNOSTIC_BANK_METHOD.md`](CPP_DIAGNOSTIC_BANK_METHOD.md).
+
+The extension obeys the same rules as the first 8 problems. These rules are
+new:
+
+1. Put 4 problems on each misconception. Recurrence across problems is the
+   main cause of the learner state `PERSISTENT`.
+2. Vary the topic inside each misconception.
+3. Build the misconception variant from a documented text mutation. Do not
+   write a second broken program by hand.
+4. Hold 3 hints per problem. Map every hint to the misconception id.
+5. Keep the reference solution names stable. The mutation depends on them.
+
+The commands for the extended bank are:
+
+```
+python scripts/build_cpp_diagnostics.py
+python scripts/verify_cpp_diagnostics.py
+python scripts/seed_cpp_diagnostics.py
+```
+
+The extended bank reports 40 problems, 305 test cases, 32 variants and 120
+hints. The verifier reports 581 checks. All checks pass.

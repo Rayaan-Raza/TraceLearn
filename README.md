@@ -197,12 +197,16 @@ TraceLearn/
 │   └── vercel.json                 ← Vercel settings
 ├── data/
 │   ├── problems/                   ← problems.json and reference solutions
-│   ├── cpp_problems/               ← C++ diagnostic bank, tests and variants
+│   ├── cpp_problems/               ← C++ diagnostic bank: the first 8 problems
+│   ├── cpp_diagnostics/            ← C++ diagnostic bank: all 40 problems
 │   ├── demo_sequences/             ← SYN001–SYN005 demonstration attempts
 │   ├── evaluation_sequences/       ← EVAL holdout attempts (do not tune on these)
 │   ├── annotations/                ← ground-truth labels (evaluation only)
 │   └── exports/                    ← experiment output files
-├── scripts/                        ← seed, reset, experiment, export, create_teacher, build_cpp_tests, verify_cpp_reference
+├── scripts/                        ← seed, reset, experiment, export, create_teacher,
+│                                     build_cpp_tests, verify_cpp_reference,
+│                                     build_cpp_diagnostics, verify_cpp_diagnostics,
+│                                     seed_cpp_diagnostics
 └── docs/                           ← research documents and UI design documents
 ```
 
@@ -255,7 +259,7 @@ Each problem has 3 types of tests:
 
 ### 9.2 C++ diagnostic problems
 
-The bank in `data/cpp_problems` holds 8 C++ problems. Each problem targets one C++ misconception from the taxonomy `cpp-taxonomy-0.1`. The bank has 77 test cases: 24 visible, 29 hidden and 24 diagnostic. It also holds 12 misconception variants and 4 hard-negative controls.
+The bank in `data/cpp_diagnostics` holds 40 C++ problems. Each problem targets one C++ misconception from the taxonomy `cpp-taxonomy-0.1`. The bank has 305 test cases: 102 visible, 147 hidden and 56 diagnostic. It also holds 32 misconception variants and 120 scaffolding hints.
 
 | ID | Task | Misconception |
 |----|------|--------|
@@ -268,23 +272,40 @@ The bank in `data/cpp_problems` holds 8 C++ problems. Each problem targets one C
 | CP07 | Factorial: compute n! by recursion. Each call approaches the base case. | `CPP-M07` |
 | CP08 | First Position: find the first position of a target. The loop must stop. | `CPP-M08` |
 
-Read the bank rules in [`docs/CPP_MISCONCEPTION_TEST_PLAN.md`](docs/CPP_MISCONCEPTION_TEST_PLAN.md). Read the measured results in [`docs/PROBLEM_VERIFICATION_REPORT.md`](docs/PROBLEM_VERIFICATION_REPORT.md).
+The problems `CP09` to `CP40` give four more problems for each misconception. Read the full list in `data/cpp_diagnostics/problems.json`.
 
-> **NOTE:** These 8 problems are not in the shared problem bank yet. No loader writes them to the `problems` table. A student cannot practice on them until the team adds a loader or a teacher copies them into a bank problem. The count of 8 is the size of the curated data set, not the size of the student catalog.
+Read the bank method in [`docs/CPP_DIAGNOSTIC_BANK_METHOD.md`](docs/CPP_DIAGNOSTIC_BANK_METHOD.md). Read the measured results in [`docs/PROBLEM_VERIFICATION_REPORT.md`](docs/PROBLEM_VERIFICATION_REPORT.md).
 
-Verify the bank with these commands. The commands need `g++` with C++17.
+Seed the bank into the database. After this command a student can practice on all 40 problems.
 
 ```
-python scripts/build_cpp_tests.py
-python scripts/verify_cpp_reference.py
-python -m pytest backend/tests/test_cpp_problem_bank.py -q
+python scripts/seed_cpp_diagnostics.py
 ```
 
-The verifier compiles each reference solution with `g++ -O2 -Wall -Wextra -std=c++17`. It runs every test case with a 2000 ms wall-clock limit and a 256 MB memory limit. It runs each test case three times to check determinism. It builds with `-fsanitize=address,undefined`. It then checks that every misconception variant fails at least one test, and that every hard negative passes all tests.
+Verify the bank. The command needs `g++` with C++17.
 
-> **NOTE:** On Windows the verifier re-executes itself inside WSL. The host needs WSL with `g++` and `python3`. Bubblewrap is not necessary for the resource limits.
+```
+python scripts/build_cpp_diagnostics.py
+python scripts/verify_cpp_diagnostics.py
+```
 
-### 9.3 Teacher problems
+The verifier compiles each reference solution with `g++ -O2 -Wall -Wextra -std=c++17`. It runs every test case with a 2000 ms wall-clock limit and a 256 MB memory limit. It runs each test case three times to check determinism. It builds with `-fsanitize=address,undefined`. It then checks that every misconception variant fails at least one test. The full run reports 581 checks.
+
+> **NOTE:** The verifier needs `g++` and `python3` in a POSIX environment. On Windows it re-runs itself inside WSL. The backend judge needs `g++` on `PATH`. A host without `g++` returns `Compiler failed to start`.
+
+### 9.3 Hints
+
+Each C++ diagnostic problem holds 3 hints. The levels follow a scaffolding order:
+
+| Level | Type | Function |
+|-------|------|----------|
+| 1 | Guiding question | It points at the vulnerable code area. |
+| 2 | Concept reminder | It explains the C++ concept. It does not give the answer. |
+| 3 | Partial correction | It names the syntax to check. |
+
+Every hint carries a misconception id. The student asks for each new level on the result page. The system records each hint that it shows.
+
+### 9.4 Teacher problems
 
 A teacher can write new C++ problems. Each problem has stdin input and an expected output for each test case. The teacher sets each test case as visible or hidden. Only the teacher who wrote the problem can see it. Students can see it only when the teacher assigns it to them.
 
@@ -969,6 +990,10 @@ The team obeys these rules:
 | [`docs/TAXONOMY.md`](docs/TAXONOMY.md) | Definitions of the misconceptions |
 | [`docs/LEARNER_STATE_RULES.md`](docs/LEARNER_STATE_RULES.md) | Rules for `NEW` and `PERSISTENT`, and the state changes |
 | [`docs/EXPERIMENT.md`](docs/EXPERIMENT.md) | Fixed weights and the holdout policy |
+| [`docs/MISCONCEPTION_COVERAGE_MATRIX.md`](docs/MISCONCEPTION_COVERAGE_MATRIX.md) | Coverage requirement for each misconception |
+| [`docs/CPP_MISCONCEPTION_TEST_PLAN.md`](docs/CPP_MISCONCEPTION_TEST_PLAN.md) | Test design rules for each C++ misconception |
+| [`docs/CPP_DIAGNOSTIC_BANK_METHOD.md`](docs/CPP_DIAGNOSTIC_BANK_METHOD.md) | How the team built the 40-problem bank, and how you add a problem |
+| [`docs/PROBLEM_VERIFICATION_REPORT.md`](docs/PROBLEM_VERIFICATION_REPORT.md) | Compilation logs, test assertions, memory metrics |
 | [`docs/ui/`](docs/ui/) | User interface design documents and the demonstration script |
 | [`docs/CI_CD.md`](docs/CI_CD.md) | CI/CD workflows, release tags and the bundle smoke test |
 | [`.env.example`](.env.example) | All settings, with an explanation of each |
