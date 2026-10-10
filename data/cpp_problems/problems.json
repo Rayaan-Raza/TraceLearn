@@ -33,7 +33,7 @@
         {
           "id": "CP01-V1",
           "name": "visible n",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "5\n"
           },
@@ -45,7 +45,7 @@
         {
           "id": "CP01-V2",
           "name": "visible n",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "1\n"
           },
@@ -57,7 +57,7 @@
         {
           "id": "CP01-V3",
           "name": "visible n",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "0\n"
           },
@@ -177,7 +177,7 @@
         {
           "id": "CP02-V1",
           "name": "visible vals",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "3\n7 3 9\n"
           },
@@ -189,7 +189,7 @@
         {
           "id": "CP02-V2",
           "name": "visible vals",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "5\n-5 -9 -2 -4 -8\n"
           },
@@ -201,7 +201,7 @@
         {
           "id": "CP02-V3",
           "name": "visible vals",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "4\n4 4 4 4\n"
           },
@@ -332,7 +332,7 @@
         {
           "id": "CP03-V1",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "4\n"
           },
@@ -344,7 +344,7 @@
         {
           "id": "CP03-V2",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "0\n"
           },
@@ -357,7 +357,7 @@
         {
           "id": "CP03-V3",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "10\n"
           },
@@ -476,7 +476,7 @@
         {
           "id": "CP04-V1",
           "name": "visible vals",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "5\n10 20 30 40 50\n"
           },
@@ -488,7 +488,7 @@
         {
           "id": "CP04-V2",
           "name": "visible vals",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "1\n7\n"
           },
@@ -501,7 +501,7 @@
         {
           "id": "CP04-V3",
           "name": "visible vals",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "0\n"
           },
@@ -621,7 +621,7 @@
         {
           "id": "CP05-V1",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "5\n"
           },
@@ -633,7 +633,7 @@
         {
           "id": "CP05-V2",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "0\n"
           },
@@ -646,7 +646,7 @@
         {
           "id": "CP05-V3",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "10\n"
           },
@@ -802,7 +802,7 @@
         {
           "id": "CP06-V1",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "0\n"
           },
@@ -815,7 +815,7 @@
         {
           "id": "CP06-V2",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "7\n"
           },
@@ -827,7 +827,7 @@
         {
           "id": "CP06-V3",
           "name": "visible x",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "-3\n"
           },
@@ -945,7 +945,7 @@
         {
           "id": "CP07-V1",
           "name": "visible n",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "0\n"
           },
@@ -958,7 +958,7 @@
         {
           "id": "CP07-V2",
           "name": "visible n",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "5\n"
           },
@@ -970,7 +970,7 @@
         {
           "id": "CP07-V3",
           "name": "visible n",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "1\n"
           },
@@ -1090,7 +1090,7 @@
         {
           "id": "CP08-V1",
           "name": "visible vals target",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "5\n10 20 30 40 50\n30\n"
           },
@@ -1102,7 +1102,7 @@
         {
           "id": "CP08-V2",
           "name": "visible vals target",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "4\n1 2 3 4\n9\n"
           },
@@ -1115,7 +1115,7 @@
         {
           "id": "CP08-V3",
           "name": "visible vals target",
-          "test_type": "public",
+          "test_type": "visible",
           "input_json": {
             "stdin": "1\n8\n8\n"
           },
