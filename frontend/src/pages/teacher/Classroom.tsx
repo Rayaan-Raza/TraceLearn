@@ -62,7 +62,7 @@ function Room({ room }: { room: Classroom }) {
         <div className="card-label">Class roster</div>
         <h2 style={{ margin: '0 0 0.85rem' }}>Students in this classroom</h2>
         {overview.students.length === 0 ? (
-          <p className="muted">No students yet — share the join code above.</p>
+          <p className="muted">No students yet.</p>
         ) : (
           <div className="stack" style={{ gap: '0.65rem' }}>
             {overview.students.map((s) => {
@@ -106,7 +106,7 @@ function Room({ room }: { room: Classroom }) {
         </div>
         {assignments.length === 0 ? (
           <p style={{ padding: '0.5rem 1.25rem 1.25rem' }} className="muted">
-            No assignments yet. Create a problem or pick one from the dataset to assign it to the class.
+            No assignments yet.
           </p>
         ) : (
           <table className="table">

@@ -18,7 +18,7 @@ function greeting() {
 export function StudentDashboard() {
   const me = useMe()
   const bundle = useStudentBundle(me.student_id)
-  const extra = useApi(() => Promise.all([api.problems(), api.myAssignments()]), [])
+  const extra = useApi(() => Promise.all([api.practiceProblems(), api.myAssignments()]), [])
 
   if (bundle.loading || extra.loading) return <Loading />
   if (bundle.error || extra.error) return <ErrorState message={(bundle.error || extra.error)!} onRetry={() => { bundle.reload(); extra.reload() }} />
@@ -38,7 +38,6 @@ export function StudentDashboard() {
         <h1 className="welcome">
           {greeting()}, {firstName}
         </h1>
-        <p>Here is what you should focus on next.</p>
       </header>
 
       <div className="grid-2">
@@ -57,14 +56,7 @@ export function StudentDashboard() {
               </div>
               <p>{d.focus.explanation}</p>
             </>
-          ) : (
-            <>
-              <h2>Nothing flagged yet</h2>
-              <p style={{ marginTop: '0.55rem' }}>
-                Solve a few problems and TraceLearn will start spotting patterns across your attempts.
-              </p>
-            </>
-          )}
+          ) : null}
           <div className="btn-row">
             <Link className="btn btn-primary" to="/student/practice">
               Start Practice
@@ -95,8 +87,8 @@ export function StudentDashboard() {
       </div>
 
       <div className="grid-2">
-        <BarChart title="Concepts by state" subtitle="Where each tracked concept currently sits, plus problems solved." points={d.stateCounts} axisNote="X: state · Y: count" />
-        <TimelineChart title="Mistake timeline" subtitle="Cumulative incorrect attempts over time." points={d.mistakeTimeline} />
+        <BarChart title="Concepts by state" points={d.stateCounts} axisNote="X: state · Y: count" />
+        <TimelineChart title="Mistake timeline" points={d.mistakeTimeline} />
       </div>
 
       {activeAssignments.length > 0 && (
@@ -131,17 +123,16 @@ export function StudentDashboard() {
           </Link>
         </div>
         {recommended.length === 0 ? (
-          <p className="muted" style={{ marginTop: '0.75rem' }}>You have solved every available problem. Nice work!</p>
+          <p className="muted" style={{ marginTop: '0.75rem' }}>All problems solved.</p>
         ) : (
           <div className="problem-list" style={{ marginTop: '1rem' }}>
             {recommended.map((p) => (
-              <Link key={p.id} to={`/student/problem/${encodeURIComponent(p.id)}`} className="problem-row">
+              <Link key={p.id} to={`/student/problem/${encodeURIComponent(p.id)}`} className="problem-row" style={{ gridTemplateColumns: '1.6fr 0.8fr 1fr' }}>
                 <div>
                   <div className="title">{p.title}</div>
                   <div className="meta">{p.topic}</div>
                 </div>
                 <div className="meta">{p.difficulty}</div>
-                <div className="meta">{p.language === 'cpp' ? 'C++' : 'Python'}</div>
                 <div>
                   <StatusBadge status={problemStatus(p.id, d, assignedIds, recIds)} />
                 </div>

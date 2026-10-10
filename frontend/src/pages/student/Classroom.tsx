@@ -149,7 +149,7 @@ export function StudentClassroomPage() {
         <h2 style={{ margin: '0 0 0.75rem', fontSize: '1.15rem' }}>Current class assignments</h2>
         {active.length === 0 ? (
           <section className="card">
-            <p className="muted" style={{ margin: 0 }}>No active class assignments right now. When your teacher assigns something, it will show up here and in Practice.</p>
+            <p className="muted" style={{ margin: 0 }}>No active assignments.</p>
           </section>
         ) : (
           <div className="stack">{active.map((a) => card(a, false))}</div>

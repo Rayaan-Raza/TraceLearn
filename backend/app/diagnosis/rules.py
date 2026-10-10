@@ -30,5 +30,7 @@ def aggregate_scores(records: list[EvidenceRecord]) -> dict[str, float]:
             if rec.direction == "support":
                 scores[mid] += rec.weight
             elif rec.direction == "conflict":
-                scores[mid] -= rec.weight * 0.5
+                # Conflict weights are stored negative; abs() keeps the
+                # subtraction from turning into an addition.
+                scores[mid] -= abs(rec.weight) * 0.5
     return scores

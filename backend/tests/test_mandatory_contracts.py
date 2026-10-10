@@ -1,5 +1,6 @@
 from pathlib import Path
 import yaml
+from sqlalchemy import func
 from backend.app.db.models import LearnerState, MisconceptionState, Student, Submission
 from backend.app.learner_model.history import HistoryProvider
 from backend.app.services.submission_service import SubmissionService
@@ -9,7 +10,7 @@ def test_no_future_history_leakage(db):
     from backend.app.db.models import LearnerStateHistory
     hp = HistoryProvider()
     st = db.query(Student).filter(Student.display_name == "SYN005").first()
-    sub = Submission(student_id=st.id, problem_id="P01", attempt_number=99, source_code="def f(): pass")
+    sub = Submission(student_id=st.id, problem_id="P01", attempt_number=1 + (db.query(func.max(Submission.attempt_number)).scalar() or 0), source_code="def f(): pass")
     db.add(sub); db.commit(); db.refresh(sub)
     db.add(LearnerStateHistory(
         student_id=st.id, misconception_id="M01_LOOP_BOUNDARY",
@@ -34,6 +35,7 @@ def test_same_problem_repetition_does_not_automatically_mean_persistent(db):
 
 def test_cross_problem_recurrence_can_create_persistent_state(db, client):
     db.query(LearnerState).delete(); db.commit()
+    client.post("/api/demo/reset")
     client.post("/api/demo/run-sequence/SYN001")
     st = db.query(Student).filter(Student.display_name == "SYN001").first()
     ls = db.query(LearnerState).filter(LearnerState.student_id == st.id).first()

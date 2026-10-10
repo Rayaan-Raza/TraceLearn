@@ -125,6 +125,10 @@ export const api = {
 
   // problems
   problems: () => request<ProblemSummary[]>('GET', '/api/problems'),
+  // Practice and assignment lists show C++ only. Python problems stay
+  // reachable by id for the synthetic research students' history.
+  practiceProblems: () =>
+    request<ProblemSummary[]>('GET', '/api/problems').then((ps) => ps.filter((p) => p.language !== 'python')),
   problem: (id: string) => request<ProblemDetail>('GET', `/api/problems/${e(id)}`),
   createProblem: (body: {
     title: string

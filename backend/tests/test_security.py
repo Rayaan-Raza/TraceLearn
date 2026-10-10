@@ -334,6 +334,10 @@ def test_sandbox_timeout_and_output_limits():
 def test_python_runner_cannot_touch_server_process(seeded_db):
     """Student code must not run inside the API process (old runner exec'd in a fork)."""
     import os
+    from backend.app.execution.sandbox import bwrap_path
+    if not bwrap_path():
+        # Without a PID namespace the child's parent *is* the server process.
+        pytest.skip("needs the bubblewrap PID namespace")
     from backend.app.execution.subprocess_runner import SubprocessExecutionRunner
     r = SubprocessExecutionRunner().execute_function("import os\ndef f():\n    return os.getppid()\n", "f", [], 5)
     assert r.status == "success" and r.return_value != os.getpid()

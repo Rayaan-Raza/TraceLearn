@@ -93,6 +93,18 @@ def fuse_diagnosis(records: list[EvidenceRecord]) -> dict:
     alt, ascore = ranked[1] if len(ranked) > 1 else (None, 0.0)
     pconf = clamp(pscore)
     aconf = clamp(ascore) if alt else None
+    if any(r.evidence_code == "TEST_ALL_PASSED" for r in weighted):
+        # Every test passed, including the diagnostic tests that target each
+        # misconception. A code pattern or an earlier attempt alone cannot
+        # outweigh that, so this is a confident "no misconception", not an
+        # uncertain case for review. History still matters on failing attempts.
+        return {
+            "primary": NO_MISCONCEPTION,
+            "primary_confidence": thresholds.get("no_misconception_confidence", 0.80),
+            "alternative": None, "alternative_confidence": None,
+            "uncertainty": "low", "requires_review": False,
+            "explanation": {"scores": scores, "supporting": [], "conflicting": []},
+        }
     if pconf < 0.05:
         primary, pconf = NO_MISCONCEPTION, 0.2
     conflict = any(r.direction == "conflict" and r.weight for r in weighted)

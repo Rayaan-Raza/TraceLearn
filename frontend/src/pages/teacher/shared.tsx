@@ -59,7 +59,6 @@ export function RequireClass({ children }: { children: (c: Classroom) => ReactNo
       <div className="stack">
         <header className="page-header">
           <h1>Create your first classroom</h1>
-          <p>Students join with a code you share. Once they join, their attempts and learning patterns appear here.</p>
         </header>
         <section className="card">
           <CreateClassForm />

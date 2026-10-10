@@ -71,7 +71,7 @@ export function AssignedProblemDetail() {
         </section>
       ) : null}
 
-      <BarChart title="Misconceptions encountered in this problem" subtitle="How often each misconception appeared across attempts." points={misconceptionPoints(all)} axisNote="X: misconception · Y: attempt count" />
+      <BarChart title="Misconceptions encountered in this problem" points={misconceptionPoints(all)} axisNote="X: misconception · Y: attempt count" />
 
       <section className="card" style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: '1.1rem 1.25rem 0.4rem' }}>

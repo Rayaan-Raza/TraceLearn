@@ -21,7 +21,6 @@ export function StudentSubmissionsPage() {
     <div className="stack">
       <header className="page-header">
         <h1>Submissions</h1>
-        <p>Everything you have attempted — pass/fail, timestamps, and solutions.</p>
       </header>
 
       <div className="grid-3">

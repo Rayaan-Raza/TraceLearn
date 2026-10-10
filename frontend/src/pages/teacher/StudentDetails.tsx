@@ -139,7 +139,6 @@ export function StudentDetails() {
           <h2 style={{ margin: '0 0 0.45rem' }}>
             Give {profile.display_name} a few focused problems on {persistent.map((s) => misconceptionLabel(s.misconception_id).toLowerCase()).join(' and ')}.
           </h2>
-          <p>This mistake has recurred across related problems, which is TraceLearn's main signal for a persistent misconception.</p>
           <div className="btn-row">
             <Link className="btn btn-primary" to={`/teacher/classroom/assign?student=${profile.student_id}`}>
               Assign practice

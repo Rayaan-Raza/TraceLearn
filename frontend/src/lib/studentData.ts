@@ -83,7 +83,7 @@ export function derive(bundle: StudentBundle | null): Derived {
     focus,
     counts: { improving: count('improving'), needingPractice: count('persistent') + count('review'), solved: solved.size },
     stateCounts,
-    mistakeTimeline: mistakeTimeline.length ? mistakeTimeline : [{ label: 'No attempts yet', count: 0 }],
+    mistakeTimeline: mistakeTimeline.length ? mistakeTimeline : [{ label: '—', count: 0 }],
     solvedProblemIds: solved,
     attemptedProblemIds: attempted,
   }

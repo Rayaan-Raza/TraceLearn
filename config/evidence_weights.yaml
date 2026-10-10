@@ -17,6 +17,9 @@ history:
 thresholds:
   review_confidence: 0.35
   hypothesis_margin: 0.10
+  # Confidence of NO_MISCONCEPTION when every test passed and no evidence
+  # supports a misconception.
+  no_misconception_confidence: 0.80
 
 learner_state:
   min_cross_problem_for_persistent: 2

@@ -221,6 +221,10 @@ def run_in_sandbox(
             log.warning("Executing student code WITHOUT bubblewrap isolation (rlimit-only). Not safe for untrusted code.")
             run_in_sandbox._warned = True  # type: ignore[attr-defined]
         cmd = list(argv)
+        # Windows resolves a relative executable against the parent's working
+        # directory, not `cwd`, so `./solution.exe` must become absolute.
+        if os.name == "nt" and cmd and cmd[0].startswith(("./", ".\\")):
+            cmd[0] = str(workdir / cmd[0][2:])
         cwd = str(workdir)
         env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "LANG": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"}
         if os.name == "nt":  # Windows needs these to start processes at all

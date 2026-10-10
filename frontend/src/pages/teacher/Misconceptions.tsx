@@ -84,7 +84,7 @@ function View({ room }: { room: Classroom }) {
       </header>
       <section className="card" style={{ padding: 0, overflow: 'hidden' }}>
         {data.misconceptions.length === 0 ? (
-          <p className="muted" style={{ padding: '1.25rem' }}>Nothing tracked yet — misconceptions appear as students submit attempts.</p>
+          <p className="muted" style={{ padding: '1.25rem' }}>Nothing tracked yet.</p>
         ) : (
           <table className="table">
             <thead>

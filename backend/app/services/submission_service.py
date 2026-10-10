@@ -1,5 +1,7 @@
 from __future__ import annotations
 import json
+from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from backend.app.analysis.pipeline import AnalysisPipeline
 from backend.app.db.models import DiagnosisMode, Student, Submission
@@ -14,21 +16,39 @@ class SubmissionService:
         self.current_engine = CurrentOnlyDiagnosisEngine()
         self.history_engine = HistoryAwareDiagnosisEngine()
 
-    def create_submission(self, db: Session, student_id: int, problem_id: str, source_code: str, attempt_number: int = 1, is_synthetic: bool = False, ground_truth_label: str | None = None, ground_truth_state: str | None = None) -> Submission:
-        prior_count = db.query(Submission).filter(Submission.student_id == student_id, Submission.problem_id == problem_id).count()
-        sub = Submission(
-            student_id=student_id,
-            problem_id=problem_id,
-            attempt_number=attempt_number or prior_count + 1,
-            source_code=source_code,
-            is_synthetic=is_synthetic,
-            ground_truth_label=ground_truth_label,
-            ground_truth_state=ground_truth_state,
-        )
-        db.add(sub)
-        db.commit()
-        db.refresh(sub)
-        return sub
+    def create_submission(self, db: Session, student_id: int, problem_id: str, source_code: str, attempt_number: int = 0, is_synthetic: bool = False, ground_truth_label: str | None = None, ground_truth_state: str | None = None) -> Submission:
+        # The unique (student, problem, attempt) constraint rejects a number
+        # that a concurrent request took first; then read the new maximum.
+        for _ in range(5):
+            if attempt_number:
+                number = attempt_number
+            else:
+                last = (
+                    db.query(func.max(Submission.attempt_number))
+                    .filter(Submission.student_id == student_id, Submission.problem_id == problem_id)
+                    .scalar()
+                )
+                number = (last or 0) + 1
+            sub = Submission(
+                student_id=student_id,
+                problem_id=problem_id,
+                attempt_number=number,
+                source_code=source_code,
+                is_synthetic=is_synthetic,
+                ground_truth_label=ground_truth_label,
+                ground_truth_state=ground_truth_state,
+            )
+            db.add(sub)
+            try:
+                db.commit()
+            except IntegrityError:
+                db.rollback()
+                if attempt_number:
+                    raise
+                continue
+            db.refresh(sub)
+            return sub
+        raise RuntimeError("Could not allocate an attempt number")
 
     def execute(self, db: Session, submission_id: int) -> dict:
         sub = db.get(Submission, submission_id)

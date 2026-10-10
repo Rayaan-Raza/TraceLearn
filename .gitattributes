@@ -15,6 +15,11 @@ data/cpp_problems/**/*.out   text eol=lf
 data/cpp_problems/**/*.json  text eol=lf
 data/cpp_problems/**/*.cpp   text eol=lf
 data/cpp_problems/**/*.md    text eol=lf
+data/cpp_diagnostics/**/*.in  text eol=lf
+data/cpp_diagnostics/**/*.out  text eol=lf
+data/cpp_diagnostics/**/*.json  text eol=lf
+data/cpp_diagnostics/**/*.cpp  text eol=lf
+data/cpp_diagnostics/**/*.md  text eol=lf
 
 # Python and shell sources keep their committed endings.
 *.py    text eol=lf

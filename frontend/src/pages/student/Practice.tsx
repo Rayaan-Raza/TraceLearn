@@ -11,7 +11,7 @@ export function PracticePage() {
   const me = useMe()
   const navigate = useNavigate()
   const bundle = useStudentBundle(me.student_id)
-  const extra = useApi(() => Promise.all([api.problems(), api.myAssignments()]), [])
+  const extra = useApi(() => Promise.all([api.practiceProblems(), api.myAssignments()]), [])
 
   if (bundle.loading || extra.loading) return <Loading />
   if (bundle.error || extra.error) return <ErrorState message={(bundle.error || extra.error)!} onRetry={() => { bundle.reload(); extra.reload() }} />
@@ -27,7 +27,6 @@ export function PracticePage() {
     <div className="stack">
       <header className="page-header">
         <h1>Practice</h1>
-        <p>Pick a problem to continue learning — including class assignments.</p>
       </header>
 
       {active.length > 0 && (
@@ -72,7 +71,6 @@ export function PracticePage() {
               <th>Problem</th>
               <th>Topic</th>
               <th>Difficulty</th>
-              <th>Language</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -89,7 +87,6 @@ export function PracticePage() {
                 </td>
                 <td>{p.topic || '—'}</td>
                 <td>{p.difficulty}</td>
-                <td>{p.language === 'cpp' ? 'C++' : 'Python'}</td>
                 <td>
                   <StatusBadge status={problemStatus(p.id, d, assignedIds, recIds)} />
                 </td>

@@ -264,6 +264,28 @@ def list_wsl_distros() -> list[str]:
     return names
 
 
+def pick_wsl_distro(names: list[str]) -> str | None:
+    """Pick a WSL distribution that can build C++.
+
+    `TRACELEARN_WSL_DISTRO` wins. Docker Desktop's utility distributions have
+    no bash or g++, so they are skipped; the first one with g++ is chosen.
+    """
+    wanted = os.environ.get("TRACELEARN_WSL_DISTRO")
+    if wanted:
+        return wanted
+    for name in names:
+        if name.lower().startswith("docker-desktop"):
+            continue
+        try:
+            probe = subprocess.run(["wsl", "-d", name, "--", "sh", "-c", "command -v g++"],
+                                   capture_output=True, timeout=60)
+        except Exception:
+            continue
+        if probe.returncode == 0:
+            return name
+    return None
+
+
 # ---------------------------------------------------------------------------
 # helpers
 # ---------------------------------------------------------------------------
@@ -312,7 +334,10 @@ MEMORY_PROBE = r"""
 int main() {
     // Ask for 512 MB. The sandbox limit is 256 MB.
     std::vector<char> block(512ULL * 1024 * 1024, 1);
-    std::cout << block.size() << "\n";
+    // Read every page, so the optimiser cannot delete the allocation.
+    unsigned long long sum = 0;
+    for (std::size_t i = 0; i < block.size(); i += 4096) sum += block[i];
+    std::cout << sum << "\n";
     return 0;
 }
 """
@@ -785,7 +810,10 @@ def main(argv: list[str] | None = None) -> int:
         if not names:
             print("FAIL: no g++ on PATH and no WSL distribution. Install a C++ toolchain.")
             return 1
-        distro = names[0]
+        distro = pick_wsl_distro(names)
+        if distro is None:
+            print("FAIL: no WSL distribution with g++. Set TRACELEARN_WSL_DISTRO.")
+            return 1
         drive, _, rest = str(ROOT).partition(":")
         wsl_root = f"/mnt/{drive.lower()}{rest.replace(chr(92), '/')}"
         inner = ["python3", f"{wsl_root}/scripts/verify_cpp_reference.py", "--linux"]

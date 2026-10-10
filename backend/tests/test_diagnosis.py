@@ -60,6 +60,7 @@ def test_teacher_correction_preserves_original_prediction(db, service, client):
     assert d.primary_misconception == orig
 
 def test_experiment_metrics_generated_from_database(db, service, client):
+    client.post("/api/demo/reset")
     for sid in range(1, 4):
         client.post(f"/api/demo/run-sequence/SYN00{sid}")
     from backend.app.evaluation.evaluator import ExperimentEvaluator
