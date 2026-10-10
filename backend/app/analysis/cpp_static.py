@@ -69,8 +69,9 @@ class CppStaticAnalyzer:
         return items
 
     def _detect_assign_vs_compare(self, src: str) -> list[EvidenceRecord]:
-        # Assignment inside if/while condition: if (x = y)
-        pattern = re.compile(r'\b(if|while)\s*\([^)]*(?<!=)=(?!=)[^)]*\)')
+        # Assignment inside if/while condition: if (x = y). The `=` of `<=`,
+        # `>=`, `!=`, `==` and of compound operators is not an assignment test.
+        pattern = re.compile(r'\b(if|while)\s*\([^)]*(?<![=!<>+\-*/%&|^])=(?!=)[^)]*\)')
         if pattern.search(src):
             return [EvidenceRecord(
                 source_type="static", evidence_code="CPP_ASSIGN_IN_CONDITION",

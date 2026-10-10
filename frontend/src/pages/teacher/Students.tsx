@@ -17,7 +17,7 @@ function List({ room }: { room: Classroom }) {
       <header className="page-header">
         <h1>Students</h1>
         <p>
-          {data.students.length} student{data.students.length === 1 ? '' : 's'} in {room.code} — each with their own learning story.
+          {data.students.length} student{data.students.length === 1 ? '' : 's'} in {room.code}.
         </p>
       </header>
       {data.students.length === 0 ? (

@@ -48,3 +48,5 @@ def run_sequence(
         return demo_service.run_sequence(db, student_id)
     except FileNotFoundError:
         raise HTTPException(404, f"Sequence {student_id} not found")
+    except demo_service.SequenceAlreadyRun:
+        raise HTTPException(409, f"{student_id} already ran. Reset the demo data first.")

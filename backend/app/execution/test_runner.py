@@ -135,7 +135,7 @@ def _run_submission_tests(db: Session, submission: Submission) -> SubmissionExec
             cpp_session.cleanup()
 
     if overall_status == "success" and any(not r.passed for r in results):
-        overall_status = "runtime_error"
+        overall_status = "wrong_answer"
     submission.execution_status = ExecutionStatus(overall_status)
     submission.stderr = chr(10).join(stderr_parts)
     submission.runtime_ms = total_ms or None

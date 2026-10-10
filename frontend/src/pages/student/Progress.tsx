@@ -23,23 +23,14 @@ export function ProgressPage() {
     <div className="stack">
       <header className="page-header">
         <h1>Your Progress</h1>
-        <p>How TraceLearn is reading your learning patterns over time.</p>
       </header>
 
       <div className="grid-2">
-        <BarChart title="Concepts by state" subtitle="Persistent, improving, isolated and needs-review concepts, plus problems solved." points={d.stateCounts} axisNote="X: state · Y: count" />
-        <TimelineChart title="Mistake timeline" subtitle="How incorrect attempts accumulate across dates." points={d.mistakeTimeline} />
+        <BarChart title="Concepts by state" points={d.stateCounts} axisNote="X: state · Y: count" />
+        <TimelineChart title="Mistake timeline" points={d.mistakeTimeline} />
       </div>
 
-      {stories.length === 0 ? (
-        <section className="card">
-          <h2 style={{ margin: 0 }}>No patterns yet</h2>
-          <p style={{ marginTop: '0.5rem' }}>
-            TraceLearn tracks a concept once it has evidence from your attempts. One mistake is never treated as a permanent label.
-          </p>
-        </section>
-      ) : (
-        stories.map((c) => (
+      {stories.map((c) => (
           <section className="card" key={c.misconceptionId}>
             <div className="split-header">
               <div>
@@ -52,8 +43,7 @@ export function ProgressPage() {
               <Timeline events={c.events} />
             </div>
           </section>
-        ))
-      )}
+        ))}
     </div>
   )
 }

@@ -51,7 +51,7 @@ function List({ room }: { room: Classroom }) {
 
       {data.length === 0 ? (
         <section className="card">
-          <p className="muted" style={{ margin: 0 }}>No assigned problems yet. Create one or pick from the problem bank.</p>
+          <p className="muted" style={{ margin: 0 }}>No assigned problems yet.</p>
         </section>
       ) : (
         data.map((a) => {
@@ -83,7 +83,7 @@ function List({ room }: { room: Classroom }) {
                 </div>
               </div>
               <div style={{ marginTop: '1rem' }}>
-                <BarChart embedded title="Misconceptions in this problem" subtitle="What TraceLearn saw across student attempts." points={misconceptionPoints(all)} axisNote="X: misconception · Y: attempt count" />
+                <BarChart embedded title="Misconceptions in this problem" points={misconceptionPoints(all)} axisNote="X: misconception · Y: attempt count" />
               </div>
               <div style={{ marginTop: '1rem', overflowX: 'auto' }}>
                 <table className="table">

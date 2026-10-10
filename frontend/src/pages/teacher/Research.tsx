@@ -51,7 +51,6 @@ export function ResearchPage() {
     <div className="stack">
       <header className="page-header">
         <h1>Research</h1>
-        <p>Current-only vs history-aware diagnosis, calculated live from labelled synthetic submissions. Nothing here is hardcoded.</p>
       </header>
 
       <section className="card" style={{ padding: 0, overflow: 'hidden' }}>

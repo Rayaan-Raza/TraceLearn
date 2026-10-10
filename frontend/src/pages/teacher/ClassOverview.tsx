@@ -52,7 +52,7 @@ function Overview({ room }: { room: Classroom }) {
         </div>
         {items.length === 0 ? (
           <p className="muted" style={{ marginTop: '0.85rem' }}>
-            No misconceptions tracked yet. They appear once students submit attempts.
+            No misconceptions tracked yet.
           </p>
         ) : (
           <>

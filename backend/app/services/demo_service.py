@@ -57,6 +57,10 @@ def reset_synthetic(db: Session) -> dict:
     return {"status": "reset_complete"}
 
 
+class SequenceAlreadyRun(Exception):
+    """The synthetic student already has attempts; reset the demo first."""
+
+
 def run_sequence(db: Session, name: str) -> dict:
     if not SEQUENCE_NAME.match(name):
         raise ValueError("Invalid sequence name")
@@ -69,6 +73,9 @@ def run_sequence(db: Session, name: str) -> dict:
         db.add(student)
         db.commit()
         db.refresh(student)
+    if db.query(Submission.id).filter(Submission.student_id == student.id).first():
+        # A second replay would log the same attempt numbers again.
+        raise SequenceAlreadyRun(name)
     payload = json.loads(seq_path.read_text(encoding="utf-8"))
     base = DEMO_DIR.resolve()
     results = []

@@ -15,7 +15,7 @@ function AssignForm({ room }: { room: Classroom }) {
   const navigate = useNavigate()
   const [params] = useSearchParams()
   const { refresh } = useClasses()
-  const { data, error, loading, reload } = useApi(() => Promise.all([api.problems(), api.members(room.id)]), [room.id])
+  const { data, error, loading, reload } = useApi(() => Promise.all([api.practiceProblems(), api.members(room.id)]), [room.id])
 
   const [mode, setMode] = useState<Mode>('dataset')
   const [selectedId, setSelectedId] = useState('')
@@ -111,7 +111,7 @@ function AssignForm({ room }: { room: Classroom }) {
             <select value={selectedId} onChange={(e) => setSelectedId(e.target.value)}>
               {problems.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.title} — {p.topic} · {p.difficulty} · {p.language === 'cpp' ? 'C++' : 'Python'}
+                  {p.title} — {p.topic} · {p.difficulty}
                   {p.source === 'custom' ? ' (yours)' : ''}
                 </option>
               ))}
@@ -120,8 +120,7 @@ function AssignForm({ room }: { room: Classroom }) {
           {selected ? (
             <div className="dataset-preview">
               <p>
-                <strong>Topic:</strong> {selected.topic || '—'} · <strong>Difficulty:</strong> {selected.difficulty} · <strong>Language:</strong>{' '}
-                {selected.language === 'cpp' ? 'C++' : 'Python'}
+                <strong>Topic:</strong> {selected.topic || '—'} · <strong>Difficulty:</strong> {selected.difficulty}
               </p>
               <p>
                 <strong>Concepts:</strong> {selected.concept_tags.join(', ') || '—'}

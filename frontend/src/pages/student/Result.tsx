@@ -90,8 +90,8 @@ export function ResultPage() {
           <div>
             <h1>{headline}</h1>
             <p>
-              TraceLearn compared your output with the expected results for <strong>{data.problemTitle}</strong>
-              {total ? ` — ${passedCount} of ${total} tests passed.` : '.'}
+              <strong>{data.problemTitle}</strong>
+              {total ? ` — ${passedCount} of ${total} tests passed.` : ''}
             </p>
           </div>
           <div className="muted" style={{ fontSize: '0.88rem' }}>
@@ -154,14 +154,10 @@ export function ResultPage() {
       {!allPassed && (
         <section className="card">
           <div className="card-label">What TraceLearn noticed</div>
-          <h2>{area ? `Possible ${area.toLowerCase()} misunderstanding` : 'No clear pattern yet'}</h2>
-          <p style={{ marginTop: '0.55rem' }}>
-            {history?.requires_teacher_review
-              ? 'The evidence is mixed, so your teacher may take a look at this attempt.'
-              : area
-                ? 'TraceLearn looked at this attempt together with your earlier attempts on related problems.'
-                : 'Keep going — patterns become clearer over several attempts.'}
-          </p>
+          {area ? <h2>{`Possible ${area.toLowerCase()} misunderstanding`}</h2> : null}
+          {history?.requires_teacher_review ? (
+            <p style={{ marginTop: '0.55rem' }}>Your teacher will review this attempt.</p>
+          ) : null}
           <div style={{ marginTop: '1rem' }}>
             <CodeBlock code={submission.source_code} />
           </div>
@@ -185,9 +181,7 @@ export function ResultPage() {
               </div>
               <blockquote className="quote">{current.text}</blockquote>
             </>
-          ) : (
-            <p style={{ marginTop: '0.5rem' }}>Hints get more specific each time you ask.</p>
-          )}
+          ) : null}
           {hintError ? <p className="form-error">{hintError}</p> : null}
           <div className="btn-row">
             {!current || current.level < maxLevel ? (
@@ -218,14 +212,6 @@ export function ResultPage() {
         </div>
       )}
 
-      <section className="card">
-        <div className="card-label">Why this matters</div>
-        <h3 style={{ margin: 0 }}>Patterns over single attempts</h3>
-        <p style={{ marginTop: '0.5rem' }}>
-          TraceLearn is not only looking at this answer. It also considers your previous attempts on related problems, so one mistake is
-          treated as evidence — not a label.
-        </p>
-      </section>
     </div>
   )
 }

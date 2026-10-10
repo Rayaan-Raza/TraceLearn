@@ -20,6 +20,7 @@ class ExecutionStatus(str, enum.Enum):
     SUCCESS = "success"
     SYNTAX_ERROR = "syntax_error"
     RUNTIME_ERROR = "runtime_error"
+    WRONG_ANSWER = "wrong_answer"  # ran cleanly, but at least one test failed
     TIMEOUT = "timeout"
     SYSTEM_ERROR = "system_error"
 
@@ -140,6 +141,9 @@ class TestCase(Base):
 
 class Submission(Base):
     __tablename__ = "submissions"
+    # One row per attempt. Without it, two concurrent submits could both read
+    # the same count and log the same attempt number.
+    __table_args__ = (UniqueConstraint("student_id", "problem_id", "attempt_number", name="uq_submission_attempt"),)
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), index=True)
     problem_id: Mapped[str] = mapped_column(ForeignKey("problems.id"), index=True)

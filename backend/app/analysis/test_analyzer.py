@@ -50,6 +50,14 @@ class TestAnalyzer:
                     description=f"diagnostic tests disagree for tag {tag}",
                     details={"tag": tag},
                 ))
+        if rows and all(tr.passed for tr, _ in rows):
+            # Positive evidence that the program is correct. Without it the
+            # fusion step cannot tell "every test passed" from "nothing ran".
+            items.append(EvidenceRecord(
+                source_type="test", evidence_code="TEST_ALL_PASSED",
+                direction="neutral", weight=0.0,
+                description=f"all {len(rows)} tests passed",
+            ))
         return items
 
 
