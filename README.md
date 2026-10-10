@@ -165,6 +165,7 @@ TraceLearn/
 ├── README.md                       ← this document
 ├── requirements.txt                ← Python packages
 ├── .env.example                    ← example settings (copy to .env)
+├── .gitattributes                  ← line-ending policy
 ├── config/
 │   └── evidence_weights.yaml       ← fixed weights and thresholds
 ├── backend/
@@ -196,11 +197,12 @@ TraceLearn/
 │   └── vercel.json                 ← Vercel settings
 ├── data/
 │   ├── problems/                   ← problems.json and reference solutions
+│   ├── cpp_problems/               ← C++ diagnostic bank, tests and variants
 │   ├── demo_sequences/             ← SYN001–SYN005 demonstration attempts
 │   ├── evaluation_sequences/       ← EVAL holdout attempts (do not tune on these)
 │   ├── annotations/                ← ground-truth labels (evaluation only)
 │   └── exports/                    ← experiment output files
-├── scripts/                        ← seed, reset, experiment, export, create_teacher
+├── scripts/                        ← seed, reset, experiment, export, create_teacher, build_cpp_tests, verify_cpp_reference
 └── docs/                           ← research documents and UI design documents
 ```
 
@@ -251,7 +253,38 @@ Each problem has 3 types of tests:
 - **Hidden** tests. The system runs them, but the student cannot see the input or the expected output.
 - **Diagnostic** tests. These tests target one misconception. The student cannot see them.
 
-### 9.2 Teacher problems
+### 9.2 C++ diagnostic problems
+
+The bank in `data/cpp_problems` holds 8 C++ problems. Each problem targets one C++ misconception from the taxonomy `cpp-taxonomy-0.1`. The bank has 77 test cases: 24 visible, 29 hidden and 24 diagnostic. It also holds 12 misconception variants and 4 hard-negative controls.
+
+| ID | Task | Misconception |
+|----|------|--------|
+| CP01 | Sum First N: sum the integers 0 to n-1. The upper bound n is exclusive. | `CPP-M01` |
+| CP02 | Largest Value: print the largest value, not its position. | `CPP-M02` |
+| CP03 | Return, Do Not Print: the function returns the value. | `CPP-M03` |
+| CP04 | Last Element: print the last element. Index `size()` is never valid. | `CPP-M04` |
+| CP05 | Range Check: print IN when x is inside the closed range 1 to 10. | `CPP-M05` |
+| CP06 | Zero Test: print ZERO when x equals 0. Compare, do not assign. | `CPP-M06` |
+| CP07 | Factorial: compute n! by recursion. Each call approaches the base case. | `CPP-M07` |
+| CP08 | First Position: find the first position of a target. The loop must stop. | `CPP-M08` |
+
+Read the bank rules in [`docs/CPP_MISCONCEPTION_TEST_PLAN.md`](docs/CPP_MISCONCEPTION_TEST_PLAN.md). Read the measured results in [`docs/PROBLEM_VERIFICATION_REPORT.md`](docs/PROBLEM_VERIFICATION_REPORT.md).
+
+> **NOTE:** These 8 problems are not in the shared problem bank yet. No loader writes them to the `problems` table. A student cannot practice on them until the team adds a loader or a teacher copies them into a bank problem. The count of 8 is the size of the curated data set, not the size of the student catalog.
+
+Verify the bank with these commands. The commands need `g++` with C++17.
+
+```
+python scripts/build_cpp_tests.py
+python scripts/verify_cpp_reference.py
+python -m pytest backend/tests/test_cpp_problem_bank.py -q
+```
+
+The verifier compiles each reference solution with `g++ -O2 -Wall -Wextra -std=c++17`. It runs every test case with a 2000 ms wall-clock limit and a 256 MB memory limit. It runs each test case three times to check determinism. It builds with `-fsanitize=address,undefined`. It then checks that every misconception variant fails at least one test, and that every hard negative passes all tests.
+
+> **NOTE:** On Windows the verifier re-executes itself inside WSL. The host needs WSL with `g++` and `python3`. Bubblewrap is not necessary for the resource limits.
+
+### 9.3 Teacher problems
 
 A teacher can write new C++ problems. Each problem has stdin input and an expected output for each test case. The teacher sets each test case as visible or hidden. Only the teacher who wrote the problem can see it. Students can see it only when the teacher assigns it to them.
 
@@ -380,19 +413,19 @@ The backend runs all submitted code on the server. The system treats all submitt
 
 Python code runs in a new `python3 -I` process in the sandbox. It never runs in the server process. The system compares C++ output word by word. Thus spaces and line breaks do not change the result.
 
-### 15.2 Sandbox requirement
+### 15.3 Measured limits
 
-The sandbox requires bubblewrap on Linux. To install it, type:
+The team measured these limits in the judging environment. The measurement ran on `g++ 13.3.0` with C++17. Read the full log in [`docs/PROBLEM_VERIFICATION_REPORT.md`](docs/PROBLEM_VERIFICATION_REPORT.md).
 
-```
-sudo apt install bubblewrap
-```
+| Limit | Value | Measured result |
+|-------|-------|-----------------|
+| Wall clock | 2000 ms | A program that loops forever stops after 2003 ms. The judge returns status `timeout`. |
+| Memory | 256 MB | A program that asks for 512 MB throws `std::bad_alloc` after 33 ms. The judge returns `MemoryLimitExceeded`. |
+| CPU | 3 s backstop | `RLIMIT_CPU` is `int(timeout) + 1`. The wall clock usually stops the process first. |
 
-> **CAUTION:** Without bubblewrap, the code runs with resource limits only. This mode is not safe for untrusted users. Use it only on your own computer.
+The verifier measures the reference solutions at a median of 4.63 ms and a median child peak of 71 MB. The limits leave a large margin.
 
-In production (`APP_ENV=production`), the backend does not run code if bubblewrap is not available. On Windows and macOS, the backend uses the resource limits only and shows a warning.
-
-If you use Docker, the container must permit unprivileged namespaces. Also set `--pids-limit` to limit the number of processes.
+> **NOTE:** A non-progress loop is not always caught by a timeout. The compiler can delete a loop that has no side effect and no exit. Refer to finding 1 in the verification report.
 
 ---
 
