@@ -1,0 +1,30 @@
+# VCS / CI
+.git
+.github
+
+# Python junk
+.venv
+venv
+env
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+*.egg-info
+
+# Local databases and secrets (never ship these)
+*.db
+*.sqlite3
+.env
+
+# 356 MB of raw datasets — gitignored already, and the app never reads it at runtime
+data/Data_from_Datasets/
+
+# Frontend build tree (the backend serves only the API; SERVE_FRONTEND=false)
+frontend/
+node_modules
+
+# Docs, reports, logs
+docs/
+reports/
+*.log
+DEPLOYMENT.md
