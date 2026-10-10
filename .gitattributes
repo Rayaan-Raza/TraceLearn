@@ -20,6 +20,11 @@ data/cpp_problems/**/*.md    text eol=lf
 *.py    text eol=lf
 *.sh    text eol=lf
 
+# Docker build files must stay Unix-style: a CRLF Dockerfile breaks the
+# Linux build that Railway runs.
+Dockerfile    text eol=lf
+.dockerignore text eol=lf
+
 # Binary and lock artefacts are never rewritten.
 *.png   binary
 *.jpg   binary
