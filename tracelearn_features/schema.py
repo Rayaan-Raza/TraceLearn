@@ -113,6 +113,7 @@ FEATURE_BLOCKS: dict[str, dict[str, str]] = {
         "ast_ref_similarity": "float",
     },
     "context": {
+        "available": "bool",
         "statement_length": "int",
         "sample_test_count": "int",
         "sample_tests_present": "bool",
