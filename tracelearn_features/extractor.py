@@ -244,9 +244,12 @@ def _compute_runtime(evidence: Any) -> dict[str, Any]:
         out["ubsan_signed_overflow"] = bool(
             re.search(r"signed integer overflow|signed overflow", ubsan_text, re.IGNORECASE)
         )
+        # DEADLYSIGNAL is printed for ANY fatal signal (SEGV, ABRT, ...) —
+        # matching it here would make every null deref look like class-6
+        # evidence. Only the explicit stack-overflow report counts.
         out["stack_overflow"] = bool(
-            re.search(r"stack overflow|stack-overflow|DEADLYSIGNAL", asan_text, re.IGNORECASE)
-        ) or bool(re.search(r"stack overflow", vg_text, re.IGNORECASE))
+            re.search(r"stack[- ]overflow", asan_text, re.IGNORECASE)
+        ) or bool(re.search(r"stack[- ]overflow", vg_text, re.IGNORECASE))
         out["valgrind_error"] = bool(vg_text.strip())
         out["valgrind_uninit_value"] = bool(
             re.search(
