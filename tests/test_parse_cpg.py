@@ -511,6 +511,43 @@ def test_member_call_with_unknown_receiver_never_counted():
     assert cpg_features(g)["unguarded_recursion_count"] == 0
 
 
+# --------------------------------------------------- overload arity correctness
+#
+# Ground truth on real data: every one of the 6 measured pg-2 false flags was a
+# same-name call to a DIFFERENT OVERLOAD (`string search(vec, target) {
+# return search(vec, 0, mid, end, target); }` — delegation to the 5-arg
+# version, not recursion). A bare call's AST children ARE its arguments and a
+# function's PARAMVARIABLEDECLARATION children are its parameters, so arity
+# equality separates the two.
+
+
+def test_same_name_call_to_different_arity_overload_is_not_recursion():
+    # 2-param search delegating to the 5-arg search overload
+    g = _graph(
+        [("1", "FUNCTIONDECLARATION", "search"), ("2", "COMPOUNDSTATEMENT", ""),
+         ("3", "RETURNSTATEMENT", ""), ("4", "CALLEXPRESSION", "search"),
+         ("5", "PARAMVARIABLEDECLARATION", "vec"), ("6", "PARAMVARIABLEDECLARATION", "target"),
+         ("7", "DECLAREDREFERENCEEXPRESSION", "vec"), ("8", "LITERAL", "0"),
+         ("9", "LITERAL", "1"), ("10", "LITERAL", "2"), ("11", "DECLAREDREFERENCEEXPRESSION", "t")],
+        [("1", "2", "AST"), ("1", "5", "AST"), ("1", "6", "AST"),
+         ("2", "3", "AST"), ("3", "4", "AST"),
+         ("4", "7", "AST"), ("4", "8", "AST"), ("4", "9", "AST"),
+         ("4", "10", "AST"), ("4", "11", "AST")],
+    )
+    assert cpg_features(g)["unguarded_recursion_count"] == 0
+
+
+def test_same_arity_self_call_is_still_recursion():
+    # f(n) { f(n); }  -> 1 param, 1 argument: genuine self-recursion
+    g = _graph(
+        [("1", "FUNCTIONDECLARATION", "f"), ("2", "COMPOUNDSTATEMENT", ""),
+         ("3", "CALLEXPRESSION", "f"), ("4", "PARAMVARIABLEDECLARATION", "n"),
+         ("5", "DECLAREDREFERENCEEXPRESSION", "n")],
+        [("1", "2", "AST"), ("1", "4", "AST"), ("2", "3", "AST"), ("3", "5", "AST")],
+    )
+    assert cpg_features(g)["unguarded_recursion_count"] == 1
+
+
 # ------------------------------------------------------- real-data parse rate
 
 

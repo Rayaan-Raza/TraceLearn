@@ -308,6 +308,24 @@ def _is_self_call(fn_name: str, call: CPGNode) -> bool:
     return _call_receiver(call.code, call.token) in _SELF_RECEIVERS
 
 
+def _same_arity(graph: CPGGraph, fn: CPGNode, call: CPGNode) -> bool:
+    """Bare calls must match the function's parameter count to be recursion.
+
+    C/C++ overloads share a name: the measured pg-2 false flags were a 2-arg
+    `search(vec, target)` wrapper delegating to the 5-arg `search` overload —
+    same name, different function. Measured on real gcc AST: a bare
+    CALLEXPRESSION's AST children ARE its arguments, and a function's
+    PARAMVARIABLEDECLARATION children are its parameters. Member/static calls
+    are exempt here (their children include the receiver); the receiver rule
+    covers them.
+    """
+    if call.type != "CALLEXPRESSION":
+        return True
+    fn_arity = sum(1 for c in graph.ast(fn.id)
+                   if c.type == "PARAMVARIABLEDECLARATION")
+    return len(graph.ast(call.id)) == fn_arity
+
+
 def _unguarded_recursion(graph: CPGGraph) -> int:
     """Functions that call themselves with nothing that can stop the recursion.
 
@@ -332,6 +350,7 @@ def _unguarded_recursion(graph: CPGGraph) -> int:
             nid for nid in body_ids
             if graph.nodes[nid].type in CALL_TYPES
             and _is_self_call(node.token, graph.nodes[nid])
+            and _same_arity(graph, node, graph.nodes[nid])
         ]
         if not self_calls:
             continue
