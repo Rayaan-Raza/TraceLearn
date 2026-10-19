@@ -195,6 +195,7 @@ Problem context joined from normalized `problems.csv` at merge time (§4).
 
 | feature | type | meaning |
 |---|---|---|
+| `context.available` | bool | problem row joined for this row |
 | `context.statement_length` | int | chars of statement text |
 | `context.sample_test_count` | int | sample tests shipped with the problem |
 | `context.sample_tests_present` | bool | statement includes sample tests |
