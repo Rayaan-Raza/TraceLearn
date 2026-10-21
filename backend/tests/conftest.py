@@ -93,3 +93,37 @@ def db(seeded_db):
 def _rollback_each_test(db):
     yield
     db.rollback()
+
+
+@pytest.fixture
+def make_student(db):
+    """Create throw-away students and delete them and their data afterwards.
+
+    Other modules count the students in the shared test database, so a test
+    that creates students must remove them again.
+    """
+    import uuid as _uuid
+    from backend.app.db.models import (
+        Diagnosis, EvidenceItem, HintEvent, LearnerState, LearnerStateHistory, Student, Submission, TestResult,
+    )
+    created = []
+
+    def _make(prefix: str = "test"):
+        st = Student(display_name=f"{prefix}-{_uuid.uuid4().hex[:8]}", is_synthetic=False)
+        db.add(st)
+        db.commit()
+        db.refresh(st)
+        created.append(st.id)
+        return st
+
+    yield _make
+    db.rollback()
+    for sid in created:
+        sub_ids = [s.id for s in db.query(Submission.id).filter(Submission.student_id == sid)]
+        for model in (HintEvent, EvidenceItem, TestResult, Diagnosis):
+            db.query(model).filter(model.submission_id.in_(sub_ids)).delete(synchronize_session=False)
+        for model in (LearnerStateHistory, LearnerState):
+            db.query(model).filter(model.student_id == sid).delete(synchronize_session=False)
+        db.query(Submission).filter(Submission.student_id == sid).delete(synchronize_session=False)
+        db.query(Student).filter(Student.id == sid).delete(synchronize_session=False)
+    db.commit()
