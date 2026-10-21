@@ -52,6 +52,10 @@ pytest_output.txt
 data/intermediate/normalized/hash_cache.json
 data/intermediate/normalized/*.log
 
+# Large source data files (>50MB — use Git LFS or external storage)
+data/intermediate/normalized/submissions/submissions.jsonl
+data/intermediate/normalized/submissions/submissions.csv
+
 # Model checkpoints
 data/misconception_dataset/models/*.bin
 data/misconception_dataset/models/*.pkl
