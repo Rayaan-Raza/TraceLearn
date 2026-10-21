@@ -46,11 +46,30 @@ Rows where no LF fired are **never** labeled `OTHER_ERROR` automatically (§13.5
 are LF names (for `weak_rule`) and `repair_verified:<CLASS>`. Until audits are entered
 the value is 0.2 (the Beta(1,1) bound with no data). This is deliberate.
 
+## CI/CD (`.github/workflows/dataset.yml`)
+
+| Trigger | Jobs |
+|---|---|
+| push to `main` / `feature/**`, or a PR, touching this code or `data/misconception_dataset/**` | lint (ruff) → tests on Python 3.12 and 3.14 with g++/gcc/Valgrind → committed-artifact checks → build the sandbox image and run `test_docker_backend.py` against it |
+| push to `main`, a `sandbox-v*` tag, or a manual run with *push image* ticked | everything above, then push `ghcr.io/<owner>/tracelearn-sandbox:<version>` (and `sha-…`; `latest` on main) and publish `g0b_manifest.json` (base digest, image digest, toolchain, limits) as a run artifact and in the job summary |
+| `sandbox-v*` tag | also a GitHub Release with the harness, reports, splits and manifests bundle + SHA256SUMS |
+
+No secrets are needed: GHCR uses the workflow's `GITHUB_TOKEN`. The repository (or
+organisation) must allow workflows to write packages — *Settings → Actions → General →
+Workflow permissions*. Raw data is not in the repository, so CI validates the code and the
+committed outputs (`scripts/check_lane_b_artifacts.py`); it never re-runs execution or labeling.
+
+Release a sandbox version: bump `SANDBOX_VERSION` in `sandbox_runner/config.py`, merge,
+then `git tag sandbox-v0.2.1 && git push origin sandbox-v0.2.1`. Copy the digest from the
+run summary into `raw_recovery/recovery_manifest.json` → `environment.docker` and use
+`SANDBOX_IMAGE=<digest>` for bulk runs.
+
 ## Isolation status
 
 The bulk run used the **local** backend: rlimits, uid 65534, an empty network
 namespace via `unshare -n` + `setpriv`, process-group kill, and capped output. The
 **docker** backend (`--network none`, read-only root, tmpfs, `--pids-limit 64`,
-`--cap-drop ALL`) is implemented and unit-tested for its flags. The image still has
-to be built and pinned by digest on a host that can pull `ubuntu:24.04`. That is
-the open G0b item.
+`--cap-drop ALL`) was built from `sandbox_runner/docker/Dockerfile` and verified to give
+the same results as the local backend on the fixtures (including Valgrind, the network
+block and timeouts). The remaining G0b step is publishing the image by digest, which
+the CD workflow does on the first push to `main`.

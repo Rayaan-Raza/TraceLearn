@@ -1,0 +1,274 @@
+name: Dataset CI/CD
+
+# CI and CD for the misconception-dataset code: the shared sandbox_runner
+# harness and the Lane B (CodeStream) pipeline.
+#
+# CI  (every push / PR that touches this code):
+#   lint → tests on Python 3.12 and 3.14 with g++/gcc/Valgrind → committed
+#   artifact checks → build the sandbox image and prove the docker backend
+#   matches the local one (isolation flags included).
+# CD:
+#   push to main, a `sandbox-v*` tag, or a manual run with push_image=true:
+#   push the image to GHCR and publish its digest + toolchain manifest (G0b).
+#   `sandbox-v*` tag: also create a GitHub Release with the reports bundle.
+#
+# Raw data is not in the repository, so CI never re-runs execution or
+# labeling; it validates the code and the committed outputs.
+
+on:
+  push:
+    branches: [main, "feature/**"]
+    tags: ["sandbox-v*"]
+    paths:
+      - "sandbox_runner/**"
+      - "scripts/codestream_*.py"
+      - "scripts/repair_verify.py"
+      - "scripts/label_weak_codestream.py"
+      - "scripts/execute_codestream.py"
+      - "scripts/cluster_codestream_problems.py"
+      - "scripts/build_annotation_forms.py"
+      - "scripts/adjudicate_gold.py"
+      - "scripts/export_codestream_seeds.py"
+      - "scripts/sandbox_manifest.py"
+      - "scripts/check_lane_b_artifacts.py"
+      - "tests/misconception_dataset/**"
+      - "data/misconception_dataset/**"
+      - "ruff.toml"
+      - ".github/workflows/dataset.yml"
+  pull_request:
+    paths:
+      - "sandbox_runner/**"
+      - "scripts/codestream_*.py"
+      - "scripts/repair_verify.py"
+      - "scripts/label_weak_codestream.py"
+      - "scripts/execute_codestream.py"
+      - "scripts/cluster_codestream_problems.py"
+      - "scripts/build_annotation_forms.py"
+      - "scripts/adjudicate_gold.py"
+      - "scripts/export_codestream_seeds.py"
+      - "scripts/sandbox_manifest.py"
+      - "scripts/check_lane_b_artifacts.py"
+      - "tests/misconception_dataset/**"
+      - "data/misconception_dataset/**"
+      - "ruff.toml"
+      - ".github/workflows/dataset.yml"
+  workflow_dispatch:
+    inputs:
+      push_image:
+        description: "Push the sandbox image to GHCR"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dataset-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LINT_PATHS: >-
+    sandbox_runner scripts/codestream_common.py scripts/codestream_static.py
+    scripts/codestream_lfs.py scripts/repair_verify.py scripts/label_weak_codestream.py
+    scripts/build_annotation_forms.py scripts/adjudicate_gold.py scripts/execute_codestream.py
+    scripts/cluster_codestream_problems.py scripts/export_codestream_seeds.py
+    scripts/sandbox_manifest.py scripts/check_lane_b_artifacts.py tests/misconception_dataset
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff==0.17.1
+      - run: ruff check $LINT_PATHS
+
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install compilers and Valgrind
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends g++ gcc valgrind
+
+      # Ubuntu 24.04 blocks unprivileged user namespaces through AppArmor;
+      # sandbox_runner uses one (unshare -rn) to cut the network.
+      - name: Allow unprivileged user namespaces
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Install Python packages
+        run: pip install pytest scikit-learn
+
+      - name: Show what the sandbox can enforce here
+        run: python -m sandbox_runner.cli env
+
+      - name: Run dataset tests
+        run: >-
+          python -m pytest tests/misconception_dataset -q -rs
+          --junitxml=test-reports/dataset-${{ matrix.python-version }}.xml
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dataset-tests-${{ matrix.python-version }}
+          path: test-reports/
+          retention-days: 30
+
+  artifacts:
+    name: Committed artifact checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate splits, tier1a rows, review pools and blind-form hygiene
+        run: python scripts/check_lane_b_artifacts.py
+
+  sandbox-image:
+    name: Sandbox image (build, verify, publish)
+    needs: [lint, test, artifacts]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    env:
+      PUBLISH: ${{ (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/sandbox-v'))) || (github.event_name == 'workflow_dispatch' && inputs.push_image) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pin the base image by digest
+        run: |
+          docker pull ubuntu:24.04
+          BASE=$(docker inspect --format '{{index .RepoDigests 0}}' ubuntu:24.04)
+          echo "BASE=$BASE" >> "$GITHUB_ENV"
+          echo "Base image: $BASE"
+
+      - name: Build the sandbox image
+        run: |
+          VERSION=$(python -c "from sandbox_runner import SANDBOX_VERSION; print(SANDBOX_VERSION)")
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          docker build --build-arg BASE="$BASE" \
+            --label org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
+            --label org.opencontainers.image.revision="${{ github.sha }}" \
+            --label org.opencontainers.image.version="$VERSION" \
+            --label tracelearn.base="$BASE" \
+            -f sandbox_runner/docker/Dockerfile -t tracelearn-sandbox:ci .
+
+      - name: Docker backend matches the local backend
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends g++ gcc valgrind
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          pip install pytest
+          SANDBOX_IMAGE=tracelearn-sandbox:ci python -m pytest tests/misconception_dataset/test_docker_backend.py -q -rs
+
+      - name: Log in to GHCR
+        if: env.PUBLISH == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push and record the digest
+        if: env.PUBLISH == 'true'
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/tracelearn-sandbox"
+          docker tag tracelearn-sandbox:ci "$IMAGE:$VERSION"
+          docker tag tracelearn-sandbox:ci "$IMAGE:sha-${GITHUB_SHA::12}"
+          docker push "$IMAGE:$VERSION"
+          docker push "$IMAGE:sha-${GITHUB_SHA::12}"
+          if [ "$GITHUB_REF" = "refs/heads/main" ]; then
+            docker tag tracelearn-sandbox:ci "$IMAGE:latest"
+            docker push "$IMAGE:latest"
+          fi
+          DIGEST=$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE:$VERSION")
+          echo "DIGEST=$DIGEST" >> "$GITHUB_ENV"
+
+      - name: Write the G0b manifest
+        run: |
+          mkdir -p g0b
+          docker run --rm tracelearn-sandbox:ci python3 -m sandbox_runner.cli env > g0b/image_env.json
+          python - <<'EOF'
+          import json, os
+          env = json.load(open("g0b/image_env.json"))
+          out = {"gate": "G0b", "sandbox_version": os.environ["VERSION"],
+                 "base_image": os.environ["BASE"],
+                 "image_digest": os.environ.get("DIGEST") or "not published (CI build only)",
+                 "commit": os.environ["GITHUB_SHA"], "image_toolchain": env["toolchain"],
+                 "limits": env["config"]["limits"]}
+          json.dump(out, open("g0b/g0b_manifest.json", "w"), indent=2)
+          print(json.dumps(out, indent=2))
+          EOF
+          {
+            echo "### Sandbox image"
+            echo ""
+            echo "- Version: \`$VERSION\`"
+            echo "- Base: \`$BASE\`"
+            echo "- Digest: \`${DIGEST:-not published (CI build only)}\`"
+            echo ""
+            echo "Pin bulk runs with \`SANDBOX_IMAGE=<digest>\` and copy \`g0b_manifest.json\` into"
+            echo "\`data/misconception_dataset/raw_recovery/recovery_manifest.json\` → \`environment.docker\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sandbox-g0b-manifest
+          path: g0b/
+          retention-days: 90
+
+  release:
+    name: Release (sandbox-v* tags)
+    if: startsWith(github.ref, 'refs/tags/sandbox-v')
+    needs: [sandbox-image]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: sandbox-g0b-manifest
+          path: g0b/
+
+      - name: Bundle harness, reports and manifests
+        run: |
+          mkdir -p dist
+          tar czf "dist/tracelearn-dataset-${GITHUB_REF_NAME}.tar.gz" \
+            sandbox_runner data/misconception_dataset/reports \
+            data/misconception_dataset/splits data/misconception_dataset/raw_recovery g0b
+          sha256sum dist/* > dist/SHA256SUMS
+
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "Dataset sandbox $GITHUB_REF_NAME" \
+            --notes "sandbox_runner image digest and G0b manifest are in g0b_manifest.json (also attached in the bundle)."
