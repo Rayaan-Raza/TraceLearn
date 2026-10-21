@@ -362,12 +362,16 @@ All weights are in one file: [`config/evidence_weights.yaml`](config/evidence_we
 
 | Data | Current-only | History-aware |
 |------|--------------|---------------|
+| Execution, test and static evidence of the current submission | Permitted | Permitted |
+| Sequence evidence (an earlier attempt on the same problem) | Not permitted | Permitted |
 | Earlier submissions | Not permitted | Permitted only if they are **before** the current submission |
 | Earlier learner state | Not permitted | Permitted, with the same time limit |
 | Evidence from other problems | Not permitted | Permitted |
 | Later attempts | Not permitted | Not permitted |
 
-Different modules contain the two modes. History-aware diagnosis is not a copy of current-only diagnosis. The test `test_no_future_history_leakage` makes sure that no later data goes into a diagnosis.
+Different modules contain the two modes. History-aware diagnosis is not a copy of current-only diagnosis. The file [`backend/app/diagnosis/evidence_contract.py`](backend/app/diagnosis/evidence_contract.py) lists the evidence sources that each mode can read. Current-only diagnosis uses an allow-list: `execution`, `test` and `static` only.
+
+Each history evidence item records its age: the number of attempts between the earlier evidence and the current submission. The weight decreases with the age (`weight = base × decay_factor^age`). The tests `test_no_future_history_leakage` and `backend/tests/test_history_contract.py` make sure that no later data goes into a diagnosis, and that the age reaches the diagnosis.
 
 ---
 
@@ -390,7 +394,9 @@ The state machine obeys these rules:
 2. More attempts on the same problem can increase the confidence. Usually, the state stays `NEW`.
 3. Recurrence on a **different** related problem is the main cause of `PERSISTENT`.
 4. Each state change records its reason in JSON.
-5. Success on related problems can decrease the confidence. It can also change the state to `IMPROVING` or `RESOLVED`.
+5. Success on related problems can decrease the confidence. It can also change the state to `IMPROVING` or `RESOLVED`. A related problem has a diagnostic test for the same misconception.
+6. Success on an unrelated problem, an `UNCERTAIN` diagnosis, or a syntax error does not change the state.
+7. `RESOLVED` needs 2 related successes on 2 different problems after the last evidence. Strong new evidence after `RESOLVED` gives `RECURRED`.
 
 The state machine uses explicit rules. It is not an ML model. Refer to [`docs/LEARNER_STATE_RULES.md`](docs/LEARNER_STATE_RULES.md).
 
