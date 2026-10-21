@@ -27,9 +27,7 @@ class ExperimentEvaluator:
             hist_preds.append(hist.primary_misconception if hist else "UNCERTAIN")
             if s.ground_truth_state:
                 state_true.append(s.ground_truth_state)
-                from backend.app.db.models import LearnerState
-                ls = self.db.query(LearnerState).filter(LearnerState.student_id == s.student_id).first()
-                state_pred.append(ls.state.value if ls else "NEW")
+                state_pred.append(self._stored_state_after(s, label))
         comparison = compare_modes(cur_preds, hist_preds, y_true)
         history_changed_correctly = sum(
             1 for t, c, h in zip(y_true, cur_preds, hist_preds)
@@ -53,6 +51,26 @@ class ExperimentEvaluator:
             "current_only_metrics": compute_classification_metrics(y_true, cur_preds, ALL_LABELS),
             "history_aware_metrics": compute_classification_metrics(y_true, hist_preds, ALL_LABELS),
         }
+
+    def _stored_state_after(self, submission: Submission, label: str | None) -> str:
+        """The learner state the system had stored right after this submission.
+
+        Read from the append-only `learner_state_history`, so each labelled
+        attempt is scored against the state at that point in the sequence,
+        not against the final state of the student. When the label names a
+        misconception, that misconception's state is used; otherwise the most
+        recent transition of the student up to this submission.
+        """
+        from backend.app.db.models import LearnerStateHistory
+        q = self.db.query(LearnerStateHistory).filter(
+            LearnerStateHistory.student_id == submission.student_id,
+            LearnerStateHistory.submission_id != None,  # noqa: E711
+            LearnerStateHistory.submission_id <= submission.id,
+        )
+        if label and label not in ("NO_MISCONCEPTION", "UNCERTAIN"):
+            q = q.filter(LearnerStateHistory.misconception_id == label)
+        row = q.order_by(LearnerStateHistory.submission_id.desc(), LearnerStateHistory.id.desc()).first()
+        return row.new_state.value if row else MisconceptionState.NEW.value
 
     def _diag(self, submission_id: int, mode: DiagnosisMode) -> Diagnosis | None:
         return (
