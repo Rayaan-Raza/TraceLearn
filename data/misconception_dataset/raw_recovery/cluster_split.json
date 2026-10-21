@@ -1,0 +1,305 @@
+{
+  "created": "2026-10-21",
+  "creator": "eman06",
+  "script": "scripts/cluster_problems.py",
+  "threshold": 0.8,
+  "seed": 42,
+  "n_problems": 46,
+  "n_clusters": 39,
+  "split_counts": {
+    "test": 15,
+    "dev_gold": 5,
+    "train": 19
+  },
+  "clusters": {
+    "clu-001": {
+      "problems": [
+        "tl-codestream-prob_001"
+      ],
+      "split": "train"
+    },
+    "clu-002": {
+      "problems": [
+        "tl-codestream-prob_002"
+      ],
+      "split": "train"
+    },
+    "clu-003": {
+      "problems": [
+        "tl-codestream-prob_003"
+      ],
+      "split": "train"
+    },
+    "clu-004": {
+      "problems": [
+        "tl-codestream-prob_004"
+      ],
+      "split": "train"
+    },
+    "clu-005": {
+      "problems": [
+        "tl-codestream-prob_005"
+      ],
+      "split": "test"
+    },
+    "clu-006": {
+      "problems": [
+        "tl-codestream-prob_006"
+      ],
+      "split": "test"
+    },
+    "clu-007": {
+      "problems": [
+        "tl-codestream-prob_007"
+      ],
+      "split": "dev_gold"
+    },
+    "clu-008": {
+      "problems": [
+        "tl-codestream-prob_008"
+      ],
+      "split": "test"
+    },
+    "clu-009": {
+      "problems": [
+        "tl-codestream-prob_009"
+      ],
+      "split": "train"
+    },
+    "clu-010": {
+      "problems": [
+        "tl-codestream-prob_010"
+      ],
+      "split": "train"
+    },
+    "clu-011": {
+      "problems": [
+        "tl-codestream-prob_011"
+      ],
+      "split": "test"
+    },
+    "clu-012": {
+      "problems": [
+        "tl-codestream-prob_012",
+        "tl-codestream-prob_030"
+      ],
+      "split": "train"
+    },
+    "clu-013": {
+      "problems": [
+        "tl-codestream-prob_013"
+      ],
+      "split": "train"
+    },
+    "clu-014": {
+      "problems": [
+        "tl-codestream-prob_014"
+      ],
+      "split": "train"
+    },
+    "clu-015": {
+      "problems": [
+        "tl-codestream-prob_015",
+        "tl-codestream-prob_042"
+      ],
+      "split": "train"
+    },
+    "clu-016": {
+      "problems": [
+        "tl-codestream-prob_016",
+        "tl-codestream-prob_044"
+      ],
+      "split": "train"
+    },
+    "clu-017": {
+      "problems": [
+        "tl-codestream-prob_017",
+        "tl-codestream-prob_046"
+      ],
+      "split": "dev_gold"
+    },
+    "clu-018": {
+      "problems": [
+        "tl-codestream-prob_018",
+        "tl-codestream-prob_045"
+      ],
+      "split": "train"
+    },
+    "clu-019": {
+      "problems": [
+        "tl-codestream-prob_019",
+        "tl-codestream-prob_041"
+      ],
+      "split": "test"
+    },
+    "clu-020": {
+      "problems": [
+        "tl-codestream-prob_020",
+        "tl-codestream-prob_043"
+      ],
+      "split": "train"
+    },
+    "clu-021": {
+      "problems": [
+        "tl-codestream-prob_021"
+      ],
+      "split": "dev_gold"
+    },
+    "clu-022": {
+      "problems": [
+        "tl-codestream-prob_022"
+      ],
+      "split": "train"
+    },
+    "clu-023": {
+      "problems": [
+        "tl-codestream-prob_025"
+      ],
+      "split": "train"
+    },
+    "clu-024": {
+      "problems": [
+        "tl-codestream-prob_028"
+      ],
+      "split": "test"
+    },
+    "clu-025": {
+      "problems": [
+        "tl-codestream-prob_029"
+      ],
+      "split": "test"
+    },
+    "clu-026": {
+      "problems": [
+        "tl-codestream-prob_031"
+      ],
+      "split": "test"
+    },
+    "clu-027": {
+      "problems": [
+        "tl-codestream-prob_032"
+      ],
+      "split": "dev_gold"
+    },
+    "clu-028": {
+      "problems": [
+        "tl-codestream-prob_033"
+      ],
+      "split": "test"
+    },
+    "clu-029": {
+      "problems": [
+        "tl-codestream-prob_034"
+      ],
+      "split": "test"
+    },
+    "clu-030": {
+      "problems": [
+        "tl-codestream-prob_035"
+      ],
+      "split": "test"
+    },
+    "clu-031": {
+      "problems": [
+        "tl-codestream-prob_036"
+      ],
+      "split": "test"
+    },
+    "clu-032": {
+      "problems": [
+        "tl-codestream-prob_037"
+      ],
+      "split": "dev_gold"
+    },
+    "clu-033": {
+      "problems": [
+        "tl-codestream-prob_038"
+      ],
+      "split": "train"
+    },
+    "clu-034": {
+      "problems": [
+        "tl-codestream-prob_039"
+      ],
+      "split": "train"
+    },
+    "clu-035": {
+      "problems": [
+        "tl-codestream-prob_040"
+      ],
+      "split": "test"
+    },
+    "clu-036": {
+      "problems": [
+        "tl-codestream-prob_047"
+      ],
+      "split": "train"
+    },
+    "clu-037": {
+      "problems": [
+        "tl-codestream-prob_048"
+      ],
+      "split": "test"
+    },
+    "clu-038": {
+      "problems": [
+        "tl-codestream-prob_049"
+      ],
+      "split": "train"
+    },
+    "clu-039": {
+      "problems": [
+        "tl-codestream-prob_050"
+      ],
+      "split": "test"
+    }
+  },
+  "problem_to_cluster": {
+    "tl-codestream-prob_001": "clu-001",
+    "tl-codestream-prob_002": "clu-002",
+    "tl-codestream-prob_003": "clu-003",
+    "tl-codestream-prob_004": "clu-004",
+    "tl-codestream-prob_005": "clu-005",
+    "tl-codestream-prob_006": "clu-006",
+    "tl-codestream-prob_007": "clu-007",
+    "tl-codestream-prob_008": "clu-008",
+    "tl-codestream-prob_009": "clu-009",
+    "tl-codestream-prob_010": "clu-010",
+    "tl-codestream-prob_011": "clu-011",
+    "tl-codestream-prob_012": "clu-012",
+    "tl-codestream-prob_013": "clu-013",
+    "tl-codestream-prob_014": "clu-014",
+    "tl-codestream-prob_015": "clu-015",
+    "tl-codestream-prob_016": "clu-016",
+    "tl-codestream-prob_017": "clu-017",
+    "tl-codestream-prob_018": "clu-018",
+    "tl-codestream-prob_019": "clu-019",
+    "tl-codestream-prob_020": "clu-020",
+    "tl-codestream-prob_021": "clu-021",
+    "tl-codestream-prob_022": "clu-022",
+    "tl-codestream-prob_025": "clu-023",
+    "tl-codestream-prob_028": "clu-024",
+    "tl-codestream-prob_029": "clu-025",
+    "tl-codestream-prob_030": "clu-012",
+    "tl-codestream-prob_031": "clu-026",
+    "tl-codestream-prob_032": "clu-027",
+    "tl-codestream-prob_033": "clu-028",
+    "tl-codestream-prob_034": "clu-029",
+    "tl-codestream-prob_035": "clu-030",
+    "tl-codestream-prob_036": "clu-031",
+    "tl-codestream-prob_037": "clu-032",
+    "tl-codestream-prob_038": "clu-033",
+    "tl-codestream-prob_039": "clu-034",
+    "tl-codestream-prob_040": "clu-035",
+    "tl-codestream-prob_041": "clu-019",
+    "tl-codestream-prob_042": "clu-015",
+    "tl-codestream-prob_043": "clu-020",
+    "tl-codestream-prob_044": "clu-016",
+    "tl-codestream-prob_045": "clu-018",
+    "tl-codestream-prob_046": "clu-017",
+    "tl-codestream-prob_047": "clu-036",
+    "tl-codestream-prob_048": "clu-037",
+    "tl-codestream-prob_049": "clu-038",
+    "tl-codestream-prob_050": "clu-039"
+  }
+}
