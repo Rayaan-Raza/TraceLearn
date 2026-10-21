@@ -38,6 +38,6 @@ Fixes: commit `fb94119` "after QA". Regression tests: `backend/tests/test_iterat
 ## Open items (not changed in Iteration 1)
 
 - The history-aware mode does not change any prediction (`history_changed_predictions = 0`).
-- The learner states RESOLVED and RECURRED cannot be reached in `learner_model/updater.py`.
+- ~~The learner states RESOLVED and RECURRED cannot be reached in `learner_model/updater.py`.~~ Fixed after Iteration 1: see `docs/LEARNER_STATE_RULES.md` and `backend/tests/test_learner_recovery.py`.
 - When diagnostic tests disagree, the attempt always goes to review (labelled case SYN005). This is a design decision for the team.
 - On Windows there is no sandbox. Use it for local development only.
