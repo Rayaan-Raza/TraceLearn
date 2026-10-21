@@ -76,7 +76,8 @@ class Ctx:
 # ----------------------------------------------------------- evidence -----
 
 def _ints(s: str) -> list[int]:
-    return [int(x) for x in re.findall(r"-?\d+", s or "")[:2000]]
+    """Whitespace-separated pure integer tokens (not digits inside words)."""
+    return [int(x) for x in (s or "").split()[:5000] if re.fullmatch(r"-?\d{1,18}", x)]
 
 
 def overflow_reports(ctx: Ctx) -> list[dict]:
@@ -112,18 +113,30 @@ def _undersized(ctx: Ctx, rep: dict) -> bool:
     return bool(nums) and max(nums) >= min(v for _, v in arrs)
 
 
-def pm1_evidence(ctx: Ctx) -> dict | None:
+def pm1_evidence(ctx: Ctx, loop_lines: set[int] | None = None) -> dict | None:
+    """±1 run evidence: numeric deltas of exactly 1, one element extra/missing
+    at either end of a multi-token answer, or an out-of-bounds access exactly
+    one past the end (to the right) on a line inside the given loops."""
     for d in ctx.diffs:
         if d.get("numeric_deltas") and d.get("all_deltas_pm1"):
             return {"signal": "numeric_delta_pm1", "deltas": d["numeric_deltas"][:5]}
-        if d.get("token_count_delta") in (-1, 1) and (
+        if d.get("token_count_delta") in (-1, 1) and max(d.get("expected_tokens") or 0,
+                                                          d.get("actual_tokens") or 0) >= 2 and (
                 d.get("is_prefix_of_expected") or d.get("expected_is_prefix")
                 or d.get("is_suffix_of_expected") or d.get("expected_is_suffix")):
             return {"signal": "one_token_extra_or_missing", "delta": d["token_count_delta"]}
     for r in overflow_reports(ctx):
-        if r.get("elements_past_end") == 0 and not _undersized(ctx, r):
+        if r.get("elements_past_end") == 0 and r.get("direction", "right") in ("right", None) \
+                and not _undersized(ctx, r) and (loop_lines is None or r.get("line") in loop_lines):
             return {"signal": "oob_exact_size", "line": r.get("line"), "tool": r["tool"]}
     return None
+
+
+def _lines_of_loops(prog: Program, loops) -> set[int]:
+    out = set()
+    for lp in loops:
+        out |= set(range(line_of(prog.code, lp.keyword), line_of(prog.code, lp.body.end) + 1))
+    return out
 
 
 def _loop_lines(prog: Program) -> set[int]:
@@ -140,7 +153,7 @@ def _loop_lines(prog: Program) -> set[int]:
 def lf_loop_boundary(ctx: Ctx) -> Fire | None:
     """Loop test with a relational operator (<, <=, >, >=, != n+1) ∧ ±1
     divergence or an exact-size out-of-bounds access."""
-    static = []
+    static, inclusive = [], []
     for lp in ctx.prog.loops:
         if not lp.cond:
             continue
@@ -148,9 +161,11 @@ def lf_loop_boundary(ctx: Ctx) -> Fire | None:
         cond = ctx.prog.text[lp.cond.start:lp.cond.end]
         if any(o in FLIP for o in ops) or re.search(r"(<|!=)\s*\w+\s*\+\s*1\b", cond):
             static.append(lp.line)
+        if any(o in ("<=", ">=") for o in ops) or re.search(r"(<|!=)\s*\w+\s*\+\s*1\b", cond):
+            inclusive.append(lp)
     if not static:
         return None
-    ev = pm1_evidence(ctx)
+    ev = pm1_evidence(ctx, loop_lines=_lines_of_loops(ctx.prog, inclusive))
     if not ev:
         return None
     return Fire("lf_loop_boundary", "CPP_LOOP_BOUNDARY", {"loop_lines": static[:5], **ev})
@@ -171,7 +186,7 @@ def lf_off_by_one(ctx: Ctx) -> Fire | None:
         static.append("output_pm1")
     if not static:
         return None
-    ev = pm1_evidence(ctx)
+    ev = pm1_evidence(ctx, loop_lines=_lines_of_loops(ctx.prog, ctx.prog.loops))
     if not ev:
         return None
     return Fire("lf_off_by_one", "CPP_OFF_BY_ONE", {"static": sorted(set(static)), **ev})
@@ -208,6 +223,8 @@ def lf_int_overflow(ctx: Ctx) -> Fire | None:
     """`int` arithmetic ∧ (UBSan signed overflow, or failures only where answers exceed INT_MAX)."""
     if not re.search(r"\bint\b(?!\s+main\b)", ctx.prog.text):
         return None
+    if not (ctx.result.get("tests") or {}).get("passed"):
+        return None  # overflow bugs pass the small tests and fail only large ones
     if any(r["tool"] == "ubsan" and r["kind"] == "signed-integer-overflow" for r in ctx.san_reports):
         return Fire("lf_int_overflow", "CPP_INT_OVERFLOW", {"signal": "ubsan_signed_overflow"})
     big_fail = 0
@@ -279,9 +296,17 @@ def lf_range_check_detector(ctx: Ctx) -> Fire | None:
     conds = range_check_conditions(ctx.prog)
     if not conds:
         return None
+    # literals compared against an index / loop variable (j >= 0, i < n) are
+    # index guards, not input validation
+    idx_vars = {lp.var for lp in ctx.prog.loops if lp.var}
+    idx_vars |= set(re.findall(r"\[\s*([A-Za-z_]\w*)", ctx.prog.text))
     lits = set()
+    pair = re.compile(r"([A-Za-z_]\w*)\s*(?:<=|>=|<|>|==|!=)\s*(-?\d+)\b|(-?\d+)\s*(?:<=|>=|<|>|==|!=)\s*([A-Za-z_]\w*)")
     for c, _ in conds:
-        lits |= {int(x) for x in re.findall(r"-?\b\d+\b", ctx.prog.text[c.span.start:c.span.end])}
+        for m in pair.finditer(ctx.prog.text[c.span.start:c.span.end]):
+            var, lit = (m.group(1), m.group(2)) if m.group(1) else (m.group(4), m.group(3))
+            if var not in idx_vars:
+                lits.add(int(lit))
     if not lits:
         return None
     t = ctx.result.get("tests") or {}
