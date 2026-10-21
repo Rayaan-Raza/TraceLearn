@@ -45,3 +45,6 @@ npm-debug.log*
 experiment_output.txt
 npm_build_output.txt
 pytest_output.txt
+
+# Misconception dataset: re-creatable execution cache
+data/misconception_dataset/cache/
