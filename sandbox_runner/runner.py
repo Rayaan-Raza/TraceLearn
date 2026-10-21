@@ -199,7 +199,9 @@ def _valgrind_pass(lang, src, workdir, inputs, plain_results, cfg, extra=()) -> 
     timeouts = []
     for i in idxs:
         log = os.path.join(workdir, f"vg{i}.log")
-        argv = ["valgrind", "--tool=memcheck", f"--error-exitcode={VALGRIND_EXIT_CODE}",
+        # absolute path: the sandboxed process gets a minimal PATH, and a
+        # user-local Valgrind (e.g. ~/.local/bin) would not be found otherwise
+        argv = [shutil.which("valgrind") or "valgrind", "--tool=memcheck", f"--error-exitcode={VALGRIND_EXIT_CODE}",
                 "--track-origins=yes", "--leak-check=no", f"--log-file={log}",
                 f"--main-stacksize={cfg.limits.stack_mb * 1024 * 1024}", out]
         r = run_process(argv, stdin_path=inputs[i], workdir=workdir,
