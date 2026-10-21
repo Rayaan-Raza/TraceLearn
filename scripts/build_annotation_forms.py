@@ -329,6 +329,8 @@ def main() -> int:
          f"- Gold items: {len(gold)} (commitment 220, floor 150) from {len(test_rows)} failing test-side rows",
          f"- Clusters spanned: {len(clusters)} of {len(test_clusters)} test clusters · users: {len(users)} (need ≥30)",
          f"- Overlap items (4 raters): {len(overlap)} · duplicates per team rater: {DUPLICATES}",
+         "- Hard-3 overlap items (target 12 each for per-class κ): " + ", ".join(
+             f"{c} {sum(1 for g in overlap if g[1] == c)}" for c in HARD3),
          f"- Items per rater: " + ", ".join(f"{k} {len(v)}" for k, v in per_rater.items()),
          f"- Dev-gold: {len(dev)} natural-distribution items from {len({r['problem_cluster'] for r in dev})} dev-gold clusters",
          f"- Calibration: {len(cal)} train-side items", "",
@@ -343,7 +345,10 @@ def main() -> int:
           "## Rater workflow", "",
           "1. Everyone does `forms/calibration/` together, discusses, and writes the decision tree into `ANNOTATION_GUIDELINE.md`.",
           "2. Each rater fills `forms/<rater>/answers.csv` from `forms/<rater>/form.html`.",
-          "3. Run `scripts/adjudicate_gold.py` → Fleiss κ (4 raters, overlap), intra-rater agreement, majority labels → `annotations/gold.jsonl`."]
+          "3. Run `scripts/adjudicate_gold.py` → Fleiss κ (4 raters, overlap), intra-rater agreement, majority labels → `annotations/gold.jsonl`.",
+          "",
+          "`forms/` (student code) and `forms_key/` (the hidden answer key) are **not committed**: the key must stay",
+          "with the coordinator (Umaima) because the raters can read the repo. Re-create both with this script."]
     rep = DATASET_DIR / "reports" / "gold_forms_report.md"
     rep.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))

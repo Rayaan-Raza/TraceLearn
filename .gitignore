@@ -48,3 +48,6 @@ pytest_output.txt
 
 # Misconception dataset: re-creatable execution cache
 data/misconception_dataset/cache/
+# Blind gold forms (student code) and the hidden answer key: local only, re-create with scripts/build_annotation_forms.py
+data/misconception_dataset/annotations/forms/
+data/misconception_dataset/annotations/forms_key/
