@@ -2,11 +2,15 @@ from __future__ import annotations
 import json
 from sqlalchemy.orm import Session
 from backend.app.analysis.evidence_models import EvidenceRecord
-from backend.app.db.models import Diagnosis, DiagnosisMode, EvidenceItem, EvidenceSourceType, Submission, UncertaintyLevel
+from backend.app.db.models import Diagnosis, DiagnosisMode, EvidenceItem, Submission, UncertaintyLevel
 from backend.app.diagnosis.confidence import fuse_diagnosis
+from backend.app.diagnosis.evidence_contract import CURRENT_ONLY_SOURCES, records_from_items
 
 class CurrentOnlyDiagnosisEngine:
-    """Diagnosis using ONLY current submission evidence — no history access."""
+    """Diagnosis using ONLY observed evidence of the current submission.
+
+    No `sequence` and no `history` evidence: see `evidence_contract`.
+    """
 
     def diagnose(self, db: Session, submission: Submission) -> Diagnosis:
         records = self._records_from_db(db, submission.id, history_allowed=False)
@@ -28,19 +32,12 @@ class CurrentOnlyDiagnosisEngine:
         return diag
 
     def _records_from_db(self, db: Session, submission_id: int, history_allowed: bool) -> list[EvidenceRecord]:
-        q = db.query(EvidenceItem).filter(EvidenceItem.submission_id == submission_id)
-        if not history_allowed:
-            q = q.filter(EvidenceItem.source_type != EvidenceSourceType.HISTORY)
-        records = []
-        for item in q.all():
-            if item.source_type == EvidenceSourceType.HISTORY:
-                continue
-            records.append(EvidenceRecord(
-                source_type=item.source_type.value,
-                evidence_code=item.evidence_code,
-                misconception_id=item.misconception_id,
-                direction=item.direction.value,
-                weight=item.weight,
-                description=item.description,
-            ))
-        return records
+        # Mode A reads observed evidence of this attempt only. The allow-list
+        # also removes `sequence` evidence (an earlier attempt on the same
+        # problem), not just `history`. `history_allowed` is kept for the
+        # contract test and is never honoured here.
+        items = db.query(EvidenceItem).filter(
+            EvidenceItem.submission_id == submission_id,
+            EvidenceItem.source_type.in_(list(CURRENT_ONLY_SOURCES)),
+        ).all()
+        return records_from_items(items, CURRENT_ONLY_SOURCES)
