@@ -1,0 +1,355 @@
+{
+  "version": "1.0",
+  "created": "2026-10-21",
+  "creator": "eman06",
+  "taxonomy_version": "tl-cpp-v2",
+  "mining_source": "CodeStream train-side wrong->Accepted pairs",
+  "operators": {
+    "CPP_LOOP_BOUNDARY": {
+      "class": "CPP_LOOP_BOUNDARY",
+      "forms": [
+        {
+          "name": "lb_le_to_lt",
+          "pattern": "(for\\s*\\([^;]+;\\s*\\w+\\s*)<=(\\s*\\w+)",
+          "replacement": "\\1<\\2",
+          "frequency_weight": 6
+        },
+        {
+          "name": "lb_lt_np1_to_le_n",
+          "pattern": "(for\\s*\\([^;]+;\\s*\\w+\\s*)<\\s*(\\w+)\\s*\\+\\s*1",
+          "replacement": "\\1<=\\2",
+          "frequency_weight": 6
+        },
+        {
+          "name": "lb_ne_np1_to_le_n",
+          "pattern": "(for\\s*\\([^;]+;\\s*\\w+\\s*)!=\\s*(\\w+)\\s*\\+\\s*1",
+          "replacement": "\\1<=\\2",
+          "frequency_weight": 6
+        },
+        {
+          "name": "lb_while_le_to_lt",
+          "pattern": "(while\\s*\\(\\s*\\w+\\s*)<=(\\s*\\w+\\s*\\))",
+          "replacement": "\\1<\\2",
+          "frequency_weight": 6
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 6
+    },
+    "CPP_OFF_BY_ONE": {
+      "class": "CPP_OFF_BY_ONE",
+      "forms": [
+        {
+          "name": "obo_index_plus1",
+          "pattern": "(\\w+\\s*\\[)\\s*(\\w+)\\s*\\+\\s*1\\s*(\\])",
+          "replacement": "\\1\\2\\3",
+          "frequency_weight": 6
+        },
+        {
+          "name": "obo_init_1_to_0",
+          "pattern": "(for\\s*\\(\\s*int\\s+\\w+\\s*=\\s*)1(\\s*;)",
+          "replacement": "\\g<1>0\\2",
+          "frequency_weight": 6
+        },
+        {
+          "name": "obo_bound_n_minus1",
+          "pattern": "(for\\s*\\([^;]+;\\s*\\w+\\s*<\\s*)(\\w+)\\s*-\\s*1",
+          "replacement": "\\1\\2",
+          "frequency_weight": 6
+        },
+        {
+          "name": "obo_index_minus1",
+          "pattern": "(\\w+\\s*\\[)\\s*(\\w+)\\s*-\\s*1\\s*(\\])",
+          "replacement": "\\1\\2\\3",
+          "frequency_weight": 6
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 6
+    },
+    "CPP_ARRAY_BOUNDS": {
+      "class": "CPP_ARRAY_BOUNDS",
+      "forms": [
+        {
+          "name": "ab_array_size_minus1",
+          "pattern": "(int\\s+\\w+\\s*\\[)\\s*(\\w+)\\s*(\\])",
+          "replacement": "\\g<1>\\2 - 1\\3",
+          "frequency_weight": 1
+        },
+        {
+          "name": "ab_char_buf_minus1",
+          "pattern": "(char\\s+\\w+\\s*\\[)\\s*(\\d+)\\s*(\\])",
+          "replacement": "__callable__",
+          "frequency_weight": 1
+        },
+        {
+          "name": "ab_vector_no_resize",
+          "pattern": "(\\w+\\.reserve\\s*\\(\\s*)(\\w+)\\s*(\\))",
+          "replacement": "\\1\\2 - 1\\3",
+          "frequency_weight": 1
+        },
+        {
+          "name": "ab_new_minus1",
+          "pattern": "(new\\s+\\w+\\s*\\[)\\s*(\\w+)\\s*(\\])",
+          "replacement": "\\g<1>\\2 - 1\\3",
+          "frequency_weight": 1
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 1
+    },
+    "CPP_UNINITIALIZED_VAR": {
+      "class": "CPP_UNINITIALIZED_VAR",
+      "forms": [
+        {
+          "name": "uninit_int_zero",
+          "pattern": "\\bint\\s+(\\w+)\\s*=\\s*0\\s*;",
+          "replacement": "int \\1;",
+          "frequency_weight": 3
+        },
+        {
+          "name": "uninit_double_zero",
+          "pattern": "\\bdouble\\s+(\\w+)\\s*=\\s*0(?:\\.0)?\\s*;",
+          "replacement": "double \\1;",
+          "frequency_weight": 3
+        },
+        {
+          "name": "uninit_multi_int",
+          "pattern": "\\bint\\s+(\\w+)\\s*=\\s*0\\s*,\\s*(\\w+)\\s*=\\s*0\\s*;",
+          "replacement": "int \\1, \\2;",
+          "frequency_weight": 3
+        },
+        {
+          "name": "uninit_bool_false",
+          "pattern": "\\bbool\\s+(\\w+)\\s*=\\s*false\\s*;",
+          "replacement": "bool \\1;",
+          "frequency_weight": 3
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 3
+    },
+    "CPP_INT_OVERFLOW": {
+      "class": "CPP_INT_OVERFLOW",
+      "forms": [
+        {
+          "name": "overflow_ll_sum_to_int",
+          "pattern": "\\blong\\s+long\\s+(sum|ans|total|result)\\b",
+          "replacement": "int \\1",
+          "frequency_weight": 8
+        },
+        {
+          "name": "overflow_remove_ll_cast",
+          "pattern": "\\(long\\s+long\\)\\s*(\\w+)\\s*\\*",
+          "replacement": "\\1 *",
+          "frequency_weight": 8
+        },
+        {
+          "name": "overflow_ll_acc_to_int",
+          "pattern": "\\blong\\s+long\\s+(\\w+)\\s*=\\s*0\\s*;",
+          "replacement": "int \\1 = 0;",
+          "frequency_weight": 8
+        },
+        {
+          "name": "overflow_1ll_removed",
+          "pattern": "\\b1LL\\s*\\*\\s*(\\w+)",
+          "replacement": "\\1",
+          "frequency_weight": 8
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 8
+    },
+    "CPP_MISSING_BASE_CASE": {
+      "class": "CPP_MISSING_BASE_CASE",
+      "forms": [
+        {
+          "name": "mbc_remove_base_n0",
+          "pattern": "if\\s*\\(\\s*n\\s*==\\s*0\\s*\\)\\s*\\{[^}]*\\}\\s*",
+          "replacement": "",
+          "frequency_weight": 1
+        },
+        {
+          "name": "mbc_remove_base_le1",
+          "pattern": "if\\s*\\(\\s*n\\s*<=\\s*1\\s*\\)\\s*\\{[^}]*\\}\\s*",
+          "replacement": "",
+          "frequency_weight": 1
+        },
+        {
+          "name": "mbc_remove_base_eq1",
+          "pattern": "if\\s*\\(\\s*n\\s*==\\s*1\\s*\\)\\s*return\\s+[^;]+;",
+          "replacement": "",
+          "frequency_weight": 1
+        },
+        {
+          "name": "mbc_remove_return_base",
+          "pattern": "if\\s*\\(\\s*\\w+\\s*==\\s*0\\s*\\)\\s*return\\s+[^;]+;",
+          "replacement": "",
+          "frequency_weight": 1
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 1
+    },
+    "CPP_ASSIGN_VS_COMPARE": {
+      "class": "CPP_ASSIGN_VS_COMPARE",
+      "forms": [
+        {
+          "name": "avc_eq_to_assign_if",
+          "pattern": "(if\\s*\\()(\\w+)\\s*==\\s*(\\w+)(\\))",
+          "replacement": "\\1\\2 = \\3\\4",
+          "frequency_weight": 0
+        },
+        {
+          "name": "avc_eq_to_assign_while",
+          "pattern": "(while\\s*\\()(\\w+)\\s*==\\s*(\\w+)(\\))",
+          "replacement": "\\1\\2 = \\3\\4",
+          "frequency_weight": 0
+        },
+        {
+          "name": "avc_ne_to_assign_if",
+          "pattern": "(if\\s*\\()(\\w+)\\s*!=\\s*(\\w+)(\\))",
+          "replacement": "\\1\\2 = \\3\\4",
+          "frequency_weight": 0
+        },
+        {
+          "name": "avc_eq_to_assign_elif",
+          "pattern": "(else\\s+if\\s*\\()(\\w+)\\s*==\\s*(\\w+)(\\))",
+          "replacement": "\\1\\2 = \\3\\4",
+          "frequency_weight": 0
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 0
+    },
+    "CPP_WRONG_LOOP_DIR": {
+      "class": "CPP_WRONG_LOOP_DIR",
+      "forms": [
+        {
+          "name": "wld_incr_to_decr",
+          "pattern": "(for\\s*\\([^;]+;[^;]+;\\s*)(\\w+)\\+\\+(\\s*\\))",
+          "replacement": "\\1\\2--\\3",
+          "frequency_weight": 1
+        },
+        {
+          "name": "wld_start_0_to_n",
+          "pattern": "(for\\s*\\(\\s*int\\s+\\w+\\s*=\\s*)0(\\s*;[^;]+;)",
+          "replacement": "\\1n\\2",
+          "frequency_weight": 1
+        },
+        {
+          "name": "wld_lt_to_gt",
+          "pattern": "(for\\s*\\([^;]+;\\s*\\w+\\s*)<(\\s*\\w+\\s*;)",
+          "replacement": "\\1>\\2",
+          "frequency_weight": 1
+        },
+        {
+          "name": "wld_inc_step_to_dec",
+          "pattern": "(for\\s*\\([^;]+;[^;]+;\\s*\\w+\\s*)\\+=(\\s*1\\s*\\))",
+          "replacement": "\\1-=\\2",
+          "frequency_weight": 1
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 1
+    },
+    "CPP_RANGE_CHECK": {
+      "class": "CPP_RANGE_CHECK",
+      "forms": [
+        {
+          "name": "rc_ge_to_gt",
+          "pattern": "(if\\s*\\([^)]*\\w+\\s*)>=(\\s*\\d+)",
+          "replacement": "\\1>\\2",
+          "frequency_weight": 0
+        },
+        {
+          "name": "rc_le_to_lt",
+          "pattern": "(if\\s*\\([^)]*\\w+\\s*)<=(\\s*\\w+)",
+          "replacement": "\\1<\\2",
+          "frequency_weight": 0
+        },
+        {
+          "name": "rc_lt1_to_le0",
+          "pattern": "(if\\s*\\([^)]*\\w+\\s*)<(\\s*1\\b)",
+          "replacement": "\\1<=\\g<2>",
+          "frequency_weight": 0
+        },
+        {
+          "name": "rc_ge_le_to_gt_lt",
+          "pattern": "(\\w+\\s*)>=(\\s*\\d+\\s*&&\\s*\\w+\\s*)<=(\\s*\\d+)",
+          "replacement": "\\1>\\2<\\3",
+          "frequency_weight": 0
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 0
+    },
+    "CPP_STALE_EXIT": {
+      "class": "CPP_STALE_EXIT",
+      "forms": [
+        {
+          "name": "se_remove_incr_in_while",
+          "pattern": "(while\\s*\\([^)]+\\)\\s*\\{[^}]*)(\\w+\\s*\\+\\+\\s*;)([^}]*\\})",
+          "replacement": "\\1// \\2\\3",
+          "frequency_weight": 0
+        },
+        {
+          "name": "se_frozen_counter",
+          "pattern": "(\\w+)\\+\\+(\\s*;)\\s*(//.*)?$",
+          "replacement": "// \\1++\\2  // stale: update removed",
+          "frequency_weight": 0
+        },
+        {
+          "name": "se_remove_flag_update",
+          "pattern": "(flag\\s*=\\s*)(true|false|1|0)(\\s*;)",
+          "replacement": "// \\1\\2\\3  // flag not updated",
+          "frequency_weight": 0
+        },
+        {
+          "name": "se_remove_break_condition",
+          "pattern": "if\\s*\\([^)]+\\)\\s*break\\s*;",
+          "replacement": "// removed break",
+          "frequency_weight": 0
+        }
+      ],
+      "n_forms": 4,
+      "mined_pairs": 0
+    }
+  },
+  "decoy_operators": [
+    {
+      "name": "decoy_brace_mismatch",
+      "pattern": "(\\bif\\s*\\([^)]+\\))\\s*\\{([^{}]{0,100})\\}",
+      "replacement": "\\1 \\2",
+      "label": "CPP_OTHER_ERROR"
+    },
+    {
+      "name": "decoy_index_plus2",
+      "pattern": "(\\w+\\s*\\[)\\s*(\\w+)\\s*\\]",
+      "replacement": "\\1\\2 + 2]",
+      "label": "CPP_OTHER_ERROR"
+    },
+    {
+      "name": "decoy_endl_flush",
+      "pattern": "cout\\s*<<\\s*(\\w+)\\s*<<\\s*\"\\\\n\"",
+      "replacement": "cout << \\1 << endl << flush",
+      "label": "CPP_OTHER_ERROR"
+    },
+    {
+      "name": "decoy_swap_two_outputs",
+      "pattern": "(cout\\s*<<[^\\n]+\\n)([^\\n]*cout\\s*<<[^\\n]+)",
+      "replacement": "\\2\\n\\1",
+      "label": "CPP_OTHER_ERROR"
+    }
+  ],
+  "mined_class_pair_counts": {
+    "CPP_INT_OVERFLOW": 8,
+    "CPP_OFF_BY_ONE": 6,
+    "CPP_MISSING_BASE_CASE": 1,
+    "CPP_LOOP_BOUNDARY": 6,
+    "CPP_ARRAY_BOUNDS": 1,
+    "CPP_WRONG_LOOP_DIR": 1,
+    "CPP_UNINITIALIZED_VAR": 3
+  },
+  "total_pairs_mined": 71
+}
