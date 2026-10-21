@@ -75,8 +75,13 @@ def refresh_diffs(result: dict, tests: list[dict]) -> dict:
     return result
 
 
+EXPLORE_CLASSES = ["CPP_LOOP_BOUNDARY", "CPP_OFF_BY_ONE", "CPP_ASSIGN_VS_COMPARE",
+                   "CPP_INT_OVERFLOW", "CPP_WRONG_LOOP_DIR", "CPP_RANGE_CHECK",
+                   "CPP_ARRAY_BOUNDS", "CPP_UNINITIALIZED_VAR"]
+
+
 def decide(code: str, lang: str, tests: list[dict], result: dict, *, cache_dir: str | None = None,
-           do_repair: bool = True) -> dict:
+           do_repair: bool = True, explore: bool = False, explore_tries: int = 6) -> dict:
     """Return the labeling decision for one executed row."""
     branch = result.get("branch")
     if branch != "failing":
@@ -121,13 +126,30 @@ def decide(code: str, lang: str, tests: list[dict], result: dict, *, cache_dir: 
                        reason="LFs for different classes fired")
     else:
         out.update(decision="no_fire", label=None, secondary=[])
+        if explore:
+            # Repair exploration on rows no LF explained: a unique minimal edit of
+            # one class that fixes every test is strong causal evidence, but no LF
+            # agreed, so the row goes to human review (H2), never straight to a label.
+            found = []
+            for cls in EXPLORE_CLASSES:
+                r = verify(code, lang, tests, cls, prog=prog, cache_dir=cache_dir,
+                           max_tries=explore_tries)
+                out["repairs"].append(r)
+                if r["verified"]:
+                    found.append(cls)
+            out["verified_classes"] = found
+            if len(found) == 1:
+                out.update(decision="repair_discovered", label=found[0], secondary=[])
+            elif len(found) > 1:
+                out.update(decision="multi_signal", label=None, secondary=found,
+                           reason="exploration: several inverse operators each fix every test")
     return out
 
 
 def _decide_job(args):
-    code, lang, tests, result, cache_dir = args
+    code, lang, tests, result, cache_dir, explore = args
     try:
-        return decide(code, lang, tests, result, cache_dir=cache_dir)
+        return decide(code, lang, tests, result, cache_dir=cache_dir, explore=explore)
     except Exception as exc:
         return {"decision": "error", "error": f"{type(exc).__name__}: {exc}", "fires": [],
                 "repairs": []}
@@ -253,6 +275,8 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--pilot", type=int, default=0, help="label only N train-side failing rows")
     ap.add_argument("--other-sample", type=int, default=400)
+    ap.add_argument("--explore", action="store_true",
+                    help="also try inverse operators on no-fire rows (→ repair_discovered review pool)")
     a = ap.parse_args()
 
     raw = find_raw(a.raw)
@@ -265,6 +289,8 @@ def main() -> int:
         r = json.loads(line)
         execd[r["submission_id"]] = r["result"]
     rows = [s for s in subs if s.submission_id in execd]
+    # row ids are stable: position of the submission in the raw C/C++ table
+    row_no = {s.submission_id: i for i, s in enumerate(subs, 1)}
     if a.pilot:
         rng = random.Random(SEED)
         cand = [s for s in rows if execd[s.submission_id].get("branch") == "failing"
@@ -273,8 +299,8 @@ def main() -> int:
         rows = cand[:a.pilot]
     print(f"labeling {len(rows)} executed rows", flush=True)
     cache_dir = str(DATASET_DIR / "cache" / "repairs")
-    jobs = [(s.code, s.lang, probs[s.problem_id].tests, execd[s.submission_id], cache_dir)
-            for s in rows]
+    jobs = [(s.code, s.lang, probs[s.problem_id].tests, execd[s.submission_id], cache_dir,
+             a.explore) for s in rows]
     with ProcessPoolExecutor(max_workers=a.workers) as ex:
         decisions = list(ex.map(_decide_job, jobs, chunksize=4))
 
@@ -282,21 +308,32 @@ def main() -> int:
     audits = load_audits()
     run_id = "run-" + dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + \
         hashlib.sha256(EXEC_PATH.read_bytes()).hexdigest()[:8]
-    labeled, multi, disc, nofire = [], [], [], []
+    labeled, multi, disc, nofire, discovered = [], [], [], [], []
+    index = []
     stats = Counter()
-    for n, (s, dec) in enumerate(zip(rows, decisions), 1):
+    for s, dec in zip(rows, decisions):
+        n = row_no[s.submission_id]
         stats[dec["decision"]] += 1
         if dec["decision"] in ("pre_branch", "error"):
             continue
         cluster, pool = pools[s.problem_id]
         row = build_row(n, s, probs[s.problem_id], pool, cluster, execd[s.submission_id], dec,
                         audits, prev.get(s.submission_id), run_id)
+        index.append({"row_id": row["row_id"], "submission_id": s.submission_id,
+                      "problem_id": s.problem_id, "problem_cluster": cluster, "split_pool": pool,
+                      "user_id_hash": row["meta"]["user_id_hash"], "language": s.lang,
+                      "decision": dec["decision"], "label": dec.get("label") or "",
+                      "fired_classes": "|".join(dec.get("fired_classes", [])),
+                      "verified_classes": "|".join(dec.get("verified_classes", [])),
+                      "firing_count": dec.get("firing_count", 0)})
         if dec["decision"] in ("repair_verified", "weak_rule"):
             labeled.append(row)
         elif dec["decision"] == "multi_signal":
             multi.append(row)
         elif dec["decision"] == "discovery":
             disc.append(row)
+        elif dec["decision"] == "repair_discovered":
+            discovered.append(row)
         else:
             nofire.append(row)
 
@@ -306,12 +343,22 @@ def main() -> int:
     # discovery: verified repairs first, then by number of supporting signals
     disc.sort(key=lambda r: (r["repair"] is None, -r["firing_count"], r["row_id"]))
     write_jsonl(REVIEW / f"discovery_candidates{suffix}.jsonl", disc)
+    write_jsonl(REVIEW / f"repair_discovered{suffix}.jsonl", discovered)
     rng = random.Random(SEED)
     other = list(nofire)
     rng.shuffle(other)
     write_jsonl(REVIEW / f"other_error_candidates{suffix}.jsonl", other[:a.other_sample])
     write_audit_sheet(labeled + disc + multi, suffix)
-    write_reports(rows, decisions, labeled, multi, disc, nofire, stats, pools, suffix, run_id)
+    idx_path = ANN / f"codestream_failing_index{suffix}.csv"
+    with open(idx_path, "w", newline="", encoding="utf-8") as fh:
+        cols = ["row_id", "submission_id", "problem_id", "problem_cluster", "split_pool",
+                "user_id_hash", "language", "decision", "label", "fired_classes",
+                "verified_classes", "firing_count"]
+        w = csv.DictWriter(fh, fieldnames=cols, lineterminator="\n")
+        w.writeheader()
+        w.writerows(index)
+    write_reports(rows, decisions, labeled, multi, disc, nofire, stats, pools, suffix, run_id,
+                  discovered)
     errors = [d for d in decisions if d["decision"] == "error"]
     if errors:
         print(f"{len(errors)} rows errored, e.g. {errors[0]['error']}")
@@ -343,7 +390,8 @@ def write_audit_sheet(rows: list[dict], suffix: str) -> None:
                             json.dumps(f["evidence"])[:300], "", "", "", ""])
 
 
-def write_reports(rows, decisions, labeled, multi, disc, nofire, stats, pools, suffix, run_id):
+def write_reports(rows, decisions, labeled, multi, disc, nofire, stats, pools, suffix, run_id,
+                  discovered=()):
     REPORTS.mkdir(parents=True, exist_ok=True)
     cls_pool = Counter()
     for r in labeled:
@@ -387,6 +435,13 @@ def write_reports(rows, decisions, labeled, multi, disc, nofire, stats, pools, s
           "| Class | With verified repair | Detector only |", "|---|---:|---:|"]
     for c in DISCOVERY_CLASSES:
         L.append(f"| {c} | {disc_cls[(c, 'repair')]} | {disc_cls[(c, 'detector')]} |")
+    dcls = Counter((r["label"], r["split_pool"]) for r in discovered)
+    L += ["", "## Repair exploration on no-fire rows (human review before any label)", "",
+          "| Class | train | dev/test |", "|---|---:|---:|"]
+    for c in sorted({c for c, _ in dcls}):
+        L.append(f"| {c} | {dcls[(c, 'train')]} | {dcls[(c, 'dev_gold')] + dcls[(c, 'test')]} |")
+    if not dcls:
+        L.append("| (none, or exploration not run) | | |")
     L += ["", f"- multi_signal pool: {len(multi)} rows", f"- no LF fired (unlabeled, never OTHER): {len(nofire)} rows",
           "", "## Confidence", "",
           "`label_confidence` = min(0.85, Beta(1,1) posterior lower 80% bound of audited precision)"

@@ -56,7 +56,7 @@ def compare_output(actual: str, expected: str) -> dict:
             break
         prefix += 1
     res["prefix_tokens"] = prefix
-    res["is_prefix_of_expected"] = len(a_tok) < len(e_tok) and a_tok == e_tok[: len(a_tok)]
+    res["is_prefix_of_expected"] = 0 < len(a_tok) < len(e_tok) and a_tok == e_tok[: len(a_tok)]
     res["expected_is_prefix"] = len(e_tok) < len(a_tok) and e_tok == a_tok[: len(e_tok)]
     res["is_suffix_of_expected"] = 0 < len(a_tok) < len(e_tok) and a_tok == e_tok[-len(a_tok):]
     res["expected_is_suffix"] = 0 < len(e_tok) < len(a_tok) and e_tok == a_tok[-len(e_tok):]

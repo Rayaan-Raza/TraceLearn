@@ -132,3 +132,46 @@ def test_loop_boundary_lf_does_not_fire_on_big_delta():
     from codestream_lfs import Ctx, lf_loop_boundary, lf_off_by_one
     ctx = Ctx(code, parse(code), res, tests)
     assert lf_loop_boundary(ctx) is None and lf_off_by_one(ctx) is None
+
+
+# ------------------------------------------- regressions from the pilot ----
+
+def _ctx(code, results, tests, warnings=None, reports=None, passed=0):
+    from codestream_lfs import Ctx
+    res = {"tests": {"results": results, "passed": passed},
+           "warnings": {"count_by_flag": {}, "items": warnings or []},
+           "runtime": {"sanitizer": {"reports": reports or []}, "valgrind": {}}}
+    return Ctx(code, parse(code), res, tests)
+
+
+def test_empty_output_is_not_pm1_evidence():
+    from codestream_lfs import lf_loop_boundary
+    from sandbox_runner.compare import compare_output
+    code = "int main(){ for (int i = 0; i <= 3; i++) {} }"
+    d = compare_output("", "YES\n")
+    ctx = _ctx(code, [{"idx": 0, "status": "wrong", "diff": {k: v for k, v in d.items() if k != "status"}}],
+               [{"input": "madam", "output": "YES\n"}])
+    assert lf_loop_boundary(ctx) is None
+
+
+def test_index_guard_is_not_a_range_check():
+    from codestream_lfs import lf_range_check_detector
+    code = "int main(){ int j = 5; for (int i = 9; i >= 0; i--) { if (j >= 0 && s[i] == t[j]) j--; } }"
+    ctx = _ctx(code, [{"idx": 0, "status": "wrong"}, {"idx": 1, "status": "pass"}],
+               [{"input": "1\n", "output": "x"}, {"input": "5\n", "output": "y"}], passed=1)
+    assert lf_range_check_detector(ctx) is None
+
+
+def test_overflow_needs_a_passing_small_test():
+    from codestream_lfs import lf_int_overflow
+    code = "int main(){ int p = 1; p = p * 10; }"
+    rep = [{"tool": "ubsan", "kind": "signed-integer-overflow", "line": 1}]
+    assert lf_int_overflow(_ctx(code, [{"idx": 0, "status": "wrong"}], [{"input": "", "output": "1"}],
+                                reports=rep, passed=0)) is None
+    assert lf_int_overflow(_ctx(code, [{"idx": 0, "status": "wrong"}], [{"input": "", "output": "1"}],
+                                reports=rep, passed=1)) is not None
+
+
+def test_ints_ignores_digits_inside_words():
+    from codestream_lfs import _ints
+    assert _ints("Wn93HATD 12 -4 x7\n100") == [12, -4, 100]
