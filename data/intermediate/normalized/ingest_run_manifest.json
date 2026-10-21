@@ -1,0 +1,52 @@
+{
+  "ingestion_run_id": "run-20261009T193016Z-10afa3ba",
+  "parser_version": "ingest_sources.py/1.1.0",
+  "started_at": "2026-10-09T19:30:16.637340+00:00",
+  "finished_at": "2026-10-09T20:22:05.198090+00:00",
+  "raw_root": "G:\\TraceLearn\\Datasets_RAW",
+  "output_dir": "G:\\TraceLearn\\data\\intermediate\\normalized",
+  "flags": {
+    "sources": [
+      "codenet",
+      "codestream",
+      "progpedia"
+    ],
+    "inline_code": false,
+    "with_submissions": true,
+    "limit": 0,
+    "exclude_without_tests": false
+  },
+  "formats": [
+    "jsonl",
+    "csv"
+  ],
+  "counts": {
+    "problems": 4035,
+    "submissions": 153724,
+    "exclusions": 395,
+    "problems_by_source": {
+      "PROGPEDIA": 16,
+      "CODESTREAM": 46,
+      "PROJECT_CODENET": 3973
+    },
+    "submissions_by_source": {
+      "PROGPEDIA": 8791,
+      "CODESTREAM": 5481,
+      "PROJECT_CODENET": 139452
+    },
+    "problems_with_sample_tests": 3328,
+    "sample_tests_total": 7910,
+    "cpp_submissions": 141378,
+    "submissions_with_source_label": 14272,
+    "submissions_marked_correct": 4856
+  },
+  "code_net_hash_cache": "139452 cached, 0 hashed",
+  "exclusions_by_reason": {
+    "empty_source_code": 17,
+    "empty_statement": 26,
+    "missing_statement": 1,
+    "not_a_target_source": 3,
+    "problem_not_ingested": 343,
+    "source_not_downloaded": 5
+  }
+}
