@@ -1,9 +1,9 @@
 from __future__ import annotations
 import json
 from sqlalchemy.orm import Session
-from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.db.models import Diagnosis, DiagnosisMode, EvidenceItem, Submission, UncertaintyLevel
 from backend.app.diagnosis.confidence import fuse_diagnosis
+from backend.app.diagnosis.evidence_contract import HISTORY_AWARE_SOURCES, records_from_items
 from backend.app.learner_model.updater import LearnerStateUpdater
 
 class HistoryAwareDiagnosisEngine:
@@ -11,16 +11,10 @@ class HistoryAwareDiagnosisEngine:
         self.state_updater = LearnerStateUpdater()
 
     def diagnose(self, db: Session, submission: Submission) -> Diagnosis:
-        records = []
-        for item in db.query(EvidenceItem).filter(EvidenceItem.submission_id == submission.id).all():
-            records.append(EvidenceRecord(
-                source_type=item.source_type.value,
-                evidence_code=item.evidence_code,
-                misconception_id=item.misconception_id,
-                direction=item.direction.value,
-                weight=item.weight,
-                description=item.description,
-            ))
+        # `records_from_items` restores `details`, so the attempt age of each
+        # history record reaches the decay in `apply_evidence_weights`.
+        items = db.query(EvidenceItem).filter(EvidenceItem.submission_id == submission.id).all()
+        records = records_from_items(items, HISTORY_AWARE_SOURCES)
         result = fuse_diagnosis(records)
         diag = Diagnosis(
             submission_id=submission.id,

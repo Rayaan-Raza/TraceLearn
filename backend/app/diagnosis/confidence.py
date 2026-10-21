@@ -4,6 +4,7 @@ from pathlib import Path
 from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.config import settings
 from backend.app.diagnosis.cpp_mapping import TAG_TO_CODE
+from backend.app.diagnosis.evidence_contract import OBSERVED_SOURCE_VALUES
 from backend.app.diagnosis.rules import aggregate_scores
 from backend.app.diagnosis.taxonomy import ALL_MISCONCEPTIONS, NO_MISCONCEPTION, UNCERTAIN
 
@@ -60,7 +61,10 @@ def apply_evidence_weights(records: list[EvidenceRecord]) -> list[EvidenceRecord
     for rec in records:
         base = mapping.get(rec.evidence_code, 0.05 if rec.direction == "support" else 0.0)
         if rec.source_type == "history" and base:
-            age = rec.details.get("age", 0)
+            # `age` is the attempt distance set by `HistoryAnalyzer`. The
+            # engines restore `details` from storage, so the decay applies on
+            # the diagnosis path as well as on the stored weight.
+            age = max(0, int(rec.details.get("age", 0) or 0))
             base *= decay ** age
         nr = EvidenceRecord(
             source_type=rec.source_type, evidence_code=rec.evidence_code,
@@ -107,7 +111,15 @@ def fuse_diagnosis(records: list[EvidenceRecord]) -> dict:
         }
     if pconf < 0.05:
         primary, pconf = NO_MISCONCEPTION, 0.2
-    conflict = any(r.direction == "conflict" and r.weight for r in weighted)
+    # Only a conflict inside this attempt's own evidence (for example two
+    # diagnostic tests for one tag that disagree) makes the case uncertain.
+    # A related success on an earlier attempt is history: it lowers the
+    # misconception's score in `aggregate_scores`, and a failure after it is
+    # a regression, not a reason to withhold the diagnosis.
+    conflict = any(
+        r.direction == "conflict" and r.weight and r.source_type in OBSERVED_SOURCE_VALUES
+        for r in weighted
+    )
     if pconf < review_conf or (alt and abs(pconf - (aconf or 0)) < margin) or conflict:
         uncertainty = "high"
         requires = True
