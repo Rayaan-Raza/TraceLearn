@@ -8,11 +8,11 @@ import shutil
 from pathlib import Path
 
 import pytest
-
 from codestream_lfs import beta_lower, confidence
 from codestream_static import blank, parse
 from label_weak_codestream import decide
 from repair_verify import candidates
+
 from sandbox_runner import RunConfig, run_submission
 
 FIX = Path(__file__).resolve().parents[2] / "data" / "misconception_dataset" / "fixtures" / "lfs"
@@ -146,6 +146,7 @@ def _ctx(code, results, tests, warnings=None, reports=None, passed=0):
 
 def test_empty_output_is_not_pm1_evidence():
     from codestream_lfs import lf_loop_boundary
+
     from sandbox_runner.compare import compare_output
     code = "int main(){ for (int i = 0; i <= 3; i++) {} }"
     d = compare_output("", "YES\n")
