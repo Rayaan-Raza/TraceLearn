@@ -1,0 +1,30 @@
+{
+  "manifest_version": "1.0",
+  "created": "2026-10-21",
+  "creator": "eman06",
+  "taxonomy_version": "tl-cpp-v2",
+  "schema_version": "1.0",
+  "g0b": {
+    "compiler": "g++ 13.2.0",
+    "std": "-std=c++17",
+    "sanitizer_flags": "-fsanitize=address,undefined -O1 -g -fno-omit-frame-pointer",
+    "warning_flags": "-O2 -Wall -Wextra -Wmaybe-uninitialized -Wparentheses -Warray-bounds",
+    "valgrind_tool": "memcheck",
+    "docker_digest": "pending",
+    "python_version": "3.11.9",
+    "notes": "Docker sandbox hardening is U0 (Umaima). Local g++ used for E2/E3 development."
+  },
+  "sources": {
+    "codestream_subs": 5482,
+    "codestream_problems": 46,
+    "codestream_cpp_accepted": 1106,
+    "codestream_cpp_wrong": 1061,
+    "codenet_cpp_files": 139799,
+    "progpedia_cpp": 659,
+    "bank_reference_solutions": 86,
+    "bank_problems": 54,
+    "bank_tests": 305
+  },
+  "g0c_seed_audit_path": "data/misconception_dataset/raw_recovery/g0c_seed_audit.json",
+  "cluster_split_path": "data/misconception_dataset/raw_recovery/cluster_split.json"
+}
