@@ -169,3 +169,10 @@ def test_determinism_same_result_twice():
     b = run("clean.cpp", tests)
     strip = lambda r: [(x["status"], x.get("stdout_head")) for x in r["tests"]["results"]]
     assert strip(a) == strip(b)
+
+
+def test_c_bool_without_header_compiles_with_recorded_fallback():
+    r = run("c_bool.c", [T("3\n", "yes\n")])
+    assert r["compile"]["ok"] and r["compile"]["fallback"] == "include_stdbool"
+    assert r["tests"]["all_passed"]
+    assert r["runtime"]["sanitizer"]["compiled"]

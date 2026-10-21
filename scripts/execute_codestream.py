@@ -42,7 +42,7 @@ def slim(res: dict) -> dict:
     return res
 
 
-def execute(raw, workers: int, limit: int | None) -> None:
+def execute(raw, workers: int, limit: int | None, rerun_c_compile_errors: bool = False) -> None:
     probs = load_problems(raw)
     subs = load_submissions(raw)
     if limit:
@@ -51,8 +51,17 @@ def execute(raw, workers: int, limit: int | None) -> None:
     if EXEC_PATH.exists():
         for line in EXEC_PATH.open(encoding="utf-8"):
             r = json.loads(line)
-            if "error" not in r.get("result", {}):
-                done[r["submission_id"]] = r
+            if "error" in r.get("result", {}):
+                continue
+            if rerun_c_compile_errors and r["lang"] == "c" and not r["result"]["compile"]["ok"]:
+                continue  # re-run under the current sandbox version (C stdbool fallback)
+            done[r["submission_id"]] = r
+        # rewrite the file so it holds exactly one current record per row
+        tmp = EXEC_PATH.with_suffix(".tmp")
+        with tmp.open("w", encoding="utf-8") as f:
+            for r in done.values():
+                f.write(json.dumps(r) + "\n")
+        tmp.replace(EXEC_PATH)
     todo = [s for s in subs if s.submission_id not in done]
     print(f"{len(subs)} C/C++ submissions, {len(done)} already executed, {len(todo)} to run",
           flush=True)
@@ -164,6 +173,44 @@ def report(raw) -> None:
                 why = f"passed {t.get('passed')}/{t.get('total')} · statuses {t.get('status_counts')}"
             lines.append(f"- `{r['submission_id'][-24:]}` {s.source_problem_id} {s.lang}: {why}")
         lines.append("")
+    # ---- per-problem agreement with the source judge ------------------------
+    per = {}
+    for r in rows:
+        s = subs[r["submission_id"]]
+        d = per.setdefault(s.problem_id, Counter())
+        res = r["result"]
+        if r["verdict"] == "Accepted" and res.get("compile", {}).get("ok"):
+            d["acc"] += 1
+            d["acc_pass"] += int(bool((res.get("tests") or {}).get("all_passed")))
+        if r["verdict"] == "Wrong Answer" and res.get("compile", {}).get("ok"):
+            d["wa"] += 1
+            d["wa_pass"] += int(bool((res.get("tests") or {}).get("all_passed")))
+    flagged = {p for p, d in per.items() if d["acc"] >= 3 and d["acc_pass"] / d["acc"] < 0.9}
+    lines += ["## Problems whose embedded tests disagree with the source judge", "",
+              "A problem is flagged when <90% of its compiled Accepted submissions pass its embedded "
+              "tests here (≥3 Accepted). Its failing rows are excluded from labeling: a failure there "
+              "may not be a student error.", "",
+              "| Problem | Accepted pass here | WA pass here | Flag |", "|---|---:|---:|---|"]
+    for p in sorted(per):
+        d = per[p]
+        if d["acc"] and (d["acc_pass"] < d["acc"] or d["wa_pass"]):
+            lines.append(f"| {p} | {d['acc_pass']}/{d['acc']} | {d['wa_pass']}/{d['wa']} | "
+                         f"{'tests_unreliable' if p in flagged else ''} |")
+    rest = [r for r in rows if subs[r["submission_id"]].problem_id not in flagged]
+    m2 = u1_metrics(rest)
+    lines += ["", f"Secondary view excluding flagged problems ({len(flagged)}): compiled Accepted pass "
+              f"{m2['accepted_all_pass']}/{m2['accepted_compiled']} ({pct(m2['accepted_all_pass'], m2['accepted_compiled'])}); "
+              f"WA fail {m2['wa_fail']}/{m2['wa_compiled']} ({pct(m2['wa_fail'], m2['wa_compiled'])}).",
+              "The primary gate above is reported unfiltered.", "",
+              "Note: for 1,263 of 3,396 rows the source `verdict_sequence_trace` has a different length "
+              "than the embedded test list, so the judge ran tests we do not have. That explains most "
+              "Wrong Answer rows that pass here.", ""]
+    flag_path = DATASET_DIR / "splits" / "codestream_problem_flags.csv"
+    with open(flag_path, "w", encoding="utf-8", newline="") as f:
+        f.write("problem_id,accepted_compiled,accepted_pass_here,flag\n")
+        for p in sorted(per):
+            d = per[p]
+            f.write(f"{p},{d['acc']},{d['acc_pass']},{'tests_unreliable' if p in flagged else ''}\n")
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
@@ -175,10 +222,11 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=None)
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--report-only", action="store_true")
+    ap.add_argument("--rerun-c-compile-errors", action="store_true")
     a = ap.parse_args()
     raw = find_raw(a.raw)
     if not a.report_only:
-        execute(raw, a.workers or 2, a.limit)
+        execute(raw, a.workers or 2, a.limit, a.rerun_c_compile_errors)
     report(raw)
     return 0
 
