@@ -1,9 +1,9 @@
 {
   "environment": {
     "gate": "G0b",
-    "generated_at": "2026-10-21T07:21:43+00:00",
-    "sandbox_version": "0.2.0",
-    "config_fingerprint": "5e6042860151defa",
+    "generated_at": "2026-10-21T08:30:54+00:00",
+    "sandbox_version": "0.2.1",
+    "config_fingerprint": "0d302c3e972554b0",
     "toolchain": {
       "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
       "g++": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
@@ -70,9 +70,9 @@
       "euid": 0
     },
     "docker": {
-      "image": "tracelearn-sandbox:0.2.0",
+      "image": "tracelearn-sandbox:0.2.1",
       "status": "not built",
-      "stderr": "Error response from daemon: No such image: tracelearn-sandbox:0.2.0"
+      "stderr": "Error response from daemon: No such image: tracelearn-sandbox:0.2.1"
     },
     "wheel_check": {
       "python": "3.14",

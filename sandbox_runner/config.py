@@ -11,7 +11,7 @@ import hashlib
 import json
 from dataclasses import dataclass, field
 
-SANDBOX_VERSION = "0.2.0"
+SANDBOX_VERSION = "0.2.1"  # 0.2.1: C <stdbool.h> compile fallback
 
 # Compile flags. The two compile passes of Master Plan §9.2-U0 plus the plain
 # build that the tests run against.
