@@ -17,6 +17,7 @@ env/
 .coverage
 htmlcov/
 reports/
+!data/misconception_dataset/reports/
 .mypy_cache/
 
 # Environment & local data
