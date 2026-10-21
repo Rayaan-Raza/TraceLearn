@@ -1,0 +1,33 @@
+# Raw data — read-only, not committed
+Datasets_RAW/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# Build artefacts
+*.egg-info/
+dist/
+build/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large generated files — keep JSONL but not CSV exports >10MB
+data/intermediate/normalized/hash_cache.json
+data/intermediate/normalized/*.log
+*.log
+
+# Model checkpoints
+data/misconception_dataset/models/*.bin
+data/misconception_dataset/models/*.pkl
