@@ -24,8 +24,16 @@ from dataclasses import dataclass
 from . import parsers
 from .compare import compare_output
 from .config import (
-    ASAN_OPTIONS, LANG_COMPILER, LANG_STD, SANDBOX_VERSION, SANITIZER_FLAGS,
-    UBSAN_OPTIONS, VALGRIND_EXIT_CODE, VALGRIND_FLAGS, WARNING_FLAGS, RunConfig,
+    ASAN_OPTIONS,
+    LANG_COMPILER,
+    LANG_STD,
+    SANDBOX_VERSION,
+    SANITIZER_FLAGS,
+    UBSAN_OPTIONS,
+    VALGRIND_EXIT_CODE,
+    VALGRIND_FLAGS,
+    WARNING_FLAGS,
+    RunConfig,
     normalize_lang,
 )
 from .pch import pch_include_dir

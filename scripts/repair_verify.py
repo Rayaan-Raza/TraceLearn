@@ -26,7 +26,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from codestream_static import (  # noqa: E402
-    CMP_RE, Program, Span, assigned_vars, comparisons, line_of, parse, splice,
+    Program,
+    assigned_vars,
+    comparisons,
+    line_of,
+    parse,
+    splice,
 )
 
 MAX_CANDIDATES = 12
