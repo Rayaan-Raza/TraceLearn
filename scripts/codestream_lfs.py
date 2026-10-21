@@ -17,8 +17,12 @@ from dataclasses import dataclass, field
 
 from codestream_static import Program, comparisons, line_of
 from repair_verify import (
-    FLIP, assignments_in_conditions, descending_for_loops, range_check_conditions,
-    recursive_functions, stale_while_loops,
+    FLIP,
+    assignments_in_conditions,
+    descending_for_loops,
+    range_check_conditions,
+    recursive_functions,
+    stale_while_loops,
 )
 
 FLOOR_CLASSES = ["CPP_LOOP_BOUNDARY", "CPP_OFF_BY_ONE", "CPP_ARRAY_BOUNDS", "CPP_INT_OVERFLOW",

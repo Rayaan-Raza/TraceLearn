@@ -331,7 +331,7 @@ def main() -> int:
          f"- Overlap items (4 raters): {len(overlap)} · duplicates per team rater: {DUPLICATES}",
          "- Hard-3 overlap items (target 12 each for per-class κ): " + ", ".join(
              f"{c} {sum(1 for g in overlap if g[1] == c)}" for c in HARD3),
-         f"- Items per rater: " + ", ".join(f"{k} {len(v)}" for k, v in per_rater.items()),
+         "- Items per rater: " + ", ".join(f"{k} {len(v)}" for k, v in per_rater.items()),
          f"- Dev-gold: {len(dev)} natural-distribution items from {len({r['problem_cluster'] for r in dev})} dev-gold clusters",
          f"- Calibration: {len(cal)} train-side items", "",
          "## Strata (selection only — hidden from raters)", "", "| Stratum | Quota | Selected | Shortfall |",

@@ -167,7 +167,9 @@ def test_determinism_same_result_twice():
     tests = [T("3\n", "6\n"), T("4\n", "1\n")]
     a = run("clean.cpp", tests)
     b = run("clean.cpp", tests)
-    strip = lambda r: [(x["status"], x.get("stdout_head")) for x in r["tests"]["results"]]
+    def strip(r):
+        return [(x["status"], x.get("stdout_head")) for x in r["tests"]["results"]]
+
     assert strip(a) == strip(b)
 
 
