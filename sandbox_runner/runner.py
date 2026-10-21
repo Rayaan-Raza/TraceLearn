@@ -13,6 +13,7 @@ import dataclasses
 import hashlib
 import json
 import os
+import re
 import shutil
 import tempfile
 import time
@@ -147,9 +148,9 @@ def _pick(tests_results: list[dict], mode: str) -> list[int]:
     return [0] if tests_results else []
 
 
-def _sanitizer_pass(lang, src, workdir, tests, inputs, plain_results, cfg) -> dict:
+def _sanitizer_pass(lang, src, workdir, tests, inputs, plain_results, cfg, extra=()) -> dict:
     out = os.path.join(workdir, "prog_san")
-    c = _compile(lang, src, out, SANITIZER_FLAGS, workdir, cfg, "csan")
+    c = _compile(lang, src, out, [*SANITIZER_FLAGS, *extra], workdir, cfg, "csan")
     block = {"ran": False, "compiled": c["ok"], "tests_run": 0, "reports": [],
              "kinds": {}, "first_report": None, "complete": False}
     if not c["ok"]:
@@ -182,13 +183,13 @@ def _sanitizer_pass(lang, src, workdir, tests, inputs, plain_results, cfg) -> di
     return block
 
 
-def _valgrind_pass(lang, src, workdir, inputs, plain_results, cfg) -> dict:
+def _valgrind_pass(lang, src, workdir, inputs, plain_results, cfg, extra=()) -> dict:
     block = {"ran": False, "available": shutil.which("valgrind") is not None,
              "complete": False}
     if not block["available"]:
         return block
     out = os.path.join(workdir, "prog_vg")
-    c = _compile(lang, src, out, VALGRIND_FLAGS, workdir, cfg, "cvg")
+    c = _compile(lang, src, out, [*VALGRIND_FLAGS, *extra], workdir, cfg, "cvg")
     if not c["ok"]:
         block["compile_ok"] = False
         return block
@@ -292,6 +293,17 @@ def _run_local(code: str, lang: str, tests: list[dict], cfg: RunConfig) -> dict:
         os.chmod(src, 0o644)
         prog = os.path.join(workdir, "prog")
         comp = _compile(lang, src, prog, WARNING_FLAGS, workdir, cfg, "cplain")
+        extra: list[str] = []
+        fallback = None
+        if not comp["ok"] and lang == "c" and re.search(r"unknown type name '?bool'?|'(?:true|false)' undeclared", comp["stderr"]):
+            # Many judges compile C with <stdbool.h> semantics (or as C23, where bool
+            # is a keyword). Retry once with the header force-included; recorded.
+            extra = ["-include", "stdbool.h"]
+            comp2 = _compile(lang, src, prog, [*WARNING_FLAGS, *extra], workdir, cfg, "cplain2")
+            if comp2["ok"]:
+                comp, fallback = comp2, "include_stdbool"
+            else:
+                extra = []
         diag = parsers.parse_compiler_output(comp["stderr"], src_name)
         result = {
             "sandbox_version": SANDBOX_VERSION,
@@ -299,6 +311,7 @@ def _run_local(code: str, lang: str, tests: list[dict], cfg: RunConfig) -> dict:
             "config_fingerprint": cfg.fingerprint(),
             "lang": lang,
             "compile": {"ok": comp["ok"], "rc": comp["rc"], "timed_out": comp["timed_out"],
+                        "fallback": fallback,
                         "seconds": comp["seconds"], "errors": diag["errors"][:20],
                         "stderr_head": comp["stderr"][:2000]},
             "warnings": {"count_by_flag": diag["count_by_flag"],
@@ -313,9 +326,9 @@ def _run_local(code: str, lang: str, tests: list[dict], cfg: RunConfig) -> dict:
         plain = _run_tests(prog, tests, inputs, workdir, cfg)
         tsum = _summarize_tests(plain)
         result["tests"] = tsum
-        san = (_sanitizer_pass(lang, src, workdir, tests, inputs, plain, cfg)
+        san = (_sanitizer_pass(lang, src, workdir, tests, inputs, plain, cfg, extra)
                if cfg.sanitizer_pass else {"ran": False, "complete": False})
-        vg = (_valgrind_pass(lang, src, workdir, inputs, plain, cfg)
+        vg = (_valgrind_pass(lang, src, workdir, inputs, plain, cfg, extra)
               if cfg.valgrind_pass else {"ran": False, "complete": False})
         statuses = tsum["status_counts"]
         signals = sorted({r["signal"] for r in plain if r.get("signal")})

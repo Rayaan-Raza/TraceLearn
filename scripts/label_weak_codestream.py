@@ -87,6 +87,7 @@ def decide(code: str, lang: str, tests: list[dict], result: dict, *, cache_dir: 
     if branch != "failing":
         return {"decision": "pre_branch", "branch": branch, "fires": [], "repairs": []}
     result = refresh_diffs(result, tests)
+    orig = (result.get("tests") or {}).get("results", [])
     prog = parse(code)
     fires = run_lfs(Ctx(code, prog, result, tests))
     classes = sorted({f.cls for f in fires})
@@ -99,7 +100,7 @@ def decide(code: str, lang: str, tests: list[dict], result: dict, *, cache_dir: 
                     lines = set(next(f.evidence.get("warning_lines", []) for f in fires
                                      if f.cls == cls))
                 repairs.append(verify(code, lang, tests, cls, prog=prog, cache_dir=cache_dir,
-                                      lines=lines))
+                                      lines=lines, orig_results=orig))
     verified = [r["class"] for r in repairs if r["verified"]]
     out = {"branch": branch, "fires": [{"lf": f.lf, "class": f.cls, "evidence": f.evidence}
                                        for f in fires],
@@ -133,7 +134,7 @@ def decide(code: str, lang: str, tests: list[dict], result: dict, *, cache_dir: 
             found = []
             for cls in EXPLORE_CLASSES:
                 r = verify(code, lang, tests, cls, prog=prog, cache_dir=cache_dir,
-                           max_tries=explore_tries)
+                           max_tries=explore_tries, orig_results=orig)
                 out["repairs"].append(r)
                 if r["verified"]:
                     found.append(cls)
@@ -243,8 +244,12 @@ def build_row(n: int, s, prob, pool: str, cluster: str, result: dict, dec: dict,
         "repair": ({"op": rep["repair"]["op"], "line": rep["repair"]["line"],
                     "before": rep["repair"]["before"][:200], "after": rep["repair"]["after"][:200],
                     "proof": rep["proof"]} if rep else None),
-        "repair_tries": [{"class": r["class"], "verified": r["verified"], "tries": len(r["tries"])}
+        "repair_tries": [{"class": r["class"], "verified": r["verified"], "tries": len(r["tries"]),
+                          "partial": r.get("partial")}
                          for r in dec.get("repairs", [])],
+        # first-failing-test repair for the label's class (support, not proof)
+        "repair_partial": next((r.get("partial") for r in dec.get("repairs", [])
+                                if r["class"] == label and r.get("partial")), None),
         "verified_by_execution": src == "repair_verified",
         "meta": {"user_id_hash": user_hash(s.user_id), "attempt_index": s.attempt_number,
                  "timestamp": None, "prev_submission_id": prev},
@@ -288,7 +293,16 @@ def main() -> int:
     for line in EXEC_PATH.open(encoding="utf-8"):
         r = json.loads(line)
         execd[r["submission_id"]] = r["result"]
-    rows = [s for s in subs if s.submission_id in execd]
+    flags_path = DATASET_DIR / "splits" / "codestream_problem_flags.csv"
+    unreliable = set()
+    if flags_path.exists():
+        with open(flags_path, encoding="utf-8") as f:
+            unreliable = {r["problem_id"] for r in csv.DictReader(f) if r["flag"] == "tests_unreliable"}
+    excluded = [s for s in subs if s.submission_id in execd and s.problem_id in unreliable]
+    if excluded:
+        print(f"excluding {len(excluded)} rows of {len(unreliable)} problems whose tests disagree "
+              f"with the source judge: {sorted(unreliable)}")
+    rows = [s for s in subs if s.submission_id in execd and s.problem_id not in unreliable]
     # row ids are stable: position of the submission in the raw C/C++ table
     row_no = {s.submission_id: i for i, s in enumerate(subs, 1)}
     if a.pilot:
@@ -426,7 +440,10 @@ def write_reports(rows, decisions, labeled, multi, disc, nofire, stats, pools, s
         rv_o = cls_pool[(c, "repair_verified", "dev_gold")] + cls_pool[(c, "repair_verified", "test")]
         wr_o = cls_pool[(c, "weak_rule", "dev_gold")] + cls_pool[(c, "weak_rule", "test")]
         L.append(f"| {c} | {rv_t} | {wr_t} | {rv_o} | {wr_o} | {floor[c]} |")
-    L += ["", "Rows in dev-gold/test clusters never enter training; they are the gold-form pool.", "",
+    part = Counter(r["label"] for r in labeled if r["label_source"] == "weak_rule" and r.get("repair_partial"))
+    L += ["", "weak_rule rows whose inverse operator fixes the first failing test without regressions "
+          "(first-divergent-test support, not proof): " + (", ".join(f"{c} {n}" for c, n in sorted(part.items())) or "none"),
+          "", "Rows in dev-gold/test clusters never enter training; they are the gold-form pool.", "",
           "## LF fires and repair verification", "",
           "| LF | Class | Kind | Fires | Repairs verified (class) |", "|---|---|---|---:|---:|"]
     for lf, meta in LF_REGISTRY.items():

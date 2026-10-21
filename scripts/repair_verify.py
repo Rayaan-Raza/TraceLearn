@@ -349,23 +349,45 @@ def candidates(code: str, cls: str, prog: Program | None = None, **kw) -> list[R
 
 
 def verify(code: str, lang: str, tests: list[dict], cls: str, *, prog: Program | None = None,
-           cache_dir: str | None = None, max_tries: int = MAX_CANDIDATES, **kw) -> dict:
-    """Try the inverse operators of ``cls``; return the first edit that passes every test."""
+           cache_dir: str | None = None, max_tries: int = MAX_CANDIDATES,
+           orig_results: list[dict] | None = None, **kw) -> dict:
+    """Try the inverse operators of ``cls``; return the first edit that passes every test.
+
+    With ``orig_results`` (the row's own per-test results) each try also
+    records whether it fixes the **first failing test** without breaking a
+    test that passed before — the first-divergent-test rule of §3.2. That
+    ``partial`` evidence never makes a row certain; it supports silver
+    labels and reviewers.
+    """
     from sandbox_runner import RunConfig, run_submission
     cfg = RunConfig(sanitizer_pass=False, valgrind_pass=False, double_run=False,
                     stop_after_timeouts=1)
+    before = {r["idx"]: r["status"] for r in (orig_results or [])}
+    first_fail = next((i for i in sorted(before) if before[i] not in ("pass", "skipped")), None)
     tried = []
+    partial = None
     for rep in candidates(code, cls, prog, **kw)[:max_tries]:
         res = run_submission(rep.code, lang, tests, cfg, cache_dir=cache_dir)
         t = res.get("tests") or {}
         ok = bool(res.get("compile", {}).get("ok")) and bool(t.get("all_passed"))
-        tried.append({"op": rep.op, "line": rep.line, "passed": t.get("passed"),
-                      "total": t.get("total"), "compiled": res.get("compile", {}).get("ok")})
+        entry = {"op": rep.op, "line": rep.line, "passed": t.get("passed"),
+                 "total": t.get("total"), "compiled": res.get("compile", {}).get("ok")}
+        if before and t.get("results"):
+            after = {r["idx"]: r["status"] for r in t["results"]}
+            entry["fixes_first_failed"] = first_fail is not None and after.get(first_fail) == "pass"
+            entry["regressions"] = sum(1 for i, st in before.items()
+                                       if st == "pass" and after.get(i) != "pass")
+            if entry["fixes_first_failed"] and not entry["regressions"] and partial is None:
+                partial = {"op": rep.op, "line": rep.line, "before": rep.before[:200],
+                           "after": rep.after[:200], "tests_passed": t.get("passed"),
+                           "tests_total": t.get("total")}
+        tried.append(entry)
         if ok:
             return {"verified": True, "class": cls, "repair": rep.proof(), "tries": tried,
+                    "partial": partial,
                     "proof": {"tests_passed": t.get("passed"), "tests_total": t.get("total"),
                               "cache_key": res.get("cache_key")}}
-    return {"verified": False, "class": cls, "tries": tried}
+    return {"verified": False, "class": cls, "tries": tried, "partial": partial}
 
 
 def main() -> int:
