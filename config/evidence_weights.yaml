@@ -24,3 +24,12 @@ thresholds:
 learner_state:
   min_cross_problem_for_persistent: 2
   min_attempts_for_same_problem_new: 1
+  # Recovery and recurrence (docs/LEARNER_STATE_RULES.md). The two
+  # confidence values were literals in learner_model/updater.py before;
+  # they move here unchanged. The two counts mirror the PERSISTENT rule:
+  # recovery, like recurrence, must show on more than one problem.
+  # Set before any holdout run; not tuned on data/evaluation_sequences.
+  resolved_confidence: 0.25
+  recurred_confidence: 0.45
+  min_related_successes_for_resolved: 2
+  min_distinct_problems_for_resolved: 2
