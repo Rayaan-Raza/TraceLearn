@@ -89,7 +89,7 @@ FLOOR = {
 SIGNATURE_PATTERNS = {
     "CPP_LOOP_BOUNDARY":      [re.compile(r"<=\s*\w+\s*[+\-]\s*1|!=\s*\w+\s*\+\s*1")],
     "CPP_OFF_BY_ONE":         [re.compile(r"\w+\[.*[+-]\s*1\]")],
-    "CPP_ARRAY_BOUNDS":       [re.compile(r"\[.*-\s*[12]\]|new\s+\w+\[\w+\s*-")],
+    "CPP_ARRAY_BOUNDS":       [re.compile(r"\[.*-\s*[12]\]|new\s+\w+\[\w+\s*-|vector<\w+>\s+\w+\s*\(\w+\s*-")],
     "CPP_UNINITIALIZED_VAR":  [re.compile(r"\bint\s+\w+\s*;|\bdouble\s+\w+\s*;")],
     "CPP_INT_OVERFLOW":       [re.compile(r"\blong\s+long\b|\b1LL\b")],
     "CPP_MISSING_BASE_CASE":  [re.compile(r"if\s*\(\s*n\s*[<=>]=?\s*[01]\s*\)")],

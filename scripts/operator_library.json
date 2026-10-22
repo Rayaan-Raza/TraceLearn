@@ -93,9 +93,16 @@
           "pattern": "(new\\s+\\w+\\s*\\[)\\s*(\\w+)\\s*(\\])",
           "replacement": "\\g<1>\\2 - 1\\3",
           "frequency_weight": 1
+        },
+        {
+          "name": "ab_vector_init_minus1",
+          "pattern": "(vector<\\w+>\\s+\\w+\\s*\\()\\s*(\\w+)\\s*(\\))",
+          "replacement": "\\1\\2-1\\3",
+          "frequency_weight": 4,
+          "_note": "vector<T> v(n) → v(n-1); v.at(i) throws out_of_range when i>=size, no ASAN required"
         }
       ],
-      "n_forms": 4,
+      "n_forms": 5,
       "mined_pairs": 1
     },
     "CPP_UNINITIALIZED_VAR": {
@@ -340,6 +347,118 @@
       "pattern": "(cout\\s*<<[^\\n]+\\n)([^\\n]*cout\\s*<<[^\\n]+)",
       "replacement": "\\2\\n\\1",
       "label": "CPP_OTHER_ERROR"
+    },
+    {
+      "name": "decoy_init_zero_to_neg1",
+      "pattern": "\\b(int|long long)\\s+(\\w+)\\s*=\\s*0\\s*;",
+      "replacement": "\\1 \\2 = -1;",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "shifts accumulator start → wrong result, surface looks like uninit but it is wrong init value"
+    },
+    {
+      "name": "decoy_plus_assign_to_minus",
+      "pattern": "(\\w+)\\s*\\+=\\s*(\\w+)\\s*;",
+      "replacement": "\\1 -= \\2;",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "changes accumulate-sum to subtract → wrong answer; not a taxonomy pattern"
+    },
+    {
+      "name": "decoy_multiply_by_two",
+      "pattern": "(cout\\s*<<\\s*)(\\w+)(\\s*<<)",
+      "replacement": "\\1\\2 * 2\\3",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "doubles printed value → wrong output; surface has arithmetic, not a taxonomy class"
+    },
+    {
+      "name": "decoy_flip_min_to_max",
+      "pattern": "\\bmin\\s*\\(",
+      "replacement": "max(",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "swaps min→max; fails on non-trivial inputs; not a taxonomy bug pattern"
+    },
+    {
+      "name": "decoy_flip_max_to_min",
+      "pattern": "\\bmax\\s*\\(",
+      "replacement": "min(",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "swaps max→min; symmetric to above"
+    },
+    {
+      "name": "decoy_lt_to_ne_loop",
+      "pattern": "(for\\s*\\([^;]+;\\s*\\w+\\s*)<\\s*(\\w+)\\s*;",
+      "replacement": "\\1!=\\2;",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "changes < to != in non-OBO context → may infinite-loop or wrong; surface looks like loop boundary but intent differs"
+    },
+    {
+      "name": "decoy_mod_flip",
+      "pattern": "(%\\s*2\\s*==\\s*0)",
+      "replacement": "% 2 != 0",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "flips even/odd check → wrong parity result; not a taxonomy pattern"
+    },
+    {
+      "name": "decoy_division_by_three",
+      "pattern": "(\\w+)\\s*/\\s*2\\b",
+      "replacement": "\\1 / 3",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "changes /2 to /3 → wrong numeric result; not a taxonomy pattern"
+    },
+    {
+      "name": "decoy_loop_start_plus1",
+      "pattern": "(for\\s*\\(int\\s+\\w+\\s*=\\s*)0\\s*;",
+      "replacement": "\\12;",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "skips first two elements → wrong result; surface looks like off-by-one but shifts by 2 rather than 1"
+    },
+    {
+      "name": "decoy_cin_to_zero",
+      "pattern": "cin\\s*>>\\s*(\\w+)\\s*;",
+      "replacement": "\\1 = 0;",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "replaces input read with constant zero → program ignores actual input; obvious logic failure"
+    },
+    {
+      "name": "decoy_negate_result",
+      "pattern": "(return\\s+)(\\w+)\\s*;",
+      "replacement": "\\1-\\2;",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "negates return value from recursive function → wrong sign; not any taxonomy misconception"
+    },
+    {
+      "name": "decoy_add_one_to_output",
+      "pattern": "(cout\\s*<<\\s*)(\\w+)(\\s*<<\\s*endl)",
+      "replacement": "\\1\\2 + 1\\3",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "adds 1 to final output → off by exactly 1 but from wrong location (output, not loop)"
+    },
+    {
+      "name": "decoy_multiply_loop_bound",
+      "pattern": "(for\\s*\\([^;]+;\\s*\\w+\\s*[<>]=?\\s*)(\\w+)\\s*;",
+      "replacement": "\\1\\2 * 2;",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "doubles loop bound → iterates 2x, wrong result; surface resembles loop boundary but doubled, not fenced"
+    },
+    {
+      "name": "decoy_wrong_comparison_operator",
+      "pattern": "(if\\s*\\(\\s*\\w+\\s*)>=\\s*(\\w+\\s*\\))",
+      "replacement": "\\1<=\\2",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "flips >= to <= in conditional → inverts branch logic; not a loop/range check pattern"
+    },
+    {
+      "name": "decoy_subtract_from_n",
+      "pattern": "(int\\s+)(\\w+)\\s*;\\s*cin\\s*>>\\s*(\\w+)\\s*;",
+      "replacement": "\\1\\2; cin >> \\3; \\3 = \\3 - 1;",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "decrements input n by 1 after reading → off by one in n value, not in loop bound"
+    },
+    {
+      "name": "decoy_sum_with_count",
+      "pattern": "(long long\\s+)(sum|total|ans|result)(\\s*=\\s*0\\s*;)",
+      "replacement": "\\1\\2 = 1\\3",
+      "label": "CPP_OTHER_ERROR",
+      "_note": "initialises LL accumulator to 1 → off-by-count error; surface looks like overflow context but failure is init"
     }
   ],
   "mined_class_pair_counts": {
