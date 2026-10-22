@@ -100,9 +100,23 @@
           "replacement": "\\1\\2-1\\3",
           "frequency_weight": 4,
           "_note": "vector<T> v(n) → v(n-1); v.at(i) throws out_of_range when i>=size, no ASAN required"
+        },
+        {
+          "name": "ab_vector_at_oob",
+          "pattern": "\\.at\\((\\w+)\\s*-\\s*1\\)",
+          "replacement": ".at(\\1)",
+          "frequency_weight": 4,
+          "_note": "v.at(n-1) → v.at(n): index n on size-n vector is out_of_range; no ASAN needed"
+        },
+        {
+          "name": "ab_vector_init_minus2",
+          "pattern": "(vector<\\w+>\\s+\\w+\\s*\\()\\s*(\\w+)\\s*(\\))",
+          "replacement": "\\1\\2-2\\3",
+          "frequency_weight": 2,
+          "_note": "v(n) → v(n-2); at(n-1) or at(n-2) throw; only safe for n≥3 seeds"
         }
       ],
-      "n_forms": 5,
+      "n_forms": 7,
       "mined_pairs": 1
     },
     "CPP_UNINITIALIZED_VAR": {
