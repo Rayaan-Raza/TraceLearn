@@ -209,7 +209,9 @@ _OBO = [  # CPP_OFF_BY_ONE  (operators: obo_init_1_to_0, obo_bound_n_minus1, obo
     },
 ]
 
-_AB = [  # CPP_ARRAY_BOUNDS  (operators: ab_array_size_minus1, ab_new_minus1 — caught by ASAN)
+_AB = [  # CPP_ARRAY_BOUNDS  (operators: ab_vector_init_minus1 — throws out_of_range on OOB, no ASAN needed)
+    # NOTE: tpl-AB-001..003 rely on ASAN (unreliable on Windows/MinGW); tpl-AB-004+ use
+    # vector::at() which throws std::out_of_range — detectable with standard compilation.
     {
         "submission_id": "tpl-AB-001",
         "_hint_class": "CPP_ARRAY_BOUNDS",
@@ -269,6 +271,101 @@ _AB = [  # CPP_ARRAY_BOUNDS  (operators: ab_array_size_minus1, ab_new_minus1 —
             {"input": "5", "output": "8"},  # arr[4]=8
             {"input": "3", "output": "4"},  # arr[2]=4
             {"input": "4", "output": "6"},  # arr[3]=6
+        ],
+    },
+    # --- vector::at() templates: throw out_of_range on OOB, no ASAN required ---
+    {
+        "submission_id": "tpl-AB-004",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> v(n);\n"
+            "    for(int i=0;i<n;i++) v[i]=i+1;\n"
+            "    cout<<v.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5", "output": "5"},
+            {"input": "3", "output": "3"},
+            {"input": "7", "output": "7"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-005",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> vals(n);\n"
+            "    for(int i=0;i<n;i++) cin>>vals[i];\n"
+            "    cout<<vals.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n10 20 30 40", "output": "40"},
+            {"input": "3\n5 6 7",       "output": "7"},
+            {"input": "2\n1 9",         "output": "9"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-006",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> buf(n);\n"
+            "    for(int i=0;i<n;i++) buf[i]=i*3;\n"
+            "    long long s=0;\n"
+            "    for(int i=0;i<n;i++) s+=buf.at(i);\n"
+            "    cout<<s<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4", "output": "18"},  # 0+3+6+9
+            {"input": "3", "output": "9"},   # 0+3+6
+            {"input": "5", "output": "30"},  # 0+3+6+9+12
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-007",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> data(n);\n"
+            "    for(int i=0;i<n;i++) cin>>data[i];\n"
+            "    int mn=data.at(0);\n"
+            "    for(int i=1;i<n;i++) mn=min(mn,data.at(i));\n"
+            "    cout<<mn<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n8 2 5 1", "output": "1"},
+            {"input": "3\n9 3 6",   "output": "3"},
+            {"input": "2\n7 4",     "output": "4"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-008",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> arr(n);\n"
+            "    for(int i=0;i<n;i++) arr[i]=(i+1)*(i+1);\n"
+            "    cout<<arr.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5", "output": "25"},  # 5^2
+            {"input": "3", "output": "9"},   # 3^2
+            {"input": "4", "output": "16"},  # 4^2
         ],
     },
 ]
@@ -352,7 +449,8 @@ _UV = [  # CPP_UNINITIALIZED_VAR  (operators: uninit_int_zero, uninit_double_zer
     },
 ]
 
-_IO = [  # CPP_INT_OVERFLOW  (operators: overflow_ll_sum_to_int, overflow_ll_acc_to_int)
+_IO = [  # CPP_INT_OVERFLOW  (operators: overflow_ll_sum_to_int, overflow_ll_acc_to_int,
+        #                              overflow_remove_ll_cast, overflow_1ll_removed)
     {
         "submission_id": "tpl-IO-001",
         "_hint_class": "CPP_INT_OVERFLOW",
@@ -427,6 +525,76 @@ _IO = [  # CPP_INT_OVERFLOW  (operators: overflow_ll_sum_to_int, overflow_ll_acc
         "_inline_tests": [
             {"input": "3\n100000 100000 100000", "output": "30000000000"},
             {"input": "2\n50000 60000",           "output": "6100000000"},
+        ],
+    },
+    # --- (long long) cast templates (overflow_remove_ll_cast) ---
+    {
+        "submission_id": "tpl-IO-005",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int a, b; cin>>a>>b;\n"
+            "    long long prod = (long long)a * b;\n"
+            "    cout<<prod<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100000 100000",   "output": "10000000000"},
+            {"input": "50000 60000",     "output": "3000000000"},
+            {"input": "200000 200000",   "output": "40000000000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-006",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    long long total = (long long)n * (n + 1) / 2;\n"
+            "    cout<<total<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100000",  "output": "5000050000"},
+            {"input": "200000",  "output": "20000100000"},
+            {"input": "50000",   "output": "1250025000"},
+        ],
+    },
+    # --- 1LL multiplication templates (overflow_1ll_removed) ---
+    {
+        "submission_id": "tpl-IO-007",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int a, b; cin>>a>>b;\n"
+            "    long long ans = 1LL * a * b;\n"
+            "    cout<<ans<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100000 100000",   "output": "10000000000"},
+            {"input": "80000 90000",     "output": "7200000000"},
+            {"input": "150000 150000",   "output": "22500000000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-008",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n, m; cin>>n>>m;\n"
+            "    long long grid = 1LL * n * m;\n"
+            "    cout<<grid<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100000 100000",   "output": "10000000000"},
+            {"input": "70000 80000",     "output": "5600000000"},
+            {"input": "200000 300000",   "output": "60000000000"},
         ],
     },
 ]
@@ -530,6 +698,120 @@ _MBC = [  # CPP_MISSING_BASE_CASE  (operators: mbc_remove_base_n0, mbc_remove_ba
             {"input": "12 8", "output": "4"},
             {"input": "7 3",  "output": "1"},
             {"input": "9 6",  "output": "3"},
+        ],
+    },
+    # --- Multi-form templates: multiple base-case patterns per function ---
+    # Each of these matches 2+ MBC operators → more verified mutants per seed
+    {
+        "submission_id": "tpl-MBC-006",
+        "_hint_class": "CPP_MISSING_BASE_CASE",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int fib2(int n){\n"
+            "    if(n == 0) { return 0; }\n"
+            "    if(n == 1) return 1;\n"
+            "    return fib2(n-1) + fib2(n-2);\n"
+            "}\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    cout<<fib2(n)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "7",  "output": "13"},
+            {"input": "6",  "output": "8"},
+            {"input": "0",  "output": "0"},
+            {"input": "1",  "output": "1"},
+        ],
+    },
+    {
+        "submission_id": "tpl-MBC-007",
+        "_hint_class": "CPP_MISSING_BASE_CASE",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int fact2(int n){\n"
+            "    if(n == 0) { return 1; }\n"
+            "    if(n == 1) return 1;\n"
+            "    return n * fact2(n-1);\n"
+            "}\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    cout<<fact2(n)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5",  "output": "120"},
+            {"input": "4",  "output": "24"},
+            {"input": "0",  "output": "1"},
+            {"input": "1",  "output": "1"},
+        ],
+    },
+    {
+        "submission_id": "tpl-MBC-008",
+        "_hint_class": "CPP_MISSING_BASE_CASE",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int tri(int n){\n"
+            "    if(n <= 1) { return n; }\n"
+            "    if(n == 1) return 1;\n"
+            "    return n + tri(n-1);\n"
+            "}\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    cout<<tri(n)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5",  "output": "15"},
+            {"input": "4",  "output": "10"},
+            {"input": "0",  "output": "0"},
+            {"input": "1",  "output": "1"},
+        ],
+    },
+    {
+        "submission_id": "tpl-MBC-009",
+        "_hint_class": "CPP_MISSING_BASE_CASE",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int pow2(int n){\n"
+            "    if(n == 0) { return 1; }\n"
+            "    return 2 * pow2(n-1);\n"
+            "}\n"
+            "int digitsum(int n){\n"
+            "    if(n == 0) { return 0; }\n"
+            "    return n%10 + digitsum(n/10);\n"
+            "}\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    cout<<pow2(n)<<\" \"<<digitsum(n)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5",   "output": "32 5"},
+            {"input": "3",   "output": "8 3"},
+            {"input": "10",  "output": "1024 1"},
+        ],
+    },
+    {
+        "submission_id": "tpl-MBC-010",
+        "_hint_class": "CPP_MISSING_BASE_CASE",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int count_steps(int n){\n"
+            "    if(n == 0) { return 0; }\n"
+            "    if(n == 1) return 1;\n"
+            "    if(n == 1) return 1;\n"
+            "    return 1 + count_steps(n-1);\n"
+            "}\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    cout<<count_steps(n)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5",  "output": "5"},
+            {"input": "3",  "output": "3"},
+            {"input": "0",  "output": "0"},
         ],
     },
 ]
