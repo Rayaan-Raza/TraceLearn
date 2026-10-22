@@ -1,0 +1,101 @@
+name: Lane A — Synthetic Data CI
+
+on:
+  push:
+    branches:
+      - 'feat/lane-a-*'
+    paths:
+      - 'scripts/generate_mutants.py'
+      - 'scripts/seed_templates.py'
+      - 'scripts/operator_library.json'
+      - 'annotations/tier0_mutants.jsonl'
+      - 'tests/test_lane_a.py'
+      - '.github/workflows/lane_a_ci.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'scripts/generate_mutants.py'
+      - 'scripts/seed_templates.py'
+      - 'scripts/operator_library.json'
+      - 'annotations/tier0_mutants.jsonl'
+      - 'tests/test_lane_a.py'
+
+jobs:
+  lane-a-tests:
+    name: Lane A pytest (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          # Install g++ for mutant compilation tests
+          sudo apt-get install -y g++ 2>/dev/null || true
+
+      - name: Verify operator patterns compile
+        run: python -c "import json, re; lib=json.load(open('scripts/operator_library.json')); [re.compile(f['pattern'], re.M|re.S) for cls in lib['operators'].values() for f in cls['forms']]; [re.compile(f['pattern'], re.M|re.S) for f in lib['decoy_operators']]; print('All patterns OK')"
+
+      - name: Run Lane A test suite
+        run: python -m pytest tests/test_lane_a.py -v --tb=short
+
+      - name: Check JSONL row count and class floors
+        run: |
+          python - << 'EOF'
+          import json
+          from collections import Counter
+
+          rows = [json.loads(l) for l in open("annotations/tier0_mutants.jsonl")]
+          dist = Counter(r["label"] for r in rows)
+          FLOORS = {
+              "CPP_LOOP_BOUNDARY": 5, "CPP_OFF_BY_ONE": 5, "CPP_ARRAY_BOUNDS": 5,
+              "CPP_UNINITIALIZED_VAR": 5, "CPP_INT_OVERFLOW": 5,
+              "CPP_MISSING_BASE_CASE": 5, "CPP_ASSIGN_VS_COMPARE": 5,
+              "CPP_WRONG_LOOP_DIR": 5, "CPP_RANGE_CHECK": 5,
+              "CPP_STALE_EXIT": 5, "CPP_OTHER_ERROR": 5,
+          }
+          failures = []
+          for cls, floor in FLOORS.items():
+              if dist[cls] < floor:
+                  failures.append(f"{cls}: {dist[cls]} < {floor}")
+          total = sum(dist.values())
+          if total < 150:
+              failures.append(f"total rows {total} < E3 floor 150")
+          if failures:
+              print("FAIL:", "\n".join(failures))
+              raise SystemExit(1)
+          print(f"OK: {total} rows, all classes ≥{min(FLOORS.values())}")
+          EOF
+
+      - name: Validate all JSONL fields present
+        run: |
+          python - << 'EOF'
+          import json
+          REQUIRED = [
+              "row_id", "label", "label_source", "verified_by_execution",
+              "mutation_op", "seed_ref", "taxonomy_version", "schema_version",
+          ]
+          errors = []
+          for i, line in enumerate(open("annotations/tier0_mutants.jsonl"), 1):
+              row = json.loads(line)
+              missing = [f for f in REQUIRED if f not in row]
+              if missing:
+                  errors.append(f"line {i} ({row.get('row_id')}): {missing}")
+          if errors:
+              print("Schema errors:\n" + "\n".join(errors))
+              raise SystemExit(1)
+          print("All rows schema-valid.")
+          EOF
