@@ -363,9 +363,433 @@ _AB = [  # CPP_ARRAY_BOUNDS  (operators: ab_vector_init_minus1 — throws out_of
             "}"
         ),
         "_inline_tests": [
-            {"input": "5", "output": "25"},  # 5^2
-            {"input": "3", "output": "9"},   # 3^2
-            {"input": "4", "output": "16"},  # 4^2
+            {"input": "5", "output": "25"},
+            {"input": "3", "output": "9"},
+            {"input": "4", "output": "16"},
+        ],
+    },
+    # --- 25 more diverse vector::at() templates for scale coverage ---
+    {
+        "submission_id": "tpl-AB-009",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> nums(n);\n"
+            "    for(int i=0;i<n;i++) nums[i]=i*i;\n"
+            "    cout<<nums.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5", "output": "16"}, {"input": "4", "output": "9"}, {"input": "6", "output": "25"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-010",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> cnt(n);\n"
+            "    for(int i=0;i<n;i++) cin>>cnt[i];\n"
+            "    int s=0;\n"
+            "    for(int i=0;i<n;i++) s+=cnt.at(i);\n"
+            "    cout<<s<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n1 2 3 4", "output": "10"}, {"input": "3\n5 5 5", "output": "15"},
+            {"input": "2\n7 8", "output": "15"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-011",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> seq(n);\n"
+            "    for(int i=0;i<n;i++) seq[i]=2*i+1;\n"
+            "    cout<<seq.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5", "output": "9"}, {"input": "3", "output": "5"}, {"input": "7", "output": "13"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-012",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> row(n);\n"
+            "    for(int i=0;i<n;i++) cin>>row[i];\n"
+            "    cout<<row.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "3\n4 5 6", "output": "6"}, {"input": "5\n1 1 1 1 9", "output": "9"},
+            {"input": "2\n3 7", "output": "7"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-013",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> tab(n);\n"
+            "    for(int i=0;i<n;i++) tab[i]=n-i;\n"
+            "    cout<<tab.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5", "output": "1"}, {"input": "4", "output": "1"}, {"input": "3", "output": "1"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-014",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> prefix(n);\n"
+            "    prefix[0]=1;\n"
+            "    for(int i=1;i<n;i++) prefix[i]=prefix.at(i-1)*2;\n"
+            "    cout<<prefix.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4", "output": "8"}, {"input": "5", "output": "16"}, {"input": "3", "output": "4"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-015",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> items(n);\n"
+            "    for(int i=0;i<n;i++) cin>>items[i];\n"
+            "    int even=0;\n"
+            "    for(int i=0;i<n;i++) if(items.at(i)%2==0) even++;\n"
+            "    cout<<even<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5\n1 2 3 4 5", "output": "2"}, {"input": "4\n2 4 6 8", "output": "4"},
+            {"input": "3\n1 3 5", "output": "0"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-016",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> pts(n);\n"
+            "    for(int i=0;i<n;i++) cin>>pts[i];\n"
+            "    int mx=pts.at(0);\n"
+            "    for(int i=1;i<n;i++) mx=max(mx,pts.at(i));\n"
+            "    cout<<mx<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n3 9 2 7", "output": "9"}, {"input": "3\n1 2 3", "output": "3"},
+            {"input": "2\n5 5", "output": "5"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-017",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> scores(n);\n"
+            "    for(int i=0;i<n;i++) cin>>scores[i];\n"
+            "    int mn=scores.at(0);\n"
+            "    for(int i=1;i<n;i++) mn=min(mn,scores.at(i));\n"
+            "    cout<<mn<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n5 1 9 3", "output": "1"}, {"input": "3\n7 2 8", "output": "2"},
+            {"input": "2\n4 6", "output": "4"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-018",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> pos(n);\n"
+            "    for(int i=0;i<n;i++) pos[i]=i+1;\n"
+            "    int last=pos.at(n-1);\n"
+            "    cout<<last<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5", "output": "5"}, {"input": "3", "output": "3"}, {"input": "8", "output": "8"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-019",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> pairs(n);\n"
+            "    for(int i=0;i<n;i++) cin>>pairs[i];\n"
+            "    long long prod=1;\n"
+            "    for(int i=0;i<n;i++) prod*=pairs.at(i);\n"
+            "    cout<<prod<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "3\n2 3 4", "output": "24"}, {"input": "4\n1 2 3 4", "output": "24"},
+            {"input": "2\n5 6", "output": "30"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-020",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> line(n);\n"
+            "    for(int i=0;i<n;i++) cin>>line[i];\n"
+            "    cout<<line.at(0)<<\" \"<<line.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n10 20 30 40", "output": "10 40"}, {"input": "3\n5 6 7", "output": "5 7"},
+            {"input": "2\n1 9", "output": "1 9"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-021",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> span(n);\n"
+            "    for(int i=0;i<n;i++) span[i]=i*2+3;\n"
+            "    cout<<span.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4", "output": "9"}, {"input": "3", "output": "7"}, {"input": "5", "output": "11"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-022",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> grid(n);\n"
+            "    for(int i=0;i<n;i++) grid[i]=(i+1)*10;\n"
+            "    int s=0;\n"
+            "    for(int i=0;i<n;i++) s+=grid.at(i);\n"
+            "    cout<<s<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4", "output": "100"}, {"input": "3", "output": "60"}, {"input": "5", "output": "150"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-023",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> elems(n);\n"
+            "    for(int i=0;i<n;i++) cin>>elems[i];\n"
+            "    bool found=false;\n"
+            "    for(int i=0;i<n;i++) if(elems.at(i)>0) found=true;\n"
+            "    cout<<(found?\"YES\":\"NO\")<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "3\n-1 0 2", "output": "YES"}, {"input": "3\n-1 -2 -3", "output": "NO"},
+            {"input": "2\n0 1", "output": "YES"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-024",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> heap(n);\n"
+            "    for(int i=0;i<n;i++) heap[i]=100/(i+1);\n"
+            "    cout<<heap.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4", "output": "25"}, {"input": "5", "output": "20"}, {"input": "2", "output": "50"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-025",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> node(n);\n"
+            "    for(int i=0;i<n;i++) cin>>node[i];\n"
+            "    sort(node.begin(),node.end());\n"
+            "    cout<<node.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n3 1 4 2", "output": "4"}, {"input": "3\n9 1 5", "output": "9"},
+            {"input": "2\n2 8", "output": "8"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-026",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> key(n);\n"
+            "    for(int i=0;i<n;i++) key[i]=(n-i)*5;\n"
+            "    cout<<key.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4", "output": "5"}, {"input": "3", "output": "5"}, {"input": "6", "output": "5"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-027",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> chunk(n);\n"
+            "    for(int i=0;i<n;i++) cin>>chunk[i];\n"
+            "    long long mx=chunk.at(0);\n"
+            "    for(int i=1;i<n;i++) if(chunk.at(i)>mx) mx=chunk.at(i);\n"
+            "    cout<<mx<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n5 9 3 7", "output": "9"}, {"input": "3\n1 1 1", "output": "1"},
+            {"input": "2\n100 50", "output": "100"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-028",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> tier(n);\n"
+            "    for(int i=0;i<n;i++) tier[i]=i+10;\n"
+            "    cout<<tier.at(0)+tier.at(n-1)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5", "output": "29"}, {"input": "3", "output": "25"}, {"input": "4", "output": "27"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-029",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> map(n);\n"
+            "    for(int i=0;i<n;i++) cin>>map[i];\n"
+            "    long long s2=0;\n"
+            "    for(int i=0;i<n;i++) s2+=(long long)map.at(i)*map.at(i);\n"
+            "    cout<<s2<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "3\n3 4 5", "output": "50"}, {"input": "2\n10 10", "output": "200"},
+            {"input": "4\n1 2 3 4", "output": "30"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-030",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> list(n);\n"
+            "    for(int i=0;i<n;i++) list[i]=3*i;\n"
+            "    for(int i=0;i<n;i++) cout<<list.at(i)<<\" \";\n"
+            "    cout<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4", "output": "0 3 6 9 "}, {"input": "3", "output": "0 3 6 "},
+            {"input": "5", "output": "0 3 6 9 12 "},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-031",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> inv(n);\n"
+            "    for(int i=0;i<n;i++) cin>>inv[i];\n"
+            "    sort(inv.begin(),inv.end());\n"
+            "    cout<<inv.at(0)<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "4\n8 3 7 1", "output": "1"}, {"input": "3\n5 2 9", "output": "2"},
+            {"input": "2\n4 6", "output": "4"},
+        ],
+    },
+    {
+        "submission_id": "tpl-AB-032",
+        "_hint_class": "CPP_ARRAY_BOUNDS",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    vector<int> run(n);\n"
+            "    for(int i=0;i<n;i++) cin>>run[i];\n"
+            "    int cnt=0;\n"
+            "    for(int i=0;i<n;i++) if(run.at(i)%3==0) cnt++;\n"
+            "    cout<<cnt<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "5\n3 5 6 7 9", "output": "3"}, {"input": "4\n1 2 4 5", "output": "0"},
+            {"input": "3\n3 6 9", "output": "3"},
         ],
     },
 ]
@@ -595,6 +1019,141 @@ _IO = [  # CPP_INT_OVERFLOW  (operators: overflow_ll_sum_to_int, overflow_ll_acc
             {"input": "100000 100000",   "output": "10000000000"},
             {"input": "70000 80000",     "output": "5600000000"},
             {"input": "200000 300000",   "output": "60000000000"},
+        ],
+    },
+    # --- Multi-form templates: combine (long long) cast + 1LL + named acc ---
+    {
+        "submission_id": "tpl-IO-009",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int a, b, c; cin>>a>>b>>c;\n"
+            "    long long ans = (long long)a * b + (long long)b * c;\n"
+            "    cout<<ans<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100000 100000 100000", "output": "20000000000"},
+            {"input": "50000 60000 70000",    "output": "7200000000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-010",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    long long ans = 1LL * n * n;\n"
+            "    cout<<ans<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "200000", "output": "40000000000"},
+            {"input": "100000", "output": "10000000000"},
+            {"input": "150000", "output": "22500000000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-011",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    long long total = 0;\n"
+            "    for(int i=1;i<=n;i++) total+=i;\n"
+            "    cout<<total<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100000", "output": "5000050000"},
+            {"input": "200000", "output": "20000100000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-012",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int h, w; cin>>h>>w;\n"
+            "    long long area = 1LL * h * w;\n"
+            "    cout<<area<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "200000 200000", "output": "40000000000"},
+            {"input": "100000 300000", "output": "30000000000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-013",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    long long ans = (long long)n * (n-1) / 2;\n"
+            "    cout<<ans<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100000", "output": "4999950000"},
+            {"input": "200000", "output": "19999900000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-014",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int n; cin>>n;\n"
+            "    long long result = 0;\n"
+            "    for(int i=0;i<n;i++){\n"
+            "        int x; cin>>x;\n"
+            "        result += (long long)x * x;\n"
+            "    }\n"
+            "    cout<<result<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "3\n100000 100000 100000", "output": "30000000000"},
+            {"input": "2\n70000 80000",           "output": "11300000000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-015",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    int a, b; cin>>a>>b;\n"
+            "    long long sum = (long long)a * b;\n"
+            "    cout<<sum<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100000 200000", "output": "20000000000"},
+            {"input": "150000 150000", "output": "22500000000"},
+        ],
+    },
+    {
+        "submission_id": "tpl-IO-016",
+        "_hint_class": "CPP_INT_OVERFLOW",
+        "source_code": (
+            "#include<bits/stdc++.h>\nusing namespace std;\n"
+            "int main(){\n"
+            "    long long n; cin>>n;\n"
+            "    long long ans = n*(n+1)*(n+2)/6;\n"
+            "    cout<<ans<<endl;\n"
+            "}"
+        ),
+        "_inline_tests": [
+            {"input": "100",   "output": "171700"},
+            {"input": "1000",  "output": "167167000"},
         ],
     },
 ]
