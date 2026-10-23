@@ -286,3 +286,68 @@ def test_main_per_class_report_prints_floors(tmp_path: Path, capsys):
     assert rc == 0
     assert "CPP_LOOP_BOUNDARY" in out
     assert "certain" in out.lower()
+
+
+# ------------------------------------------- synthetic proof-join exception
+#
+# Ruling (2026-10-23, three-lane merge): template-derived SYNTHETIC mutants
+# have no real submission to point at (source_record_id = tpl-XX-NNN). Their
+# provenance is the committed mutant proof corpus. G1 therefore accepts a
+# SYNTHETIC row whose source_record_id is orphaned iff a proof matches its
+# (problem_id, mutation_op, label) — evidence-based, never blanket. All other
+# sources keep the strict normalized join.
+
+
+def test_template_synthetic_row_passes_with_matching_proof():
+    row = _make_row(source_record_id="tpl-LB-001", seed_ref="tpl-LB-001")
+    proofs = {("prob_006", "for_le_bound_lt_n1", "CPP_LOOP_BOUNDARY")}
+    report = verify([row], set(), proof_keys=proofs)
+    assert report.issues == [], [i.detail for i in report.issues]
+
+
+def test_template_synthetic_row_without_proof_is_still_an_orphan():
+    row = _make_row(source_record_id="tpl-LB-001", seed_ref="tpl-LB-001")
+    report = verify([row], set(), proof_keys=set())
+    assert any(i.check == "join:orphan" for i in report.issues)
+
+
+def test_synthetic_orphan_not_excused_when_proof_label_disagrees():
+    row = _make_row(source_record_id="tpl-LB-001")
+    proofs = {("prob_006", "for_le_bound_lt_n1", "CPP_OFF_BY_ONE")}  # other label
+    issues = check_row(row, set(), proof_keys=proofs)
+    assert any(i.check == "join:orphan" for i in issues)
+
+
+def test_non_synthetic_orphan_never_excused_by_proofs():
+    row = _make_row(
+        row_id="pg-000001", dataset_source="PROGPEDIA",
+        source_record_id="00000006/RUNTIME_ERROR/x/A.c", label_source="weak_rule",
+        verified_by_execution=None,
+    )
+    proofs = {("prob_006", "for_le_bound_lt_n1", "CPP_LOOP_BOUNDARY")}
+    issues = check_row(row, set(), proof_keys=proofs)
+    assert any(i.check == "join:orphan" for i in issues)
+
+
+def test_cli_loads_proof_keys_from_proofs_dir(tmp_path: Path):
+    # main() with --proofs-dir must accept an orphaned template row when a
+    # matching proof json exists in that directory.
+    proofs = tmp_path / "mutant_proofs"
+    proofs.mkdir()
+    (proofs / "ab12cd34.json").write_text(json.dumps({
+        "run_id": "ab12cd34", "problem_id": "prob_006",
+        "operator": "for_le_bound_lt_n1", "label": "CPP_LOOP_BOUNDARY",
+        "mutant_sha256": "f" * 64, "seed_sha256": "e" * 64,
+    }), encoding="utf-8")
+
+    ann = tmp_path / "annotations"
+    ann.mkdir()
+    row = _make_row(source_record_id="tpl-LB-001", seed_ref="tpl-LB-001")
+    (ann / "tier0_mutants.jsonl").write_text(json.dumps(row) + "\n", encoding="utf-8")
+
+    idx = tmp_path / "ids.txt"
+    idx.write_text(SEED_RECORD_ID + "\n", encoding="utf-8")
+
+    rc = main(["--dataset-dir", str(tmp_path), "--normalized-ids", str(idx),
+               "--proofs-dir", str(proofs)])
+    assert rc == 0

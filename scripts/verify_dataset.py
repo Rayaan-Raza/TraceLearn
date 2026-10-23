@@ -116,7 +116,11 @@ def _row_id(row: dict[str, Any]) -> str:
     return rid if isinstance(rid, str) else "<missing-row_id>"
 
 
-def check_row(row: dict[str, Any], normalized_ids: set[str]) -> list[RowIssue]:
+def check_row(
+    row: dict[str, Any],
+    normalized_ids: set[str],
+    proof_keys: set[tuple[str, str, str]] | None = None,
+) -> list[RowIssue]:
     """Validate one dataset row against the G1 resolver rules."""
     issues: list[RowIssue] = []
     rid = _row_id(row)
@@ -173,21 +177,62 @@ def check_row(row: dict[str, Any], normalized_ids: set[str]) -> list[RowIssue]:
         add("secondary_labels", f"secondary_labels {secondary!r} not a list")
 
     # --- labels <-> normalized join: 0 orphans ----------------------------
+    # Ruling (three-lane merge 2026-10-23): template-derived SYNTHETIC mutants
+    # have no real submission to point at; their provenance is the committed
+    # mutant-proof corpus. A SYNTHETIC orphan is excused iff a proof matches
+    # (problem_id, mutation_op, label) — evidence-based, never blanket; all
+    # other sources keep the strict normalized join.
     source_record_id = row.get("source_record_id")
-    if isinstance(source_record_id, str) and source_record_id and normalized_ids:
+    if isinstance(source_record_id, str) and source_record_id and (
+        normalized_ids or proof_keys is not None
+    ):
         if source_record_id not in normalized_ids:
-            add("join:orphan", f"source_record_id {source_record_id!r} not in normalized index")
+            proof_key = (row.get("problem_id"), row.get("mutation_op"), row.get("label"))
+            excused = (
+                row.get("dataset_source") == "SYNTHETIC"
+                and proof_keys is not None
+                and proof_key in proof_keys
+            )
+            if not excused:
+                add("join:orphan", f"source_record_id {source_record_id!r} not in normalized index")
 
     return issues
 
 
-def verify(rows: Iterable[dict[str, Any]], normalized_ids: set[str]) -> Report:
+def verify(
+    rows: Iterable[dict[str, Any]],
+    normalized_ids: set[str],
+    proof_keys: set[tuple[str, str, str]] | None = None,
+) -> Report:
     """Run G1 resolver checks across every row."""
     report = Report()
     for row in rows:
         report.n_rows += 1
-        report.issues.extend(check_row(row, normalized_ids))
+        report.issues.extend(check_row(row, normalized_ids, proof_keys=proof_keys))
     return report
+
+
+def load_proof_keys(proofs_dir: Path) -> set[tuple[str, str, str]]:
+    """(problem_id, operator, label) triples from the mutant-proof corpus.
+
+    Each proof json records the execution evidence behind a synthetic mutant;
+    the triple links a template-derived row (source_record_id `tpl-*`) back to
+    that evidence. Malformed proofs are skipped, never guessed.
+    """
+    keys: set[tuple[str, str, str]] = set()
+    if not proofs_dir.is_dir():
+        return keys
+    for path in sorted(proofs_dir.glob("*.json")):
+        try:
+            obj = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if not isinstance(obj, dict):
+            continue
+        triple = (obj.get("problem_id"), obj.get("operator"), obj.get("label"))
+        if all(isinstance(x, str) and x for x in triple):
+            keys.add(triple)
+    return keys
 
 
 # ------------------------------------------------------- Layer-2 report
@@ -313,6 +358,9 @@ def main(argv: list[str] | None = None) -> int:
                         help="text file: one source_record_id per line")
     parser.add_argument("--normalized-csv", type=Path, default=None,
                         help="normalized submissions.csv (reads source_record_id column)")
+    parser.add_argument("--proofs-dir", type=Path, default=None,
+                        help="mutant-proof corpus dir (SYNTHETIC proof-join); "
+                             "defaults to <dataset-dir>/annotations/mutant_proofs")
     parser.add_argument("--per-class-report", action="store_true")
     args = parser.parse_args(argv)
 
@@ -340,11 +388,16 @@ def main(argv: list[str] | None = None) -> int:
         all_rows.extend(rows)
         all_issues.extend(parse_issues)
 
-    report = verify(all_rows, normalized_ids)
+    proofs_dir = args.proofs_dir or (args.dataset_dir / "annotations" / "mutant_proofs")
+    proof_keys = load_proof_keys(proofs_dir)
+
+    report = verify(all_rows, normalized_ids, proof_keys=proof_keys)
     report.issues = all_issues + report.issues
 
     print(f"rows scanned: {report.n_rows} across {len(files)} file(s)")
     print(f"normalized join ids loaded: {len(normalized_ids)}")
+    if proof_keys:
+        print(f"mutant proof keys loaded: {len(proof_keys)} (from {proofs_dir})")
     if report.issues:
         print(f"G1 FAIL - {len(report.issues)} issue(s):")
         for issue in report.issues:
