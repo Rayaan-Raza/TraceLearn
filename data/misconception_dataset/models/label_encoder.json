@@ -1,0 +1,28 @@
+{
+  "class_to_idx": {
+    "CPP_ARRAY_BOUNDS": 0,
+    "CPP_ASSIGN_VS_COMPARE": 1,
+    "CPP_INT_OVERFLOW": 2,
+    "CPP_LOOP_BOUNDARY": 3,
+    "CPP_MISSING_BASE_CASE": 4,
+    "CPP_OFF_BY_ONE": 5,
+    "CPP_OTHER_ERROR": 6,
+    "CPP_RANGE_CHECK": 7,
+    "CPP_STALE_EXIT": 8,
+    "CPP_UNINITIALIZED_VAR": 9,
+    "CPP_WRONG_LOOP_DIR": 10
+  },
+  "idx_to_class": [
+    "CPP_ARRAY_BOUNDS",
+    "CPP_ASSIGN_VS_COMPARE",
+    "CPP_INT_OVERFLOW",
+    "CPP_LOOP_BOUNDARY",
+    "CPP_MISSING_BASE_CASE",
+    "CPP_OFF_BY_ONE",
+    "CPP_OTHER_ERROR",
+    "CPP_RANGE_CHECK",
+    "CPP_STALE_EXIT",
+    "CPP_UNINITIALIZED_VAR",
+    "CPP_WRONG_LOOP_DIR"
+  ]
+}

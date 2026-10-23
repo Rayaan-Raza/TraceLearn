@@ -1,0 +1,11 @@
+{
+  "temperature": 1.0,
+  "threshold": 0.5,
+  "fitted_on": {
+    "n": 4,
+    "split": "dev_gold"
+  },
+  "isotonic_used": false,
+  "scope": "one global threshold + temperature",
+  "note": "dev-gold too small for calibration (4 < 10 rows); probabilities reported uncalibrated (temperature=1.0, threshold=0.5) \u2014 isotonic banned, no overfit calibration"
+}
