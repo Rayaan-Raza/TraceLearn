@@ -1,0 +1,10 @@
+=================================================================
+==61234==ERROR: AddressSanitizer: stack-overflow on address 0x7ffc12ab3000 (pc 0x0000004012d6 bp 0x7ffc12ab2fa0 sp 0x00007ffc12ab2760 T0)
+    #0 0x4012d5 in recurse /src/solution.c:9:5
+    #1 0x4012d5 in recurse /src/solution.c:10:9
+    #2 0x4012d5 in recurse /src/solution.c:10:9
+    #3 0x4012d5 in recurse /src/solution.c:10:9
+    ... (truncated)
+
+SUMMARY: AddressSanitizer: stack-overflow /src/solution.c:9:5 in recurse
+==61234==ABORTING

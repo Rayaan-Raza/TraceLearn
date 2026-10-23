@@ -1,0 +1,11 @@
+=================================================================
+==51234==ERROR: AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==51234==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000004011f5 bp 0x7ffd9c0b9a30 sp 0x7ffd9c0b9a28 T0)
+==51234==The signal is caused by a READ memory access.
+==51234==Hint: address points to the zero page.
+    #0 0x4011f4 in main /src/solution.c:4:9
+    #1 0x7f9a8c1d083f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24083f)
+
+SUMMARY: AddressSanitizer: SEGV /src/solution.c:4:9 in main
+==51234==ABORTING

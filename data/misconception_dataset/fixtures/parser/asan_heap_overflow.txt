@@ -1,0 +1,14 @@
+=================================================================
+==41234==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000000010 at pc 0x000000401234 bp 0x7ffd9c0b9a70 sp 0x7ffd9c0b9a68 T0
+WRITE of size 4 at 0x602000000010 thread T0
+    #0 0x401233 in main /src/solution.c:7:12
+    #1 0x7f9a8c1d083f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24083f)
+    #2 0x4010a8 in _start (/a.out+0x4010a8)
+
+0x602000000010 is located 0 bytes to the right of 4-byte region [0x60200000000c,0x602000000010)
+allocated by thread T0 here:
+    #0 0x4d8c78 in malloc (/a.out+0x4d8c78)
+    #1 0x4011a9 in main /src/solution.c:5:15
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /src/solution.c:7:12 in main
+==41234==ABORTING

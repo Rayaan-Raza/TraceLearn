@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_version": "tl-cpp-v2",
+  "description": "Label-defining feature registry (§6 R1): which feature values an LF or operator may look at to assign a label. The masked training variant NaNs exactly these inputs on weak rows at train time (§11.5). Group entries cover many classes; entries never list the row's own label as an input (labels are never features).",
+  "entries": {
+    "synthetic_ops": {
+      "kind": "operator_group",
+      "labels": [
+        "CPP_LOOP_BOUNDARY",
+        "CPP_OFF_BY_ONE",
+        "CPP_ARRAY_BOUNDS",
+        "CPP_UNINITIALIZED_VAR",
+        "CPP_INT_OVERFLOW",
+        "CPP_MISSING_BASE_CASE",
+        "CPP_ASSIGN_VS_COMPARE",
+        "CPP_WRONG_LOOP_DIR",
+        "CPP_RANGE_CHECK",
+        "CPP_STALE_EXIT",
+        "CPP_OTHER_ERROR"
+      ],
+      "features": [],
+      "confidence_cap": 1.0,
+      "status": "active",
+      "note": "Label comes from mutation_op + execution proof, not from feature values. Decoy operators (E1d) label CPP_OTHER_ERROR the same way."
+    },
+    "lf_weak": {
+      "kind": "lf_group",
+      "labels": [
+        "CPP_LOOP_BOUNDARY",
+        "CPP_OFF_BY_ONE",
+        "CPP_ARRAY_BOUNDS",
+        "CPP_INT_OVERFLOW",
+        "CPP_MISSING_BASE_CASE",
+        "CPP_ASSIGN_VS_COMPARE"
+      ],
+      "features": [],
+      "confidence_cap": 0.85,
+      "status": "pending",
+      "note": "Umaima's CodeStream weak LFs (U2), not yet built. Per-LF lf_inputs are appended when each LF ships its fixtures; source cap CodeStream = 0.85 (§3.5)."
+    },
+    "human": {
+      "kind": "human",
+      "labels": [
+        "CPP_LOOP_BOUNDARY",
+        "CPP_OFF_BY_ONE",
+        "CPP_ARRAY_BOUNDS",
+        "CPP_UNINITIALIZED_VAR",
+        "CPP_INT_OVERFLOW",
+        "CPP_MISSING_BASE_CASE",
+        "CPP_ASSIGN_VS_COMPARE",
+        "CPP_WRONG_LOOP_DIR",
+        "CPP_RANGE_CHECK",
+        "CPP_STALE_EXIT",
+        "CPP_OTHER_ERROR"
+      ],
+      "features": [],
+      "confidence_cap": 1.0,
+      "status": "active",
+      "note": "Human-confirmed rows (H2 audits, discovery confirmations, gold promotion). Input is the raw evidence packet, not a feature vector."
+    },
+    "pg-1": {
+      "kind": "lf",
+      "label": "CPP_ASSIGN_VS_COMPARE",
+      "features": [
+        "warnings.parentheses",
+        "cpg.assign_in_condition_count",
+        "cpg.assign_feeds_output_count"
+      ],
+      "confidence_cap": 0.6,
+      "status": "active",
+      "conjunction": "verdict != ACCEPTED AND -Wparentheses AND AST assignment-in-condition whose assigned variable feeds an output computation (two distinct signals, §3.4)"
+    },
+    "pg-2": {
+      "kind": "lf",
+      "label": "CPP_MISSING_BASE_CASE",
+      "features": [
+        "cpg.unguarded_recursion_count"
+      ],
+      "confidence_cap": 0.6,
+      "status": "active",
+      "conjunction": "verdict = RUNTIME_ERROR AND recursion without guard (AST)"
+    },
+    "pg-3": {
+      "kind": "lf",
+      "label": "CPP_ARRAY_BOUNDS",
+      "features": [
+        "cpg.array_write_oob_count"
+      ],
+      "confidence_cap": 0.6,
+      "status": "active",
+      "conjunction": "verdict = RUNTIME_ERROR AND array write beyond fixed declared size (AST)"
+    },
+    "pg-4": {
+      "kind": "lf",
+      "label": "CPP_UNINITIALIZED_VAR",
+      "features": [
+        "warnings.maybe_uninitialized",
+        "cpg.use_before_init_count"
+      ],
+      "confidence_cap": 0.55,
+      "status": "active",
+      "conjunction": "verdict != ACCEPTED AND -Wmaybe-uninitialized AND use-before-init AST path"
+    },
+    "det-4": {
+      "kind": "discovery_detector",
+      "label": "CPP_UNINITIALIZED_VAR",
+      "features": [
+        "warnings.maybe_uninitialized",
+        "runtime.valgrind_uninit_value"
+      ],
+      "confidence_cap": 0.85,
+      "status": "candidate",
+      "never_label_without_human": true,
+      "note": "§13.5 candidate detector: -Wmaybe-uninitialized AND Valgrind uninit report. Excluded from any OTHER pool; routes to human review."
+    },
+    "det-8": {
+      "kind": "discovery_detector",
+      "label": "CPP_WRONG_LOOP_DIR",
+      "features": [
+        "cpg.decrement_in_loop_count",
+        "cpg.ast_ref_similarity"
+      ],
+      "confidence_cap": 0.85,
+      "status": "candidate",
+      "never_label_without_human": true,
+      "note": "§13.5 candidate detector: AST comparison vs reference solution + order-reversed outputs. Never labels without human confirmation."
+    },
+    "det-9": {
+      "kind": "discovery_detector",
+      "label": "CPP_RANGE_CHECK",
+      "features": [
+        "tests.boundary_fail_count"
+      ],
+      "confidence_cap": 0.85,
+      "status": "candidate",
+      "never_label_without_human": true,
+      "note": "§13.5 candidate detector: failing boundary-pattern tests. Never labels without human confirmation."
+    },
+    "det-10": {
+      "kind": "discovery_detector",
+      "label": "CPP_STALE_EXIT",
+      "features": [
+        "cpg.loop_cond_var_unassigned_count"
+      ],
+      "confidence_cap": 0.85,
+      "status": "candidate",
+      "never_label_without_human": true,
+      "note": "§13.5 candidate detector: while-condition variables never assigned in the body (dataflow). Never labels without human confirmation."
+    }
+  }
+}

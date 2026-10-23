@@ -44,3 +44,6 @@ npm-debug.log*
 experiment_output.txt
 npm_build_output.txt
 pytest_output.txt
+
+# Dataset build caches (regenerable sidecars)
+data/misconception_dataset/features/_warnings_work/
