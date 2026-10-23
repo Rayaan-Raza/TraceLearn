@@ -17,6 +17,7 @@ env/
 .coverage
 htmlcov/
 reports/
+!data/misconception_dataset/reports/
 .mypy_cache/
 
 # Environment & local data
@@ -47,3 +48,8 @@ pytest_output.txt
 
 # Dataset build caches (regenerable sidecars)
 data/misconception_dataset/features/_warnings_work/
+# Misconception dataset: re-creatable execution cache
+data/misconception_dataset/cache/
+# Blind gold forms (student code) and the hidden answer key: local only, re-create with scripts/build_annotation_forms.py
+data/misconception_dataset/annotations/forms/
+data/misconception_dataset/annotations/forms_key/

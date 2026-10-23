@@ -1,0 +1,20 @@
+key,audited,correct,auditor,date,notes
+lf_loop_boundary,0,0,,,fill from review/lf_audit_sheet.csv
+lf_off_by_one,0,0,,,fill from review/lf_audit_sheet.csv
+lf_array_bounds,0,0,,,fill from review/lf_audit_sheet.csv
+lf_uninit_detector,0,0,,,fill from review/lf_audit_sheet.csv
+lf_int_overflow,0,0,,,fill from review/lf_audit_sheet.csv
+lf_missing_base_case,0,0,,,fill from review/lf_audit_sheet.csv
+lf_assign_vs_compare,0,0,,,fill from review/lf_audit_sheet.csv
+lf_wrong_loop_dir_detector,0,0,,,fill from review/lf_audit_sheet.csv
+lf_range_check_detector,0,0,,,fill from review/lf_audit_sheet.csv
+lf_stale_exit_detector,0,0,,,fill from review/lf_audit_sheet.csv
+repair_verified:CPP_ARRAY_BOUNDS,0,0,,,
+repair_verified:CPP_ASSIGN_VS_COMPARE,0,0,,,
+repair_verified:CPP_INT_OVERFLOW,0,0,,,
+repair_verified:CPP_LOOP_BOUNDARY,0,0,,,
+repair_verified:CPP_MISSING_BASE_CASE,0,0,,,
+repair_verified:CPP_OFF_BY_ONE,0,0,,,
+repair_verified:CPP_RANGE_CHECK,0,0,,,
+repair_verified:CPP_UNINITIALIZED_VAR,0,0,,,
+repair_verified:CPP_WRONG_LOOP_DIR,0,0,,,
