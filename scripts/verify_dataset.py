@@ -320,10 +320,15 @@ def load_jsonl(path: Path) -> tuple[list[dict[str, Any]], list[RowIssue]]:
 
 
 def _dataset_jsonl_files(dataset_dir: Path) -> list[Path]:
-    """Prefer annotations/*.jsonl (real layout); else scan the dir directly."""
+    """Prefer annotations/*.jsonl (real layout); else scan the dir directly.
+
+    The merge's derived output `labels.jsonl` is excluded — this gate
+    scans LANE inputs; counting the merge product alongside them would
+    double every row in per-class floor reports.
+    """
     annotations = dataset_dir / "annotations"
     search = annotations if annotations.is_dir() else dataset_dir
-    return sorted(search.glob("*.jsonl"))
+    return sorted(p for p in search.glob("*.jsonl") if p.name != "labels.jsonl")
 
 
 def load_normalized_ids(

@@ -351,3 +351,22 @@ def test_cli_loads_proof_keys_from_proofs_dir(tmp_path: Path):
     rc = main(["--dataset-dir", str(tmp_path), "--normalized-ids", str(idx),
                "--proofs-dir", str(proofs)])
     assert rc == 0
+
+
+def test_default_scan_excludes_merge_output_labels_jsonl(tmp_path: Path, capsys):
+    # labels.jsonl is the merge's derived output; the lane gate must scan
+    # tier inputs only or per-class floor counts double every row.
+    ann = tmp_path / "annotations"
+    ann.mkdir()
+    row = _make_row()
+    (ann / "tier1b_progpedia.jsonl").write_text(json.dumps(row) + "\n", encoding="utf-8")
+    (ann / "labels.jsonl").write_text(json.dumps(row) + "\n" + json.dumps(row) + "\n", encoding="utf-8")
+
+    idx = tmp_path / "ids.txt"
+    idx.write_text(SEED_RECORD_ID + "\n", encoding="utf-8")
+
+    rc = main(["--dataset-dir", str(tmp_path), "--normalized-ids", str(idx)])
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "across 1 file(s)" in out, out
+    assert "rows scanned: 1 " in out, out
