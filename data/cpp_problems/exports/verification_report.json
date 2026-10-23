@@ -1,0 +1,2355 @@
+{
+  "environment": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "sandbox_engine": "backend.app.execution.sandbox.run_in_sandbox",
+    "sandbox_status": {
+      "mode": "rlimit-only",
+      "isolated": false,
+      "required": false
+    },
+    "compile_flags": [
+      "-std=c++17",
+      "-O2",
+      "-Wall",
+      "-Wextra"
+    ],
+    "sanitize_flags": [
+      "-std=c++17",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer"
+    ],
+    "time_limit_ms": 2000,
+    "memory_limit_mb": 256,
+    "determinism_runs": 3,
+    "run_utc": "2026-10-10T11:21:11Z"
+  },
+  "summary": {
+    "checks": 133,
+    "passed": 133,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "name": "probe memory compiles",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "probe 512MB allocation is stopped by the 256MB limit",
+      "passed": true,
+      "detail": "returncode=-6 timed_out=False memory_limit_hit=True elapsed_ms=17"
+    },
+    {
+      "name": "probe infinite loop compiles",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "probe infinite loop is stopped at the 2000ms wall clock",
+      "passed": true,
+      "detail": "timed_out=True elapsed_ms=2003 returncode=-9"
+    },
+    {
+      "name": "CP01 compiles with -O2 -Wall -Wextra",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP01 compiles without warnings",
+      "passed": true,
+      "detail": "no warnings"
+    },
+    {
+      "name": "CP01 compiles with the backend flags too",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP01-V1 visible CP01-V1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='10\\n' actual='10' rc=0 timed_out=False stable=True runtime_ms=7.5 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01-V2 visible CP01-V2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01-V3 visible CP01-V3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01-H1 hidden CP01-H1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='4950\\n' actual='4950' rc=0 timed_out=False stable=True runtime_ms=4.2 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01-H2 hidden CP01-H2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='499500\\n' actual='499500' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01-H3 hidden CP01-H3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='666\\n' actual='666' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01-D1 diagnostic upper_boundary passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.8 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01-D2 diagnostic upper_boundary passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01-D3 diagnostic upper_boundary passes and is deterministic",
+      "passed": true,
+      "detail": "expected='36\\n' actual='36' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=69252"
+    },
+    {
+      "name": "CP01__CPP-M01_a.cpp fails the tests for CPP-M01",
+      "passed": true,
+      "detail": "failed 7 of 9: CP01-V1,CP01-V2,CP01-H1,CP01-H2,CP01-H3,CP01-D2 outcome=wrong_output"
+    },
+    {
+      "name": "CP01__HARDNEG_inclusive_other_range.cpp is a hard negative and passes every test",
+      "passed": true,
+      "detail": "failed 0 of 9: none"
+    },
+    {
+      "name": "CP01 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP01__CPP-M01_a.cpp=wrong_output, CP01__HARDNEG_inclusive_other_range.cpp=pass_all"
+    },
+    {
+      "name": "CP02 compiles with -O2 -Wall -Wextra",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP02 compiles without warnings",
+      "passed": true,
+      "detail": "no warnings"
+    },
+    {
+      "name": "CP02 compiles with the backend flags too",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP02-V1 visible CP02-V1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=7.8 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-V2 visible CP02-V2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='-2\\n' actual='-2' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-V3 visible CP02-V3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='4\\n' actual='4' rc=0 timed_out=False stable=True runtime_ms=5.0 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-H1 hidden CP02-H1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='42\\n' actual='42' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-H2 hidden CP02-H2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='1000000\\n' actual='1000000' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-H3 hidden CP02-H3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-H4 hidden CP02-H4 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NONE\\n' actual='NONE' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-D1 diagnostic value_not_index passes and is deterministic",
+      "passed": true,
+      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-D2 diagnostic duplicate_values passes and is deterministic",
+      "passed": true,
+      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02-D3 diagnostic value_not_index passes and is deterministic",
+      "passed": true,
+      "detail": "expected='-1\\n' actual='-1' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP02__CPP-M02_a.cpp fails the tests for CPP-M02",
+      "passed": true,
+      "detail": "failed 8 of 10: CP02-V1,CP02-V2,CP02-V3,CP02-H1,CP02-H2,CP02-D1 outcome=wrong_output"
+    },
+    {
+      "name": "CP02 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP02__CPP-M02_a.cpp=wrong_output"
+    },
+    {
+      "name": "CP03 compiles with -O2 -Wall -Wextra",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP03 compiles without warnings",
+      "passed": true,
+      "detail": "no warnings"
+    },
+    {
+      "name": "CP03 compiles with the backend flags too",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP03-V1 visible CP03-V1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=5.2 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03-V2 visible CP03-V2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03-V3 visible CP03-V3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='21\\n' actual='21' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03-H1 hidden CP03-H1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='3\\n' actual='3' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03-H2 hidden CP03-H2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='51\\n' actual='51' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03-H3 hidden CP03-H3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='-13\\n' actual='-13' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03-D1 diagnostic return_channel passes and is deterministic",
+      "passed": true,
+      "detail": "expected='9\\n' actual='9' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03-D2 diagnostic return_channel passes and is deterministic",
+      "passed": true,
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03-D3 diagnostic return_channel passes and is deterministic",
+      "passed": true,
+      "detail": "expected='15\\n' actual='15' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP03 return channel carries the value, not 0",
+      "passed": true,
+      "detail": "stdout='returned=8' rc=0"
+    },
+    {
+      "name": "CP03__CPP-M03_a.cpp fails the tests for CPP-M03",
+      "passed": true,
+      "detail": "failed 9 of 9: CP03-V1,CP03-V2,CP03-V3,CP03-H1,CP03-H2,CP03-H3 outcome=wrong_output"
+    },
+    {
+      "name": "CP03 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP03__CPP-M03_a.cpp=wrong_output"
+    },
+    {
+      "name": "CP04 compiles with -O2 -Wall -Wextra",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP04 compiles without warnings",
+      "passed": true,
+      "detail": "no warnings"
+    },
+    {
+      "name": "CP04 compiles with the backend flags too",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP04-V1 visible CP04-V1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='50\\n' actual='50' rc=0 timed_out=False stable=True runtime_ms=7.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04-V2 visible CP04-V2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='7\\n' actual='7' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04-V3 visible CP04-V3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='EMPTY\\n' actual='EMPTY' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04-H1 hidden CP04-H1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='4\\n' actual='4' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04-H2 hidden CP04-H2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04-H3 hidden CP04-H3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='-3\\n' actual='-3' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04-D1 diagnostic size_zero passes and is deterministic",
+      "passed": true,
+      "detail": "expected='EMPTY\\n' actual='EMPTY' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04-D2 diagnostic size_one passes and is deterministic",
+      "passed": true,
+      "detail": "expected='99\\n' actual='99' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04-D3 diagnostic last_valid_index passes and is deterministic",
+      "passed": true,
+      "detail": "expected='50\\n' actual='50' rc=0 timed_out=False stable=True runtime_ms=4.8 peak_rss_kb=73220"
+    },
+    {
+      "name": "CP04__CPP-M04_a.cpp fails the tests for CPP-M04",
+      "passed": true,
+      "detail": "failed 7 of 9: CP04-V1,CP04-V2,CP04-H1,CP04-H2,CP04-H3,CP04-D2 outcome=wrong_output"
+    },
+    {
+      "name": "CP04__CPP-M04_b.sanitize-only.cpp is detected by AddressSanitizer",
+      "passed": true,
+      "detail": "================================================================= ==3347==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x503000000054 at pc 0x5f8fcc3ec6a6 bp "
+    },
+    {
+      "name": "CP04__HARDNEG_full_traversal.cpp is a hard negative and passes every test",
+      "passed": true,
+      "detail": "failed 0 of 9: none"
+    },
+    {
+      "name": "CP04 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP04__CPP-M04_a.cpp=wrong_output, CP04__CPP-M04_b.sanitize-only.cpp=sanitizer_detected, CP04__HARDNEG_full_traversal.cpp=pass_all"
+    },
+    {
+      "name": "CP05 compiles with -O2 -Wall -Wextra",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP05 compiles without warnings",
+      "passed": true,
+      "detail": "no warnings"
+    },
+    {
+      "name": "CP05 compiles with the backend flags too",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP05-V1 visible CP05-V1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=7.6 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-V2 visible CP05-V2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-V3 visible CP05-V3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-H1 hidden CP05-H1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-H2 hidden CP05-H2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-H3 hidden CP05-H3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-H4 hidden CP05-H4 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-H5 hidden CP05-H5 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-D1 diagnostic lower_bound passes and is deterministic",
+      "passed": true,
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-D2 diagnostic upper_bound passes and is deterministic",
+      "passed": true,
+      "detail": "expected='IN\\n' actual='IN' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-D3 diagnostic above_range passes and is deterministic",
+      "passed": true,
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05-D4 diagnostic below_range passes and is deterministic",
+      "passed": true,
+      "detail": "expected='OUT\\n' actual='OUT' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP05__CPP-M05_a.cpp emits the expected compiler warning",
+      "passed": true,
+      "detail": "CP05__CPP-M05_a.cpp: In function ‘int main()’:"
+    },
+    {
+      "name": "CP05__CPP-M05_a.cpp fails the tests for CPP-M05",
+      "passed": true,
+      "detail": "failed 7 of 12: CP05-V2,CP05-H2,CP05-H3,CP05-H4,CP05-H5,CP05-D3 outcome=wrong_output"
+    },
+    {
+      "name": "CP05__HARDNEG_de_morgan.cpp is a hard negative and passes every test",
+      "passed": true,
+      "detail": "failed 0 of 12: none"
+    },
+    {
+      "name": "CP05 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP05__CPP-M05_a.cpp=wrong_output, CP05__HARDNEG_de_morgan.cpp=pass_all"
+    },
+    {
+      "name": "CP06 compiles with -O2 -Wall -Wextra",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP06 compiles without warnings",
+      "passed": true,
+      "detail": "no warnings"
+    },
+    {
+      "name": "CP06 compiles with the backend flags too",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP06-V1 visible CP06-V1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=7.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06-V2 visible CP06-V2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06-V3 visible CP06-V3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06-H1 hidden CP06-H1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06-H2 hidden CP06-H2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=4.2 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06-H3 hidden CP06-H3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06-H4 hidden CP06-H4 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06-D1 diagnostic zero_input passes and is deterministic",
+      "passed": true,
+      "detail": "expected='ZERO\\n' actual='ZERO' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06-D2 diagnostic nonzero_input passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NONZERO\\n' actual='NONZERO' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP06__CPP-M06_a.cpp emits the expected compiler warning",
+      "passed": true,
+      "detail": "CP06__CPP-M06_a.cpp: In function ‘int main()’:"
+    },
+    {
+      "name": "CP06__CPP-M06_a.cpp fails the tests for CPP-M06",
+      "passed": true,
+      "detail": "failed 3 of 9: CP06-V1,CP06-H2,CP06-D1 outcome=wrong_output"
+    },
+    {
+      "name": "CP06__CPP-M06_b.cpp emits the expected compiler error",
+      "passed": true,
+      "detail": "CP06__CPP-M06_b.cpp: In function ‘int main()’:"
+    },
+    {
+      "name": "CP06__CPP-M06_b.cpp is rejected by the compiler (compile_error)",
+      "passed": true,
+      "detail": "CP06__CPP-M06_b.cpp: In function ‘int main()’:"
+    },
+    {
+      "name": "CP06__HARDNEG_assignment_with_comment.cpp is a hard negative and passes every test",
+      "passed": true,
+      "detail": "failed 0 of 9: none"
+    },
+    {
+      "name": "CP06 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP06__CPP-M06_a.cpp=wrong_output, CP06__CPP-M06_b.cpp=compile_error, CP06__HARDNEG_assignment_with_comment.cpp=pass_all"
+    },
+    {
+      "name": "CP07 compiles with -O2 -Wall -Wextra",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP07 compiles without warnings",
+      "passed": true,
+      "detail": "no warnings"
+    },
+    {
+      "name": "CP07 compiles with the backend flags too",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP07-V1 visible CP07-V1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=7.9 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07-V2 visible CP07-V2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='120\\n' actual='120' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07-V3 visible CP07-V3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.2 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07-H1 hidden CP07-H1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='3628800\\n' actual='3628800' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07-H2 hidden CP07-H2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='2432902008176640000\\n' actual='2432902008176640000' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07-H3 hidden CP07-H3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='6\\n' actual='6' rc=0 timed_out=False stable=True runtime_ms=4.2 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07-D1 diagnostic base_case passes and is deterministic",
+      "passed": true,
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07-D2 diagnostic one_step passes and is deterministic",
+      "passed": true,
+      "detail": "expected='1\\n' actual='1' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07-D3 diagnostic several_steps passes and is deterministic",
+      "passed": true,
+      "detail": "expected='720\\n' actual='720' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP07__CPP-M07_a.cpp fails the tests for CPP-M07",
+      "passed": true,
+      "detail": "failed 5 of 9: CP07-V2,CP07-H1,CP07-H2,CP07-H3,CP07-D3 outcome=timeout"
+    },
+    {
+      "name": "CP07__CPP-M07_b.cpp fails the tests for CPP-M07",
+      "passed": true,
+      "detail": "failed 5 of 9: CP07-V2,CP07-H1,CP07-H2,CP07-H3,CP07-D3 outcome=timeout"
+    },
+    {
+      "name": "CP07 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP07__CPP-M07_a.cpp=timeout, CP07__CPP-M07_b.cpp=timeout"
+    },
+    {
+      "name": "CP08 compiles with -O2 -Wall -Wextra",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP08 compiles without warnings",
+      "passed": true,
+      "detail": "no warnings"
+    },
+    {
+      "name": "CP08 compiles with the backend flags too",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "CP08-V1 visible CP08-V1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='2\\n' actual='2' rc=0 timed_out=False stable=True runtime_ms=5.0 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-V2 visible CP08-V2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-V3 visible CP08-V3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-H1 hidden CP08-H1 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.7 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-H2 hidden CP08-H2 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-H3 hidden CP08-H3 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='2\\n' actual='2' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-H4 hidden CP08-H4 passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=4.5 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-D1 diagnostic immediate_find passes and is deterministic",
+      "passed": true,
+      "detail": "expected='0\\n' actual='0' rc=0 timed_out=False stable=True runtime_ms=4.3 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-D2 diagnostic absent_target passes and is deterministic",
+      "passed": true,
+      "detail": "expected='NOT FOUND\\n' actual='NOT FOUND' rc=0 timed_out=False stable=True runtime_ms=4.4 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08-D3 diagnostic last_index passes and is deterministic",
+      "passed": true,
+      "detail": "expected='5\\n' actual='5' rc=0 timed_out=False stable=True runtime_ms=4.6 peak_rss_kb=86672"
+    },
+    {
+      "name": "CP08__CPP-M08_a.cpp fails the tests for CPP-M08",
+      "passed": true,
+      "detail": "failed 7 of 10: CP08-V1,CP08-V2,CP08-H2,CP08-H3,CP08-H4,CP08-D2 outcome=wrong_output"
+    },
+    {
+      "name": "CP08__CPP-M08_b.cpp fails the tests for CPP-M08",
+      "passed": true,
+      "detail": "failed 7 of 10: CP08-V1,CP08-V2,CP08-H2,CP08-H3,CP08-H4,CP08-D2 outcome=timeout"
+    },
+    {
+      "name": "CP08 every variant meets its expected result",
+      "passed": true,
+      "detail": "CP08__CPP-M08_a.cpp=wrong_output, CP08__CPP-M08_b.cpp=timeout"
+    }
+  ],
+  "problems": {
+    "CP01": {
+      "problem_id": "CP01",
+      "misconception": "CPP-M01",
+      "tests": [
+        {
+          "id": "CP01-V1",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "10\n",
+          "actual": "10",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 7.53,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        },
+        {
+          "id": "CP01-V2",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.39,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        },
+        {
+          "id": "CP01-V3",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.43,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        },
+        {
+          "id": "CP01-H1",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "4950\n",
+          "actual": "4950",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.23,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        },
+        {
+          "id": "CP01-H2",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "499500\n",
+          "actual": "499500",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.63,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        },
+        {
+          "id": "CP01-H3",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "666\n",
+          "actual": "666",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.51,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        },
+        {
+          "id": "CP01-D1",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "upper_boundary",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.77,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        },
+        {
+          "id": "CP01-D2",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "upper_boundary",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.57,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        },
+        {
+          "id": "CP01-D3",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "upper_boundary",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "36\n",
+          "actual": "36",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.55,
+          "stable": true,
+          "peak_child_rss_kb": 69252
+        }
+      ],
+      "variants": [
+        {
+          "variant": "CP01__CPP-M01_a.cpp",
+          "misconception": "CPP-M01",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP01-V1",
+            "CP01-V2",
+            "CP01-H1",
+            "CP01-H2",
+            "CP01-H3",
+            "CP01-D2",
+            "CP01-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP01-V1",
+            "expected": "10\n",
+            "actual": "15",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP01__HARDNEG_inclusive_other_range.cpp",
+          "misconception": "HARDNEG",
+          "sanitizer_only": false,
+          "expect": "pass_all",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "pass_all",
+          "compile_diagnostics": "",
+          "failed_at_least_one": false
+        }
+      ],
+      "compile": {
+        "flags": [
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-Wextra"
+        ],
+        "ok": true,
+        "diagnostics": "",
+        "elapsed_ms": 768.2,
+        "backend_flags_ok": true,
+        "backend_flag_diagnostics": ""
+      },
+      "sanitizer": {}
+    },
+    "CP02": {
+      "problem_id": "CP02",
+      "misconception": "CPP-M02",
+      "tests": [
+        {
+          "id": "CP02-V1",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "9\n",
+          "actual": "9",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 7.75,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-V2",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "-2\n",
+          "actual": "-2",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.46,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-V3",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "4\n",
+          "actual": "4",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 5.03,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-H1",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "42\n",
+          "actual": "42",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.31,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-H2",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "1000000\n",
+          "actual": "1000000",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.43,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-H3",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.38,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-H4",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "NONE\n",
+          "actual": "NONE",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.36,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-D1",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "value_not_index",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "9\n",
+          "actual": "9",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.39,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-D2",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "duplicate_values",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "5\n",
+          "actual": "5",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.44,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP02-D3",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "value_not_index",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "-1\n",
+          "actual": "-1",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.33,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        }
+      ],
+      "variants": [
+        {
+          "variant": "CP02__CPP-M02_a.cpp",
+          "misconception": "CPP-M02",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP02-V1",
+            "CP02-V2",
+            "CP02-V3",
+            "CP02-H1",
+            "CP02-H2",
+            "CP02-D1",
+            "CP02-D2",
+            "CP02-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP02-V1",
+            "expected": "9\n",
+            "actual": "2",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        }
+      ],
+      "compile": {
+        "flags": [
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-Wextra"
+        ],
+        "ok": true,
+        "diagnostics": "",
+        "elapsed_ms": 819.0,
+        "backend_flags_ok": true,
+        "backend_flag_diagnostics": ""
+      },
+      "sanitizer": {}
+    },
+    "CP03": {
+      "problem_id": "CP03",
+      "misconception": "CPP-M03",
+      "tests": [
+        {
+          "id": "CP03-V1",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "9\n",
+          "actual": "9",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 5.21,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP03-V2",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "1\n",
+          "actual": "1",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.43,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP03-V3",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "21\n",
+          "actual": "21",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.47,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP03-H1",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "3\n",
+          "actual": "3",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.3,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP03-H2",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "51\n",
+          "actual": "51",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.49,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP03-H3",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "-13\n",
+          "actual": "-13",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.53,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP03-D1",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "return_channel",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "9\n",
+          "actual": "9",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.36,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP03-D2",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "return_channel",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "1\n",
+          "actual": "1",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.58,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP03-D3",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "return_channel",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "15\n",
+          "actual": "15",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.48,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        }
+      ],
+      "variants": [
+        {
+          "variant": "CP03__CPP-M03_a.cpp",
+          "misconception": "CPP-M03",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP03-V1",
+            "CP03-V2",
+            "CP03-V3",
+            "CP03-H1",
+            "CP03-H2",
+            "CP03-H3",
+            "CP03-D1",
+            "CP03-D2",
+            "CP03-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP03-V1",
+            "expected": "9\n",
+            "actual": "81",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        }
+      ],
+      "compile": {
+        "flags": [
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-Wextra"
+        ],
+        "ok": true,
+        "diagnostics": "",
+        "elapsed_ms": 718.3,
+        "backend_flags_ok": true,
+        "backend_flag_diagnostics": ""
+      },
+      "sanitizer": {},
+      "return_channel": {
+        "stdout": "returned=8",
+        "passed": true,
+        "returncode": 0
+      }
+    },
+    "CP04": {
+      "problem_id": "CP04",
+      "misconception": "CPP-M04",
+      "tests": [
+        {
+          "id": "CP04-V1",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "50\n",
+          "actual": "50",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 7.44,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP04-V2",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "7\n",
+          "actual": "7",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.37,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP04-V3",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "EMPTY\n",
+          "actual": "EMPTY",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.25,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP04-H1",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "4\n",
+          "actual": "4",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.4,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP04-H2",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.43,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP04-H3",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "-3\n",
+          "actual": "-3",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.42,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP04-D1",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "size_zero",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "EMPTY\n",
+          "actual": "EMPTY",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.29,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP04-D2",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "size_one",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "99\n",
+          "actual": "99",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.45,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        },
+        {
+          "id": "CP04-D3",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "last_valid_index",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "50\n",
+          "actual": "50",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.79,
+          "stable": true,
+          "peak_child_rss_kb": 73220
+        }
+      ],
+      "variants": [
+        {
+          "variant": "CP04__CPP-M04_a.cpp",
+          "misconception": "CPP-M04",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP04-V1",
+            "CP04-V2",
+            "CP04-H1",
+            "CP04-H2",
+            "CP04-H3",
+            "CP04-D2",
+            "CP04-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP04-V1",
+            "expected": "50\n",
+            "actual": "",
+            "returncode": -6,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP04__CPP-M04_b.sanitize-only.cpp",
+          "misconception": "CPP-M04",
+          "sanitizer_only": true,
+          "expect": "sanitizer_detected",
+          "failed_tests": [
+            "CP04-V1",
+            "CP04-V2",
+            "CP04-H1",
+            "CP04-H2",
+            "CP04-H3",
+            "CP04-D2",
+            "CP04-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "sanitizer_detected",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP04-V1",
+            "expected": "50\n",
+            "actual": "0",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP04__HARDNEG_full_traversal.cpp",
+          "misconception": "HARDNEG",
+          "sanitizer_only": false,
+          "expect": "pass_all",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "pass_all",
+          "compile_diagnostics": "",
+          "failed_at_least_one": false
+        }
+      ],
+      "compile": {
+        "flags": [
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-Wextra"
+        ],
+        "ok": true,
+        "diagnostics": "",
+        "elapsed_ms": 769.4,
+        "backend_flags_ok": true,
+        "backend_flag_diagnostics": ""
+      },
+      "sanitizer": {}
+    },
+    "CP05": {
+      "problem_id": "CP05",
+      "misconception": "CPP-M05",
+      "tests": [
+        {
+          "id": "CP05-V1",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "IN\n",
+          "actual": "IN",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 7.6,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-V2",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "OUT\n",
+          "actual": "OUT",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.47,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-V3",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "IN\n",
+          "actual": "IN",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.54,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-H1",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "IN\n",
+          "actual": "IN",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.34,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-H2",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "OUT\n",
+          "actual": "OUT",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.38,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-H3",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "OUT\n",
+          "actual": "OUT",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.57,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-H4",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "OUT\n",
+          "actual": "OUT",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.31,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-H5",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "OUT\n",
+          "actual": "OUT",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.63,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-D1",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "lower_bound",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "IN\n",
+          "actual": "IN",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.39,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-D2",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "upper_bound",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "IN\n",
+          "actual": "IN",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.32,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-D3",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "above_range",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "OUT\n",
+          "actual": "OUT",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.34,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP05-D4",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "below_range",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "OUT\n",
+          "actual": "OUT",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.52,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        }
+      ],
+      "variants": [
+        {
+          "variant": "CP05__CPP-M05_a.cpp",
+          "misconception": "CPP-M05",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP05-V2",
+            "CP05-H2",
+            "CP05-H3",
+            "CP05-H4",
+            "CP05-H5",
+            "CP05-D3",
+            "CP05-D4"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "CP05__CPP-M05_a.cpp: In function ‘int main()’:\nCP05__CPP-M05_a.cpp:22:16: warning: comparison of constant ‘10’ with boolean expression is always true [-Wbool-compare]\n   22 |     if (1 <= x <= 10) {\n      |         ~~~~~~~^~~~~\nCP05__CPP-M05_a.cpp:22:11: warning: comparisons like ‘X<=Y<=Z’ do not have their mathematical meaning [-Wparentheses]\n   22 |     if (1 <= x <= 10) {\n      |         ~~^~~~",
+          "expected_warning_found": true,
+          "first_failure": {
+            "test_case_id": "CP05-V2",
+            "expected": "OUT\n",
+            "actual": "IN",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP05__HARDNEG_de_morgan.cpp",
+          "misconception": "HARDNEG",
+          "sanitizer_only": false,
+          "expect": "pass_all",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "pass_all",
+          "compile_diagnostics": "",
+          "failed_at_least_one": false
+        }
+      ],
+      "compile": {
+        "flags": [
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-Wextra"
+        ],
+        "ok": true,
+        "diagnostics": "",
+        "elapsed_ms": 718.0,
+        "backend_flags_ok": true,
+        "backend_flag_diagnostics": ""
+      },
+      "sanitizer": {}
+    },
+    "CP06": {
+      "problem_id": "CP06",
+      "misconception": "CPP-M06",
+      "tests": [
+        {
+          "id": "CP06-V1",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "ZERO\n",
+          "actual": "ZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 7.35,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP06-V2",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "NONZERO\n",
+          "actual": "NONZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.42,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP06-V3",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "NONZERO\n",
+          "actual": "NONZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.55,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP06-H1",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "NONZERO\n",
+          "actual": "NONZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.32,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP06-H2",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "ZERO\n",
+          "actual": "ZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.16,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP06-H3",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "NONZERO\n",
+          "actual": "NONZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.49,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP06-H4",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "NONZERO\n",
+          "actual": "NONZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.41,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP06-D1",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "zero_input",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "ZERO\n",
+          "actual": "ZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.36,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP06-D2",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "nonzero_input",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "NONZERO\n",
+          "actual": "NONZERO",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.31,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        }
+      ],
+      "variants": [
+        {
+          "variant": "CP06__CPP-M06_a.cpp",
+          "misconception": "CPP-M06",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP06-V1",
+            "CP06-H2",
+            "CP06-D1"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "CP06__CPP-M06_a.cpp: In function ‘int main()’:\nCP06__CPP-M06_a.cpp:22:11: warning: suggest parentheses around assignment used as truth value [-Wparentheses]\n   22 |     if (x = 0) {\n      |         ~~^~~",
+          "expected_warning_found": true,
+          "first_failure": {
+            "test_case_id": "CP06-V1",
+            "expected": "ZERO\n",
+            "actual": "NONZERO",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP06__CPP-M06_b.cpp",
+          "misconception": "CPP-M06",
+          "sanitizer_only": false,
+          "expect": "compile_error",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": false,
+          "outcome": "compile_error",
+          "compile_diagnostics": "CP06__CPP-M06_b.cpp: In function ‘int main()’:\nCP06__CPP-M06_b.cpp:21:9: error: lvalue required as left operand of assignment\n   21 |     if (0 = x) {\n      |         ^",
+          "expected_error_found": true,
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP06__HARDNEG_assignment_with_comment.cpp",
+          "misconception": "HARDNEG",
+          "sanitizer_only": false,
+          "expect": "pass_all",
+          "failed_tests": [],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "pass_all",
+          "compile_diagnostics": "",
+          "failed_at_least_one": false
+        }
+      ],
+      "compile": {
+        "flags": [
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-Wextra"
+        ],
+        "ok": true,
+        "diagnostics": "",
+        "elapsed_ms": 768.1,
+        "backend_flags_ok": true,
+        "backend_flag_diagnostics": ""
+      },
+      "sanitizer": {}
+    },
+    "CP07": {
+      "problem_id": "CP07",
+      "misconception": "CPP-M07",
+      "tests": [
+        {
+          "id": "CP07-V1",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "1\n",
+          "actual": "1",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 7.89,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP07-V2",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "120\n",
+          "actual": "120",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.37,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP07-V3",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "1\n",
+          "actual": "1",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.25,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP07-H1",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "3628800\n",
+          "actual": "3628800",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.4,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP07-H2",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "2432902008176640000\n",
+          "actual": "2432902008176640000",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.47,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP07-H3",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "6\n",
+          "actual": "6",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.17,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP07-D1",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "base_case",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "1\n",
+          "actual": "1",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.33,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP07-D2",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "one_step",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "1\n",
+          "actual": "1",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.53,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP07-D3",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "several_steps",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "720\n",
+          "actual": "720",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.32,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        }
+      ],
+      "variants": [
+        {
+          "variant": "CP07__CPP-M07_a.cpp",
+          "misconception": "CPP-M07",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP07-V2",
+            "CP07-H1",
+            "CP07-H2",
+            "CP07-H3",
+            "CP07-D3"
+          ],
+          "timed_out_tests": [
+            "CP07-V2",
+            "CP07-H1",
+            "CP07-H2",
+            "CP07-H3",
+            "CP07-D3"
+          ],
+          "compiled": true,
+          "outcome": "timeout",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP07-V2",
+            "expected": "120\n",
+            "actual": "",
+            "returncode": -9,
+            "timed_out": true
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP07__CPP-M07_b.cpp",
+          "misconception": "CPP-M07",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP07-V2",
+            "CP07-H1",
+            "CP07-H2",
+            "CP07-H3",
+            "CP07-D3"
+          ],
+          "timed_out_tests": [
+            "CP07-V2",
+            "CP07-H1",
+            "CP07-H2",
+            "CP07-H3",
+            "CP07-D3"
+          ],
+          "compiled": true,
+          "outcome": "timeout",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP07-V2",
+            "expected": "120\n",
+            "actual": "",
+            "returncode": -9,
+            "timed_out": true
+          },
+          "failed_at_least_one": true
+        }
+      ],
+      "compile": {
+        "flags": [
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-Wextra"
+        ],
+        "ok": true,
+        "diagnostics": "",
+        "elapsed_ms": 718.2,
+        "backend_flags_ok": true,
+        "backend_flag_diagnostics": ""
+      },
+      "sanitizer": {}
+    },
+    "CP08": {
+      "problem_id": "CP08",
+      "misconception": "CPP-M08",
+      "tests": [
+        {
+          "id": "CP08-V1",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "2\n",
+          "actual": "2",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.97,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-V2",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "NOT FOUND\n",
+          "actual": "NOT FOUND",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.4,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-V3",
+          "test_type": "visible",
+          "diagnostic_tag": null,
+          "is_boundary": true,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.33,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-H1",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.71,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-H2",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "5\n",
+          "actual": "5",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.43,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-H3",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "2\n",
+          "actual": "2",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.42,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-H4",
+          "test_type": "hidden",
+          "diagnostic_tag": null,
+          "is_boundary": false,
+          "passed": true,
+          "expected": "NOT FOUND\n",
+          "actual": "NOT FOUND",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.54,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-D1",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "immediate_find",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "0\n",
+          "actual": "0",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.31,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-D2",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "absent_target",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "NOT FOUND\n",
+          "actual": "NOT FOUND",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.39,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        },
+        {
+          "id": "CP08-D3",
+          "test_type": "diagnostic",
+          "diagnostic_tag": "last_index",
+          "is_boundary": false,
+          "passed": true,
+          "expected": "5\n",
+          "actual": "5",
+          "returncode": 0,
+          "timed_out": false,
+          "runtime_ms": 4.59,
+          "stable": true,
+          "peak_child_rss_kb": 86672
+        }
+      ],
+      "variants": [
+        {
+          "variant": "CP08__CPP-M08_a.cpp",
+          "misconception": "CPP-M08",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP08-V1",
+            "CP08-V2",
+            "CP08-H2",
+            "CP08-H3",
+            "CP08-H4",
+            "CP08-D2",
+            "CP08-D3"
+          ],
+          "timed_out_tests": [],
+          "compiled": true,
+          "outcome": "wrong_output",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP08-V1",
+            "expected": "2\n",
+            "actual": "0",
+            "returncode": 0,
+            "timed_out": false
+          },
+          "failed_at_least_one": true
+        },
+        {
+          "variant": "CP08__CPP-M08_b.cpp",
+          "misconception": "CPP-M08",
+          "sanitizer_only": false,
+          "expect": "fail_at_least_one",
+          "failed_tests": [
+            "CP08-V1",
+            "CP08-V2",
+            "CP08-H2",
+            "CP08-H3",
+            "CP08-H4",
+            "CP08-D2",
+            "CP08-D3"
+          ],
+          "timed_out_tests": [
+            "CP08-V1",
+            "CP08-V2",
+            "CP08-H2",
+            "CP08-H3",
+            "CP08-H4",
+            "CP08-D2",
+            "CP08-D3"
+          ],
+          "compiled": true,
+          "outcome": "timeout",
+          "compile_diagnostics": "",
+          "first_failure": {
+            "test_case_id": "CP08-V1",
+            "expected": "2\n",
+            "actual": "",
+            "returncode": -9,
+            "timed_out": true
+          },
+          "failed_at_least_one": true
+        }
+      ],
+      "compile": {
+        "flags": [
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-Wextra"
+        ],
+        "ok": true,
+        "diagnostics": "",
+        "elapsed_ms": 768.4,
+        "backend_flags_ok": true,
+        "backend_flag_diagnostics": ""
+      },
+      "sanitizer": {}
+    }
+  },
+  "limit_probes": {
+    "memory": {
+      "requested_mb": 512,
+      "limit_mb": 256,
+      "returncode": -6,
+      "timed_out": false,
+      "memory_limit_hit": true,
+      "elapsed_ms": 16.6,
+      "stderr_tail": "terminate called after throwing an instance of 'std::bad_alloc'\n  what():  std::bad_alloc\n"
+    },
+    "wall_clock": {
+      "limit_ms": 2000,
+      "timed_out": true,
+      "elapsed_ms": 2002.6,
+      "returncode": -9
+    }
+  }
+}

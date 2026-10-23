@@ -1,0 +1,20 @@
+{
+  "student_id": "EVAL001",
+  "description": "Holdout evaluation sequence 1",
+  "attempts": [
+    {
+      "problem_id": "P01",
+      "attempt_number": 1,
+      "source_file": "code/EVAL001_P01_a1.py",
+      "ground_truth_misconception": "M01_LOOP_BOUNDARY",
+      "ground_truth_state": "NEW"
+    },
+    {
+      "problem_id": "P03",
+      "attempt_number": 1,
+      "source_file": "code/EVAL001_P03_a1.py",
+      "ground_truth_misconception": "M02_INDEX_VALUE",
+      "ground_truth_state": "NEW"
+    }
+  ]
+}

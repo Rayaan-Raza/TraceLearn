@@ -1,0 +1,464 @@
+[
+ [
+  "RBAC",
+  "teacher registers with invite code",
+  true,
+  "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMCIsInJvbGUiOiJ0ZWFjaGVyIiwidmVyIjowLCJpYXQiOjE3OTE2NDE3OTYsIm5iZiI6MTc5MTY0MTc5NiwiZXhwIjoxNzkxNjcwNTk2LCJpc3MiOiJ0cmFjZWxlYXJuIiwiYXVkIjoidHJhY2VsZWFybi1hcGkiLCJ0eXAiOiJhY2Nlc3MifQ.R_tbytBeAuBRMDllSVmzV0fkhrJ_K8qDXyPNGUGtlJI\",\"token"
+ ],
+ [
+  "RBAC",
+  "teacher self-signup without code is refused",
+  true,
+  "403"
+ ],
+ [
+  "RBAC",
+  "teacher signup with wrong code is refused",
+  true,
+  "403"
+ ],
+ [
+  "RBAC",
+  "unknown role 'admin' is refused",
+  true,
+  "422"
+ ],
+ [
+  "RBAC",
+  "duplicate email is refused",
+  true,
+  "409"
+ ],
+ [
+  "RBAC",
+  "password < 8 chars is refused",
+  true,
+  "422"
+ ],
+ [
+  "RBAC",
+  "wrong password -> 401",
+  true,
+  "401"
+ ],
+ [
+  "RBAC",
+  "login email is case-insensitive",
+  true,
+  "200"
+ ],
+ [
+  "RBAC",
+  "anonymous GET /api/auth/me -> 401",
+  true,
+  "401"
+ ],
+ [
+  "RBAC",
+  "anonymous GET /api/problems -> 401",
+  true,
+  "401"
+ ],
+ [
+  "RBAC",
+  "anonymous GET /api/students -> 401",
+  true,
+  "401"
+ ],
+ [
+  "RBAC",
+  "anonymous GET /api/classrooms -> 401",
+  true,
+  "401"
+ ],
+ [
+  "RBAC",
+  "anonymous GET /api/evaluation/comparison -> 401",
+  true,
+  "401"
+ ],
+ [
+  "RBAC",
+  "anonymous GET /api/bank/problems -> 401",
+  true,
+  "401"
+ ],
+ [
+  "RBAC",
+  "/health is public",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "forged bearer token -> 401",
+  true,
+  "401"
+ ],
+ [
+  "RBAC",
+  "student cannot list students",
+  true,
+  "403"
+ ],
+ [
+  "RBAC",
+  "student cannot create classroom",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "student cannot read evaluation metrics",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "student cannot create problems",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "student cannot use demo endpoints",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "teacher cannot submit code",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "teacher creates classroom",
+  true,
+  "{\"id\":1,\"code\":\"CS2026db\",\"name\":\"QA Class\",\"teacher_name\":\"Teacher One\",\"member_count\":0,\"join_code\":\"WZ24Y4LQ\",\"created_at\":\"2026-10-10T14:17:03\"}"
+ ],
+ [
+  "RBAC",
+  "student A joins class with code",
+  true,
+  "{\"id\":1,\"code\":\"CS2026db\",\"name\":\"QA Class\",\"teacher_name\":\"Teacher One\",\"member_count\":1,\"join_code\":null,\"created_at\":\"2026-10-10T14:17:03\"}"
+ ],
+ [
+  "RBAC",
+  "wrong join code refused",
+  true,
+  "404"
+ ],
+ [
+  "RBAC",
+  "teacher 2 cannot read teacher 1's class",
+  true,
+  "404"
+ ],
+ [
+  "RBAC",
+  "student B (not member) cannot read the class",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "member student cannot read class members",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "cookie session without CSRF header -> 403",
+  true,
+  "403"
+ ],
+ [
+  "RBAC",
+  "cookie session with CSRF header works",
+  true,
+  "201"
+ ],
+ [
+  "RBAC",
+  "session cookie is HttpOnly",
+  true,
+  ""
+ ],
+ [
+  "C++ exec",
+  "correct CP01 solution -> success, all tests pass",
+  true,
+  "success"
+ ],
+ [
+  "C++ exec",
+  "visible + hidden tests are run",
+  true,
+  "9"
+ ],
+ [
+  "C++ exec",
+  "student never sees hidden test input/output",
+  true,
+  ""
+ ],
+ [
+  "C++ exec",
+  "runtime_ms recorded",
+  true,
+  "2083.4689999901457"
+ ],
+ [
+  "C++ exec",
+  "off-by-one -> some tests fail",
+  true,
+  "wrong_answer"
+ ],
+ [
+  "C++ exec",
+  "compile error -> syntax_error with message",
+  true,
+  "('syntax_error', \"solution.cpp: In function 'int main()':\\nsolution.cpp:2:26: error: 'x' was not declared in this scope\")"
+ ],
+ [
+  "C++ exec",
+  "compiler output does not leak server paths",
+  true,
+  "solution.cpp: In function 'int main()':\nsolution.cpp:2:26: error: 'x' was not declared in this scope\n    2 | int main(){ std::cout << x; }\n      |                          ^\n"
+ ],
+ [
+  "C++ exec",
+  "infinite loop -> timeout",
+  true,
+  "timeout"
+ ],
+ [
+  "Sandbox",
+  "#include of server file is refused",
+  true,
+  "Only standard library headers are allowed, e.g. #include <iostream>."
+ ],
+ [
+  "RBAC",
+  "teacher cannot read a non-member student's submission",
+  true,
+  "404"
+ ],
+ [
+  "Sandbox",
+  "file-read probe runs (status)",
+  true,
+  "wrong_answer"
+ ],
+ [
+  "C++ exec",
+  "null deref -> runtime_error",
+  true,
+  "runtime_error"
+ ],
+ [
+  "C++ exec",
+  "source > 64 KB refused",
+  true,
+  "422"
+ ],
+ [
+  "C++ exec",
+  "invalid problem id refused",
+  true,
+  "422"
+ ],
+ [
+  "C++ exec",
+  "unknown problem -> 404",
+  true,
+  "404"
+ ],
+ [
+  "RBAC",
+  "cannot submit as another student",
+  true,
+  "403"
+ ],
+ [
+  "RBAC",
+  "student B cannot read student A's submission",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "student B cannot read A's evidence",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "student B cannot run A's submission",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "student B cannot read A's learner profile",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "teacher 1 (A's teacher) can read A's submission",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "teacher 2 (not A's teacher) cannot read A's submission",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "teacher sees hidden test data",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "teacher's student list contains own member A",
+  true,
+  "{1, 2, 3, 4, 5, 15}"
+ ],
+ [
+  "RBAC",
+  "teacher's student list excludes non-member B",
+  true,
+  "{1, 2, 3, 4, 5, 15}"
+ ],
+ [
+  "Evidence",
+  "off-by-one submission produced evidence items",
+  true,
+  "10"
+ ],
+ [
+  "Evidence",
+  "evidence items carry source/code/direction/weight",
+  true,
+  "['id', 'submission_id', 'source_type', 'evidence_code', 'misconception_id', 'direction', 'weight', 'description', 'details_json']"
+ ],
+ [
+  "Evidence",
+  "loop-boundary evidence found for `<=`",
+  true,
+  "['CPP_LOOP_LE_BOUND', 'DIAGNOSTIC_UPPER_BOUNDARY_FAIL', 'DIAGNOSTIC_UPPER_BOUNDARY_FAIL', 'TEST_HIDDEN_FAIL', 'TEST_HIDDEN_FAIL', 'TEST_HIDDEN_FAIL', 'TEST_VISIBLE_FAIL', 'TEST_VISIBLE_FAIL', 'DIAGNOSTIC_CONFLICTING_OUTCOMES', 'SEQUENCE_CODE_CHANGED']"
+ ],
+ [
+  "Evidence",
+  "both current_only and history_aware diagnoses exist",
+  true,
+  "{'history_aware', 'current_only'}"
+ ],
+ [
+  "Taxonomy",
+  "off-by-one diagnosed as a loop-boundary misconception",
+  true,
+  "[{\"id\": 177, \"mode\": \"current_only\", \"primary_misconception\": \"CPP_LOOP_BOUNDARY\", \"primary_confidence\": 0.8999999999999999, \"alternative_misconception\": null, \"alternative_confidence\": 0.0, \"uncertainty_level\": \"high\", \"requires_teacher_review\": true, \"explanation\": {\"scores\": {\"M01_LOOP_BOUNDARY\":"
+ ],
+ [
+  "Evidence",
+  "confidence values are within [0,1]",
+  true,
+  "[None, None]"
+ ],
+ [
+  "Evidence",
+  "no ground-truth fields in student diagnoses",
+  true,
+  ""
+ ],
+ [
+  "Taxonomy",
+  "correct solution -> NO_MISCONCEPTION",
+  true,
+  "[{\"id\": 175, \"mode\": \"current_only\", \"primary_misconception\": \"NO_MISCONCEPTION\", \"primary_confidence\": 0.8, \"alternative_misconception\": null, \"alternative_confidence\": null, \"uncertainty_level\": \"low\", \"requires_teacher_review\": false, \"explanation\": {\"scores\": {\"M01_LOOP_BOUNDARY\": 0.0, \"M02_INDE"
+ ],
+ [
+  "Logging",
+  "both of A's attempts are logged",
+  true,
+  "2"
+ ],
+ [
+  "Logging",
+  "attempt numbers increase per problem",
+  true,
+  "[2, 1]"
+ ],
+ [
+  "Logging",
+  "source code stored verbatim",
+  true,
+  ""
+ ],
+ [
+  "Logging",
+  "submission has timestamp + status",
+  true,
+  "{'id': 89, 'student_id': 15, 'problem_id': 'CP01', 'attempt_number': 2, 'source_code': \"#include <iostream>\\nint main(){int n;std::cin>>n;long long s=0;for(int i=0;i<=n;++i)s+=i;std::cout<<s<<'\\\\n';}\", 'submitted_at': '2026-10-10T14:17:12', 'execution_status': 'wrong_answer', 'runtime_ms': 1946.1804"
+ ],
+ [
+  "Logging",
+  "summary has tests_passed / tests_total",
+  true,
+  ""
+ ],
+ [
+  "Logging",
+  "hint request works and is recorded",
+  true,
+  "{\"level\":1,\"max_level\":1,\"text\":\"Re-read the problem and trace through a small example by hand.\",\"misconception_id\":\"GENERIC\"}"
+ ],
+ [
+  "Logging",
+  "teacher review saved",
+  true,
+  "{\"id\":1,\"submission_id\":89,\"diagnosis_id\":177,\"action\":\"CONFIRM\",\"corrected_misconception\":null,\"comment\":\"QA\",\"reviewed_at\":\"2026-10-10T14:17:29\"}"
+ ],
+ [
+  "Logging",
+  "teacher review does not alter original diagnosis",
+  true,
+  ""
+ ],
+ [
+  "RBAC",
+  "other teacher cannot review A's diagnosis",
+  true,
+  "404"
+ ],
+ [
+  "RBAC",
+  "student cannot review own diagnosis",
+  true,
+  "403"
+ ],
+ [
+  "Logging",
+  "wrong-answer status is not labelled runtime_error",
+  true,
+  "wrong_answer"
+ ],
+ [
+  "Logging",
+  "learner timeline available",
+  true,
+  "200"
+ ],
+ [
+  "RBAC",
+  "logout revokes the token",
+  true,
+  ""
+ ]
+]

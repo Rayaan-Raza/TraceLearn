@@ -1,0 +1,610 @@
+{
+  "problems": [
+    {
+      "id": "P01",
+      "slug": "sum_first_n",
+      "title": "Sum First N",
+      "description": "Return the sum of integers from 0 up to but not including n.",
+      "function_name": "sum_first_n",
+      "concept_tags": [
+        "loops",
+        "boundaries"
+      ],
+      "prerequisite_tags": [
+        "variables"
+      ],
+      "starter_code": "def sum_first_n(n):\n    pass\n",
+      "designed_misconception": "M01_LOOP_BOUNDARY",
+      "test_cases": [
+        {
+          "id": "P01-V1",
+          "name": "visible n=5",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              5
+            ]
+          },
+          "expected_output_json": 10,
+          "sort_order": 1
+        },
+        {
+          "id": "P01-V2",
+          "name": "visible n=0",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              0
+            ]
+          },
+          "expected_output_json": 0,
+          "sort_order": 2
+        },
+        {
+          "id": "P01-H1",
+          "name": "hidden n=1",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              1
+            ]
+          },
+          "expected_output_json": 0,
+          "sort_order": 3
+        },
+        {
+          "id": "P01-H2",
+          "name": "hidden n=10",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              10
+            ]
+          },
+          "expected_output_json": 45,
+          "sort_order": 4
+        },
+        {
+          "id": "P01-D1",
+          "name": "diagnostic upper boundary",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              0
+            ]
+          },
+          "expected_output_json": 0,
+          "diagnostic_tag": "upper_boundary",
+          "sort_order": 5
+        },
+        {
+          "id": "P01-D2",
+          "name": "diagnostic n=1",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              1
+            ]
+          },
+          "expected_output_json": 0,
+          "diagnostic_tag": "upper_boundary",
+          "sort_order": 6
+        }
+      ]
+    },
+    {
+      "id": "P02",
+      "slug": "count_positive",
+      "title": "Count Positive",
+      "description": "Count positive elements in a list.",
+      "function_name": "count_positive",
+      "concept_tags": [
+        "loops",
+        "boundaries"
+      ],
+      "prerequisite_tags": [
+        "lists"
+      ],
+      "starter_code": "def count_positive(nums):\n    pass\n",
+      "designed_misconception": "M01_LOOP_BOUNDARY",
+      "test_cases": [
+        {
+          "id": "P02-V1",
+          "name": "visible mixed",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              [
+                1,
+                -2,
+                3
+              ]
+            ]
+          },
+          "expected_output_json": 2,
+          "sort_order": 1
+        },
+        {
+          "id": "P02-V2",
+          "name": "visible single positive",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              [
+                1
+              ]
+            ]
+          },
+          "expected_output_json": 1,
+          "sort_order": 2
+        },
+        {
+          "id": "P02-H1",
+          "name": "hidden empty",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              []
+            ]
+          },
+          "expected_output_json": 0,
+          "sort_order": 3
+        },
+        {
+          "id": "P02-H2",
+          "name": "hidden all negative",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              [
+                -1
+              ]
+            ]
+          },
+          "expected_output_json": 0,
+          "sort_order": 4
+        },
+        {
+          "id": "P02-D1",
+          "name": "diagnostic empty list",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              []
+            ]
+          },
+          "expected_output_json": 0,
+          "diagnostic_tag": "empty_list",
+          "sort_order": 5
+        },
+        {
+          "id": "P02-D2",
+          "name": "diagnostic boundary",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              [
+                -1,
+                1
+              ]
+            ]
+          },
+          "expected_output_json": 1,
+          "diagnostic_tag": "upper_boundary",
+          "sort_order": 6
+        }
+      ]
+    },
+    {
+      "id": "P03",
+      "slug": "first_negative",
+      "title": "First Negative",
+      "description": "Return the first negative VALUE in the list, or None.",
+      "function_name": "first_negative",
+      "concept_tags": [
+        "lists",
+        "index_value"
+      ],
+      "prerequisite_tags": [
+        "loops"
+      ],
+      "starter_code": "def first_negative(nums):\n    pass\n",
+      "designed_misconception": "M02_INDEX_VALUE",
+      "test_cases": [
+        {
+          "id": "P03-V1",
+          "name": "visible has negative",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              [
+                3,
+                -1,
+                2
+              ]
+            ]
+          },
+          "expected_output_json": -1,
+          "sort_order": 1
+        },
+        {
+          "id": "P03-V2",
+          "name": "visible none",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          "expected_output_json": null,
+          "sort_order": 2
+        },
+        {
+          "id": "P03-H1",
+          "name": "hidden first element",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              [
+                -5,
+                1
+              ]
+            ]
+          },
+          "expected_output_json": -5,
+          "sort_order": 3
+        },
+        {
+          "id": "P03-H2",
+          "name": "hidden empty",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              []
+            ]
+          },
+          "expected_output_json": null,
+          "sort_order": 4
+        },
+        {
+          "id": "P03-D1",
+          "name": "diagnostic index confusion",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              [
+                -2,
+                3
+              ]
+            ]
+          },
+          "expected_output_json": -2,
+          "diagnostic_tag": "index_value",
+          "sort_order": 5
+        },
+        {
+          "id": "P03-D2",
+          "name": "diagnostic zero",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              [
+                0,
+                -1
+              ]
+            ]
+          },
+          "expected_output_json": -1,
+          "diagnostic_tag": "index_value",
+          "sort_order": 6
+        }
+      ]
+    },
+    {
+      "id": "P04",
+      "slug": "find_max_value",
+      "title": "Find Max Value",
+      "description": "Return the largest VALUE, not its position.",
+      "function_name": "find_max_value",
+      "concept_tags": [
+        "lists",
+        "index_value"
+      ],
+      "prerequisite_tags": [
+        "loops"
+      ],
+      "starter_code": "def find_max_value(nums):\n    pass\n",
+      "designed_misconception": "M02_INDEX_VALUE",
+      "test_cases": [
+        {
+          "id": "P04-V1",
+          "name": "visible basic",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              [
+                1,
+                5,
+                3
+              ]
+            ]
+          },
+          "expected_output_json": 5,
+          "sort_order": 1
+        },
+        {
+          "id": "P04-V2",
+          "name": "visible single",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              [
+                7
+              ]
+            ]
+          },
+          "expected_output_json": 7,
+          "sort_order": 2
+        },
+        {
+          "id": "P04-H1",
+          "name": "hidden negatives",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              [
+                -1,
+                -3,
+                -2
+              ]
+            ]
+          },
+          "expected_output_json": -1,
+          "sort_order": 3
+        },
+        {
+          "id": "P04-H2",
+          "name": "hidden ties",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              [
+                2,
+                2,
+                1
+              ]
+            ]
+          },
+          "expected_output_json": 2,
+          "sort_order": 4
+        },
+        {
+          "id": "P04-D1",
+          "name": "diagnostic return index",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              [
+                1,
+                5,
+                3
+              ]
+            ]
+          },
+          "expected_output_json": 5,
+          "diagnostic_tag": "index_value",
+          "sort_order": 5
+        },
+        {
+          "id": "P04-D2",
+          "name": "diagnostic two elements",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              [
+                10,
+                20
+              ]
+            ]
+          },
+          "expected_output_json": 20,
+          "diagnostic_tag": "index_value",
+          "sort_order": 6
+        }
+      ]
+    },
+    {
+      "id": "P05",
+      "slug": "square_number",
+      "title": "Square Number",
+      "description": "Return x squared.",
+      "function_name": "square_number",
+      "concept_tags": [
+        "functions",
+        "return_values"
+      ],
+      "prerequisite_tags": [
+        "variables"
+      ],
+      "starter_code": "def square_number(x):\n    pass\n",
+      "designed_misconception": "M03_MISSING_RETURN",
+      "test_cases": [
+        {
+          "id": "P05-V1",
+          "name": "visible positive",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              3
+            ]
+          },
+          "expected_output_json": 9,
+          "sort_order": 1
+        },
+        {
+          "id": "P05-V2",
+          "name": "visible zero",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              0
+            ]
+          },
+          "expected_output_json": 0,
+          "sort_order": 2
+        },
+        {
+          "id": "P05-H1",
+          "name": "hidden negative",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              -4
+            ]
+          },
+          "expected_output_json": 16,
+          "sort_order": 3
+        },
+        {
+          "id": "P05-H2",
+          "name": "hidden large",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              100
+            ]
+          },
+          "expected_output_json": 10000,
+          "sort_order": 4
+        },
+        {
+          "id": "P05-D1",
+          "name": "diagnostic return value",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              2
+            ]
+          },
+          "expected_output_json": 4,
+          "diagnostic_tag": "return_value",
+          "sort_order": 5
+        },
+        {
+          "id": "P05-D2",
+          "name": "diagnostic negative",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              -3
+            ]
+          },
+          "expected_output_json": 9,
+          "diagnostic_tag": "return_value",
+          "sort_order": 6
+        }
+      ]
+    },
+    {
+      "id": "P06",
+      "slug": "absolute_difference",
+      "title": "Absolute Difference",
+      "description": "Return the absolute difference between a and b.",
+      "function_name": "absolute_difference",
+      "concept_tags": [
+        "functions",
+        "return_values"
+      ],
+      "prerequisite_tags": [
+        "conditionals"
+      ],
+      "starter_code": "def absolute_difference(a, b):\n    pass\n",
+      "designed_misconception": "M03_MISSING_RETURN",
+      "test_cases": [
+        {
+          "id": "P06-V1",
+          "name": "visible positive diff",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              5,
+              2
+            ]
+          },
+          "expected_output_json": 3,
+          "sort_order": 1
+        },
+        {
+          "id": "P06-V2",
+          "name": "visible equal",
+          "test_type": "visible",
+          "input_json": {
+            "args": [
+              4,
+              4
+            ]
+          },
+          "expected_output_json": 0,
+          "sort_order": 2
+        },
+        {
+          "id": "P06-H1",
+          "name": "hidden reversed",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              2,
+              9
+            ]
+          },
+          "expected_output_json": 7,
+          "sort_order": 3
+        },
+        {
+          "id": "P06-H2",
+          "name": "hidden negatives",
+          "test_type": "hidden",
+          "input_json": {
+            "args": [
+              -3,
+              -7
+            ]
+          },
+          "expected_output_json": 4,
+          "sort_order": 4
+        },
+        {
+          "id": "P06-D1",
+          "name": "diagnostic return path",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              1,
+              4
+            ]
+          },
+          "expected_output_json": 3,
+          "diagnostic_tag": "return_value",
+          "sort_order": 5
+        },
+        {
+          "id": "P06-D2",
+          "name": "diagnostic branch",
+          "test_type": "diagnostic",
+          "input_json": {
+            "args": [
+              10,
+              3
+            ]
+          },
+          "expected_output_json": 7,
+          "diagnostic_tag": "return_value",
+          "sort_order": 6
+        }
+      ]
+    }
+  ]
+}

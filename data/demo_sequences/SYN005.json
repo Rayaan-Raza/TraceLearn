@@ -1,0 +1,13 @@
+{
+  "student_id": "SYN005",
+  "description": "Ambiguous conflicting evidence",
+  "attempts": [
+    {
+      "problem_id": "P01",
+      "attempt_number": 1,
+      "source_file": "code/SYN005_P01_a1.py",
+      "ground_truth_misconception": "UNCERTAIN",
+      "ground_truth_state": "REQUIRES_TEACHER_REVIEW"
+    }
+  ]
+}

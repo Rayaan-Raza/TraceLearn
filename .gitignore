@@ -5,33 +5,57 @@ Datasets_RAW/
 __pycache__/
 *.py[cod]
 *.pyo
-.env
-venv/
-.venv/
-
-# Build artefacts
+*.pyd
+.Python
 *.egg-info/
+.eggs/
 dist/
 build/
+.venv/
+venv/
+env/
 
-# Editor
+# Testing / caches
+.pytest_cache/
+.coverage
+htmlcov/
+reports/
+.mypy_cache/
+
+# Environment & local data
+.env
+DEPLOYMENT.md
+*.db
+*.sqlite3
+data/Data_from_Datasets/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# IDE / OS
 .vscode/
 .idea/
-*.swp
-
-# OS
 .DS_Store
 Thumbs.db
+*.swp
 
-# Large generated files — keep JSONL but not CSV exports >10MB
+# Logs & temp output
+*.log
+npm-debug.log*
+experiment_output.txt
+npm_build_output.txt
+pytest_output.txt
+
+# Large generated files
 data/intermediate/normalized/hash_cache.json
 data/intermediate/normalized/*.log
-*.log
-
-# Large source data files (>50MB — use Git LFS or external storage)
-data/intermediate/normalized/submissions/submissions.jsonl
-data/intermediate/normalized/submissions/submissions.csv
 
 # Model checkpoints
 data/misconception_dataset/models/*.bin
 data/misconception_dataset/models/*.pkl
+
+# Large source data files (>50MB)
+data/intermediate/normalized/submissions/submissions.jsonl
+data/intermediate/normalized/submissions/submissions.csv
