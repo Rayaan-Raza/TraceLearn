@@ -185,6 +185,115 @@ def assign_splits(
     return splits, fallback
 
 
+# ---------------------------------------------------------- extend mode
+#
+# Ruling (three-lane merge, 2026-10-23): the frozen CodeStream split was
+# consumed by Lane A mining, so it is immutable. extend_assignments() adds
+# newly-labeled problems (PROGPedia etc.) to the SAME clustering without
+# touching a frozen row:
+#   - a new problem that single-linkage-joins a frozen cluster inherits that
+#     cluster's split (a near-duplicate of a test problem must never leak
+#     into train);
+#   - all-new clusters continue numbering after the frozen max, ordered by
+#     smallest member id, and go to train (silver rows are training
+#     material; the dev-gold/test budget is the CodeStream gold supply,
+#     §13.4);
+#   - a union cluster spanning frozen clusters with DIFFERENT splits fails
+#     loudly — honoring the frozen split would be impossible, and a silent
+#     re-split would leak test-side patterns. Bridging same-split frozen
+#     clusters is harmless and merges into the smallest frozen id.
+
+
+def extend_assignments(
+    frozen_rows: list[dict[str, Any]],
+    new_statements: dict[str, str],
+    all_statements: dict[str, str] | None = None,
+    clusters: dict[str, str] | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Cluster new problems against the frozen assignment. Returns
+    (appended_rows, summary). Frozen rows are never modified or returned.
+
+    `clusters` injects a precomputed {problem_id: cluster_id} grouping (for
+    tests and custom pipelines); its ids are treated as grouping hints only —
+    final ids are owned here. Without it, the union of `all_statements` (which
+    must include every frozen problem) and `new_statements` is clustered via
+    TF-IDF single-linkage.
+    """
+    frozen_by_pid = {str(r["problem_id"]): r for r in frozen_rows}
+    if not new_statements:
+        return [], {"n_new": 0, "n_inherited": 0, "n_new_clusters": 0}
+
+    if clusters is None:
+        if all_statements is None:
+            raise ValueError("all_statements (frozen + new) required when clusters is not provided")
+        missing = [p for p in frozen_by_pid if p not in all_statements]
+        if missing:
+            raise ValueError(f"all_statements missing frozen problems: {missing[:3]}")
+        union = dict(all_statements)
+        union.update(new_statements)
+        grouping = cluster_problems(union)
+    else:
+        grouping = clusters
+
+    members: dict[str, list[str]] = {}
+    for pid, cid in grouping.items():
+        if pid in frozen_by_pid or pid in new_statements:
+            members.setdefault(cid, []).append(pid)
+
+    frozen_max = max(
+        (int(str(r["cluster_id"]).split("-")[-1]) for r in frozen_rows), default=-1
+    )
+    new_rows: list[dict[str, Any]] = []
+    new_only: dict[str, list[str]] = {}
+
+    for cid in sorted(members, key=lambda c: (min(members[c]), c)):
+        pids = sorted(members[cid])
+        fz = [frozen_by_pid[p] for p in pids if p in frozen_by_pid]
+        newcomers = [p for p in pids if p in new_statements]
+        if not newcomers:
+            continue
+        if fz:
+            splits = {r["split"] for r in fz}
+            if len(splits) > 1:
+                raise ValueError(
+                    f"union cluster {cid} spans frozen splits {sorted(splits)} — "
+                    "frozen split cannot be honored; re-split required (never silent)"
+                )
+            keep = min(fz, key=lambda r: str(r["cluster_id"]))
+            for p in newcomers:
+                new_rows.append(
+                    {
+                        "problem_id": p,
+                        "cluster_id": keep["cluster_id"],
+                        "split": keep["split"],
+                        "statement_len": len(new_statements[p] or ""),
+                    }
+                )
+        else:
+            new_only[cid] = newcomers
+
+    for rank, cid in enumerate(sorted(new_only, key=lambda c: (min(new_only[c]), c))):
+        nid = f"clu-{frozen_max + 1 + rank:03d}"
+        for p in sorted(new_only[cid]):
+            new_rows.append(
+                {
+                    "problem_id": p,
+                    "cluster_id": nid,
+                    "split": "train",
+                    "statement_len": len(new_statements[p] or ""),
+                }
+            )
+
+    new_rows.sort(key=lambda r: r["problem_id"])
+    frozen_cids = {str(r["cluster_id"]) for r in frozen_rows}
+    summary = {
+        "n_new": len(new_rows),
+        "n_inherited": sum(1 for r in new_rows if r["cluster_id"] in frozen_cids),
+        "n_new_clusters": len(new_only),
+    }
+    return new_rows, summary
+
+
 # ------------------------------------------------------------------ CLI
 
 
