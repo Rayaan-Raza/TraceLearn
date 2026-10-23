@@ -1,0 +1,12 @@
+==71234== Memcheck, a memory error detector
+==71234== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==71234== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==71234== Command: ./a.out
+==71234==
+==71234== Conditional jump depends on uninitialised value(s)
+==71234==    at 0x109168: main (src/solution.c:6:9)
+==71234==    by 0x1091A3: main (src/solution.c:6:9)
+==71234==
+==71234==
+==71234== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+==71234== At program exit, 0 bytes in 0 blocks are definitely lost in loss record 0 of 0

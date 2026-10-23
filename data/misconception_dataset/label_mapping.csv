@@ -1,0 +1,14 @@
+kind,mutation_op,label,family,modeled,hard3,status,merged_into,lf_inputs
+label,,CPP_LOOP_BOUNDARY,Boundary,yes,no,active,,synthetic_ops;lf_weak;human
+label,,CPP_OFF_BY_ONE,Boundary,yes,no,active,,synthetic_ops;lf_weak;human
+label,,CPP_ARRAY_BOUNDS,Boundary,yes,no,active,,synthetic_ops;lf_weak;pg-3;human
+label,,CPP_UNINITIALIZED_VAR,Data,yes,no,active,,synthetic_ops;pg-4;det-4;human
+label,,CPP_INT_OVERFLOW,Data,yes,no,active,,synthetic_ops;lf_weak;human
+label,,CPP_MISSING_BASE_CASE,ControlFlow,yes,no,active,,synthetic_ops;lf_weak;pg-2;human
+label,,CPP_ASSIGN_VS_COMPARE,Logic,yes,no,active,,synthetic_ops;lf_weak;pg-1;human
+label,,CPP_WRONG_LOOP_DIR,ControlFlow,yes,yes,active,,synthetic_ops;det-8;human
+label,,CPP_RANGE_CHECK,Logic,yes,yes,active,,synthetic_ops;det-9;human
+label,,CPP_STALE_EXIT,ControlFlow,yes,yes,active,,synthetic_ops;det-10;human
+label,,CPP_OTHER_ERROR,Other,yes,no,active,,synthetic_ops;human
+label,,NO_MISCONCEPTION,,no,no,deterministic_branch,,
+operator,for_le_bound_lt_n1,CPP_LOOP_BOUNDARY,Boundary,yes,no,active,,

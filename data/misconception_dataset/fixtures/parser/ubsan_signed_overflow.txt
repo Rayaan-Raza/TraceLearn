@@ -1,0 +1,5 @@
+src/solution.c:14:15: runtime error: signed integer overflow: 2147483647 + 1 cannot be represented in type 'int'
+    #0 0x4012b3 in main /src/solution.c:14:15
+    #1 0x7f9a8c1d083f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24083f)
+
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/solution.c:14:15 in
