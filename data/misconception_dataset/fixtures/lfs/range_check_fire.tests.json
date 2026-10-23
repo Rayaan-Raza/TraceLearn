@@ -1,0 +1,1 @@
+[{"input": "50\n", "output": "valid\n"}, {"input": "1\n", "output": "valid\n"}, {"input": "0\n", "output": "invalid\n"}, {"input": "101\n", "output": "invalid\n"}]

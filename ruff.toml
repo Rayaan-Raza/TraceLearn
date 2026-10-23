@@ -1,0 +1,12 @@
+# Lint settings for the misconception-dataset code (sandbox_runner, Lane B scripts, tests).
+# CI runs ruff on those paths only; the rest of the repo is not linted yet.
+line-length = 120
+target-version = "py311"
+
+[lint]
+select = ["E", "F", "W", "I"]
+# E501: report builders emit long Markdown table rows; E741: `l` loop names
+ignore = ["E501", "E741"]
+
+[lint.isort]
+known-first-party = ["sandbox_runner"]

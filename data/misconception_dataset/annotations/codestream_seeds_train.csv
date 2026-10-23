@@ -1,0 +1,728 @@
+submission_id,problem_id,problem_cluster,language,source_verdict,tests_passed,sanitizer_clean,code_sha256
+tl-codestream-sub-f87b0831-c2ba-434c-9f31-c9cc80f23d4f-17942279,tl-codestream-prob_029,cs-clu-025,cpp,Accepted,9,True,635b45a169d497fafa8307fcb3b90a66fa40915921906c225417247a12436263
+tl-codestream-sub-0e070efc-1d61-466a-a88f-0103f6608ca9-13697571,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,d81e58b84d0318df7661393e0b840f4477c2bc92f7491ea9dabeb820605c5c00
+tl-codestream-sub-c0aabab7-fc41-4cde-954b-48bdc5b3796d-94926538,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,7c4ee963c7f246e008216eaa464d0549328f380f0948607aee6547a397ee8c6f
+tl-codestream-sub-b7b9dd5a-90af-49e8-be4c-bd2814600837-46154426,tl-codestream-prob_030,cs-clu-012,c,Accepted,2,True,5828e17321411bc67e67b679011682ae6f1365f660f3db64c26e3fc5233efd82
+tl-codestream-sub-ed4b63ac-1001-408c-87ce-f03ddfe3f142-5424100,tl-codestream-prob_033,cs-clu-028,c,Presentation Error,2,True,570d6edafe2a463fa657a4743bc272fa8f1ae4bf4fe2bc83f1253cf6bdccee32
+tl-codestream-sub-496b8f2e-9f03-45f5-b4ca-acba4569aafe-30577543,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,ecae9dd0c464f492a8849e2723f969ac72e97ac2616337c2f0a3016218fa8c4b
+tl-codestream-sub-2f348e98-09b9-4cff-ac4f-b022830161a7-38443096,tl-codestream-prob_033,cs-clu-028,c,Presentation Error,2,True,c94e7e9f39916dd8b488d1fdcdc08340728332e241eacf03267866fa4ef11865
+tl-codestream-sub-d9f2fd2c-27f3-45ee-a96a-e65e530e41e4-48785628,tl-codestream-prob_033,cs-clu-028,c,Presentation Error,2,True,8aff881439b7e107d948dff75cffc22b37a5ba5c761bfea81fe2a5e0b3643acc
+tl-codestream-sub-bf566d61-3457-43ec-9c4b-aea083df66c9-9662795,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,1c731b15ff164c9f4b92852720ebd23a1c79e498957457eff228f6a1eef11a1e
+tl-codestream-sub-d10bdc4f-aace-4c60-895c-d5df300a043a-44954932,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,00cac9ac65e1c7545b0df81179a225fb2a4bb3f80d3057c2eaefcd76f9b3282c
+tl-codestream-sub-c0017887-742d-4815-ac83-8bd6628236b0-50769109,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,c37d0148e0cad1e46d02772029d8b83c85d843298e4efbf69cc03023784de733
+tl-codestream-sub-3423ae46-6baf-4290-91f8-0e689a763726-19058873,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,9c22a1716d7bb8f4fe0f2b00f171ba1bc40c81cb6dc276cf6e3e232a83a286c5
+tl-codestream-sub-b4deec16-5da1-4b6f-baea-900c162e2e4d-75897500,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,7b404a294c86af1b9c801cbe56ef438c7cdb00c9c7bd03da2e79dceffe655fb1
+tl-codestream-sub-4b3ff96b-d8a2-4035-b956-08f3beb8dc60-54889668,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,030217e60b8b840696ba188ef8085df7dfcba94290eba0540efaa7d4a0a9e564
+tl-codestream-sub-6db92a0c-53b8-4b75-97ff-3778efc5e103-85775074,tl-codestream-prob_004,cs-clu-004,cpp,Presentation Error,3,True,9c19f1ad292990978e4a71d7e55e45850d607e31f616b5b7d053f237956d5a6a
+tl-codestream-sub-f0fd4834-5d0a-465c-8718-aebfa14b1ba7-50232273,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,e3318353d9d8b7a73ee6fd2232cd40f6568df4f32efa0e7b86ba11ec68175f83
+tl-codestream-sub-853bd8bf-61de-4417-98d7-af5def764839-32654574,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,a40d33b6c508f25ae7550763eab2cf3bfaaf3d465960b071e7b9b9cacb660adf
+tl-codestream-sub-2d76ed21-6b27-4e7c-9e61-d79d58d74841-32845488,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,513b3e0e926dccbbc973abcaa1e6f4d988dd217d21205b02d7eee398fde89db0
+tl-codestream-sub-13d1fb72-9d14-4ec7-8b20-51cb38104b2a-53483210,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,bcf93ca23d09bd4c103e5916136aa94f476778835efc100e9dcd4a59a3cb6590
+tl-codestream-sub-f42f9c0e-28b7-4f0c-bc1b-dd55fa0bbe9d-60453651,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,fd8e032bc863f60c23862bc894f9e58d244ed9ce84b0f9397679351923e1f93f
+tl-codestream-sub-fe8b65c2-a754-4aba-a8b9-29a82b5a581f-54660365,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,cd507b2088be91ba65b90fc25aaed0e76bce01407b9735f8b62b06f6fba17b75
+tl-codestream-sub-65c61960-ec5b-4e28-8cf7-05844a9f9ec9-39778028,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,a51d31c7c347868936014db7512a612a02ab11c751959b4bd361c955e1a056c3
+tl-codestream-sub-39c1e16f-af53-4148-abf3-667c91d61170-41695817,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,ccc53d7ad7766988756a71ed10b3329647e67e59893953a02f86465122d8008e
+tl-codestream-sub-ee087f19-ccd7-4c34-853a-a35ea8bf3866-91348836,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,33b597c352ae34f7dbd8d10cf63eff5a3a980f3fafd6312a3fa59918aa1187dd
+tl-codestream-sub-f12c4e05-20d6-4eca-9280-bd0fd14f83bd-97978208,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,315aa3d595e36cdc0b492c832f04d93a4191c1a42274638ef79e02548fe7b744
+tl-codestream-sub-435e19c8-7473-4841-a397-eab21e2226b4-22271627,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,ef4aff0247736079f528a38b0dcbaeaf7a8085638eb0e1b6b3a6a5df5450ce5b
+tl-codestream-sub-aaf32e6d-aea6-4d86-80e9-8976157cac38-8491641,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,2323cfd4f3a633c7e8ea0a1f992b1ac288c8d50b1fd67c254ec05f71d2c003f9
+tl-codestream-sub-c3c19b5d-c512-4394-9066-e7cb7817beb8-93391564,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,72bc3a746dff34b8ce948dc5019bf6648bd681c58e5a939a2d69b2c353770d94
+tl-codestream-sub-35e8e057-e06e-451c-9e41-66842011945a-66012053,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,20f6dba9f7c50a93d892cf056d45798c01c9c73a37c96dc3850712921bd7ec1d
+tl-codestream-sub-3c7335e0-d4c6-48a0-bfdb-c5e4f0f62a9a-24162890,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,5b4f931f4f9f36ff89f1489e1d886f393edd745694064089b1e4beabc504c0f2
+tl-codestream-sub-18b05b93-c8a7-4064-90d2-fd4f7c347b28-99491320,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,1a631aa98a15fc273279fcf3319a38b5cf0eabf77cb032fd1c5dbce93497d3ea
+tl-codestream-sub-9d654bfb-bdb4-4a26-9beb-b386c33fa580-40419498,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,be335c04a3c57671dfacee4f862242ebe40367ebad324dcd3d555e8138d5f951
+tl-codestream-sub-02af6e6a-0a05-498d-b8d0-04d76faaa97c-20583129,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,f2987786e345a918eae2a9d632170ee45f6a147a6056c63b6b60e7346718a997
+tl-codestream-sub-96f10e3e-0bdc-4ab9-b097-98793d1aea25-68125770,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,14afb593c1ca24c18b0f499e2345481a19b3e1070bda1c56a038431bab24add9
+tl-codestream-sub-f97d866f-1159-4483-8aba-58562ec476a3-51830962,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,271297480f67aa75f3e05e3b4fc0437e0067829bcc1c553266d745847f4fe8f1
+tl-codestream-sub-b2d0a292-6077-494f-8958-fc9d0f7eca45-1438422,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,d03c6d3405975dfeaa14eba337eb450f7807067150b3ec3af6341348e2a3d790
+tl-codestream-sub-941d7564-0ca4-4de2-9c9e-74aa02a5b750-763882,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,9454af2829b6a3872a50be55f340b6aaa3f88115435d1aeff408949bcb1f597e
+tl-codestream-sub-47863e40-966f-4551-b4a9-89ec064cc8f5-91481337,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,7222ecdb6559df96f40e41ae175edc6681033f2bcf4884d6a9a08eb3f46b3648
+tl-codestream-sub-297febc6-8a89-42d7-8761-c8729e270352-12615581,tl-codestream-prob_005,cs-clu-005,cpp,Runtime Error,3,False,0ac6ff80bb770d4613f84b2358a96774d4eae25479a7843128ef5a4ac533aa1e
+tl-codestream-sub-adcd5ddc-042f-4619-b9da-5cd3ddc732a9-96635327,tl-codestream-prob_005,cs-clu-005,cpp,Runtime Error,3,False,f9d233b36a777b397ba545148e59484bd5b8149c33ee6c6439ae41571481dffe
+tl-codestream-sub-6a2ed11c-d53e-44ad-a07e-4921a1804cd3-36249362,tl-codestream-prob_005,cs-clu-005,cpp,Runtime Error,3,False,87bae31477f177915ac9fe4502eb8033e1eb3e7401918305278cdf139b0c3c83
+tl-codestream-sub-75f35837-d4e0-4a72-93c0-e7eb272be405-96924464,tl-codestream-prob_005,cs-clu-005,cpp,Accepted,3,True,d63f3b2947efd7de22d469cd098998deccb2f4b615fc1b9730922c624e3f34a6
+tl-codestream-sub-02e4395c-1afc-4d33-be36-c56c6fb7c55f-73319736,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,b488e6e89abc9140da98c950b0cab39c99089971a7ce4bd23d7c5ead61feb055
+tl-codestream-sub-4cbbb1ca-fae6-4773-9441-ea49b5fa1cce-5337692,tl-codestream-prob_014,cs-clu-014,c,Accepted,3,True,b511c7d6dfcde7e9b132bd95a4699362aaec7c34c11d44bb03fd8b41ac630ee5
+tl-codestream-sub-b13fcea9-838e-4f96-817a-5a52e969a8c0-51996314,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,a0d8e4a59a042b3fa34f7fbf88d5dfe2137bfb16430ea12df817f9243fc54a75
+tl-codestream-sub-b4a6360d-f8f5-4a3c-b9d1-034bb61b0eb7-3421623,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,a2ec0779c98dd65c4e681c0d1b5f55ad21d109b404780c58874217eb888003ef
+tl-codestream-sub-75b15fce-770d-46d8-a826-8859fea0f824-5393924,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,2eedb41b52bac10ed5c0ce06c5c0431782f6c7a7c7feeb6ca4c49da179f1df03
+tl-codestream-sub-6d5a394c-c930-481b-a22f-22e12ac07070-43297192,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,f8599e2fc680351da858d339472cbc4c341008e9c19e986bbf10e7c2e4f79bfc
+tl-codestream-sub-940dbfcf-29d5-426e-a3d7-cbd45b02ea34-33297157,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,1a7d541b6a0acf8745ca571e371a78f7ff1b9dc21931c42b8d65334b3eed075f
+tl-codestream-sub-545b2969-96c8-4719-a3ea-79a2dae9e4e6-92704283,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,a92916cd3a9708028e39f39283d0f182bb1cd2273873f32a7e1a33c96c7277df
+tl-codestream-sub-65bfb982-4963-4084-ae60-d69b5bdfda90-26002870,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,38b7e2cd4d4221f61dbb431bbf9f48b247c332bb04dde9c8ba1ae4110a9b4b65
+tl-codestream-sub-65a680d5-90d2-4535-9e2b-ce7424980d45-86478692,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,5ac48a7436fa22e9518e41099319bea623e3e6570baccc6ca806c9bbe2f3db6f
+tl-codestream-sub-ac2d0081-73e8-409e-9e5c-4e7162b411e9-50273668,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,c902c485a7fa0cf70363cc037f4041fba1ce3f87266d1aff999f2bad8087d93b
+tl-codestream-sub-156457db-4589-43ce-9f93-5edae8466717-44419787,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,9e3f4387f5fcb39a950577368659421f869506cb045247584034719f48c2d580
+tl-codestream-sub-7598dd58-6b0f-44cb-bf80-1c689967dd44-99111142,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,8bc4bbe1081f26d70462243083414132fd2d52145cfd09d3ce718bccaa4447ec
+tl-codestream-sub-557b03f3-679d-42bc-b118-53474ca80e92-2549583,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,8ade8f1fc160ae1bfd29e06a2093282d259c15b51b062dd61a19360644014611
+tl-codestream-sub-2e496b7f-152b-4272-8b60-dab6d96445df-59197888,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,bc8bbe3973fa211a4a232f26b9d646ef33a6306808fb8bdfbefe7074d1b1403e
+tl-codestream-sub-ebff8e5f-7532-4678-bd9d-3a3300f3af94-72070657,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,cc6ef89b89ac514e760ca00ec2e59d18a181b838cfacdeea0e0eb760272a2cc7
+tl-codestream-sub-2a464235-ec57-4c50-8714-88d130d9a93e-32343641,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,1117c8c697f8d10f51c999dc41da4bc31f2caf7d68c934f1b61898e1e273edde
+tl-codestream-sub-acfb874c-8345-4bad-bd89-1db9a63883c6-49309627,tl-codestream-prob_012,cs-clu-012,c,Accepted,1,True,de4b8fb646818b11eb6bc1ca353d1a3aefc7ec8cc7ca71cdc473445d6e1cea99
+tl-codestream-sub-3134d944-11fb-4116-8841-4ea097c4d865-41899613,tl-codestream-prob_030,cs-clu-012,c,Accepted,2,True,5fd495ad4eed66cc192aa6cc38d8a45256cdba2786ef720060c75e92f6145cb5
+tl-codestream-sub-03ff1f27-83a7-4a45-82a2-1e3209860c31-79855930,tl-codestream-prob_032,cs-clu-027,c,Presentation Error,2,True,79292296354f7b734631dada7e64fbe45775b1cdd95652c359390bbc98794d2e
+tl-codestream-sub-b5f82a00-0315-4f2c-b5a7-a4868801e0ab-64874918,tl-codestream-prob_032,cs-clu-027,c,Accepted,2,True,438c8878c62cfa221202028820ae5867bd29e4b18221f8d92d341b936eaf6c1c
+tl-codestream-sub-60ca198e-dcfa-4618-823e-e378c9f07c41-63866979,tl-codestream-prob_033,cs-clu-028,c,Presentation Error,2,True,7f35fd446020050fb91a48e37f73c2afa357cbd0e5e6cfe81363a23a9b565af5
+tl-codestream-sub-9ddf7e7e-5719-4471-ae68-0e7b1698f0b5-68818965,tl-codestream-prob_033,cs-clu-028,c,Accepted,2,True,a25c199dc0725038e2bd3aff1e4739b62c8e7b6d482200a676c7262fa1028dd9
+tl-codestream-sub-013e3fe1-2d1d-4c55-994b-316f5cef676c-20398146,tl-codestream-prob_042,cs-clu-015,c,Accepted,20,True,dfbdb3dee7b125eb6908025e311cb491861c36c616daa76d4be8ca58d3a46a5e
+tl-codestream-sub-5da91767-bf77-4909-8271-9cc6e9f0e7bf-20035150,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,False,06e3fe5ab7bb6e30ed6e846bb691ed4942c02d048ad9f80689cb4df0a1f0409d
+tl-codestream-sub-9b1d90d8-bafa-4a02-b7d6-d64ef89e0f0c-43250753,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,False,6393d5dc5da622c728e99051e4748913c783c6720e0b3d4e189fa57e3c6c2383
+tl-codestream-sub-b13bea6b-1505-422d-b9c3-6355e54805b3-98763606,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,9b095a938fc8cd40703f7b8ce172fd0608a602055c1dc43cc429cafea99c396b
+tl-codestream-sub-656c0b39-8c61-4007-a7bf-c6adb75f536d-40963692,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,5cf687037525298e5135caa94d3e7571c50e6cfe73c454b8b2cc8fa510dc0f57
+tl-codestream-sub-997a8571-1521-4d34-b9be-d1bfbb3afc1f-76768975,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,c65769bba0aa22d039e0010974761e8b90cbb9dde2baa80d02bb3310c52ad22b
+tl-codestream-sub-4f7a352b-3902-4c0f-8760-fe195eb50109-32057278,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,82701d07a8ddc455183383e3d8154eacdd5eb7846be2b03cbfcf8158db0b7ee2
+tl-codestream-sub-bcfe46ab-019b-4efa-9eb0-f6550f685314-82587873,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,fc98e552a929bc920a9781e7634be4a86fb011b2709b60181967f5f1a87059ec
+tl-codestream-sub-bf7ac2e8-27f3-43a4-ab0e-09a5b658baee-26964668,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,d7c45eb73491f52638f67ce03ab5f1d6537f693497d07df3822a984012305333
+tl-codestream-sub-aaa9ce3f-6c0a-426c-aa87-2ae92dfc3b56-30067795,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,51e29b95857c4090b1bd0a28cdc12fdb810cd43ddad1056533a2c28548bd3593
+tl-codestream-sub-fbfd8b28-6bb4-4473-9ff7-95e4b545b5c4-32412757,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,86bf47cd0246a4c4bf62c3868120daab88d50f3511dd3eca3f66eb07496e3b87
+tl-codestream-sub-b5b97968-0a2a-4513-ba03-9a7bea6a97e1-30639470,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,ac63acf098e9f9872ef518e9b30463b6313c85b5b7898fd8cfe577be432c74f7
+tl-codestream-sub-829f9c1c-9398-49c3-9178-be826854010f-63958845,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,0ad6604fa6f242e0661648abb1b087a90ef87ad389de38471daa1359700a59a0
+tl-codestream-sub-460580bd-879a-4631-9461-7c7506f10199-58666257,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,1856a432e0020adf8cafb9f45522c085583431cc1e85912c733b6a9527a0591f
+tl-codestream-sub-6547e257-1bfb-4c95-80bc-ceab61cbcc1a-91967140,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,378beb0397c31f651f13643251c6031672d152d809637cf7ed2c192663bff104
+tl-codestream-sub-19894f02-2db9-4b53-b9ac-90061c5251e8-48359481,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,514183adb27a5d34a3c202b78eb7ed37c9bd86160aa1f58bb550b360f05311b8
+tl-codestream-sub-3c314b13-f230-4e85-9ea4-ea54bdb6b3ca-25417153,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,358e1afde4d5a6ee46ae62a82cb5e3bb32effb7b38278164c1c51df4ccf59436
+tl-codestream-sub-35514181-70e2-425f-a429-f5119fc0a5c8-69364256,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,d0586fb51a3bf25099d346f007bdb734ba2e66cee1490804123d4348d265e1a7
+tl-codestream-sub-54af9fe9-07af-40aa-8b45-b3cdfed758c0-16861252,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,a08b2383211780574378807d4396cb4606b532aae2c80ef75759f7097d37d5b2
+tl-codestream-sub-8fb747b0-eb95-407f-8776-3fbfd9094827-54117000,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,1f523ae46426d141edbac221bf5b431c64d84b6922087029553a62df9587a88f
+tl-codestream-sub-6c890abb-cb60-443d-b5f6-93c8cb512f01-37601906,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,746d474cce1cebfdba6e2898211dfc5783b2cab79c3334aa868871c2435fd479
+tl-codestream-sub-5cb0e38f-e9d7-4b68-b2c2-d3c150d4e618-5489226,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,8940745e71bb349caa9877f9dafbc9f6bac2e2a4e911fc8cda203791d7096879
+tl-codestream-sub-7c6698de-a1f3-4add-b3d1-57a923e4f77b-23632123,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,e5d1e280b4f6a89140b707d5d68ed223f08078d3b14b01dd8f5b81b27e6af27a
+tl-codestream-sub-d5ad86fd-77e3-4799-9d48-545a9a9fa11c-44695724,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,bc34e3e374dbe4441fc2eb8acba43a7f2b4ba7ef1603d9e24983c832df2218e4
+tl-codestream-sub-6b9a3242-318a-4413-a54e-4462cd0bc887-15590555,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,917633c94adb37e346330150cccafef7b62bd4fe09646f4e58b997a5942d6364
+tl-codestream-sub-0ddc4a97-13ea-4c45-97d0-4a1e347999b5-34005553,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,a6def025f108bbbd2a3ecc8b4c835ae38a75b5d53cf81add8876bdb739cd923e
+tl-codestream-sub-c954c8a1-067e-4c67-ad2a-78f0e01d7c7f-88452866,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,f17b627f991a6ea8a444cdaf058d06cd83e2053716e1ac31e14fcc7cda647cc1
+tl-codestream-sub-c2ee1ffc-865d-4189-9b8f-98f96b616308-40829477,tl-codestream-prob_012,cs-clu-012,c,Accepted,1,True,93f42f0256bc60b391c6fcb5625b1a196dcc80d5e6afba91071dcef3cd85ec35
+tl-codestream-sub-3e721738-04cd-4b88-8ddb-3f6ddb2f903d-80554784,tl-codestream-prob_014,cs-clu-014,c,Accepted,3,False,faaa524729c95a81d07fdfc51726d20b691eda8d0f87b882f05bc92ed6061d01
+tl-codestream-sub-7608d756-5350-4a41-aa4f-4b571c073975-70477532,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,1d76b463efe4cef7ae500fe50275238085e0d874bbd10919080d07b7f0c6b717
+tl-codestream-sub-0d0b4d5c-d4d9-49ea-8e6f-d222f9be133b-11065569,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,8fbd430f4af5047680560d3b182c7f1fc48678b2f9fa63243842e5de3060f0eb
+tl-codestream-sub-405ab6a1-05b3-431a-b713-f608229e4b1a-49752676,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,69268c55f82fb2dc2064ee5254ae885dea31126842cf1738619d5ab1cb50afbd
+tl-codestream-sub-c48bcfb5-57ee-4c9e-91d4-9ee4fc088782-18552966,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,4e9cd2fbbd8ed50212080b818f0caab803f027f0446c1a82267a148753c487d3
+tl-codestream-sub-a8543646-3e26-495a-b4e0-95592a13d904-22085765,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,f08abe0db505b0e462f1df57d33753a61c0f6dbc13be8cd6bfd759b7249a48fd
+tl-codestream-sub-e73f29bb-8ae8-4f86-88cf-61ded46f9af6-12436023,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,c142c3404ccdf7ad1250da1c7f47545b02ec63a77359628e5c7c0a1312677353
+tl-codestream-sub-651f8c96-5eb2-4938-8b8c-3cd6821bc386-224568,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,d95b1eb4b724b56f1e923e07aaa477d24466a2e879f826bf4821b22de3ed43aa
+tl-codestream-sub-332a08f3-d917-4b8b-a8ef-add327e60eaf-14446839,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,33bc727564297f3d061a95ac7b17e42f2b61f013a83063c4fb0424adc53726af
+tl-codestream-sub-f0383c44-44d5-4431-86f0-7292815e57f2-9900086,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,954bc655465d9c796eaab0cb673a8833068fa2da2fc6949d5bc548235a295802
+tl-codestream-sub-320334e2-6598-4286-8695-44cca444556f-95360980,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,b3771164ad583f7219733da9275dcb643850ebdc7d38a3a133d8064b7023d43a
+tl-codestream-sub-cf1e9fcb-b48b-4cb8-893e-f17f533d0bfc-24564333,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,6862a18ef6e44fbfb2255836b21cfb76664654d09174665eca233d9c5ab6994a
+tl-codestream-sub-4cd3cc74-ad17-4fd9-baf8-d68189a235fc-94413864,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,74835b50ac3ff1013dca0d0dfb931329d3d0dcf80ad81672490cdc7f320bf697
+tl-codestream-sub-b75e7b91-6dda-4d11-a59e-5bc8e30c5999-27411807,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,40c0fd1921e31c927ff332a81a7754f76b5c2ba13800b6ce00f15b888cd5779a
+tl-codestream-sub-bdbf6f1b-9cb3-4f72-83e6-0d17443f604c-30570943,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,dd878079889c890a924fc28915ae310d7682bf0fe4bf27857924f856a1124477
+tl-codestream-sub-77a62181-0167-4ce0-a686-4051d2a81cf9-45317542,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,6220893498db29de4f9ad648206696a0715d3244d95c9a723b03cebf864f4cad
+tl-codestream-sub-35341b8d-10d8-4149-b7a3-fef4f4d3c0ea-25595243,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,822e1cba1e04f14f72cb15a83905d2d37c411e6f5696de8b97d7e99cb0e0dab0
+tl-codestream-sub-83343b73-f8a1-42c2-817b-daf9e5ab6cc1-20957651,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,12ce1b597592957d119abe43125e3ab6a1541eca22a7072c377d777bc1589e51
+tl-codestream-sub-554a3435-3c27-4c77-8b0d-71039766442c-41807850,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,44f0cdf45e43dd1704bf7f525e6ce9f1a5b857b0eb3a0d5e512947acbcdc71c4
+tl-codestream-sub-464c9112-4e4a-4437-b262-ac9aa4b72d05-59238728,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,0ea2e02fdd7eb0a4746e72899b7601cf1b1b46d750d7421070fd7441713de396
+tl-codestream-sub-51596274-a761-4955-b04d-8d7c3da61d4d-87992023,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,37d7fc999fe36ba13280f8aa6fc653f80d32a167ec0f2e473df25973f4523fa9
+tl-codestream-sub-b471d6f3-bb5b-4b6e-95d8-f5f354d35a60-52245759,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,fef822244fa196c2d910cafb4a10783cb2a147b6b1addf05747709bdb0258e3d
+tl-codestream-sub-37c7283f-8621-4519-b145-b117d99e609a-90843657,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,ef37a11138a56e89bc0f6198a98b76f47c15d9ae6f5b5573bae83de88e7c47d9
+tl-codestream-sub-2a4e2c63-01ee-4ce9-80fb-5168f6acdf61-53903734,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,94294e1815f29701b559ce2e22572a8874e57ebd6144db61913b4d208d39da51
+tl-codestream-sub-8006a92f-98a9-44b2-b187-be6965c118b5-81030554,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,4620803157d48fcf2103617cb7ccd1604debf4de38bb40c0d13d2ac83d3b5b8b
+tl-codestream-sub-99da41f3-326c-40b0-afdc-2185be6b869a-98767200,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,9fdfc2fbfd32703640f00a91e50cf71b766c58ab08bed7fb6194a773ab1669f8
+tl-codestream-sub-a193129b-8c08-4270-b833-cd55ee9cd483-54887416,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,cb009169655b6d267c7b506e8aa3dbfd100542b131962e7a65d8d25de2f5ac80
+tl-codestream-sub-65a48773-a79d-4777-962f-564e89f1cffa-2343846,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,162718f2917aa89b433429a1286131bef5e1fc245487bd9a82ab106e431e0530
+tl-codestream-sub-6a426b50-919d-48d7-82ac-5dc837660420-42278405,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,79ee2c86c022c22e4775246dba1474cab95d664ff07353d7002131b74908f6e8
+tl-codestream-sub-74be54c0-a5f4-4ae9-bd1e-bd8210f1bf8c-25729033,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,False,da8dd34ef350111c3e1ff6b0862cb0631a2a8a64adf6f1ae2c36571af5c2ca3b
+tl-codestream-sub-085e3a53-e21a-49bf-b3a4-c747ac16c509-12332007,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,d7f78dd973cbe275e8f1ad48423aa7886eaf67860a3d1705c63fb7e83dfb10ef
+tl-codestream-sub-eda6e004-9995-410e-81e6-2fba97327701-56567186,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,b46f9b04a51cf38b932a5def1633c796d52912e7c2967fe54df7f61ec9b0f4d7
+tl-codestream-sub-e1fcc437-c30d-4398-8d4e-8022dcb2fb4d-19533525,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,bd3b85e58fe28c3a4af9f5b831cb1d63523fdb7a8805e45672520cfcaf712d01
+tl-codestream-sub-60dac335-4237-47b2-9b6a-20325036bebc-54718762,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,a1008a06dd47ab02c1e476d946986a706ccf6ad18302b67449d685a38feaa109
+tl-codestream-sub-206d18a3-7220-4494-8abe-29d2de28c5c4-85155091,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,cd2ddb88e4f9c4da141c67bfdb8ee5f4153ceaac0cdf6737b14c832180920ad9
+tl-codestream-sub-82531611-c456-43c2-9b72-3fbf37c33d15-50410820,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,fae9149062519b4540081f0168ab140b12f3e2fb589386f9fb2600245c97b1aa
+tl-codestream-sub-beefe44a-568d-498f-9fa3-48dbc0f86dd6-57345816,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,5b45fea0444d1480415b1f666b7f62bc1f95f8e1dacc0f3b171714f9df5ae845
+tl-codestream-sub-142ff935-f4e7-4bdd-bdc7-3148771e735b-3867378,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,40e3a7145ccfec102194d24ba5220774891f5fd523c56a1a77782d48847d895a
+tl-codestream-sub-c36d5789-db33-42c6-8f7b-24c9bfd23022-7398281,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,ce7742dc6c781064ed00276b31ceb779638066cc8aeaf21b154eb319c42efdf5
+tl-codestream-sub-753b6631-9f3f-4e44-b8d0-516955ae6c80-95289292,tl-codestream-prob_014,cs-clu-014,cpp,Presentation Error,3,True,fca155b1341a296650b0191a840b939e059fb8ef3ae424f45599b6a2e95fd8ec
+tl-codestream-sub-7dad521c-29c0-488f-a60b-3267d0951b1d-54690846,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,b30e78c8cfbd203bcee27b71332abaeac86b475671527fc22603515017a664e4
+tl-codestream-sub-24bbaed3-3665-4b23-9292-3b47111d453e-21414906,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,9b4288257eacc816a21d0ff909ff59781c395cb09f0accd6d962026684a87da0
+tl-codestream-sub-0926a89c-33a5-4245-baae-6ca98e60b54b-66731494,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,1c0b1bcf3c05b13b128e7703fcd5bc65d4ef57cef7d7674570a6f2a06c4d38e2
+tl-codestream-sub-455db082-4edd-47d8-9f27-a040357d8262-42432720,tl-codestream-prob_042,cs-clu-015,c,Presentation Error,20,True,060177d572422d729b6a9a7a939223a16752ed7b66b700c2c7ae23d3cb61d2b2
+tl-codestream-sub-6a067f8b-f91d-4c84-ae15-bc3a1ef8be43-19405317,tl-codestream-prob_042,cs-clu-015,c,Accepted,20,True,341b29ab8d8a24805ced38c869e7937154d8135945c543703ba7b7b07399d931
+tl-codestream-sub-023a56b9-2eaa-46f1-9218-3e314ae077d5-73060588,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,b5776e70505def80d4993492eede4376b2be87b8f929fab1c1ca4e63103cf71e
+tl-codestream-sub-f2b2a90e-093b-4463-a656-ce1e63c9a0f8-5244130,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,3f794aa9735efbdd7683c7f81d9fc0d91dc7c051f30f0af7551d3e9a7cd449c0
+tl-codestream-sub-372ba33c-2e1f-47ae-a8e5-73cc042cfc7a-8670226,tl-codestream-prob_005,cs-clu-005,cpp,Wrong Answer,3,True,4c791eaee3a7e12ce3edd058410420fa069bd28e3ff69d2a3b849017de153bc1
+tl-codestream-sub-090358ec-3dfd-494b-935d-1f3cf7a17569-6874321,tl-codestream-prob_005,cs-clu-005,cpp,Wrong Answer,3,True,b1fbfbda16f3775127509e825f92c5bff4e4d248c47e4b9e38115be684420eb7
+tl-codestream-sub-085454c8-4d02-426c-a1e6-ed0074026096-6174013,tl-codestream-prob_005,cs-clu-005,cpp,Accepted,3,True,d3a75f54996922b005690ed9b4c4fc49c7d9eaca0e13e34eefbcdb5d67d4345c
+tl-codestream-sub-c73f9762-77c3-441d-bb99-23644cd6eebf-89310577,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,False,136a0276436b9e5aeea2034200352b3986374064b78ef3aaa2ff0f8b06ec55d2
+tl-codestream-sub-c11cebf0-f126-41d1-8405-021119dd6898-37894676,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,6a3356f06453c830f9f7ca3bf50ac762f91dcc55b31dd3a7b31ca85bfec997fb
+tl-codestream-sub-e3e229aa-7264-4cf2-b781-1dc360505fe7-39332974,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,fa62fd0dbff8d451a73ebe7fe4fc8751dca4d578df6ee829388fae3173a032dc
+tl-codestream-sub-03ee8c8a-bae6-425e-a6c9-6c601802cb5c-68691498,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,5f2846b263ca6f02ea5d72c57bf5dadd994cc4318cc402b070c8d654f2089919
+tl-codestream-sub-8d29ab4c-3512-4fcc-b9a7-f97c1edf9c96-93166227,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,394fcc8add433cc27d45092332e886d9ab8eac55ad791b56dca3166f8b016049
+tl-codestream-sub-f763d845-cf2f-4be4-bf3f-9bb4781c6da3-4709637,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,06ed73dde51b7f08bda26f0c4f2e0e8298a92c5b2f7c0590ce8d439a3d606d6f
+tl-codestream-sub-50defad6-61da-4434-a299-dad3e2d2dbd9-62607191,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,75e086618f58a500f64c7e053a9c136bd7171ee2e27b98defea1842695bf10fc
+tl-codestream-sub-45508c71-62e0-4dec-839c-c882e23ee535-3471304,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,70c9e17e05266931a52cc2d9865db9b96d9ad8ebf90acf5713bdb72455efc996
+tl-codestream-sub-f61ce0af-c07b-4984-9b1d-6d8682affbcc-98400981,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,ca0f675732a845009a9889531dc42c8fc33c1cd2f8706db8cb1e1ae7ee47a878
+tl-codestream-sub-c8bfc601-ebae-49ec-ab72-febf880f6a89-70527952,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,481a6474b17bc6babeba652c6c411a8a325c5df4424f0131bc42112be687ab65
+tl-codestream-sub-96c3e8e4-f5ab-4218-a678-0dc45b0b254b-43213318,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,64a17eecc30e53f7e134f61ac9b109a8d9ef198b4a6943d687be3d514cc0a07d
+tl-codestream-sub-45d9c114-001c-410f-bed7-5599ae51b7f5-61704430,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,12603f3b9b54e8454846b4b05dd84402c227df2b872a2705fbe9cb603ec7937a
+tl-codestream-sub-758812c6-dc01-4550-804e-1525a9a922fe-33286362,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,6a2398e7767bd72ce3ead18d1f5fdbc6219fd99a6bbf1e8fe6e5ed4b9a833f6a
+tl-codestream-sub-c46672a7-05b8-44f2-8bd3-17f257f2effc-20801199,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,ef8b3e9dfafbca987242cd81762842929fde6165099d396c9eb496d924450cf7
+tl-codestream-sub-1a78e3fc-fbbd-438f-ab45-05b0f662cf96-61922762,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,509a55dc329357dc466d6752eccd6fdf887a37740961717b9e6d56383c1882ad
+tl-codestream-sub-dfa0d63f-0c11-436e-ba25-f2d6b29397f2-8352726,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,1ae874476ea543708cc60666395fd5a14cce629c688453d96053365ffbc11205
+tl-codestream-sub-8392679f-890c-4a29-add1-b0ab78d7a85d-59188013,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,e10032f577b74f2d284d8516f9701cbeed2143e53a05e62e78904fbc625d8e84
+tl-codestream-sub-05ee8394-9763-48d3-aadb-54af235e3d28-12229974,tl-codestream-prob_005,cs-clu-005,cpp,Accepted,3,True,4147589778db687e32ad6d9d262f3b0f4c120538b8954bfcafd54e956cc76837
+tl-codestream-sub-b4e1be3c-3214-4bdb-898f-4a6e31773142-1716814,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,1967945baeef60e49c9ee48ff8f88759f4bf178eeb144125caa0f04b833de01c
+tl-codestream-sub-2f473f96-03fc-444b-9d0a-03373217711a-95856092,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,02a447f3e2f361e4c3a6f4cff7a814be70f9ae502564c6ec22e1f7403b3e2414
+tl-codestream-sub-df3b39f1-334d-4fc7-8d89-74611f118cb3-57039232,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,9591f78d60cf0c0c8656980ce8996886b084e5695e17b0d22eae8f76f35dfe9d
+tl-codestream-sub-89513e94-8101-438e-918c-1bbf04b621d7-19004179,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,38ac5aab30f5fe9d3b25ed160b9206ab53e000298884ad371149cdb68630547b
+tl-codestream-sub-a0384e40-95fe-4e2d-928f-d2eb73f41ab5-69067555,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,6f60eb6185138392e82865ebede2896928927db001e8b11dd8d6c44a7c3102b4
+tl-codestream-sub-c7141a47-0a8b-4998-aadd-e8ce5b4bc3ee-84138666,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,23cf3069fe95be65db19a0b69eea29790e0ae86a790b0f2757a4764d1beaa723
+tl-codestream-sub-3e44882a-7698-45ca-bfec-d784156409d3-42039837,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,f28b904a0e2bbfc3cba724677ddc74481de1d57d56b8d801cf303c7e243d1079
+tl-codestream-sub-0a19e087-dc80-49f2-9a00-bab32f814ace-8637531,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,2a65e69722a7a22e45e7e90e3e3b2378e1b557f5b90b078a4035ee436e6e458e
+tl-codestream-sub-364eddea-d232-4b03-ac99-c63aa1ac9378-89420210,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,55ddf7fcd9db620fb402ad1755f602deb71020ca2924b7e1d5aeaf517a1104d2
+tl-codestream-sub-4febab78-a9ab-4a5a-8b1a-1b783edca0b5-6080357,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,False,5d367c22bcfe6949008f0791fb06eaa2c2d43c8fbfd6e24b65a30017c5c3b6e4
+tl-codestream-sub-4cfe7347-90b8-4f61-9f94-37653f473ddd-59876447,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,58bef90b965b4d7f8159ab6444017268d6d3c254632fe7a75d7fa02acdc3fe22
+tl-codestream-sub-691f1f02-53a5-4d04-80a7-0dce72c6d261-47738587,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,414e75944003cee857e2ac3c4c0b160a7edefc7b6e1b3aa55fdba0dde1c214c5
+tl-codestream-sub-ad34c226-1884-4f57-b1d4-b2ae5ac754bc-19984408,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,b5a281ea625daac4554d9988b8914ca6fa04ef56e7c6c21cdeb1c19570b3c8e2
+tl-codestream-sub-435b7843-9b67-482d-b739-5316bea41d08-30987907,tl-codestream-prob_002,cs-clu-002,cpp,Presentation Error,3,True,1e715034e3628b3ced9cb84fd2ed79da5032c5e102c75fdbdc6d60c950dd282f
+tl-codestream-sub-ddd7f06a-4f31-4522-920c-ffb3e41ceb3a-92937219,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,ea635aa4f2d73104c7f19663d9ac5ee862276faa775145c1a8078406a385cbf4
+tl-codestream-sub-03a8debb-9258-4c93-a537-b3fac115ed23-18533571,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,81bfd9f9cf04c53336ba400073a3d6921cb7934446183178de1b05c87c77e58f
+tl-codestream-sub-a078773a-983b-439c-99c4-690408d21e2b-43642358,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,59fec8b1656c5f3a29f9cb44b9332ae352619acc46eb890970c6ca5b6d9a09d8
+tl-codestream-sub-fc1b49b0-6022-4d95-983f-39a22e552c22-14751248,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,9ccdf4eedfc95cf8a8e59f79a89765bdcda64df816f82b9b4dc2847301432970
+tl-codestream-sub-bd5abb45-a0c4-4e5d-ab6e-e4e6b013eb98-57248228,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,ce1443939101992838004dbc91ee9ccf46ec9ab8869d780bdcde5eddf95ff0b4
+tl-codestream-sub-3ce501a8-fd0f-4e02-be12-e6ca7554d0f9-24214038,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,70c709bdb17a4367c7bd888ed7cadfa9ead1efef2e8237375976b00a656562af
+tl-codestream-sub-181f49d3-e13f-46b7-84fd-8d281c259639-45448243,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,88d5c2a31a699c0b0105d0cdbc9e9513a9e5bf96a5859d544a67eb13e33c7ec1
+tl-codestream-sub-1e7e7731-07c4-4efb-9c92-2c01901b6cd4-73506770,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,dae6f01582b5f93f6b19b053b22c1a3a22783bd6e303525de33b5c300709c304
+tl-codestream-sub-5d819bfd-f6e3-4c65-a523-500d99ccd588-63998267,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,c6340eab275b89fed120af1541afc1841a6c024d25a902bad880094747118cb9
+tl-codestream-sub-9ad5c863-8488-484d-b3e9-85f9809e7768-58536774,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,9d3eb9c216f2912999f1561fddef5ae06474f4f166d6b9f9a1b1d5cf8d0456d3
+tl-codestream-sub-7dd8aa5c-f869-480c-b624-a27b33892500-30657430,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,ec46a96af76e83916d4268c385bd29fa9324a842bf285205bfd730ed46d65d99
+tl-codestream-sub-18515f87-6740-4d6e-ae24-f88d9252b589-21060841,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,632c65e64dc68b517e12b5ed4df601fd6531b708d6ef2d385325fd00bfd61f11
+tl-codestream-sub-591180bf-72e8-476d-b543-38738350bee3-49249596,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,64c142efdbe4c28bb2ad48175ba6da633964f92ae9b3767df17de3999bb9c58f
+tl-codestream-sub-5be4c98e-f859-41b4-af48-4516a55039c9-41931890,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,22c89a75ac927366a3df46880139e6efc0e5d448a6f933f6fa1929a61b047548
+tl-codestream-sub-f4a7382f-3f75-40ff-8a46-9a8d0a0364a3-87365006,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,077adafef3ab46ea481e40f10904633b77e67cbdfbf0127ca21ff82c8f43afca
+tl-codestream-sub-413afed8-fe51-4723-8682-eed54b8f47bd-66092311,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,e0e6938a9291a118a166fa145c19cd31b5e0f33bd814bbe4e636f5c782cb1920
+tl-codestream-sub-cc237b3a-ee87-4354-b97c-f5f77a00bf92-42805488,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,e147c2edbb6e6488659d87cbc2ac90a7d2c14a555e5ceec47ea0d3081dca16cc
+tl-codestream-sub-317d1bb9-53a6-4296-adeb-8611254c7e8d-63696917,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,05481e4dddb901a949bc9fe6cd2a9932b3a22b09eca2abd2cd4e7c3c26ad82b5
+tl-codestream-sub-56fe7141-983d-4ae9-87de-076b82dbef29-79727690,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,f00aa771f5e54aabdb1dd3f30deac8748b8cfa548c372af4aec95a9867ea4a59
+tl-codestream-sub-c0964e6a-5b9e-4684-a729-488a9285aaae-21496877,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,7707897c7a6db74b265f9d77f527168bb3d923fbb5ed6f75d0c93775c45f2542
+tl-codestream-sub-cfcf628a-e2e2-4f4f-9b34-5b04ed82d403-68991290,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,5ae24e61f04da5393d07813f6c38291da64d4b7c33557f62ebdacd6fdb22c1fa
+tl-codestream-sub-0bc2944b-00c3-4be1-a773-b61b925092ef-42650525,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,3e8494531f242e2470ece727c07ae46f64bc2d03391d7be65903b2a3ccc07180
+tl-codestream-sub-b902a2a5-e664-460a-9cf8-b717f97a4a04-74689629,tl-codestream-prob_029,cs-clu-025,cpp,Accepted,9,True,a10b56f81621f5ff47ed9f27a98e08024d1f63276432caf96f06e1a71aaaaa01
+tl-codestream-sub-96388b3a-e071-4cbc-8813-af5edd56f13e-51631727,tl-codestream-prob_002,cs-clu-002,c,Runtime Error,3,True,d24d2df86dd7f92d564d47d6d5a0a0800ebd6312da7e85d1b28b032cb55c2aa0
+tl-codestream-sub-88b5bf7f-e595-468f-a823-4fda3a5bb9ee-34709445,tl-codestream-prob_012,cs-clu-012,c,Accepted,1,True,7d212ebd53034dffc7cf72982d54371a25233a588513eecb47e0005daace8737
+tl-codestream-sub-6fbc1344-db0d-4b38-b77b-396147565c4d-91231065,tl-codestream-prob_014,cs-clu-014,c,Accepted,3,True,085e793c574ac1ce5cef574abd92507ea8b2f8ddd01d2cc3f675f072f23fa934
+tl-codestream-sub-5a3da894-dfb9-4a38-93dd-821f81e3d40b-81485322,tl-codestream-prob_030,cs-clu-012,c,Accepted,2,True,d95e6aa5e9347cbfd275c78f7935dad1370e1c8738b681e6e142bb6c7ff7b8d9
+tl-codestream-sub-d40c2fda-ce40-4045-94e4-51b3c58da8fe-47826062,tl-codestream-prob_032,cs-clu-027,c,Presentation Error,2,True,ecfd8135c8250aefaaf80667f27e89803175ca89a7865c032e08ea3bb94b9e28
+tl-codestream-sub-88ecaa42-d0bb-4d3d-bbc7-461082f7b5da-75415776,tl-codestream-prob_032,cs-clu-027,c,Accepted,2,True,3ab65fa9cbd6e2bbe30c85555967fb63cff3c64aac9320aebc4a850e2ac03455
+tl-codestream-sub-b001c538-0c71-4797-afb8-8339e35cb395-96755730,tl-codestream-prob_033,cs-clu-028,c,Accepted,2,True,a783cacfa891ea3c9e07f23c022c052b1c870ada32c75dfb76b46cc11cd3fb18
+tl-codestream-sub-7b77c077-f597-4fc5-a29b-62ec1f56b628-40052936,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,8ab13b08e2c8de0ab8130dc376c60401663c736ddc32438c4620890c2189b91b
+tl-codestream-sub-214a1dce-7df8-4e4a-ac0e-6231f0a3d1fd-84928285,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,f2c9c942f9d2bc7acd68ac50aa793ba2e16793e2e7c5e134a0510db257c656cc
+tl-codestream-sub-446dbbcd-3ca8-4ed2-b302-7bf0c77509cb-88649231,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,75f357662cb337716cf7568b482a8a2114de871e6de7d3933339ed9562f9eb14
+tl-codestream-sub-8f025035-0b82-44e1-9847-7f99d7eb46e2-85945543,tl-codestream-prob_019,cs-clu-019,c,Wrong Answer,3,True,100c7734c74da314e054ab65102fa46b7abf0baee8c2bd664ada3dec24add358
+tl-codestream-sub-763ba9e9-bbb0-40a8-a790-224abdceb5e4-97181514,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,c0d3a0e372ea355f4f88db28616fa0201fc1e20aa75bf69563e46bc217fba3b7
+tl-codestream-sub-41a42631-d753-428f-818b-e12edac624f1-99764766,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,96429fd4e39a909acb1c526ca0729589b0ec8fce33c04d851aa048596108a8bf
+tl-codestream-sub-6cd2f670-e5a6-4410-8b9a-56ee459379f5-45817171,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,263caed8db205046db5404bf572e36c558a07644609e17718d0cfbed8361be73
+tl-codestream-sub-bcf21ae1-5b5f-4215-87a0-f693b270d643-11359266,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,61d4ba5d9b318acf3076a3defdd34ad3d21221c2f8489e9d9b95fe2494a81152
+tl-codestream-sub-2c1290c6-245d-4025-a219-ce323e5bb82a-25344723,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,7ca22e9d5a03965cdc563cce9923463b09dc9cacc5a02c63a260981ffb6b01a4
+tl-codestream-sub-9a2a89e0-cd51-48d0-b78a-c83863718f84-79717226,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,2f3956b73e28d6efe541c84cc5754635e0013dcc9d46bee61d7f54563b893a28
+tl-codestream-sub-f0f0038b-0c96-4f5d-a157-f916bc957dcf-57242817,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,d23f828371ed98b5fc1f87514fb2bb78ee2f78dbec06805eaeafe4f7076dc682
+tl-codestream-sub-cfbf3454-8c46-4c2e-869c-40fe817d584c-99025723,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,975a4e207b465925cae1d6a9c5ca596292b37ed06c874d675a271d1bef2be5bc
+tl-codestream-sub-0b12290f-e9a6-4bc0-a301-b78f0e13546b-91488236,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,d0c5cb2511facf7a6b0a71b89cb96cd090e62c345c0f719b15fbe2a0c34a7ab5
+tl-codestream-sub-d69bc975-ad70-4605-ac2f-bf67f430c361-15749731,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,6941efee8351997aa55d1e4e8e7ad78970a4a52402ed8eb7e9a9a617dddf5338
+tl-codestream-sub-e5e7445c-fc9d-4883-914c-9fd9ec199d06-36591858,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,227b6fa0023e32d144cb5d7db66b3c340f5bed0bddadfa75afed67e30fbe83c8
+tl-codestream-sub-ac412784-6d87-4456-b5ce-f8ea86591d62-63617072,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,33a24169643eeda1c41cee9ddd22a3003fbd1ce6bccd394281afd5956dd90dfe
+tl-codestream-sub-05817ee9-6126-4172-b29d-b5932dc8b6ad-87472544,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,18ae7689d152749a2a4677b79153540d51b98c6ba8d2cf0d29634787fc44a30e
+tl-codestream-sub-2f7a6ee5-8fae-4f89-8289-6273e60e8982-2293979,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,acfb023159f6ae7b5f17fe5822ba0e31959bc1e8b13cbf96ba3a0c033c469174
+tl-codestream-sub-6bb749ea-9801-4e19-b767-c3600e738ef6-13674367,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,e6f908ad3879961a322aa253a9a7b417065af70b0e3aea0fa15f265708056a35
+tl-codestream-sub-68b90629-45eb-42e3-9c09-7c7ddb942014-90924856,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,742280b5b154169bb7c4fa43e29a069b440c2d900b0b71b596f1f8de577a2fab
+tl-codestream-sub-ad93ea5e-cc2b-4135-909f-9c3eeb5c509e-85823090,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,904917b4cf5a0a46571d12fd4966864bf426c2bf60f6b7f96b903d844793fc4d
+tl-codestream-sub-c3054449-0c66-4f0f-98b3-efe834409685-52237536,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,d271931f8ac8f8999a75897346ae2c18ce1dbf29947f61b7443f33dcfea62125
+tl-codestream-sub-8bd3b167-7e53-418f-9429-b1dc3a6084f2-68496698,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,493c25d010cd2aa009683bac9466b1191b4349546ee1275c3052fa389a31c092
+tl-codestream-sub-bffd2863-0014-442b-a50d-1441091ab9ab-13313573,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,727129b514f3c0389152d112150b4794b50f496e067cf7e4e4a856249add869b
+tl-codestream-sub-b5b1a161-6453-4bfd-9952-0c1cf6ef7c92-39647934,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,1819f3a338f9f21603c919b512b2756db4e27b439c771b95ad7f3f4f81678923
+tl-codestream-sub-c84f257e-cc9e-462a-967c-3790794839d2-72910787,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,a17fb90dbab8242c0d6d002d3ec8ba4a3c50a4f6086cf3a2886cd3e0223d421d
+tl-codestream-sub-1756d0ef-e4d5-459b-a66d-44c80b019f2e-33692064,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,697d9eb00d49308bdd4e0f6cc9b54a1374cfb0d2f5d9abbba9433c1c2f54f063
+tl-codestream-sub-d6688291-badc-4571-967b-bd8bcda9a899-83735000,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,f8c6fc9f738c5220783885a1bf54d2f239701fd196e337d4f3eea745214033ee
+tl-codestream-sub-aa96293f-f16d-47b3-9568-8f9203c8639a-99220370,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,c19d26ce638ff090576ca0a699b3a8093a536f10b3c878435a9b0a0d68376a22
+tl-codestream-sub-dfcef1d0-61f6-4be3-8f2e-7460cd458709-41760685,tl-codestream-prob_005,cs-clu-005,cpp,Accepted,3,True,531799241da12249175b7365c559f2d17325a4f24b1fb1b2f15627901f7e11df
+tl-codestream-sub-25bc9ed0-2b1d-4b76-893f-0acf3aac4699-60347108,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,3a79825f995486bc005f66ef4a7d889f7a5b6e5f8e212b0b3877200d95476a60
+tl-codestream-sub-1fbfa46a-61ef-48b9-a72c-510177eb0faa-81805694,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,a8784df41a8cad4db5d506e9174ed1db6ba89f656efb75d7196f398fb4ccc621
+tl-codestream-sub-63b6d140-9ef0-4aab-86b3-a58100749947-88411002,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,17570907f0578f3551870c05b076fc3f8ec108912ba6d0f96044da67af84f86e
+tl-codestream-sub-5d0f0ab6-4057-4366-80f8-0048f8a2a832-93236167,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,25e298f374be4d9736be34df1613da1d755fce4af5057b43dc8c14df45ea4959
+tl-codestream-sub-39ecc1f5-578d-40de-b5b4-69ed5e7ec901-78960463,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,07b4401076d800eade556db6e7be7d36a56324b13b6529f52cab1d309480a0d3
+tl-codestream-sub-f3c60ecd-60f1-422d-bc6a-b6064f09e2c8-4656760,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,31174ed99ea9984319ba7f5ff5ceb760207ce56f077f900f178c71bfc08db81d
+tl-codestream-sub-3a77c8f8-c69e-4cd1-9af2-c789233302c2-17475251,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,d2e2f7c4fd92d5ff33c7291609d8b6d5d54677cb7f82e5c169e155fc85023d7c
+tl-codestream-sub-f5ca4822-a49c-4f37-9aad-6ae6f164df34-75544935,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,a6c011a66055aef05a8cc121cbd6fff103a36028dcec3d77f82df31293dd7bd6
+tl-codestream-sub-1baa2ce4-f171-4298-a798-6b49a67ab6b3-91037800,tl-codestream-prob_002,cs-clu-002,cpp,Presentation Error,3,True,1c766f8cdc3bbd86b04ba77b023a616cc6223e52156dcd801da53f1a97f9ff9b
+tl-codestream-sub-35c8f3df-2fa5-483b-b481-1f9d47710a0b-63778359,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,3e14ab1d607afd483b19b982a0c24c03157ad7c9feaf1592d61be43de8f0c571
+tl-codestream-sub-1e7f8e17-8095-4034-bbce-858dba56b95e-60674765,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,b5c1f0609ded2584d8b925088db6722465284ed90ae5bf6ad818c75dda45a3f9
+tl-codestream-sub-c892a7af-de3d-40bd-9cdc-6ac7e15174ae-82517434,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,4134da96bd85e78869dbec1f5437991f644945ae09133262200795205dbc5956
+tl-codestream-sub-24baf810-9ac1-4868-898e-e5743693a522-97534668,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,d29db66693cdcf858f727904ad3c329d9184bd01607c0d018b33c9df98ba8f53
+tl-codestream-sub-22a43c0e-c553-402a-b194-3d53eb5b5820-5113389,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,63982620119a1d4fcc8fcacace3f28c5548aca1523309909d586c7265bb118c3
+tl-codestream-sub-4de8734e-c210-4b32-a435-f3445f498f59-25835859,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,30344d8303a3366d6a5c451dbeebe6bc1e67e9632e72c5eccc97cc1ad4f84de9
+tl-codestream-sub-a108153b-e811-4bdb-ba43-d54ee99cde86-14224358,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,9fd2bce84ca6a37662ce5c7ec8908b8f5dfe502abef441e4d5422f72a6631217
+tl-codestream-sub-47678ced-48d8-40f5-a2c1-10db1a4e7337-10508792,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,6a91ba6b94486f8ab30c454c1949d796d136263f8539423abd34e2081f45e3a5
+tl-codestream-sub-0aa3d630-d4fb-4ba9-bfe2-0208ed685b38-19015060,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,9945db71cef0c889df0f5853665d64e16a882638449cb9de90742fe3242b6c6b
+tl-codestream-sub-41703c1f-4ee1-4d58-88b9-8686b95bc8b3-98807197,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,c3c9e66a19f03d78cbe27da0278cb14dfd2829dd7b3097bb8ae4cf4f21663a1c
+tl-codestream-sub-32263709-f5dd-4bda-8e26-24545d29e2f6-56505776,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,0f38124abfadfa01fa5a2c79c49ddff772722c09672b49b7c0cd87b83b60c83a
+tl-codestream-sub-151520ff-5ff0-4f4d-b93c-d58d71de5394-30057821,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,dd01adb81717268f3c30bdff90ac2794507da6bd97cbafc4cb4493a35f3f2d78
+tl-codestream-sub-4859e2dd-e23c-4a44-8dc0-02e7255ba5e0-92754448,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,81adbadbcf8fdd20b617803e95958b8a652972dd9a55243c45d51bd93c30bd8e
+tl-codestream-sub-842d7f73-6d10-496c-a68c-09ae1e4d35e1-20597503,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,a1617541878a59152d5942dcd592f66e6c77cf1857e5420897f25177fa47d207
+tl-codestream-sub-8d5af44e-e590-4185-bef1-aef6e22e24e7-35276925,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,ed4304b66e7c35a35932cca7e66f20b3f18625537ef252f3675eab750ece78c8
+tl-codestream-sub-958f5695-61ce-414f-815a-e63a6cc62599-63160725,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,c5416fe69ad65767bd6449d771776bb1810edd75aae06648ab700d62399788b4
+tl-codestream-sub-04e65c28-2d82-470f-bb70-9b7e058b2a7b-20339767,tl-codestream-prob_030,cs-clu-012,c,Accepted,2,True,8d2421087c1b1508b7e4154427eb09da45a371db23562e0a3a1f14b5270a80e5
+tl-codestream-sub-b216c038-2921-4825-9e85-c927f8cd76d0-48553057,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,5d6a4b49a5b999f8223dc2029b619702ca1fa0aa605ceeb8711deccf7b39ba1e
+tl-codestream-sub-437353f9-e622-477a-a198-d430768f3255-60907341,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,5e872b75743815134a0ef570c8400421bb92264a1f216f156cfcde88230113f6
+tl-codestream-sub-73544840-1e01-41ae-8afe-ef331a2c69c7-41131601,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,2d62315375483d05372ed4d6eef12306c654b3748c8f786e3221aa3020f894fc
+tl-codestream-sub-10b97e5b-c6b0-4a6b-9819-d230ce20f88c-37869513,tl-codestream-prob_015,cs-clu-015,cpp,Accepted,20,True,2e2f31289c3392ec22096785e05e63d1405b5a2102ce64d62bf5bc94b752d93b
+tl-codestream-sub-d1772f6d-18b7-464a-93f2-8081db87a31f-44730901,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,54f5afaffc3cdba28ce4b8842f433838c6712a2173bf17dff16d2ed5a7612d70
+tl-codestream-sub-f55d7c44-f256-4cc2-b0fd-7a9c65df66b6-48461213,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,50aaccb6ad209c30bafc7620ed8d712f26d761cefaabd182cdbdaf6b4f48c12e
+tl-codestream-sub-c3a62ea1-01de-4e3b-b03b-11a76e8a9275-78613968,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,a3d6578ab47680be76d381a5be48e2ca51ec040ad1c8ee54ca6c9e82c0fbb469
+tl-codestream-sub-07c47488-804a-4e9a-a651-60846899ac8e-11929754,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,fec6296591924931ed27510b54e2f75242bf69534344f71e669be38fd078df19
+tl-codestream-sub-4671b250-a1d0-4663-9c61-677784177aae-74453172,tl-codestream-prob_004,cs-clu-004,c,Accepted,3,True,e3712a46829ddaf693fc35b526c7dad25d0c2dccffa4f74004f9cb2cc93aebad
+tl-codestream-sub-e9e9b9d1-f54e-4497-a7d1-a8c97a7a8425-92566207,tl-codestream-prob_012,cs-clu-012,c,Accepted,1,True,7396c9e18f072121f88ae399471841b801315c0215cb27f46741430e43956a5a
+tl-codestream-sub-9b470c11-e36c-4145-8cbd-dcf2816d47aa-39691245,tl-codestream-prob_014,cs-clu-014,c,Accepted,3,True,f7310aec569eb3e22e1c9deb8fb16acaf84c853aafeaf3096023ae99cb00578f
+tl-codestream-sub-52c568d7-db7c-4af4-9b47-83f6125d1385-95290767,tl-codestream-prob_030,cs-clu-012,c,Accepted,2,True,78f9bc93a270de3ac069cb15c7560318b526661f48386127535ce85b5c9547c5
+tl-codestream-sub-adb78066-3997-4ad5-86a5-4cf4cd36b3bc-59088357,tl-codestream-prob_032,cs-clu-027,c,Presentation Error,2,True,1a9de5df82073ea4dad743b6cba72905dd4faf2d16bce1baad047abc0b413cf4
+tl-codestream-sub-a54db7e8-fb53-4a3a-95ea-ba3eff459b96-37257472,tl-codestream-prob_032,cs-clu-027,c,Presentation Error,2,True,749074f957f0ab108fe688866a936a96418304a148fc0a9b63936b126c05150c
+tl-codestream-sub-d25feac5-ab53-49b6-8010-9011c6410999-66936268,tl-codestream-prob_032,cs-clu-027,c,Presentation Error,2,True,f003fc2c11bd7563506642338bfd954433dbc85ca6f9bde3fbb9fc47f1102336
+tl-codestream-sub-8bda0452-37b1-44c9-b101-325e7b2e20f3-38551835,tl-codestream-prob_032,cs-clu-027,c,Accepted,2,True,67353f2975a23199640f40da3f27e18b9d7196e7153e41076dc1ac83e52e4717
+tl-codestream-sub-982f2152-4bd4-43ce-af58-6fe0bf4b2e6b-29848552,tl-codestream-prob_042,cs-clu-015,c,Accepted,20,True,44d2962152e617fcf181f1d776d37b653989692df19f48cd2b9cf7a78711de0d
+tl-codestream-sub-cff79c1b-eefe-4723-a464-e4d457067ca6-81155357,tl-codestream-prob_041,cs-clu-019,c,Time Limit Exceeded,3,True,ede79b9ca7214f50f9a5d89b4f36b8f47bb2541e7be10fc9824284d9a2d95e40
+tl-codestream-sub-718e5d99-3fdd-404f-b1f6-520d250880cb-13855364,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,da37a39cf168d590d78e6b66759491fb6b10e0324aba1c9813233e126085f507
+tl-codestream-sub-8810dcf0-9871-47df-8734-d169f4a2ae14-95307029,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,c8c40cde3cf220493ef05fcddbbc23ceaa2dd2a80bfc3edfae697793fba60a41
+tl-codestream-sub-4034bf42-a559-40f6-8a07-abeac170cc97-3497696,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,3cdfa80959d496fece65fc9fd8f7dde4f2ffa1a9031e6a4946f7d3b047b38f8f
+tl-codestream-sub-468492e8-4838-4619-8ef3-132b92c37ede-54869338,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,29348205cfc8eb096b310427b64ec448a572a1967344334f973edc0ed2b41250
+tl-codestream-sub-6470e1aa-9a84-46a8-b3e3-335d7dde4bbf-27876855,tl-codestream-prob_030,cs-clu-012,cpp,Presentation Error,2,False,9d1f97e4f3f63c0b6d3db11cbb968b4b74cb3b3fb519085e6083b0279cfbd3ac
+tl-codestream-sub-cfc289f5-378e-45db-9f84-c1e0dae2d1f7-50193487,tl-codestream-prob_030,cs-clu-012,cpp,Presentation Error,2,False,4646885dea602b7f6050755b3d6d22138a6e3c47b190291025fd7683c5763b78
+tl-codestream-sub-43a6ff00-1442-410e-a1a5-9da1dfed68d5-25448282,tl-codestream-prob_030,cs-clu-012,cpp,Presentation Error,2,False,7bd0a6f42fe94973b287c12e10819936a7e3aa9ab9091a2c36e434a40847cfcc
+tl-codestream-sub-7cfb6370-2ed3-4558-905f-73efc55b94b8-15191852,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,False,be5d216f99649d63ca3319a7b45748f2fc9f05fd5a6101245d92b43cdd735aa4
+tl-codestream-sub-e05dde65-a87e-45be-b232-bf5b2661e1c8-82225324,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,8d353a9377ccc0a202e3ce0cf5d9d21a9907cb09fb64d3b19ec6d4f5337d5d9c
+tl-codestream-sub-52f6e54c-1292-4132-8ce9-d6704a243cf0-65600573,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,e1584e60a460f6e3b84b3bac8cb0145ce4e259c3de59f2e4d1ff6a42228e983e
+tl-codestream-sub-e792a85c-217d-413e-badd-02a2e55e87c5-92222153,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,aa8e0e38e38c6699b8d8c6e059c904a41e86e432e8689157dcd87ceca2037c51
+tl-codestream-sub-62554e92-e45d-4fb5-8fa2-0dc0485e0efd-80262650,tl-codestream-prob_030,cs-clu-012,cpp,Presentation Error,2,True,93e4177e27b78ab2b8ee942d12d5aed56d55df9c0817d35503ce1fa89cba4514
+tl-codestream-sub-ee0edf90-3d77-4b3d-8909-bd7b508ed355-33622950,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,ca15ceb7c45ec20b3cc695878330d24859394d43a8bc2f4bb52be489f7527d3d
+tl-codestream-sub-7134a76d-bfc1-4534-bb65-97b792a19314-20240520,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,ac8cc5a7e27e1796d6774865b7b6892e897941116c7a8cf1990fb64628551fc3
+tl-codestream-sub-67a03ede-0cd6-4d08-8440-eb9c9744b9e9-27932256,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,4b0d10be30433f8a8592eddffc035a9428addb7f0c8bab16e87becae7565c96b
+tl-codestream-sub-3b35e84b-a089-46ff-b0aa-75970ebde5fe-23871509,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,78b7e80fcaaf3db7f0ea41c4804b553bd4b57352760690d6e23cb8b11787687a
+tl-codestream-sub-b6fb193a-197f-4a07-92aa-119502b1528b-34016503,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,81d1d9d479c1cf01cbce28b6ee3334263205fb75736c08abaf4bc1e605bc353f
+tl-codestream-sub-1262411c-eed2-4cbc-96c3-bca6610dcbad-60756960,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,ca1f9f695b9939541b6cad97717ebd704ae19632b4661bac5be87a2f7bfae4d4
+tl-codestream-sub-b51ef90f-57ec-4bbe-afcb-665bb3f7ddd6-29159456,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,c64b45104e8d149723e930e94bb60fe7006cfa39748eb1d24b4f68bb4f572f88
+tl-codestream-sub-750d6789-3a66-44f7-9ccc-3f31c40a5683-93800806,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,193867107605f330c484c3a23228149520ed1905f75fbcd894552e79e3f5af3e
+tl-codestream-sub-3db3fd1e-030b-43e0-afcc-6171c34ff482-83952625,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,e8f7935017080df0a0eacd57ab319083cd2a845d625f90b2054ea3686ffacd27
+tl-codestream-sub-92e5f03a-2901-4c45-b21d-e324322192d1-17976122,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,22149d04b5812aa0f381618309423317e5b9251942aa8682dedb2e4db19f344a
+tl-codestream-sub-f4c1f112-7b01-49ee-8ae9-b11cb902fe41-64093331,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,35a5c928fff0448850bedae14d9bf32879a95990ea8d7d4ad62e2e538a339b95
+tl-codestream-sub-720f2455-3307-4941-afbd-4eaef93e49e1-57339943,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,7b312a7d45ddda41bb1e293fdf0ca86abedf59f03fad46c32062a08ee2589707
+tl-codestream-sub-5a303229-7ef8-4c11-a4ee-9bcc79731629-42382298,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,6d3a3693db106007caa6d6ec985331268b0acb121a8d45cfde2e344c49a36392
+tl-codestream-sub-b942d537-4361-4661-9b6a-bcdf88cafabe-4963706,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,b6c714326d62f29a5a0f7bf6fd60a727edcb0afb54e5c1928861a85b0d9c0560
+tl-codestream-sub-13229821-07cd-42a4-af5e-e0c79f190ad3-26457523,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,a622c0985bbb71314acc4a7ef6264e58302eac6938fc378301c4e2120b9aba25
+tl-codestream-sub-bfcaea18-9e0d-4ad6-9323-b5cf088cdf2e-26676530,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,f69c9f0981c8977e713189b58197983602640bac849a505e5fa995a94ee97484
+tl-codestream-sub-b8da2e7b-eb8b-4845-941b-971b799195fe-24487989,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,d146e7c6bab3ef47ae079967223d9ce8eede052daf9c91b72661c8703e68b693
+tl-codestream-sub-eba5a743-5ccd-428a-a24a-541c7d8ab1e2-18266149,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,be0db4f1e1d991725a56b11aa5b3a2db33890140fc02863d602175b6fc987fb3
+tl-codestream-sub-b7673d37-8c60-4f8a-a736-ca12d2fcc382-13920531,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,13878fdf5a3f58f40785bcdd655f1af405a75174dbb1474106b936060714df8a
+tl-codestream-sub-c3cd8326-eab7-41ba-86a0-70fe06bc6206-78123686,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,9e5897c6def77696441331b8285fe05f74d911e73534dc22b12ccafb12a9d095
+tl-codestream-sub-56220176-a1cf-40c5-8d46-6ad6b89c7f11-42573912,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,f6d1668af48d703354b7147201c468b9323e31bba106a6ba838cce449026569a
+tl-codestream-sub-79d137c8-ee9d-4a5d-9c24-df12a42de2fc-20086385,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,bbed2a78f5c07d4409565fb6b9d580ec033faae97ba0b39728b77dfb9022ea26
+tl-codestream-sub-7cb65415-171b-4996-bfb2-78ea4018146b-27218708,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,61080b01a05a4965dbc25ed923ec295a6cc16db59dd0429d457ea040b4d00260
+tl-codestream-sub-6b39f591-f158-4ae3-ba96-d27b36a74b7f-9142688,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,d10c27a770ee34b8453ecd2056ec371a74576b8c64698e476f05132289203ef5
+tl-codestream-sub-42587f2a-5a47-4826-ae21-9a52142d125a-99538900,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,33c7db1abf65a1a956a122d9fa475798ab9c3dc26435b93c2bce7672d5b60a39
+tl-codestream-sub-32efb874-775b-4a14-9cc9-7447886ddcf6-66004025,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,b98f256f87ffaef5dc539b474c2985cdca87ff2b865fa3300b893e53462d1bbc
+tl-codestream-sub-be6b4908-c59c-4cc4-961c-845e58f02d58-92855199,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,b4018946be6bf750b16cccfeeefcab5cc95d02909118f7225209e56cbfd6edd0
+tl-codestream-sub-59e12f58-66f3-4bd2-bf36-9e6334ca3cc7-27638877,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,316c8b55255d129a2d42f1e97f6322d4f3f65f2392d5708557b8b7d1c7f925dd
+tl-codestream-sub-938a0fe9-9fd7-4046-9fe2-2f8aaad0b22f-90649334,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,ab1a17bdd9e61e3f16b8a9fc11da6e39c9036deb22e666829bdcd1c16a6e8f3b
+tl-codestream-sub-ff511c17-2e70-4625-90fa-0fad7a70f73a-24184788,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,1d0f75e7064b90dd703837cc85faf8e76d28461b6c9eb267462f40b39a565ddd
+tl-codestream-sub-ddffc1a7-3de9-4d27-8943-955f438f3278-65754341,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,False,768783c7711d117bd79d979a2879d22597f566548a7acfcef47809bf7c202e66
+tl-codestream-sub-47ebf4b4-496a-46e2-8ec4-d47c2358014d-80655376,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,False,137a1b29448856df1cc16e6a1c518fbb74a4a987d349aa80d0394bf14da19994
+tl-codestream-sub-c898194f-0d61-4be0-98eb-1790e2728d06-76717751,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,fe823ae8116b5664dfee1b334dbd708f0c5ba275c5a52acd271b091724051b0d
+tl-codestream-sub-7039eaff-4989-4ae3-a365-e41b36d5a25c-40433928,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,8b92a338e97f3cdac2e6c0f326037f086b14debce62fa320b1c6f403800de575
+tl-codestream-sub-1a0260c5-4297-4eae-a8f1-2c6362cd9a0b-97130948,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,f9914c542855dc89f63dd318f2bfa9255c6d054f22211334de134138ce543a56
+tl-codestream-sub-184da7ee-02e1-4192-a752-1c413828cb94-96451367,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,374756cb047d5510930d90221e8c13fe0af313626f7ed10b226e17e1cb818ec6
+tl-codestream-sub-99ab6e49-e23b-40d9-ae67-5fb08b9f8f26-94152877,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,27b915366a6f585af369cd06a5ab0689ae29ce9222b6f623bdc6b115454f8e89
+tl-codestream-sub-47367c18-1e40-47b7-9ae8-d07f428c114d-55707130,tl-codestream-prob_019,cs-clu-019,c,Wrong Answer,3,True,e5c09e8b6628d0dd6df58b5c124384c28ce7b160bddd27ebb9c00bb500d92ff1
+tl-codestream-sub-c1eb6850-53da-434a-bae2-9d36897bac82-84984819,tl-codestream-prob_019,cs-clu-019,c,Wrong Answer,3,True,3d7efb00da85f0570c0712a1520507dff78aaae4127bce81bd15ce2f4aeb5eb7
+tl-codestream-sub-bc584a62-af81-49a1-a002-ae0be0d1174d-72969198,tl-codestream-prob_019,cs-clu-019,c,Wrong Answer,3,False,ac6165eee20d2bd47cfd8908771de4a5cb4f7a7afc2c5744623457e2f8abb7dc
+tl-codestream-sub-f1311525-e499-48b1-9059-1620540aa865-25853025,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,0b7b35df2eb923c3190d95fd530f5ec421ff6f590105162bcf04a9dba701af35
+tl-codestream-sub-7884b563-d2ab-439c-9581-74897e71497c-40181741,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,98c41548ca435eea7ca33b81afa663ae4125b45b21b92d6b73b33fc15f02e6d0
+tl-codestream-sub-e0adb19b-8b62-4fc8-81d1-87e5dde40ea1-28365443,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,710b7a2a73f101f5ee960e78ccbbdf8018f41cf0b99201ecb16050a9ebb72e60
+tl-codestream-sub-08c29274-04fa-4a3f-8d6d-bebeb1f37e42-82823188,tl-codestream-prob_014,cs-clu-014,c,Accepted,3,True,77078017e1f5929aed157ed11bcc7b64e09f874b6b77fc7370f3d5d7989cb8ad
+tl-codestream-sub-7a87b5d7-dc9e-4631-b2b1-a84cfc3c3f2f-43082059,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,c9a8cc3d6f615ff322637117bb3fd20aa704ea45eec6ef422e62203c90dfd10d
+tl-codestream-sub-46fd364e-683a-450c-b6ce-398e99ce0dcb-59366698,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,f6a64469bd4c03692dbf75faff10644d2999608347bd659a2e61c8bfca404772
+tl-codestream-sub-492ee239-1066-4cf2-9146-4d4591cace89-25110720,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,dd8a0a1cd6e9d464c58395fe5e0b402478f141d44a218ad7d2877303c720198d
+tl-codestream-sub-25f5ae53-4c68-4584-b14c-f75b328e74c7-75894954,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,a2b8bd7d56aabf177001817cdbec7c298b0e7c3fb68aa39bd683eed2e3e40560
+tl-codestream-sub-143ebf21-a7b4-4878-8c3f-8e449a6fe8e1-65562482,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,9776651aeee8e04ce627b771232f06b62654c3a3f086dc0efcdfccdf5218db17
+tl-codestream-sub-ce059502-0588-42f0-9340-21787ac3695a-60662335,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,eb2090b2668caa8bc3a547c986734cf0e27210e362b0a77c286dda6b3f10dfc5
+tl-codestream-sub-d9514601-5bef-42ab-bdec-e7cccedbf7a6-83830228,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,8fcafb8e65666c82bb9200cee237575e8b2ef226c558a8b85e214530c9dacda4
+tl-codestream-sub-87df93f0-9c60-430b-96a1-da323af3eb06-37391333,tl-codestream-prob_030,cs-clu-012,c,Accepted,2,True,492b6feb1db0378c7ab6fbf3157829569fe25c60b89dc9babe9e3f348708ecca
+tl-codestream-sub-30f4b76e-3af9-4a74-bac7-ca1b371e711e-41770463,tl-codestream-prob_032,cs-clu-027,c,Accepted,2,True,1e4f43f9b16912797fdba00a14819ae419c6a7d0f3a4e71bcd996a9f41911c9c
+tl-codestream-sub-42c29b5b-a442-4763-bb52-188d9b689dbd-85008632,tl-codestream-prob_041,cs-clu-019,cpp,Time Limit Exceeded,3,True,153008566139007aa15994e2ea9b38f5254ae9b97574005a79cf8bd8a400e87b
+tl-codestream-sub-1373d30d-c2f8-456d-8163-e4dd75218223-43851998,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,042a1892b54706f62b658cfba9b439012b09314a584113775422a8583cfe3a5f
+tl-codestream-sub-518f0e6d-4f1e-4747-9117-affc3ef48211-6638816,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,c7458a191ddb17d8f9dfa576a0101b273302a50aede61e90dc76b1eb1c01262e
+tl-codestream-sub-55047305-cf0a-4fa2-a50f-687152034733-37499870,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,6d60874faae67590df7d348aa7208e9d4c372ba1c0e47f702858bb34dcadcee3
+tl-codestream-sub-4788d97f-01b1-4180-8446-18eef7f7d1d9-59988090,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,12c74c338ff9ddc6672ce6b354f222cdb5230fde8b69d4f8ae844c23f754d9ef
+tl-codestream-sub-b8800607-f8fd-4536-a385-5d582f6d49a6-22561465,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,26c2c3cda1afeace77717069e46956180b2751692fb96c02fc01efe64e41b911
+tl-codestream-sub-068b9ccd-dc76-44cb-9ce1-bc60f6bb5c36-94675736,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,3105e1b4d6b2d23c2a397d7b8b5ebd9f833abf66cd59cd361bcf225b0314de1d
+tl-codestream-sub-12022830-f799-46a0-9c54-59931f1d9883-65631723,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,214d110f655c0cc68a37717b75685ca734bff941f5b2bc41670396fadeec23f3
+tl-codestream-sub-4b760cbb-8c9e-4eca-a410-ebbd52e40930-48281006,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,c3608dd58cb60e3ed1811f64ff170069f2f2bdc81ae1c1b7e3b04b1987695f77
+tl-codestream-sub-a5029ab3-4d57-462b-941c-b4336eeb2b86-55939812,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,a5fa5154c3fff58e9572ed0c1e4ccc7b935e8e8b0974d8b35a5da92d4a4feee6
+tl-codestream-sub-844d271d-6404-4cfd-b584-ff230584506d-13798393,tl-codestream-prob_014,cs-clu-014,c,Accepted,3,True,96f4283f0cc9f138a5833be72a524d2e9a9b7dcd05cae7688975d767125138a3
+tl-codestream-sub-18f79893-3f77-4141-837b-38e508e0bf2a-9054120,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,f00e5c214c80bf670759577e41dae52439d4a08566c542615d23491183334962
+tl-codestream-sub-4ebb1341-a110-421b-8264-6a19966a9656-28734333,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,04133d0494dc7df051adc7dadf47b471ca73cb18c09f8af073d49e8182a24d32
+tl-codestream-sub-2cc52db3-032b-4bd5-8f2e-cab5467e7e76-47051764,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,07a4230791316c40b036fa2b2ca62553af92bf5dff1fa217b7c87d8acfba491e
+tl-codestream-sub-dcf9b598-751a-4dc4-bc9f-8b1cc5fa26a1-35155389,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,91b0780316d51326f4369156596bb45d3d7f64efa3c323566a6561b00b947d35
+tl-codestream-sub-ec30d631-83bd-4a29-9e96-3ca0beb5c79d-45979298,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,ba9fa20ea6dd7f1bd8fd517080de09808feb03d130cb02f204689d3824da4743
+tl-codestream-sub-671ec393-2dfa-42a5-9c33-285fa485d787-58375800,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,d5399b449ba680b1542edc92e3f39da2023b9b22ffbc43cb45e4f97a744587c2
+tl-codestream-sub-02bb8049-58de-4534-b47f-2a1e5e6f2955-88656781,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,866f3c08dcba0c6a272462294c60a2b23ba607455d55af0a24868bacd34e2080
+tl-codestream-sub-2f298274-b6e7-4c9e-bd32-2d11a84c2214-71934893,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,e7726d77437dcfd5ac288d2964448db8022ee74f0bba01b875b25ef26397fbdf
+tl-codestream-sub-3ed92bc2-e2e0-4f1e-ac32-fdb3417178d4-70365841,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,f14136c4c08b07d092bf064dc018c4e2256b4ecfb9fc1fce297ebd2de6e92686
+tl-codestream-sub-6004557b-646b-4111-ad1c-27e32c903489-98694260,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,4375714e1c55c88bf4bdb765d95aec458a28f97718558d532f77ea6473280c97
+tl-codestream-sub-ff1dfb33-28aa-4426-9d68-991ad2e173b4-66590343,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,f336839a19d680c0f4f0def79e1749fd9d1dee65e1e514bafe9f9e2b1077b96a
+tl-codestream-sub-014c1507-65ad-4e3a-a9fb-02e1a75664d8-86446778,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,c5d96a0b7144b805476bdf6aa5f89d1f239c3538d20d121f54122ae4e6b332ce
+tl-codestream-sub-979f684e-ceff-4519-bd4f-c8af5716954e-61009433,tl-codestream-prob_005,cs-clu-005,cpp,Accepted,3,True,ebde6e61e0948235b3c4d24e74fc0600677ac808b61dab217eed45ea5f65c113
+tl-codestream-sub-b471a1a5-3d76-4c9d-9f98-8c7bb7861431-60103174,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,3d1f1bc34eb8c68aa7fc5efd75ef23c195ada1394faed43e4c8ea7652570e2d6
+tl-codestream-sub-b9acbbfe-ffe0-4a02-b9bd-04b2f1a4a11f-4527248,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,15c76ba6549b591d711a12184883ed2098a22769ebe97025421f1bca6b009008
+tl-codestream-sub-6af4d392-826c-4907-932e-44cecc5e8679-39141312,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,13dc476e4b59e6dfd002e39abaf8432b151d743e0a6e57ac5d052e088c9a3654
+tl-codestream-sub-171ee729-5af6-4e03-9316-0e6f3a897f4d-14519796,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,2b52cf8a454aeb82763cc5f25d8a6f416e4bc86103376f4e9c2b2beb746ec973
+tl-codestream-sub-2e536a5c-105b-448a-8fd8-8193ce97891f-53594830,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,c5933314f82266f82333a387310ea9545f910ed5c7f8e9b0fbfd223c0d2b1c14
+tl-codestream-sub-2f03e8c4-08dc-4949-aec6-99d4b0707856-87406390,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,712e58f5ec05f8d967afcb67a898fd40ef9b5dd431492508189370a276849917
+tl-codestream-sub-fc44b313-e11f-44e1-9055-b60ce2e9ae6c-15886696,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,68cbc05c636729a84500ae97f2838de15ff0f7e073596778d249379811879202
+tl-codestream-sub-4518755b-a263-45f2-b68a-fb4db76d39bb-39923802,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,8498c253ab4f6ab0bad88c070ad9eff18a2b897187970aa833aee5dc133cd1d7
+tl-codestream-sub-55723556-fa3e-4dbf-b4c5-c346b699bcf4-39669500,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,da52d1621793f6d8593774e8da4368b332ee9eaaf2602960650c520ad3b685ae
+tl-codestream-sub-2c998e46-1005-4d10-8364-30edf4ab9636-55571942,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,9b643ddaea7c651121a2a4c82a7c2078abd985d226b3eabeecf2fd89a75a47b6
+tl-codestream-sub-2eabd3dd-c146-4682-9a56-5b9ca8d26a7c-8263972,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,d7c46a3bccd570100d2e572556846a91afcf3ba963bb0c330ccb1979c528bdbd
+tl-codestream-sub-85a74340-b44b-41e1-808e-a24f0075b450-88173112,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,024dee2634ef6a0bacc05ae0697db47957413ba50f2bd28e99a15916cd9ab5e4
+tl-codestream-sub-98654d99-83f1-4fcd-a25f-313a6454273f-16472566,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,bcdfeb1a83f8a02d9ef3f983018a9c4e14fe208c60f4f16889419188394daa4c
+tl-codestream-sub-ed2719b3-a1af-4fed-93d5-61961f19b791-86039398,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,f9541a93122e2dc02bdcb3fc0822a7ce76b5e0bff6bfb4637b99cd00ff7e25f7
+tl-codestream-sub-2f7b7da9-3dd8-4e96-8348-9e24fa8dd140-54683017,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,88fba17f5961136835f23ec0fc59144559359b72b5bbc3ca5d0012d3919cd950
+tl-codestream-sub-d0c4e481-bc73-488e-a4ce-b1fbd9953a9c-84160138,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,a2cf2d7831af1c3c9985d9be8938463f27fd184039fb863c5b3beb4eaf19bf9b
+tl-codestream-sub-0ed2db85-ffad-4d94-ac37-a1b298d564e9-70977981,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,717acd5cdfb83809a1cd778c23d2145190543508a78612be48762e8103c8b051
+tl-codestream-sub-78a2382e-71ed-4a0b-ae41-c9dd28fe43d8-956119,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,a30992148b86111d1c7ebb2f2630a974094e9235b087edc6766cd17b1a508d55
+tl-codestream-sub-fd4edd1b-bdb5-4dce-b382-698d03b2a2cf-17898235,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,c9377aa35fc3cfe7701e6618aa2affee1424b8355fa461172c3cc13a8d171aa1
+tl-codestream-sub-4edb9efa-de5a-4a8f-9dca-f4d584f9f30c-74937548,tl-codestream-prob_019,cs-clu-019,c,Wrong Answer,3,True,7666b4318f41e947155f9a675d72129178b1a430cf937de7414e90a22a2a22c2
+tl-codestream-sub-b2c63296-fe2f-4a23-8755-7a666c3a7387-78513044,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,6446dafb5be687d6cdbf683178cec7f3d13ab9bd6558d708404a503b7162fe8f
+tl-codestream-sub-d988e4f4-6109-4290-86e4-b3e679c87c6d-14694842,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,752e1d6a0db98cf65232e75a18211ad1f19729d219844d8627cc132c1d20bcda
+tl-codestream-sub-8bb75cec-2ee7-40ed-9327-2f865bf2c3ec-59172495,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,94423a7c63f7ad891aaaa7f2d723122172ec9c53949ad6826d44788fa8e201b5
+tl-codestream-sub-6cc9619b-2027-4032-8d18-139ecaaa0e29-88213478,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,2f7144d2bd86996135f73c50c2093a732458da9ae0ac50421e6d10dc21e156b6
+tl-codestream-sub-66f6b42b-9b0b-4ddd-8812-f2c1fbad1335-88485569,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,779b95fc5b76c026e048152e3c197679dcd982cebf85da4194e432de77ed095f
+tl-codestream-sub-f853cf68-da00-4012-96e5-ced239184f28-74340544,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,47f6240f27bab98c943829289f092bbd2a4bb3bcd074fdbf235ebe71a1c81354
+tl-codestream-sub-33b580f4-8b31-409e-98eb-756e9f92b398-22769155,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,4c2570df62cc1ad7c3cd5ee78cee67082e728fc3b2c714e41a1bb1a7e99ac406
+tl-codestream-sub-3faca41e-7e7c-4cd3-9a0b-06989d4de62d-91240605,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,2fa1525136ca4c092efbdb10ffbb3ffe623544341d5da4a3d77c48486276d2e7
+tl-codestream-sub-28d5150f-0cdf-47f4-adf9-20454a2f2999-2578965,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,bc66083f3998dd4944c8a060ca840db8d40153df0dce765ba8df9620130e9116
+tl-codestream-sub-aef0acab-8271-4943-8c5c-8e8503d2ec36-48894171,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,2beb9a00cbc2d5bf56aba4992ac2b3c12bb96a507761d5c94071060ac0ddf234
+tl-codestream-sub-5ec88eef-f044-48e0-85f7-7cf844b8ea2c-91247834,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,e4d210fdea990bc6eac69297a7eebf4b881559c44d6a28db773ea1b1681aaa4c
+tl-codestream-sub-5c6809ae-22a7-4e98-8810-8530d0a8b14c-81982713,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,4172fcc83891ba70e5111540cd2e6e6d77c8b659cbb2fd80a30dc2c733274404
+tl-codestream-sub-09280d3f-cf87-43c1-b088-a833ca5162ff-56161478,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,f174e53a149825e59b4aa52bc57e9ea6d4e9a1bb0e66e67f502fc0ca7054012c
+tl-codestream-sub-47cf7841-3665-45f5-85fe-38de345c5bf8-29794601,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,e0955651a05d801166d8030507114a696548d19942b2f133fcbe5b13cf96d02b
+tl-codestream-sub-a4cfe31b-af49-4623-92b9-b6fc7556b04e-12911428,tl-codestream-prob_012,cs-clu-012,c,Presentation Error,1,True,b5db7e1ef60f84b4f3bef7fd79e53dc2e798aff09bfc4fab46849dc7fdded4f8
+tl-codestream-sub-03850a6b-fa16-442b-9735-f83fe40ae72d-66348575,tl-codestream-prob_012,cs-clu-012,c,Accepted,1,True,ae6b2230591d1b5fc3802b403ae00565deeeb4b5e3b3aea76d9012cc1cf64a2c
+tl-codestream-sub-3c81e8f2-f131-47b8-92d8-fd805136f435-40626646,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,11a3a6398b4b0cf9671dc02a1978a888f08eb4ab419180de294db99577e1f6cf
+tl-codestream-sub-d8666556-4f4f-4ddd-84c2-017afc8d9347-10242085,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,631e64cc088ad6ff5bcd0936087d2ee4c25fc1a3a0597ada194b8ca57e1bfe83
+tl-codestream-sub-24d2d84c-1c19-4ff7-826f-e0071ac7735d-88718421,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,7839a7721edb800c2b7e8b55afa73a2846dc1b95c57ad023a1873b8070cc6b10
+tl-codestream-sub-422a6632-dc76-4540-a693-ecfe0889cf3e-40361900,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,90937101367391e0bd468f22c937555b0d97ac53b58b15334a147bd55aee3371
+tl-codestream-sub-df07ce8c-d9a8-455a-8b1c-b5e67a8a937a-20300759,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,902f0f0737f079bbce4f9b74e96ad4ff4878c8ff947e3c2677583abe95a0612b
+tl-codestream-sub-1f6713e3-e0fb-45fa-9ce7-a7f79fc52244-50385013,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,65626aa92829221ec0a2e0d90c90ff34f4ab0ae252b497c011bd52a625d9d773
+tl-codestream-sub-6f8667cc-9c1d-413f-bdc2-1093db0e7913-37041420,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,f686a4228014f05a844e16f77ec97e1cb0d1ca6ffafeb9f61897b05e8c0c41b4
+tl-codestream-sub-b0baf130-e821-43b7-a876-87f1488a01db-30229841,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,58691a41d0fd9502f48467f5a6346dbc4800f7c0403871d21a067ed7eec54584
+tl-codestream-sub-70dfb14c-b629-4b70-a7c3-7e48ee6f3f1c-90092853,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,7eb3bc3dc52180ab5e056ebc2730a81f4d8e429aee7afb7c5e34fa1e556de7bb
+tl-codestream-sub-5729abc9-72ee-4cce-b242-6c402055ce42-44832001,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,5958da9e2fc61e63c9f894279105b6f16de8514539621d5faabbe15476dcf4ae
+tl-codestream-sub-44f77bd3-9204-4668-acc1-7c75adaabe5a-2648142,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,3fe8dba01dd930a76f9bec16c64c169cbd9168d2bfb7f0b7337a8ea6ca2cd865
+tl-codestream-sub-d73e5416-f180-4d7b-a3b7-e9665003cfeb-27374458,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,180f507013c683624a2ad1539e84072c0c3a18a677afcbdcbb1550dfafbee1ca
+tl-codestream-sub-a9bc19ad-c4e8-40ea-83c7-d25baa243387-78756203,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,e3ee15646351261cb15814ca0d7b42f265bbe46647d811ea761d40696a5a6417
+tl-codestream-sub-df62d58e-701c-4778-80ac-2db834ef1d4b-98411811,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,8a4a2bd4c3e52db550ad0a8388faaf1bd1c351b90847de92c3c50fe1da1b6ba0
+tl-codestream-sub-3740b861-42d1-4b93-81f6-e1e8626e8e1f-24603727,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,3df8f7a1277be5fa98a719245e60305b6cff83ac20dd53a40f7e361aa261fe5b
+tl-codestream-sub-b64dfe74-f712-4a49-8bfc-c814f0c456cd-41824621,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,61b7f0d65cbed8258a9f7f554144d1ed62e6941376ba8d125397a44bff97e8ca
+tl-codestream-sub-833e696f-35a0-4f21-8e6c-fa6530dcce36-17651237,tl-codestream-prob_002,cs-clu-002,c,Runtime Error,3,True,f7d7f5f97f515b750a885151b80953efabe029b9bbc66b7123e10a45c4f00921
+tl-codestream-sub-58180ae6-12e0-4483-ac92-c9e986753256-62066309,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,a51a5d794aea25c040f8979b3f434f213e5eac0a859572aac095988bfd6e5a52
+tl-codestream-sub-426d9c8e-6253-465a-8228-089b3055eca2-67355622,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,024021ae2bad5da4afb1f69f09eb03134ba28a6b962445bf618674e5858dcfaa
+tl-codestream-sub-1fcfe2a2-dd2c-4d0b-a8ad-05da82f59223-81966947,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,b2d4c0eb93b2a763dcf01bf0f9f5cdc1b86a32a5902f7fa64efbccd5ec2e6fc9
+tl-codestream-sub-0a0a6e79-cca3-412b-9daa-50143f357384-53594726,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,f60cb758b22cc123d67261e4ad7955d990b092df4629e19c044f8fffde19167a
+tl-codestream-sub-1c255058-a46c-4b87-ba88-566ea9bec3f0-80408842,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,2e514c746841997d752e1348a696611089bfb98b175dcd6ed3bcdba1f7dba3af
+tl-codestream-sub-2bf51d53-5ca2-44ef-8d10-a76df34d42b3-3161135,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,fc2c0dfa83050ba7fd2029982641a405ceb0332b9b63dd8d9d94aafcd3b8c9ec
+tl-codestream-sub-902f72ab-feef-474b-b4ab-8bf86f7a8e97-29942853,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,a94dc7808b352083e41eba0c663135efa51a187f8cc732ae1ed5ef00e8c1858c
+tl-codestream-sub-d0118be0-5564-48cf-b13c-ca0e3d3d83f4-9646242,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,7d8b83ec1290b7872946c090f2a6cb2b921ef8ccee98ce12ccc03cf0c050599b
+tl-codestream-sub-dcc867cf-9c47-4fe7-9e93-52769ce85e48-43626752,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,354cbc32316d82c00aedaeb22bb0a2742c9a1af9446f08f31d5b300a3ead9b2f
+tl-codestream-sub-0fdd20cc-d1dc-423a-b90f-878fae1721e6-46210468,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,669ebdb59a0dce112d3d10a45f60d74c234be6ea435a471cb4f421b4f83ef9a0
+tl-codestream-sub-7d293532-5c6a-40a6-a32e-dff167a7405d-25871438,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,56b74b21de67b53e6ec53808564539b8f379dbcb9f7682b62ef229815d5f42a3
+tl-codestream-sub-6d4e798b-b134-4952-b95e-9c16103fe625-65019244,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,46c541f691538b7f1d2998dd344e33b5ab9b60ee76f4dc5c5d0e44aab80a06da
+tl-codestream-sub-cfccd070-9111-44ea-ae16-c716d9f32660-90711937,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,e0cb0504884cead9732be508dbef9996b201d5d429de3e103f611f1d3160df96
+tl-codestream-sub-4af82034-5050-42e7-baff-426b0b900746-93817086,tl-codestream-prob_012,cs-clu-012,c,Presentation Error,1,True,680225f1d6d6340725a504fd24cbe6363238457f9b05e00b24f3f3fffa7c4156
+tl-codestream-sub-95351be3-d754-420e-bd95-1000af96f943-56564925,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,fade8ed6b2661cddb3ba7febd39d164b2e5c1148c985568b26350315ff00c701
+tl-codestream-sub-6ab601a0-9503-4cd0-8f05-1dedcc9e0678-26594405,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,a0074a75cf4e14119e2eae5def5748f9396df0c0baa44d9fb3c25ae05ae0c262
+tl-codestream-sub-ef104d29-2b5d-454a-bd63-a109484d5a70-25229079,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,50fb0107debbb888d6950ec3c8d7e2040b214ffeca0017d43c6ca0543381e75a
+tl-codestream-sub-ce8e3015-5c03-4cef-a67f-7f80d6bbc878-72084565,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,c8215c60884961c7e6afeef0934fb86416809dcbb918db096e768511412f9213
+tl-codestream-sub-0c87799c-135b-4335-a24c-60b6f92d9e36-6433850,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,9e915c90ec1a9dd9d313efabf84bb5e146976ba5f9d3cdedc2a10647db2d8b80
+tl-codestream-sub-2eb76d95-557e-4ff2-bee6-97a2ced9145a-34838717,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,7906fec69eb7e4f3e3963b1035f042a558885ea2d21bbccb7a28d65e80efa0e8
+tl-codestream-sub-afd84fbb-8050-4f7f-92b7-bd1c23a7da7b-31489213,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,1971a231e5c844bd8b9623a2ea8cfc9e5a3fca4b01d6f02146d9cdbd689ad45f
+tl-codestream-sub-3c49adc1-6c56-4ac7-a51e-664feac4c952-35247499,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,ae9952686a4ebbd0e125ec7c2c6afacf5a34df294ffb40ef6904d160e1a6bf4e
+tl-codestream-sub-2a81bb27-6eeb-4418-be6c-e61b08537b5b-5399548,tl-codestream-prob_012,cs-clu-012,c,Accepted,1,True,e4976d745336cb38e383235e63de3ebe27cfa6f158b060def6d7eab8188b040a
+tl-codestream-sub-799957b8-a0cc-4b49-8abc-6403cb9c6c0a-84838964,tl-codestream-prob_014,cs-clu-014,c,Accepted,3,True,8a5b5c6d203237ed3f594e98519af4579f4fc794ebb73e00da270dfb660ec6b3
+tl-codestream-sub-1b246d99-2197-4cad-ad8b-136bf3711efa-28020666,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,828c147120e1d1dcfbcfeb032c133fd25fe67a72b5d3cc2eb0dcba4be7f9fa79
+tl-codestream-sub-45e18ce6-f9d6-4003-bbc9-6d21673a234e-38733659,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,5edbfae022a487fba5c26086b4af3a8fddd1841950b9a8f2f578890adfbd0d2d
+tl-codestream-sub-e18bd9be-a85b-4e59-b49f-1b6b8f19a800-84178528,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,638bac97f9372f64e3ef4787de850cbeb407659a21630cdbb6906d443de6c7d1
+tl-codestream-sub-af0623ad-7bde-4e33-b284-43d77b0e1c52-94784264,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,f4ebebff87e14c59f9e9f876b5b0cd124e684ce51bd67a24689ad43c916a886d
+tl-codestream-sub-82c7b84b-166b-4e8f-bbc8-61ba9944bbac-78494781,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,e7df8f50ec4b1259ab95dbcc9173a1eba691b19e64725421d5e40b03247976a5
+tl-codestream-sub-82d95753-bffb-4595-9de4-394d9a260bd1-60247430,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,c10f9ccb901b587c70f50694662a0e43a68094df3b5b280dd9df510964a8b197
+tl-codestream-sub-23c63df6-52fd-48f0-a511-45b64c94466e-94156146,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,4d7ca423cbf151797e14c9e82219765f037fdf8e095aa79bf4c09154c5ea739b
+tl-codestream-sub-16545d44-06fb-4ac1-a47f-057049a12eff-75432040,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,7fa5f9dc4c39182e4ed7f4fb3b51b9a566ec57c651937d292b6b945eb6d2b660
+tl-codestream-sub-10af68ee-1f9a-4be3-b2c5-93ab0adc5e65-36715008,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,bdfb507b6329ce1d39b858254340b5c1f36cec6d98ec34e001aa4d16ca184b69
+tl-codestream-sub-024836ae-0360-442c-a212-8017b3e7cb37-36373757,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,c417b1e8d9ae1e5365ea771496874de8ff45fc38d7eaa4e51381bda351beaffa
+tl-codestream-sub-273b1568-0755-4b70-9da6-8005d8043343-31285651,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,a0fd6c8eea81ca8c048338e20232df9df7779216bd3993b0ff4b434bac68a716
+tl-codestream-sub-da63eeff-dfcb-41cc-9edb-705b49dec102-43728903,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,e4ab184a4a722ae17f46b2efc692424ef30ddb864bc6babba86a8611ad0418d0
+tl-codestream-sub-e658ade7-04d1-4047-8987-938295fbab51-12006945,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,b18e5a1ddfe079a072c3c0ec8be98da52af9d7d8179faa3bdcd5e3c51db868b1
+tl-codestream-sub-024e2067-e2ed-4a2a-a2a6-44616a33c2c5-53637622,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,7233165073ff7b54e7eb331c91133bb32bc3c268ba069a537db099b9ea34d6c8
+tl-codestream-sub-fdfeaefb-422c-470d-b5e6-39e87cf0fc4d-15148749,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,254ee5026231a33f2fb0721e262460995d2d1b2772885d9a175b5c42fdd05b00
+tl-codestream-sub-09a11ea0-33de-4d40-ae95-b3ee41967ade-76628305,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,a65de4badceba9fdead3d21774bf812c41e566a2d825faeb0207b4c89930baab
+tl-codestream-sub-f0870c27-1624-4b85-93c1-812804c39939-10043666,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,2c13a4c49b5e74dd7c7b762adc1862e3c18958e8387c2c1a0ae84fca0ff341fb
+tl-codestream-sub-a1fb5cfe-2600-454c-a056-9998642b58df-64439042,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,72bd2ea8b0a578c468b1fecf17311b65a13da40b67a48ccb2dcb58143d46a6d3
+tl-codestream-sub-bd00c009-65cc-414c-8a00-661e2d04e0d5-91080364,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,93c47a59e4075d94867e7084a9c9568eba9e2387e5604a9f97db4a68de209480
+tl-codestream-sub-c9a7fdec-6b97-405d-bfd2-4c9c7d4417c9-36204491,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,afd4a120050ab18fae1c61ad736f526abcc9063d401a2866a89815c488441bb0
+tl-codestream-sub-bb6a4fcd-7325-4958-8f23-cb77ec71cf47-46237677,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,285784a3b9c816ee86cb212eec8f512b52f20b59c97d94e8a74d1dd4a13cbcd3
+tl-codestream-sub-c566d973-db5f-4e42-b0b5-3de2cafbd249-40637818,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,4cd35c21ea5545072b461c441def1ec01892cde549420a4311cb4f50e1141106
+tl-codestream-sub-47bc59a4-1458-4627-aaff-c5234350b581-18998620,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,6b4c3f48bfea276e4d8a53a206c03851ad74100b713903565b0c234ecb3c3fbe
+tl-codestream-sub-a9bd629f-9878-473e-80d7-0ca97cb69055-25772316,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,8825f80dedea2b70df99d19ad98b76bb8c217e5b70f699972735b4ca0aece8e6
+tl-codestream-sub-85e8360b-1359-4cef-9854-5c56030530de-92864831,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,da2ae902cc01837435b2c6e277f87aebea5a01c195bdcff8c298151da4f839b6
+tl-codestream-sub-59cea662-5e80-4781-8cf4-911e36283548-99205022,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,5ca14ad8f29c38a8e5d803a58f7693526007fc11b1bbf95c222a09232c0f6892
+tl-codestream-sub-f08a98b0-8c6f-4cc7-bdf6-6de8841b0b7c-49482650,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,7b9eb1d37c12d053689b59a262332508149e14562f6f1333180a6ce4e5359cf0
+tl-codestream-sub-ecd17672-16a0-4f81-b9d0-ccf5f84b6c38-38402171,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,79ac053f53f97d036e388d26e2aa339ec22175571db8ac5a1dbec18aca8e0d49
+tl-codestream-sub-fe8106b4-7b95-4e39-8e8a-895315707fd5-77647610,tl-codestream-prob_005,cs-clu-005,cpp,Wrong Answer,3,True,75aa6ce9ac1751eff810be50f19655b4c5d71956dfdc3b53ec162e1a544a773a
+tl-codestream-sub-97b885b3-7191-420b-94fb-37939157251b-52442513,tl-codestream-prob_005,cs-clu-005,cpp,Wrong Answer,3,True,10b504c629687c76f46233f5b0a7b21bfd416006fea5f26ecc5f23c9f7cea12e
+tl-codestream-sub-bd732e74-1826-41f7-a741-9c31fb448048-66780297,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,1003cc4d2605cc52425cefdf95a60b706d28f0209bf400f0859043dd9c852303
+tl-codestream-sub-532c98ec-22f2-4633-abd2-1b02e0be2dcb-32236808,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,d3b05dd96e28a52a4a949c13d64ca9198ad61c74d88100eea700e78eb3973a34
+tl-codestream-sub-dc5e8511-6818-450c-b65c-62d7a288fe70-15065698,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,7088e7e71efbc7b534ac6105155b96e41f1252ebbfb1b6a7fe5344b5ef48742c
+tl-codestream-sub-64e72970-ad8a-4208-9a95-e37ce191020e-21356720,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,64ab120018d21b72aef85f58ade4088a8aaa4ce53343ce3c2ef4d2616a127ecc
+tl-codestream-sub-36c31687-71dd-4e0e-8199-0e107b469acc-69707407,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,583d8d54ae2c88ae5216212b765a8bca2c4adb76754d4f200561a71ae5021c55
+tl-codestream-sub-2c932d19-abf1-4ab3-9faa-bacc70e6708d-7723614,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,d9d801c6ee449295c83facfceab41b8dd7178f53ed41e59b2a40869ec10e1041
+tl-codestream-sub-89281d5c-fbb9-484f-837f-33f4985c07b9-36057716,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,ada8641e97e49b65679e9fd70d534d180c951a3bfb9ce77376c725905fb0f9b1
+tl-codestream-sub-dba86744-2d31-4e74-b3cb-bc81e161b514-59131355,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,1b38240e670d4393e6c15ec20280b3a1c972c1a124a2eaaaab4068ca288d4980
+tl-codestream-sub-b08944bf-98dd-4233-808d-0cf81010641d-79968925,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,f8e5e01adae45eea79ae81af135ad044014bdc38c298cf2bdafac71cf72f37c2
+tl-codestream-sub-bc04acd2-c33a-4c63-bd55-c09779f5b256-96588080,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,96d63b6312dc38181d5ba64e221d7e4cc1b137caf6ecffd737168b732ce0b40d
+tl-codestream-sub-7a3ceeeb-d2b1-4930-9308-b931d1d8ca50-99495233,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,11a88166f5afd4379ad2c3aeacfa7ed54b7d8c57a1f240a1f9220ddc233e5304
+tl-codestream-sub-b36bc67e-a1f8-44a6-9c5c-1d5af909a79c-32721210,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,eeb71c8e44accbc96e24760f33f93815ddb13bb1d32fa6210c6b7990c0fa92b9
+tl-codestream-sub-bb2f31df-9828-4644-b381-aa93024f3766-97695560,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,04f1694d710caeb40021c8a783e199d9830244274fc5ab7241ab9612f78c6cdf
+tl-codestream-sub-ead8c05f-f597-4109-982f-9c5e8249a480-67722137,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,8cf3b2f382735c26aacac730c5ca1973ac9cbc3ffb7e0559227319587985426e
+tl-codestream-sub-46ea5ae4-1dfa-4755-b4c5-8bae090767a3-24285804,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,fbfc5c7300bbba3e766dc97e721f9234bddac3a6c6ddc74726ac038a51157a50
+tl-codestream-sub-8c9624be-c09d-40f7-9468-1a7b84ec3ed7-99680194,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,aa1b86ecde23d43e2993a3a03f49b05534a04216d64336663c7dca17ee729488
+tl-codestream-sub-b7289371-d404-4e00-a506-6440f4edc700-7309544,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,0e8c5edd6ef57b3c93d0688a4d863696669be2a6961c419fcf18767723ecc72d
+tl-codestream-sub-c099f04d-23f2-4607-9fab-994768be0f47-32812028,tl-codestream-prob_042,cs-clu-015,c,Presentation Error,20,True,59ba369108363e575a7d078992021943ae64b615a8fab82661ddbdec5b36d96d
+tl-codestream-sub-46ac632e-2e89-4e4a-8dcf-d6691f845123-59458169,tl-codestream-prob_042,cs-clu-015,c,Accepted,20,True,db7ee3594ae672b4115512b28034ca018338c58d955f7124290542fbce54e90a
+tl-codestream-sub-bfa3e5e9-c018-4fee-a3d1-569c60b1be22-41971580,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,7aba0f3d802564d81f4995ec76eb3dfd3566585de56f7bac07e164a532b2932e
+tl-codestream-sub-e4c99aa7-fa76-4059-b0c5-8b36a28772da-98837737,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,6dbb6ca5aff462269bc237ec0bc6bc1bc109d99bfb32e8c583459dbffc03127a
+tl-codestream-sub-d230481b-5e6a-4582-89a8-c5b5aa4b62f0-31672596,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,420afa6082b7e64088202f69c4baad63230c657dcb87407ec2d163e60934d52d
+tl-codestream-sub-8c25c89f-d216-4f7f-b851-9711d625a180-64443085,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,71158e373eab308cfd78da25727127b1645c21da749a570051e7c7b766e32e63
+tl-codestream-sub-22e05124-d21e-42bc-bf21-f1fcf985fc88-28827288,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,cfac85268b98d49c65e4b96d548bda8f32536f76cbc9fc2863e9776a866e1d5e
+tl-codestream-sub-94ab9da6-3ecd-4086-b7b7-8cbba15d8a46-22232754,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,baf2c4dbe747d7e287c93fcc55d500ba7f4b2282bde60031e0e96b64294d20fd
+tl-codestream-sub-e6208b8a-61d5-44d0-88b7-29b539e811ea-94582256,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,46a33cb4e6f240080c6e1597b39436cb826dde261fa111a6e5b43b95b5b7ed31
+tl-codestream-sub-d6287f73-eb7e-4fee-8772-49f56d5b97cd-40818890,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,1875dcb3830b832dc56c5901c83e6a63d8b98dfe9f5c4bfa8cd562390c1412c7
+tl-codestream-sub-a62b1c22-794b-4d05-bfc4-49083633ba64-77888847,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,b57eb9182cf1c058d12c73b552bd659be76d65e569e5073c1530c5738cb538e8
+tl-codestream-sub-156b8038-8c50-4ff6-8ae3-31e97212843d-75192800,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,cca23abf4706bd6c451bf1c711d34c9ae704b9b57fbad603fac92f5ba2b868a9
+tl-codestream-sub-23dba73f-1079-4224-a83d-690e516707c6-55388342,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,51bc4cb65aeea66b38f16b061304147fd43cf007010e14f9eb28cac72c649a82
+tl-codestream-sub-6c368c90-a8c9-4480-9a85-bb228133c8c8-93338720,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,f7d74b61f452777c914a16822cb23cc5a4861e8f6d7b0f71e449c092965f93be
+tl-codestream-sub-8feb6a94-5602-42fc-8233-d26338304c47-4746633,tl-codestream-prob_014,cs-clu-014,c,Accepted,3,True,dd719eb80d0129e4304630c3c6c0d5370a02b20cdac97bb653c6aed062ff9965
+tl-codestream-sub-16113179-9277-40c1-bf89-ed8ba465f74c-44452843,tl-codestream-prob_030,cs-clu-012,c,Accepted,2,True,6d61aa45b0d796eb80d97a27444ae21293a13ad87a2cae6f544bf5fcbfcaa35d
+tl-codestream-sub-fb5d671b-483b-4cd0-a799-fc44300eeb94-49817472,tl-codestream-prob_032,cs-clu-027,c,Presentation Error,2,True,13b6fece04c5e49795cc765abe8ba885cf7faa9903001c3b121c2a12be2850b6
+tl-codestream-sub-3484f791-9177-40af-93d2-f8b02ad568f8-29534196,tl-codestream-prob_032,cs-clu-027,c,Presentation Error,2,True,401d618e16686ea7898be6a8daf5df6ed1ea88321479aed2196261310b59b02e
+tl-codestream-sub-fd5245ea-6969-49c6-a53e-1ddd728e7455-291541,tl-codestream-prob_033,cs-clu-028,c,Presentation Error,2,True,4d77120d49b561b4a1f17f005e2c85f2e55f29c4e0660db030b09126186c0209
+tl-codestream-sub-30ad49ed-833d-4c1e-bc4a-59baf43dd598-80942822,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,4699d1c865c0f74e3d0cd4897f140023b444b1d94350c4ed89278391014ad775
+tl-codestream-sub-c89bc490-f8b5-45ca-b91d-bbbbbaf025bf-48047626,tl-codestream-prob_033,cs-clu-028,c,Presentation Error,2,True,d04dfd6effdd14bffcbdf8f436dfd522a0cf0a14967fea49fb9b408d03214f4d
+tl-codestream-sub-552f5dc6-9072-49e9-b52a-d978df10d8d5-68872252,tl-codestream-prob_035,cs-clu-030,c,Compilation Error,2,True,6ac4edb7fc8e29be964c32ec0b7b9820dcf66e446595909df7b0217712a6d178
+tl-codestream-sub-ac9fa8a5-2a00-471f-8af3-87bbc86e53b3-10132365,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,6e540e9a42742c63bce8ffbec5bbadb4c95aba9930b1f1042cd5da72fd972a36
+tl-codestream-sub-3a4391d6-9d03-4c55-b50c-a4711523088c-3042258,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,02df2c08d768f001d5b821966b899110a5de7162a3f71ea43122048369c5614a
+tl-codestream-sub-5a46092f-4555-47b5-a2dd-fb919504cb2e-83846310,tl-codestream-prob_004,cs-clu-004,cpp,Presentation Error,3,True,04aef85612f5ace27b39381862e18952a8ddd79b8c74372531633a02bd77ba62
+tl-codestream-sub-2a2482f7-6c30-441c-869f-79044f4a187b-51857331,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,e884597ee8778c873ca151db5975518f1e33eef9d8558a454c578ece50f67c75
+tl-codestream-sub-7258761c-7e94-4fab-8640-43dee9fc1e6f-74666084,tl-codestream-prob_005,cs-clu-005,cpp,Accepted,3,True,19d50825055b53014a034082c6b97563922f63a3dae58b466bdbafdb830c0d1e
+tl-codestream-sub-cdc9f2bb-875c-4a5f-8ea0-5e52478b8dc7-5341963,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,010c00c740e1d6842e744a8ab538245c586a1a627a4e15de101f4651d9d6f863
+tl-codestream-sub-b9dfb228-99dd-40a6-820a-24231b3e1540-1212528,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,a8580b000a2db6ed5e53449158bc9a8a0fd319933644570768b79d03c5a4aca3
+tl-codestream-sub-f2a87fca-77d4-4090-aa8b-6d457f3645d6-37547201,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,c11dbdf209627a5a525c900e011847692acb9ee251f7a4c0374fcf0d9dff80c7
+tl-codestream-sub-67e3d6f6-ed2f-4226-bcb9-7f69dad2a8c5-32978958,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,b0dcb52c75cd5b29ae2209c8d38ae3064d81b22ea1a6d6046c4b7211c58e8f8c
+tl-codestream-sub-1681c764-f0d5-40a7-aa4a-d677e05551a1-89531627,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,2b8d97605fc2a3372369f39b2775ef4323ce885370983266d5632bacdfbb4107
+tl-codestream-sub-d18fd906-bc79-49c1-b102-49938943b678-82412094,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,2d078b7fdbd80c27377540410ae0133b4611add90665e2989de13a155ef7960f
+tl-codestream-sub-ef1f231d-ab60-4e35-a4e6-f022e7a43ff7-16349066,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,35e92fdda597af371ed1816e1100f8faa70acacde9e1b65656a4e379dd4a4c46
+tl-codestream-sub-f4739a10-3a46-462c-b96d-926cec1e52d0-23587391,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,13edeeaccb184c01158ba4e3ab32538107042148e45ca0ebbbeb20b76300b3ee
+tl-codestream-sub-4e3566a7-dd19-459d-92e8-342da3bada81-12020387,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,f5719ff00f1928074e2c221404eb769f4c912d1a582d5c2b87fa1eb4bffdddf5
+tl-codestream-sub-15ade5ba-0f87-4141-82e5-c2f63256ac16-79528003,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,212067ec9d7ac978420e6bb3d9992a076dde4a353b590e8c93a925ff524c590f
+tl-codestream-sub-34b897cc-8384-4d71-9380-07b228897c30-27028904,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,dec2e12a40e21ca07ca8878368385560eb54dcd3ad58272fd49c1903fa1065bb
+tl-codestream-sub-b941c63a-8c46-471f-8a3f-bfc4101b57f7-53321815,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,2a871940d8c16cbd085cbf5b7d3254d9fad6844df3ab8e8e1662c8d2a8c7ebe4
+tl-codestream-sub-83ebfa04-b455-4881-a917-99b5a92c5b04-2507716,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,e81b12a8d88f3d55939ffcaae98b2e52c96c68acb9bb469e77458516bb446bef
+tl-codestream-sub-696d1ccc-8083-4620-9882-76960b9e5447-6227814,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,0640b3b9a328eff279569c9421dbb79eed7bc3d1bcec043e7a2a75dfb43c3ac3
+tl-codestream-sub-fdf65731-1ed9-4500-82ea-732dbf907c30-92431822,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,8efdeb9eddc0a327ce174ed247464ff6885e7ce11cd2bbd158787fa87715a96a
+tl-codestream-sub-8aa2cde5-3bf8-45ae-a4dd-7f5853f82b33-84144288,tl-codestream-prob_030,cs-clu-012,cpp,Presentation Error,2,True,a8adda077f0ec7ab442a35ac8e0af0a43fa515452da3a4b506e19eef2adb5b33
+tl-codestream-sub-f60bd3e2-04c0-4191-ba69-678126e01a5d-92515143,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,59be36daaa690f087b7c1845863222f7895f0823371ee43bd3d5f120c15caec3
+tl-codestream-sub-73431f82-d46c-476c-b1aa-ebf5d464e79e-61784068,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,e7fe2d3efa5cc3f35b65f5da04f0356ab7a218cbf4472c784ea826b98961e27b
+tl-codestream-sub-3eafc783-e91a-4633-b9d8-8df776c81445-4850740,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,7882a07b0d82831b364ee2070320c4a05e4d468d748d170b53d741f5bf75254c
+tl-codestream-sub-1e94740d-aab3-46a2-934c-253fe5396722-69417511,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,b8dba1f3d11d027451b447af9193d563fbcbba8f1a3f1dd1f0390983845e3823
+tl-codestream-sub-aeef0e9a-7604-44cf-8676-eb7374edb746-82185335,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,b7cb5272489fdca7de1ae7fda94aa337e7f61be023bbd5f22639d38ae50014d1
+tl-codestream-sub-39df2178-ac73-4e9a-8652-bf255009e14b-1874299,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,58a1f99bf4a343540124927d4412b30afd8593da94c141cce82a25b3dd464c35
+tl-codestream-sub-ed3e4c35-3d3e-4ca4-a898-48d07bd4b28a-14082641,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,e245b3f6c43fad74fd1f7ab3c2cea06b68247e521f2b9e7f423e618669690ad7
+tl-codestream-sub-38dffd3d-0c71-476f-b9fb-5d5281724df4-70142883,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,160972f33d69f81e41b606b98afe13338253f7a5f40376345bc8e6eb6aa549dd
+tl-codestream-sub-d9dd9250-726b-4d3c-8579-2dd38adc6163-34191420,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,836a20e07d491b9fab98b563dbb438ba567f25d107a3b59595dfee3f2529fb48
+tl-codestream-sub-87955d9d-0cc5-49b0-b788-830be4a3757e-61147564,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,7b7eab0796100dea2418018ca77190075ca2c5f79f553b6c3b0f7995eca704a4
+tl-codestream-sub-83bdae39-4f8b-439f-a678-585106b9b820-46581306,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,04808303a2e9eb97b762c88a6455c24b2fe0c47cc3a520d608c1bcc2248ba215
+tl-codestream-sub-b6f26e7b-f2ce-4d31-a626-512eeb9a8687-12986574,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,cd4f605fd701b9acf4cdb20243e03963fd56f96ae3131d498aaf2d9f2386a63d
+tl-codestream-sub-5ab64499-0437-4b58-84fe-064d9fdcae2f-78876984,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,b81cbb6bc2d6b9dbc4177bc2536a24f7fe862f186244f80a80316d02487f2a13
+tl-codestream-sub-faa861d6-d31d-4539-a2b7-b0449ebc032d-42055120,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,968280b5c1eccc883f99c1c3d37f6df09c06f6e9a944519e9fec1944f331b823
+tl-codestream-sub-33353e21-f9f3-4bfc-9129-96a5758db309-73748350,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,d4c3adb126b84faf5ab8aa93a7ac591725728031e83f93a93f780013ac27044f
+tl-codestream-sub-260ca2bc-c433-4354-ae3d-f3ce7016564a-18045457,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,5a872eed9ce626e72cb7e40b26bde62693fa1c675e04fd5d521dfbb510e323bf
+tl-codestream-sub-b15e7ece-8b94-4e7b-99b0-000fdb73eed0-30202304,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,561665ae6832e9f01e8dca475e264da2e4565ac94f0f7da43521eb18898c58e1
+tl-codestream-sub-0299532d-92da-4c35-8759-a1f1ca021274-70721136,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,054546fb9baa845fbe876b2445fd126abdb62314b215939f35d4447a488b4549
+tl-codestream-sub-6a8a97f0-159a-463b-93d9-04816c26dc85-98762182,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,b85ae1551869d5fd00c19a56f8bfc42bef5191989db1ec96abcbd8bd80854280
+tl-codestream-sub-75a78269-2d11-48f9-8e1a-2cb428969d2a-63235169,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,229ae081cf0adbc62f3ad6610f355aedeae1cb4dba7a92425b27a13132fea1ba
+tl-codestream-sub-56649d4f-e6b3-4aa4-ab5f-b79e45c9cff5-86702045,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,b7905d4322be15b183559863a4c4825c9f5a19dfd8699783755064608991f43c
+tl-codestream-sub-62a0de18-6bbd-40a6-88f7-fe48b2741594-10217131,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,6a7da3eaefb187d1ad8e159a94ba297617ee35d5a3c083970a95bb5c0c14f75c
+tl-codestream-sub-0b6edc89-1a50-4fa1-a67d-5ab95603b100-74426157,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,244b03080e0508fd55a5a8065f47ccd49c9a61db7837f613776f8c32738e0790
+tl-codestream-sub-f2fa30f7-24d2-4d4c-a3d8-1fcd92a5a002-78169872,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,b85c11f89bb2ff6a52075f8c4aade34010d225d9769dec55af316ed51eaaa39e
+tl-codestream-sub-8973785b-100d-4304-be5c-87ce95c6cb9f-89550071,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,f4e1a8b37506384e1f1bcf5e35433459bd1609b39dfb7fbb35db826043cf0f16
+tl-codestream-sub-8e9e5282-8c54-4123-9271-0c9a9824b51b-1981540,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,5310ac525ebd10776799cc2c044823d7ccd36ec41a3933a6faa93f4493ac0ded
+tl-codestream-sub-e662412c-f8ac-420b-a5c8-22f21ed479e5-63371403,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,4fecc89f8836e2d37ff862b51739814ece8f2d54f917dc4e1b2f27238c6e3740
+tl-codestream-sub-6c13d557-26be-41b7-baa9-574ac2ba7b7d-35157643,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,50d32391de2c046be0dfb8635ca97a1cf2b5e066ed0c5a456825a750e7acfaf9
+tl-codestream-sub-b2edd443-674f-4470-b2d5-c0c3f49a78ef-99993183,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,800bdce38ffc5a4396d606b51c856fa2843509ade12b4adb4fc92096319b8f2e
+tl-codestream-sub-1724f666-a51d-471d-99f1-7c4db1c3ae15-20503995,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,46fee2ccf854d14fc5216f38d29424839ca36e96e8c8c9661d95c068a1333395
+tl-codestream-sub-5f1f8d47-71c6-4206-b92d-c5eada70fe56-30141357,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,7a673e44a4fc9ab66a0968561fe452f54f7e5d1004b643b65414f62d844a4693
+tl-codestream-sub-ddfebc59-fa20-4cc8-9cf0-03fc950dc9b2-51670611,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,2c6bf362b71ebdd266954354cb40fb3d2c4058097d7c27d08e443f88cf933050
+tl-codestream-sub-818acca9-b4e0-44a0-9127-dc65ca512ba9-35175519,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,eab8ab52854f0e222023714d7a1e33753272ae3340cd40d51d5b8a679820de7b
+tl-codestream-sub-a0382f0d-9506-4f69-925c-71e30e1faf08-2082269,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,ec6b664c43c0e7b34ac02d61f3a1bc5d8c7cc9015357be3c1ed7c851977301cf
+tl-codestream-sub-1acba442-90f0-483b-a5a4-d9a09ee1cc49-5882917,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,509a27f67039a4896266a7e93761768eb6e954a525ed72593505bc2b377a8018
+tl-codestream-sub-347e191d-bd6f-4157-8745-d78e423c60df-21353820,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,b239bc7bb51607a58e85002563103fc22a2daf04346d14e4ef1f88aaa1541f63
+tl-codestream-sub-5d6b0aff-fcab-426d-909d-f91acb757ac5-41966078,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,ea6f7346c89fac1c731d024a57944e60da797f26802a8d38b80065776333cbd6
+tl-codestream-sub-7b3351b6-e657-413a-86e0-01db816c2e45-77105130,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,0bd80ce1955e9c60b32653e6992f9be7f2ce4c9ccee49423a99079ea5500cd0c
+tl-codestream-sub-7edb4be2-f736-4391-8e80-bf0474b4b131-1820423,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,61fcf621a405ab42f2343738f27cf9fba5fb5ca86fed9668f502462a60e7d789
+tl-codestream-sub-403d623a-a9ca-46f6-92d2-25cc82ce5c6b-43509808,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,a476512969e31f52f3f2358a6c100b87ae39b727fe30afe88895766f4e25fc20
+tl-codestream-sub-685ada58-a38e-4af5-8511-231f0306fd74-16647954,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,2d18b0d50132860d2022527342d51f3484315ec31907bcd2b1f8fee0ddda3cae
+tl-codestream-sub-d1815002-e282-49d1-9b1f-cd10aea9d7a9-50468557,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,9c43d264a1d5ec0fe8ea671c1d007246c4833d6b35e93197c4c885fa84c5e6ea
+tl-codestream-sub-a23a9aac-647c-4628-ae1f-ccabcc93161a-80145740,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,3dc26a809115b27573488a223a5e0ccac1c6f693a144bb5310d8021fa271614b
+tl-codestream-sub-ae48ba88-9c39-45bd-9007-7bf7c75585c2-76621955,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,ba05050a68febfe1d67c60b0e888a73cc5a4516daa202f07e6b72b325a7139b9
+tl-codestream-sub-70eaef24-cb83-4b1d-a977-a3ff42d88472-63731855,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,a8389e451daecd2f7c91dbe8067dabcac7dc1148282fc0e4a24833e55d862b54
+tl-codestream-sub-1fc589c7-f863-443b-8ad6-cd0c2db58341-40057561,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,08edcf80e131cd7f46bcea27c5cf3f6226929e433b76b6f94d6e1aa9b8be7148
+tl-codestream-sub-16fc1212-92b2-436f-b2e5-545b723e80ed-74649404,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,8d9b3f31837baf1c1ca7430749039ae06c37da66121cfbb546ffcb72a0898e27
+tl-codestream-sub-68eb2138-6b4c-483c-bc11-f2834317ce0c-1301984,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,8e97d65dfa73a96c4ea6fdd66a7c4aab2d6c499fcb64214d97549120d3166960
+tl-codestream-sub-a44449df-e6ba-42ee-a711-2e72af784f32-5409114,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,5da97bfe6bf16848c9c706c83519f712cc0f86c0718e0131d69496fc1a8aa73a
+tl-codestream-sub-2069d8a2-6ad0-458b-afba-3c4ec2f5b839-18816637,tl-codestream-prob_041,cs-clu-019,cpp,Wrong Answer,3,True,afac0a07a65c4b70a12526118825622ec46bec5742c147cdc9ce197744f62fd5
+tl-codestream-sub-39c17056-65ad-44dc-b123-4e309e3c8e6d-67421671,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,633820a5b26c2202c20205c775e8e5f77ae82ce4284ef4d9663e7b719776be20
+tl-codestream-sub-e725416b-157f-4771-b7b6-052219a4bd02-10933453,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,b73e5b997e074943ff8e4846e562daf16e2c3acffba6047d9e524d952bd07d64
+tl-codestream-sub-150eee09-849e-4b78-8ddf-c05a46e8dc69-29540236,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,04d02a3e6ec7927fcce1761e18f79a6b961d711c13b51f2a0880336642e8240d
+tl-codestream-sub-e5acfb39-54f2-46d1-8db6-836136875921-25841354,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,a85348f1d0b69a9c2606e47430341129418840eeb4de6956d823d01d1cb0f3f7
+tl-codestream-sub-8def5c6d-cda2-4f4f-b047-78b896d88853-53941370,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,119021d45b681e5856b857a151c18fa4a8e9bffe0bca479a314ed4617e42caec
+tl-codestream-sub-753ee041-ba6b-4048-8c70-96be4732c2bd-41624999,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,7cef2a1f08025943148932833bead31a4616c3c56ad3e81242a3002d20497704
+tl-codestream-sub-3524e061-9412-4b8a-9a67-0b9ada3eebd8-26300676,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,67403a22f2dd45e6b46e7c3f5c3b13f266104bba1f04982ffa7a5c67ed997b3d
+tl-codestream-sub-29ac2db3-8ab3-408e-b879-d80b98c342ec-49534864,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,c7071a8bdef579a8fa2b2c0c183825b1f6cd67ff4ee9212290097a819b9e24ae
+tl-codestream-sub-47ded499-c9b0-4cbe-9fcb-8f802d2b72a1-71178537,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,7705e8dc5e86aa4e4f54b25dd422f7aebc0dd421d0d2243c9d049c3358c0d3e9
+tl-codestream-sub-3de69115-54a1-4d18-97a5-9a74bb6e945e-75589039,tl-codestream-prob_030,cs-clu-012,c,Accepted,2,True,a7be6cf04307cb1f76043fb31f9eded02ac43ae31303040e0a23de92aad2c2d8
+tl-codestream-sub-eb4086ac-2829-474e-8acb-ebb960639ad1-30894541,tl-codestream-prob_032,cs-clu-027,c,Presentation Error,2,True,1ce28a76fba283544b12e596b10d8b2f65857c2e4193fd5bc1c3f37def7e6927
+tl-codestream-sub-b0668b98-27af-455e-9351-2b55a025f230-46508771,tl-codestream-prob_032,cs-clu-027,c,Accepted,2,True,584f0975f292d809274fd046801e53d6aa714d144987315abc8a8192c63579dc
+tl-codestream-sub-c259f14d-f083-4ad8-b162-ec3550e2c93f-51677245,tl-codestream-prob_033,cs-clu-028,c,Wrong Answer,2,True,dcef22366b45c3b4f5c99d01c62842bf7fc4e06fe6f39c1d75231d4340866f33
+tl-codestream-sub-2e011f80-c64e-4238-9c7b-d3fc5ef30bf3-92975483,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,34c2f9ba5c730310a8dda90c7ebe2191df8848d4f7787e1f473cc86bbc3d183f
+tl-codestream-sub-9b1e2b68-4ad7-4f8b-8986-29acd8626150-52089975,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,43e630032c1fed6246ec04042831409d5bd77c9e6941ddfccc80317798ded97a
+tl-codestream-sub-4de1d2e1-9f79-4eed-b2cf-62afd686536e-98831416,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,4668e95d9ed80d404117ed707f09b6ea9e74d6a40c30b93b5440d1b46315eab0
+tl-codestream-sub-d9fcfc1e-4d19-4565-a1f4-d6adcb115b66-90837611,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,bfdb40f9fa9c85f728d216d3e11fd8bf149a71103cc024b4ef8aa7300d3d7c67
+tl-codestream-sub-a698067b-9867-48fe-ad74-8670730c6b7b-20754942,tl-codestream-prob_012,cs-clu-012,cpp,Presentation Error,1,True,887577efed214a05452bf0e2766c2c425a47cf53462d2d735517fbfcc4414531
+tl-codestream-sub-88632402-e81e-4c42-968c-e8f4ae4d08b0-56315666,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,3c24631c319888029e064bdbacc0abfd4ab3e718ffe298478f99bf37e3880719
+tl-codestream-sub-979d5fd0-26a9-4675-b22d-4d4d0cb8e933-3187012,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,48c781bb5c34813b4099de672c88f02f375a9cebca06305afe68c04e3987c65f
+tl-codestream-sub-11aa0429-0131-4934-a0e1-8431e84e27eb-18570567,tl-codestream-prob_030,cs-clu-012,cpp,Presentation Error,2,True,bff9ae0f2a9df45e46fd0386da273fd1cd9651c6f892c1c78e0408b53b668568
+tl-codestream-sub-ddce00e0-e539-40ec-b77a-7b1cbc8db394-66438311,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,45e1ea4011791c3140beb35c647b2a92b302d6da46bb6bb6d4ed010ab5b6d33c
+tl-codestream-sub-597b82df-691b-48c4-8bf5-41ad58a9d0f6-92497841,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,aa9eeda3d1be4d290e62166541136c03fe2f3ebe9ce8f3fe1e553c66504422bb
+tl-codestream-sub-a6017961-16c1-4d83-9fb6-d3f2263df69a-67745599,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,f67349b48aa8afd7316082f6edeaa8319e8d465d25b4bffb42dddfd844f8bb38
+tl-codestream-sub-38c84587-3716-4405-80b0-cd2d72cece3c-91699461,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,3a1c32c9c49a98cefe261e24bc33c97e31ef0b91323f3d13dbb965a3d95e1a97
+tl-codestream-sub-253dfa95-ac25-4b2a-96bd-e675de82b249-66070024,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,9eeec2ea3fd8d9b903dcd97fb4953d0676f651f927c2d3d593eb21aef008a0a2
+tl-codestream-sub-81f37bc2-2b5d-4dbe-96df-eb1045dfd6cc-82332893,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,f9dde44296ec993eb9e4083aee1a9ca063ab6163e0cf73e64492a20e67d69f06
+tl-codestream-sub-6acd2de9-4f05-4108-ae12-3d5faca89a74-98691816,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,76f368548a1e27493eb2999d5850caa4cbfba71240fcf89178aa44846ce411e1
+tl-codestream-sub-eb5f1ddb-3c1c-43f6-b6b3-961348734f02-93046037,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,25ac4c39b1b31132ce5996184612924e3996ef92be02ed8de5b16e3f036ee2b7
+tl-codestream-sub-be561b1a-d348-4e68-b931-06ede1061599-17063762,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,11cb2277c87551567d66dbf15073cf8fbbd073f9ecbba0645b31718890290cee
+tl-codestream-sub-8297ed2c-e777-4b1d-a190-162e6a178dd2-696589,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,a23b8b8f09d4d7b1c922054845e3492286a483f6d5308aed9acc43500afde251
+tl-codestream-sub-199f13f5-935a-4a1d-8b2d-b7d27e2eeacc-27413538,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,aaaf541cd30e2f55a7033f5b0e299590138975470c06f50b6b348471f91459ae
+tl-codestream-sub-9d1b9583-2e97-4d72-b852-a7c97eee9252-61577225,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,e2ae674c4b69742d8db58d985bd4cf516f4695ec63e9b3f3d989a7ab42c26b93
+tl-codestream-sub-317c4ec6-4fe8-47f1-920a-1b1da4a155ac-70278789,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,9757938416866f780021c51863342233accbb72a179860d2f98371bb5c2bbb23
+tl-codestream-sub-4d9a6db3-ed45-4d76-9ab9-339e5c6bbc0c-84922256,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,8f85a16d106cb34e800c19fd9b0d175ea790539e539eb0b3673655c5a5a4b8d3
+tl-codestream-sub-244cd696-1a79-4a77-9fb9-c98e86610873-1083233,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,faab53ca23a7cb4cb75b13ea9d79f1937e26311ae3c458d3e7d1798da15ddb63
+tl-codestream-sub-238d51b4-be4d-49f0-8a55-2f29b8b2a54c-91906580,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,e4b9181fe459fa868742b82f9a263c844a5ff3ba308550f438571d793afa1398
+tl-codestream-sub-f96ec73d-201d-41e9-88c6-b77a9512a609-68901312,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,5899acb2d63f898877e17b2add0a3543c4a675d8ea72de846fc22a39a99af086
+tl-codestream-sub-d3e83391-5d69-4e3e-99d0-38ed79b87894-46022604,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,db21536ac4b9be523ab77dfc7ef2ac49f28b77bde3c407e7b4de39a78fa42f45
+tl-codestream-sub-5b94490a-1d00-4720-9ba7-82620a3499be-68065610,tl-codestream-prob_015,cs-clu-015,cpp,Accepted,20,True,6e47e736fa6b50b09f19f95eaa4909d380d72d51258dc8ed04124efbb31c0821
+tl-codestream-sub-7e2734bc-5648-4f87-83a3-7c175d81cfe7-10378985,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,b3512c7b85b84364f0cf30e89c5dcb61ff777df6476ce4d288c8a2041c92d843
+tl-codestream-sub-2df3ac94-4cda-4acf-afe2-4fb7618aed05-56796356,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,e967b9022bb2a6982ab04cd15dc523bf821c97f6fd0d9911147ed608a1ec42a4
+tl-codestream-sub-6922f8ea-7993-429a-b8ae-3606ca9b61f2-43781313,tl-codestream-prob_029,cs-clu-025,cpp,Accepted,9,True,63cbff1b8980379406c91763ab261d7b6e93376d36454554d23c064171b04bb5
+tl-codestream-sub-62768478-6e99-4614-b440-093c74f09ef2-52371118,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,1149961b3867316fc5364a75b682b76afba677b99fb4ec15e0ef825721f90697
+tl-codestream-sub-484c2c5c-698e-467a-a70d-1af29da26a15-92479419,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,987854050abcfc7687be44a3cff10037050d71fd14ef4d2976b0ea08e6277613
+tl-codestream-sub-77b502e0-7654-48bf-9a08-ebfe427a9e42-9793288,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,579d01e0d0aeff9018419c50e7926d882ae34dc7e4669db847f32266acc0f6b6
+tl-codestream-sub-44469a43-925a-4280-978d-ca21d8297418-7835190,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,e3ac812c648f5e6f0938ef31c73d9dabf19b5fd70e0367a7c83a119204529ade
+tl-codestream-sub-4a678ffc-d4e4-4c3f-b8d5-7fa1c7303f17-35829627,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,4feb9f80c0522827fa127cf11de0b3797c3a2ea6800421eb532355a2bd60da5c
+tl-codestream-sub-ea0c5849-87ab-4eb7-99e5-1917e7d0f152-12008620,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,af24c9b5b51f6d9a3f7d20bd3efd973e88e2d55b44da67302541f5e02e0c37c0
+tl-codestream-sub-c6c7bf7a-2cd5-4a9d-aafe-b35cb6cfe0f8-1991305,tl-codestream-prob_035,cs-clu-030,c,Presentation Error,2,True,c2bd022d81319453de66f016bf2870658a769718aacccc026e05d3f318ccb3ad
+tl-codestream-sub-bc185e0f-acf5-4a52-99a5-ced9d409a43a-2879290,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,ec5272989eafd432a4d3fd9d4effe9640b6a2455ef8612358c7553902a4a1b6b
+tl-codestream-sub-b9af1a6e-429e-4b0f-9e54-124683373dc8-50786580,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,e2bf0bf6776d8f02394fbe401d4631f0f07b97da5cd5d52bda85f7f192045d4f
+tl-codestream-sub-aa74a72d-b23e-43ac-ac8d-833e85bb20db-37583675,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,7592ee3cc38ed58fcf36eafdb7e1bd4091252f0945fe5f81c71499aec2153616
+tl-codestream-sub-2395df3f-5e8f-4f04-8faf-3324b9a4aeb1-24201362,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,d5b7f228f751e65c3b63d6f3066a8fa4b4b527af99b224a90525908ab30ec7d4
+tl-codestream-sub-5100c500-1695-4444-a824-43c48db0ebf2-64149468,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,ed061b1fe4781e11f7f255fcf406bb2323787e423a26c6ca5104ad97f647a6ff
+tl-codestream-sub-b8f6d75b-d0eb-4bca-8557-eb20cf772652-15659071,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,9b21019934b7201c48c354ee878222ecdca9665b29ba0a222cfc5bc8babda159
+tl-codestream-sub-b5a82954-f8b6-475c-9d4a-472a518c5ea5-3518314,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,17e091c5781666e0af67e227950019d80e06c4b552968fc2ed5c8641b4ab021f
+tl-codestream-sub-182ea2de-390c-432f-9451-10721345e009-68882110,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,464217e1ba957c55a54cf67595d11ea7e9ab79f8ce5cef68e1d1375508016450
+tl-codestream-sub-583b5ac2-a270-4470-bfc1-8e686fa313da-43852458,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,cfa9f2b15e57d00833a2b688a758651165d9723a3a01af391ccc22690ac5564b
+tl-codestream-sub-19737140-c574-4c04-81ee-2873aef97d91-42807550,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,dc19be7c843811ace9269ac2d469f4a049bdba8d996c7b7a9d9b34018fa7f89e
+tl-codestream-sub-e42c06a5-0c4f-4ba5-9d60-7034427ce148-26650416,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,1c60d96ba42948aa6b69d630869bb11e84d4866564db20cf96cf6f348c34e68e
+tl-codestream-sub-5dd0dfc8-4c20-4e26-922f-8e29e751df4f-20966687,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,2ffc5411ae7301fa849038d35e6cd2ef7702d5a1867417dbdd8a51a063244d7d
+tl-codestream-sub-35b61f8a-2ad0-4638-be9f-c5439a3e92dd-68836592,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,1fc2e481893b93bc1fba1a0ac2c7e92ae157b619c522dd094bdf6378eea9e5b0
+tl-codestream-sub-efb3a842-d4cc-4909-8305-1d892a17f2fc-42110587,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,b473a6a7fb1d74087edd1f4302822da1bb73c960446347b8c756b9cd3a8baf06
+tl-codestream-sub-d948a52a-c571-4122-a2fa-2137bf8e07d4-82733062,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,406c1da7bac65fbfcd4805e10158e15bb5829a5f1c46b702cce4841acbc443bf
+tl-codestream-sub-c8964d86-1f68-4df7-8f25-164bd885287a-9619310,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,574ccdc6f2b4c8648363176f874184086049d2e8ad02d5ee28c484f4d119feea
+tl-codestream-sub-fd065987-1777-4aa1-8880-38a0f8bac023-79189325,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,11cb518a0706ceacd8cd1eddeb42dfb6e738217ce0f3076d7514e7559cf2fa03
+tl-codestream-sub-fa04e2fb-4f9a-4e6f-aadc-cd8957c67ac0-55438526,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,796736fb9af6a91f11ab3238d922eaddc6815fa4e74d11b72d07e954ebda5aa5
+tl-codestream-sub-9dd0473c-8f9e-46ca-ae3c-8477389d56e4-46300001,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,6b87e8d6e3ed53f0f4c7c0184d7d48a7617abe6465f846402bc7ed0c1aeec814
+tl-codestream-sub-2217e143-87ad-480a-8660-0c582958c029-46713229,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,dd65bf039b415a1b7bd7ee61902df9b6e4f089e0184a1656e5ca78a5a8fb416b
+tl-codestream-sub-95fa7655-3fe7-4e46-b75d-a64160c30840-17671295,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,eba1e271ca8024734cfc339e01841f830597ad47e1ad52fe300c84b60268afe5
+tl-codestream-sub-d4e71266-841c-4734-aa2c-46ec1724a520-8373287,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,981d37a7adc493447296ef1d92c0161c14d48aca5395ed9e7c777daa2be53307
+tl-codestream-sub-338cfdef-bb81-4f74-ac27-6415eda7b753-38531603,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,673ec602fa66e0d1516714c99e41f4c7b10078504a546a94ed39802b35eccf5f
+tl-codestream-sub-4a9e30ba-367d-48d0-9a73-c0e9fa7c6741-41966481,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,8e5a7ed8c43390043be3ab0ad9432845fcca125d0b73c2de6988b12f47ec107a
+tl-codestream-sub-1faa765b-9598-4756-b946-2935b491d06a-64228990,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,971480114fdb65c665e49f7befafc9b3583c65a70d855ed8cd1a67d5c8fd2669
+tl-codestream-sub-7665b5bd-901c-4ae6-9e05-8f16e7887fd2-94628172,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,ddc90a463cf18128ba631b7983deb069e992b2b1c65d526d539106640270f039
+tl-codestream-sub-2eba8938-4c50-4311-9db8-94e1525eb322-23585701,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,efbf45548250573b1f81e684964134d4606091885b5d06b1e55e0376b200f741
+tl-codestream-sub-4f7721b0-7514-4a1f-a4b5-06165f717ffc-10101545,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,ed310f2a8579545927ede0b3874d2479ffd43bd58e5028babd1b2d44508dc182
+tl-codestream-sub-36700ced-b5f7-4ce5-99bf-a1c086d74374-73658102,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,e86314c66af1c704cbf71570a37abccefb15c815e582f9d269df63481824f18b
+tl-codestream-sub-f3b4d34e-284b-406b-ae68-ba2e61057cdb-73461826,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,bfd8da78e87a4f686fe85c5aad5e816048691296e8226c103b8393eef9b82d87
+tl-codestream-sub-4d808cde-5ea2-4f0a-af1b-7bf3e5f2d04a-94507873,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,e9690a88b38a7932f55999a3894725b73b5dd76a6bfea0d951259389fa25fa8b
+tl-codestream-sub-fc5c7014-b694-46cd-bd1a-3e4c6da6c2ee-20647898,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,b1b79f18552faee75e9ddcf595c9f649deca50101abcb57f9457375d8c56a68a
+tl-codestream-sub-9dcfce48-df24-43aa-bbee-4b296ab66504-83555373,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,4d4e65b1263869a8dfd9262981c4b001bbe533504ffb5fb0ad974f75c2de8455
+tl-codestream-sub-badb2d17-bac6-4ddb-abc9-f41c0af8e4ba-96647128,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,654cdc24e2cb058e00a88b0c8b23f7b442507475883fcca93949d71efb068668
+tl-codestream-sub-0fa16c23-25b4-4e54-aaaa-1d416e86b0c6-77137971,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,d65f20c9378ce2f5b75603073aff3b63f1fc944daee7ce34f52e7d2a14628210
+tl-codestream-sub-95b62097-4f68-4731-840a-baff75f30595-20468499,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,7a240481fdfd46f514a4c4cfdac83ea4051e7e043d9dbe36adf4953431e06ea0
+tl-codestream-sub-14e83f60-16c1-4e53-a1af-ead8e7e14223-79937730,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,53b5fb85e56c63fbe95944ac0e6a607c4e1ad5995c4a03b2709c2395bf030235
+tl-codestream-sub-bcf55d2c-5b1a-4ecc-bf1e-acfacd354a49-1859883,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,73fe1a689bfe7b539c779d76b8e35af174d3b8ab22ea85308902d89b4bda00f5
+tl-codestream-sub-fc798056-39b6-4211-9688-905cab927b15-85115307,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,bcd1bb5c4f97726ada2208a65b9386f2fa5523d17015635ca92082d5d5c72e05
+tl-codestream-sub-37cd2f93-c322-4f8d-a8ea-b47b83c7a16e-95790644,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,3a72ac0e7646e2c955a6766d951c7bc98ab9f01b288a853633dce299932c326e
+tl-codestream-sub-b0f4d85a-f669-4fce-9c32-6073ddc146b6-45716436,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,2320120c61f847169b60926429300d700acff60914f28b2bce2e4034666af7dd
+tl-codestream-sub-eada8c74-d9dc-432f-87d9-e0781e67cf01-11848225,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,dacda489355c007e66b353c3f663c584f5d5baddbfa931e5aca6d58446680271
+tl-codestream-sub-294eaf15-d228-49c8-8f0e-de2d74f31117-83237079,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,a92c4c310363ce50d0258bf69b8c130d096fc242b789210d560ce860e645ae02
+tl-codestream-sub-6f8f8ab9-67f3-48e0-8fde-aa8489bc50cd-11471896,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,4b5766cb812a88f8d7eadb3a2afe2204e44d0652ef3b5ea522dbab3ac4168294
+tl-codestream-sub-653f0107-b36a-43c5-aaaf-af4cc2c2f1e3-20109073,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,edd4e40f0e9a17e184af6391cf30cb1d25cd13be5f1ea25d05a550bc9bd95af1
+tl-codestream-sub-3c0a5cb7-f144-42f3-8ba8-25291b0c81ba-25026034,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,58700b8e045be6e61400de8c0af62f6abb1c3d78fbeab30c3d3e9c69bbaa6250
+tl-codestream-sub-4c293a9f-3135-4101-8aa1-43f42777bff8-69357494,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,52d728b3adc41bd628ead581269effb17e6e457b993730ed824a16ac1b228947
+tl-codestream-sub-a1739e15-484e-4f47-a0dd-d890bb12bb8d-76575987,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,482c65daf3bdcd977736655ebc900346b031a307b71264e2aea1bf053bf9b1d2
+tl-codestream-sub-d895f06a-cf7a-4b5f-8ef2-3fb31a46b287-65951180,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,8e49d71df92c20f91b0b68e9ddf9b799f515206bb6493f42593f2d845e1f7594
+tl-codestream-sub-68e3031d-c46d-42be-9651-b21c555ab5ea-47017962,tl-codestream-prob_033,cs-clu-028,cpp,Presentation Error,2,True,0b45a68a871d44c1f43c1aaba4fe2dd372fb0c157d68d4f4900e3a4648c63560
+tl-codestream-sub-378a63c8-b126-4bdb-9d41-542d95662587-11102458,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,54d0dbccd9976b0aad4674ba7f1d8ffd1d16fb3f31547107ca2770febfe6c378
+tl-codestream-sub-c1cb2cc8-47ab-4131-b2fc-8d67ecb64b5b-48468172,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,187069702908e6d901444e70310f35323babddc4abde783cf27a16d2e2ea273e
+tl-codestream-sub-b40dea95-60fd-4b1c-8462-06d72fd99d05-82773559,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,a3a651279a13f09686bfee6ae5c0e87b4d943c863f2584b67e4c9dc88032c5ed
+tl-codestream-sub-208c2d7c-504b-477b-96a8-e8e89d2b8324-34880276,tl-codestream-prob_015,cs-clu-015,c,Presentation Error,20,True,8622c942f4433c5cafcd3148e069c1ca402c9b0f10d8108892b9bcfe3e5c81c2
+tl-codestream-sub-e0fc6a9a-644d-4e00-a776-dd7e27e470e5-70874154,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,4b9c217ef3b0525da139a13d0836cef608f124514dcaa99dbfc712be59b87f48
+tl-codestream-sub-a0cf7840-3fcb-43b7-a02e-330d8b5b3191-39463722,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,91b3d508863232525ef210cd6a930ef939352656123bb94bbb18218cd26a7c72
+tl-codestream-sub-b281a22e-7954-477e-bbb1-8e8069a48902-47468807,tl-codestream-prob_019,cs-clu-019,c,Compilation Error,3,True,26f486c1d52a96c03b83a58edcdb05d9e8fc057283f92651d130f589761efd61
+tl-codestream-sub-a0bb316b-8148-43e3-8986-9e96a2923fe2-5298508,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,59594fc52f50771010602977ba0bb36e98691c13753e886f13b6bd18764168f8
+tl-codestream-sub-9caeb91b-5296-4cb3-adf9-a3a38378709a-67777541,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,d1157c9a4c35c1c521127b4fb6050ea2d9c1ace3a29f127684d575c50942288d
+tl-codestream-sub-a9320f4a-6a27-4fb5-b900-92441d636d9f-19190025,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,c07e92c25d67519e0c48a249a80bb09b5f9f97efd36facbf3e290022ea4bb236
+tl-codestream-sub-2f1488c6-b371-4a09-85ca-9126298483a2-65511397,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,45578ca9a8319dd458332dc5f76fe3386255e4f9f0b94bb334d82e67f19a2abb
+tl-codestream-sub-9fd0130e-5e55-486c-bc07-efe4c0d58cf3-87363854,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,cb676fe729ffec026d3fbf407eb9b3961a6debacb571a299db6b89d7e9acbb17
+tl-codestream-sub-6c395c8f-618b-44f1-a2a3-e98bf7ad0c59-66899802,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,82b04d26290ffb779ea9958f191e234fcc02af0c0a9d76cb5d946283f99f6b46
+tl-codestream-sub-e4a427e7-c88d-4f13-a16f-4b1b558aa8c0-4733664,tl-codestream-prob_032,cs-clu-027,cpp,Accepted,2,True,f8b4e773d41d09be36713b995d749147da26a4b6b2672c9b659ae0234e1c4132
+tl-codestream-sub-ef244588-1ae8-4d74-b6e7-4fdf4d71f4d1-23936017,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,2062cb117e95eb4e0121550fc33b42881ec684804815be9def7caa16ae929bd2
+tl-codestream-sub-9898ef77-3ac3-40c5-9607-16b6093469eb-21794413,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,184dd3414f882f94e5c2431ab4f8fac0d074745022beab8c80f5a92229ea409c
+tl-codestream-sub-d045e8c9-109b-4e6a-8026-426c3d698376-21542112,tl-codestream-prob_002,cs-clu-002,cpp,Accepted,3,True,bdb5fc5e5b60b4c2ce5bac20c25b97e21fa8d5f7370d3b19df51178519dd9c6b
+tl-codestream-sub-0b0f5921-ddf0-4f6f-843f-37679fb38263-8196174,tl-codestream-prob_005,cs-clu-005,cpp,Accepted,3,True,6a233631bd0f40765f8ac90a78f6e765e87ba920d09e5c89699f7b4da7f43fee
+tl-codestream-sub-ef4f5ad3-e5e1-40df-8247-1a2766f34749-12666076,tl-codestream-prob_004,cs-clu-004,cpp,Accepted,3,True,54a1a0cb9976a6f5b50f4c3d8ce207b2431817c886dbec5496003e08fb9fb86e
+tl-codestream-sub-cf537355-7f55-46ce-857c-4bb2176eeae9-13421065,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,251f2271140e02e32890c429d66b8606d6def42cf776d703fe43deb534293314
+tl-codestream-sub-962fb197-0cb9-487d-9a41-a88d2c74d43f-11956457,tl-codestream-prob_012,cs-clu-012,cpp,Accepted,1,True,503574e524c6a7cf24ddc17dab55a5d0262a31fe7a374298f2783bb1c72cfbac
+tl-codestream-sub-8aad2b43-bad6-4444-ad7b-6d07952efafa-36347105,tl-codestream-prob_014,cs-clu-014,cpp,Accepted,3,True,521abd3e9c924a1a8c54f8942e728032c9ba943db7c1290657f27226fa75105c
+tl-codestream-sub-d7b5aab5-9b4d-4f8b-9bd3-7b09209104ed-23721982,tl-codestream-prob_030,cs-clu-012,cpp,Accepted,2,True,ad40a88564a2537cb27c42f0127e8966b7f61dc7f22fd1fa710d317c010aee05
+tl-codestream-sub-938ff138-332d-46e2-ba2e-a8c65700f772-4525711,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,a076871d2813d027e3723266f342ec886eab1e55958fbd34b633756866689c09
+tl-codestream-sub-c3079e7d-db6b-48b6-ac2d-30f666f8885d-24479015,tl-codestream-prob_032,cs-clu-027,cpp,Presentation Error,2,True,9c7d508edf4864a79acce682d69983ae52297c547eb27a90cbd4dd5391197a86
+tl-codestream-sub-40c12df0-baf7-4e34-b5d7-b87cb74641d7-2977450,tl-codestream-prob_033,cs-clu-028,cpp,Accepted,2,True,9c9d42fe805f1e6fb42081367ca6997d88f04ebb6cf7210262aeff779ec07e47
+tl-codestream-sub-6e287627-7650-42c9-8257-7aee980be80d-71235850,tl-codestream-prob_042,cs-clu-015,cpp,Accepted,20,True,ec0fe5363c1db8c2bc856a6d18ab1860a3a7ad43bbfe64dbe827052e5aeb3e26
+tl-codestream-sub-85501b47-9eb8-40c9-8a32-086a31093b93-97101246,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,f4c9a8871866aa0959f7887e9e1a1bfb33f6aee07073cc7a81e05f7430e9ee45
+tl-codestream-sub-d6309f19-d935-4404-8ea5-7d4352a478eb-82378870,tl-codestream-prob_041,cs-clu-019,cpp,Accepted,3,True,dde5f1ee1f8ea1266648cea1acdbb849c608777f03939c1cf1760e9e7ab1eddf
+tl-codestream-sub-f7a6fa2f-a5fb-4854-853f-10703f40bc77-73287503,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,cd3782684e5d3bae0c92a72ac25c36daa86fe8e915ab45e3b088eb00ab84d952
+tl-codestream-sub-ae35e171-24da-4d90-b562-e15b7f39ea16-39302086,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,abaae9fd97d6701f6d807a159afff6d5c23c9604caa2d91c76ef44d04019f33c
+tl-codestream-sub-23ce6a51-0dce-4caa-8503-385651f511c5-20919698,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,b85aeef7bd892e7d79719f9e2cb20a283f6c30aa05c798fc20bf581a28dd2a8a
+tl-codestream-sub-be408b6e-639d-45ba-ab31-3d1f5cb40ff6-21344279,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,a9273477460e9b8b411cbe9080c1ca874193d6c64507c2d61b22a07690b00557
+tl-codestream-sub-37dc66b1-3672-48bc-923f-d26c938ff227-92509227,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,74247f656657742314583cbeb9ad976301116b399e012807f63f64f7b45d8e40
+tl-codestream-sub-7de18f3d-d060-4742-b2a1-28cc9d8dff35-43173656,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,cef596fff57ece609e39f8a5ce906823b4c33d28ef3536cda315d1f94c49d58d
+tl-codestream-sub-6d22cc5d-e9b5-4d2f-ad6c-9d89d44ad4a0-72975320,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,4eab96c731999b29e0eb838688ffb428e21b665ac53ebc53596c78fea01338c4
+tl-codestream-sub-9095da3c-27f9-4bf2-94a2-d709b6a9fa67-43177154,tl-codestream-prob_019,cs-clu-019,c,Wrong Answer,3,True,7c72fb91a46ac0c87f7fdbdce8f5d0da2759ee4df933fe6dbebc183e7e222cc2
+tl-codestream-sub-f6b214b9-9afd-4aa5-bf9a-847ad29ffefb-95073779,tl-codestream-prob_035,cs-clu-030,c,Accepted,2,True,187d371debdbc063564ac85e07d94f9bb2bc779b70d258c84ec9732bdedec983
+tl-codestream-sub-ecc99fab-e825-4ad1-8195-9b9a6a976798-71884617,tl-codestream-prob_019,cs-clu-019,c,Time Limit Exceeded,3,True,be5b226eae9e52b573d71116e0372a79aac7225b8e7543bf74b210c04bb6dee9
+tl-codestream-sub-7acba89f-aa17-47d7-b79f-ed30c4849f96-86438455,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,25f76bb833f7b32a06f2ba09eb2f3575b7a3b3b02c19125f06c2f6d5c67fa1d1
+tl-codestream-sub-c6368e50-efd1-4ab1-a881-5fb0d35a66d8-18942961,tl-codestream-prob_015,cs-clu-015,c,Accepted,20,True,89aeb5ae227e8552f3bef87b58f36ee75e082b5335512eb985416d3ee6c00e8e
+tl-codestream-sub-f73227fd-7044-43e3-89aa-ad2684c1803c-73263719,tl-codestream-prob_019,cs-clu-019,c,Accepted,3,True,75e62a6809fba70c9a2f253310656a70758a49078c37a591beb6111e4b2c9c36
