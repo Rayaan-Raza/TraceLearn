@@ -1,0 +1,168 @@
+{
+  "created": "2026-10-21",
+  "creator": "eman06",
+  "script": "scripts/g0c_seed_audit.py",
+  "cluster_split_ref": "C:\\Users\\USR\\Downloads\\TraceLearn\\TraceLearn\\data\\misconception_dataset\\raw_recovery\\cluster_split.json",
+  "train_problems": [
+    "tl-codestream-prob_001",
+    "tl-codestream-prob_002",
+    "tl-codestream-prob_003",
+    "tl-codestream-prob_004",
+    "tl-codestream-prob_009",
+    "tl-codestream-prob_010",
+    "tl-codestream-prob_012",
+    "tl-codestream-prob_013",
+    "tl-codestream-prob_014",
+    "tl-codestream-prob_015",
+    "tl-codestream-prob_016",
+    "tl-codestream-prob_018",
+    "tl-codestream-prob_020",
+    "tl-codestream-prob_022",
+    "tl-codestream-prob_025",
+    "tl-codestream-prob_030",
+    "tl-codestream-prob_038",
+    "tl-codestream-prob_039",
+    "tl-codestream-prob_042",
+    "tl-codestream-prob_043",
+    "tl-codestream-prob_044",
+    "tl-codestream-prob_045",
+    "tl-codestream-prob_047",
+    "tl-codestream-prob_049"
+  ],
+  "train_clusters": 19,
+  "total_accepted_cpp_seeds": 594,
+  "seeds_by_problem": {
+    "tl-codestream-prob_014": 66,
+    "tl-codestream-prob_012": 66,
+    "tl-codestream-prob_030": 80,
+    "tl-codestream-prob_002": 17,
+    "tl-codestream-prob_004": 15,
+    "tl-codestream-prob_003": 18,
+    "tl-codestream-prob_044": 19,
+    "tl-codestream-prob_042": 19,
+    "tl-codestream-prob_038": 64,
+    "tl-codestream-prob_001": 21,
+    "tl-codestream-prob_013": 55,
+    "tl-codestream-prob_045": 20,
+    "tl-codestream-prob_043": 8,
+    "tl-codestream-prob_018": 31,
+    "tl-codestream-prob_015": 45,
+    "tl-codestream-prob_016": 40,
+    "tl-codestream-prob_025": 6,
+    "tl-codestream-prob_020": 3,
+    "tl-codestream-prob_022": 1
+  },
+  "seeds_by_cluster": {
+    "clu-014": 66,
+    "clu-012": 146,
+    "clu-002": 17,
+    "clu-004": 15,
+    "clu-003": 18,
+    "clu-016": 59,
+    "clu-015": 64,
+    "clu-033": 64,
+    "clu-001": 21,
+    "clu-013": 55,
+    "clu-018": 51,
+    "clu-020": 11,
+    "clu-023": 6,
+    "clu-022": 1
+  },
+  "class_audit": {
+    "CPP_LOOP_BOUNDARY": {
+      "viable_seeds": 528,
+      "max_mutants_cap3": 1584,
+      "max_mutants_cap5": 2640,
+      "floor": 300,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_OFF_BY_ONE": {
+      "viable_seeds": 528,
+      "max_mutants_cap3": 1584,
+      "max_mutants_cap5": 2640,
+      "floor": 300,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_ARRAY_BOUNDS": {
+      "viable_seeds": 528,
+      "max_mutants_cap3": 1584,
+      "max_mutants_cap5": 2640,
+      "floor": 300,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_UNINITIALIZED_VAR": {
+      "viable_seeds": 594,
+      "max_mutants_cap3": 1782,
+      "max_mutants_cap5": 2970,
+      "floor": 300,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_INT_OVERFLOW": {
+      "viable_seeds": 528,
+      "max_mutants_cap3": 1584,
+      "max_mutants_cap5": 2640,
+      "floor": 300,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_MISSING_BASE_CASE": {
+      "viable_seeds": 594,
+      "max_mutants_cap3": 1782,
+      "max_mutants_cap5": 2970,
+      "floor": 300,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_ASSIGN_VS_COMPARE": {
+      "viable_seeds": 528,
+      "max_mutants_cap3": 1584,
+      "max_mutants_cap5": 2640,
+      "floor": 300,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_WRONG_LOOP_DIR": {
+      "viable_seeds": 384,
+      "max_mutants_cap3": 1152,
+      "max_mutants_cap5": 1920,
+      "floor": 200,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_RANGE_CHECK": {
+      "viable_seeds": 384,
+      "max_mutants_cap3": 1152,
+      "max_mutants_cap5": 1920,
+      "floor": 200,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_STALE_EXIT": {
+      "viable_seeds": 384,
+      "max_mutants_cap3": 1152,
+      "max_mutants_cap5": 1920,
+      "floor": 200,
+      "recommended_cap": 3,
+      "status": "OK"
+    },
+    "CPP_OTHER_ERROR": {
+      "viable_seeds": 528,
+      "max_mutants_cap3": 1584,
+      "max_mutants_cap5": 2640,
+      "floor": 200,
+      "recommended_cap": 3,
+      "status": "OK"
+    }
+  },
+  "notes": [
+    "39 clusters from 46 problems at TF-IDF threshold 0.8",
+    "19 train clusters (2 below >=21 guideline) \u2014 logged per \u00a79.0-G0c",
+    "All CodeStream Accepted C/C++ subs on train-side used as seed pool",
+    "Seed-starved classes get cap relaxed to 5 per \u00a79.0-G0c rules",
+    "Hard-written seed templates allowed for any class with <150 viable seeds"
+  ]
+}
