@@ -248,3 +248,115 @@ def test_real_codestream_statements_cluster_and_split():
         assert counts["test"] == 15 and counts["dev_gold"] == 5
     else:
         assert counts["test"] == 12 and counts["dev_gold"] == 4
+
+
+# ------------------------------------------------- extend mode (full pool)
+#
+# Ruling (three-lane merge): cluster_assignments.csv froze the 46 CodeStream
+# problems (Eman's mining consumed it), but G7 requires every labeled row's
+# problem to carry a cluster � PROGPedia's 16 problems were uncovered.
+# extend_assignments() clusters the union while keeping frozen rows
+# byte-stable: new problems that link into a frozen cluster inherit its
+# split (leakage-safe), all-new clusters continue numbering after the frozen
+# max and go to train (silver rows are training material; the dev-gold/test
+# budget stays CodeStream's gold supply, �13.4). A union cluster spanning
+# two DIFFERENT frozen splits fails loudly � never silently re-split.
+
+
+_FROZEN_A = {"problem_id": "p-cs-1", "cluster_id": "clu-000", "split": "train", "statement_len": 10}
+_FROZEN_B = {"problem_id": "p-cs-2", "cluster_id": "clu-001", "split": "test", "statement_len": 10}
+
+
+def test_extend_new_problem_forms_own_train_cluster():
+    from scripts.cluster_problems import extend_assignments
+
+    new = {"p-pg-1": _DIFFERENT}
+    appended, summary = extend_assignments(
+        [_FROZEN_A, _FROZEN_B], new, clusters={"p-cs-1": "clu-000", "p-cs-2": "clu-001", "p-pg-1": "clu-002"}
+    )
+    assert appended == [
+        {"problem_id": "p-pg-1", "cluster_id": "clu-002", "split": "train",
+         "statement_len": len(_DIFFERENT)},
+    ]
+    assert summary["n_new_clusters"] == 1
+    assert summary["n_inherited"] == 0
+
+
+def test_extend_new_problem_near_dup_of_test_problem_inherits_test_split():
+    from scripts.cluster_problems import extend_assignments
+
+    # p-pg-1 is a near-duplicate of the TEST-side frozen problem: it must
+    # follow that cluster's split, never leak into train.
+    new = {"p-pg-1": _IDENTICAL + "zzz9"}
+    appended, summary = extend_assignments(
+        [_FROZEN_A, _FROZEN_B], new,
+        clusters={"p-cs-1": "clu-000", "p-cs-2": "clu-001", "p-pg-1": "clu-001"},
+    )
+    assert appended[0]["split"] == "test"
+    assert appended[0]["cluster_id"] == "clu-001"
+    assert summary["n_inherited"] == 1
+
+
+def test_extend_never_returns_or_mutates_frozen_rows():
+    from scripts.cluster_problems import extend_assignments
+
+    frozen = [dict(_FROZEN_A), dict(_FROZEN_B)]
+    snapshot = [dict(r) for r in frozen]
+    appended, _ = extend_assignments(frozen, {"p-pg-1": _DIFFERENT},
+                                     clusters={"p-cs-1": "clu-000", "p-cs-2": "clu-001", "p-pg-1": "clu-002"})
+    assert frozen == snapshot
+    assert all(r["problem_id"] not in {"p-cs-1", "p-cs-2"} for r in appended)
+
+
+def test_extend_bridge_across_two_frozen_splits_fails_loudly():
+    import pytest
+
+    from scripts.cluster_problems import extend_assignments
+
+    # one new problem transitively links a train cluster and a test cluster:
+    # honoring the frozen split is impossible -> explicit failure, never a
+    # silent re-split that would leak test-side patterns.
+    with pytest.raises(ValueError, match="split"):
+        extend_assignments(
+            [_FROZEN_A, _FROZEN_B], {"p-pg-1": _IDENTICAL},
+            clusters={"p-cs-1": "clu-000", "p-cs-2": "clu-000", "p-pg-1": "clu-000"},
+        )
+
+
+def test_extend_bridge_within_same_split_is_fine():
+    from scripts.cluster_problems import extend_assignments
+
+    # bridging two TRAIN clusters is harmless: both keep train.
+    frozen = [dict(_FROZEN_A), {**_FROZEN_B, "split": "train"}]
+    appended, _ = extend_assignments(
+        frozen, {"p-pg-1": _IDENTICAL},
+        clusters={"p-cs-1": "clu-000", "p-cs-2": "clu-001", "p-pg-1": "clu-000"},
+    )
+    assert appended[0]["split"] == "train"
+
+
+def test_extend_cluster_ids_continue_after_frozen_max_and_are_ordered():
+    from scripts.cluster_problems import extend_assignments
+
+    frozen = [_FROZEN_A, {**_FROZEN_B, "cluster_id": "clu-007"}]
+    new = {"p-pg-2": _IDENTICAL, "p-pg-1": _DIFFERENT}  # unordered input
+    appended, _ = extend_assignments(
+        frozen, new,
+        clusters={"p-cs-1": "clu-000", "p-cs-2": "clu-007",
+                  "p-pg-1": "clu-008", "p-pg-2": "clu-009"},
+    )
+    assert [r["problem_id"] for r in appended] == ["p-pg-1", "p-pg-2"]  # sorted
+    assert [r["cluster_id"] for r in appended] == ["clu-008", "clu-009"]
+
+
+def test_extend_without_clusters_param_clusters_via_tfidf():
+    from scripts.cluster_problems import extend_assignments
+
+    # no injected clusters -> joint TF-IDF clustering over the union, which
+    # requires statements for frozen AND new problems.
+    new = {"p-pg-1": _IDENTICAL + "qqq1"}  # near-dup of frozen A
+    union = {"p-cs-1": _IDENTICAL, "p-cs-2": _DIFFERENT, "p-pg-1": new["p-pg-1"]}
+    appended, summary = extend_assignments([_FROZEN_A, _FROZEN_B], new, all_statements=union)
+    assert summary["n_inherited"] == 1
+    assert appended[0]["cluster_id"] == "clu-000"
+    assert appended[0]["split"] == "train"
