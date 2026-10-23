@@ -1,0 +1,112 @@
+{
+  "bank": "cpp_diagnostics_variants",
+  "taxonomy_version": "cpp-taxonomy-0.1",
+  "description": "Misconception variants and hard-negative controls for the C++ diagnostic bank. Each entry states the expected result of the verifier.",
+  "expect_values": {
+    "fail_at_least_one": "The variant compiles, and it fails at least one test case or it times out.",
+    "compile_error": "The compiler rejects the source. The verifier records the diagnostic.",
+    "sanitizer_detected": "AddressSanitizer reports a defect. The plain -O2 run is not reliable enough to assert.",
+    "pass_all": "Hard negative. The file is correct. It must pass every test case."
+  },
+  "variants": [
+    {
+      "file": "CP01__CPP-M01_a.cpp",
+      "misconception": "CPP-M01",
+      "expect": "fail_at_least_one",
+      "note": "Loop condition `i <= n` makes the exclusive upper bound inclusive."
+    },
+    {
+      "file": "CP01__HARDNEG_inclusive_other_range.cpp",
+      "misconception": "CPP-M01",
+      "expect": "pass_all",
+      "note": "Correct use of `<=` on a different range. A `<=` token alone is not evidence."
+    },
+    {
+      "file": "CP02__CPP-M02_a.cpp",
+      "misconception": "CPP-M02",
+      "expect": "fail_at_least_one",
+      "note": "Prints the position of the largest value instead of the value."
+    },
+    {
+      "file": "CP03__CPP-M03_a.cpp",
+      "misconception": "CPP-M03",
+      "expect": "fail_at_least_one",
+      "note": "Prints inside the function and returns 0. The return channel carries no value."
+    },
+    {
+      "file": "CP04__CPP-M04_a.cpp",
+      "misconception": "CPP-M04",
+      "expect": "fail_at_least_one",
+      "note": "Reads index size() with `at()`. It throws std::out_of_range."
+    },
+    {
+      "file": "CP04__CPP-M04_b.sanitize-only.cpp",
+      "misconception": "CPP-M04",
+      "expect": "sanitizer_detected",
+      "note": "Loop condition `i <= size()` reads one element past the end. AddressSanitizer reports a heap-buffer-overflow."
+    },
+    {
+      "file": "CP04__HARDNEG_full_traversal.cpp",
+      "misconception": "CPP-M04",
+      "expect": "pass_all",
+      "note": "Correct traversal that stops before index size(). The last line holds the last element."
+    },
+    {
+      "file": "CP05__CPP-M05_a.cpp",
+      "misconception": "CPP-M05",
+      "expect": "fail_at_least_one",
+      "expected_warning": "do not have their mathematical meaning",
+      "note": "Chained comparison `1 <= x <= 10` is always true. The compiler reports a -Wparentheses warning."
+    },
+    {
+      "file": "CP05__HARDNEG_de_morgan.cpp",
+      "misconception": "CPP-M05",
+      "expect": "pass_all",
+      "note": "Correct range check written as a negated disjunction. It must not be flagged."
+    },
+    {
+      "file": "CP06__CPP-M06_a.cpp",
+      "misconception": "CPP-M06",
+      "expect": "fail_at_least_one",
+      "expected_warning": "suggest parentheses around assignment",
+      "note": "Condition `if (x = 0)` assigns. The compiler reports a -Wparentheses warning."
+    },
+    {
+      "file": "CP06__CPP-M06_b.cpp",
+      "misconception": "CPP-M06",
+      "expect": "compile_error",
+      "expected_error": "lvalue required as left operand of assignment",
+      "note": "Condition `if (0 = x)` assigns to a literal. The source is ill-formed."
+    },
+    {
+      "file": "CP06__HARDNEG_assignment_with_comment.cpp",
+      "misconception": "CPP-M06",
+      "expect": "pass_all",
+      "note": "Intentional assignment in a condition, with a comment. The taxonomy excludes this."
+    },
+    {
+      "file": "CP07__CPP-M07_a.cpp",
+      "misconception": "CPP-M07",
+      "expect": "fail_at_least_one",
+      "note": "Recursive call passes n again. The stack is exhausted."
+    },
+    {
+      "file": "CP07__CPP-M07_b.cpp",
+      "misconception": "CPP-M07",
+      "expect": "fail_at_least_one",
+      "note": "While loop never changes k. Small inputs reach the 2000 ms wall-clock limit."
+    },
+    {
+      "file": "CP08__CPP-M08_a.cpp",
+      "misconception": "CPP-M08",
+      "expect": "fail_at_least_one",
+      "note": "While loop never updates i. It passes the index-0 test and times out on the absent target."
+    },
+    {
+      "file": "CP08__CPP-M08_b.cpp",
+      "misconception": "CPP-M08",
+      "expect": "fail_at_least_one",
+      "note": "For loop has no update expression. Same behaviour as CP08__CPP-M08_a.cpp."
+    }
+  ]
+}

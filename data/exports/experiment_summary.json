@@ -1,0 +1,160 @@
+{
+  "history_changed_predictions": 0,
+  "current_only_metrics": {
+    "accuracy": 0.3333333333333333,
+    "macro_precision": 0.22000000000000003,
+    "macro_recall": 0.35,
+    "macro_f1": 0.26666666666666666,
+    "confusion_matrix": [
+      [
+        3,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      [
+        1,
+        2,
+        2,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "labels": [
+      "M01_LOOP_BOUNDARY",
+      "M02_INDEX_VALUE",
+      "M03_MISSING_RETURN",
+      "NO_MISCONCEPTION",
+      "UNCERTAIN"
+    ]
+  },
+  "history_aware_metrics": {
+    "accuracy": 0.3333333333333333,
+    "macro_precision": 0.22000000000000003,
+    "macro_recall": 0.35,
+    "macro_f1": 0.26666666666666666,
+    "confusion_matrix": [
+      [
+        3,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      [
+        1,
+        2,
+        2,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "labels": [
+      "M01_LOOP_BOUNDARY",
+      "M02_INDEX_VALUE",
+      "M03_MISSING_RETURN",
+      "NO_MISCONCEPTION",
+      "UNCERTAIN"
+    ]
+  },
+  "misconception_labels": [
+    "M01_LOOP_BOUNDARY",
+    "M01_LOOP_BOUNDARY",
+    "M01_LOOP_BOUNDARY",
+    "NO_MISCONCEPTION",
+    "M01_LOOP_BOUNDARY",
+    "NO_MISCONCEPTION",
+    "NO_MISCONCEPTION",
+    "M02_INDEX_VALUE",
+    "M02_INDEX_VALUE",
+    "NO_MISCONCEPTION",
+    "M03_MISSING_RETURN",
+    "M03_MISSING_RETURN",
+    "NO_MISCONCEPTION",
+    "NO_MISCONCEPTION",
+    "UNCERTAIN"
+  ],
+  "current_only_predictions": [
+    "M01_LOOP_BOUNDARY",
+    "M01_LOOP_BOUNDARY",
+    "M02_INDEX_VALUE",
+    "M02_INDEX_VALUE",
+    "M01_LOOP_BOUNDARY",
+    "M01_LOOP_BOUNDARY",
+    "M02_INDEX_VALUE",
+    "UNCERTAIN",
+    "UNCERTAIN",
+    "UNCERTAIN",
+    "M03_MISSING_RETURN",
+    "M03_MISSING_RETURN",
+    "M03_MISSING_RETURN",
+    "M03_MISSING_RETURN",
+    "M01_LOOP_BOUNDARY"
+  ],
+  "history_aware_predictions": [
+    "M01_LOOP_BOUNDARY",
+    "M01_LOOP_BOUNDARY",
+    "M02_INDEX_VALUE",
+    "M02_INDEX_VALUE",
+    "M01_LOOP_BOUNDARY",
+    "M01_LOOP_BOUNDARY",
+    "M02_INDEX_VALUE",
+    "UNCERTAIN",
+    "UNCERTAIN",
+    "UNCERTAIN",
+    "M03_MISSING_RETURN",
+    "M03_MISSING_RETURN",
+    "M03_MISSING_RETURN",
+    "M03_MISSING_RETURN",
+    "M01_LOOP_BOUNDARY"
+  ],
+  "history_changed_correctly": 0,
+  "false_persistent_current_only": 0,
+  "false_persistent_history_aware": 0,
+  "persistent_cases_detected_current_only": 5,
+  "persistent_cases_detected_history_aware": 5,
+  "learner_state_accuracy": 0.4666666666666667
+}

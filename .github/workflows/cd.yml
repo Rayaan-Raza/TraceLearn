@@ -1,0 +1,166 @@
+name: CD
+
+# A version tag (for example v0.1.0-mid) builds a release bundle, checks it,
+# and publishes it as a GitHub Release. A manual run builds and checks the
+# bundle but does not publish it.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    name: Build release bundle
+    needs: ci
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build the frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Write build info
+        run: |
+          mkdir -p release
+          cat > release/BUILD_INFO.json <<EOF
+          {
+            "version": "${GITHUB_REF_NAME}",
+            "commit": "${GITHUB_SHA}",
+            "built_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "workflow_run": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          }
+          EOF
+          cat release/BUILD_INFO.json
+
+      # The frontend serves build-info.json, so the deployed build shows its commit.
+      - name: Package frontend and backend
+        run: |
+          VERSION="${GITHUB_REF_NAME//\//-}"
+          cp release/BUILD_INFO.json frontend/dist/build-info.json
+          tar -czf "release/tracelearn-frontend-${VERSION}.tar.gz" -C frontend/dist .
+
+          mkdir -p "stage/tracelearn-${VERSION}"
+          git archive HEAD backend config data scripts requirements.txt .env.example README.md \
+            | tar -x -C "stage/tracelearn-${VERSION}"
+          cp release/BUILD_INFO.json "stage/tracelearn-${VERSION}/"
+          tar -czf "release/tracelearn-backend-${VERSION}.tar.gz" -C stage "tracelearn-${VERSION}"
+
+          cd release && sha256sum ./*.tar.gz BUILD_INFO.json > SHA256SUMS && cat SHA256SUMS
+
+      - name: Upload release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-bundle
+          path: release/
+          retention-days: 90
+
+  smoke:
+    name: Smoke test the backend bundle
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      APP_ENV: production
+      SANDBOX_MODE: bwrap
+      ENABLE_DEMO_ENDPOINTS: "false"
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-bundle
+          path: release
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install g++ and bubblewrap
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends g++ bubblewrap
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Unpack the backend bundle
+        run: |
+          mkdir app
+          tar -xzf release/tracelearn-backend-*.tar.gz -C app --strip-components=1
+          pip install -r app/requirements.txt
+
+      - name: Set a one-off secret key
+        run: |
+          KEY="$(python -c 'import secrets; print(secrets.token_hex(32))')"
+          echo "::add-mask::${KEY}"
+          echo "SECRET_KEY=${KEY}" >> "$GITHUB_ENV"
+
+      - name: Seed the database and start the backend
+        working-directory: app
+        run: |
+          python scripts/seed_database.py
+          nohup python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 > ../uvicorn.log 2>&1 &
+          for _ in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/health; then echo; exit 0; fi
+            sleep 1
+          done
+          echo "The backend did not answer on /health"
+          exit 1
+
+      - name: Compile and run C++ in the sandbox
+        working-directory: app
+        run: python scripts/verify_cpp_reference.py --only CP01 --no-sanitize
+
+      - name: Check that the bundle matches this commit
+        run: |
+          python - <<'PY'
+          import json, os
+          info = json.load(open("app/BUILD_INFO.json"))
+          assert info["commit"] == os.environ["GITHUB_SHA"], info
+          print("Bundle commit:", info["commit"])
+          PY
+
+      - name: Show the backend log
+        if: always()
+        run: cat uvicorn.log || true
+
+  release:
+    name: Publish GitHub Release
+    needs: smoke
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-bundle
+          path: release
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" release/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "TraceLearn $GITHUB_REF_NAME" \
+            --generate-notes \
+            --verify-tag

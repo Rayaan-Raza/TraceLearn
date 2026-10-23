@@ -1,0 +1,1218 @@
+{
+  "problems": [
+    {
+      "id": "CP01",
+      "slug": "m01_sum_first_n",
+      "title": "Sum First N (Exclusive Bound)",
+      "description": "Read one integer n. Print the sum of the integers 0, 1, 2, ... , n-1. The upper bound n is exclusive. For n = 0 the range is empty and the sum is 0.",
+      "function_name": "main",
+      "concept_tags": [
+        "cpp",
+        "diagnostics",
+        "cpp-m01"
+      ],
+      "prerequisite_tags": [
+        "cpp17",
+        "stdin-stdout"
+      ],
+      "starter_code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n",
+      "designed_misconception": "CPP-M01",
+      "secondary_misconceptions": [
+        "CPP-M08"
+      ],
+      "language": "cpp",
+      "language_standard": "cpp17",
+      "topic": "Diagnostics",
+      "difficulty": "Easy",
+      "input_spec": "One line that holds one integer n.",
+      "output_spec": "One line that holds one integer: the sum.",
+      "constraints": "0 <= n <= 1000",
+      "reference_solution": "solutions/CP01.cpp",
+      "taxonomy_version": "cpp-taxonomy-0.1",
+      "test_cases": [
+        {
+          "id": "CP01-V1",
+          "name": "visible n",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "5\n"
+          },
+          "expected_output_json": "10\n",
+          "sort_order": 1,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP01-V2",
+          "name": "visible n",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "1\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 2,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP01-V3",
+          "name": "visible n",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 3,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP01-H1",
+          "name": "hidden n",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "100\n"
+          },
+          "expected_output_json": "4950\n",
+          "sort_order": 4,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP01-H2",
+          "name": "hidden n",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "1000\n"
+          },
+          "expected_output_json": "499500\n",
+          "sort_order": 5,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP01-H3",
+          "name": "hidden n",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "37\n"
+          },
+          "expected_output_json": "666\n",
+          "sort_order": 6,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP01-D1",
+          "name": "diagnostic upper_boundary",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 7,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "upper_boundary"
+        },
+        {
+          "id": "CP01-D2",
+          "name": "diagnostic upper_boundary",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "1\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 8,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "upper_boundary"
+        },
+        {
+          "id": "CP01-D3",
+          "name": "diagnostic upper_boundary",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "9\n"
+          },
+          "expected_output_json": "36\n",
+          "sort_order": 9,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "upper_boundary"
+        }
+      ]
+    },
+    {
+      "id": "CP02",
+      "slug": "m02_max_value_not_index",
+      "title": "Largest Value, Not Position",
+      "description": "Read n and then n integers. Print the largest value. If n = 0, print NONE. Print the value, not its position.",
+      "function_name": "main",
+      "concept_tags": [
+        "cpp",
+        "diagnostics",
+        "cpp-m02"
+      ],
+      "prerequisite_tags": [
+        "cpp17",
+        "stdin-stdout"
+      ],
+      "starter_code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n",
+      "designed_misconception": "CPP-M02",
+      "secondary_misconceptions": [
+        "CPP-M01"
+      ],
+      "language": "cpp",
+      "language_standard": "cpp17",
+      "topic": "Diagnostics",
+      "difficulty": "Easy",
+      "input_spec": "Line 1 holds n. Line 2 holds n integers separated by spaces.",
+      "output_spec": "One line that holds the largest value, or NONE.",
+      "constraints": "0 <= n <= 1000. Each value is between -1000000 and 1000000.",
+      "reference_solution": "solutions/CP02.cpp",
+      "taxonomy_version": "cpp-taxonomy-0.1",
+      "test_cases": [
+        {
+          "id": "CP02-V1",
+          "name": "visible vals",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "3\n7 3 9\n"
+          },
+          "expected_output_json": "9\n",
+          "sort_order": 1,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP02-V2",
+          "name": "visible vals",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "5\n-5 -9 -2 -4 -8\n"
+          },
+          "expected_output_json": "-2\n",
+          "sort_order": 2,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP02-V3",
+          "name": "visible vals",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "4\n4 4 4 4\n"
+          },
+          "expected_output_json": "4\n",
+          "sort_order": 3,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP02-H1",
+          "name": "hidden vals",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "1\n42\n"
+          },
+          "expected_output_json": "42\n",
+          "sort_order": 4,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP02-H2",
+          "name": "hidden vals",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "6\n1000000 999999 1 -1000000 7 0\n"
+          },
+          "expected_output_json": "1000000\n",
+          "sort_order": 5,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP02-H3",
+          "name": "hidden vals",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "7\n0 0 0 0 0 0 0\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 6,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP02-H4",
+          "name": "hidden vals",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "NONE\n",
+          "sort_order": 7,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP02-D1",
+          "name": "diagnostic value_not_index",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "3\n7 3 9\n"
+          },
+          "expected_output_json": "9\n",
+          "sort_order": 8,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "value_not_index"
+        },
+        {
+          "id": "CP02-D2",
+          "name": "diagnostic duplicate_values",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "3\n5 5 5\n"
+          },
+          "expected_output_json": "5\n",
+          "sort_order": 9,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "duplicate_values"
+        },
+        {
+          "id": "CP02-D3",
+          "name": "diagnostic value_not_index",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "2\n-1 -1\n"
+          },
+          "expected_output_json": "-1\n",
+          "sort_order": 10,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "value_not_index"
+        }
+      ]
+    },
+    {
+      "id": "CP03",
+      "slug": "m03_return_contract",
+      "title": "Return, Do Not Print",
+      "description": "Write a function int twice(int x) that returns x * 2. The function must return the value. It must not print the value. Your main reads x and prints twice(x) + 1.",
+      "function_name": "main",
+      "concept_tags": [
+        "cpp",
+        "diagnostics",
+        "cpp-m03"
+      ],
+      "prerequisite_tags": [
+        "cpp17",
+        "stdin-stdout"
+      ],
+      "starter_code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n",
+      "designed_misconception": "CPP-M03",
+      "secondary_misconceptions": [],
+      "language": "cpp",
+      "language_standard": "cpp17",
+      "topic": "Diagnostics",
+      "difficulty": "Easy",
+      "input_spec": "One line that holds one integer x.",
+      "output_spec": "One line that holds one integer.",
+      "constraints": "-1000000 <= x <= 1000000",
+      "reference_solution": "solutions/CP03.cpp",
+      "taxonomy_version": "cpp-taxonomy-0.1",
+      "test_cases": [
+        {
+          "id": "CP03-V1",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "4\n"
+          },
+          "expected_output_json": "9\n",
+          "sort_order": 1,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP03-V2",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "1\n",
+          "sort_order": 2,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP03-V3",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "10\n"
+          },
+          "expected_output_json": "21\n",
+          "sort_order": 3,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP03-H1",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "1\n"
+          },
+          "expected_output_json": "3\n",
+          "sort_order": 4,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP03-H2",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "25\n"
+          },
+          "expected_output_json": "51\n",
+          "sort_order": 5,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP03-H3",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "-7\n"
+          },
+          "expected_output_json": "-13\n",
+          "sort_order": 6,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP03-D1",
+          "name": "diagnostic return_channel",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "4\n"
+          },
+          "expected_output_json": "9\n",
+          "sort_order": 7,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "return_channel"
+        },
+        {
+          "id": "CP03-D2",
+          "name": "diagnostic return_channel",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "1\n",
+          "sort_order": 8,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "return_channel"
+        },
+        {
+          "id": "CP03-D3",
+          "name": "diagnostic return_channel",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "7\n"
+          },
+          "expected_output_json": "15\n",
+          "sort_order": 9,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "return_channel"
+        }
+      ]
+    },
+    {
+      "id": "CP04",
+      "slug": "m04_last_element",
+      "title": "Last Element Of A Vector",
+      "description": "Read n and then n integers. Print the last element. If n = 0, print EMPTY. The index size() is never a valid index.",
+      "function_name": "main",
+      "concept_tags": [
+        "cpp",
+        "diagnostics",
+        "cpp-m04"
+      ],
+      "prerequisite_tags": [
+        "cpp17",
+        "stdin-stdout"
+      ],
+      "starter_code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n",
+      "designed_misconception": "CPP-M04",
+      "secondary_misconceptions": [
+        "CPP-M01"
+      ],
+      "language": "cpp",
+      "language_standard": "cpp17",
+      "topic": "Diagnostics",
+      "difficulty": "Easy",
+      "input_spec": "Line 1 holds n. Line 2 holds n integers separated by spaces.",
+      "output_spec": "One line that holds the last element, or EMPTY.",
+      "constraints": "0 <= n <= 1000. Each value is between -1000000 and 1000000.",
+      "reference_solution": "solutions/CP04.cpp",
+      "taxonomy_version": "cpp-taxonomy-0.1",
+      "test_cases": [
+        {
+          "id": "CP04-V1",
+          "name": "visible vals",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "5\n10 20 30 40 50\n"
+          },
+          "expected_output_json": "50\n",
+          "sort_order": 1,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP04-V2",
+          "name": "visible vals",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "1\n7\n"
+          },
+          "expected_output_json": "7\n",
+          "sort_order": 2,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP04-V3",
+          "name": "visible vals",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "EMPTY\n",
+          "sort_order": 3,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP04-H1",
+          "name": "hidden vals",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "4\n1 2 3 4\n"
+          },
+          "expected_output_json": "4\n",
+          "sort_order": 4,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP04-H2",
+          "name": "hidden vals",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "6\n5 4 3 2 1 0\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 5,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP04-H3",
+          "name": "hidden vals",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "3\n-1 -2 -3\n"
+          },
+          "expected_output_json": "-3\n",
+          "sort_order": 6,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP04-D1",
+          "name": "diagnostic size_zero",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "EMPTY\n",
+          "sort_order": 7,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "size_zero"
+        },
+        {
+          "id": "CP04-D2",
+          "name": "diagnostic size_one",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "1\n99\n"
+          },
+          "expected_output_json": "99\n",
+          "sort_order": 8,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "size_one"
+        },
+        {
+          "id": "CP04-D3",
+          "name": "diagnostic last_valid_index",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "5\n10 20 30 40 50\n"
+          },
+          "expected_output_json": "50\n",
+          "sort_order": 9,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "last_valid_index"
+        }
+      ]
+    },
+    {
+      "id": "CP05",
+      "slug": "m05_range_check",
+      "title": "Range Check 1 To 10",
+      "description": "Read one integer x. Print IN when x is inside the closed range 1 to 10. Print OUT otherwise. Use an explicit conjunction of two comparisons.",
+      "function_name": "main",
+      "concept_tags": [
+        "cpp",
+        "diagnostics",
+        "cpp-m05"
+      ],
+      "prerequisite_tags": [
+        "cpp17",
+        "stdin-stdout"
+      ],
+      "starter_code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n",
+      "designed_misconception": "CPP-M05",
+      "secondary_misconceptions": [
+        "CPP-M06"
+      ],
+      "language": "cpp",
+      "language_standard": "cpp17",
+      "topic": "Diagnostics",
+      "difficulty": "Easy",
+      "input_spec": "One line that holds one integer x.",
+      "output_spec": "One line that holds IN or OUT.",
+      "constraints": "-1000000 <= x <= 1000000",
+      "reference_solution": "solutions/CP05.cpp",
+      "taxonomy_version": "cpp-taxonomy-0.1",
+      "test_cases": [
+        {
+          "id": "CP05-V1",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "5\n"
+          },
+          "expected_output_json": "IN\n",
+          "sort_order": 1,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP05-V2",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "OUT\n",
+          "sort_order": 2,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP05-V3",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "10\n"
+          },
+          "expected_output_json": "IN\n",
+          "sort_order": 3,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP05-H1",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "1\n"
+          },
+          "expected_output_json": "IN\n",
+          "sort_order": 4,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP05-H2",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "11\n"
+          },
+          "expected_output_json": "OUT\n",
+          "sort_order": 5,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP05-H3",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "-5\n"
+          },
+          "expected_output_json": "OUT\n",
+          "sort_order": 6,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP05-H4",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "100\n"
+          },
+          "expected_output_json": "OUT\n",
+          "sort_order": 7,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP05-H5",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "-1\n"
+          },
+          "expected_output_json": "OUT\n",
+          "sort_order": 8,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP05-D1",
+          "name": "diagnostic lower_bound",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "1\n"
+          },
+          "expected_output_json": "IN\n",
+          "sort_order": 9,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "lower_bound"
+        },
+        {
+          "id": "CP05-D2",
+          "name": "diagnostic upper_bound",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "10\n"
+          },
+          "expected_output_json": "IN\n",
+          "sort_order": 10,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "upper_bound"
+        },
+        {
+          "id": "CP05-D3",
+          "name": "diagnostic above_range",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "11\n"
+          },
+          "expected_output_json": "OUT\n",
+          "sort_order": 11,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "above_range"
+        },
+        {
+          "id": "CP05-D4",
+          "name": "diagnostic below_range",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "-5\n"
+          },
+          "expected_output_json": "OUT\n",
+          "sort_order": 12,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "below_range"
+        }
+      ]
+    },
+    {
+      "id": "CP06",
+      "slug": "m06_zero_test",
+      "title": "Zero Or Not Zero",
+      "description": "Read one integer x. Print ZERO when x equals 0. Print NONZERO otherwise. Compare the values. Do not assign.",
+      "function_name": "main",
+      "concept_tags": [
+        "cpp",
+        "diagnostics",
+        "cpp-m06"
+      ],
+      "prerequisite_tags": [
+        "cpp17",
+        "stdin-stdout"
+      ],
+      "starter_code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n",
+      "designed_misconception": "CPP-M06",
+      "secondary_misconceptions": [
+        "CPP-M05"
+      ],
+      "language": "cpp",
+      "language_standard": "cpp17",
+      "topic": "Diagnostics",
+      "difficulty": "Easy",
+      "input_spec": "One line that holds one integer x.",
+      "output_spec": "One line that holds ZERO or NONZERO.",
+      "constraints": "-1000000 <= x <= 1000000",
+      "reference_solution": "solutions/CP06.cpp",
+      "taxonomy_version": "cpp-taxonomy-0.1",
+      "test_cases": [
+        {
+          "id": "CP06-V1",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "ZERO\n",
+          "sort_order": 1,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP06-V2",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "7\n"
+          },
+          "expected_output_json": "NONZERO\n",
+          "sort_order": 2,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP06-V3",
+          "name": "visible x",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "-3\n"
+          },
+          "expected_output_json": "NONZERO\n",
+          "sort_order": 3,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP06-H1",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "1\n"
+          },
+          "expected_output_json": "NONZERO\n",
+          "sort_order": 4,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP06-H2",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "ZERO\n",
+          "sort_order": 5,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP06-H3",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "42\n"
+          },
+          "expected_output_json": "NONZERO\n",
+          "sort_order": 6,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP06-H4",
+          "name": "hidden x",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "-1\n"
+          },
+          "expected_output_json": "NONZERO\n",
+          "sort_order": 7,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP06-D1",
+          "name": "diagnostic zero_input",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "ZERO\n",
+          "sort_order": 8,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "zero_input"
+        },
+        {
+          "id": "CP06-D2",
+          "name": "diagnostic nonzero_input",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "5\n"
+          },
+          "expected_output_json": "NONZERO\n",
+          "sort_order": 9,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "nonzero_input"
+        }
+      ]
+    },
+    {
+      "id": "CP07",
+      "slug": "m07_factorial",
+      "title": "Factorial By Recursion",
+      "description": "Read one integer n. Print n factorial. Use a recursive function long long factorial(int n). Each recursive call must approach the base case n <= 1.",
+      "function_name": "main",
+      "concept_tags": [
+        "cpp",
+        "diagnostics",
+        "cpp-m07"
+      ],
+      "prerequisite_tags": [
+        "cpp17",
+        "stdin-stdout"
+      ],
+      "starter_code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n",
+      "designed_misconception": "CPP-M07",
+      "secondary_misconceptions": [
+        "CPP-M08"
+      ],
+      "language": "cpp",
+      "language_standard": "cpp17",
+      "topic": "Diagnostics",
+      "difficulty": "Easy",
+      "input_spec": "One line that holds one integer n.",
+      "output_spec": "One line that holds one integer.",
+      "constraints": "0 <= n <= 20",
+      "reference_solution": "solutions/CP07.cpp",
+      "taxonomy_version": "cpp-taxonomy-0.1",
+      "test_cases": [
+        {
+          "id": "CP07-V1",
+          "name": "visible n",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "1\n",
+          "sort_order": 1,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP07-V2",
+          "name": "visible n",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "5\n"
+          },
+          "expected_output_json": "120\n",
+          "sort_order": 2,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP07-V3",
+          "name": "visible n",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "1\n"
+          },
+          "expected_output_json": "1\n",
+          "sort_order": 3,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP07-H1",
+          "name": "hidden n",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "10\n"
+          },
+          "expected_output_json": "3628800\n",
+          "sort_order": 4,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP07-H2",
+          "name": "hidden n",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "20\n"
+          },
+          "expected_output_json": "2432902008176640000\n",
+          "sort_order": 5,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP07-H3",
+          "name": "hidden n",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "3\n"
+          },
+          "expected_output_json": "6\n",
+          "sort_order": 6,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP07-D1",
+          "name": "diagnostic base_case",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "0\n"
+          },
+          "expected_output_json": "1\n",
+          "sort_order": 7,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "base_case"
+        },
+        {
+          "id": "CP07-D2",
+          "name": "diagnostic one_step",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "1\n"
+          },
+          "expected_output_json": "1\n",
+          "sort_order": 8,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "one_step"
+        },
+        {
+          "id": "CP07-D3",
+          "name": "diagnostic several_steps",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "6\n"
+          },
+          "expected_output_json": "720\n",
+          "sort_order": 9,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "several_steps"
+        }
+      ]
+    },
+    {
+      "id": "CP08",
+      "slug": "m08_search_exit",
+      "title": "First Position Of A Target",
+      "description": "Read n, then n integers, then one target value t. Print the 0-based position of the first value that equals t. If t is absent, print NOT FOUND. The search loop must stop when the list ends.",
+      "function_name": "main",
+      "concept_tags": [
+        "cpp",
+        "diagnostics",
+        "cpp-m08"
+      ],
+      "prerequisite_tags": [
+        "cpp17",
+        "stdin-stdout"
+      ],
+      "starter_code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n",
+      "designed_misconception": "CPP-M08",
+      "secondary_misconceptions": [
+        "CPP-M04"
+      ],
+      "language": "cpp",
+      "language_standard": "cpp17",
+      "topic": "Diagnostics",
+      "difficulty": "Easy",
+      "input_spec": "Line 1 holds n. Line 2 holds n integers. Line 3 holds the target t.",
+      "output_spec": "One line that holds a position, or NOT FOUND.",
+      "constraints": "1 <= n <= 1000. Each value is between -1000000 and 1000000.",
+      "reference_solution": "solutions/CP08.cpp",
+      "taxonomy_version": "cpp-taxonomy-0.1",
+      "test_cases": [
+        {
+          "id": "CP08-V1",
+          "name": "visible vals target",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "5\n10 20 30 40 50\n30\n"
+          },
+          "expected_output_json": "2\n",
+          "sort_order": 1,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP08-V2",
+          "name": "visible vals target",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "4\n1 2 3 4\n9\n"
+          },
+          "expected_output_json": "NOT FOUND\n",
+          "sort_order": 2,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP08-V3",
+          "name": "visible vals target",
+          "test_type": "visible",
+          "input_json": {
+            "stdin": "1\n8\n8\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 3,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "is_boundary": true
+        },
+        {
+          "id": "CP08-H1",
+          "name": "hidden vals target",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "5\n5 5 5 5 5\n5\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 4,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP08-H2",
+          "name": "hidden vals target",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "6\n1 2 3 4 5 6\n6\n"
+          },
+          "expected_output_json": "5\n",
+          "sort_order": 5,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP08-H3",
+          "name": "hidden vals target",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "3\n-1 -2 -3\n-3\n"
+          },
+          "expected_output_json": "2\n",
+          "sort_order": 6,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP08-H4",
+          "name": "hidden vals target",
+          "test_type": "hidden",
+          "input_json": {
+            "stdin": "2\n7 8\n100\n"
+          },
+          "expected_output_json": "NOT FOUND\n",
+          "sort_order": 7,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256
+        },
+        {
+          "id": "CP08-D1",
+          "name": "diagnostic immediate_find",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "5\n10 20 30 40 50\n10\n"
+          },
+          "expected_output_json": "0\n",
+          "sort_order": 8,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "immediate_find"
+        },
+        {
+          "id": "CP08-D2",
+          "name": "diagnostic absent_target",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "5\n10 20 30 40 50\n99\n"
+          },
+          "expected_output_json": "NOT FOUND\n",
+          "sort_order": 9,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "absent_target"
+        },
+        {
+          "id": "CP08-D3",
+          "name": "diagnostic last_index",
+          "test_type": "diagnostic",
+          "input_json": {
+            "stdin": "6\n1 2 3 4 5 6\n6\n"
+          },
+          "expected_output_json": "5\n",
+          "sort_order": 10,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "diagnostic_tag": "last_index"
+        }
+      ]
+    }
+  ]
+}
