@@ -1,3 +1,6 @@
+# Raw data — read-only, not committed
+Datasets_RAW/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -22,7 +25,6 @@ reports/
 
 # Environment & local data
 .env
-# Local deployment runbook — contains live secrets, never commit it
 DEPLOYMENT.md
 *.db
 *.sqlite3
@@ -38,6 +40,7 @@ frontend/dist/
 .idea/
 .DS_Store
 Thumbs.db
+*.swp
 
 # Logs & temp output
 *.log
@@ -53,3 +56,14 @@ data/misconception_dataset/cache/
 # Blind gold forms (student code) and the hidden answer key: local only, re-create with scripts/build_annotation_forms.py
 data/misconception_dataset/annotations/forms/
 data/misconception_dataset/annotations/forms_key/
+# Large generated files
+data/intermediate/normalized/hash_cache.json
+data/intermediate/normalized/*.log
+
+# Model checkpoints
+data/misconception_dataset/models/*.bin
+data/misconception_dataset/models/*.pkl
+
+# Large source data files (>50MB)
+data/intermediate/normalized/submissions/submissions.jsonl
+data/intermediate/normalized/submissions/submissions.csv
