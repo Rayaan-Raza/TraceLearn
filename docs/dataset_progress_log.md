@@ -19,13 +19,14 @@ Status legend: ✅ done (committed) · 🚧 in progress · ⏳ blocked on lane o
 | T5 | G1 verifier: `verify_dataset.py` + per-class report | ✅ | `822247d` |
 | T6 | Problem clustering → `cluster_assignments.csv` (unblocks Eman) | ✅ | `46c6506` |
 | T7 | PROGPedia CPG parser + pg detectors + gcc warnings + weak labeler | ✅ | `ea5f0e0`, `8d126e3`, `aa35516`, `7217d08` |
-| T8 | `merge_dataset.py`: concat, MinHash dedupe, joins, grouped split, G7 | 🚧 next | — |
-| T9 | `train_xgb_misconception.py` baseline on fixtures | ⏳ after T8 | — |
+| T8 | `merge_dataset.py`: three-lane merge, dedupe, joins, grouped split, G7 | ✅ | `afddc45` (+ lane-gate fix `c25dff0`) |
+| T9 | `train_xgb_misconception.py`: three variants, Layer-3 weights, G8 metrics | ✅ (G8 red at pilot scale — see T9) | `b737b65` |
 | T10 | Dataset scaffold docs (README, DATASET_CARD, ANNOTATION_GUIDELINE) | ⏳ | — |
 
-Real merge/train and gates G3/G4/G5b/G6–G10 remain blocked on Eman's
-`tier0_mutants.jsonl` and Umaima's `tier1a_codestream.jsonl` + sandbox_runner.
-All independent Rayaan work proceeds in the meantime.
+All three lanes are merged and on main (PRs #1/#2/#3 merged 2026-10-23);
+the real merge (541 → 311 rows) and pilot training ran on this machine
+with the G: raw corpus attached. Gates G3/G4/G5b/G6–G10 remain milestone
+work; G5 (audit) and G6 (gold annotation) need human labeling.
 
 ---
 
@@ -117,6 +118,94 @@ these pg rules.
 
 ---
 
+## T8 - Three-lane merge (`c25dff0` + `afddc45`)
+
+`scripts/merge_dataset.py`: G1-validates every lane row → joins
+`label_mapping.csv` (family/modeled/hard3; pre-registered `merged_into`
+folds execute as a join) → resolves each row's own code from the raw
+corpus (one streaming pass per CSV) → token 5-gram Jaccard ≥ 0.8 dedupe →
+cluster/split join → G7 leakage checks → `labels.jsonl`, `features.csv`,
+`splits.csv`, `merge_report.json`.
+
+**Real run: 541 rows → 311 kept** (train 274 / test 33 / dev_gold 4;
+SYNTHETIC 128, PROGPEDIA 150, CODESTREAM 33; code uncovered 0).
+
+The 230 dropped twins were verified by hand, not assumed:
+- 185 PROGPedia — genuine successive-attempt twins (sampled J=0.81–0.98,
+  684 real J≥0.8 pairs; e.g. J=1.000 resubmissions);
+- 23 CodeStream — same-split duplicates (test↔test, dev↔dev, train↔train);
+  6 held-out rows dropped against their own split's twin, never across;
+- 22 synthetic — duplicate emissions: `generate_mutants.py` applies a form
+  deterministically to one seed, so same (seed, form, problem, label) with
+  identical runtime IS the same mutant re-emitted (row_id embeds a
+  process-randomized `hash(cls)`, so resume runs cannot dedupe by id —
+  flagged for lane A).
+
+Structural G7 all zero (cross-split twins independently recomputed by
+hand = 0); merged output re-passes G1 (311 rows, 0 issues).
+
+Rulings:
+- Only `tier*.jsonl` are lane inputs; a previous run's `labels.jsonl` is
+  never re-merged (and the lane gate now excludes it by name — `c25dff0` —
+  so per-class floors cannot double-count).
+- SYNTHETIC rows have no own code (source_record_id is the shared seed):
+  they dedupe by identity `(seed_ref, mutation_op, problem_id, label)`;
+  code MinHash applies only to CODESTREAM/PROGPedia rows.
+- Exact pairwise Jaccard replaces MinHash at pilot scale (strictly
+  stricter, no candidate misses, identical threshold semantics); revisit
+  LSH banding at ≥1e5 rows.
+- Structural violations raise before any output; leakage findings are
+  reported, never silently repaired.
+
+Findings surfaced in `merge_report.json` (loud, not papered over):
+- PSI train-vs-test drift on `tests.total`/`static.loc`/`tests.passed`
+  (max 3.78) = pool asymmetry: the frozen test split is CodeStream-only
+  while train mixes pg+syn+cs. Plan's PSI<0.2 gate is specced for
+  train/val and runs at T9 — the merge's probe is informational.
+- Feature availability matrix: **tier1a `static=null`, `cpg`/`context`
+  absent**; tier0 `tests`/`cpg`/`context` empty; tier1b runtime/tests
+  key-present-but-NaN.
+
+## T9 - XGBoost trainer, pilot run (`b737b65`)
+
+`scripts/train_xgb_misconception.py` (§11.5 R6 → G8): in-script
+`assert gold ∉ train` (dev-gold clusters disjoint); Layer-3 weights
+`w = w_balance × w_confidence × w_source` clipped [0.1, 10]; synthetic
+multiplier CV-selected on train-only StratifiedGroupKFold folds; three
+variants (full / common=static+warnings / masked=lf_inputs→NaN on weak
+rows, informational with disclosed train/test mismatch); ONE global
+threshold + temperature on dev-gold only (isotonic banned; with 4
+dev-gold rows the calibrator records the explicit too-small fallback).
+Deterministic (seeded, single-threaded hist). Artifacts in
+`data/misconception_dataset/models/`.
+
+**Pilot G8 status — honest, gates red:**
+- PASS: gold-not-in-train · class-mass ≤15% · weight clip · artifacts;
+- **FAIL: CV macro-F1 0.102 vs majority 0.069 (margin 0.033, needs ≥0.25)**;
+- **FAIL: synthetic mass 0.89 > 0.50**.
+
+Root causes (data, not code):
+1. **tier0 carries no canonical features except `static.loc`** — its
+   blocks are `static={source_code, sha256, loc}`, raw gcc text in
+   `warnings.compile_warnings`, non-canonical `runtime={tests_passed,
+   tests_failed, tests_total, sanitizer_ok}`, empty `tests`/`cpg`/
+   `context`. The 106 synthetic train rows therefore expose ONE number
+   each: ARRAY_BOUNDS learns well (OOF F1 0.943), the other 10 classes
+   have recall 0 and the margin cannot materialize. **Lane-A feature
+   mining of mutant rows is the blocker for G8/G3.**
+2. At pilot scale non-synthetic mass sits almost entirely in
+   ARRAY_BOUNDS (150 pg + 18 cs of 168 real rows), making the ≤50%
+   synthetic-mass and ≤15% class-mass caps arithmetically mutually
+   exclusive — both need the full real-row supply (≥5,300 weak rules,
+   decoy pool). Caps are recorded in `metrics_v1.json`, never tuned into
+   green.
+
+Masked == full OOF was verified as genuine coincidence (masking does
+introduce 150 NaNs on real data; predictions merely coincide), not a
+wiring bug.
+
+---
+
 ## Rulings & decisions log (binding for this lane)
 
 - G0 labeled pool = CODESTREAM + PROGPedia only; G0b/G0c explicit nulls.
@@ -130,6 +219,12 @@ these pg rules.
 - `pipeline_run_id="label_weak_progpedia/1.0.0"` (deterministic); `problem_cluster=null` until T8.
 - Multi_signal review pool lives at `data/misconception_dataset/review/multi_signal.jsonl` (outside verify's scan dir).
 - Raw corpus spans TWO dirs (`progpedia/` and `progpedia (1)/`); labeler resolves per-row via `source_code_path`. Detector measurements on one dir alone undercount (98 vs 335 pg-3).
+- **G1 proof-join** (`095878c`): template SYNTHETIC orphans are excused iff a committed mutant proof matches `(problem_id, mutation_op, label)` — evidence-based, never blanket; all other sources keep the strict normalized join.
+- **Cluster extend** (`e879f2e`): frozen CodeStream rows byte-stable; new problems join a frozen cluster's split (leakage-safe); all-new clusters are train (silver = training material; dev/test budget stays CodeStream's gold); a union cluster spanning frozen splits raises — never silently re-split.
+- **Dedupe basis split** (T8): code-bearing rows by token 5-gram Jaccard ≥0.8 (keep-first by row_id); SYNTHETIC rows by identity `(seed_ref, mutation_op, problem_id, label)` — seed code must never drive mutant dedupe.
+- **G7 exit semantics** (T8): structural leakage (cluster/seed straddles, cross-split twins) fails the merge CLI; PSI drift is reported loudly but non-gating at merge time (its train/val gate runs at T9/T10).
+- **Lane gate scans inputs only** (`c25dff0`): `verify_dataset` excludes the merge's derived `labels.jsonl` — else per-class floors double-count.
+- **Trainer discipline** (T9): gold-not-in-train asserted in-script; ONE global threshold + temperature on dev-gold only (isotonic banned; <10 dev-gold rows → explicit uncalibrated fallback, never an overfit calibrator); Layer-3 caps recorded as findings, never enforced by silent re-weighting.
 
 ## Environment notes
 
@@ -138,9 +233,18 @@ these pg rules.
 
 ## Next actions
 
-1. **T8** `scripts/merge_dataset.py`: schema validation, concat tiers, MinHash
-   dedupe, join cluster ids, grouped split (G7), gate checks — on fixtures.
-2. **T9** `scripts/train_xgb_misconception.py` baseline on fixtures.
-3. **T10** dataset scaffold docs.
-4. On lane outputs arriving: real merge, G3/G4/G5b/G6–G10 gates, G5 audit
-   pass to set final confidences.
+1. **Lane-A feature mining (blocker for G8/G3)** — team decision: Eman
+   mines canonical §6 features for `tier0_mutants` rows (mutant code is
+   embedded in each row), or the sanctioned post-G3 `migrate_schema.py`
+   window bridges `runtime.tests_*` → `tests.*` etc. Until then 10 of 11
+   classes stay unlearnable and G8 stays red.
+2. **T10** dataset scaffold docs (README, DATASET_CARD; adopt Umaima's
+   ANNOTATION_GUIDELINE.md).
+3. **G5 audit** (human, ≥50 fires per rule) to move silver → certain and
+   set final confidences; **G6** gold annotation (needed before any
+   test-gold evaluation and before calibration is meaningful).
+4. Team-open decisions: canonical normalized-index path
+   (`data/Data_from_Datasets/...` vs committed `data/intermediate/...`);
+   canonical cluster artifact vs Umaima's `codestream_clusters.csv`.
+5. Re-run `merge_dataset.py` + `train_xgb_misconception.py` after lane
+   fixes; G3/G4/G5b/G8–G10 at milestones with bootstrap CIs.
