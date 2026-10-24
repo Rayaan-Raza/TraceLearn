@@ -22,6 +22,7 @@ import re
 from typing import Any
 
 from tracelearn_features.schema import FEATURE_BLOCKS, WARNING_FLAG_OF
+from tracelearn_features.semantics import extract_semantics
 
 _NAN = float("nan")
 
@@ -104,7 +105,6 @@ def _compute_static(source: str, language: str) -> dict[str, Any]:
         lines = text.split("\n")
         stripped = _C_COMMENT_RE.sub("", text)
         code_lines = [ln for ln in lines if ln.strip()]
-        comment_lines = len(lines) - len([ln for ln in lines if ln.strip() and _C_COMMENT_RE.sub("", ln).strip() or not ln.strip()])
         # comment-only lines: blank after removing comments
         comment_only = sum(
             1
@@ -113,7 +113,6 @@ def _compute_static(source: str, language: str) -> dict[str, Any]:
         )
         tokens = _TOKEN_RE.findall(stripped)
         unique = len(set(tokens))
-        indent = 0
         max_indent = 0
         for ln in lines:
             lead = len(ln) - len(ln.lstrip(" \t"))
@@ -375,6 +374,24 @@ def _compute_cpg(evidence: Any) -> dict[str, Any]:
     return out
 
 
+# ----------------------------------------------------------------- semantics
+
+
+def _compute_semantics(source: str) -> dict[str, Any]:
+    out = _nan_block("semantics")
+    if not isinstance(source, str) or not source.strip():
+        return out
+    try:
+        vals = extract_semantics(source)
+        if vals:
+            for short in FEATURE_BLOCKS["semantics"]:
+                v = vals.get(short)
+                out[short] = int(v) if v is not None else _NAN
+    except Exception:
+        return _nan_block("semantics")
+    return out
+
+
 # -------------------------------------------------------------------- context
 
 def _compute_context(evidence: Any) -> dict[str, Any]:
@@ -431,5 +448,6 @@ def extract_features(
         "runtime": _compute_runtime(runtime),
         "tests": _compute_tests(tests),
         "cpg": _compute_cpg(cpg),
+        "semantics": _compute_semantics(source),
         "context": _compute_context(context),
     }
