@@ -310,24 +310,64 @@ enforced.
 - WSL Ubuntu gcc/g++ 13.3.0 (12 cores) substitutes for the host compiler; Docker daemon down (real sandbox runs blocked → build/test on fixtures only).
 - Manifests/scripts write `newline="\n"` — CRLF broke bash `[ -f ]` on every path (exit 127); regression test added.
 
+## T9c — Schema v1.1, semantics extractor, XGBoost fixes, best variant (`feat/xgb-model-improvements`)
+
+Branch: `feat/xgb-model-improvements` (Eman, 2026-10-24). Three commits:
+
+### `dcbb231` — Semantics block wired into extractor interface
+
+`FEATURE_BLOCKS["semantics"]` (15 int features) was already in `schema.py` and
+`tracelearn_features/semantics.py` was written, but `extract_features()` in
+`extractor.py` was not returning the block — breaking `test_extract_features.py`
+(3 failures). Fixed by importing `extract_semantics` and adding `_compute_semantics(source)`
+between the `cpg` and `context` blocks in the return dict. Empty source degrades
+to `available=False` / NaN per the §6 null policy, never raises.
+
+Also removed two pre-existing unused variables flagged by ruff (`comment_lines`, `indent`).
+
+### `82f5d71` — XGBoost 2.x `save_model()` compatibility
+
+XGBoost ≥2.0 changed `XGBClassifier.save_model()` to call `self._get_type()` via
+the sklearn API, raising `TypeError: _estimator_type undefined` when the model
+was fit without the full sklearn initialization path. All four model saves now
+use `model.get_booster().save_model(path)` (native booster format, works across
+all 2.x releases). Fixed 9 failing tests in `test_train_xgb_misconception.py`.
+
+### `a1aea62` — Best variant model + 3-repeat CV
+
+First run of `train_xgb_misconception.py --cv-repeats 3` with the `best` variant
+(`BEST_PREFIXES = static + warnings + semantics`). Saves `xgb_best_v1.json`.
+Metrics below are **pre-semantics** (features.csv predates the extractor fix;
+semantics block all-NaN until merge reruns with submissions.csv):
+
+| variant | CV macro-F1 | G8 margin |
+|---------|-------------|-----------|
+| full    | 0.174 ± 0.063 | 0.105 |
+| common  | 0.200 ± 0.097 | — |
+| best    | 0.200 ± 0.097 | — (same as common: semantics NaN) |
+
+Expected after merge rerun with semantics: best CV ~0.232 (prototype result).
+G8 margin target = 0.25; current = 0.105 (FAIL — honest, not tuned).
+
+**Blocked on**: `submissions.csv` + raw source files on Rayaan's machine for
+`merge_dataset.py` rerun, and WSL g++ for `expand_mutants.py` pilot.
+All 114 targeted tests pass. Ruff clean.
+
+---
+
 ## Next actions
 
-1. **Lane-A supply across clusters (remaining blocker for G8/G3)** — the
-   merge now mines canonical static/warnings/tests from tier0 embedded code
-   and maps tier1a's raw runtime/tests/warnings (T9b), so the feature gap is
-   closed for everything the lanes carry. What remains is data: every
-   zero-F1 class sits in one or two problem clusters, so grouped CV cannot
-   learn it. Eman needs to emit real/mutant rows per class across clusters
-   (and persist sanitizer detail if runtime features are wanted for tier0).
-   `migrate_schema.py` is no longer needed for `runtime.tests_*` → `tests.*`
-   (the merge bridges it).
-2. **T10** dataset scaffold docs (README, DATASET_CARD; adopt Umaima's
+1. **Rayaan: run merge + expand on their machine** — `git pull feat/xgb-model-improvements`,
+   run `python scripts/merge_dataset.py` (needs G: raw corpus + submissions.csv),
+   run `python3 scripts/expand_mutants.py --pilot --classes CPP_MISSING_BASE_CASE
+   CPP_RANGE_CHECK --clusters-per-class 2 --rows-per-cluster 3`, push
+   `features.csv` + `tier0_mutants.jsonl` + `reports/expansion_report.json`.
+2. **After Rayaan pushes**: Eman pulls, re-runs `train_xgb_misconception.py
+   --cv-repeats 3`, compares best vs common baseline with semantics populated.
+3. **Full expansion** for 9 structurally starved classes once pilot confirms
+   compile/run/sanitizer evidence is correct.
+4. **T10** dataset scaffold docs (README, DATASET_CARD; adopt Umaima's
    ANNOTATION_GUIDELINE.md).
-3. **G5 audit** (human, ≥50 fires per rule) to move silver → certain and
+5. **G5 audit** (human, ≥50 fires per rule) to move silver → certain and
    set final confidences; **G6** gold annotation (needed before any
    test-gold evaluation and before calibration is meaningful).
-4. Team-open decisions: canonical normalized-index path
-   (`data/Data_from_Datasets/...` vs committed `data/intermediate/...`);
-   canonical cluster artifact vs Umaima's `codestream_clusters.csv`.
-5. Re-run `merge_dataset.py` + `train_xgb_misconception.py` after lane
-   fixes; G3/G4/G5b/G8–G10 at milestones with bootstrap CIs.
