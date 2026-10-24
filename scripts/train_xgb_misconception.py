@@ -557,13 +557,13 @@ def train(
     }
 
     # ---------------------------------------------------------- outputs
-    final_model.save_model(str(models / "xgb_v1.json"))
+    final_model.get_booster().save_model(str(models / "xgb_v1.json"))
     masked_model, _ = _fit_model(X_masked[train_mask], y[train_mask], w_final, seed)
-    masked_model.save_model(str(models / "xgb_masked_v1.json"))
+    masked_model.get_booster().save_model(str(models / "xgb_masked_v1.json"))
     common_model, _ = _fit_model(X_common[train_mask], y[train_mask], w_final, seed)
-    common_model.save_model(str(models / "xgb_common_v1.json"))
+    common_model.get_booster().save_model(str(models / "xgb_common_v1.json"))
     best_model, _ = _fit_model(X_best[train_mask], y[train_mask], w_final, seed)
-    best_model.save_model(str(models / "xgb_best_v1.json"))
+    best_model.get_booster().save_model(str(models / "xgb_best_v1.json"))
 
     (models / "label_encoder.json").write_text(
         json.dumps({"class_to_idx": class_to_idx, "idx_to_class": classes}, indent=2) + "\n",
