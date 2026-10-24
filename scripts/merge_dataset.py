@@ -66,6 +66,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.verify_dataset import check_row, load_jsonl, load_proof_keys  # noqa: E402
+from tracelearn_features.normalize import normalize_row  # noqa: E402
 from tracelearn_features.schema import FEATURE_BLOCKS, feature_names  # noqa: E402
 
 DEFAULT_DATASET_DIR = ROOT / "data" / "misconception_dataset"
@@ -537,6 +538,17 @@ def merge(
     before = len(rows)
     rows, n_deduped, dedupe_conflicts = dedupe_rows(rows, code_by_rid, threshold=threshold)
 
+    # 6b) normalize each lane's raw evidence onto the canonical registry.
+    # tier0 embeds the mutant's source; CodeStream's own code was resolved in
+    # step 5; PROGPedia already arrives canonical. Without this step
+    # flatten_features() would emit NaN for evidence the lane actually
+    # supplied in its own vocabulary (T9 root cause: tier0 exposed only
+    # static.loc, tier1a only 3 canonical columns).
+    rows = [
+        normalize_row(row, code=code_by_rid.get(str(row["row_id"])))
+        for row in rows
+    ]
+
     # 7) cluster/split join — an unlabeled-cluster problem is an integrity
     #    failure, never guessed
     clusters = load_cluster_table(ds / "splits" / "cluster_assignments.csv")
@@ -609,7 +621,11 @@ def merge(
         source = row.get(block)
         if not isinstance(source, dict):
             return False
-        for value in source.values():
+        for name, value in source.items():
+            if name == "available":
+                # `available` is a measurement flag, not evidence. A lane
+                # that says available=False supplied no values for the block.
+                continue
             if value is None:
                 continue
             if isinstance(value, float) and math.isnan(value):

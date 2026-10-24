@@ -1,0 +1,61 @@
+{
+  "run_id": "ef3d17d4b2",
+  "seed_submission_id": "tpl-MBC-001",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "mbc_remove_base_n0",
+  "label": "CPP_MISSING_BASE_CASE",
+  "seed_sha256": "2c4b2eb0fd1ca15949f93d352072e6bbeb89fc376a174d16e832ef12ed176531",
+  "mutant_sha256": "9fc5603e7475e464990c3488c8f72630aab6f5138802ad10f34cae5ae160d934",
+  "compile_warnings_std": "/tmp/tmpq7dnaxxc.cpp: In function \u2018int fact(int)\u2019:\n/tmp/tmpq7dnaxxc.cpp:3:5: warning: infinite recursion detected [-Winfinite-recursion]\n    3 | int fact(int n){\n      |     ^~~~\n/tmp/tmpq7dnaxxc.cpp:4:20: note: recursive call\n    4 |     return n * fact(n-1);\n      |                ~~~~^~~~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 0,
+    "timeout_count": 3,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": true
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    }
+  ],
+  "timestamp": "2026-10-23T20:01:54.406412"
+}

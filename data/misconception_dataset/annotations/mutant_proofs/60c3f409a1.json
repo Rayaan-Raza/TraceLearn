@@ -1,0 +1,68 @@
+{
+  "run_id": "60c3f409a1",
+  "seed_submission_id": "25284cf1-7e3c-47b1-81e7-5813bada35ff-68206040",
+  "problem_id": "tl-codestream-prob_001",
+  "operator": "avc_eq_to_assign_if",
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "seed_sha256": "e89c2408f82e3749a09008ae79c0d1728630074dcc60d7e9907a59e74cffa92e",
+  "mutant_sha256": "9dc1688dcef0aa3de2ec5b945cec2d6d13e3af222c6d558f926b7649d27ac463",
+  "compile_warnings_std": "/tmp/tmpg7e9b5d0.cpp: In function \u2018int main()\u2019:\n/tmp/tmpg7e9b5d0.cpp:24:8: warning: suggest parentheses around assignment used as truth value [-Wparentheses]\n   24 |   if(x = 0) x=9;\n      |      ~~^~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 3,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1231,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "000000000000000000000000000000000000 000000\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "0000000000000000000000000000000000000000 000000000000000\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "00000000000000000000000000000000000000000000000000000 0000000000000000000000000000000000000000000000000000000000000000000000000000000000 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:15:04.108709"
+}

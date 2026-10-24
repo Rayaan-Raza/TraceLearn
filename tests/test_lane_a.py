@@ -98,9 +98,13 @@ def test_jsonl_taxonomy_version(rows):
 
 
 def test_jsonl_schema_version(rows):
-    """schema_version must be '1.0'."""
+    """schema_version is the additive-compatible 1.0/1.1 pair.
+
+    Committed lane inputs predate the 1.1 warning additions and stay 1.0;
+    newly generated rows use the current 1.1 registry.
+    """
     for row in rows:
-        assert row["schema_version"] == "1.0", (
+        assert row["schema_version"] in {"1.0", "1.1"}, (
             f"row {row['row_id']} schema_version={row['schema_version']}"
         )
 

@@ -1,0 +1,68 @@
+{
+  "run_id": "9c058b50d2",
+  "seed_submission_id": "dfcef1d0-61f6-4be3-8f2e-7460cd458709-41760685",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "avc_eq_to_assign_if",
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "seed_sha256": "531799241da12249175b7365c559f2d17325a4f24b1fb1b2f15627901f7e11df",
+  "mutant_sha256": "ec0ae5d4b2c11ed751b7d5334eccd69cad30fab357da44dce29b8769e94d78d0",
+  "compile_warnings_std": "/tmp/tmp482dlqje.cpp: In function \u2018int main()\u2019:\n/tmp/tmp482dlqje.cpp:21:13: warning: suggest parentheses around assignment used as truth value [-Wparentheses]\n   21 |   if (count = t)\n      |       ~~~~~~^~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 2,
+  "tests_failed": 1,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 2,
+    "failed": 1,
+    "pass_rate": 0.6666666666666666,
+    "wrong_answer_count": 1,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 1
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1541,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "9c9a42uMzA5RPQ8Aro45fXgca218Pgf\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": " Zh4ppGdTY82YZu5CkgbpqgiIPvnAoP hzvC7 N3IQbb1kuK2JyVSvCBU24kdpnVVrtBHq78UxOU\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "Wl3nFmWKLh8vjOxl7T3Ab\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:15:16.451184"
+}

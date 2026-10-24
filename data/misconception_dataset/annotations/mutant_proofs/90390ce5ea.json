@@ -1,0 +1,61 @@
+{
+  "run_id": "90390ce5ea",
+  "seed_submission_id": "tpl-MBC-005",
+  "problem_id": "tl-codestream-prob_007",
+  "operator": "mbc_remove_return_base",
+  "label": "CPP_MISSING_BASE_CASE",
+  "seed_sha256": "026c3c9d0029d4165c6009e35bfc40fd64b21ed6fcbe771bf908335392da4767",
+  "mutant_sha256": "d22f0f55204dec302532b3ceb5b5e378a4f9f710b2d73ad27201a5506e70dfdf",
+  "compile_warnings_std": "/tmp/tmp_48bf1gy.cpp: In function \u2018int gcd_r(int, int)\u2019:\n/tmp/tmp_48bf1gy.cpp:3:5: warning: infinite recursion detected [-Winfinite-recursion]\n    3 | int gcd_r(int a, int b){\n      |     ^~~~~\n/tmp/tmp_48bf1gy.cpp:5:17: note: recursive call\n    5 |     return gcd_r(b, a%b);\n      |            ~~~~~^~~~~~~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 0,
+    "timeout_count": 3,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": true
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    }
+  ],
+  "timestamp": "2026-10-23T20:03:17.729593"
+}

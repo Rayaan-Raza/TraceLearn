@@ -68,6 +68,7 @@ SYNTH_GRID = (0.5, 0.75, 1.0)
 MIN_CALIBRATION_ROWS = 10     # below this, calibration is a fit on noise
 DEFAULT_THRESHOLD = 0.5
 COMMON_PREFIXES = ("static.", "warnings.")
+BEST_PREFIXES = ("static.", "warnings.", "semantics.")
 
 
 # ------------------------------------------------------------- weights
@@ -274,6 +275,7 @@ def train(
     models_dir: Path,
     seed: int = 7,
     cv_folds: int = 3,
+    cv_repeats: int = 1,
     synth_grid: Sequence[float] = SYNTH_GRID,
 ) -> dict[str, Any]:
     """Train the three variants; write models/ artifacts; return metrics."""
@@ -354,23 +356,39 @@ def train(
     meta_tr = meta_df.iloc[tr_idx].reset_index(drop=True)
 
     def oof_for(X_train_src: np.ndarray, X_val_src: np.ndarray,
-                multiplier: float) -> tuple[np.ndarray, list[float]]:
+                multiplier: float,
+                repeats: int = 1) -> tuple[np.ndarray, list[float]]:
         """OOF probabilities over the TRAIN rows. For the masked variant
         the fold-train matrix is masked while the fold-validation matrix
-        is not — mirroring deployment (disclosed in metrics)."""
-        folds = StratifiedGroupKFold(n_splits=cv_folds, shuffle=True, random_state=seed)
-        oof = np.zeros((len(tr_idx), len(classes)))
+        is not — mirroring deployment (disclosed in metrics).
+
+        Repeated grouped CV averages each row's predicted probabilities
+        across repeats, which stabilises a 3-fold estimate on a small,
+        cluster-scarce dataset. Every repeat uses a different fold seed.
+        """
+        oof_sum = np.zeros((len(tr_idx), len(classes)))
+        oof_count = np.zeros(len(tr_idx), dtype=float)
         fold_scores = []
-        for tr, va in folds.split(X_train_src, y_tr, groups=cluster_tr):
-            w, _ = compute_weights(meta_tr.iloc[tr], multiplier)
-            probs = _fit_predict(X_train_src[tr], y_tr[tr], w, X_val_src[va], seed, len(classes))
-            oof[va] = probs
-            fold_scores.append(macro_f1(y_tr[va], probs.argmax(axis=1), range(len(classes))))
+        for rep in range(max(1, int(repeats))):
+            folds = StratifiedGroupKFold(
+                n_splits=cv_folds, shuffle=True, random_state=seed + rep
+            )
+            for tr, va in folds.split(X_train_src, y_tr, groups=cluster_tr):
+                w, _ = compute_weights(meta_tr.iloc[tr], multiplier)
+                probs = _fit_predict(
+                    X_train_src[tr], y_tr[tr], w, X_val_src[va], seed, len(classes)
+                )
+                oof_sum[va] += probs
+                oof_count[va] += 1.0
+                fold_scores.append(
+                    macro_f1(y_tr[va], probs.argmax(axis=1), range(len(classes)))
+                )
+        oof = oof_sum / np.maximum(oof_count[:, None], 1.0)
         return oof, fold_scores
 
     grid_scores: dict[float, float] = {}
     for m in synth_grid:
-        _, scores = oof_for(X[tr_idx], X[tr_idx], m)
+        _, scores = oof_for(X[tr_idx], X[tr_idx], m, repeats=cv_repeats)
         grid_scores[float(m)] = float(np.mean(scores))
     best_mult = min(grid_scores, key=lambda m: (-grid_scores[m], m))
 
@@ -398,19 +416,37 @@ def train(
         }
 
     # ------------------------------------------------- the three variants
-    oof_full, fold_full = oof_for(X[tr_idx], X[tr_idx], best_mult)
+    oof_full, fold_full = oof_for(
+        X[tr_idx], X[tr_idx], best_mult, repeats=cv_repeats
+    )
     full_metrics = variant_metrics(oof_full, fold_full)
     full_metrics["features"] = list(feature_names())
 
     common_idx = [i for i, f in enumerate(feature_list) if f.startswith(COMMON_PREFIXES)]
     X_common = X[:, common_idx]
-    oof_common, fold_common = oof_for(X_common[tr_idx], X_common[tr_idx], best_mult)
+    oof_common, fold_common = oof_for(
+        X_common[tr_idx], X_common[tr_idx], best_mult, repeats=cv_repeats
+    )
     common_metrics = variant_metrics(oof_common, fold_common)
     common_metrics["features"] = [feature_list[i] for i in common_idx]
 
+    best_idx = [i for i, f in enumerate(feature_list) if f.startswith(BEST_PREFIXES)]
+    X_best = X[:, best_idx]
+    oof_best, fold_best = oof_for(
+        X_best[tr_idx], X_best[tr_idx], best_mult, repeats=cv_repeats
+    )
+    best_metrics = variant_metrics(oof_best, fold_best)
+    best_metrics["features"] = [feature_list[i] for i in best_idx]
+    best_metrics["role"] = (
+        "accuracy-oriented: static + warnings + source semantics; "
+        "G8 still rides on full"
+    )
+
     lf_features = _load_registry(ds)
     X_masked = mask_weak_inputs(X, feature_list, meta, lf_features)
-    oof_masked, fold_masked = oof_for(X_masked[tr_idx], X[tr_idx], best_mult)
+    oof_masked, fold_masked = oof_for(
+        X_masked[tr_idx], X[tr_idx], best_mult, repeats=cv_repeats
+    )
     masked_metrics = variant_metrics(oof_masked, fold_masked)
     masked_metrics["role"] = (
         "informational only (v4.1): lf_inputs NaN'd on weak rows at train "
@@ -504,6 +540,7 @@ def train(
         "classes": classes,
         "cv": {
             "folds": cv_folds,
+            "repeats": int(cv_repeats),
             "grouped_by": "problem_cluster",
             "synthetic_multiplier": best_mult,
             "grid_scores": {str(k): round(v, 4) for k, v in grid_scores.items()},
@@ -514,6 +551,7 @@ def train(
         "full": full_metrics,
         "masked": masked_metrics,
         "common": common_metrics,
+        "best": best_metrics,
         "dev_gold": dev_metrics,
         "g8": g8,
     }
@@ -524,6 +562,8 @@ def train(
     masked_model.save_model(str(models / "xgb_masked_v1.json"))
     common_model, _ = _fit_model(X_common[train_mask], y[train_mask], w_final, seed)
     common_model.save_model(str(models / "xgb_common_v1.json"))
+    best_model, _ = _fit_model(X_best[train_mask], y[train_mask], w_final, seed)
+    best_model.save_model(str(models / "xgb_best_v1.json"))
 
     (models / "label_encoder.json").write_text(
         json.dumps({"class_to_idx": class_to_idx, "idx_to_class": classes}, indent=2) + "\n",
@@ -545,6 +585,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--models-dir", type=Path, default=DEFAULT_MODELS_DIR)
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--cv-folds", type=int, default=3)
+    parser.add_argument("--cv-repeats", type=int, default=3)
     args = parser.parse_args(argv)
 
     try:
@@ -553,6 +594,7 @@ def main(argv: list[str] | None = None) -> int:
             models_dir=args.models_dir,
             seed=args.seed,
             cv_folds=args.cv_folds,
+            cv_repeats=args.cv_repeats,
         )
     except ValueError as exc:
         print(f"FAIL  {exc}")
@@ -565,7 +607,7 @@ def main(argv: list[str] | None = None) -> int:
           f"macro-F1 {cv['macro_f1_mean']} +/- {cv['macro_f1_std']} "
           f"vs majority {cv['majority_baseline']} (margin {metrics['g8']['cv_margin']})")
     print(f"synthetic multiplier: {cv['synthetic_multiplier']} (grid {cv['grid_scores']})")
-    for variant in ("full", "masked", "common"):
+    for variant in ("full", "masked", "common", "best"):
         v = metrics[variant]
         extra = f", role={v['role'][:40]}..." if "role" in v else ""
         print(f"  {variant:8s} OOF macro-F1={v['macro_f1_oof']} ece={v['ece_oof']}{extra}")

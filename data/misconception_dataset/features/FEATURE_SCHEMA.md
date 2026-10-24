@@ -1,6 +1,6 @@
 # TraceLearn dataset feature schema
 
-**schema_version:** 1.0 · **taxonomy_version:** tl-cpp-v2 · **library:** `tracelearn_features` 0.x
+**schema_version:** 1.1 · **taxonomy_version:** tl-cpp-v2 · **library:** `tracelearn_features` 0.x
 **Status:** frozen at Week-0 (R1). Additive changes bump `schema_version`; breaking changes only in the single post-G3 window executed by `scripts/migrate_schema.py` (§6).
 
 This file is the *enumerated* contract: every feature name and type the
@@ -93,6 +93,8 @@ Compiler warnings from the `-O2 -Wall -Wextra` pass (§9.2-U0 first compile).
 | `warnings.division_by_zero` | int | `-Wdiv-by-zero` fires |
 | `warnings.deprecated_declarations` | int | `-Wdeprecated-declarations` fires |
 | `warnings.int_in_bool_context` | int | `-Wint-in-bool-context` fires |
+| `warnings.infinite_recursion` | int | `-Winfinite-recursion` fires (label-defining: missing base case) |
+| `warnings.tautological_compare` | int | `-Wtautological-compare` fires (label-defining: assignment vs compare / off-by-one) |
 | `warnings.other` | int | any other `-W…` warning not enumerated above |
 
 ### Warning normalization map
@@ -120,6 +122,8 @@ The parser normalizes every compiler warning line to exactly one registry id:
 | `warnings.division_by_zero` | -Wdiv-by-zero | |
 | `warnings.deprecated_declarations` | -Wdeprecated-declarations | |
 | `warnings.int_in_bool_context` | -Wint-in-bool-context | clang |
+| `warnings.infinite_recursion` | -Winfinite-recursion | gcc/clang recursion detector |
+| `warnings.tautological_compare` | -Wtautological-compare | clang spelling; gcc emits `-Wtautological-compare` in newer versions |
 
 Unmatched warning lines increment `warnings.other`.
 
@@ -188,6 +192,32 @@ R3, never guessed.
 | `cpg.loop_cond_var_unassigned_count` | int | loop-condition vars never assigned in body (label evidence: class 10, det-10) |
 | `cpg.comparison_count` | int | relational comparisons |
 | `cpg.ast_ref_similarity` | float | AST similarity to the problem's reference solution (det-8; NaN when no reference) |
+
+## `semantics`
+
+Deterministic source-level signals computed by
+`tracelearn_features/semantics.py` for SYNTHETIC (embedded mutant code) and
+CODESTREAM (resolved submission code). PROGPEDIA rows have no source in this
+dataset, so their semantics stay NaN. These are source signals only; label
+metadata (`mutation_op`, `seed_ref`) is never used.
+
+| feature | type | meaning |
+|---|---|---|
+| `semantics.assign_in_cond` | int | assignment used as an `if`/`while` condition |
+| `semantics.recursion` | int | a function body calls its own name |
+| `semantics.increment` | int | `++` count |
+| `semantics.decrement` | int | `--` count |
+| `semantics.idx_minus1` | int | an index expression of the form `a[i - 1]` |
+| `semantics.idx_plus1` | int | an index expression of the form `a[i + 1]` |
+| `semantics.if_gt` | int | an `if` uses `>` |
+| `semantics.if_ge` | int | an `if` uses `>=` |
+| `semantics.if_lt` | int | an `if` uses `<` |
+| `semantics.if_le` | int | an `if` uses `<=` |
+| `semantics.loop_lt` | int | a loop condition uses `<` |
+| `semantics.loop_le` | int | a loop condition uses `<=` |
+| `semantics.init_zero` | int | an `int` local is initialized to zero |
+| `semantics.return_minus1` | int | a `return` expression subtracts one |
+| `semantics.base_case` | int | a recursive base-case test against 0/1 is present |
 
 ## `context`
 

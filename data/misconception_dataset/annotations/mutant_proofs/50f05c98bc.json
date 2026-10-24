@@ -1,0 +1,74 @@
+{
+  "run_id": "50f05c98bc",
+  "seed_submission_id": "7258761c-7e94-4fab-8640-43dee9fc1e6f-74666084",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "se_remove_break_condition",
+  "label": "CPP_STALE_EXIT",
+  "seed_sha256": "19d50825055b53014a034082c6b97563922f63a3dae58b466bdbafdb830c0d1e",
+  "mutant_sha256": "ab3861c817418b0cf3d42d48651af8fee7f48e7526ec73a864570d5fe9603f96",
+  "compile_warnings_std": "",
+  "sanitizer_ok": true,
+  "tests_passed": 2,
+  "tests_failed": 1,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 2,
+    "failed": 1,
+    "pass_rate": 0.6666666666666666,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 1,
+    "timeout_count": 0,
+    "first_fail_index": 2
+  },
+  "runtime": {
+    "available": true,
+    "crashed": true,
+    "timed_out": false,
+    "exit_code": 0,
+    "asan_error": true,
+    "asan_heap_buffer_overflow": true,
+    "asan_stack_buffer_overflow": false,
+    "ubsan_error": false,
+    "ubsan_signed_overflow": false,
+    "stack_overflow": false
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1541,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "9c9a42uMzA5RPQ8Aro45fXgca218Pgf\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": " Zh4ppGdTYG82YZu5CkgbpqgiIPvnAoP hzvC7 N3IQbb1kuK2JyVSvCBU24kdpnVVrtBHq78UxOU\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "crash",
+      "passed": false,
+      "rc": 1,
+      "stdout": "",
+      "stderr": "=================================================================\n==1796==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x50400000000f at pc 0x63bfe0956287 bp 0x7ffee0cd0d30 sp 0x7ffee0cd0d20\nREAD of size 1 at 0x50400000000f thread T0\n    #0 0x63bfe0956286 in solve() /tmp/tmpouxop4sk.cpp:26\n    #1 0x63bfe09569f4 in main /tmp/tmpouxop4sk.cpp:43\n    #2 0x79a98162a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58\n    #3 0x79a98162a28a in __libc_start_main_impl ../cs",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:09:37.643163"
+}

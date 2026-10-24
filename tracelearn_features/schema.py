@@ -1,4 +1,4 @@
-"""Enumerated feature registry for schema_version 1.0 (§6, R1).
+"""Enumerated feature registry for schema_version 1.1 (§6, R1).
 
 `FEATURE_BLOCKS` is the single source of truth: every feature name and type the
 dataset may ever contain is listed here, and `FEATURE_SCHEMA.md` must document
@@ -16,7 +16,7 @@ breaking changes only in the single post-G3 window (§6).
 
 from __future__ import annotations
 
-SCHEMA_VERSION = "1.0"
+SCHEMA_VERSION = "1.1"
 
 # block -> {short_name: type}. Order = column order in features.csv.
 FEATURE_BLOCKS: dict[str, dict[str, str]] = {
@@ -64,6 +64,8 @@ FEATURE_BLOCKS: dict[str, dict[str, str]] = {
         "division_by_zero": "int",
         "deprecated_declarations": "int",
         "int_in_bool_context": "int",
+        "infinite_recursion": "int",
+        "tautological_compare": "int",
         "other": "int",
     },
     "runtime": {
@@ -112,6 +114,23 @@ FEATURE_BLOCKS: dict[str, dict[str, str]] = {
         "comparison_count": "int",
         "ast_ref_similarity": "float",
     },
+    "semantics": {
+        "assign_in_cond": "int",
+        "recursion": "int",
+        "increment": "int",
+        "decrement": "int",
+        "idx_minus1": "int",
+        "idx_plus1": "int",
+        "if_gt": "int",
+        "if_ge": "int",
+        "if_lt": "int",
+        "if_le": "int",
+        "loop_lt": "int",
+        "loop_le": "int",
+        "init_zero": "int",
+        "return_minus1": "int",
+        "base_case": "int",
+    },
     "context": {
         "available": "bool",
         "statement_length": "int",
@@ -146,6 +165,8 @@ WARNING_FLAG_OF: dict[str, str] = {
     "warnings.division_by_zero": "-Wdiv-by-zero",
     "warnings.deprecated_declarations": "-Wdeprecated-declarations",
     "warnings.int_in_bool_context": "-Wint-in-bool-context",
+    "warnings.infinite_recursion": "-Winfinite-recursion",
+    "warnings.tautological_compare": "-Wtautological-compare",
 }
 
 

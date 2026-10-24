@@ -96,6 +96,18 @@ def test_warnings_evidence_parsed_into_enumerated_ids():
     assert w["total"] == 6
 
 
+def test_new_label_defining_warning_flags_are_enumerated():
+    evidence = [
+        {"flag": "-Winfinite-recursion", "count": 2},
+        {"flag": "-Wtautological-compare", "count": 1},
+    ]
+    w = extract_features("int main() {}", warnings=evidence)["warnings"]
+    assert w["infinite_recursion"] == 2
+    assert w["tautological_compare"] == 1
+    assert w["other"] == 0
+    assert w["total"] == 3
+
+
 def test_runtime_evidence_maps_sanitizer_signals():
     evidence = {
         "crashed": True,
@@ -202,7 +214,7 @@ def test_cpg_evidence_fills_cpg_block():
 
 
 def test_schema_version_and_version_stamp():
-    assert SCHEMA_VERSION == "1.0"
+    assert SCHEMA_VERSION == "1.1"
     import tracelearn_features
 
     assert tracelearn_features.__version__

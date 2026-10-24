@@ -23,7 +23,7 @@
   },
   "feature_availability": {
     "static": {
-      "CODESTREAM": 0.0,
+      "CODESTREAM": 1.0,
       "PROGPEDIA": 1.0,
       "SYNTHETIC": 1.0
     },
@@ -40,7 +40,7 @@
     "tests": {
       "CODESTREAM": 1.0,
       "PROGPEDIA": 1.0,
-      "SYNTHETIC": 0.0
+      "SYNTHETIC": 1.0
     },
     "cpg": {
       "CODESTREAM": 0.0,
@@ -72,21 +72,117 @@
     "comparison": "train_vs_test",
     "gate_scope": "plan G7's PSI<0.2 gate is specced for train/val (same pool) and is evaluated at training time (T9); this train-vs-test probe is informational — violations here reflect pool asymmetry (frozen CodeStream-only test) and require team review before G3, not a merge abort",
     "threshold": 0.2,
-    "n_features_checked": 3,
-    "max": 3.7793,
-    "worst_feature": "tests.total",
+    "n_features_checked": 49,
+    "max": 13.1557,
+    "worst_feature": "context.statement_length",
     "violations": [
       {
-        "feature": "tests.total",
-        "psi": 3.7793
+        "feature": "context.statement_length",
+        "psi": 13.1557
+      },
+      {
+        "feature": "context.sample_test_count",
+        "psi": 11.5269
+      },
+      {
+        "feature": "static.max_indent_depth",
+        "psi": 10.1864
+      },
+      {
+        "feature": "tests.wrong_answer_count",
+        "psi": 7.8068
+      },
+      {
+        "feature": "runtime.duration_s",
+        "psi": 7.7315
+      },
+      {
+        "feature": "tests.first_fail_index",
+        "psi": 6.5437
+      },
+      {
+        "feature": "static.loop_count",
+        "psi": 5.1566
+      },
+      {
+        "feature": "tests.runtime_error_count",
+        "psi": 4.9314
+      },
+      {
+        "feature": "static.avg_line_length",
+        "psi": 4.3437
+      },
+      {
+        "feature": "static.unique_token_ratio",
+        "psi": 4.2943
       },
       {
         "feature": "static.loc",
-        "psi": 3.1817
+        "psi": 3.9613
+      },
+      {
+        "feature": "static.token_count",
+        "psi": 3.7012
+      },
+      {
+        "feature": "warnings.total",
+        "psi": 3.2379
+      },
+      {
+        "feature": "static.sloc",
+        "psi": 2.7451
+      },
+      {
+        "feature": "warnings.other",
+        "psi": 2.635
+      },
+      {
+        "feature": "static.max_line_length",
+        "psi": 2.3438
+      },
+      {
+        "feature": "static.function_count",
+        "psi": 2.139
+      },
+      {
+        "feature": "tests.total",
+        "psi": 1.6984
+      },
+      {
+        "feature": "static.array_decl_count",
+        "psi": 1.6211
+      },
+      {
+        "feature": "static.numeric_literal_count",
+        "psi": 1.2328
+      },
+      {
+        "feature": "static.comment_lines",
+        "psi": 1.2253
+      },
+      {
+        "feature": "static.return_count",
+        "psi": 1.0298
       },
       {
         "feature": "tests.passed",
-        "psi": 1.9011
+        "psi": 0.9475
+      },
+      {
+        "feature": "tests.pass_rate",
+        "psi": 0.9264
+      },
+      {
+        "feature": "tests.failed",
+        "psi": 0.6576
+      },
+      {
+        "feature": "static.if_count",
+        "psi": 0.4667
+      },
+      {
+        "feature": "static.string_literal_count",
+        "psi": 0.433
       }
     ]
   }

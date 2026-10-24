@@ -1,0 +1,68 @@
+{
+  "run_id": "c60cd91d9b",
+  "seed_submission_id": "2a89d7c8-6e87-476d-bc2a-87fd8f19d5a4-46061906",
+  "problem_id": "tl-codestream-prob_001",
+  "operator": "uninit_int_zero",
+  "label": "CPP_UNINITIALIZED_VAR",
+  "seed_sha256": "85af085529409d58081057ac7f89e36b46b4ba7ba097e289decb23d57da38799",
+  "mutant_sha256": "fc3f0e185421eef96363bfac59688cb5d88bb80b2f6512a6f003804c84270678",
+  "compile_warnings_std": "/tmp/tmp4nqksuxg.cpp: In function \u2018int main()\u2019:\n/tmp/tmp4nqksuxg.cpp:11:14: warning: comparison of integer expressions of different signedness: \u2018int\u2019 and \u2018std::__cxx11::basic_string<char>::size_type\u2019 {aka \u2018long unsigned int\u2019} [-Wsign-compare]\n   11 |   for(int i;i<str.size();++i){\n      |             ~^~~~~~~~~~~\n/tmp/tmp4nqksuxg.cpp:11:13: warning: \u2018i\u2019 may be used uninitialized [-Wmaybe-uninitialized]\n   11 |   for(int i;i<str.size();++i){\n      |             ^\n/tmp/tmp4nqksuxg.cpp:11:11: note:",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 3,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1231,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:11:28.854903"
+}
