@@ -1,69 +1,10 @@
 {
-  "generated_at": "2026-10-23T20:01:41.660172",
+  "generated_at": "2026-10-24T08:35:18.530316",
   "raw_submissions": "/mnt/g/TraceLearn/Datasets_RAW/CodeStream A Dataset of Iterative Programming Subm/Submission Data.csv",
   "raw_problems": "/mnt/g/TraceLearn/Datasets_RAW/CodeStream A Dataset of Iterative Programming Subm/Problem Data.csv",
   "classes": {
     "CPP_MISSING_BASE_CASE": {
       "target_clusters": [
-        "clu-004",
-        "clu-006",
-        "clu-008"
-      ],
-      "reachable_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004",
-        "clu-006",
-        "clu-008",
-        "clu-009",
-        "clu-011",
-        "clu-013",
-        "clu-014",
-        "clu-016",
-        "clu-017",
-        "clu-018",
-        "clu-019",
-        "clu-021",
-        "clu-022",
-        "clu-023",
-        "clu-024",
-        "clu-027",
-        "clu-030",
-        "clu-031",
-        "clu-034",
-        "clu-035",
-        "clu-036",
-        "clu-039",
-        "clu-040",
-        "clu-041",
-        "clu-042",
-        "clu-043",
-        "clu-044",
-        "clu-045",
-        "clu-046",
-        "clu-047",
-        "clu-048",
-        "clu-049",
-        "clu-050",
-        "clu-051",
-        "clu-052",
-        "clu-053"
-      ],
-      "accepted": {
-        "clu-004": 5,
-        "clu-006": 5,
-        "clu-008": 5
-      },
-      "reject_reasons": {
-        "clu-004": {},
-        "clu-006": {},
-        "clu-008": {}
-      },
-      "new_rows": 15
-    },
-    "CPP_RANGE_CHECK": {
-      "target_clusters": [
-        "clu-008",
         "clu-009",
         "clu-011"
       ],
@@ -108,267 +49,21 @@
         "clu-053"
       ],
       "accepted": {
-        "clu-008": 5,
-        "clu-009": 5,
-        "clu-011": 5
+        "clu-009": 2,
+        "clu-011": 2
       },
       "reject_reasons": {
-        "clu-008": {},
         "clu-009": {},
-        "clu-011": {}
-      },
-      "new_rows": 15
-    },
-    "CPP_WRONG_LOOP_DIR": {
-      "target_clusters": [
-        "clu-002",
-        "clu-004",
-        "clu-006"
-      ],
-      "reachable_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004",
-        "clu-006",
-        "clu-008",
-        "clu-009",
-        "clu-011",
-        "clu-013",
-        "clu-014",
-        "clu-016",
-        "clu-017",
-        "clu-018",
-        "clu-019",
-        "clu-021",
-        "clu-022",
-        "clu-023",
-        "clu-024",
-        "clu-027",
-        "clu-030",
-        "clu-031",
-        "clu-034",
-        "clu-035",
-        "clu-036",
-        "clu-039",
-        "clu-040",
-        "clu-041",
-        "clu-042",
-        "clu-043",
-        "clu-044",
-        "clu-045",
-        "clu-046",
-        "clu-047",
-        "clu-048",
-        "clu-049",
-        "clu-050",
-        "clu-051",
-        "clu-052",
-        "clu-053"
-      ],
-      "accepted": {
-        "clu-002": 5,
-        "clu-004": 5,
-        "clu-006": 5
-      },
-      "reject_reasons": {
-        "clu-002": {
-          "seed:seed_fails_3_tests": 23
-        },
-        "clu-004": {
+        "clu-011": {
           "mutant_compile_fail": 1
-        },
-        "clu-006": {}
-      },
-      "new_rows": 15
-    },
-    "CPP_INT_OVERFLOW": {
-      "target_clusters": [
-        "clu-002",
-        "clu-004",
-        "clu-006"
-      ],
-      "reachable_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004",
-        "clu-006",
-        "clu-008",
-        "clu-009",
-        "clu-011",
-        "clu-013",
-        "clu-014",
-        "clu-016",
-        "clu-017",
-        "clu-018",
-        "clu-019",
-        "clu-021",
-        "clu-022",
-        "clu-023",
-        "clu-024",
-        "clu-027",
-        "clu-030",
-        "clu-031",
-        "clu-034",
-        "clu-035",
-        "clu-036",
-        "clu-039",
-        "clu-040",
-        "clu-041",
-        "clu-042",
-        "clu-043",
-        "clu-044",
-        "clu-045",
-        "clu-046",
-        "clu-047",
-        "clu-048",
-        "clu-049",
-        "clu-050",
-        "clu-051",
-        "clu-052",
-        "clu-053"
-      ],
-      "accepted": {
-        "clu-002": 5,
-        "clu-004": 5,
-        "clu-006": 5
-      },
-      "reject_reasons": {
-        "clu-002": {},
-        "clu-004": {},
-        "clu-006": {}
-      },
-      "new_rows": 15
-    },
-    "CPP_STALE_EXIT": {
-      "target_clusters": [
-        "clu-004",
-        "clu-006",
-        "clu-008"
-      ],
-      "reachable_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004",
-        "clu-006",
-        "clu-008",
-        "clu-009",
-        "clu-011",
-        "clu-013",
-        "clu-014",
-        "clu-016",
-        "clu-017",
-        "clu-018",
-        "clu-019",
-        "clu-021",
-        "clu-022",
-        "clu-023",
-        "clu-024",
-        "clu-027",
-        "clu-030",
-        "clu-031",
-        "clu-034",
-        "clu-035",
-        "clu-036",
-        "clu-039",
-        "clu-040",
-        "clu-041",
-        "clu-042",
-        "clu-043",
-        "clu-044",
-        "clu-045",
-        "clu-046",
-        "clu-047",
-        "clu-048",
-        "clu-049",
-        "clu-050",
-        "clu-051",
-        "clu-052",
-        "clu-053"
-      ],
-      "accepted": {
-        "clu-004": 5,
-        "clu-006": 5,
-        "clu-008": 5
-      },
-      "reject_reasons": {
-        "clu-004": {
-          "mutant_compile_fail": 2
-        },
-        "clu-006": {},
-        "clu-008": {}
-      },
-      "new_rows": 15
-    },
-    "CPP_UNINITIALIZED_VAR": {
-      "target_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004"
-      ],
-      "reachable_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004",
-        "clu-006",
-        "clu-008",
-        "clu-009",
-        "clu-011",
-        "clu-013",
-        "clu-014",
-        "clu-016",
-        "clu-017",
-        "clu-018",
-        "clu-019",
-        "clu-021",
-        "clu-022",
-        "clu-023",
-        "clu-024",
-        "clu-027",
-        "clu-030",
-        "clu-031",
-        "clu-034",
-        "clu-035",
-        "clu-036",
-        "clu-039",
-        "clu-040",
-        "clu-041",
-        "clu-042",
-        "clu-043",
-        "clu-044",
-        "clu-045",
-        "clu-046",
-        "clu-047",
-        "clu-048",
-        "clu-049",
-        "clu-050",
-        "clu-051",
-        "clu-052",
-        "clu-053"
-      ],
-      "accepted": {
-        "clu-000": 3,
-        "clu-002": 3,
-        "clu-004": 5
-      },
-      "reject_reasons": {
-        "clu-000": {
-          "mutant_passes_all_tests": 19
-        },
-        "clu-002": {
-          "seed:seed_fails_3_tests": 1,
-          "mutant_passes_all_tests": 4
-        },
-        "clu-004": {
-          "mutant_passes_all_tests": 5
         }
       },
-      "new_rows": 11
+      "new_rows": 4
     },
-    "CPP_ASSIGN_VS_COMPARE": {
+    "CPP_RANGE_CHECK": {
       "target_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004"
+        "clu-013",
+        "clu-014"
       ],
       "reachable_clusters": [
         "clu-000",
@@ -411,139 +106,19 @@
         "clu-053"
       ],
       "accepted": {
-        "clu-000": 2,
-        "clu-002": 1,
-        "clu-004": 2
+        "clu-013": 2,
+        "clu-014": 2
       },
       "reject_reasons": {
-        "clu-000": {},
-        "clu-002": {
-          "seed:seed_fails_3_tests": 1
-        },
-        "clu-004": {}
+        "clu-013": {},
+        "clu-014": {}
       },
-      "new_rows": 5
-    },
-    "CPP_LOOP_BOUNDARY": {
-      "target_clusters": [
-        "clu-004",
-        "clu-006",
-        "clu-008"
-      ],
-      "reachable_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004",
-        "clu-006",
-        "clu-008",
-        "clu-009",
-        "clu-011",
-        "clu-013",
-        "clu-014",
-        "clu-016",
-        "clu-017",
-        "clu-018",
-        "clu-019",
-        "clu-021",
-        "clu-022",
-        "clu-023",
-        "clu-024",
-        "clu-027",
-        "clu-030",
-        "clu-031",
-        "clu-034",
-        "clu-035",
-        "clu-036",
-        "clu-039",
-        "clu-040",
-        "clu-041",
-        "clu-042",
-        "clu-043",
-        "clu-044",
-        "clu-045",
-        "clu-046",
-        "clu-047",
-        "clu-048",
-        "clu-049",
-        "clu-050",
-        "clu-051",
-        "clu-052",
-        "clu-053"
-      ],
-      "accepted": {
-        "clu-004": 5,
-        "clu-006": 5,
-        "clu-008": 5
-      },
-      "reject_reasons": {
-        "clu-004": {},
-        "clu-006": {},
-        "clu-008": {}
-      },
-      "new_rows": 15
-    },
-    "CPP_OFF_BY_ONE": {
-      "target_clusters": [
-        "clu-004",
-        "clu-006",
-        "clu-008"
-      ],
-      "reachable_clusters": [
-        "clu-000",
-        "clu-002",
-        "clu-004",
-        "clu-006",
-        "clu-008",
-        "clu-009",
-        "clu-011",
-        "clu-013",
-        "clu-014",
-        "clu-016",
-        "clu-017",
-        "clu-018",
-        "clu-019",
-        "clu-021",
-        "clu-022",
-        "clu-023",
-        "clu-024",
-        "clu-027",
-        "clu-030",
-        "clu-031",
-        "clu-034",
-        "clu-035",
-        "clu-036",
-        "clu-039",
-        "clu-040",
-        "clu-041",
-        "clu-042",
-        "clu-043",
-        "clu-044",
-        "clu-045",
-        "clu-046",
-        "clu-047",
-        "clu-048",
-        "clu-049",
-        "clu-050",
-        "clu-051",
-        "clu-052",
-        "clu-053"
-      ],
-      "accepted": {
-        "clu-004": 5,
-        "clu-006": 5,
-        "clu-008": 5
-      },
-      "reject_reasons": {
-        "clu-004": {},
-        "clu-006": {},
-        "clu-008": {}
-      },
-      "new_rows": 15
+      "new_rows": 4
     }
   },
   "reject_reasons": {},
   "dry_run": false,
-  "pilot": false,
-  "n_new": 121,
+  "pilot": true,
+  "n_new": 8,
   "out": "/mnt/c/Users/rayaan/Desktop/Trace_Learn/TraceLearn/data/misconception_dataset/annotations/tier0_mutants.jsonl"
 }
