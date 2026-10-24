@@ -1,0 +1,68 @@
+{
+  "run_id": "83bd994c3d",
+  "seed_submission_id": "75f35837-d4e0-4a72-93c0-e7eb272be405-96924464",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "rc_ge_to_gt",
+  "label": "CPP_RANGE_CHECK",
+  "seed_sha256": "d63f3b2947efd7de22d469cd098998deccb2f4b615fc1b9730922c624e3f34a6",
+  "mutant_sha256": "74f7ddce4cc1297815ccca3429eb0d341e473d279a25b58d988263a32ab0d95f",
+  "compile_warnings_std": "",
+  "sanitizer_ok": false,
+  "tests_passed": 1,
+  "tests_failed": 2,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 1,
+    "failed": 2,
+    "pass_rate": 0.3333333333333333,
+    "wrong_answer_count": 2,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 0,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "Wn93HATDh9vwc79xzzP a4Fx452kmuM1mzIaApoG5uSRHaOgfPQjF85Y2OJArjoRR45yxfXg6ncHak2Ef1ywH9r8ZPVgZ5cnUf\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": " Zh4ppGdTYG82YZu5CkgbpqgiIPvnAoP hzvC7 N3IQbb1kuK2JyVSvCBU24kdpnVVrtBHq78UxOU\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "W4tl5K03MMnqmn42CnwFmWKMLfhMB8v8MDFk9QGVE1j0s0Ox3kVclt7T08bEL3dAbub\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T19:41:50.850429"
+}

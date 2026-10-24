@@ -1,0 +1,52 @@
+{
+  "run_id": "445d4db50c",
+  "seed_submission_id": "tpl-SE-003",
+  "problem_id": "tl-codestream-prob_009",
+  "operator": "se_remove_break_condition",
+  "label": "CPP_STALE_EXIT",
+  "seed_sha256": "fb73f66ddacd6c2da5c090341c75f4af89b7de7b24da55ad4b169af564132345",
+  "mutant_sha256": "ca0b16e47336654556aa3e15b8726d81022984fae5339139aa842d0652155c1c",
+  "compile_warnings_std": "",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 2,
+  "tests_total": 2,
+  "tests": {
+    "available": true,
+    "total": 2,
+    "passed": 0,
+    "failed": 2,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 0,
+    "timeout_count": 2,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": true
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    }
+  ],
+  "timestamp": "2026-10-23T20:11:07.180794"
+}

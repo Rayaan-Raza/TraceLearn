@@ -28,8 +28,6 @@ from pathlib import Path
 import pytest
 
 from scripts.merge_dataset import (
-    dedupe_rows,
-    flatten_features,
     g7_checks,
     jaccard,
     merge,
@@ -488,6 +486,22 @@ def test_psi_runs_when_both_splits_have_enough_rows(tmp_path: Path):
     assert report["psi"]["violations"] == []
 
 
+def test_availability_flag_false_is_not_counted_as_populated(tmp_path: Path):
+    # `available: false` means the lane did not measure the block. It must
+    # not inflate the per-source availability report to 100%.
+    pg = [_tier_row("pg-001", "PROGPEDIA", "rec-1", "p-1")]
+    pg[0]["runtime"] = {"available": False}
+    pg[0]["tests"] = {"available": False}
+    pg[0]["warnings"] = {"available": False}
+    ds = _build_dataset(tmp_path, {"tier1b_progpedia": pg}, _CLUSTERS)
+    report = _run(ds)
+    avail = report["feature_availability"]
+    assert avail["runtime"]["PROGPEDIA"] == 0.0
+    assert avail["tests"]["PROGPEDIA"] == 0.0
+    assert avail["warnings"]["PROGPEDIA"] == 0.0
+    assert avail["static"]["PROGPEDIA"] == 1.0
+
+
 def test_feature_availability_matrix_reports_lane_gaps(tmp_path: Path):
     # tier1a reality: static=null for all CodeStream rows -> the report
     # must show per-block fill rates per source so lane gaps are visible.
@@ -498,7 +512,78 @@ def test_feature_availability_matrix_reports_lane_gaps(tmp_path: Path):
     report = _run(ds)
     avail = report["feature_availability"]
     assert avail["static"]["PROGPEDIA"] == 0.5
-    assert set(avail) <= {"static", "warnings", "runtime", "tests", "cpg", "context"}
+    assert set(avail) <= {
+        "static", "warnings", "runtime", "tests", "cpg", "semantics", "context"
+    }
+
+
+# --------------------------------------------------- lane-evidence normalization
+
+
+def test_merge_mines_synthetic_embedded_code_into_features_csv(tmp_path: Path):
+    # tier0 reality: static only carries the mutant's source_code + loc;
+    # the merge must run the canonical extractor, not copy the raw block.
+    t0 = [_tier_row("mut-1", "SYNTHETIC", "tpl-X-001", "p-1",
+                    label_source="synthetic", seed_ref="tpl-X-001")]
+    t0[0]["static"] = {"source_code": CODE_A, "loc": 2}
+    t0[0]["warnings"] = {
+        "compile_warnings": "x.cpp:1:1: warning: suggest parentheses [-Wparentheses]\n"
+    }
+    t0[0]["runtime"] = {"tests_passed": 1, "tests_failed": 2, "tests_total": 3,
+                        "sanitizer_ok": False}
+    ds = _build_dataset(tmp_path, {"tier0_mutants": t0}, _CLUSTERS)
+    _run(ds)
+
+    header = (ds / "features" / "features.csv").read_text(encoding="utf-8").splitlines()[0].split(",")
+    cols = (ds / "features" / "features.csv").read_text(encoding="utf-8").splitlines()[1].split(",")
+    rec = dict(zip(header, cols))
+    assert rec["static.loc"] == "2"                 # lane value preserved
+    assert rec["static.loop_count"] == "1"          # mined from embedded code
+    assert int(rec["static.array_decl_count"]) >= 1
+    assert rec["warnings.parentheses"] == "1"       # parsed from gcc text
+    assert rec["tests.total"] == "3"                # bridged from runtime.*_total
+    assert rec["tests.pass_rate"] == str(1 / 3)
+    assert rec["semantics.loop_le"] == "1"          # mined from embedded code
+    assert rec["semantics.increment"] == "1"
+
+
+def test_merge_normalizes_codestream_raw_evidence(tmp_path: Path):
+    t1a = [_tier_row("cs-1", "CODESTREAM", "rec-cs-1", "p-1")]
+    t1a[0]["static"] = None
+    t1a[0]["warnings"] = {"-Wparentheses": 2}
+    t1a[0]["runtime"] = {
+        "any_crash": True, "any_timeout": False, "signals": [11],
+        "stack_overflow": False, "max_seconds": 0.25,
+        "sanitizer": {"complete": True, "kinds": {"asan:heap-buffer-overflow": 1},
+                      "reports": [{"tool": "asan", "kind": "heap-buffer-overflow"}]},
+        "valgrind": {"complete": True, "kinds": {}, "uninit": False, "error_count": 0},
+    }
+    t1a[0]["tests"] = {
+        "total": 2, "passed": 1,
+        "results": [{"status": "pass"},
+                    {"status": "wrong", "diff": {"numeric_deltas": [3]}}],
+    }
+    ds = _build_dataset(
+        tmp_path,
+        {"tier1a_codestream": t1a},
+        _CLUSTERS,
+        raw_files={"cs.c": CODE_A},
+        index_rows=[{"source_record_id": "rec-cs-1", "source_code_path": "cs.c"}],
+    )
+    _run(ds)
+
+    header = (ds / "features" / "features.csv").read_text(encoding="utf-8").splitlines()[0].split(",")
+    cols = (ds / "features" / "features.csv").read_text(encoding="utf-8").splitlines()[1].split(",")
+    rec = dict(zip(header, cols))
+    assert rec["static.sloc"] == "1"                # mined from resolved own code
+    assert rec["runtime.crashed"] == "1"
+    assert rec["runtime.asan_heap_buffer_overflow"] == "1"
+    assert rec["warnings.parentheses"] == "2"       # raw -Wflag key -> canonical
+    assert rec["tests.passed"] == "1"               # status vocabulary mapped
+    assert rec["tests.wrong_answer_count"] == "1"
+    assert rec["tests.first_fail_numeric_diff"] == "3.0"
+    assert rec["semantics.loop_le"] == "1"          # mined from resolved code
+    assert rec["semantics.increment"] == "1"
 
 
 def test_g7_all_ok_is_structural_only_psi_is_reported_not_gating():

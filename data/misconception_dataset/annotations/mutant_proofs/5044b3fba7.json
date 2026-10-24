@@ -1,0 +1,59 @@
+{
+  "run_id": "5044b3fba7",
+  "seed_submission_id": "tpl-UV-002",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "uninit_multi_int",
+  "label": "CPP_UNINITIALIZED_VAR",
+  "seed_sha256": "8aec6d7b87ca1da5559b4a7ca4bedd589c82aadf2faaba93226a4ee15f73149f",
+  "mutant_sha256": "d715b5baf70a6a47a7db8f63d1631e813578910ff4cfee4e87340039bf1014be",
+  "compile_warnings_std": "/tmp/tmpbhypozlq.cpp: In function \u2018int main()\u2019:\n/tmp/tmpbhypozlq.cpp:7:12: warning: \u2018cnt\u2019 may be used uninitialized [-Wmaybe-uninitialized]\n    7 |     int s, cnt;\n      |            ^~~\n/tmp/tmpbhypozlq.cpp:8:28: warning: \u2018s\u2019 may be used uninitialized [-Wmaybe-uninitialized]\n    8 |     for(int i=0;i<n;i++){ s+=a[i]; cnt++; }\n      |                           ~^~~~~~\n/tmp/tmpbhypozlq.cpp:7:9: note: \u2018s\u2019 was declared here\n    7 |     int s, cnt;\n      |         ^\n",
+  "sanitizer_ok": true,
+  "tests_passed": 1,
+  "tests_failed": 1,
+  "tests_total": 2,
+  "tests": {
+    "available": true,
+    "total": 2,
+    "passed": 1,
+    "failed": 1,
+    "pass_rate": 0.5,
+    "wrong_answer_count": 1,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 1
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0,
+    "asan_error": false,
+    "asan_heap_buffer_overflow": false,
+    "asan_stack_buffer_overflow": false,
+    "ubsan_error": false,
+    "ubsan_signed_overflow": false,
+    "stack_overflow": false
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "6 3\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": "?",
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "31558 -110672998\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:14:44.785846"
+}

@@ -235,7 +235,7 @@ def test_discovery_detectors_are_candidates_never_labels(lf_registry):
 def test_schema_md_exists_and_pins_version():
     text = SCHEMA_MD.read_text(encoding="utf-8")
     assert "schema_version" in text
-    assert re.search(r"schema_version.*\b1\.0\b", text)
+    assert re.search(r"schema_version.*\b1\.1\b", text)
     assert taxonomy.TAXONOMY_VERSION in text
 
 

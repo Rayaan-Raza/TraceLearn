@@ -21,27 +21,27 @@
     "grouped_by": "problem_cluster",
     "synthetic_multiplier": 0.75,
     "grid_scores": {
-      "0.5": 0.0993,
-      "0.75": 0.1024,
-      "1.0": 0.0964
+      "0.5": 0.174,
+      "0.75": 0.1783,
+      "1.0": 0.1667
     },
-    "macro_f1_mean": 0.1024,
-    "macro_f1_std": 0.0155,
+    "macro_f1_mean": 0.1783,
+    "macro_f1_std": 0.066,
     "majority_baseline": 0.0691
   },
   "full": {
-    "macro_f1_oof": 0.1125,
+    "macro_f1_oof": 0.1921,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 1.0,
+        "precision": 0.9554,
         "recall": 0.8929,
-        "f1": 0.9434,
+        "f1": 0.9231,
         "support": 168
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.8,
+        "recall": 0.4444,
+        "f1": 0.5714,
         "support": 9
       },
       "CPP_INT_OVERFLOW": {
@@ -51,9 +51,9 @@
         "support": 9
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.1667,
+        "recall": 0.0625,
+        "f1": 0.0909,
         "support": 16
       },
       "CPP_MISSING_BASE_CASE": {
@@ -63,15 +63,15 @@
         "support": 8
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.2143,
-        "recall": 0.2,
-        "f1": 0.2069,
+        "precision": 0.2105,
+        "recall": 0.2667,
+        "f1": 0.2353,
         "support": 15
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.0769,
+        "precision": 0.0147,
         "recall": 0.1,
-        "f1": 0.087,
+        "f1": 0.0256,
         "support": 10
       },
       "CPP_RANGE_CHECK": {
@@ -81,9 +81,9 @@
         "support": 8
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.4,
+        "recall": 0.2,
+        "f1": 0.2667,
         "support": 10
       },
       "CPP_UNINITIALIZED_VAR": {
@@ -103,59 +103,108 @@
       [
         150,
         0,
-        4,
-        0,
-        0,
-        4,
-        0,
-        0,
-        0,
-        10,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        2,
-        0,
-        1,
-        6,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
         0,
         0,
         0,
         7,
+        11,
+        0,
+        0,
+        0,
         0
       ],
       [
         0,
+        4,
+        0,
+        0,
+        0,
+        3,
         2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
         2,
         0,
         0,
         1,
+        0,
+        1,
+        8,
+        0,
+        0,
+        2,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        5,
+        0
+      ],
+      [
+        3,
         1,
         0,
         0,
-        10,
+        0,
+        4,
+        6,
+        0,
+        1,
+        0,
         0
       ],
       [
         0,
         0,
         0,
+        3,
+        0,
+        0,
+        1,
+        2,
+        2,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
         0,
         0,
         0,
@@ -163,70 +212,21 @@
         0,
         0,
         8,
+        0,
+        2,
+        0,
         0
       ],
       [
         0,
-        2,
-        2,
         0,
         0,
+        2,
+        0,
+        4,
         3,
-        1,
         0,
         0,
-        7,
-        0
-      ],
-      [
-        0,
-        2,
-        0,
-        1,
-        0,
-        1,
-        1,
-        3,
-        1,
-        1,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        0,
-        0,
-        6,
-        0
-      ],
-      [
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        8,
-        0
-      ],
-      [
-        0,
-        0,
-        1,
-        2,
-        0,
-        2,
-        1,
-        2,
-        1,
         0,
         0
       ],
@@ -237,16 +237,16 @@
         0,
         0,
         0,
+        12,
         0,
-        2,
         0,
-        10,
+        0,
         0
       ]
     ],
-    "ece_oof": 0.2678,
-    "cv_macro_f1_mean": 0.1024,
-    "cv_macro_f1_std": 0.0155,
+    "ece_oof": 0.2287,
+    "cv_macro_f1_mean": 0.1783,
+    "cv_macro_f1_std": 0.066,
     "features": [
       "static.loc",
       "static.sloc",
@@ -341,18 +341,18 @@
     ]
   },
   "masked": {
-    "macro_f1_oof": 0.1125,
+    "macro_f1_oof": 0.1921,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 1.0,
+        "precision": 0.9554,
         "recall": 0.8929,
-        "f1": 0.9434,
+        "f1": 0.9231,
         "support": 168
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.8,
+        "recall": 0.4444,
+        "f1": 0.5714,
         "support": 9
       },
       "CPP_INT_OVERFLOW": {
@@ -362,9 +362,9 @@
         "support": 9
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.1667,
+        "recall": 0.0625,
+        "f1": 0.0909,
         "support": 16
       },
       "CPP_MISSING_BASE_CASE": {
@@ -374,15 +374,15 @@
         "support": 8
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.2143,
-        "recall": 0.2,
-        "f1": 0.2069,
+        "precision": 0.2105,
+        "recall": 0.2667,
+        "f1": 0.2353,
         "support": 15
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.0769,
+        "precision": 0.0147,
         "recall": 0.1,
-        "f1": 0.087,
+        "f1": 0.0256,
         "support": 10
       },
       "CPP_RANGE_CHECK": {
@@ -392,9 +392,9 @@
         "support": 8
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.4,
+        "recall": 0.2,
+        "f1": 0.2667,
         "support": 10
       },
       "CPP_UNINITIALIZED_VAR": {
@@ -414,59 +414,108 @@
       [
         150,
         0,
-        4,
-        0,
-        0,
-        4,
-        0,
-        0,
-        0,
-        10,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        2,
-        0,
-        1,
-        6,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
         0,
         0,
         0,
         7,
+        11,
+        0,
+        0,
+        0,
         0
       ],
       [
         0,
+        4,
+        0,
+        0,
+        0,
+        3,
         2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
         2,
         0,
         0,
         1,
+        0,
+        1,
+        8,
+        0,
+        0,
+        2,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        5,
+        0
+      ],
+      [
+        3,
         1,
         0,
         0,
-        10,
+        0,
+        4,
+        6,
+        0,
+        1,
+        0,
         0
       ],
       [
         0,
         0,
         0,
+        3,
+        0,
+        0,
+        1,
+        2,
+        2,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
         0,
         0,
         0,
@@ -474,70 +523,21 @@
         0,
         0,
         8,
+        0,
+        2,
+        0,
         0
       ],
       [
         0,
-        2,
-        2,
         0,
         0,
+        2,
+        0,
+        4,
         3,
-        1,
         0,
         0,
-        7,
-        0
-      ],
-      [
-        0,
-        2,
-        0,
-        1,
-        0,
-        1,
-        1,
-        3,
-        1,
-        1,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        0,
-        0,
-        6,
-        0
-      ],
-      [
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        8,
-        0
-      ],
-      [
-        0,
-        0,
-        1,
-        2,
-        0,
-        2,
-        1,
-        2,
-        1,
         0,
         0
       ],
@@ -548,16 +548,16 @@
         0,
         0,
         0,
+        12,
         0,
-        2,
         0,
-        10,
+        0,
         0
       ]
     ],
-    "ece_oof": 0.2678,
-    "cv_macro_f1_mean": 0.1024,
-    "cv_macro_f1_std": 0.0155,
+    "ece_oof": 0.2287,
+    "cv_macro_f1_mean": 0.1783,
+    "cv_macro_f1_std": 0.066,
     "role": "informational only (v4.1): lf_inputs NaN'd on weak rows at train time; eval rows unmasked \u2014 the train/test mismatch is real and disclosed, no gate rides on this variant",
     "train_test_mismatch": "weak-row lf_inputs masked during training folds; validation-fold and dev-gold rows are unmasked, mirroring deployment",
     "features": [
@@ -654,18 +654,18 @@
     ]
   },
   "common": {
-    "macro_f1_oof": 0.1125,
+    "macro_f1_oof": 0.2241,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 1.0,
-        "recall": 0.8929,
-        "f1": 0.9434,
+        "precision": 0.7352,
+        "recall": 0.9583,
+        "f1": 0.832,
         "support": 168
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.8571,
+        "recall": 0.6667,
+        "f1": 0.75,
         "support": 9
       },
       "CPP_INT_OVERFLOW": {
@@ -675,9 +675,9 @@
         "support": 9
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.2,
+        "recall": 0.0625,
+        "f1": 0.0952,
         "support": 16
       },
       "CPP_MISSING_BASE_CASE": {
@@ -687,15 +687,15 @@
         "support": 8
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.2143,
-        "recall": 0.2,
-        "f1": 0.2069,
+        "precision": 0.2222,
+        "recall": 0.1333,
+        "f1": 0.1667,
         "support": 15
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.0769,
+        "precision": 0.0526,
         "recall": 0.1,
-        "f1": 0.087,
+        "f1": 0.069,
         "support": 10
       },
       "CPP_RANGE_CHECK": {
@@ -705,15 +705,15 @@
         "support": 8
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.4,
+        "recall": 0.2,
+        "f1": 0.2667,
         "support": 10
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.4,
+        "recall": 0.2222,
+        "f1": 0.2857,
         "support": 9
       },
       "CPP_WRONG_LOOP_DIR": {
@@ -725,98 +725,137 @@
     },
     "confusion": [
       [
-        150,
-        0,
-        4,
-        0,
-        0,
-        4,
+        161,
         0,
         0,
         0,
-        10,
+        0,
+        3,
+        3,
+        0,
+        1,
+        0,
         0
       ],
       [
         0,
+        6,
+        0,
+        1,
         0,
         0,
         2,
         0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        0,
+        0,
+        0,
         1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        0,
+        0,
+        1,
+        0,
+        1,
+        2,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        1,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1,
+        0,
+        2,
+        1,
+        2,
+        2,
+        0,
+        1
+      ],
+      [
         6,
         0,
         0,
         0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        2,
+        0,
         0
       ],
       [
         0,
         0,
         0,
+        1,
         0,
+        1,
+        4,
+        1,
         0,
         2,
-        0,
-        0,
-        0,
-        7,
         0
       ],
       [
-        0,
-        2,
-        2,
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
         10,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        8,
-        0
-      ],
-      [
-        0,
-        2,
-        2,
-        0,
-        0,
-        3,
-        1,
-        0,
-        0,
-        7,
-        0
-      ],
-      [
-        0,
-        2,
-        0,
-        1,
-        0,
-        1,
-        1,
-        3,
-        1,
-        1,
-        0
-      ],
-      [
-        0,
         0,
         0,
         0,
@@ -825,52 +864,13 @@
         2,
         0,
         0,
-        6,
-        0
-      ],
-      [
         0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        8,
-        0
-      ],
-      [
-        0,
-        0,
-        1,
-        2,
-        0,
-        2,
-        1,
-        2,
-        1,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        0,
-        10,
         0
       ]
     ],
-    "ece_oof": 0.2682,
-    "cv_macro_f1_mean": 0.1024,
-    "cv_macro_f1_std": 0.0155,
+    "ece_oof": 0.1416,
+    "cv_macro_f1_mean": 0.2025,
+    "cv_macro_f1_std": 0.0995,
     "features": [
       "static.loc",
       "static.sloc",
@@ -919,8 +919,8 @@
   "dev_gold": {
     "n": 4,
     "calibrated": false,
-    "ece": 0.4892,
-    "macro_f1_uncalibrated": 0.0
+    "ece": 0.4081,
+    "macro_f1_uncalibrated": 0.0909
   },
   "g8": {
     "gold_not_in_train": true,
@@ -949,7 +949,7 @@
       "CPP_WRONG_LOOP_DIR": 0.0961
     },
     "cv_beats_majority_by_0.25": false,
-    "cv_margin": 0.0333,
+    "cv_margin": 0.1092,
     "threshold_scope": "one global threshold + temperature",
     "isotonic_used": false,
     "dev_gold_n": 4,

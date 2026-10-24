@@ -146,12 +146,32 @@ def test_train_writes_models_metrics_encoder_calibrator(tmp_path: Path):
     metrics = _run(ds, tmp_path)
     models = tmp_path / "models"
     for name in ("xgb_v1.json", "xgb_masked_v1.json", "xgb_common_v1.json",
-                 "metrics_v1.json", "label_encoder.json", "calibrator.json"):
+                 "xgb_best_v1.json", "metrics_v1.json", "label_encoder.json",
+                 "calibrator.json"):
         assert (models / name).is_file(), name
     encoder = json.loads((models / "label_encoder.json").read_text(encoding="utf-8"))
     assert set(encoder["class_to_idx"]) == set(LABELS)
     assert metrics["cv"]["macro_f1_mean"] >= 0.0
     assert metrics["g8"]["gold_not_in_train"] is True
+
+
+def test_best_variant_is_saved_and_uses_semantics(tmp_path: Path):
+    ds = _build_dataset(tmp_path)
+    metrics = _run(ds, tmp_path)
+    assert (tmp_path / "models" / "xgb_best_v1.json").is_file()
+    features = metrics["best"]["features"]
+    assert "semantics.assign_in_cond" in features
+    assert all(f.startswith(("static.", "warnings.", "semantics.")) for f in features)
+    assert metrics["best"]["macro_f1_oof"] >= 0.0
+
+
+def test_repeated_grouped_cv_is_recorded_and_deterministic(tmp_path: Path):
+    ds = _build_dataset(tmp_path)
+    first = _run(ds, tmp_path, cv_repeats=2)
+    second = _run(ds, tmp_path, cv_repeats=2)
+    assert first["cv"]["repeats"] == 2
+    assert first["cv"]["macro_f1_mean"] == second["cv"]["macro_f1_mean"]
+    assert first["best"]["macro_f1_oof"] == second["best"]["macro_f1_oof"]
 
 
 def test_dev_gold_clusters_must_be_absent_from_train(tmp_path: Path):
