@@ -213,6 +213,27 @@ def test_cpg_evidence_fills_cpg_block():
     assert cpg["ast_ref_similarity"] == pytest.approx(0.71)
 
 
+def test_semantics_block_computed_from_source():
+    """extract_features fills the semantics block from source automatically."""
+    source = "int main() { int x = 0; for(int i=0; i<n; i++) x++; return x; }"
+    out = extract_features(source)
+    sem = out["semantics"]
+    assert sem["init_zero"] == 1          # int x = 0
+    assert sem["loop_lt"] == 1            # i < n
+    assert sem["increment"] >= 1          # i++ and x++
+    assert sem["assign_in_cond"] == 0
+    assert sem["recursion"] == 0
+
+
+def test_semantics_block_nan_for_empty_source():
+    """Empty source produces NaN semantics, not zeros (no available gate in semantics block)."""
+    out = extract_features("")
+    sem = out["semantics"]
+    assert "available" not in sem
+    for key, val in sem.items():
+        assert _nan(val), f"semantics.{key} should be NaN for empty source, got {val!r}"
+
+
 def test_schema_version_and_version_stamp():
     assert SCHEMA_VERSION == "1.1"
     import tracelearn_features
