@@ -1,0 +1,68 @@
+{
+  "run_id": "bd895c0213",
+  "seed_submission_id": "979f684e-ceff-4519-bd4f-c8af5716954e-61009433",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "wld_incr_to_decr",
+  "label": "CPP_WRONG_LOOP_DIR",
+  "seed_sha256": "ebde6e61e0948235b3c4d24e74fc0600677ac808b61dab217eed45ea5f65c113",
+  "mutant_sha256": "755228e8c3710f7fbb1d1c3e639b4213b97b337728aba4bdf56133359fa4ef7e",
+  "compile_warnings_std": "/tmp/tmptq2xcnoy.cpp: In function \u2018int main()\u2019:\n/tmp/tmptq2xcnoy.cpp:34:21: warning: comparison of integer expressions of different signedness: \u2018int\u2019 and \u2018std::__cxx11::basic_string<char>::size_type\u2019 {aka \u2018long unsigned int\u2019} [-Wsign-compare]\n   34 |   for (int i = 0; i < s.size(); i--) {\n      |                   ~~^~~~~~~~~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 3,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1541,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": " \n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "W\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:08:06.115570"
+}

@@ -1,0 +1,68 @@
+{
+  "run_id": "d542932265",
+  "seed_submission_id": "05ee8394-9763-48d3-aadb-54af235e3d28-12229974",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "wld_incr_to_decr",
+  "label": "CPP_WRONG_LOOP_DIR",
+  "seed_sha256": "4147589778db687e32ad6d9d262f3b0f4c120538b8954bfcafd54e956cc76837",
+  "mutant_sha256": "8db2d0ce079cf824eb2ef7b3f9f371843d7e408c8ac74b42a9d08d6433358845",
+  "compile_warnings_std": "",
+  "sanitizer_ok": false,
+  "tests_passed": 1,
+  "tests_failed": 2,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 1,
+    "failed": 2,
+    "pass_rate": 0.3333333333333333,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 2,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": true,
+    "timed_out": false,
+    "signal": 2
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1541,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "crash",
+      "passed": false,
+      "rc": -2,
+      "stdout": "",
+      "stderr": "'utf-8' codec can't decode byte 0x91 in position 7: invalid start byte",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": " Zh4ppGdTYG82YZu5CkgbpqgiIPvnAoP hzvC7 N3IQbb1kuK2JyVSvCBU24kdpnVVrtBHq78UxOU\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "crash",
+      "passed": false,
+      "rc": -2,
+      "stdout": "",
+      "stderr": "'utf-8' codec can't decode byte 0x91 in position 8: invalid start byte",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:07:39.207762"
+}

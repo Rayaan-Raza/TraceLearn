@@ -1,0 +1,62 @@
+{
+  "run_id": "c9aa654e2c",
+  "seed_submission_id": "tpl-MBC-004",
+  "problem_id": "tl-codestream-prob_007",
+  "operator": "mbc_remove_base_le1",
+  "label": "CPP_MISSING_BASE_CASE",
+  "seed_sha256": "ad80a9221e51efe2c18ae69c4e1b417700fd5f3ceed725c303112d7827b00581",
+  "mutant_sha256": "97eedce0e7aa0f4cc8d885c383735bc9d5f63d6e727841972be2f8dbfed8ff64",
+  "compile_warnings_std": "/tmp/tmpre08kv0_.cpp: In function \u2018int fib(int)\u2019:\n/tmp/tmpre08kv0_.cpp:3:5: warning: infinite recursion detected [-Winfinite-recursion]\n    3 | int fib(int n){\n      |     ^~~\n/tmp/tmpre08kv0_.cpp:4:15: note: recursive call\n    4 |     return fib(n-1)+fib(n-2);\n      |            ~~~^~~~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 3,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": true,
+    "timed_out": false,
+    "signal": 11
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "crash",
+      "passed": false,
+      "rc": -11,
+      "stdout": "",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": "?",
+      "status": "crash",
+      "passed": false,
+      "rc": -11,
+      "stdout": "",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": "?",
+      "status": "crash",
+      "passed": false,
+      "rc": -11,
+      "stdout": "",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:03:08.661602"
+}

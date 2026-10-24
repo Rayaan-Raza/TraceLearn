@@ -21,6 +21,7 @@ Status legend: ✅ done (committed) · 🚧 in progress · ⏳ blocked on lane o
 | T7 | PROGPedia CPG parser + pg detectors + gcc warnings + weak labeler | ✅ | `ea5f0e0`, `8d126e3`, `aa35516`, `7217d08` |
 | T8 | `merge_dataset.py`: three-lane merge, dedupe, joins, grouped split, G7 | ✅ | `afddc45` (+ lane-gate fix `c25dff0`) |
 | T9 | `train_xgb_misconception.py`: three variants, Layer-3 weights, G8 metrics | ✅ (G8 red at pilot scale — see T9) | `b737b65` |
+| T9b | Lane-evidence normalization at merge: mine tier0 embedded code + map tier1a raw evidence | ✅ | uncommitted |
 | T10 | Dataset scaffold docs (README, DATASET_CARD, ANNOTATION_GUIDELINE) | ⏳ | — |
 
 All three lanes are merged and on main (PRs #1/#2/#3 merged 2026-10-23);
@@ -204,6 +205,84 @@ Masked == full OOF was verified as genuine coincidence (masking does
 introduce 150 NaNs on real data; predictions merely coincide), not a
 wiring bug.
 
+## T9b - Lane-evidence normalization (fixes T9 root cause 1)
+
+**Root cause (measured, not inferred).** `merge_dataset.flatten_features()`
+read canonical short names only, but the lanes emit their evidence in their
+own vocabulary. Before this fix, `features.csv` carried:
+
+| source | canonical columns populated (of 87) | what survived |
+|---|---|---|
+| SYNTHETIC | **1** | `static.loc` only |
+| CODESTREAM | **3** | `tests.total`, `tests.passed`, `runtime.stack_overflow` (coincidental key matches) |
+| PROGPEDIA | 63 | already normalized by its lane |
+
+So the model was not under-tuned — it was starved. The merge contract
+already allows backfilling blocks a lane shipped raw (`FEATURE_SCHEMA.md`
+§v0 interface).
+
+**Fix.** New `tracelearn_features/normalize.py`, called from
+`merge_dataset.merge()` after dedupe (step 6b), before flatten/PSI:
+
+- tier0: `static.source_code` → full `static` block via the pinned
+  extractor; `warnings.compile_warnings` gcc text → canonical warning
+  counts; `runtime.tests_{total,passed,failed}` → `tests.*`;
+- tier1a: merge-resolved own code → `static`; raw `-Wflag` count keys →
+  canonical warnings; sandbox runtime (`any_crash` / `sanitizer` /
+  `valgrind`) → canonical runtime; `status` test results → `tests.*`
+  (presentation failures counted as failed, not wrong-answer);
+  `statement_chars` / `tests_total` → `context`;
+- tier1b: untouched (already canonical; a null there is a real lane gap and
+  stays visible in the availability report).
+
+Discipline: lane-supplied values are never overwritten; missing evidence
+stays NaN (an empty CodeStream warnings dict means "not mined", not
+"zero"); no label-derived metadata (`mutation_op`, `seed_ref`) is used.
+Tests: `tests/test_normalize_lane_features.py` (13) + two merge
+integration tests.
+
+**Coverage after the fix** (same 311-row merged dataset):
+
+| source | canonical columns populated | added |
+|---|---|---|
+| SYNTHETIC | **47** | static (20), warnings (21), tests (5) |
+| CODESTREAM | **68** | static (20), warnings (20), runtime (12), tests (7), context (3) |
+| PROGPEDIA | 63 | unchanged |
+
+Still honestly NaN: tier0 `cpg`/`context`/`runtime` (the lane never carried
+that evidence; sanitizer detail was not persisted in the proofs), tier1a
+`cpg` (no CPG export for CodeStream), and `tests.boundary_fail_count`
+(no per-test boundary metadata).
+
+**Retrained metrics (seed 7, 274 train / 4 dev-gold):**
+
+| metric | before T9b | after T9b |
+|---|---|---|
+| CV macro-F1 (grouped) | 0.1024 +/- 0.0155 | **0.1783 +/- 0.0660** |
+| majority baseline | 0.0691 | 0.0691 |
+| CV margin | 0.0333 | **0.1092** |
+| OOF macro-F1 (full) | 0.1125 | **0.1921** |
+| OOF macro-F1 (common) | 0.1125 | **0.2241** |
+| ECE (full, OOF) | 0.2678 | 0.2287 |
+
+Per-class OOF now: ARRAY_BOUNDS 0.923, ASSIGN_VS_COMPARE 0.571,
+OFF_BY_ONE 0.235, STALE_EXIT 0.267, LOOP_BOUNDARY 0.091; five classes
+still 0 (INT_OVERFLOW, MISSING_BASE_CASE, RANGE_CHECK, UNINITIALIZED_VAR,
+WRONG_LOOP_DIR). G8 still **FAIL** on CV margin (0.109 < 0.25) and
+synthetic mass (0.89 > 0.50); gold-not-in-train, class-mass and weight
+clip PASS.
+
+**Why the remaining reds are not fixable in the merge/trainer:** every
+zero-F1 class is confined to one or two problem clusters
+(MISSING_BASE_CASE and WRONG_LOOP_DIR: `clu-000` only; RANGE_CHECK:
+`clu-000` + one row). Grouped CV by cluster therefore holds the *only*
+cluster containing the class out of fold-train, so OOF F1 is structurally
+0 regardless of feature quality. Fixing it needs lane-A supply across
+clusters (more real/mutant rows per class), not model tuning. Synthetic
+mass is the Layer-3 weight formula (synthetic confidence 0.93 vs
+weak-label caps 0.2-0.6); the plan says caps are recorded, never silently
+enforced.
+
 ---
 
 ## Rulings & decisions log (binding for this lane)
@@ -233,11 +312,15 @@ wiring bug.
 
 ## Next actions
 
-1. **Lane-A feature mining (blocker for G8/G3)** — team decision: Eman
-   mines canonical §6 features for `tier0_mutants` rows (mutant code is
-   embedded in each row), or the sanctioned post-G3 `migrate_schema.py`
-   window bridges `runtime.tests_*` → `tests.*` etc. Until then 10 of 11
-   classes stay unlearnable and G8 stays red.
+1. **Lane-A supply across clusters (remaining blocker for G8/G3)** — the
+   merge now mines canonical static/warnings/tests from tier0 embedded code
+   and maps tier1a's raw runtime/tests/warnings (T9b), so the feature gap is
+   closed for everything the lanes carry. What remains is data: every
+   zero-F1 class sits in one or two problem clusters, so grouped CV cannot
+   learn it. Eman needs to emit real/mutant rows per class across clusters
+   (and persist sanitizer detail if runtime features are wanted for tier0).
+   `migrate_schema.py` is no longer needed for `runtime.tests_*` → `tests.*`
+   (the merge bridges it).
 2. **T10** dataset scaffold docs (README, DATASET_CARD; adopt Umaima's
    ANNOTATION_GUIDELINE.md).
 3. **G5 audit** (human, ≥50 fires per rule) to move silver → certain and

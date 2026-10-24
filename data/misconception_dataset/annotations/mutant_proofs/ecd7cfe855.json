@@ -1,0 +1,61 @@
+{
+  "run_id": "ecd7cfe855",
+  "seed_submission_id": "tpl-MBC-002",
+  "problem_id": "tl-codestream-prob_003",
+  "operator": "mbc_remove_base_eq1",
+  "label": "CPP_MISSING_BASE_CASE",
+  "seed_sha256": "bd8854fd835c5f24042d8e3afdbb80c4fe4d938d448ef163c5152fed640d62dc",
+  "mutant_sha256": "2e58c64e595acfb032f1780f5daa690193455613cd349a6bccee8db2a37024ef",
+  "compile_warnings_std": "/tmp/tmp9xpnbjvj.cpp: In function \u2018int sum_to(int)\u2019:\n/tmp/tmp9xpnbjvj.cpp:3:5: warning: infinite recursion detected [-Winfinite-recursion]\n    3 | int sum_to(int n){\n      |     ^~~~~~\n/tmp/tmp9xpnbjvj.cpp:5:22: note: recursive call\n    5 |     return n + sum_to(n-1);\n      |                ~~~~~~^~~~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 0,
+    "timeout_count": 3,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": true
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    }
+  ],
+  "timestamp": "2026-10-23T19:52:54.800448"
+}

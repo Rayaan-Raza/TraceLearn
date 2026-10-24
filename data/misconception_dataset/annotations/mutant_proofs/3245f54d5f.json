@@ -1,0 +1,68 @@
+{
+  "run_id": "3245f54d5f",
+  "seed_submission_id": "979f684e-ceff-4519-bd4f-c8af5716954e-61009433",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "uninit_int_zero",
+  "label": "CPP_UNINITIALIZED_VAR",
+  "seed_sha256": "ebde6e61e0948235b3c4d24e74fc0600677ac808b61dab217eed45ea5f65c113",
+  "mutant_sha256": "46bd3624ecb8eefb6bcc8c9b78be4e83d64388bc30bd824a9138c0f6ffc63961",
+  "compile_warnings_std": "/tmp/tmpbxin8h5i.cpp: In function \u2018int main()\u2019:\n/tmp/tmpbxin8h5i.cpp:34:21: warning: comparison of integer expressions of different signedness: \u2018int\u2019 and \u2018std::__cxx11::basic_string<char>::size_type\u2019 {aka \u2018long unsigned int\u2019} [-Wsign-compare]\n   34 |   for (int i = 0; i < s.size(); i++) {\n      |                   ~~^~~~~~~~~~\n/tmp/tmpbxin8h5i.cpp:15:8: warning: \u2018count\u2019 may be used uninitialized [-Wmaybe-uninitialized]\n   15 |   count++;\n      |   ~~~~~^~\n/tmp/tmpbxin8h5i.cpp:12:7: note: \u2018count\u2019",
+  "sanitizer_ok": false,
+  "tests_passed": 1,
+  "tests_failed": 2,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 1,
+    "failed": 2,
+    "pass_rate": 0.3333333333333333,
+    "wrong_answer_count": 2,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1541,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "Wn93HATDh9vwc79xzzP a4Fx452kmuM1mzIaApoG5uSRHaOgfPQjF85Y2OJArjoRR45yxfXg6ncHak2Ef1ywH9r8ZPVgZ5cnUf\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": " Zh4ppGdTYG82YZu5CkgbpqgiIPvnAoP hzvC7 N3IQbb1kuK2JyVSvCBU24kdpnVVrtBHq78UxOU\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "W4tl5K03MMnqmn42CnwFmWKMLfhMB8v8MDFk9QGVE1j0s0Ox3kVclt7T08bEL3dAbub\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:14:22.610601"
+}

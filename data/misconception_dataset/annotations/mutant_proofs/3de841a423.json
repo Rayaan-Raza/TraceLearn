@@ -1,0 +1,68 @@
+{
+  "run_id": "3de841a423",
+  "seed_submission_id": "7258761c-7e94-4fab-8640-43dee9fc1e6f-74666084",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "wld_lt_to_gt",
+  "label": "CPP_WRONG_LOOP_DIR",
+  "seed_sha256": "19d50825055b53014a034082c6b97563922f63a3dae58b466bdbafdb830c0d1e",
+  "mutant_sha256": "01a35a87efd3d58b9c6c3eba56aa80d38901b03723cfb2116331c3fe9f4d5a8d",
+  "compile_warnings_std": "",
+  "sanitizer_ok": false,
+  "tests_passed": 2,
+  "tests_failed": 1,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 2,
+    "failed": 1,
+    "pass_rate": 0.6666666666666666,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 1,
+    "timeout_count": 0,
+    "first_fail_index": 1
+  },
+  "runtime": {
+    "available": true,
+    "crashed": true,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1541,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "9c9a42uMzA5RPQ8Aro45fXgca218Pgf\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "crash",
+      "passed": false,
+      "rc": -2,
+      "stdout": "",
+      "stderr": "'utf-8' codec can't decode byte 0xf0 in position 0: invalid continuation byte",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "Wl3nFmWKLh8vjOxl7T3Ab\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:08:15.502155"
+}

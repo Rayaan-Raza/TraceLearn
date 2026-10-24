@@ -64,7 +64,7 @@ OUT_JSONL = os.path.join(ROOT, "data", "misconception_dataset", "annotations", "
 PROOFS_DIR = os.path.join(ROOT, "data", "misconception_dataset", "annotations", "mutant_proofs")
 
 TAXONOMY_VERSION = "tl-cpp-v2"
-SCHEMA_VERSION = "1.0"
+SCHEMA_VERSION = "1.1"
 MAX_MUTANTS_PER_SEED = 5  # relaxed per G0c
 COMPILE_TIMEOUT = 15       # seconds
 RUN_TIMEOUT = 2            # seconds per test (2s covers all O(n) solutions with -O2; catches infinite loops)

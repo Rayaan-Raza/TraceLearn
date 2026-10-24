@@ -1,0 +1,74 @@
+{
+  "run_id": "64f34af30d",
+  "seed_submission_id": "7258761c-7e94-4fab-8640-43dee9fc1e6f-74666084",
+  "problem_id": "tl-codestream-prob_005",
+  "operator": "obo_index_plus1",
+  "label": "CPP_OFF_BY_ONE",
+  "seed_sha256": "19d50825055b53014a034082c6b97563922f63a3dae58b466bdbafdb830c0d1e",
+  "mutant_sha256": "e6b29b69d0e79633df3a1c4fd66dd42def27fc98d71666b5ea42de8912f258e7",
+  "compile_warnings_std": "",
+  "sanitizer_ok": true,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 3,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": true,
+    "timed_out": false,
+    "exit_code": 1,
+    "asan_error": true,
+    "asan_heap_buffer_overflow": false,
+    "asan_stack_buffer_overflow": true,
+    "ubsan_error": true,
+    "ubsan_signed_overflow": false,
+    "stack_overflow": false
+  },
+  "context": {
+    "available": true,
+    "statement_length": 1541,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "crash",
+      "passed": false,
+      "rc": 1,
+      "stdout": "",
+      "stderr": "/tmp/tmpbzuc3dqj.cpp:23:6: runtime error: index 98 out of bounds for type 'char [*]'\n/tmp/tmpbzuc3dqj.cpp:23:7: runtime error: store to address 0x7ffe13453b62 with insufficient space for an object of type 'char'\n0x7ffe13453b62: note: pointer points here\n 63 6e  55 66 f2 f3 f4 f5 f6 01  00 e9 ad 38 c6 36 bf 0d  a0 3b 45 13 fe 7f 00 00  00 01 60 de c4 75\n              ^ \n=================================================================\n==3062==ERROR: AddressSanitizer: dynamic-stack-buffer-overflow",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "crash",
+      "passed": false,
+      "rc": 1,
+      "stdout": "",
+      "stderr": "/tmp/tmpbzuc3dqj.cpp:23:6: runtime error: index 77 out of bounds for type 'char [*]'\n/tmp/tmpbzuc3dqj.cpp:23:7: runtime error: store to address 0x7ffd7f761f6d with insufficient space for an object of type 'char'\n0x7ffd7f761f6d: note: pointer points here\n 55 78 4f 55 00 00 00  f0 f1 f2 f3 f4 f5 f6 01  00 a2 25 78 d6 e3 27 1f  b0 1f 76 7f fd 7f 00 00  00\n             ^ \n=================================================================\n==3063==ERROR: AddressSanitizer: dynamic-stack-buffer-overflow ",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "crash",
+      "passed": false,
+      "rc": 1,
+      "stdout": "",
+      "stderr": "/tmp/tmpbzuc3dqj.cpp:23:6: runtime error: index 67 out of bounds for type 'char [*]'\n/tmp/tmpbzuc3dqj.cpp:23:7: runtime error: store to address 0x7ffd6b310703 with insufficient space for an object of type 'char'\n0x7ffd6b310703: note: pointer points here\n 41  62 75 62 00 00 00 00 00  2e 00 00 00 00 00 00 00  f0 f1 f2 f3 f4 f5 f6 01  00 1e ec 9a 0f 8b 2d\n              ^ \n=================================================================\n==3064==ERROR: AddressSanitizer: dynamic-stack-buffer-overflow",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-23T20:16:28.425088"
+}

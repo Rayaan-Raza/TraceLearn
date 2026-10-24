@@ -1,0 +1,61 @@
+{
+  "run_id": "05b2d2f910",
+  "seed_submission_id": "tpl-MBC-009",
+  "problem_id": "tl-codestream-prob_001",
+  "operator": "mbc_remove_base_n0",
+  "label": "CPP_MISSING_BASE_CASE",
+  "seed_sha256": "75efb379b077119d6068b2fc68dd07bb9d6de51bb68be5df93518bfd2a63f815",
+  "mutant_sha256": "4673701bd8cf7f9fe5952874f9dc790bca0f60709a4d42523c724c0dbe6be12e",
+  "compile_warnings_std": "/tmp/tmpjhfnzjdu.cpp: In function \u2018int pow2(int)\u2019:\n/tmp/tmpjhfnzjdu.cpp:3:5: warning: infinite recursion detected [-Winfinite-recursion]\n    3 | int pow2(int n){\n      |     ^~~~\n/tmp/tmpjhfnzjdu.cpp:4:20: note: recursive call\n    4 |     return 2 * pow2(n-1);\n      |                ~~~~^~~~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 0,
+    "timeout_count": 3,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": true
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    }
+  ],
+  "timestamp": "2026-10-23T19:52:14.607805"
+}
