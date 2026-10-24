@@ -17,6 +17,10 @@ from scripts.extract_progpedia_warnings import (
 )
 
 RAW = r"G:\TraceLearn\Datasets_RAW"
+_raw_missing = pytest.mark.skipif(
+    not __import__("pathlib").Path(RAW).exists(),
+    reason="raw corpus not mounted at G:\\TraceLearn\\Datasets_RAW",
+)
 
 
 def _row(record_id="00000006/ACCEPTED/00002_00005/Prob_F.c", *, lang="c",
@@ -63,6 +67,7 @@ def test_build_jobs_dedupes_by_compiler_and_sha():
     assert jobs == sorted(jobs, key=lambda j: (j["compiler"], j["sha256"]))
 
 
+@_raw_missing
 def test_build_jobs_resolves_path_under_raw_root_and_flags_missing():
     import pathlib
 
