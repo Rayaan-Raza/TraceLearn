@@ -249,6 +249,15 @@ def test_semantics_recursion_and_base_case():
     assert sem["loop_lt"] == 0
 
 
+def test_semantics_assign_in_cond_and_decrement():
+    """assign-in-condition and decrement signals are extracted correctly."""
+    source = "int f(int* p) { int n = 10; while(n--) { int x; if(x = *p++) {} } return 0; }"
+    out = extract_features(source)
+    sem = out["semantics"]
+    assert sem["assign_in_cond"] == 1   # if(x = *p++)
+    assert sem["decrement"] >= 1        # n--
+
+
 def test_semantics_idx_offset_features():
     """Array index ±1 accesses are detected."""
     source = "void f(int* a, int i) { int x = a[i-1]; int y = a[i+1]; }"
