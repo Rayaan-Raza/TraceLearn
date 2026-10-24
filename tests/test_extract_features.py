@@ -234,6 +234,30 @@ def test_semantics_block_nan_for_empty_source():
         assert _nan(val), f"semantics.{key} should be NaN for empty source, got {val!r}"
 
 
+def test_semantics_recursion_and_base_case():
+    """Recursive function with base case sets both flags."""
+    source = (
+        "int fib(int n) {\n"
+        "    if (n <= 1) return n;\n"
+        "    return fib(n-1) + fib(n-2);\n"
+        "}\n"
+    )
+    out = extract_features(source)
+    sem = out["semantics"]
+    assert sem["recursion"] == 1
+    assert sem["base_case"] == 1
+    assert sem["loop_lt"] == 0
+
+
+def test_semantics_idx_offset_features():
+    """Array index ±1 accesses are detected."""
+    source = "void f(int* a, int i) { int x = a[i-1]; int y = a[i+1]; }"
+    out = extract_features(source)
+    sem = out["semantics"]
+    assert sem["idx_minus1"] == 1
+    assert sem["idx_plus1"] == 1
+
+
 def test_schema_version_and_version_stamp():
     assert SCHEMA_VERSION == "1.1"
     import tracelearn_features
