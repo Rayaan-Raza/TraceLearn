@@ -380,19 +380,46 @@ triggers assign_in_cond=1, decrement≥1.
 
 ---
 
+## T9d — Post-semantics retrain on 448-row dataset (`main`, 2026-10-24)
+
+Pulled Rayaan's commit `1d866ee` (pilot mutant expansion: 8 new SYNTHETIC rows
+for CPP_MISSING_BASE_CASE + CPP_RANGE_CHECK, re-merge to 448 rows). Re-ran
+`train_xgb_misconception.py --cv-repeats 3`. Semantics block now populated from
+real source for SYNTHETIC and CODESTREAM rows.
+
+| variant | OOF macro-F1 | ECE |
+|---------|-------------|-----|
+| full    | 0.729       | 0.063 |
+| common  | 0.754       | 0.046 |
+| **best** | **0.757**  | 0.066 |
+
+CV (3×StratifiedGroupKFold): **0.704 ± 0.048** vs majority 0.053 (margin **0.651**).
+Synthetic multiplier CV-selected at 1.0 (all grid values ≥0.69; synthetic rows
+now carry full quality semantics evidence, down-weighting hurts).
+
+**G8 status:** gold-not-in-train ✅ · CV-margin ✅ · class-mass ✅ · **synthetic mass FAIL** (0.59 > 0.50)
+
+Synthetic mass failure is a data constraint: 265/448 rows are SYNTHETIC. Cannot
+be fixed by reweighting — cap is on weighted mass, not row count, and the
+synthetic multiplier CV-selects to 1.0. Fix requires more real labelled rows
+(G5 audit → G6 gold annotation) or a larger PROGPedia/CODESTREAM weak-label
+run.
+
+Commits: `0cec479` (metrics) · `e895bc8` (full+masked) · `22197e3` (common) · `3d2dc9b` (best)
+
+---
+
 ## Next actions
 
-1. **Rayaan: run merge + expand on their machine** — `git pull feat/xgb-model-improvements`,
-   run `python scripts/merge_dataset.py` (needs G: raw corpus + submissions.csv),
-   run `python3 scripts/expand_mutants.py --pilot --classes CPP_MISSING_BASE_CASE
-   CPP_RANGE_CHECK --clusters-per-class 2 --rows-per-cluster 3`, push
-   `features.csv` + `tier0_mutants.jsonl` + `reports/expansion_report.json`.
-2. **After Rayaan pushes**: Eman pulls, re-runs `train_xgb_misconception.py
-   --cv-repeats 3`, compares best vs common baseline with semantics populated.
-3. **Full expansion** for 9 structurally starved classes once pilot confirms
-   compile/run/sanitizer evidence is correct.
-4. **T10** dataset scaffold docs (README, DATASET_CARD; adopt Umaima's
+1. **Full expansion** for 9 structurally starved classes — `expand_mutants.py`
+   full run (needs Rayaan's G: drive + WSL g++). Classes: CPP_MISSING_BASE_CASE,
+   CPP_RANGE_CHECK, CPP_WRONG_LOOP_DIR, CPP_INT_OVERFLOW, CPP_STALE_EXIT,
+   CPP_UNINITIALIZED_VAR, CPP_ASSIGN_VS_COMPARE, CPP_LOOP_BOUNDARY, CPP_OFF_BY_ONE.
+2. **T10** dataset scaffold docs (README, DATASET_CARD; adopt Umaima's
    ANNOTATION_GUIDELINE.md).
-5. **G5 audit** (human, ≥50 fires per rule) to move silver → certain and
+3. **G5 audit** (human, ≥50 fires per rule) to move silver → certain and
    set final confidences; **G6** gold annotation (needed before any
    test-gold evaluation and before calibration is meaningful).
+4. **Reduce synthetic mass**: run `extract_progpedia_warnings.py` to pull
+   more real PROGPEDIA rows into the dataset (PROGPedia weak labels on
+   10k+ submissions would shift balance below 50%).
