@@ -312,7 +312,7 @@ enforced.
 
 ## T9c — Schema v1.1, semantics extractor, XGBoost fixes, best variant (`feat/xgb-model-improvements`)
 
-Branch: `feat/xgb-model-improvements` (Eman, 2026-10-24). Three commits:
+Branch: `feat/xgb-model-improvements` (Eman, 2026-10-24). Eight commits:
 
 ### `dcbb231` — Semantics block wired into extractor interface
 
@@ -351,7 +351,32 @@ G8 margin target = 0.25; current = 0.105 (FAIL — honest, not tuned).
 
 **Blocked on**: `submissions.csv` + raw source files on Rayaan's machine for
 `merge_dataset.py` rerun, and WSL g++ for `expand_mutants.py` pilot.
-All 114 targeted tests pass. Ruff clean.
+All 114 targeted tests pass (now 298 suite-wide). Ruff clean.
+
+### `8e52c08` — Skip raw-corpus path test when G: drive not mounted
+
+`test_extract_warnings.py::test_build_jobs_resolves_path_under_raw_root_and_flags_missing`
+was failing on any machine without G: drive mounted. Added `@_raw_missing`
+pytest skip guard (`pytest.mark.skipif(not Path(RAW).exists(), ...)`). Test
+now skips cleanly on dev machines, still runs on the dataset machine.
+
+### `4af2664` — Semantics integration tests (NaN contract + source computation)
+
+Two tests in `test_extract_features.py`:
+- `test_semantics_block_computed_from_source`: verifies `loop_lt`, `init_zero`,
+  `increment` set from a real source string; `assign_in_cond` and `recursion` = 0
+- `test_semantics_block_nan_for_empty_source`: all 15 semantics ints are NaN
+  for empty source; confirms no `available` gate exists in the semantics block
+
+### `e9530fa` — Edge-case tests: recursion, base_case, idx offsets
+
+- `test_semantics_recursion_and_base_case`: fib(n) → recursion=1, base_case=1, loop_lt=0
+- `test_semantics_idx_offset_features`: a[i-1]/a[i+1] → idx_minus1=1, idx_plus1=1
+
+### `0401372` — Cover assign_in_cond and decrement flags
+
+`test_semantics_assign_in_cond_and_decrement`: `while(n--)` + `if(x=*p++)`
+triggers assign_in_cond=1, decrement≥1.
 
 ---
 
