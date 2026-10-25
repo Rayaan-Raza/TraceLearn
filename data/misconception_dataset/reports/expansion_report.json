@@ -1,10 +1,133 @@
 {
-  "generated_at": "2026-10-24T08:35:18.530316",
-  "raw_submissions": "/mnt/g/TraceLearn/Datasets_RAW/CodeStream A Dataset of Iterative Programming Subm/Submission Data.csv",
-  "raw_problems": "/mnt/g/TraceLearn/Datasets_RAW/CodeStream A Dataset of Iterative Programming Subm/Problem Data.csv",
+  "generated_at": "2026-10-24T16:36:32.168705",
+  "raw_submissions": "/mnt/c/Users/USR/Downloads/TraceLearn/TraceLearn/Datasets_RAW/CodeStream A Dataset of Iterative Programming Subm/Submission Data.csv",
+  "raw_problems": "/mnt/c/Users/USR/Downloads/TraceLearn/TraceLearn/Datasets_RAW/CodeStream A Dataset of Iterative Programming Subm/Problem Data.csv",
   "classes": {
     "CPP_MISSING_BASE_CASE": {
       "target_clusters": [
+        "clu-013",
+        "clu-014",
+        "clu-016"
+      ],
+      "reachable_clusters": [
+        "clu-000",
+        "clu-002",
+        "clu-004",
+        "clu-006",
+        "clu-008",
+        "clu-009",
+        "clu-011",
+        "clu-013",
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-021",
+        "clu-022",
+        "clu-023",
+        "clu-024",
+        "clu-027",
+        "clu-030",
+        "clu-031",
+        "clu-034",
+        "clu-035",
+        "clu-036",
+        "clu-039",
+        "clu-040",
+        "clu-041",
+        "clu-042",
+        "clu-043",
+        "clu-044",
+        "clu-045",
+        "clu-046",
+        "clu-047",
+        "clu-048",
+        "clu-049",
+        "clu-050",
+        "clu-051",
+        "clu-052",
+        "clu-053"
+      ],
+      "accepted": {
+        "clu-013": 5,
+        "clu-014": 5,
+        "clu-016": 5
+      },
+      "reject_reasons": {
+        "clu-013": {
+          "mutant_compile_fail": 3
+        },
+        "clu-014": {
+          "mutant_passes_all_tests": 1
+        },
+        "clu-016": {
+          "mutant_passes_all_tests": 1
+        }
+      },
+      "new_rows": 15
+    },
+    "CPP_RANGE_CHECK": {
+      "target_clusters": [
+        "clu-017",
+        "clu-018",
+        "clu-019"
+      ],
+      "reachable_clusters": [
+        "clu-000",
+        "clu-002",
+        "clu-004",
+        "clu-006",
+        "clu-008",
+        "clu-009",
+        "clu-011",
+        "clu-013",
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-021",
+        "clu-022",
+        "clu-023",
+        "clu-024",
+        "clu-027",
+        "clu-030",
+        "clu-031",
+        "clu-034",
+        "clu-035",
+        "clu-036",
+        "clu-039",
+        "clu-040",
+        "clu-041",
+        "clu-042",
+        "clu-043",
+        "clu-044",
+        "clu-045",
+        "clu-046",
+        "clu-047",
+        "clu-048",
+        "clu-049",
+        "clu-050",
+        "clu-051",
+        "clu-052",
+        "clu-053"
+      ],
+      "accepted": {
+        "clu-017": 5,
+        "clu-018": 5,
+        "clu-019": 5
+      },
+      "reject_reasons": {
+        "clu-017": {},
+        "clu-018": {},
+        "clu-019": {}
+      },
+      "new_rows": 15
+    },
+    "CPP_WRONG_LOOP_DIR": {
+      "target_clusters": [
+        "clu-008",
         "clu-009",
         "clu-011"
       ],
@@ -49,19 +172,261 @@
         "clu-053"
       ],
       "accepted": {
-        "clu-009": 2,
-        "clu-011": 2
+        "clu-008": 5,
+        "clu-009": 5,
+        "clu-011": 5
+      },
+      "reject_reasons": {
+        "clu-008": {},
+        "clu-009": {},
+        "clu-011": {}
+      },
+      "new_rows": 15
+    },
+    "CPP_INT_OVERFLOW": {
+      "target_clusters": [
+        "clu-008",
+        "clu-009",
+        "clu-011"
+      ],
+      "reachable_clusters": [
+        "clu-000",
+        "clu-002",
+        "clu-004",
+        "clu-006",
+        "clu-008",
+        "clu-009",
+        "clu-011",
+        "clu-013",
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-021",
+        "clu-022",
+        "clu-023",
+        "clu-024",
+        "clu-027",
+        "clu-030",
+        "clu-031",
+        "clu-034",
+        "clu-035",
+        "clu-036",
+        "clu-039",
+        "clu-040",
+        "clu-041",
+        "clu-042",
+        "clu-043",
+        "clu-044",
+        "clu-045",
+        "clu-046",
+        "clu-047",
+        "clu-048",
+        "clu-049",
+        "clu-050",
+        "clu-051",
+        "clu-052",
+        "clu-053"
+      ],
+      "accepted": {
+        "clu-008": 5,
+        "clu-009": 5,
+        "clu-011": 5
+      },
+      "reject_reasons": {
+        "clu-008": {},
+        "clu-009": {},
+        "clu-011": {}
+      },
+      "new_rows": 15
+    },
+    "CPP_STALE_EXIT": {
+      "target_clusters": [
+        "clu-009",
+        "clu-011",
+        "clu-013"
+      ],
+      "reachable_clusters": [
+        "clu-000",
+        "clu-002",
+        "clu-004",
+        "clu-006",
+        "clu-008",
+        "clu-009",
+        "clu-011",
+        "clu-013",
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-021",
+        "clu-022",
+        "clu-023",
+        "clu-024",
+        "clu-027",
+        "clu-030",
+        "clu-031",
+        "clu-034",
+        "clu-035",
+        "clu-036",
+        "clu-039",
+        "clu-040",
+        "clu-041",
+        "clu-042",
+        "clu-043",
+        "clu-044",
+        "clu-045",
+        "clu-046",
+        "clu-047",
+        "clu-048",
+        "clu-049",
+        "clu-050",
+        "clu-051",
+        "clu-052",
+        "clu-053"
+      ],
+      "accepted": {
+        "clu-009": 5,
+        "clu-011": 5,
+        "clu-013": 5
       },
       "reject_reasons": {
         "clu-009": {},
-        "clu-011": {
-          "mutant_compile_fail": 1
+        "clu-011": {},
+        "clu-013": {
+          "mutant_passes_all_tests": 1,
+          "mutant_compile_fail": 3
         }
       },
-      "new_rows": 4
+      "new_rows": 15
     },
-    "CPP_RANGE_CHECK": {
+    "CPP_UNINITIALIZED_VAR": {
       "target_clusters": [
+        "clu-006",
+        "clu-008",
+        "clu-009"
+      ],
+      "reachable_clusters": [
+        "clu-000",
+        "clu-002",
+        "clu-004",
+        "clu-006",
+        "clu-008",
+        "clu-009",
+        "clu-011",
+        "clu-013",
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-021",
+        "clu-022",
+        "clu-023",
+        "clu-024",
+        "clu-027",
+        "clu-030",
+        "clu-031",
+        "clu-034",
+        "clu-035",
+        "clu-036",
+        "clu-039",
+        "clu-040",
+        "clu-041",
+        "clu-042",
+        "clu-043",
+        "clu-044",
+        "clu-045",
+        "clu-046",
+        "clu-047",
+        "clu-048",
+        "clu-049",
+        "clu-050",
+        "clu-051",
+        "clu-052",
+        "clu-053"
+      ],
+      "accepted": {
+        "clu-006": 3,
+        "clu-008": 4,
+        "clu-009": 4
+      },
+      "reject_reasons": {
+        "clu-006": {
+          "mutant_passes_all_tests": 4
+        },
+        "clu-008": {
+          "mutant_passes_all_tests": 3
+        },
+        "clu-009": {
+          "mutant_passes_all_tests": 3
+        }
+      },
+      "new_rows": 11
+    },
+    "CPP_ASSIGN_VS_COMPARE": {
+      "target_clusters": [
+        "clu-006",
+        "clu-008",
+        "clu-009"
+      ],
+      "reachable_clusters": [
+        "clu-000",
+        "clu-002",
+        "clu-004",
+        "clu-006",
+        "clu-008",
+        "clu-009",
+        "clu-011",
+        "clu-013",
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-021",
+        "clu-022",
+        "clu-023",
+        "clu-024",
+        "clu-027",
+        "clu-030",
+        "clu-031",
+        "clu-034",
+        "clu-035",
+        "clu-036",
+        "clu-039",
+        "clu-040",
+        "clu-041",
+        "clu-042",
+        "clu-043",
+        "clu-044",
+        "clu-045",
+        "clu-046",
+        "clu-047",
+        "clu-048",
+        "clu-049",
+        "clu-050",
+        "clu-051",
+        "clu-052",
+        "clu-053"
+      ],
+      "accepted": {
+        "clu-006": 1,
+        "clu-008": 1,
+        "clu-009": 1
+      },
+      "reject_reasons": {
+        "clu-006": {},
+        "clu-008": {},
+        "clu-009": {}
+      },
+      "new_rows": 3
+    },
+    "CPP_LOOP_BOUNDARY": {
+      "target_clusters": [
+        "clu-009",
         "clu-013",
         "clu-014"
       ],
@@ -106,19 +471,81 @@
         "clu-053"
       ],
       "accepted": {
-        "clu-013": 2,
-        "clu-014": 2
+        "clu-009": 5,
+        "clu-013": 5,
+        "clu-014": 5
       },
       "reject_reasons": {
+        "clu-009": {},
         "clu-013": {},
         "clu-014": {}
       },
-      "new_rows": 4
+      "new_rows": 15
+    },
+    "CPP_OFF_BY_ONE": {
+      "target_clusters": [
+        "clu-009",
+        "clu-011",
+        "clu-013"
+      ],
+      "reachable_clusters": [
+        "clu-000",
+        "clu-002",
+        "clu-004",
+        "clu-006",
+        "clu-008",
+        "clu-009",
+        "clu-011",
+        "clu-013",
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-021",
+        "clu-022",
+        "clu-023",
+        "clu-024",
+        "clu-027",
+        "clu-030",
+        "clu-031",
+        "clu-034",
+        "clu-035",
+        "clu-036",
+        "clu-039",
+        "clu-040",
+        "clu-041",
+        "clu-042",
+        "clu-043",
+        "clu-044",
+        "clu-045",
+        "clu-046",
+        "clu-047",
+        "clu-048",
+        "clu-049",
+        "clu-050",
+        "clu-051",
+        "clu-052",
+        "clu-053"
+      ],
+      "accepted": {
+        "clu-009": 5,
+        "clu-011": 5,
+        "clu-013": 5
+      },
+      "reject_reasons": {
+        "clu-009": {},
+        "clu-011": {
+          "mutant_passes_all_tests": 1
+        },
+        "clu-013": {}
+      },
+      "new_rows": 15
     }
   },
   "reject_reasons": {},
   "dry_run": false,
-  "pilot": true,
-  "n_new": 8,
-  "out": "/mnt/c/Users/rayaan/Desktop/Trace_Learn/TraceLearn/data/misconception_dataset/annotations/tier0_mutants.jsonl"
+  "pilot": false,
+  "n_new": 119,
+  "out": "/mnt/c/Users/USR/Downloads/TraceLearn/TraceLearn/data/misconception_dataset/annotations/tier0_mutants.jsonl"
 }
