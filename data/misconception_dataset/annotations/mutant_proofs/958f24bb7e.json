@@ -1,0 +1,68 @@
+{
+  "run_id": "958f24bb7e",
+  "seed_submission_id": "554a3435-3c27-4c77-8b0d-71039766442c-41807850",
+  "problem_id": "tl-codestream-prob_041",
+  "operator": "rc_le_to_lt",
+  "label": "CPP_RANGE_CHECK",
+  "seed_sha256": "44f0cdf45e43dd1704bf7f525e6ce9f1a5b857b0eb3a0d5e512947acbcdc71c4",
+  "mutant_sha256": "cf462f3a8a34bc285019c6a10d02b78322c29f7c242e25f80c120445773b9975",
+  "compile_warnings_std": "/tmp/tmpdsymuvqc.cpp: In function \u2018void C(int)\u2019:\n/tmp/tmpdsymuvqc.cpp:102:13: warning: unused parameter \u2018_\u2019 [-Wunused-parameter]\n  102 |  void C(int _){\n      |         ~~~~^\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 3,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": true,
+    "timed_out": false,
+    "signal": 11
+  },
+  "context": {
+    "available": true,
+    "statement_length": 986,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "crash",
+      "passed": false,
+      "rc": -11,
+      "stdout": "",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "crash",
+      "passed": false,
+      "rc": -11,
+      "stdout": "",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "crash",
+      "passed": false,
+      "rc": -11,
+      "stdout": "",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-24T16:39:00.001609"
+}
