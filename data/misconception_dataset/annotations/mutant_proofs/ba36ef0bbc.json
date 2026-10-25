@@ -1,0 +1,74 @@
+{
+  "run_id": "ba36ef0bbc",
+  "seed_submission_id": "89513e94-8101-438e-918c-1bbf04b621d7-19004179",
+  "problem_id": "tl-codestream-prob_014",
+  "operator": "lb_le_to_lt",
+  "label": "CPP_LOOP_BOUNDARY",
+  "seed_sha256": "38ac5aab30f5fe9d3b25ed160b9206ab53e000298884ad371149cdb68630547b",
+  "mutant_sha256": "c54baa04a00c9625590c1e36df6ca9ab94fcfe614bd62d0eeaae051af87e6049",
+  "compile_warnings_std": "/tmp/tmp2laf9xfg.cpp: In function \u2018int main()\u2019:\n/tmp/tmp2laf9xfg.cpp:57:16: warning: comparison of integer expressions of different signedness: \u2018int\u2019 and \u2018std::__cxx11::basic_string<char>::size_type\u2019 {aka \u2018long unsigned int\u2019} [-Wsign-compare]\n   57 |   for(int i=0;i<s.length();i++){\n      |               ~^~~~~~~~~~~\n",
+  "sanitizer_ok": true,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 3,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": true,
+    "timed_out": false,
+    "exit_code": 1,
+    "asan_error": false,
+    "asan_heap_buffer_overflow": false,
+    "asan_stack_buffer_overflow": false,
+    "ubsan_error": false,
+    "ubsan_signed_overflow": false,
+    "stack_overflow": false
+  },
+  "context": {
+    "available": true,
+    "statement_length": 478,
+    "sample_test_count": 3,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "crash",
+      "passed": false,
+      "rc": 1,
+      "stdout": "YES\n",
+      "stderr": "\n=================================================================\n==2118==ERROR: LeakSanitizer: detected memory leaks\n\nDirect leak of 16 byte(s) in 1 object(s) allocated from:\n    #0 0x7952a232543f in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:109\n    #1 0x57c06715a722 in stack::push(char) /tmp/tmpdz620cij.cpp:14\n    #2 0x57c06715a722 in main /tmp/tmpdz620cij.cpp:49\n    #3 0x7952a1431f76 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58\n\n",
+      "timed_out": false
+    },
+    {
+      "test_no": 2,
+      "status": "crash",
+      "passed": false,
+      "rc": 1,
+      "stdout": "NO\n",
+      "stderr": "\n=================================================================\n==2121==ERROR: LeakSanitizer: detected memory leaks\n\nDirect leak of 16 byte(s) in 1 object(s) allocated from:\n    #0 0x70d79792543f in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:109\n    #1 0x57809b270722 in stack::push(char) /tmp/tmpdz620cij.cpp:14\n    #2 0x57809b270722 in main /tmp/tmpdz620cij.cpp:49\n    #3 0x70d796a31f76 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58\n\n",
+      "timed_out": false
+    },
+    {
+      "test_no": 3,
+      "status": "crash",
+      "passed": false,
+      "rc": 1,
+      "stdout": "YES\n",
+      "stderr": "\n=================================================================\n==2124==ERROR: LeakSanitizer: detected memory leaks\n\nDirect leak of 16 byte(s) in 1 object(s) allocated from:\n    #0 0x7087d372543f in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:109\n    #1 0x5a4841932722 in stack::push(char) /tmp/tmpdz620cij.cpp:14\n    #2 0x5a4841932722 in main /tmp/tmpdz620cij.cpp:49\n    #3 0x7087d2831f76 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58\n\n",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-25T05:21:34.155314"
+}

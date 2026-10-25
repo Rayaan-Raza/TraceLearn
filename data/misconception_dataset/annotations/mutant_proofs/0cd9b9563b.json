@@ -1,0 +1,68 @@
+{
+  "run_id": "0cd9b9563b",
+  "seed_submission_id": "tpl-UV-001",
+  "problem_id": "tl-codestream-prob_009",
+  "operator": "uninit_int_zero",
+  "label": "CPP_UNINITIALIZED_VAR",
+  "seed_sha256": "582ea35179f8839be07bbf6c3b5a0986678022dc91486c71b34efa4088c4e928",
+  "mutant_sha256": "9a1b15c66809ae25ca86fd506eb9209f0ee7be5bcabb499067a74936b28c8e7a",
+  "compile_warnings_std": "/tmp/tmp94w3zlds.cpp: In function \u2018int main()\u2019:\n/tmp/tmp94w3zlds.cpp:6:28: warning: \u2018s\u2019 may be used uninitialized [-Wmaybe-uninitialized]\n    6 |     for(int i=1;i<=n;i++) s+=i;\n      |                           ~^~~\n/tmp/tmp94w3zlds.cpp:5:9: note: \u2018s\u2019 was declared here\n    5 |     int s;\n      |         ^\n",
+  "sanitizer_ok": true,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 3,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0,
+    "asan_error": false,
+    "asan_heap_buffer_overflow": false,
+    "asan_stack_buffer_overflow": false,
+    "ubsan_error": false,
+    "ubsan_signed_overflow": false,
+    "stack_overflow": false
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "16\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": "?",
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "7\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": "?",
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "56\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-24T16:42:35.601070"
+}

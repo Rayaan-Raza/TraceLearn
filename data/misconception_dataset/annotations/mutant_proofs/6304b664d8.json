@@ -1,0 +1,61 @@
+{
+  "run_id": "6304b664d8",
+  "seed_submission_id": "tpl-MBC-003",
+  "problem_id": "tl-codestream-prob_014",
+  "operator": "mbc_remove_return_base",
+  "label": "CPP_MISSING_BASE_CASE",
+  "seed_sha256": "8a1414d8f8e09a31adb602a49984685156e8f25ee7960eab6929ff14e7e8af36",
+  "mutant_sha256": "434f95f900a85f9256160a94952f5ed92534bf0e36282d769e524e4267ebba4e",
+  "compile_warnings_std": "/tmp/tmplskn9jfk.cpp: In function \u2018int power(int, int)\u2019:\n/tmp/tmplskn9jfk.cpp:3:5: warning: infinite recursion detected [-Winfinite-recursion]\n    3 | int power(int base, int exp){\n      |     ^~~~~\n/tmp/tmplskn9jfk.cpp:5:24: note: recursive call\n    5 |     return base * power(base, exp-1);\n      |                   ~~~~~^~~~~~~~~~~~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests": {
+    "available": true,
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 0,
+    "timeout_count": 3,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": true
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    },
+    {
+      "test_no": "?",
+      "status": "timeout",
+      "passed": false,
+      "rc": -1,
+      "stdout": "",
+      "stderr": "TIMEOUT",
+      "timed_out": true
+    }
+  ],
+  "timestamp": "2026-10-24T16:37:09.544981"
+}
