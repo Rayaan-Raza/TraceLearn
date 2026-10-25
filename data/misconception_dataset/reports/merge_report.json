@@ -2,24 +2,44 @@
   "inputs": [
     "tier0_mutants.jsonl",
     "tier1a_codestream.jsonl",
-    "tier1b_progpedia.jsonl"
+    "tier1b_progpedia.jsonl",
+    "tier1c_progpedia_exec.jsonl"
   ],
-  "n_rows_before_dedupe": 797,
-  "n_rows": 567,
-  "deduped": 230,
+  "review_decisions": {
+    "file": null,
+    "applied": {},
+    "unknown_row_ids": []
+  },
+  "n_rows_before_dedupe": 996,
+  "n_rows": 702,
+  "deduped": 294,
   "dedupe_threshold": 0.8,
-  "dedupe_label_conflicts": [],
+  "dedupe_label_conflicts": [
+    {
+      "kept": "pgx-000572",
+      "dropped": "pgx-000739",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000313",
+      "dropped": "pgx-001387",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    }
+  ],
   "merged_labels": 0,
   "code_uncovered": 0,
   "per_source": {
     "CODESTREAM": 33,
     "SYNTHETIC": 384,
-    "PROGPEDIA": 150
+    "PROGPEDIA": 285
   },
   "per_split": {
-    "train": 530,
+    "train": 588,
     "test": 33,
-    "dev_gold": 4
+    "dev_gold": 45,
+    "test_iid": 36
   },
   "feature_availability": {
     "static": {
@@ -34,12 +54,12 @@
     },
     "runtime": {
       "CODESTREAM": 1.0,
-      "PROGPEDIA": 0.0,
+      "PROGPEDIA": 0.474,
       "SYNTHETIC": 1.0
     },
     "tests": {
       "CODESTREAM": 1.0,
-      "PROGPEDIA": 0.0,
+      "PROGPEDIA": 0.474,
       "SYNTHETIC": 1.0
     },
     "cpg": {
@@ -49,7 +69,7 @@
     },
     "semantics": {
       "CODESTREAM": 1.0,
-      "PROGPEDIA": 0.0,
+      "PROGPEDIA": 0.474,
       "SYNTHETIC": 1.0
     },
     "context": {
@@ -60,7 +80,7 @@
   },
   "g1": {
     "ok": true,
-    "n_rows": 797
+    "n_rows": 996
   },
   "g7": {
     "cluster_split_conflicts": 0,
@@ -77,121 +97,129 @@
     "comparison": "train_vs_test",
     "gate_scope": "plan G7's PSI<0.2 gate is specced for train/val (same pool) and is evaluated at training time (T9); this train-vs-test probe is informational — violations here reflect pool asymmetry (frozen CodeStream-only test) and require team review before G3, not a merge abort",
     "threshold": 0.2,
-    "n_features_checked": 72,
-    "max": 13.4446,
-    "worst_feature": "context.sample_test_count",
+    "n_features_checked": 73,
+    "max": 12.5211,
+    "worst_feature": "context.statement_length",
     "violations": [
       {
-        "feature": "context.sample_test_count",
-        "psi": 13.4446
+        "feature": "context.statement_length",
+        "psi": 12.5211
       },
       {
         "feature": "static.max_indent_depth",
-        "psi": 11.1533
-      },
-      {
-        "feature": "context.statement_length",
-        "psi": 10.9619
-      },
-      {
-        "feature": "static.loc",
-        "psi": 7.7542
+        "psi": 11.1831
       },
       {
         "feature": "tests.wrong_answer_count",
-        "psi": 7.7438
+        "psi": 10.7306
+      },
+      {
+        "feature": "tests.first_fail_numeric_diff",
+        "psi": 10.2263
+      },
+      {
+        "feature": "context.sample_test_count",
+        "psi": 9.1841
       },
       {
         "feature": "runtime.duration_s",
-        "psi": 7.7315
-      },
-      {
-        "feature": "static.sloc",
-        "psi": 7.3538
-      },
-      {
-        "feature": "static.token_count",
-        "psi": 6.0858
+        "psi": 5.5655
       },
       {
         "feature": "static.numeric_literal_count",
-        "psi": 5.3888
+        "psi": 4.8569
       },
       {
         "feature": "static.unique_token_ratio",
-        "psi": 5.2617
+        "psi": 4.6684
+      },
+      {
+        "feature": "static.token_count",
+        "psi": 4.1858
+      },
+      {
+        "feature": "static.sloc",
+        "psi": 4.0713
       },
       {
         "feature": "cpg.comparison_count",
-        "psi": 3.4185
+        "psi": 3.726
+      },
+      {
+        "feature": "static.loc",
+        "psi": 3.5164
       },
       {
         "feature": "tests.total",
-        "psi": 3.0067
-      },
-      {
-        "feature": "tests.timeout_count",
-        "psi": 2.8479
-      },
-      {
-        "feature": "tests.first_fail_index",
-        "psi": 2.6861
+        "psi": 2.6893
       },
       {
         "feature": "semantics.increment",
-        "psi": 2.3686
-      },
-      {
-        "feature": "tests.failed",
-        "psi": 2.2291
+        "psi": 2.4766
       },
       {
         "feature": "static.avg_line_length",
-        "psi": 2.0154
-      },
-      {
-        "feature": "warnings.total",
-        "psi": 1.8882
+        "psi": 2.164
       },
       {
         "feature": "cpg.loop_count",
-        "psi": 1.8541
+        "psi": 2.0309
       },
       {
         "feature": "static.loop_count",
-        "psi": 1.8541
+        "psi": 2.0309
       },
       {
-        "feature": "static.string_literal_count",
-        "psi": 1.3558
+        "feature": "warnings.total",
+        "psi": 1.9463
       },
       {
-        "feature": "tests.passed",
-        "psi": 1.2553
+        "feature": "tests.timeout_count",
+        "psi": 1.9152
+      },
+      {
+        "feature": "warnings.other",
+        "psi": 1.5352
+      },
+      {
+        "feature": "tests.first_fail_index",
+        "psi": 1.2201
+      },
+      {
+        "feature": "tests.failed",
+        "psi": 1.1858
       },
       {
         "feature": "static.function_count",
-        "psi": 1.1646
+        "psi": 1.0933
+      },
+      {
+        "feature": "static.string_literal_count",
+        "psi": 0.935
       },
       {
         "feature": "static.return_count",
-        "psi": 0.9184
-      },
-      {
-        "feature": "cpg.function_count",
-        "psi": 0.8765
-      },
-      {
-        "feature": "tests.pass_rate",
-        "psi": 0.7466
+        "psi": 0.7853
       },
       {
         "feature": "static.max_line_length",
-        "psi": 0.6886
+        "psi": 0.6344
+      },
+      {
+        "feature": "cpg.function_count",
+        "psi": 0.6075
+      },
+      {
+        "feature": "tests.passed",
+        "psi": 0.4799
       },
       {
         "feature": "static.if_count",
-        "psi": 0.4932
+        "psi": 0.4326
+      },
+      {
+        "feature": "tests.pass_rate",
+        "psi": 0.3852
       }
     ]
   }
