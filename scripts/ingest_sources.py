@@ -1493,6 +1493,7 @@ def write_readme(outdir: Path, manifest: dict[str, Any]) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     """Run the adapter and write the normalized outputs."""
+    global RAW_ROOT
     ap = argparse.ArgumentParser(description="TraceLearn source ingestion adapter.")
     ap.add_argument(
         "--sources",
@@ -1527,7 +1528,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = ap.parse_args(argv)
 
-    global RAW_ROOT
     RAW_ROOT = Path(args.raw_root)
 
     RUN_ARGS.inline_code = args.inline_code
