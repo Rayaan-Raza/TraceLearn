@@ -1,0 +1,53 @@
+{
+  "run_id": "0f50d069cc",
+  "seed_submission_id": "tpl-IO-002",
+  "problem_id": "tl-codestream-prob_012",
+  "operator": "overflow_ll_acc_to_int",
+  "label": "CPP_INT_OVERFLOW",
+  "seed_sha256": "a55471d3a9883c0ce95ab5c91928fb0324e5e3c9c1bb264186b165bf03a3f502",
+  "mutant_sha256": "5494f2a8db8a70f44bb1d6c4da916cdc96faf6d11a085fa4c53cff4e01c695d6",
+  "compile_warnings_std": "",
+  "sanitizer_ok": false,
+  "tests_passed": 1,
+  "tests_failed": 1,
+  "tests_total": 2,
+  "tests": {
+    "available": true,
+    "total": 2,
+    "passed": 1,
+    "failed": 1,
+    "pass_rate": 0.5,
+    "wrong_answer_count": 1,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "-1294967296\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": "?",
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "2100000000\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-24T16:40:40.350354"
+}

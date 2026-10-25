@@ -1,0 +1,50 @@
+{
+  "run_id": "237ba4920c",
+  "seed_submission_id": "bd732e74-1826-41f7-a741-9c31fb448048-66780297",
+  "problem_id": "tl-codestream-prob_012",
+  "operator": "obo_index_minus1",
+  "label": "CPP_OFF_BY_ONE",
+  "seed_sha256": "1003cc4d2605cc52425cefdf95a60b706d28f0209bf400f0859043dd9c852303",
+  "mutant_sha256": "7cc91e61ed74d9dd926a44fd54ef91377747faa8d3fbd0c5dde7c0a24c07a943",
+  "compile_warnings_std": "",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 1,
+  "tests_total": 1,
+  "tests": {
+    "available": true,
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 1,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 456,
+    "sample_test_count": 1,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "1\n2\n3\n4\n5\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-25T05:22:35.666765"
+}

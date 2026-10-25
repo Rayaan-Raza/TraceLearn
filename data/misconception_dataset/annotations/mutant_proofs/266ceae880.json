@@ -1,0 +1,50 @@
+{
+  "run_id": "266ceae880",
+  "seed_submission_id": "03850a6b-fa16-442b-9735-f83fe40ae72d-66348575",
+  "problem_id": "tl-codestream-prob_012",
+  "operator": "wld_lt_to_gt",
+  "label": "CPP_WRONG_LOOP_DIR",
+  "seed_sha256": "ae6b2230591d1b5fc3802b403ae00565deeeb4b5e3b3aea76d9012cc1cf64a2c",
+  "mutant_sha256": "b29b18f40609e03a34e4205194494f3f1e57dc774f769a49a335558abd3d23d7",
+  "compile_warnings_std": "",
+  "sanitizer_ok": false,
+  "tests_passed": 0,
+  "tests_failed": 1,
+  "tests_total": 1,
+  "tests": {
+    "available": true,
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 1,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {
+    "available": true,
+    "statement_length": 456,
+    "sample_test_count": 1,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-24T16:40:14.031207"
+}

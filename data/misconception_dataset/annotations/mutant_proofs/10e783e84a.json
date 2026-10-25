@@ -1,0 +1,59 @@
+{
+  "run_id": "10e783e84a",
+  "seed_submission_id": "tpl-UV-003",
+  "problem_id": "tl-codestream-prob_009",
+  "operator": "uninit_double_zero",
+  "label": "CPP_UNINITIALIZED_VAR",
+  "seed_sha256": "4a88191fd1970365f47a13793a672a34fc67e4bfa1f8279a6cad70f8f72b25c1",
+  "mutant_sha256": "f7e38eaf0c46c7c1e30ef57b273ec9b8a1023896f1b85330ee4f048a60143408",
+  "compile_warnings_std": "/tmp/tmpw54r7um0.cpp: In function \u2018int main()\u2019:\n/tmp/tmpw54r7um0.cpp:8:29: warning: \u2018avg\u2019 may be used uninitialized [-Wmaybe-uninitialized]\n    8 |     for(int i=0;i<n;i++) avg+=a[i];\n      |                          ~~~^~~~~~\n/tmp/tmpw54r7um0.cpp:7:12: note: \u2018avg\u2019 was declared here\n    7 |     double avg;\n      |            ^~~\n",
+  "sanitizer_ok": true,
+  "tests_passed": 1,
+  "tests_failed": 1,
+  "tests_total": 2,
+  "tests": {
+    "available": true,
+    "total": 2,
+    "passed": 1,
+    "failed": 1,
+    "pass_rate": 0.5,
+    "wrong_answer_count": 1,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 1
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0,
+    "asan_error": false,
+    "asan_heap_buffer_overflow": false,
+    "asan_stack_buffer_overflow": false,
+    "ubsan_error": false,
+    "ubsan_signed_overflow": false,
+    "stack_overflow": false
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "2.50\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": "?",
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "-nan\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-24T16:42:42.320941"
+}

@@ -1,0 +1,56 @@
+{
+  "run_id": "87a38778a2",
+  "seed_submission_id": "a9320f4a-6a27-4fb5-b900-92441d636d9f-19190025",
+  "problem_id": "tl-codestream-prob_012",
+  "operator": "se_frozen_counter",
+  "label": "CPP_STALE_EXIT",
+  "seed_sha256": "c07e92c25d67519e0c48a249a80bb09b5f9f97efd36facbf3e290022ea4bb236",
+  "mutant_sha256": "d1ed014c9355373cd7b694c0cb34bbc4ec2bfc6cd8df90d01efbded0521b2d04",
+  "compile_warnings_std": "",
+  "sanitizer_ok": true,
+  "tests_passed": 0,
+  "tests_failed": 1,
+  "tests_total": 1,
+  "tests": {
+    "available": true,
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "pass_rate": 0.0,
+    "wrong_answer_count": 0,
+    "runtime_error_count": 1,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": true,
+    "timed_out": false,
+    "exit_code": 1,
+    "asan_error": false,
+    "asan_heap_buffer_overflow": false,
+    "asan_stack_buffer_overflow": false,
+    "ubsan_error": false,
+    "ubsan_signed_overflow": false,
+    "stack_overflow": false
+  },
+  "context": {
+    "available": true,
+    "statement_length": 456,
+    "sample_test_count": 1,
+    "sample_tests_present": true,
+    "constraints_present": false
+  },
+  "test_details": [
+    {
+      "test_no": 1,
+      "status": "crash",
+      "passed": false,
+      "rc": 1,
+      "stdout": "3\n2\n1\n4\n5\n",
+      "stderr": "\n=================================================================\n==1385==ERROR: LeakSanitizer: detected memory leaks\n\nDirect leak of 16 byte(s) in 1 object(s) allocated from:\n    #0 0x7033e732543f in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:109\n    #1 0x650a63a02767 in sll::insertatfirst(int) /tmp/tmplla6xmzf.cpp:24\n    #2 0x650a63a02767 in main /tmp/tmplla6xmzf.cpp:64\n    #3 0x7033e6431f76 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-24T16:41:23.971881"
+}
