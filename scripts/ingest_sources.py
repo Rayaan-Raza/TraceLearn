@@ -1520,7 +1520,15 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Drop problems that have no sample tests",
     )
+    ap.add_argument(
+        "--raw-root",
+        default=str(RAW_ROOT),
+        help="Path to Datasets_RAW directory (overrides compiled-in default)",
+    )
     args = ap.parse_args(argv)
+
+    global RAW_ROOT
+    RAW_ROOT = Path(args.raw_root)
 
     RUN_ARGS.inline_code = args.inline_code
     RUN_ARGS.exclude_without_tests = args.exclude_without_tests
