@@ -56,11 +56,13 @@ from tracelearn_features.taxonomy import (  # noqa: E402  (after sys.path bootst
     TAXONOMY_VERSION,
 )
 
-# §5 row-ID prefixes per dataset_source.
+# §5 row-ID prefixes per dataset_source. Lanes added later keep their
+# source's prefix family: pgx- (PROGPedia executed on oracle tests) and
+# hr- (rows a person labeled in the pre-review sign-off, any natural source).
 ROW_ID_PREFIX = {
-    "SYNTHETIC": "mut-",
-    "CODESTREAM": "cs-",
-    "PROGPEDIA": "pg-",
+    "SYNTHETIC": ("mut-",),
+    "CODESTREAM": ("cs-", "hr-"),
+    "PROGPEDIA": ("pg-", "pgx-", "hr-"),
 }
 
 # §2.1: CodeNet is excluded from labels, so it is not a legal label source.
@@ -160,7 +162,7 @@ def check_row(
     if isinstance(row_id, str) and isinstance(dataset_source, str) and dataset_source in ROW_ID_PREFIX:
         expected = ROW_ID_PREFIX[dataset_source]
         if not row_id.startswith(expected):
-            add("row_id_prefix", f"row_id {row_id!r} does not start with {expected!r} for {dataset_source}")
+            add("row_id_prefix", f"row_id {row_id!r} does not start with {' / '.join(expected)} for {dataset_source}")
 
     # --- label_confidence in [0, 1] and present (§3.5) ---------------------
     conf = row.get("label_confidence")
@@ -382,7 +384,7 @@ def main(argv: list[str] | None = None) -> int:
     # Never let an empty join column silently pass G1 — that would report
     # "0 orphans" having checked nothing (a false green).
     if not normalized_ids:
-        print(f"FAIL  normalized join column empty — cannot verify labels<->normalized join")
+        print("FAIL  normalized join column empty — cannot verify labels<->normalized join")
         print(f"      (looked at: {args.normalized_ids or args.normalized_csv})")
         return 1
 
