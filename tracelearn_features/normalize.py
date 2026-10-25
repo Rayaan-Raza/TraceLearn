@@ -34,6 +34,7 @@ import re
 from collections import Counter
 from typing import Any
 
+from tracelearn_features.cpg_source import extract_cpg_source
 from tracelearn_features.extractor import extract_features
 from tracelearn_features.schema import WARNING_FLAG_OF
 from tracelearn_features.semantics import extract_semantics
@@ -343,6 +344,7 @@ def normalize_row(row: dict[str, Any], code: str | None = None) -> dict[str, Any
     source_kind = out.get("dataset_source")
     if source_kind in _MINE_STATIC_SOURCES and source:
         _fill_block(out, "semantics", extract_semantics(source))
+        _fill_block(out, "cpg", extract_cpg_source(source))
 
     evidence = _warning_evidence(out)
     if evidence is not None:
