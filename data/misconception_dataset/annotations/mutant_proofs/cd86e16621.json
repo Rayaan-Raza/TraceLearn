@@ -1,0 +1,53 @@
+{
+  "run_id": "cd86e16621",
+  "seed_submission_id": "tpl-AVC-004",
+  "problem_id": "tl-codestream-prob_010",
+  "operator": "avc_eq_to_assign_if",
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "seed_sha256": "8c0ef4b73bc71c14dc867c24bcefed1fdfaeead161148392dcfc37402ff2877a",
+  "mutant_sha256": "8b455aaffcbde2f43894b707d944fb4417dc87483335bc08bada4a59f8044c5b",
+  "compile_warnings_std": "/tmp/tmp_2qvj8dl.cpp: In function \u2018int main()\u2019:\n/tmp/tmp_2qvj8dl.cpp:7:14: warning: suggest parentheses around assignment used as truth value [-Wparentheses]\n    7 |         if(x = y) cout<<\"EQUAL\"<<endl;\n      |            ~~^~~\n",
+  "sanitizer_ok": false,
+  "tests_passed": 1,
+  "tests_failed": 1,
+  "tests_total": 2,
+  "tests": {
+    "available": true,
+    "total": 2,
+    "passed": 1,
+    "failed": 1,
+    "pass_rate": 0.5,
+    "wrong_answer_count": 1,
+    "runtime_error_count": 0,
+    "timeout_count": 0,
+    "first_fail_index": 0
+  },
+  "runtime": {
+    "available": true,
+    "crashed": false,
+    "timed_out": false,
+    "exit_code": 0
+  },
+  "context": {},
+  "test_details": [
+    {
+      "test_no": "?",
+      "status": "wrong",
+      "passed": false,
+      "rc": 0,
+      "stdout": "EQUAL\nEQUAL\nDIFF\n",
+      "stderr": "",
+      "timed_out": false
+    },
+    {
+      "test_no": "?",
+      "status": "pass",
+      "passed": true,
+      "rc": 0,
+      "stdout": "EQUAL\n",
+      "stderr": "",
+      "timed_out": false
+    }
+  ],
+  "timestamp": "2026-10-25T05:21:07.900723"
+}
