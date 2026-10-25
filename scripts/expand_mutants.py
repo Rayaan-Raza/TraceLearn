@@ -30,7 +30,7 @@ import re
 import shutil
 import sys
 from collections import Counter, defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
@@ -424,7 +424,7 @@ class RichVerifier:
                 self.contexts.get(seed["problem_id"]) or {}
             ),
             "test_details": results["results"][:10],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         proof_path = self.proofs_dir / f"{run_id}.json"
         proof_path.write_text(
@@ -556,7 +556,7 @@ def main(argv: list[str] | None = None) -> int:
     pipeline_run_id = "run-expand-v1"
     new_rows: list[dict[str, Any]] = []
     report: dict[str, Any] = {
-        "generated_at": datetime.utcnow().isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "raw_submissions": str(submissions_csv),
         "raw_problems": str(problems_csv),
         "classes": {},
