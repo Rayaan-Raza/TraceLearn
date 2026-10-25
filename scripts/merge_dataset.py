@@ -139,6 +139,58 @@ def load_label_registry(path: Path) -> dict[str, dict[str, str]]:
     return registry
 
 
+# ------------------------------------------------------- review decisions
+
+
+def apply_review_decisions(
+    rows: list[dict[str, Any]], path: Path
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Apply signed-off pre-review decisions (``annotations/label_review_decisions.jsonl``).
+
+    confirm + human basis  -> label_source 'human', confidence 1.0;
+    confirm + spot-check   -> unchanged (its LF audit already moved the confidence);
+    relabel (human only)   -> new label, label_source 'human', confidence 1.0;
+    reject                 -> row dropped (counted in the merge report).
+    Decisions for unknown row ids are reported, never silently ignored.
+    """
+    stats: dict[str, Any] = {"file": path.name, "applied": Counter(), "unknown_row_ids": []}
+    if not path.is_file():
+        stats["file"] = None
+        return rows, stats
+    decisions: dict[str, dict[str, Any]] = {}
+    with path.open(encoding="utf-8") as fh:
+        for line in fh:
+            if line.strip():
+                d = json.loads(line)
+                decisions[d["row_id"]] = d
+    by_id = {r.get("row_id"): r for r in rows}
+    stats["unknown_row_ids"] = sorted(rid for rid in decisions if rid not in by_id)
+    kept = []
+    for row in rows:
+        d = decisions.get(row.get("row_id"))
+        if d is None:
+            kept.append(row)
+            continue
+        action, basis = d.get("action"), d.get("basis")
+        if action == "reject":
+            stats["applied"]["reject"] += 1
+            continue
+        row = dict(row)
+        if action == "relabel":
+            if basis != "human":
+                raise ValueError(f"review decision for {row['row_id']}: only a human may relabel")
+            row["secondary_labels"] = sorted(set(row.get("secondary_labels") or []) | {row["label"]})
+            row["label"] = d["label"]
+        if basis == "human":
+            row["label_source"] = "human"
+            row["label_confidence"] = 1.0
+        row["review"] = {k: d.get(k) for k in ("action", "basis", "item_id", "signed_off_by")}
+        stats["applied"][f"{action}:{basis}"] += 1
+        kept.append(row)
+    stats["applied"] = dict(stats["applied"])
+    return kept, stats
+
+
 # ------------------------------------------------------------ code resolution
 
 
@@ -493,6 +545,11 @@ def merge(
     if dups:
         raise ValueError(f"duplicate row_id across lanes: {dups[:5]}")
 
+    # 2b) signed-off review decisions (confirm / relabel / reject)
+    rows, review_stats = apply_review_decisions(
+        rows, ds / "annotations" / "label_review_decisions.jsonl"
+    )
+
     # 3) G1 on every lane row — invalid lanes abort before any output
     index = load_index(index_csv)
     proof_keys = load_proof_keys(ds / "annotations" / "mutant_proofs")
@@ -645,6 +702,7 @@ def merge(
 
     report: dict[str, Any] = {
         "inputs": [p.name for p in tier_files],
+        "review_decisions": review_stats,
         "n_rows_before_dedupe": before,
         "n_rows": len(rows),
         "deduped": n_deduped,
