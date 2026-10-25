@@ -295,3 +295,36 @@ def test_missing_code_leaves_static_absent():
     out = normalize_row(row, code=None)
     assert out["static"] is None
     assert not out.get("semantics")
+
+
+# ------------------------------------------- PROGPedia rows executed by the sandbox
+
+def _progpedia_exec_row() -> dict:
+    row = _codestream_row()
+    row.update(row_id="pgx-1", dataset_source="PROGPEDIA", evidence_vocab="sandbox_runner",
+               context={"available": True, "statement_length": 1860, "sample_test_count": 2,
+                        "sample_tests_present": True, "constraints_present": False})
+    return row
+
+
+def test_progpedia_sandbox_vocab_maps_like_codestream():
+    out = normalize_row(_progpedia_exec_row(), code=CS_CODE)
+    assert out["runtime"]["asan_heap_buffer_overflow"] is True
+    assert out["tests"]["total"] == 3 and out["tests"]["wrong_answer_count"] == 1
+    assert out["static"]["loc"] >= 1  # mined from the row's own code
+    assert out["context"]["sample_test_count"] == 2  # canonical context kept, not overwritten
+
+
+def test_canonical_progpedia_rows_are_still_left_alone():
+    row = _progpedia_exec_row()
+    row.pop("evidence_vocab")
+    row["static"] = None
+    out = normalize_row(row, code=CS_CODE)
+    assert out["static"] is None  # a pg-lane gap stays visible
+
+
+def test_explicit_compiled_flag_means_zero_warnings():
+    row = _progpedia_exec_row()
+    row["warnings"] = {"_compiled": True}
+    warnings = normalize_row(row, code=CS_CODE)["warnings"]
+    assert warnings["available"] is True and warnings["total"] == 0
