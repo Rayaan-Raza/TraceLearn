@@ -80,6 +80,13 @@ class RunConfig:
     valgrind_tests: str = "first_failing"
     # Stop the sanitizer loop after this many tests produced a report.
     sanitizer_stop_after_reports: int = 2
+    # Skip inputs above this size in the slow passes (None = no limit). Large
+    # stress inputs stay in the plain test run, where they belong.
+    sanitizer_max_input_bytes: int | None = None
+    valgrind_max_input_bytes: int | None = None
+    # Leave tests that timed out in the plain run out of the slow passes: a
+    # program stuck in a loop just burns the 3x / 15x budgets there.
+    slow_pass_skip_timeouts: bool = False
     # Run each test twice and drop tests whose output differs (determinism).
     double_run: bool = True
     # Stop running the remaining plain tests after a timeout, to bound cost.
