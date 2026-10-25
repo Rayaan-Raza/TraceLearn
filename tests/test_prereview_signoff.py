@@ -51,6 +51,14 @@ def test_human_rows_and_uncertain_model_rows():
         ap.decide_row(_row(0, "disagree", "NOT_A_CLASS"), False)
 
 
+def test_gold_rows_need_a_person():
+    gold = {"pgx-1"}
+    assert ap.may_accept_on_spotcheck("weak_labels_progpedia.csv", "pg-1", True, gold)
+    assert not ap.may_accept_on_spotcheck("weak_labels_progpedia.csv", "pgx-1", True, gold)  # dev/IID row
+    assert not ap.may_accept_on_spotcheck("iid_test_progpedia.csv", "pg-2", True, gold)  # gold sheet
+    assert not ap.may_accept_on_spotcheck("weak_labels_progpedia.csv", "pg-1", False, gold)
+
+
 def test_mark_spotcheck_is_seeded_20_percent():
     a = [{} for _ in range(30)]
     b = [{} for _ in range(30)]
