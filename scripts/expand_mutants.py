@@ -301,6 +301,28 @@ def build_expansion_row(
 # ------------------------------------------------------------------ verifier
 
 
+def class_specific_reject(
+    label: str, results: dict[str, Any], compile_stderr: str
+) -> str | None:
+    """Reasons a failing mutant still does not show the intended class.
+
+    CPP_INT_OVERFLOW: narrowing ``long long`` to ``int`` while ``scanf("%lld")``
+    / ``printf("%lld")`` stay unchanged is a *format* bug (undefined behaviour,
+    usually a stack-smash crash), not an overflow. Such mutants are rejected:
+    the compiler flags them with -Wformat, and an overflow shows up as a wrong
+    answer on large inputs, not as a crash on every test.
+    """
+    if label != "CPP_INT_OVERFLOW":
+        return None
+    if re.search(r"\[-Wformat[=\w-]*\]", compile_stderr or ""):
+        return "format_specifier_mismatch"
+    statuses = [r.get("status") for r in results.get("results", [])]
+    if "wrong" not in statuses:
+        return "no_wrong_answer_only_crash_or_timeout"
+    return None
+
+
+
 class RichVerifier:
     """Compile/run verifier that records canonical tests/runtime evidence."""
 
@@ -397,6 +419,10 @@ class RichVerifier:
         if results["failed"] == 0:
             return False, {"reason": "mutant_passes_all_tests"}
 
+        reason = class_specific_reject(label, results, stderr_std)
+        if reason:
+            return False, {"reason": reason}
+
         collisions = gm.check_collision(
             seed["source_code"], mutant_code, label
         )
@@ -476,6 +502,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--pilot", action="store_true")
+    parser.add_argument(
+        "--real-seeds-only", action="store_true",
+        help="skip the hand-written template fallback; only mutate real "
+             "CodeStream Accepted seeds (adds seed diversity, not template copies)",
+    )
     args = parser.parse_args(argv)
 
     if args.pilot:
@@ -563,6 +594,7 @@ def main(argv: list[str] | None = None) -> int:
         "reject_reasons": {},
         "dry_run": bool(args.dry_run),
         "pilot": bool(args.pilot),
+        "real_seeds_only": bool(args.real_seeds_only),
     }
 
     for cls in args.classes:
@@ -586,7 +618,7 @@ def main(argv: list[str] | None = None) -> int:
         # dangling `else`). Re-anchor each template to one train problem per
         # target cluster so the merge can spread it across clusters. The
         # verifier still compiles/runs the template's own inline tests.
-        templates = gm.SEED_TEMPLATES.get(cls, [])
+        templates = [] if args.real_seeds_only else gm.SEED_TEMPLATES.get(cls, [])
         if templates:
             cluster_to_problem: dict[str, str] = {}
             for pid, cluster in sorted(clusters.items()):

@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-10-25T16:42:17.269362+00:00",
+  "raw_submissions": "/mnt/user-data/uploads/TraceLearn--TraceLearn/Datasets_RAW/CodeStream A Dataset of Iterative Programming Subm/Submission Data.csv",
+  "raw_problems": "/mnt/user-data/uploads/TraceLearn--TraceLearn/Datasets_RAW/CodeStream A Dataset of Iterative Programming Subm/Problem Data.csv",
+  "classes": {
+    "CPP_INT_OVERFLOW": {
+      "target_clusters": [
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-027",
+        "clu-030",
+        "clu-031",
+        "clu-002",
+        "clu-004",
+        "clu-011",
+        "clu-000"
+      ],
+      "reachable_clusters": [
+        "clu-000",
+        "clu-002",
+        "clu-004",
+        "clu-011",
+        "clu-014",
+        "clu-016",
+        "clu-017",
+        "clu-018",
+        "clu-019",
+        "clu-027",
+        "clu-030",
+        "clu-031"
+      ],
+      "accepted": {
+        "clu-014": 0,
+        "clu-016": 0,
+        "clu-017": 0,
+        "clu-018": 0,
+        "clu-019": 0,
+        "clu-027": 0,
+        "clu-030": 0,
+        "clu-031": 0,
+        "clu-002": 0,
+        "clu-004": 0,
+        "clu-011": 0,
+        "clu-000": 0
+      },
+      "reject_reasons": {
+        "clu-014": {
+          "mutant_passes_all_tests": 3,
+          "mutant_compile_fail": 1,
+          "format_specifier_mismatch": 1
+        },
+        "clu-016": {
+          "mutant_passes_all_tests": 4
+        },
+        "clu-017": {
+          "mutant_passes_all_tests": 4,
+          "mutant_compile_fail": 1
+        },
+        "clu-018": {
+          "mutant_passes_all_tests": 11,
+          "mutant_compile_fail": 4,
+          "format_specifier_mismatch": 1
+        },
+        "clu-019": {
+          "mutant_passes_all_tests": 4,
+          "mutant_compile_fail": 2
+        },
+        "clu-027": {
+          "no_wrong_answer_only_crash_or_timeout": 2
+        },
+        "clu-030": {
+          "format_specifier_mismatch": 3
+        },
+        "clu-031": {
+          "mutant_passes_all_tests": 16
+        },
+        "clu-002": {
+          "seed:seed_fails_3_tests": 20
+        },
+        "clu-004": {
+          "mutant_passes_all_tests": 2,
+          "mutant_compile_fail": 3
+        },
+        "clu-011": {
+          "no_wrong_answer_only_crash_or_timeout": 1,
+          "mutant_passes_all_tests": 1
+        },
+        "clu-000": {
+          "mutant_passes_all_tests": 4,
+          "mutant_compile_fail": 3
+        }
+      },
+      "new_rows": 0
+    }
+  },
+  "reject_reasons": {},
+  "dry_run": false,
+  "pilot": false,
+  "real_seeds_only": true,
+  "n_new": 0,
+  "out": "/home/claude/TraceLearn/data/misconception_dataset/annotations/tier0_mutants.jsonl"
+}

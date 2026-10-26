@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "created": "2026-10-21",
   "creator": "eman06",
   "taxonomy_version": "tl-cpp-v2",
@@ -176,9 +176,44 @@
           "pattern": "\\b1LL\\s*\\*\\s*(\\w+)",
           "replacement": "\\1",
           "frequency_weight": 8
+        },
+        {
+          "name": "overflow_ll_macro_to_int",
+          "pattern": "(#\\s*define\\s+ll\\s+)long\\s+long(\\s+int)?\\b",
+          "replacement": "\\1int",
+          "frequency_weight": 6,
+          "note": "real-seed form: '#define ll long long' narrowed to int (17 train seeds, 8 clusters)"
+        },
+        {
+          "name": "overflow_ll_typedef_to_int",
+          "pattern": "(typedef\\s+)long\\s+long(\\s+int)?(\\s+\\w+\\s*;)",
+          "replacement": "\\1int\\3",
+          "frequency_weight": 5,
+          "note": "real-seed form: 'typedef long long ll;' narrowed to int"
+        },
+        {
+          "name": "overflow_lli_decl_to_int",
+          "pattern": "\\blong\\s+long\\s+int\\s+(\\w+)",
+          "replacement": "int \\1",
+          "frequency_weight": 5,
+          "note": "real-seed form: first 'long long int x' declaration narrowed to int"
+        },
+        {
+          "name": "overflow_ll_decl_to_int",
+          "pattern": "(?<![\\w(])long\\s+long\\s+(?!int\\b)([A-Za-z_]\\w*)(\\s*[,;=\\[])",
+          "replacement": "int \\1\\2",
+          "frequency_weight": 5,
+          "note": "real-seed form: first 'long long x' declaration of any name narrowed to int (the original forms only matched sum/ans/total/result or '= 0')"
+        },
+        {
+          "name": "overflow_1ll_suffix_removed",
+          "pattern": "(\\w+)\\s*\\*\\s*1LL\\b",
+          "replacement": "\\1",
+          "frequency_weight": 4,
+          "note": "mirror of overflow_1ll_removed for 'x * 1LL'"
         }
       ],
-      "n_forms": 4,
+      "n_forms": 9,
       "mined_pairs": 8
     },
     "CPP_MISSING_BASE_CASE": {
@@ -484,5 +519,13 @@
     "CPP_WRONG_LOOP_DIR": 1,
     "CPP_UNINITIALIZED_VAR": 3
   },
-  "total_pairs_mined": 71
+  "total_pairs_mined": 71,
+  "changelog": [
+    {
+      "version": "1.1",
+      "date": "2026-10-25",
+      "author": "umaima",
+      "change": "CPP_INT_OVERFLOW: 5 forms added that match real CodeStream seeds (#define/typedef ll, long long int, any-name long long declarations, x*1LL); the 4 original forms matched only the hand-written templates"
+    }
+  ]
 }
