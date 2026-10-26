@@ -150,7 +150,9 @@ def _warning_evidence(row: dict[str, Any]) -> list[dict[str, Any]] | None:
         if isinstance(key, str) and key.startswith("-W")
     ]
     if not raw_flags:
-        return None
+        # A lane may say explicitly that the compiler ran (`_compiled: true`);
+        # then no flags means zero warnings, not "not mined".
+        return [] if warnings.get("_compiled") is True else None
     evidence: list[dict[str, Any]] = []
     for key, value in raw_flags:
         count = _as_int(value)
@@ -333,16 +335,24 @@ def normalize_row(row: dict[str, Any], code: str | None = None) -> dict[str, Any
     out = copy.deepcopy(row)
     language = str(out.get("language") or "c")
 
+    # Rows whose evidence came from sandbox_runner (CodeStream, and PROGPedia
+    # rows executed against oracle tests) share one vocabulary and one mapping.
+    sandbox_vocab = (
+        out.get("dataset_source") == "CODESTREAM"
+        or out.get("evidence_vocab") == "sandbox_runner"
+    )
+    mine_static = str(out.get("dataset_source") or "") in _MINE_STATIC_SOURCES or sandbox_vocab
+
     source = _static_source(out, code)
     if (
-        str(out.get("dataset_source") or "") in _MINE_STATIC_SOURCES
+        mine_static
         and source is not None
         and _static_needs_mining(out.get("static"))
     ):
         _fill_block(out, "static", extract_features(source, language)["static"])
 
     source_kind = out.get("dataset_source")
-    if source_kind in _MINE_STATIC_SOURCES and source:
+    if mine_static and source:
         _fill_block(out, "semantics", extract_semantics(source))
         _fill_block(out, "cpg", extract_cpg_source(source))
 
@@ -352,7 +362,7 @@ def normalize_row(row: dict[str, Any], code: str | None = None) -> dict[str, Any
             out, "warnings", extract_features("", language, warnings=evidence)["warnings"]
         )
 
-    if source_kind == "CODESTREAM":
+    if sandbox_vocab:
         _fill_block(out, "runtime", _codestream_runtime(out.get("runtime")))
         _fill_block(out, "tests", _codestream_tests(out.get("tests")))
         _fill_block(out, "context", _codestream_context(out.get("context")))

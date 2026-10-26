@@ -1,8 +1,8 @@
 {
   "seed": 7,
-  "n_rows": 534,
-  "n_train": 530,
-  "n_dev_gold": 4,
+  "n_rows": 633,
+  "n_train": 588,
+  "n_dev_gold": 45,
   "classes": [
     "CPP_ARRAY_BOUNDS",
     "CPP_ASSIGN_VS_COMPARE",
@@ -20,99 +20,99 @@
     "folds": 3,
     "repeats": 3,
     "grouped_by": "problem_cluster",
-    "synthetic_multiplier": 0.75,
+    "synthetic_multiplier": 1.0,
     "grid_scores": {
-      "0.5": 0.7394,
-      "0.75": 0.7461,
-      "1.0": 0.74
+      "0.5": 0.718,
+      "0.75": 0.7146,
+      "1.0": 0.7241
     },
-    "macro_f1_mean": 0.7461,
-    "macro_f1_std": 0.0217,
-    "majority_baseline": 0.0438
+    "macro_f1_mean": 0.7241,
+    "macro_f1_std": 0.0295,
+    "majority_baseline": 0.0346
   },
   "full": {
-    "macro_f1_oof": 0.7462,
+    "macro_f1_oof": 0.7132,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 1.0,
-        "recall": 0.8929,
-        "f1": 0.9434,
-        "support": 168
+        "precision": 0.8214,
+        "recall": 0.8333,
+        "f1": 0.8273,
+        "support": 138
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 0.9444,
+        "precision": 0.85,
         "recall": 1.0,
-        "f1": 0.9714,
+        "f1": 0.9189,
         "support": 17
       },
       "CPP_INT_OVERFLOW": {
-        "precision": 0.9722,
-        "recall": 0.8974,
-        "f1": 0.9333,
-        "support": 39
+        "precision": 0.9091,
+        "recall": 0.4598,
+        "f1": 0.6107,
+        "support": 87
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.7959,
-        "recall": 0.8478,
-        "f1": 0.8211,
-        "support": 46
+        "precision": 0.71,
+        "recall": 0.8765,
+        "f1": 0.7845,
+        "support": 81
       },
       "CPP_MISSING_BASE_CASE": {
         "precision": 1.0,
-        "recall": 0.913,
-        "f1": 0.9545,
-        "support": 46
+        "recall": 0.8936,
+        "f1": 0.9438,
+        "support": 47
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.6923,
-        "recall": 0.6,
-        "f1": 0.6429,
-        "support": 45
+        "precision": 0.8462,
+        "recall": 0.6735,
+        "f1": 0.75,
+        "support": 49
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.0536,
+        "precision": 0.15,
         "recall": 0.3,
-        "f1": 0.0909,
+        "f1": 0.2,
         "support": 10
       },
       "CPP_RANGE_CHECK": {
-        "precision": 0.7292,
-        "recall": 0.7609,
-        "f1": 0.7447,
+        "precision": 0.9111,
+        "recall": 0.8913,
+        "f1": 0.9011,
         "support": 46
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.6765,
-        "recall": 0.575,
-        "f1": 0.6216,
+        "precision": 0.5849,
+        "recall": 0.775,
+        "f1": 0.6667,
         "support": 40
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.9167,
-        "recall": 0.7097,
-        "f1": 0.8,
+        "precision": 0.4694,
+        "recall": 0.7419,
+        "f1": 0.575,
         "support": 31
       },
       "CPP_WRONG_LOOP_DIR": {
-        "precision": 0.7647,
+        "precision": 0.7222,
         "recall": 0.619,
-        "f1": 0.6842,
+        "f1": 0.6667,
         "support": 42
       }
     },
     "confusion": [
       [
-        150,
+        115,
+        1,
         0,
+        5,
         0,
-        2,
+        1,
         0,
+        1,
         3,
-        9,
-        2,
-        1,
-        1,
-        0
+        11,
+        1
       ],
       [
         0,
@@ -128,126 +128,126 @@
         0
       ],
       [
-        0,
-        0,
-        35,
-        0,
-        0,
-        2,
-        2,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        1,
-        39,
-        0,
-        1,
-        1,
-        0,
-        2,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        42,
-        0,
-        3,
-        0,
-        0,
-        1,
-        0
-      ],
-      [
-        0,
-        1,
-        0,
-        3,
-        0,
-        27,
-        6,
-        4,
-        1,
-        0,
-        3
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        0,
-        2,
-        3,
-        1,
-        1,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        8,
-        35,
-        1,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        12,
-        3,
         23,
         0,
+        40,
+        12,
+        0,
+        0,
+        0,
+        0,
+        10,
+        2,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        71,
+        0,
+        1,
+        2,
+        0,
+        1,
+        1,
+        2
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        42,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        6,
+        0,
+        33,
+        4,
+        0,
+        1,
+        2,
         1
       ],
       [
         0,
         0,
         0,
-        2,
+        1,
+        0,
+        0,
+        3,
         0,
         2,
-        2,
         1,
-        2,
-        22,
+        3
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        41,
+        1,
+        1,
         0
       ],
       [
         0,
         0,
         0,
-        1,
-        0,
-        0,
-        10,
         2,
+        0,
+        1,
         3,
         0,
+        31,
+        0,
+        3
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        3,
+        1,
+        1,
+        23,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        0,
+        2,
+        2,
+        2,
+        3,
+        5,
         26
       ]
     ],
-    "ece_oof": 0.0901,
-    "cv_macro_f1_mean": 0.7461,
-    "cv_macro_f1_std": 0.0217,
+    "ece_oof": 0.0639,
+    "cv_macro_f1_mean": 0.7241,
+    "cv_macro_f1_std": 0.0295,
     "features": [
       "static.loc",
       "static.sloc",
@@ -359,88 +359,88 @@
     ]
   },
   "masked": {
-    "macro_f1_oof": 0.7462,
+    "macro_f1_oof": 0.7132,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 1.0,
-        "recall": 0.8929,
-        "f1": 0.9434,
-        "support": 168
+        "precision": 0.8214,
+        "recall": 0.8333,
+        "f1": 0.8273,
+        "support": 138
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 0.9444,
+        "precision": 0.85,
         "recall": 1.0,
-        "f1": 0.9714,
+        "f1": 0.9189,
         "support": 17
       },
       "CPP_INT_OVERFLOW": {
-        "precision": 0.9722,
-        "recall": 0.8974,
-        "f1": 0.9333,
-        "support": 39
+        "precision": 0.9091,
+        "recall": 0.4598,
+        "f1": 0.6107,
+        "support": 87
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.7959,
-        "recall": 0.8478,
-        "f1": 0.8211,
-        "support": 46
+        "precision": 0.71,
+        "recall": 0.8765,
+        "f1": 0.7845,
+        "support": 81
       },
       "CPP_MISSING_BASE_CASE": {
         "precision": 1.0,
-        "recall": 0.913,
-        "f1": 0.9545,
-        "support": 46
+        "recall": 0.8936,
+        "f1": 0.9438,
+        "support": 47
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.6923,
-        "recall": 0.6,
-        "f1": 0.6429,
-        "support": 45
+        "precision": 0.8462,
+        "recall": 0.6735,
+        "f1": 0.75,
+        "support": 49
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.0536,
+        "precision": 0.15,
         "recall": 0.3,
-        "f1": 0.0909,
+        "f1": 0.2,
         "support": 10
       },
       "CPP_RANGE_CHECK": {
-        "precision": 0.7292,
-        "recall": 0.7609,
-        "f1": 0.7447,
+        "precision": 0.9111,
+        "recall": 0.8913,
+        "f1": 0.9011,
         "support": 46
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.6765,
-        "recall": 0.575,
-        "f1": 0.6216,
+        "precision": 0.5849,
+        "recall": 0.775,
+        "f1": 0.6667,
         "support": 40
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.9167,
-        "recall": 0.7097,
-        "f1": 0.8,
+        "precision": 0.4694,
+        "recall": 0.7419,
+        "f1": 0.575,
         "support": 31
       },
       "CPP_WRONG_LOOP_DIR": {
-        "precision": 0.7647,
+        "precision": 0.7222,
         "recall": 0.619,
-        "f1": 0.6842,
+        "f1": 0.6667,
         "support": 42
       }
     },
     "confusion": [
       [
-        150,
+        115,
+        1,
         0,
+        5,
         0,
-        2,
+        1,
         0,
+        1,
         3,
-        9,
-        2,
-        1,
-        1,
-        0
+        11,
+        1
       ],
       [
         0,
@@ -456,126 +456,126 @@
         0
       ],
       [
-        0,
-        0,
-        35,
-        0,
-        0,
-        2,
-        2,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        1,
-        39,
-        0,
-        1,
-        1,
-        0,
-        2,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        42,
-        0,
-        3,
-        0,
-        0,
-        1,
-        0
-      ],
-      [
-        0,
-        1,
-        0,
-        3,
-        0,
-        27,
-        6,
-        4,
-        1,
-        0,
-        3
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        0,
-        2,
-        3,
-        1,
-        1,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        8,
-        35,
-        1,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        12,
-        3,
         23,
         0,
+        40,
+        12,
+        0,
+        0,
+        0,
+        0,
+        10,
+        2,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        71,
+        0,
+        1,
+        2,
+        0,
+        1,
+        1,
+        2
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        42,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        6,
+        0,
+        33,
+        4,
+        0,
+        1,
+        2,
         1
       ],
       [
         0,
         0,
         0,
-        2,
+        1,
+        0,
+        0,
+        3,
         0,
         2,
-        2,
         1,
-        2,
-        22,
+        3
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        41,
+        1,
+        1,
         0
       ],
       [
         0,
         0,
         0,
-        1,
-        0,
-        0,
-        10,
         2,
+        0,
+        1,
         3,
         0,
+        31,
+        0,
+        3
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        3,
+        1,
+        1,
+        23,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        0,
+        2,
+        2,
+        2,
+        3,
+        5,
         26
       ]
     ],
-    "ece_oof": 0.0901,
-    "cv_macro_f1_mean": 0.7461,
-    "cv_macro_f1_std": 0.0217,
+    "ece_oof": 0.0639,
+    "cv_macro_f1_mean": 0.7241,
+    "cv_macro_f1_std": 0.0295,
     "role": "informational only (v4.1): lf_inputs NaN'd on weak rows at train time; eval rows unmasked \u2014 the train/test mismatch is real and disclosed, no gate rides on this variant",
     "train_test_mismatch": "weak-row lf_inputs masked during training folds; validation-fold and dev-gold rows are unmasked, mirroring deployment",
     "features": [
@@ -689,13 +689,13 @@
     ]
   },
   "common": {
-    "macro_f1_oof": 0.7606,
+    "macro_f1_oof": 0.6963,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 0.95,
-        "recall": 0.9048,
-        "f1": 0.9268,
-        "support": 168
+        "precision": 0.9187,
+        "recall": 0.8188,
+        "f1": 0.8659,
+        "support": 138
       },
       "CPP_ASSIGN_VS_COMPARE": {
         "precision": 0.9444,
@@ -704,72 +704,72 @@
         "support": 17
       },
       "CPP_INT_OVERFLOW": {
-        "precision": 0.9737,
-        "recall": 0.9487,
-        "f1": 0.961,
-        "support": 39
+        "precision": 0.8571,
+        "recall": 0.4828,
+        "f1": 0.6176,
+        "support": 87
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.7647,
-        "recall": 0.8478,
-        "f1": 0.8041,
-        "support": 46
+        "precision": 0.5327,
+        "recall": 0.7037,
+        "f1": 0.6064,
+        "support": 81
       },
       "CPP_MISSING_BASE_CASE": {
-        "precision": 0.9545,
-        "recall": 0.913,
-        "f1": 0.9333,
-        "support": 46
+        "precision": 1.0,
+        "recall": 0.8936,
+        "f1": 0.9438,
+        "support": 47
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.7143,
-        "recall": 0.6667,
-        "f1": 0.6897,
-        "support": 45
+        "precision": 0.5714,
+        "recall": 0.6531,
+        "f1": 0.6095,
+        "support": 49
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.0435,
+        "recall": 0.1,
+        "f1": 0.0606,
         "support": 10
       },
       "CPP_RANGE_CHECK": {
-        "precision": 0.8542,
+        "precision": 0.82,
         "recall": 0.8913,
-        "f1": 0.8723,
+        "f1": 0.8542,
         "support": 46
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.7381,
+        "precision": 0.5849,
         "recall": 0.775,
-        "f1": 0.7561,
+        "f1": 0.6667,
         "support": 40
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.8519,
-        "recall": 0.7419,
-        "f1": 0.7931,
+        "precision": 0.75,
+        "recall": 0.7742,
+        "f1": 0.7619,
         "support": 31
       },
       "CPP_WRONG_LOOP_DIR": {
-        "precision": 0.6512,
-        "recall": 0.6667,
-        "f1": 0.6588,
+        "precision": 0.7714,
+        "recall": 0.6429,
+        "f1": 0.7013,
         "support": 42
       }
     },
     "confusion": [
       [
-        152,
-        0,
-        0,
-        8,
-        0,
-        2,
-        1,
+        113,
         0,
         1,
+        13,
+        0,
         3,
+        2,
+        0,
+        3,
+        2,
         1
       ],
       [
@@ -786,69 +786,69 @@
         0
       ],
       [
+        6,
         0,
+        42,
+        19,
         0,
-        37,
-        0,
+        8,
         2,
-        0,
-        0,
-        0,
-        0,
+        2,
+        8,
         0,
         0
       ],
       [
-        1,
-        0,
-        1,
-        39,
-        0,
         2,
         0,
+        3,
+        57,
         0,
-        2,
+        5,
         0,
-        1
+        3,
+        4,
+        5,
+        2
       ],
       [
         0,
         0,
-        0,
-        0,
+        1,
+        1,
         42,
+        0,
+        0,
+        2,
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        1,
+        2,
+        5,
+        0,
+        32,
+        3,
+        0,
+        2,
+        1,
+        1
+      ],
+      [
+        0,
         0,
         0,
         3,
         0,
-        0,
-        1
-      ],
-      [
-        4,
+        3,
         1,
-        0,
-        2,
-        0,
-        30,
         1,
-        0,
-        2,
-        1,
-        4
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        0,
         2,
         0,
-        2,
-        2,
-        0,
-        3
+        0
       ],
       [
         0,
@@ -864,12 +864,12 @@
         0
       ],
       [
-        1,
         0,
         0,
-        1,
         0,
-        1,
+        3,
+        0,
+        0,
         3,
         0,
         31,
@@ -880,32 +880,32 @@
         0,
         0,
         0,
+        1,
         0,
         0,
-        0,
-        2,
-        2,
-        2,
-        23,
-        2
+        4,
+        1,
+        1,
+        24,
+        0
       ],
       [
-        2,
         0,
         0,
         0,
+        5,
         0,
         3,
-        7,
+        5,
         0,
         2,
         0,
-        28
+        27
       ]
     ],
-    "ece_oof": 0.0629,
-    "cv_macro_f1_mean": 0.7564,
-    "cv_macro_f1_std": 0.0393,
+    "ece_oof": 0.0874,
+    "cv_macro_f1_mean": 0.7047,
+    "cv_macro_f1_std": 0.0454,
     "features": [
       "static.loc",
       "static.sloc",
@@ -954,88 +954,88 @@
     ]
   },
   "best": {
-    "macro_f1_oof": 0.7715,
+    "macro_f1_oof": 0.7031,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 0.9804,
-        "recall": 0.8929,
-        "f1": 0.9346,
-        "support": 168
+        "precision": 0.9652,
+        "recall": 0.8043,
+        "f1": 0.8775,
+        "support": 138
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 1.0,
+        "precision": 0.8947,
         "recall": 1.0,
-        "f1": 1.0,
+        "f1": 0.9444,
         "support": 17
       },
       "CPP_INT_OVERFLOW": {
-        "precision": 0.9737,
-        "recall": 0.9487,
-        "f1": 0.961,
-        "support": 39
+        "precision": 0.8889,
+        "recall": 0.4598,
+        "f1": 0.6061,
+        "support": 87
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.7407,
-        "recall": 0.8696,
-        "f1": 0.8,
-        "support": 46
+        "precision": 0.5128,
+        "recall": 0.7407,
+        "f1": 0.6061,
+        "support": 81
       },
       "CPP_MISSING_BASE_CASE": {
         "precision": 1.0,
-        "recall": 0.913,
-        "f1": 0.9545,
-        "support": 46
+        "recall": 0.8936,
+        "f1": 0.9438,
+        "support": 47
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.75,
-        "recall": 0.6667,
-        "f1": 0.7059,
-        "support": 45
+        "precision": 0.5714,
+        "recall": 0.6531,
+        "f1": 0.6095,
+        "support": 49
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.0714,
-        "recall": 0.1,
-        "f1": 0.0833,
+        "precision": 0.0909,
+        "recall": 0.2,
+        "f1": 0.125,
         "support": 10
       },
       "CPP_RANGE_CHECK": {
-        "precision": 0.7193,
-        "recall": 0.8913,
-        "f1": 0.7961,
+        "precision": 0.875,
+        "recall": 0.913,
+        "f1": 0.8936,
         "support": 46
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.7174,
-        "recall": 0.825,
-        "f1": 0.7674,
+        "precision": 0.6078,
+        "recall": 0.775,
+        "f1": 0.6813,
         "support": 40
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.88,
-        "recall": 0.7097,
-        "f1": 0.7857,
+        "precision": 0.6571,
+        "recall": 0.7419,
+        "f1": 0.697,
         "support": 31
       },
       "CPP_WRONG_LOOP_DIR": {
-        "precision": 0.6818,
+        "precision": 0.7895,
         "recall": 0.7143,
-        "f1": 0.6977,
+        "f1": 0.75,
         "support": 42
       }
     },
     "confusion": [
       [
-        150,
+        111,
         0,
         0,
-        9,
+        15,
         0,
         3,
-        0,
-        2,
+        3,
         1,
+        3,
         2,
-        1
+        0
       ],
       [
         0,
@@ -1051,94 +1051,55 @@
         0
       ],
       [
-        0,
-        0,
-        37,
-        0,
-        0,
-        0,
-        2,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
         1,
         0,
-        1,
         40,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        42,
-        0,
-        0,
-        4,
-        0,
-        0,
-        0
-      ],
-      [
-        1,
-        0,
-        0,
-        2,
-        0,
         30,
+        0,
+        9,
         2,
+        0,
         5,
-        2,
         0,
-        3
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        0,
-        2,
-        1,
-        1,
-        2,
-        0,
-        3
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        41,
-        2,
-        1,
         0
       ],
       [
+        3,
         1,
+        1,
+        60,
         0,
-        0,
-        0,
-        0,
+        5,
         0,
         2,
         3,
-        33,
+        5,
+        1
+      ],
+      [
         0,
+        0,
+        1,
+        1,
+        42,
+        0,
+        0,
+        2,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        2,
+        5,
+        0,
+        32,
+        3,
+        0,
+        2,
+        3,
         1
       ],
       [
@@ -1147,30 +1108,69 @@
         0,
         1,
         0,
-        0,
-        1,
-        1,
         2,
-        22,
-        4
+        2,
+        0,
+        2,
+        1,
+        2
       ],
       [
         0,
         0,
         0,
+        0,
+        0,
+        0,
         1,
+        42,
+        1,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        0,
         0,
         4,
+        1,
+        31,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
         4,
+        0,
+        1,
+        23,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        0,
+        4,
+        3,
         0,
         3,
         0,
         30
       ]
     ],
-    "ece_oof": 0.0633,
-    "cv_macro_f1_mean": 0.7635,
-    "cv_macro_f1_std": 0.0335,
+    "ece_oof": 0.1006,
+    "cv_macro_f1_mean": 0.7112,
+    "cv_macro_f1_std": 0.0372,
     "features": [
       "static.loc",
       "static.sloc",
@@ -1235,42 +1235,42 @@
     "role": "accuracy-oriented: static + warnings + source semantics; G8 still rides on full"
   },
   "dev_gold": {
-    "n": 4,
-    "calibrated": false,
-    "ece": 0.4003,
-    "macro_f1_uncalibrated": 0.1818
+    "n": 45,
+    "calibrated": true,
+    "macro_f1": 0.2399,
+    "ece": 0.0966
   },
   "g8": {
     "gold_not_in_train": true,
     "weight_clip": 10.0,
     "weight_stats": {
-      "clip_applied": 8,
+      "clip_applied": 20,
       "min": 0.1,
-      "max": 3.3607,
-      "synthetic_multiplier": 0.75
+      "max": 4.9713,
+      "synthetic_multiplier": 1.0
     },
-    "synthetic_mass": 0.9186,
+    "synthetic_mass": 0.9144,
     "synthetic_mass_ok": false,
-    "max_class_mass": 0.0938,
+    "max_class_mass": 0.1041,
     "max_class_mass_ok": true,
     "class_mass": {
-      "CPP_ARRAY_BOUNDS": 0.0798,
-      "CPP_ASSIGN_VS_COMPARE": 0.0898,
-      "CPP_INT_OVERFLOW": 0.0904,
-      "CPP_LOOP_BOUNDARY": 0.0894,
-      "CPP_MISSING_BASE_CASE": 0.0938,
-      "CPP_OFF_BY_ONE": 0.0878,
-      "CPP_OTHER_ERROR": 0.0938,
-      "CPP_RANGE_CHECK": 0.0938,
-      "CPP_STALE_EXIT": 0.0938,
-      "CPP_UNINITIALIZED_VAR": 0.0938,
-      "CPP_WRONG_LOOP_DIR": 0.0938
+      "CPP_ARRAY_BOUNDS": 0.0643,
+      "CPP_ASSIGN_VS_COMPARE": 0.0993,
+      "CPP_INT_OVERFLOW": 0.0571,
+      "CPP_LOOP_BOUNDARY": 0.0658,
+      "CPP_MISSING_BASE_CASE": 0.1024,
+      "CPP_OFF_BY_ONE": 0.0907,
+      "CPP_OTHER_ERROR": 0.1041,
+      "CPP_RANGE_CHECK": 0.1041,
+      "CPP_STALE_EXIT": 0.1041,
+      "CPP_UNINITIALIZED_VAR": 0.1041,
+      "CPP_WRONG_LOOP_DIR": 0.1041
     },
     "cv_beats_majority_by_0.25": true,
-    "cv_margin": 0.7023,
+    "cv_margin": 0.6895,
     "threshold_scope": "one global threshold + temperature",
     "isotonic_used": false,
-    "dev_gold_n": 4,
+    "dev_gold_n": 45,
     "note": "caps recorded, not silently enforced \u2014 a violation is a finding for the team, per \u00a78 Layer-3"
   }
 }

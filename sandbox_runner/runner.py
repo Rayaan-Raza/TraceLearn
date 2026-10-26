@@ -144,16 +144,33 @@ def _run_tests(binary: str, tests: list[dict], inputs: list[str], workdir: str,
 
 # ---------------------------------------------------------------- sanitizer --
 
-def _pick(tests_results: list[dict], mode: str) -> list[int]:
+def _pick(tests_results: list[dict], mode: str, sizes: list[int] | None = None,
+          max_bytes: int | None = None, skip_timeouts: bool = False) -> list[int]:
+    """Tests a slow pass (sanitizer / Valgrind) should run.
+
+    With ``max_bytes`` set, tests whose input is larger are left out: a
+    Valgrind run on a 100k-number input costs ~30 s and adds no evidence a
+    small failing test does not. If every candidate is too large, the
+    smallest one is kept so the pass still runs.
+    """
+    def small(idxs):
+        if max_bytes is None or sizes is None or not idxs:
+            return idxs
+        kept = [i for i in idxs if sizes[i] <= max_bytes]
+        return kept or [min(idxs, key=lambda i: sizes[i])]
+
+    if skip_timeouts:
+        tests_results = [r for r in tests_results if r.get("status") != "timeout"]
     failing = [r["idx"] for r in tests_results if r.get("status") not in ("pass", "skipped")]
     if mode == "all":
-        return [r["idx"] for r in tests_results if r.get("status") != "skipped"] or [0]
+        return small([r["idx"] for r in tests_results if r.get("status") != "skipped"] or
+                     ([0] if not skip_timeouts else []))
     if mode == "failing":
-        return failing
+        return small(failing)
     # first_failing
     if failing:
-        return failing[:1]
-    return [0] if tests_results else []
+        return small(failing)[:1]
+    return small([r["idx"] for r in tests_results])[:1] if tests_results else []
 
 
 def _sanitizer_pass(lang, src, workdir, tests, inputs, plain_results, cfg, extra=()) -> dict:
@@ -168,7 +185,9 @@ def _sanitizer_pass(lang, src, workdir, tests, inputs, plain_results, cfg, extra
     env = {"ASAN_OPTIONS": ASAN_OPTIONS, "UBSAN_OPTIONS": UBSAN_OPTIONS}
     timeout = cfg.limits.time_s * cfg.limits.sanitizer_time_factor
     with_reports = 0
-    for i in _pick(plain_results, cfg.sanitizer_tests):
+    sizes = [len(t["input"]) for t in tests]
+    for i in _pick(plain_results, cfg.sanitizer_tests, sizes, cfg.sanitizer_max_input_bytes,
+                   cfg.slow_pass_skip_timeouts):
         r = run_process([out], stdin_path=inputs[i], workdir=workdir, timeout_s=timeout,
                         limits=cfg.limits, cap_memory=False, env=env,
                         isolate_network=cfg.network_isolation, tag=f"s{i}")
@@ -201,7 +220,9 @@ def _valgrind_pass(lang, src, workdir, inputs, plain_results, cfg, extra=()) -> 
     if not c["ok"]:
         block["compile_ok"] = False
         return block
-    idxs = _pick(plain_results, cfg.valgrind_tests)
+    sizes = [os.path.getsize(p) for p in inputs]
+    idxs = _pick(plain_results, cfg.valgrind_tests, sizes, cfg.valgrind_max_input_bytes,
+                 cfg.slow_pass_skip_timeouts)
     kinds: dict = {}
     errors = 0
     timeouts = []

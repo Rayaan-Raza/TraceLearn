@@ -164,3 +164,49 @@ def test_build_expansion_row_carries_canonical_evidence():
     assert row["context"] == proof["context"]
     assert row["seed_ref"] == "s-1"
     assert row["mutation_op"] == "op-a"
+
+
+# --- INT_OVERFLOW forms that match real CodeStream seeds (operator library 1.1)
+
+def _io_form(name):
+    from scripts import generate_mutants as gm
+    lib = gm.load_operator_library()
+    return next(f for f in lib["operators"]["CPP_INT_OVERFLOW"]["forms"] if f["name"] == name)
+
+
+def test_int_overflow_real_seed_forms_fire():
+    from scripts import generate_mutants as gm
+    cases = {
+        "overflow_ll_macro_to_int": ("#define ll long long\nll a;", "#define ll int\nll a;"),
+        "overflow_ll_typedef_to_int": ("typedef long long ll;\n", "typedef int ll;\n"),
+        "overflow_lli_decl_to_int": ("long long int n, m;", "int n, m;"),
+        "overflow_ll_decl_to_int": ("long long fact = 1;", "int fact = 1;"),
+        "overflow_1ll_suffix_removed": ("x = a * 1LL * b;", "x = a * b;"),
+    }
+    for name, (src, want) in cases.items():
+        assert gm.apply_operator_form(src, _io_form(name)) == want, name
+
+
+def test_int_overflow_real_seed_forms_do_not_fire():
+    from scripts import generate_mutants as gm
+    # 'long long int' is left to its own form; casts and vector<long long> are untouched
+    assert gm.apply_operator_form("long long int n;", _io_form("overflow_ll_decl_to_int")) is None
+    assert gm.apply_operator_form("(long long)a * b", _io_form("overflow_ll_decl_to_int")) is None
+    assert gm.apply_operator_form("vector<long long> v;", _io_form("overflow_ll_decl_to_int")) is None
+    assert gm.apply_operator_form("#define ll int", _io_form("overflow_ll_macro_to_int")) is None
+
+
+def test_real_seeds_only_flag_is_recorded(tmp_path):
+    import argparse  # noqa: F401  (parser is built inside main)
+    src = Path(ex.__file__).read_text(encoding="utf-8")
+    assert "--real-seeds-only" in src and "real_seeds_only" in src
+
+
+def test_int_overflow_rejects_format_mismatch_and_crash_only_mutants():
+    wrong = {"results": [{"status": "pass"}, {"status": "wrong"}]}
+    crash = {"results": [{"status": "crash"}, {"status": "crash"}]}
+    fmt = "main.cpp:5:9: warning: format '%lld' expects argument of type 'long long int*' [-Wformat=]"
+    assert ex.class_specific_reject("CPP_INT_OVERFLOW", wrong, fmt) == "format_specifier_mismatch"
+    assert ex.class_specific_reject("CPP_INT_OVERFLOW", crash, "") == "no_wrong_answer_only_crash_or_timeout"
+    assert ex.class_specific_reject("CPP_INT_OVERFLOW", wrong, "") is None
+    assert ex.class_specific_reject("CPP_LOOP_BOUNDARY", crash, fmt) is None

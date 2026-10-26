@@ -125,6 +125,34 @@ def load_cluster_table(path: Path) -> dict[str, tuple[str, str]]:
     return table
 
 
+IID_SPLIT = "test_iid"
+
+
+def load_iid_holdout(path: Path) -> set[str]:
+    """splits/iid_holdout.csv: row_ids held out of train for the IID test.
+
+    The IID test measures in-distribution accuracy, so its rows come from
+    *train* clusters on purpose (the cluster-disjoint ``test`` split
+    measures generalisation). A listed row whose problem is not in a train
+    cluster is an error: it would silently move a held-out row.
+    """
+    if not path.exists():
+        return set()
+    with path.open(encoding="utf-8", newline="") as fh:
+        return {rec["row_id"] for rec in csv.DictReader(fh) if rec.get("row_id")}
+
+
+def row_split(row: dict[str, Any], clusters: dict[str, tuple[str, str]], iid: set[str]) -> str:
+    entry = clusters.get(row.get("problem_id") or "")
+    if entry is None:
+        return "<unassigned>"
+    if str(row.get("row_id")) in iid:
+        if entry[1] != "train":
+            raise ValueError(f"iid_holdout row {row.get('row_id')} is in a {entry[1]} cluster, not train")
+        return IID_SPLIT
+    return entry[1]
+
+
 def load_label_registry(path: Path) -> dict[str, dict[str, str]]:
     """label_mapping.csv keyed by label (kind=label rows only)."""
     registry: dict[str, dict[str, str]] = {}
@@ -137,6 +165,58 @@ def load_label_registry(path: Path) -> dict[str, dict[str, str]]:
             if label:
                 registry[label] = rec
     return registry
+
+
+# ------------------------------------------------------- review decisions
+
+
+def apply_review_decisions(
+    rows: list[dict[str, Any]], path: Path
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Apply signed-off pre-review decisions (``annotations/label_review_decisions.jsonl``).
+
+    confirm + human basis  -> label_source 'human', confidence 1.0;
+    confirm + spot-check   -> unchanged (its LF audit already moved the confidence);
+    relabel (human only)   -> new label, label_source 'human', confidence 1.0;
+    reject                 -> row dropped (counted in the merge report).
+    Decisions for unknown row ids are reported, never silently ignored.
+    """
+    stats: dict[str, Any] = {"file": path.name, "applied": Counter(), "unknown_row_ids": []}
+    if not path.is_file():
+        stats["file"] = None
+        return rows, stats
+    decisions: dict[str, dict[str, Any]] = {}
+    with path.open(encoding="utf-8") as fh:
+        for line in fh:
+            if line.strip():
+                d = json.loads(line)
+                decisions[d["row_id"]] = d
+    by_id = {r.get("row_id"): r for r in rows}
+    stats["unknown_row_ids"] = sorted(rid for rid in decisions if rid not in by_id)
+    kept = []
+    for row in rows:
+        d = decisions.get(row.get("row_id"))
+        if d is None:
+            kept.append(row)
+            continue
+        action, basis = d.get("action"), d.get("basis")
+        if action == "reject":
+            stats["applied"]["reject"] += 1
+            continue
+        row = dict(row)
+        if action == "relabel":
+            if basis != "human":
+                raise ValueError(f"review decision for {row['row_id']}: only a human may relabel")
+            row["secondary_labels"] = sorted(set(row.get("secondary_labels") or []) | {row["label"]})
+            row["label"] = d["label"]
+        if basis == "human":
+            row["label_source"] = "human"
+            row["label_confidence"] = 1.0
+        row["review"] = {k: d.get(k) for k in ("action", "basis", "item_id", "signed_off_by")}
+        stats["applied"][f"{action}:{basis}"] += 1
+        kept.append(row)
+    stats["applied"] = dict(stats["applied"])
+    return kept, stats
 
 
 # ------------------------------------------------------------ code resolution
@@ -345,6 +425,7 @@ def g7_checks(
     labels: Sequence[dict[str, Any]],
     clusters: dict[str, tuple[str, str]],
     code_by_rid: dict[str, str | None] | None = None,
+    iid: set[str] | None = None,
 ) -> dict[str, Any]:
     """G7 leakage checks (§9.0): clusters never straddle splits, seed
     groups stay intact, cross-split code twins = 0.
@@ -355,8 +436,9 @@ def g7_checks(
     """
 
     def split_of(row: dict[str, Any]) -> str:
-        entry = clusters.get(row.get("problem_id") or "")
-        return entry[1] if entry else "<unassigned>"
+        # IID hold-out rows count as their own split, so seed groups and
+        # code twins shared with train are still caught
+        return row_split(row, clusters, iid or set())
 
     # 1) cluster -> split integrity (table + rows agree)
     cluster_splits: dict[str, set[str]] = defaultdict(set)
@@ -493,6 +575,11 @@ def merge(
     if dups:
         raise ValueError(f"duplicate row_id across lanes: {dups[:5]}")
 
+    # 2b) signed-off review decisions (confirm / relabel / reject)
+    rows, review_stats = apply_review_decisions(
+        rows, ds / "annotations" / "label_review_decisions.jsonl"
+    )
+
     # 3) G1 on every lane row — invalid lanes abort before any output
     index = load_index(index_csv)
     proof_keys = load_proof_keys(ds / "annotations" / "mutant_proofs")
@@ -564,7 +651,11 @@ def merge(
     # 8) G7 leakage checks — reported, never silently repaired
     kept_rids = {str(r["row_id"]) for r in rows}
     kept_code = {k: v for k, v in code_by_rid.items() if k in kept_rids}
-    g7 = g7_checks(rows, clusters, code_by_rid=kept_code)
+    iid = load_iid_holdout(ds / "splits" / "iid_holdout.csv")
+    unknown_iid = sorted(iid - kept_rids)
+    if unknown_iid:
+        raise ValueError(f"iid_holdout.csv lists {len(unknown_iid)} row(s) not in the merge: {unknown_iid[:5]}")
+    g7 = g7_checks(rows, clusters, code_by_rid=kept_code, iid=iid)
 
     # 9) PSI train vs test on shared numeric features
     # numeric features by CANONICAL name (block.short) — keying by short
@@ -576,7 +667,7 @@ def merge(
         if ftype in ("int", "float")
     }
     flat = flatten_features(rows)
-    split_of_row = {str(r["row_id"]): clusters[r["problem_id"]][1] for r in rows}
+    split_of_row = {str(r["row_id"]): row_split(r, clusters, iid) for r in rows}
     by_side: dict[str, dict[str, list[Any]]] = {"train": defaultdict(list), "test": defaultdict(list)}
     for rec in flat:
         side = split_of_row.get(str(rec["row_id"]))
@@ -612,7 +703,7 @@ def merge(
 
     # 10) outputs
     per_source = dict(Counter(str(r["dataset_source"]) for r in rows))
-    per_split = dict(Counter(clusters[r["problem_id"]][1] for r in rows))
+    per_split = dict(Counter(row_split(r, clusters, iid) for r in rows))
 
     # per-block row availability per source: lane gaps (a null static
     # block, an empty warnings dict) are a cross-lane integration fact the
@@ -645,6 +736,7 @@ def merge(
 
     report: dict[str, Any] = {
         "inputs": [p.name for p in tier_files],
+        "review_decisions": review_stats,
         "n_rows_before_dedupe": before,
         "n_rows": len(rows),
         "deduped": n_deduped,
@@ -682,7 +774,8 @@ def merge(
         writer = csv.writer(fh, lineterminator="\n")
         writer.writerow(["row_id", "problem_id", "cluster_id", "split"])
         for row in sorted(rows, key=lambda r: str(r["row_id"])):
-            cluster_id, split = clusters[row["problem_id"]]
+            cluster_id, _ = clusters[row["problem_id"]]
+            split = row_split(row, clusters, iid)
             writer.writerow([row["row_id"], row["problem_id"], cluster_id, split])
 
     with (reports_dir / "merge_report.json").open("w", encoding="utf-8", newline="\n") as fh:
