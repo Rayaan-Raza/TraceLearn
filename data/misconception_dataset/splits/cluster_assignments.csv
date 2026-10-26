@@ -56,8 +56,8 @@ tl-progpedia-00000034,clu-045,train,777
 tl-progpedia-00000035,clu-046,train,1060
 tl-progpedia-00000039,clu-047,train,1695
 tl-progpedia-00000042,clu-048,train,1351
-tl-progpedia-00000043,clu-049,train,2436
+tl-progpedia-00000043,clu-049,dev_gold,2436
 tl-progpedia-00000045,clu-050,train,2657
-tl-progpedia-00000048,clu-051,train,1400
+tl-progpedia-00000048,clu-051,dev_gold,1400
 tl-progpedia-00000053,clu-052,train,4220
 tl-progpedia-00000056,clu-053,train,1213
