@@ -423,3 +423,20 @@ Commits: `0cec479` (metrics) · `e895bc8` (full+masked) · `22197e3` (common) ·
 4. **Reduce synthetic mass**: run `extract_progpedia_warnings.py` to pull
    more real PROGPEDIA rows into the dataset (PROGPedia weak labels on
    10k+ submissions would shift balance below 50%).
+
+---
+
+## 2026-10-26 — Umaima: real labels across classes, review workflow, dev-gold + IID (branch `feature/umaima-real-labels`)
+
+| Item | Status | What was done |
+|---|---|---|
+| CPP_INT_OVERFLOW to more clusters | ✅ (beyond the accepted 2) | 5 new `operator_library.json` forms (v1.1) reach 12 train clusters; real-seed yield 0 because CodeStream tests lack large values. Real INT_OVERFLOW now comes from PROGPedia execution: 70 rows, 48 repair-verified (`int` → `long long`) |
+| Source/label confound | ✅ reduced | PROGPedia oracle tests (12 problems, 128 tests) + `label_progpedia_exec.py` → 199 `pgx-*` rows. PROGPedia train labels: ARRAY_BOUNDS 58%, INT_OVERFLOW 23%, LOOP_BOUNDARY 17% (was 100% ARRAY_BOUNDS) |
+| Audit 150 PROGPedia + 33 CodeStream weak labels | 🟡 pre-reviewed, awaiting sign-off | Model pre-review sheets in `review/model_prereview/`. Estimated precision: pg-3 104/137 judged (~76%), CodeStream 15/33 (~45%; `lf_loop_boundary` and `output_pm1` misfire most). Signing the 20% spot-check rows lets `apply_prereview_signoff.py` write audits + decisions |
+| Dev-gold ≥ 60 | 🟡 rows in place, awaiting sign-off | PROGPedia `clu-049`, `clu-051` → dev_gold (45 merged rows + 29 new CodeStream items). Sheets `dev_gold_codestream.csv` (30) + `dev_gold_progpedia.csv` (17) + 24 dev rows in the pg sheet; every gold row needs a person |
+| IID test set | 🟡 split built, awaiting sign-off | `build_iid_holdout.py` → 36 natural train rows in `test_iid`; `iid_test_progpedia.csv` + 18 rows in the pg sheet; `evaluate_holdout.py --split test_iid` scores certain labels only |
+| Synthetic mass ≤ 50% | ❌ 0.91 by weight | Structural: seven classes have no natural train rows, and unaudited natural rows ship at confidence 0.2. Projection ≈ 0.75–0.81 after sign-off of every sheet plus the 65 discovery rows in `review/progpedia_exec_review.jsonl` |
+
+Model v0.6: CV macro-F1 0.724 ± 0.030 (majority 0.035), G8 3/4. Test and IID not scored yet.
+
+**Next:** (1) sign the spot-check rows in the five sheets, then run `apply_prereview_signoff.py` → re-run the lanes (cached) → merge → train; (2) pre-review the 65 discovery rows (UNINITIALIZED_VAR 29, RANGE_CHECK 27) for natural rows in synthetic-only classes; (3) Rayaan reviews the split change (`splits/README.md`).

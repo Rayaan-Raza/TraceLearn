@@ -135,3 +135,21 @@ def test_config_fingerprint_ignores_speed_options():
     from sandbox_runner import RunConfig
     assert RunConfig(use_pch=True).fingerprint() == RunConfig(use_pch=False).fingerprint()
     assert RunConfig().fingerprint() != RunConfig(double_run=False).fingerprint()
+
+
+def test_pick_skips_large_inputs_for_slow_passes():
+    from sandbox_runner.runner import _pick
+    res = [{"idx": 0, "status": "pass"}, {"idx": 1, "status": "wrong"}, {"idx": 2, "status": "timeout"}]
+    sizes = [10, 500_000, 20]
+    assert _pick(res, "first_failing", sizes, 1000) == [2]
+    assert _pick(res, "all", sizes, 1000) == [0, 2]
+    assert _pick(res, "failing", [9e9, 9e9, 5e9], 1000) == [2]  # all too big -> smallest kept
+    assert _pick(res, "first_failing") == [1]  # no limit -> unchanged behaviour
+
+
+def test_pick_can_skip_timeouts():
+    from sandbox_runner.runner import _pick
+    res = [{"idx": 0, "status": "timeout"}, {"idx": 1, "status": "wrong"}, {"idx": 2, "status": "pass"}]
+    assert _pick(res, "first_failing", skip_timeouts=True) == [1]
+    assert _pick([{"idx": 0, "status": "timeout"}], "first_failing", skip_timeouts=True) == []
+    assert _pick(res, "all", skip_timeouts=True) == [1, 2]
