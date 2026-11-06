@@ -34,6 +34,57 @@ decision A1 in section 10 is closed; the Python POC problems stay on the rule en
 33 new tests pass. The model is **not yet in the request path**: that needs Eman's feature builder (B1) and the
 router (B5), so nothing a student or teacher sees has changed.
 
+
+### Week 1, continued: baselines, shortcut test, real-data tooling (branch `feat/real-data-eval-and-model`)
+
+**Baselines and ablations** (`scripts/eval_baselines.py`, `reports/baselines.md`; grouped 3x3 CV on train rows, the same
+folds and weights as the trainer):
+
+| Model | CV macro-F1 |
+|---|---|
+| majority class | 0.035 |
+| logistic regression, static+warnings | 0.525 |
+| logistic regression, all blocks | 0.669 |
+| XGBoost common (static+warnings), **served** | 0.712 |
+| XGBoost best (+semantics), **served** | 0.702 |
+| XGBoost all blocks | 0.725 |
+
+XGBoost beats the transparent baselines (RQ2 evidence, on the pool described in section 3). Removing the `tests` block does
+not hurt (0.743 vs 0.725, inside the +-0.04 noise); `static` is the strongest single block (0.61 alone). The "real rows
+only" column in the report is **inflated for variants that include `runtime`**, because the weak labels were produced by
+rules that read runtime evidence (labels are partly a function of features). The served variants have no runtime block.
+
+**Source-shortcut test (master plan R4):** a forest given only the *pattern of missing features* predicts the source lane with
+**1.00** accuracy for `full` (majority 0.62), so `full` **fails R4** and the common-feature variants are forced, as the plan
+says. `best` and `common` reach 0.81 and pass the 0.90 limit; most of that is `warnings` being absent on some CodeStream rows.
+
+**Data fix:** the semantics block is source-only, but it was left NaN for all 150 PROGPedia rule-labelled rows. The normalizer
+now mines it whenever the row's code resolves. Labels did not change (diff checked: only `semantics` on `pg-*` rows). CV did
+not move (best 0.703 -> 0.702), so this is a correctness fix, not an accuracy gain. Retraining also moved the CV-chosen
+synthetic multiplier from 1.0 to 0.75 and the calibrated threshold from **0.30 to 0.45**, which shows how unstable a
+threshold fitted on 45 mostly-weak dev-gold rows is.
+
+**First real-data run** (`scripts/eval_real_data.py`, dev-gold clusters of CodeStream, executed in WSL with g++; this is a
+development run, not a result): 387 real submissions from 79 students; 220 fail and reach the model; 1 of 78 Accepted rows
+is wrongly routed to the model.
+
+| Served variant | Abstains on real failures | Mean top probability | Same label on consecutive failed attempts (chance) |
+|---|---|---|---|
+| best | 66% | 0.42 | 0.93 (0.39) |
+| common | 71% | 0.41 | 0.96 (0.37) |
+
+Reading: on real code the model is mostly unsure, and when it does answer it follows the *problem* more than the student
+(one problem gets 29 ARRAY_BOUNDS, another is 92 of 112 abstentions). Stability far above chance is expected from that, so it
+is not evidence of correctness. The 66-71% abstain rate is outside the 10-60% band proposed for gate RW3 and is driven by the
+0.45 threshold; the threshold must be re-derived on more data before it is trusted, not tuned to hit the band.
+
+**T2 (repair confirmation) does not work on this data and is withdrawn as an evidence tier.** 0 of 73 (`best`) and 0 of 63
+(`common`) predicted classes were confirmed by an automatic repair that makes every test pass; random classes also scored 0,
+and the "fixes the first failing test" variant gave 0 of 73 for the model against 1 for random. Single-edit inverse
+operators fix almost no real student failures (consistent with only 2 `repair_verified` rows among 56 labelled CodeStream
+rows). With a ceiling near zero the test cannot tell a good model from a bad one. Evidence for the panel is therefore T1
+(human gold) plus the T3 behaviour numbers above, reported as behaviour, not accuracy.
+
 ---
 
 ## 1. What Iteration 2 requires
@@ -462,12 +513,12 @@ real-world data" is only defensible in the forms below. The label source decides
 | Evidence tier | Real code? | Labels | Allowed sentence | Available |
 |---|---|---|---|---|
 | **T1 Gold test** | yes, CodeStream test-side | blind human gold (target 220, floor 150), kappa >= 0.6 | "On N real student submissions from M users and K problem clusters never seen in training or tuning, labelled blind by four raters, the model scores macro-F1 X [CI] versus Y [CI] for the rule baseline." | after G6 (January) |
-| **T2 Repair-confirmed** | yes, all 789 failing test-side rows | none needed: execution-verified repair | "On N real failing submissions, X% of the model's top predictions were confirmed by an automatic repair of that class making every test pass, versus Y% for a prior-matched random label and Z% for the rule engine." | December, once scripts exist |
+| **T2 Repair-confirmed** (**withdrawn 6 Nov: yield 0, see progress log**) | yes, all 789 failing test-side rows | none needed: execution-verified repair | "On N real failing submissions, X% of the model's top predictions were confirmed by an automatic repair of that class making every test pass, versus Y% for a prior-matched random label and Z% for the rule engine." | December, once scripts exist |
 | **T3 Behaviour on real code** | yes, 789 failing + 452 accepted | none | "On real code the model abstains on A% of failing submissions, flags B% of accepted submissions (should be ~0), and gives the same label on consecutive failed attempts of the same student C% of the time." | December |
 | **T4 Sensitivity** | yes | gold + T2 | "Results are reported separately for students seen versus unseen in training, and for PROGPedia versus CodeStream." | with T1/T2 |
 | **T5 Pilot** | yes, our classrooms | human labels | "In a pilot with P students ..." | Jan-Mar |
 
-Until T1 exists, the only honest headline is T2 + T3, **plus** the cross-validation number described as "on a mostly
+Until T1 exists, the only honest headline is T3 (behaviour, not accuracy; T2 was tried and has no power), **plus** the cross-validation number described as "on a mostly
 synthetic training pool". The dev-gold macro-F1 of 0.24 should be shown, not hidden: it is the current real-data
 estimate on a small, partly weak set.
 
@@ -505,7 +556,7 @@ estimate on a small, partly weak set.
 |---|---|---|
 | **RW0 Freeze** | protocol file committed >= 3 days before the test-side run; sha256 in it matches `/api/model/info` | `reports/real_data_protocol.md` |
 | **RW1 Coverage** | features computed for >= 95% of the 789 failing test-side rows; the rest listed with reasons (compile fail, timeout, missing source) | `reports/real_scoring_coverage.md` |
-| **RW2 Repair confirmation** | model confirmation rate >= prior-matched random + 0.15 (absolute), bootstrap CI lower bound > 0; not worse than the rule engine by more than 0.02 | `reports/real_repair_confirmation.md` |
+| **RW2 Repair confirmation** (withdrawn, ceiling ~0 on real code) | model confirmation rate >= prior-matched random + 0.15 (absolute), bootstrap CI lower bound > 0; not worse than the rule engine by more than 0.02 | `reports/real_repair_confirmation.md` |
 | **RW3 Real-code behaviour** | abstain rate 10-60%; flag rate on accepted rows <= 2% (after router); label stability >= random-pair baseline | `reports/real_behaviour.md` |
 | **RW4 Sensitivity** | seen-vs-unseen-student gap reported; if the gap in macro-F1 > 0.10, the unseen-student number is the headline | same reports |
 | **RW5 Gold (T1)** | G6 passed; one-shot run; difference versus rules reported with the pre-registered reading ("inconclusive-directional" if CI spans zero) | `final_evaluation.md` |

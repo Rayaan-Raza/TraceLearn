@@ -287,7 +287,36 @@ def test_canonical_lane_values_are_never_overwritten():
     assert out["static"] == {"loc": 32, "sloc": 23, "loop_count": 5}
     assert out["warnings"] == {"available": True, "total": 2, "other": 2}
     assert out["cpg"] == {"available": True, "node_count": 135}
-    assert out["semantics"] == {"assign_in_cond": 0, "recursion": 0}
+    # supplied values win; only features the lane left absent are filled
+    assert out["semantics"]["assign_in_cond"] == 0
+    assert out["semantics"]["recursion"] == 0
+
+
+def test_progpedia_rows_get_semantics_from_resolved_code_but_keep_lane_blocks():
+    row = {
+        "row_id": "pg-2",
+        "dataset_source": "PROGPEDIA",
+        "language": "c",
+        "label": "CPP_ARRAY_BOUNDS",
+        "static": {"loc": 32, "sloc": 23, "loop_count": 5},
+        "warnings": {"available": True, "total": 0},
+        "runtime": {"available": False},
+        "tests": {"available": False},
+        "cpg": {"available": True, "node_count": 135},
+        "context": {"available": True, "statement_length": 1860},
+    }
+    out = normalize_row(row, code=SYN_CODE)
+    assert out["semantics"]["loop_lt"] == 1
+    assert out["semantics"]["increment"] == 1
+    # lane-owned blocks are untouched: PROGPedia arrives canonical
+    assert out["static"] == {"loc": 32, "sloc": 23, "loop_count": 5}
+    assert out["cpg"] == {"available": True, "node_count": 135}
+
+
+def test_progpedia_row_without_resolved_code_keeps_semantics_absent():
+    row = {"row_id": "pg-3", "dataset_source": "PROGPEDIA", "language": "c", "label": "CPP_ARRAY_BOUNDS",
+           "static": {"loc": 3}}
+    assert not normalize_row(row, code=None).get("semantics")
 
 
 def test_missing_code_leaves_static_absent():
