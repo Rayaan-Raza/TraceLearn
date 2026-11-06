@@ -397,7 +397,9 @@ def dedupe_rows(
     dropped = 0
     conflicts: list[dict[str, str]] = []
 
-    for row in sorted(rows, key=lambda r: str(r.get("row_id"))):
+    # keep-first by row_id, except the bulk-read training labels (`bl-t2-`) which yield to any
+    # earlier-curated near-twin so an existing row (e.g. an IID-holdout row) is never displaced
+    for row in sorted(rows, key=lambda r: (str(r.get("row_id")).startswith("bl-t2-"), str(r.get("row_id")))):
         rid = str(row.get("row_id"))
         code = code_by_rid.get(rid)
         if code is None:
