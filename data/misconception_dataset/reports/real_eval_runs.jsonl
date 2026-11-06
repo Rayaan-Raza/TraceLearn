@@ -3,3 +3,4 @@
 {"pool": "dev_gold", "at": "2026-11-06T09:46:21+00:00", "limit": null, "models": {"best": {"sha256_16": "18b77aaf3cb9b20e", "threshold": 0.45}, "common": {"sha256_16": "d778bf2ca8d3459e", "threshold": 0.45}}, "sha": "74d30af919f2"}
 {"pool": "dev_gold", "at": "2026-11-06T09:47:56+00:00", "limit": null, "models": {"best": {"sha256_16": "18b77aaf3cb9b20e", "threshold": 0.45}, "common": {"sha256_16": "d778bf2ca8d3459e", "threshold": 0.45}}, "sha": "9444002cad10"}
 {"pool": "dev_gold", "at": "2026-11-06T09:48:45+00:00", "limit": null, "models": {"best": {"sha256_16": "18b77aaf3cb9b20e", "threshold": 0.45}, "common": {"sha256_16": "d778bf2ca8d3459e", "threshold": 0.45}}, "sha": "179623bbb10f"}
+{"pool": "dev_gold", "at": "2026-11-06T10:01:06+00:00", "limit": null, "models": {"best": {"sha256_16": "18b77aaf3cb9b20e", "threshold": 0.42}, "common": {"sha256_16": "d778bf2ca8d3459e", "threshold": 0.53}}, "sha": "e27367799df5"}
