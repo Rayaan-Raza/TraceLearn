@@ -19,6 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # SERVE_FRONTEND=false, so frontend/ is intentionally not in the image.
 COPY backend/ backend/
+COPY tracelearn_features/ tracelearn_features/
 COPY config/ config/
 COPY data/ data/
 COPY scripts/ scripts/
