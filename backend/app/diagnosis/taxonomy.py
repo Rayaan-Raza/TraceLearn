@@ -20,6 +20,11 @@ CPP_WRONG_LOOP_DIR = "CPP_WRONG_LOOP_DIR"
 # own, so their evidence could not be scored.
 CPP_RANGE_CHECK = "CPP_RANGE_CHECK"
 CPP_STALE_EXIT = "CPP_STALE_EXIT"
+# The trained classifier's open-set label (master plan §8, Layer 5). It means
+# "a failing run that fits none of the modelled beliefs", so it is not a
+# misconception: it is never scored, never written to the learner model, and
+# never selects a misconception hint.
+CPP_OTHER_ERROR = "CPP_OTHER_ERROR"
 CPP_MISCONCEPTIONS = [
     CPP_LOOP_BOUNDARY, CPP_OFF_BY_ONE, CPP_ARRAY_BOUNDS,
     CPP_UNINITIALIZED_VAR, CPP_INT_OVERFLOW, CPP_MISSING_BASE_CASE,

@@ -16,6 +16,8 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         extra="ignore",
+        # `model_diagnosis` and friends are ours; pydantic reserves `model_`.
+        protected_namespaces=(),
     )
 
     # --- environment -------------------------------------------------------
@@ -83,6 +85,18 @@ class Settings(BaseSettings):
     max_output_bytes: int = 64 * 1024
     max_memory_mb: int = 256
     max_concurrent_executions: int = 4
+
+    # --- trained misconception classifier ----------------------------------
+    # off: the model is never loaded. shadow: it runs and its output is
+    # stored, but nothing the student or teacher sees changes. on: its output
+    # joins the rule evidence in the diagnosis.
+    model_diagnosis: Literal["off", "shadow", "on"] = "off"
+    model_variant: Literal["full", "common", "best"] = "best"
+    model_dir: Path = Path("./data/misconception_dataset/models")
+    # Largest evidence weight a confident prediction can add. A design
+    # parameter, not a learned value: static_strong is 0.30 and
+    # diagnostic_match is 0.35, so the model sits just above both.
+    model_evidence_weight: float = 0.40
 
     # ---------------------------------------------------------------------
     @property
