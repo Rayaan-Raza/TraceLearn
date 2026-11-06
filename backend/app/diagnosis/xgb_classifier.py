@@ -13,8 +13,10 @@ Contract (blueprint §9, §12; master plan §11):
 2. A feature the caller does not supply is NaN. XGBoost handles NaN natively
    and the dataset keeps NaN for missing evidence.
 3. Probabilities pass through temperature scaling (`_rescale` in the trainer).
-   If the best probability is below the global threshold the prediction
-   abstains; the caller then falls back to the rule engine.
+   If the best probability is below the variant's threshold the prediction
+   abstains; the caller then falls back to the rule engine. Each served
+   variant has its own temperature and threshold in `calibrator.json`
+   ("variants"), fitted by `scripts/calibration.py`.
 4. Loading refuses a model whose artifacts disagree (class list, feature list
    against the schema, booster width, output width).
 """
@@ -141,6 +143,9 @@ class ModelClassifier:
             raise ModelContractError("label_encoder.json: class_to_idx disagrees with idx_to_class")
 
         calibrator = _read_json(directory / "calibrator.json")
+        # Served variants carry their own out-of-fold calibration; the top-level
+        # values are the legacy dev-gold fit used by the variants without one.
+        calibrator = (calibrator.get("variants") or {}).get(variant) or calibrator
         temperature = float(calibrator.get("temperature", 1.0))
         threshold = float(calibrator.get("threshold", 0.5))
         if not temperature > 0 or not 0 < threshold <= 1:
