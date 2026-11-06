@@ -28,10 +28,14 @@ from __future__ import annotations
 from backend.app.diagnosis.taxonomy import (
     CPP_ARRAY_BOUNDS,
     CPP_ASSIGN_VS_COMPARE,
+    CPP_INT_OVERFLOW,
     CPP_LOOP_BOUNDARY,
     CPP_MISSING_BASE_CASE,
+    CPP_OFF_BY_ONE,
     CPP_RANGE_CHECK,
     CPP_STALE_EXIT,
+    CPP_UNINITIALIZED_VAR,
+    CPP_WRONG_LOOP_DIR,
     M01_LOOP_BOUNDARY,
     M02_INDEX_VALUE,
     M03_MISSING_RETURN,
@@ -129,6 +133,37 @@ TAG_TO_CODE: dict[str, dict[str, str]] = {
         "sentinel_not_detected": CPP_STALE_EXIT,
     },
 }
+
+
+# Trained-model label -> backend misconception.
+#
+# The classifier (`tl-cpp-v2`, 11 labels) already speaks the backend's CPP_*
+# vocabulary, so ten labels map to themselves. `CPP_OTHER_ERROR` maps to None
+# on purpose: it is the open-set label and must never reach the learner model
+# or pick a misconception hint. The bank beliefs CPP-M02 and CPP-M03 have no
+# model label; they stay rule-only.
+MODEL_LABEL_TO_BACKEND: dict[str, str | None] = {
+    "CPP_ARRAY_BOUNDS": CPP_ARRAY_BOUNDS,
+    "CPP_ASSIGN_VS_COMPARE": CPP_ASSIGN_VS_COMPARE,
+    "CPP_INT_OVERFLOW": CPP_INT_OVERFLOW,
+    "CPP_LOOP_BOUNDARY": CPP_LOOP_BOUNDARY,
+    "CPP_MISSING_BASE_CASE": CPP_MISSING_BASE_CASE,
+    "CPP_OFF_BY_ONE": CPP_OFF_BY_ONE,
+    "CPP_OTHER_ERROR": None,
+    "CPP_RANGE_CHECK": CPP_RANGE_CHECK,
+    "CPP_STALE_EXIT": CPP_STALE_EXIT,
+    "CPP_UNINITIALIZED_VAR": CPP_UNINITIALIZED_VAR,
+    "CPP_WRONG_LOOP_DIR": CPP_WRONG_LOOP_DIR,
+}
+
+
+def backend_code_for_model_label(label: str) -> str | None:
+    """Return the backend misconception for a model label, or None for OTHER_ERROR.
+
+    Raises KeyError for a label the mapping does not know, so a new model
+    class cannot be dropped silently.
+    """
+    return MODEL_LABEL_TO_BACKEND[label]
 
 
 def code_for_diagnostic_tag(language: str | None, tag: str | None) -> str | None:
