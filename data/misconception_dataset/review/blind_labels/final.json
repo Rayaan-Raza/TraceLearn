@@ -1,0 +1,338 @@
+{
+ "FI-001": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "trailing period in output"
+ },
+ "FI-002": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "requires word boundaries the task does not"
+ },
+ "FI-003": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word-level replacement, trailing space"
+ },
+ "FI-004": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "treats every month as 31 days"
+ },
+ "FI-005": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no borrow between hours, minutes and seconds"
+ },
+ "FI-006": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word-level replacement instead of substring"
+ },
+ "FI-007": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word-level replacement with wrong spacing"
+ },
+ "FI-008": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output capitalised"
+ },
+ "FI-009": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output capitalised"
+ },
+ "FI-010": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "trailing period in output"
+ },
+ "FI-011": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "'second' instead of 'seconds'; wrong scanf format for long long"
+ },
+ "FI-012": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "returns inside the loop, scanf reads five values"
+ },
+ "FI-013": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt printed"
+ },
+ "FI-014": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "strips digits, word-level replacement"
+ },
+ "FI-015": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong dual-recursion merge"
+ },
+ "FI-016": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "spelling mistakes fourty/eigteen"
+ },
+ "FI-017": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output capitalised"
+ },
+ "FI-018": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "'Underweighted' instead of 'Underweight'"
+ },
+ "FI-019": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints year/month fields and omits zeros; wrong approach"
+ },
+ "FI-020": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "substring replacement logic wrong"
+ },
+ "FI-021": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "missing space between BMI and category"
+ },
+ "FI-022": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "missing space; 'Normal weight' wording"
+ },
+ "FI-023": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt and label printed"
+ },
+ "FI-024": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "leap year test uses year % 400; month accounting wrong"
+ },
+ "FI-025": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ },
+ "FI-026": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong dual in-order merge order"
+ },
+ "FI-027": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (rounding)"
+ },
+ "FI-028": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word-level replacement with punctuation handling"
+ },
+ "FI-029": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "note": "num is read in the loop but never read from input or set"
+ },
+ "FI-030": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no separators, backspace character"
+ },
+ "FI-031": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "leap day added outside its month condition (statement scope)"
+ },
+ "FI-032": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints in tree order, not merged sorted order"
+ },
+ "FI-033": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts printed"
+ },
+ "FI-034": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ },
+ "FI-035": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt printed"
+ },
+ "FI-036": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt and label printed"
+ },
+ "FI-037": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "omits zero-valued fields"
+ },
+ "FI-038": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt and label printed"
+ },
+ "FI-039": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "newline after the BMI"
+ },
+ "FI-040": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output capitalised"
+ },
+ "FI-041": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output capitalised"
+ },
+ "FI-042": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "extra 'BMI is' text"
+ },
+ "FI-043": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one bit per line"
+ },
+ "FI-044": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output capitalised"
+ },
+ "FI-045": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "requires word boundaries the task does not"
+ },
+ "FI-046": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one bit per line"
+ },
+ "FI-047": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "borrow logic gives 2 days"
+ },
+ "FI-048": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "month_to_days tests m == k instead of accumulating; leap day misplaced"
+ },
+ "FI-049": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no borrow between fields"
+ },
+ "FI-050": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one bit per line"
+ },
+ "FI-051": {
+  "label": "UNCERTAIN",
+  "note": "output looks identical; the difference is not visible"
+ },
+ "FI-052": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "%2f format and '/n' instead of newline"
+ },
+ "FI-053": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints in tree order, not merged sorted order"
+ },
+ "FI-054": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt printed"
+ },
+ "FI-055": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints all 32 bits with leading zeros"
+ },
+ "FI-056": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misspelt 'fourty'"
+ },
+ "FI-057": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word-level replacement"
+ },
+ "FI-058": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "overweight threshold written 25.5 instead of 25.0"
+ },
+ "FI-059": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one bit per line"
+ },
+ "FI-060": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no borrow between fields"
+ },
+ "FI-061": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no borrow between fields"
+ },
+ "FI-062": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word-level replacement"
+ },
+ "FI-063": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word swap approach, not substring replacement"
+ },
+ "FI-064": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints bits least-significant first"
+ },
+ "FI-065": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one bit per line"
+ },
+ "FI-066": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "shift and precedence misuse in the bit test"
+ },
+ "FI-067": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "lowercase 'overweight'"
+ },
+ "FI-068": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "incomplete program with a prompt"
+ },
+ "FI-069": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints years and omits zero fields"
+ },
+ "FI-070": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts printed first; chained comparisons also present"
+ },
+ "FI-071": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ },
+ "FI-072": {
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "note": "if (found = 1) breaks after the first partial match, then the output loop never ends"
+ },
+ "FI-073": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one bit per line"
+ },
+ "FI-074": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints bits least-significant first"
+ },
+ "FI-075": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (circle)"
+ },
+ "FI-076": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "capitalised and misspelt words; digit also uninitialised"
+ },
+ "FI-077": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "substring replacement logic wrong"
+ },
+ "FI-078": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "leading space in output"
+ },
+ "FI-079": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints bits least-significant first"
+ },
+ "FI-080": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "capitalised words, no spaces"
+ },
+ "FI-081": {
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "note": "if (found = 1) breaks on the first iteration, idx2 stays -1, the output loop never advances"
+ },
+ "FI-082": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one bit per line"
+ },
+ "FI-083": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one bit per line"
+ },
+ "FI-084": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (rounding)"
+ }
+}
