@@ -1,0 +1,245 @@
+{
+  "pool": "dev_gold",
+  "at": "2026-11-06T09:48:45+00:00",
+  "purpose": "DEVELOPMENT run on dev-gold clusters: debugging the evaluation, not a result",
+  "n_submissions": 387,
+  "n_problems": 4,
+  "n_users": 79,
+  "router": {
+    "compile_error": 60,
+    "all_pass": 107,
+    "failing": 220
+  },
+  "accepted_routed_to_model": 1,
+  "accepted_total": 78,
+  "models": {
+    "best": {
+      "sha256_16": "18b77aaf3cb9b20e",
+      "threshold": 0.45
+    },
+    "common": {
+      "sha256_16": "d778bf2ca8d3459e",
+      "threshold": 0.45
+    }
+  },
+  "variants": {
+    "best": {
+      "n_failing": 220,
+      "abstain_rate": 0.659,
+      "other_error_rate": 0.0,
+      "class_histogram": {
+        "CPP_ARRAY_BOUNDS": 43,
+        "CPP_UNINITIALIZED_VAR": 3,
+        "CPP_OFF_BY_ONE": 4,
+        "CPP_RANGE_CHECK": 17,
+        "CPP_INT_OVERFLOW": 6,
+        "CPP_STALE_EXIT": 2
+      },
+      "mean_missing_features": 0.33,
+      "mean_top_probability": 0.421,
+      "per_problem": {
+        "tl-codestream-prob_016": {
+          "CPP_ARRAY_BOUNDS": 29,
+          "CPP_UNINITIALIZED_VAR": 3,
+          "abstained": 11,
+          "CPP_RANGE_CHECK": 2,
+          "CPP_STALE_EXIT": 2
+        },
+        "tl-codestream-prob_022": {
+          "abstained": 42,
+          "CPP_RANGE_CHECK": 14
+        },
+        "tl-codestream-prob_037": {
+          "abstained": 92,
+          "CPP_ARRAY_BOUNDS": 8,
+          "CPP_OFF_BY_ONE": 4,
+          "CPP_INT_OVERFLOW": 6,
+          "CPP_RANGE_CHECK": 1
+        },
+        "tl-codestream-prob_044": {
+          "CPP_ARRAY_BOUNDS": 6
+        }
+      },
+      "stability": {
+        "pairs": 29,
+        "same_label": 0.931,
+        "chance": 0.392
+      },
+      "t2_evaluated": 73,
+      "t2_coverage_of_failing": 0.332,
+      "errors": 0,
+      "t2_full": {
+        "model": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "random_prior": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "model_minus_random": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "model_hits": 0,
+        "random_hits": 0,
+        "rows": 73,
+        "rule": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "rule_rows": 2,
+        "model_minus_rule_same_rows": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      },
+      "t2_partial": {
+        "model": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "random_prior": {
+          "value": 0.014,
+          "ci95_low": 0.0,
+          "ci95_high": 0.026
+        },
+        "model_minus_random": {
+          "value": -0.014,
+          "ci95_low": -0.026,
+          "ci95_high": 0.0
+        },
+        "model_hits": 0,
+        "random_hits": 1,
+        "rows": 73,
+        "rule": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "rule_rows": 2,
+        "model_minus_rule_same_rows": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      }
+    },
+    "common": {
+      "n_failing": 220,
+      "abstain_rate": 0.709,
+      "other_error_rate": 0.0,
+      "class_histogram": {
+        "CPP_INT_OVERFLOW": 12,
+        "CPP_ARRAY_BOUNDS": 36,
+        "CPP_UNINITIALIZED_VAR": 3,
+        "CPP_OFF_BY_ONE": 7,
+        "CPP_MISSING_BASE_CASE": 1,
+        "CPP_ASSIGN_VS_COMPARE": 3,
+        "CPP_RANGE_CHECK": 1,
+        "CPP_STALE_EXIT": 1
+      },
+      "mean_missing_features": 0.33,
+      "mean_top_probability": 0.406,
+      "per_problem": {
+        "tl-codestream-prob_016": {
+          "CPP_ARRAY_BOUNDS": 30,
+          "CPP_UNINITIALIZED_VAR": 3,
+          "abstained": 11,
+          "CPP_ASSIGN_VS_COMPARE": 2,
+          "CPP_STALE_EXIT": 1
+        },
+        "tl-codestream-prob_022": {
+          "abstained": 53,
+          "CPP_MISSING_BASE_CASE": 1,
+          "CPP_ASSIGN_VS_COMPARE": 1,
+          "CPP_RANGE_CHECK": 1
+        },
+        "tl-codestream-prob_037": {
+          "CPP_INT_OVERFLOW": 12,
+          "abstained": 92,
+          "CPP_OFF_BY_ONE": 7
+        },
+        "tl-codestream-prob_044": {
+          "CPP_ARRAY_BOUNDS": 6
+        }
+      },
+      "stability": {
+        "pairs": 26,
+        "same_label": 0.962,
+        "chance": 0.369
+      },
+      "t2_evaluated": 63,
+      "t2_coverage_of_failing": 0.286,
+      "errors": 0,
+      "t2_full": {
+        "model": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "random_prior": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "model_minus_random": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "model_hits": 0,
+        "random_hits": 0,
+        "rows": 63,
+        "rule": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "rule_rows": 6,
+        "model_minus_rule_same_rows": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      },
+      "t2_partial": {
+        "model": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "random_prior": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "model_minus_random": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "model_hits": 0,
+        "random_hits": 0,
+        "rows": 63,
+        "rule": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "rule_rows": 6,
+        "model_minus_rule_same_rows": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      }
+    }
+  }
+}
