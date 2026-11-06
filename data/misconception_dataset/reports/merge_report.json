@@ -69,7 +69,7 @@
     },
     "semantics": {
       "CODESTREAM": 1.0,
-      "PROGPEDIA": 0.474,
+      "PROGPEDIA": 1.0,
       "SYNTHETIC": 1.0
     },
     "context": {
@@ -138,6 +138,10 @@
         "psi": 4.1858
       },
       {
+        "feature": "semantics.increment",
+        "psi": 4.1599
+      },
+      {
         "feature": "static.sloc",
         "psi": 4.0713
       },
@@ -152,10 +156,6 @@
       {
         "feature": "tests.total",
         "psi": 2.6893
-      },
-      {
-        "feature": "semantics.increment",
-        "psi": 2.4766
       },
       {
         "feature": "static.avg_line_length",

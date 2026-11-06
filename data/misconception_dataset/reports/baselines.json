@@ -1,0 +1,322 @@
+{
+  "seed": 7,
+  "cv_repeats": 3,
+  "n_train_rows": 588,
+  "protocol": "StratifiedGroupKFold(3) by problem cluster, train rows only, same weights as the trainer",
+  "caveat": "cross-validation on a mostly synthetic pool; ranks methods, does not estimate real-student accuracy",
+  "source_shortcut": {
+    "full": {
+      "source_from_missingness": 1.0,
+      "source_majority": 0.616,
+      "class_from_missingness": 0.408,
+      "class_majority": 0.235,
+      "passes_r4": false
+    },
+    "best": {
+      "source_from_missingness": 0.806,
+      "source_majority": 0.616,
+      "class_from_missingness": 0.303,
+      "class_majority": 0.235,
+      "passes_r4": true
+    },
+    "common": {
+      "source_from_missingness": 0.806,
+      "source_majority": 0.616,
+      "class_from_missingness": 0.303,
+      "class_majority": 0.235,
+      "passes_r4": true
+    }
+  },
+  "results": {
+    "majority": {
+      "kind": "majority",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics",
+        "tests",
+        "runtime",
+        "cpg",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.0348,
+      "cv_macro_f1_std": 0.0027,
+      "oof_macro_f1": 0.0346,
+      "cv_macro_f1_real_rows_only": 0.1684,
+      "n_features": 107
+    },
+    "logreg: static+warnings": {
+      "kind": "logreg",
+      "blocks": [
+        "static",
+        "warnings"
+      ],
+      "cv_macro_f1_mean": 0.5251,
+      "cv_macro_f1_std": 0.024,
+      "oof_macro_f1": 0.5254,
+      "cv_macro_f1_real_rows_only": 0.2992,
+      "n_features": 44
+    },
+    "logreg: best (+semantics)": {
+      "kind": "logreg",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics"
+      ],
+      "cv_macro_f1_mean": 0.5988,
+      "cv_macro_f1_std": 0.0134,
+      "oof_macro_f1": 0.5903,
+      "cv_macro_f1_real_rows_only": 0.2553,
+      "n_features": 59
+    },
+    "logreg: all": {
+      "kind": "logreg",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics",
+        "tests",
+        "runtime",
+        "cpg",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.6692,
+      "cv_macro_f1_std": 0.0596,
+      "oof_macro_f1": 0.6553,
+      "cv_macro_f1_real_rows_only": 0.4112,
+      "n_features": 107
+    },
+    "xgb: all": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics",
+        "tests",
+        "runtime",
+        "cpg",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.7247,
+      "cv_macro_f1_std": 0.0343,
+      "oof_macro_f1": 0.7123,
+      "cv_macro_f1_real_rows_only": 0.5855,
+      "n_features": 107
+    },
+    "xgb: best (static+warn+sem)": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics"
+      ],
+      "cv_macro_f1_mean": 0.7024,
+      "cv_macro_f1_std": 0.0434,
+      "oof_macro_f1": 0.6963,
+      "cv_macro_f1_real_rows_only": 0.4181,
+      "n_features": 59
+    },
+    "xgb: common (static+warn)": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "warnings"
+      ],
+      "cv_macro_f1_mean": 0.7116,
+      "cv_macro_f1_std": 0.0414,
+      "oof_macro_f1": 0.7024,
+      "cv_macro_f1_real_rows_only": 0.4762,
+      "n_features": 44
+    },
+    "xgb: only static": {
+      "kind": "xgb",
+      "blocks": [
+        "static"
+      ],
+      "cv_macro_f1_mean": 0.6076,
+      "cv_macro_f1_std": 0.05,
+      "oof_macro_f1": 0.5969,
+      "cv_macro_f1_real_rows_only": 0.1979,
+      "n_features": 20
+    },
+    "xgb: only warnings": {
+      "kind": "xgb",
+      "blocks": [
+        "warnings"
+      ],
+      "cv_macro_f1_mean": 0.3719,
+      "cv_macro_f1_std": 0.0184,
+      "oof_macro_f1": 0.391,
+      "cv_macro_f1_real_rows_only": 0.3525,
+      "n_features": 24
+    },
+    "xgb: only semantics": {
+      "kind": "xgb",
+      "blocks": [
+        "semantics"
+      ],
+      "cv_macro_f1_mean": 0.5063,
+      "cv_macro_f1_std": 0.0357,
+      "oof_macro_f1": 0.5015,
+      "cv_macro_f1_real_rows_only": 0.2703,
+      "n_features": 15
+    },
+    "xgb: only tests": {
+      "kind": "xgb",
+      "blocks": [
+        "tests"
+      ],
+      "cv_macro_f1_mean": 0.3675,
+      "cv_macro_f1_std": 0.035,
+      "oof_macro_f1": 0.3687,
+      "cv_macro_f1_real_rows_only": 0.4486,
+      "n_features": 11
+    },
+    "xgb: only runtime": {
+      "kind": "xgb",
+      "blocks": [
+        "runtime"
+      ],
+      "cv_macro_f1_mean": 0.3173,
+      "cv_macro_f1_std": 0.0583,
+      "oof_macro_f1": 0.3312,
+      "cv_macro_f1_real_rows_only": 0.6593,
+      "n_features": 14
+    },
+    "xgb: only cpg": {
+      "kind": "xgb",
+      "blocks": [
+        "cpg"
+      ],
+      "cv_macro_f1_mean": 0.5303,
+      "cv_macro_f1_std": 0.0435,
+      "oof_macro_f1": 0.5325,
+      "cv_macro_f1_real_rows_only": 0.3375,
+      "n_features": 15
+    },
+    "xgb: only context": {
+      "kind": "xgb",
+      "blocks": [
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.097,
+      "cv_macro_f1_std": 0.0354,
+      "oof_macro_f1": 0.1124,
+      "cv_macro_f1_real_rows_only": 0.1646,
+      "n_features": 8
+    },
+    "xgb: all minus static": {
+      "kind": "xgb",
+      "blocks": [
+        "warnings",
+        "semantics",
+        "tests",
+        "runtime",
+        "cpg",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.6836,
+      "cv_macro_f1_std": 0.0166,
+      "oof_macro_f1": 0.6553,
+      "cv_macro_f1_real_rows_only": 0.4514,
+      "n_features": 87
+    },
+    "xgb: all minus warnings": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "semantics",
+        "tests",
+        "runtime",
+        "cpg",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.7217,
+      "cv_macro_f1_std": 0.0124,
+      "oof_macro_f1": 0.7186,
+      "cv_macro_f1_real_rows_only": 0.617,
+      "n_features": 83
+    },
+    "xgb: all minus semantics": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "warnings",
+        "tests",
+        "runtime",
+        "cpg",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.7244,
+      "cv_macro_f1_std": 0.0435,
+      "oof_macro_f1": 0.711,
+      "cv_macro_f1_real_rows_only": 0.5699,
+      "n_features": 92
+    },
+    "xgb: all minus tests": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics",
+        "runtime",
+        "cpg",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.7425,
+      "cv_macro_f1_std": 0.0366,
+      "oof_macro_f1": 0.7343,
+      "cv_macro_f1_real_rows_only": 0.5645,
+      "n_features": 96
+    },
+    "xgb: all minus runtime": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics",
+        "tests",
+        "cpg",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.7067,
+      "cv_macro_f1_std": 0.0325,
+      "oof_macro_f1": 0.6921,
+      "cv_macro_f1_real_rows_only": 0.5395,
+      "n_features": 93
+    },
+    "xgb: all minus cpg": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics",
+        "tests",
+        "runtime",
+        "context"
+      ],
+      "cv_macro_f1_mean": 0.7255,
+      "cv_macro_f1_std": 0.0321,
+      "oof_macro_f1": 0.7114,
+      "cv_macro_f1_real_rows_only": 0.5769,
+      "n_features": 92
+    },
+    "xgb: all minus context": {
+      "kind": "xgb",
+      "blocks": [
+        "static",
+        "warnings",
+        "semantics",
+        "tests",
+        "runtime",
+        "cpg"
+      ],
+      "cv_macro_f1_mean": 0.7267,
+      "cv_macro_f1_std": 0.0348,
+      "oof_macro_f1": 0.7137,
+      "cv_macro_f1_real_rows_only": 0.5935,
+      "n_features": 99
+    }
+  }
+}
