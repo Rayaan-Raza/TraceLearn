@@ -58,7 +58,13 @@ def apply_evidence_weights(records: list[EvidenceRecord]) -> list[EvidenceRecord
     decay = cfg.get("history", {}).get("decay_factor", 0.80)
     out: list[EvidenceRecord] = []
     for rec in records:
-        base = mapping.get(rec.evidence_code, 0.05 if rec.direction == "support" else 0.0)
+        if rec.source_type == "model":
+            # The classifier already scaled its weight by its calibrated
+            # probability (`model_evidence`); a fixed table entry would
+            # throw that away.
+            base = rec.weight if rec.direction == "support" else 0.0
+        else:
+            base = mapping.get(rec.evidence_code, 0.05 if rec.direction == "support" else 0.0)
         if rec.source_type == "history" and base:
             age = rec.details.get("age", 0)
             base *= decay ** age
