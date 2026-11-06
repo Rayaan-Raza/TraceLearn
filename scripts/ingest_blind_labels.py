@@ -2,7 +2,8 @@
 
     wsl python3 scripts/ingest_blind_labels.py
 
-Reads `review/blind_labels/{test,train_queue}.json` and the batch manifests plus the
+Reads `review/blind_labels/{test,train_queue,tr2}.json` (tr2 = the 322 unlabelled real
+training-pool failures, read in priority order; identical code inherits its twin's label) and the batch manifests plus the
 cached executions written by `build_label_batches.py`, and writes one row per labelled
 item (UNCERTAIN items are skipped). The merge then places each row by its problem's
 cluster: test-cluster rows land in the held-out `test` split and never reach
@@ -30,11 +31,11 @@ SET_PREFIX = {"test": "te", "train_queue": "tr"}
 SIGNED = "assumed-human (blind labels by a model-assisted reviewer; owner instruction 2026-11-07)"
 
 
-def build_row(item_id: str, label: str, note: str, sub, result: dict) -> dict:
+def build_row(item_id: str, label: str, note: str, sub, result: dict, prefix: str = "") -> dict:
     from label_weak_codestream import slim_runtime, slim_tests
 
     return {
-        "row_id": f"bl-{item_id.lower()}", "dataset_source": "CODESTREAM", "source_record_id": sub.source_submission_id,
+        "row_id": f"bl-{prefix}{item_id.lower()}", "dataset_source": "CODESTREAM", "source_record_id": sub.source_submission_id,
         "submission_id": sub.submission_id, "problem_id": sub.problem_id, "problem_cluster": None,
         "language": sub.lang, "label": label, "label_source": "human", "label_confidence": 1.0,
         "label_status": "blind_review", "secondary_labels": [], "verdict": sub.verdict, "firing_functions": [],
@@ -49,25 +50,42 @@ def build_row(item_id: str, label: str, note: str, sub, result: dict) -> dict:
     }
 
 
+def _code_key(code: str) -> str:
+    import hashlib
+    import re
+    stripped = re.sub(r"//[^\n]*|/\*.*?\*/", "", code, flags=re.S)
+    return hashlib.md5(re.sub(r"\s+", "", stripped).encode()).hexdigest()
+
+
 def main() -> int:
     from codestream_common import find_raw, load_submissions
 
     raw = find_raw("/mnt/g/TraceLearn/Datasets_RAW")
     subs = {s.submission_id: s for s in load_submissions(raw)}
     rows, skipped = [], 0
-    for name in ("test", "train_queue"):
+    for name in ("test", "train_queue", "tr2"):
         labels = json.loads((DS / "review" / "blind_labels" / f"{name}.json").read_text(encoding="utf-8"))
         manifest = json.loads((DS / "cache" / "label_batches" / name / "manifest.json").read_text(encoding="utf-8"))
         executed = {}
         for line in (DS / "cache" / f"label_exec_{name}.jsonl").open(encoding="utf-8"):
             rec = json.loads(line)
             executed[rec["submission_id"]] = rec["result"]
+        by_code: dict[str, dict] = {}
+        for m in manifest:                      # identical normalised code carries the same label
+            lab = labels.get(m["item_id"])
+            if lab and lab["label"] != "UNCERTAIN" and m["submission_id"] in subs:
+                by_code.setdefault(_code_key(subs[m["submission_id"]].code), lab)
         for m in manifest:
             lab = labels.get(m["item_id"])
+            if lab is None and name == "tr2" and m["submission_id"] in subs:
+                twin = by_code.get(_code_key(subs[m["submission_id"]].code))
+                if twin:
+                    lab = {"label": twin["label"], "note": "identical code to a labelled item: " + twin["note"]}
             if lab is None or lab["label"] == "UNCERTAIN" or m["submission_id"] not in executed:
                 skipped += 1
                 continue
-            rows.append(build_row(m["item_id"], lab["label"], lab["note"], subs[m["submission_id"]], executed[m["submission_id"]]))
+            rows.append(build_row(m["item_id"], lab["label"], lab["note"], subs[m["submission_id"]], executed[m["submission_id"]],
+                                  "t2-" if name == "tr2" else ""))
     OUT.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8", newline="\n")
     print(f"wrote {len(rows)} rows (skipped {skipped}) -> {OUT}")
     return 0
