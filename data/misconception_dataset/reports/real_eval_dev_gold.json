@@ -1,6 +1,6 @@
 {
   "pool": "dev_gold",
-  "at": "2026-11-06T10:01:06+00:00",
+  "at": "2026-11-06T10:19:02+00:00",
   "purpose": "DEVELOPMENT run on dev-gold clusters: debugging the evaluation, not a result",
   "n_submissions": 387,
   "n_problems": 4,
@@ -25,161 +25,51 @@
   "variants": {
     "best": {
       "n_failing": 220,
-      "abstain_rate": 0.559,
-      "other_error_rate": 0.0,
+      "abstain_rate": 0.45,
+      "other_error_rate": 0.372,
       "class_histogram": {
-        "CPP_ARRAY_BOUNDS": 49,
-        "CPP_UNINITIALIZED_VAR": 4,
-        "CPP_INT_OVERFLOW": 12,
+        "CPP_ARRAY_BOUNDS": 36,
+        "CPP_OTHER_ERROR": 45,
+        "CPP_UNINITIALIZED_VAR": 3,
         "CPP_OFF_BY_ONE": 5,
-        "CPP_RANGE_CHECK": 25,
-        "CPP_STALE_EXIT": 2
+        "CPP_RANGE_CHECK": 21,
+        "CPP_INT_OVERFLOW": 10,
+        "CPP_STALE_EXIT": 1
       },
       "mean_missing_features": 0.33,
-      "mean_top_probability": 0.421,
+      "mean_top_probability": 0.476,
       "per_problem": {
         "tl-codestream-prob_016": {
           "CPP_ARRAY_BOUNDS": 30,
           "CPP_UNINITIALIZED_VAR": 3,
           "abstained": 10,
           "CPP_RANGE_CHECK": 2,
-          "CPP_STALE_EXIT": 2
-        },
-        "tl-codestream-prob_022": {
-          "abstained": 34,
-          "CPP_RANGE_CHECK": 22
-        },
-        "tl-codestream-prob_037": {
-          "abstained": 79,
-          "CPP_ARRAY_BOUNDS": 13,
-          "CPP_INT_OVERFLOW": 12,
-          "CPP_OFF_BY_ONE": 5,
-          "CPP_UNINITIALIZED_VAR": 1,
-          "CPP_RANGE_CHECK": 1
-        },
-        "tl-codestream-prob_044": {
-          "CPP_ARRAY_BOUNDS": 6
-        }
-      },
-      "stability": {
-        "pairs": 43,
-        "same_label": 0.907,
-        "chance": 0.342
-      },
-      "t2_evaluated": 95,
-      "t2_coverage_of_failing": 0.432,
-      "errors": 0,
-      "t2_full": {
-        "model": {
-          "value": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "random_prior": {
-          "value": 0.011,
-          "ci95_low": 0.0,
-          "ci95_high": 0.024
-        },
-        "model_minus_random": {
-          "value": -0.011,
-          "ci95_low": -0.024,
-          "ci95_high": 0.0
-        },
-        "model_hits": 0,
-        "random_hits": 1,
-        "rows": 95,
-        "rule": {
-          "value": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "rule_rows": 5,
-        "model_minus_rule_same_rows": {
-          "value": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        }
-      },
-      "t2_partial": {
-        "model": {
-          "value": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "random_prior": {
-          "value": 0.021,
-          "ci95_low": 0.0,
-          "ci95_high": 0.049
-        },
-        "model_minus_random": {
-          "value": -0.021,
-          "ci95_low": -0.049,
-          "ci95_high": 0.0
-        },
-        "model_hits": 0,
-        "random_hits": 2,
-        "rows": 95,
-        "rule": {
-          "value": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "rule_rows": 5,
-        "model_minus_rule_same_rows": {
-          "value": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        }
-      }
-    },
-    "common": {
-      "n_failing": 220,
-      "abstain_rate": 0.673,
-      "other_error_rate": 0.0,
-      "class_histogram": {
-        "CPP_INT_OVERFLOW": 17,
-        "CPP_ARRAY_BOUNDS": 36,
-        "CPP_MISSING_BASE_CASE": 3,
-        "CPP_UNINITIALIZED_VAR": 3,
-        "CPP_OFF_BY_ONE": 7,
-        "CPP_LOOP_BOUNDARY": 1,
-        "CPP_ASSIGN_VS_COMPARE": 3,
-        "CPP_RANGE_CHECK": 1,
-        "CPP_STALE_EXIT": 1
-      },
-      "mean_missing_features": 0.33,
-      "mean_top_probability": 0.491,
-      "per_problem": {
-        "tl-codestream-prob_016": {
-          "CPP_ARRAY_BOUNDS": 30,
-          "CPP_UNINITIALIZED_VAR": 3,
-          "abstained": 11,
-          "CPP_ASSIGN_VS_COMPARE": 2,
+          "CPP_OTHER_ERROR": 1,
           "CPP_STALE_EXIT": 1
         },
         "tl-codestream-prob_022": {
-          "CPP_MISSING_BASE_CASE": 3,
-          "abstained": 50,
-          "CPP_LOOP_BOUNDARY": 1,
-          "CPP_ASSIGN_VS_COMPARE": 1,
-          "CPP_RANGE_CHECK": 1
+          "CPP_OTHER_ERROR": 10,
+          "abstained": 28,
+          "CPP_RANGE_CHECK": 18
         },
         "tl-codestream-prob_037": {
-          "CPP_INT_OVERFLOW": 17,
-          "abstained": 87,
-          "CPP_OFF_BY_ONE": 7
+          "abstained": 61,
+          "CPP_OTHER_ERROR": 34,
+          "CPP_OFF_BY_ONE": 5,
+          "CPP_INT_OVERFLOW": 10,
+          "CPP_RANGE_CHECK": 1
         },
         "tl-codestream-prob_044": {
           "CPP_ARRAY_BOUNDS": 6
         }
       },
       "stability": {
-        "pairs": 29,
-        "same_label": 0.966,
-        "chance": 0.321
+        "pairs": 56,
+        "same_label": 0.911,
+        "chance": 0.266
       },
-      "t2_evaluated": 71,
-      "t2_coverage_of_failing": 0.323,
+      "t2_evaluated": 75,
+      "t2_coverage_of_failing": 0.341,
       "errors": 0,
       "t2_full": {
         "model": {
@@ -199,7 +89,119 @@
         },
         "model_hits": 0,
         "random_hits": 0,
-        "rows": 71,
+        "rows": 75,
+        "rule": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "rule_rows": 5,
+        "model_minus_rule_same_rows": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      },
+      "t2_partial": {
+        "model": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "random_prior": {
+          "value": 0.013,
+          "ci95_low": 0.0,
+          "ci95_high": 0.025
+        },
+        "model_minus_random": {
+          "value": -0.013,
+          "ci95_low": -0.025,
+          "ci95_high": 0.0
+        },
+        "model_hits": 0,
+        "random_hits": 1,
+        "rows": 75,
+        "rule": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "rule_rows": 5,
+        "model_minus_rule_same_rows": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      }
+    },
+    "common": {
+      "n_failing": 220,
+      "abstain_rate": 0.573,
+      "other_error_rate": 0.277,
+      "class_histogram": {
+        "CPP_INT_OVERFLOW": 17,
+        "CPP_ARRAY_BOUNDS": 36,
+        "CPP_OTHER_ERROR": 26,
+        "CPP_UNINITIALIZED_VAR": 3,
+        "CPP_OFF_BY_ONE": 7,
+        "CPP_ASSIGN_VS_COMPARE": 3,
+        "CPP_RANGE_CHECK": 1,
+        "CPP_STALE_EXIT": 1
+      },
+      "mean_missing_features": 0.33,
+      "mean_top_probability": 0.549,
+      "per_problem": {
+        "tl-codestream-prob_016": {
+          "CPP_ARRAY_BOUNDS": 30,
+          "CPP_UNINITIALIZED_VAR": 3,
+          "abstained": 10,
+          "CPP_OTHER_ERROR": 1,
+          "CPP_ASSIGN_VS_COMPARE": 2,
+          "CPP_STALE_EXIT": 1
+        },
+        "tl-codestream-prob_022": {
+          "CPP_OTHER_ERROR": 13,
+          "abstained": 41,
+          "CPP_ASSIGN_VS_COMPARE": 1,
+          "CPP_RANGE_CHECK": 1
+        },
+        "tl-codestream-prob_037": {
+          "CPP_INT_OVERFLOW": 17,
+          "CPP_OTHER_ERROR": 12,
+          "abstained": 75,
+          "CPP_OFF_BY_ONE": 7
+        },
+        "tl-codestream-prob_044": {
+          "CPP_ARRAY_BOUNDS": 6
+        }
+      },
+      "stability": {
+        "pairs": 40,
+        "same_label": 0.975,
+        "chance": 0.264
+      },
+      "t2_evaluated": 67,
+      "t2_coverage_of_failing": 0.305,
+      "errors": 0,
+      "t2_full": {
+        "model": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "random_prior": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "model_minus_random": {
+          "value": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "model_hits": 0,
+        "random_hits": 0,
+        "rows": 67,
         "rule": {
           "value": 0.0,
           "ci95_low": 0.0,
@@ -219,18 +221,18 @@
           "ci95_high": 0.0
         },
         "random_prior": {
-          "value": 0.014,
+          "value": 0.0,
           "ci95_low": 0.0,
-          "ci95_high": 0.027
+          "ci95_high": 0.0
         },
         "model_minus_random": {
-          "value": -0.014,
-          "ci95_low": -0.027,
+          "value": 0.0,
+          "ci95_low": 0.0,
           "ci95_high": 0.0
         },
         "model_hits": 0,
-        "random_hits": 1,
-        "rows": 71,
+        "random_hits": 0,
+        "rows": 67,
         "rule": {
           "value": 0.0,
           "ci95_low": 0.0,
