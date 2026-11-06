@@ -1272,5 +1272,19 @@
     "isotonic_used": false,
     "dev_gold_n": 45,
     "note": "caps recorded, not silently enforced \u2014 a violation is a finding for the team, per \u00a78 Layer-3"
+  },
+  "dev_gold_variants": {
+    "best": {
+      "n": 45,
+      "coverage": 0.867,
+      "precision_answered": 0.846,
+      "ece": 0.1405
+    },
+    "common": {
+      "n": 45,
+      "coverage": 0.867,
+      "precision_answered": 0.744,
+      "ece": 0.1664
+    }
   }
 }
