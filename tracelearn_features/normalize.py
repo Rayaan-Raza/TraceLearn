@@ -352,8 +352,12 @@ def normalize_row(row: dict[str, Any], code: str | None = None) -> dict[str, Any
         _fill_block(out, "static", extract_features(source, language)["static"])
 
     source_kind = out.get("dataset_source")
-    if mine_static and source:
+    if source:
+        # Semantics are pure source signals that no lane supplies, so every
+        # row whose code resolved gets them, PROGPedia included. Leaving them
+        # NaN there made the block's absence a fingerprint of the source.
         _fill_block(out, "semantics", extract_semantics(source))
+    if mine_static and source:
         _fill_block(out, "cpg", extract_cpg_source(source))
 
     evidence = _warning_evidence(out)
