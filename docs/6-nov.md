@@ -122,6 +122,63 @@ re-fit both variants' thresholds on the signed dev-gold set (at least 60 certain
 sign-offs exist, using this OOF fit as the prior. Until then 0.42 / 0.53 are the best-supported values, and the product
 should treat "abstain" as the common outcome on new students and fall back to the rule engine.
 
+### Week 1, continued: making the model work on real student code (branch `feat/real-code-generalization`)
+
+**Why it fails on real code, measured.**
+- *The unseen code is a different population.* Adversarial validation (`scripts/eval_shift.py`,
+  `reports/shift_dev_gold.md`) separates the training rows from unseen CodeStream failures with AUC **0.93-0.98**, far past
+  the 0.85 fail line of gate G3c. Median loop count is **0 in the unseen code against 5 in the real training rows**;
+  median length 34 lines against 56. The unseen programs are small beginner exercises; the training rows are mutated
+  contest-style programs.
+- *Most real failures are "none of the ten".* The model-assisted pre-review (unsigned, not gold) judged 27 of 30
+  CodeStream items and 14 of 34 held-out PROGPedia items OTHER_ERROR. The training set has 13 OTHER_ERROR rows, all
+  mutant decoys, so the model has never seen a real program that is wrong for another reason. On those 14 PROGPedia
+  OTHER rows it raised a **false alarm on 10 (`best`) and 11 (`common`)**; the plan's open-set target is at most 30%.
+  Only about 5% of failing CodeStream rows in the training clusters have any rule firing (56 of 1,162), which is the same
+  fact seen from the other side.
+
+**Change 1, adopted: applicability rules** (`backend/app/diagnosis/applicability.py`, applied inside `ModelClassifier`).
+A class is ruled out when the construct it cannot exist without is absent: no loop rules out LOOP_BOUNDARY, WRONG_LOOP_DIR,
+STALE_EXIT; no recursion rules out MISSING_BASE_CASE; no condition rules out RANGE_CHECK and ASSIGN_VS_COMPARE; no array,
+vector, buffer, index expression or loop rules out ARRAY_BOUNDS. These are definitions, not learned values. The probability
+of a ruled-out class moves to OTHER_ERROR (renormalizing instead raised OFF_BY_ONE answers from 7 to 51 on unseen code,
+so it was rejected). Rules for OFF_BY_ONE, INT_OVERFLOW and UNINITIALIZED_VAR were deliberately not written: 7 of 16
+rule-labelled OFF_BY_ONE rows have no loop, array or recursion. A first draft of the ARRAY_BOUNDS rule failed the safety
+check on 72 rows (the array regex misses macro-sized and multi-dimensional arrays) and was relaxed.
+- Safety: **0 of 702** labelled rows (436 certain, 266 weak) are ruled out by their own label.
+- Cost: out-of-fold macro-F1 0.696 -> 0.699 (non-synthetic 0.237 -> 0.237); no loss.
+- Effect on unseen CodeStream failures (220): the top class was ruled out on 30 (`best`) and 25 (`common`) rows;
+  abstain rate 56% -> 45% and 67% -> 57%; OTHER_ERROR is now 37% and 28% of the answers instead of 0%.
+- Effect on the 14 PROGPedia OTHER rows: **none** (10 and 11 false alarms remain). Those programs contain loops and
+  arrays, so no rule applies; this needs real negatives, below.
+
+**Change 2, NOT adopted, needs your decision: real "no rule fired" failures as weak OTHER_ERROR**
+(`scripts/experiment_weak_other.py`, throw-away models). It departs from the binding rule that real OTHER_ERROR rows are
+human-confirmed only (§13.5), because genuine instances of the four detector-less classes would be taught as OTHER.
+
+| Training set | OOF macro-F1, original rows | Unseen CodeStream: abstain / OTHER share of answers | PROGPedia OTHER rows falsely alarmed |
+|---|---|---|---|
+| as is (no real OTHER) | 0.696 | 28% / 23% | 11 of 14 |
+| + up to 8 no-fire rows per problem (100 rows, 10 problems) | 0.700 | 7% / 80% | 11 of 14 |
+| + all no-fire rows (286) | 0.701 | 4% / 90% | 12 of 14 |
+
+(Throw-away models at temperature 1 and threshold 0.42, so only the rows of this table are comparable with each other.)
+It matches the pre-review's picture of CodeStream (about 90% OTHER) and costs nothing in cross-validation, but it does not
+help PROGPedia, the contamination is unknown (about 10% in the pre-review), and the unseen clusters resemble the added
+rows, so the shift is partly self-confirming. It must not be adopted without a human check.
+
+**Human step that unlocks it:** `scripts/build_other_review_queue.py` writes a blind sheet of 76 train-cluster no-fire
+failures (code, failing test, observed output; no model or rule output) to
+`data/misconception_dataset/cache/review_queue_other_codestream.csv` (gitignored: it holds student code). About 1.5 hours
+of review gives (a) the contamination rate, which decides whether Change 2 is safe, and (b) real OTHER_ERROR rows.
+Ingesting signed rows needs `apply_prereview_signoff.py` extended to a train-cluster sheet.
+
+**Where this leaves "works on real student code".** The model is safer (it no longer names a loop misconception for a program
+with no loop) but it is not shown to be accurate: there is still no human-labelled real-code test, and the shift gate G3c
+still fails. Honest status for the panel: *a calibrated classifier with a rule-based safety layer, abstaining or reporting
+"a different issue" on most unseen beginner code; accuracy on real students is not yet measured.*
+
+
 
 ---
 
