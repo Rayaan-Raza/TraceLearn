@@ -3,6 +3,7 @@ import json
 from sqlalchemy.orm import Session
 from backend.app.analysis.cpp_static import CppStaticAnalyzer
 from backend.app.analysis.diff_analyzer import DiffAnalyzer
+from backend.app.analysis.model_runner import model_records
 from backend.app.analysis.runtime_analyzer import RuntimeAnalyzer
 from backend.app.analysis.static_analyzer import StaticAnalyzer
 from backend.app.analysis.test_analyzer import TestAnalyzer
@@ -36,6 +37,8 @@ class AnalysisPipeline:
         records.extend(self.test.analyze(db, submission.id))
         records.extend(self.runtime.analyze(submission))
         records.extend(self.diff.analyze(db, submission))
+        if _is_cpp(submission.source_code):          # the classifier is trained on C/C++ only
+            records.extend(model_records(submission.source_code, "cpp"))
         if include_history:
             from backend.app.analysis.history_analyzer import HistoryAnalyzer
             records.extend(HistoryAnalyzer(self.history).analyze(db, submission))

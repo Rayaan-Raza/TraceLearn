@@ -763,3 +763,22 @@ python scripts/evaluate_holdout.py --split test_iid                  # IID check
 **Known failures.** Gate G8 (synthetic mass and class mass) still fails. Detection of off-by-one, range and other semantic bugs on unseen problems is unproven. Real labelled examples of those classes are what is missing.
 
 **Unrelated failing tests.** `test_history_contract::test_contract_partitions_every_source_type` and the `test_security` setup errors fail on the committed code without these changes.
+
+## 13. Real-label expansion, retrain, and the production decision (supersedes the numbers in section 12)
+
+**Finding that changes the plan.** The "300-500 balanced real examples of off-by-one, range, array-bounds and boundary bugs" do not exist in this dataset. CodeStream has 1,162 failing rows in the index; 322 were still unlabelled in the training pool, in 13 problems, and most are near-copies of each other (the same student resubmitting, or the same class of mistake across students). I read 184 distinct unlabelled ones (the partial-pass, crash and timeout items first, then the rest in order) and propagated labels to identical code. After near-duplicate removal the distinct real training positives are only: array bounds 7, stale exit 2, off-by-one 1, assign-vs-compare 1. Fix-diff mining (`scripts/mine_fix_pairs.py`: a failing attempt followed by an accepted one, labelled by the edit) found only 123 single-edit fixes and about 50 multi-edit candidates, because students mostly rewrite rather than patch. So the synthetic student-style programs remain the main source for these classes, and real-data evidence for them stays thin.
+
+**Provenance.** The new labels are mine, treated as human on the owner's instruction and marked `assumed-human`; to be verified by people. Bulk-read rows are `bl-t2-*`; the merge keeps earlier curated rows over them when code is a near-duplicate.
+
+**Retrain.** Profile `regular` again chosen by the pre-registered grouped out-of-fold rule (false alarm 0.19, precision when flagged 0.68, recall 0.40 on real OOF rows). G8: synthetic mass still fails; class mass now passes.
+
+**Blind sets, retrained model** (best variant). The final set was already scored once with the previous model, so this is a second use of it, not an unbiased estimate; it has only 4 positives.
+- Development (140 items): false alarm 10.7%, recall 0/28.
+- Final (83 items): false alarm 3.8%, precision when flagged 3/6, recall 3/4 (95% CI 0.30-0.95), macro-F1 0.655.
+Confusion matrices: `reports/confusion_final.png`, `reports/confusion_test.png`.
+
+**Production status** (`python scripts/check_model_release.py`). Cleared for **shadow** mode (runs, stores neutral evidence, changes nothing). **Blocked for `on`**: precision 80% on 30+ positives and recall 50% are not demonstrated, no independent labels exist, and the backend does not yet supply compiler-warning counts (the runner forces abstain while features are missing).
+
+**Backend changes.** `backend/app/analysis/model_runner.py` (off/shadow/on, never raises, size limit, forced abstain on missing features) is wired into `AnalysisPipeline` for C/C++ submissions. `MODEL` is now an observed evidence source in `evidence_contract.py`, which fixes `test_history_contract` and means model evidence can reach current-only diagnoses. Default stays `model_diagnosis=off`; recommended production setting is `shadow`.
+
+**Still failing, unrelated to the model.** `test_security.py` setup returns 401 on the classroom-join call. `test_learner_recovery` failed once and passed on two reruns (flaky).
