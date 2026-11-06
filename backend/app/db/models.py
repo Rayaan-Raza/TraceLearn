@@ -31,6 +31,7 @@ class EvidenceSourceType(str, enum.Enum):
     SEQUENCE = "sequence"
     HISTORY = "history"
     CONTEXT = "context"
+    MODEL = "model"
 
 class EvidenceDirection(str, enum.Enum):
     SUPPORT = "support"
