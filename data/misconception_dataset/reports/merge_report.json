@@ -6,7 +6,8 @@
     "tier1b_progpedia.jsonl",
     "tier1c_progpedia_exec.jsonl",
     "tier1d_human_review.jsonl",
-    "tier1e_blind_review.jsonl"
+    "tier1e_blind_review.jsonl",
+    "tier1f_agent_labelled.jsonl"
   ],
   "review_decisions": {
     "file": "label_review_decisions.jsonl",
@@ -16,9 +17,9 @@
     },
     "unknown_row_ids": []
   },
-  "n_rows_before_dedupe": 1688,
-  "n_rows": 1066,
-  "deduped": 486,
+  "n_rows_before_dedupe": 2746,
+  "n_rows": 1444,
+  "deduped": 1166,
   "synthetic_dropped_from_held_out_problems": 136,
   "dedupe_threshold": 0.8,
   "dedupe_label_conflicts": [
@@ -45,6 +46,1062 @@
       "dropped": "cs-000397",
       "kept_label": "CPP_OTHER_ERROR",
       "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pg-000173",
+      "dropped": "pgx-a00003",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000039",
+      "dropped": "pgx-a00017",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_RANGE_CHECK"
+    },
+    {
+      "kept": "pg-000316",
+      "dropped": "pgx-a00026",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000265",
+      "dropped": "pgx-a00035",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pg-000249",
+      "dropped": "pgx-a00037",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000197",
+      "dropped": "pgx-a00040",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00018",
+      "dropped": "pgx-a00062",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000237",
+      "dropped": "pgx-a00077",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00018",
+      "dropped": "pgx-a00084",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000056",
+      "dropped": "pgx-a00096",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-001089",
+      "dropped": "pgx-a00102",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000166",
+      "dropped": "pgx-a00129",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pg-000316",
+      "dropped": "pgx-a00141",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-001349",
+      "dropped": "pgx-a00179",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00145",
+      "dropped": "pgx-a00183",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pg-000125",
+      "dropped": "pgx-a00184",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-001277",
+      "dropped": "pgx-a00189",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pg-000286",
+      "dropped": "pgx-a00190",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000135",
+      "dropped": "pgx-a00208",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pg-000271",
+      "dropped": "pgx-a00219",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pg-000135",
+      "dropped": "pgx-a00220",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pgx-a00231",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pg-000036",
+      "dropped": "pgx-a00232",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-001112",
+      "dropped": "pgx-a00235",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00110",
+      "dropped": "pgx-a00241",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00110",
+      "dropped": "pgx-a00243",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000181",
+      "dropped": "pgx-a00263",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000118",
+      "dropped": "pgx-a00273",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000104",
+      "dropped": "pgx-a00275",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-001089",
+      "dropped": "pgx-a00276",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00070",
+      "dropped": "pgx-a00295",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000181",
+      "dropped": "pgx-a00304",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-001370",
+      "dropped": "pgx-a00305",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pg-000097",
+      "dropped": "pgx-a00308",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00070",
+      "dropped": "pgx-a00332",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000056",
+      "dropped": "pgx-a00335",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00205",
+      "dropped": "pgx-a00336",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000316",
+      "dropped": "pgx-a00338",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000135",
+      "dropped": "pgx-a00358",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000043",
+      "dropped": "pgx-a00359",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00312",
+      "dropped": "pgx-a00361",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pg-000193",
+      "dropped": "pgx-a00366",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000197",
+      "dropped": "pgx-a00367",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000001",
+      "dropped": "pgx-a00368",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a00356",
+      "dropped": "pgx-a00381",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pg-000313",
+      "dropped": "pgx-a00388",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pg-000043",
+      "dropped": "pgx-a00389",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000084",
+      "dropped": "pgx-a00401",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a00070",
+      "dropped": "pgx-a00403",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000135",
+      "dropped": "pgx-a00409",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pg-000292",
+      "dropped": "pgx-a00416",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000104",
+      "dropped": "pgx-a00429",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00420",
+      "dropped": "pgx-a00439",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-001131",
+      "dropped": "pgx-a00441",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000014",
+      "dropped": "pgx-a00444",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pg-000118",
+      "dropped": "pgx-a00449",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pg-000301",
+      "dropped": "pgx-a00450",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00211",
+      "dropped": "pgx-a00451",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000271",
+      "dropped": "pgx-a00459",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00390",
+      "dropped": "pgx-a00485",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pg-000263",
+      "dropped": "pgx-a00494",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00110",
+      "dropped": "pgx-a00496",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000290",
+      "dropped": "pgx-a00505",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-001112",
+      "dropped": "pgx-a00510",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00286",
+      "dropped": "pgx-a00517",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00099",
+      "dropped": "pgx-a00534",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pg-000241",
+      "dropped": "pgx-a00543",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00460",
+      "dropped": "pgx-a00552",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00363",
+      "dropped": "pgx-a00553",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00080",
+      "dropped": "pgx-a00555",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a00039",
+      "dropped": "pgx-a00558",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00325",
+      "dropped": "pgx-a00566",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00357",
+      "dropped": "pgx-a00575",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-000991",
+      "dropped": "pgx-a00593",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pg-000118",
+      "dropped": "pgx-a00599",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00110",
+      "dropped": "pgx-a00603",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000135",
+      "dropped": "pgx-a00612",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00185",
+      "dropped": "pgx-a00613",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-001370",
+      "dropped": "pgx-a00627",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pg-000130",
+      "dropped": "pgx-a00635",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000181",
+      "dropped": "pgx-a00638",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000335",
+      "dropped": "pgx-a00651",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-001370",
+      "dropped": "pgx-a00656",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-001089",
+      "dropped": "pgx-a00658",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00596",
+      "dropped": "pgx-a00662",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00357",
+      "dropped": "pgx-a00668",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00081",
+      "dropped": "pgx-a00672",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00018",
+      "dropped": "pgx-a00678",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000316",
+      "dropped": "pgx-a00679",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000282",
+      "dropped": "pgx-a00680",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000001",
+      "dropped": "pgx-a00682",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pg-000164",
+      "dropped": "pgx-a00688",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pg-000265",
+      "dropped": "pgx-a00695",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00047",
+      "dropped": "pgx-a00699",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00114",
+      "dropped": "pgx-a00701",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00425",
+      "dropped": "pgx-a00705",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-001112",
+      "dropped": "pgx-a00706",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00475",
+      "dropped": "pgx-a00707",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00345",
+      "dropped": "pgx-a00709",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00187",
+      "dropped": "pgx-a00727",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pg-000132",
+      "dropped": "pgx-a00733",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00081",
+      "dropped": "pgx-a00740",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_RANGE_CHECK"
+    },
+    {
+      "kept": "pgx-a00522",
+      "dropped": "pgx-a00743",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00436",
+      "dropped": "pgx-a00751",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pgx-a00757",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pg-000043",
+      "dropped": "pgx-a00763",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00148",
+      "dropped": "pgx-a00778",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00081",
+      "dropped": "pgx-a00781",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_RANGE_CHECK"
+    },
+    {
+      "kept": "pgx-a00110",
+      "dropped": "pgx-a00784",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00070",
+      "dropped": "pgx-a00792",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_RANGE_CHECK"
+    },
+    {
+      "kept": "pg-000308",
+      "dropped": "pgx-a00802",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000135",
+      "dropped": "pgx-a00810",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a00632",
+      "dropped": "pgx-a00811",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00081",
+      "dropped": "pgx-a00812",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_RANGE_CHECK"
+    },
+    {
+      "kept": "pgx-a00460",
+      "dropped": "pgx-a00823",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000197",
+      "dropped": "pgx-a00831",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00155",
+      "dropped": "pgx-a00835",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00785",
+      "dropped": "pgx-a00839",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00605",
+      "dropped": "pgx-a00841",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00114",
+      "dropped": "pgx-a00854",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-000236",
+      "dropped": "pgx-a00855",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000065",
+      "dropped": "pgx-a00859",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pg-000325",
+      "dropped": "pgx-a00866",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000112",
+      "dropped": "pgx-a00868",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00659",
+      "dropped": "pgx-a00883",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00475",
+      "dropped": "pgx-a00890",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000039",
+      "dropped": "pgx-a00896",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_RANGE_CHECK"
+    },
+    {
+      "kept": "pg-000104",
+      "dropped": "pgx-a00897",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00853",
+      "dropped": "pgx-a00903",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000081",
+      "dropped": "pgx-a00912",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00435",
+      "dropped": "pgx-a00918",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000166",
+      "dropped": "pgx-a00921",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00356",
+      "dropped": "pgx-a00933",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00105",
+      "dropped": "pgx-a00940",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00105",
+      "dropped": "pgx-a00954",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00327",
+      "dropped": "pgx-a00969",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000241",
+      "dropped": "pgx-a00970",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000104",
+      "dropped": "pgx-a00979",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-001089",
+      "dropped": "pgx-a00985",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000181",
+      "dropped": "pgx-a00992",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00697",
+      "dropped": "pgx-a00996",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a00200",
+      "dropped": "pgx-a01003",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_RANGE_CHECK"
+    },
+    {
+      "kept": "pg-000007",
+      "dropped": "pgx-a01005",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000261",
+      "dropped": "pgx-a01013",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00937",
+      "dropped": "pgx-a01017",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pg-000056",
+      "dropped": "pgx-a01031",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000011",
+      "dropped": "pgx-a01033",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00647",
+      "dropped": "pgx-a01034",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pg-000084",
+      "dropped": "pgx-a01037",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a01024",
+      "dropped": "pgx-a01039",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-001236",
+      "dropped": "pgx-a01042",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-000991",
+      "dropped": "pgx-a01043",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_RANGE_CHECK"
+    },
+    {
+      "kept": "pgx-a00411",
+      "dropped": "pgx-a01044",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pg-000193",
+      "dropped": "pgx-a01045",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00619",
+      "dropped": "pgx-a01052",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00251",
+      "dropped": "pgx-a01054",
+      "kept_label": "CPP_STALE_EXIT",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000132",
+      "dropped": "pgx-a01055",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00031",
+      "dropped": "pgx-a01058",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a00697",
+      "dropped": "pgx-a01067",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a00716",
+      "dropped": "pgx-a01070",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000135",
+      "dropped": "pgx-a01074",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00753",
+      "dropped": "pgx-a01079",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000335",
+      "dropped": "pgx-a01081",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000076",
+      "dropped": "pgx-a01089",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00434",
+      "dropped": "pgx-a01100",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00080",
+      "dropped": "pgx-a01103",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "pgx-a00853",
+      "dropped": "pgx-a01106",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pg-000181",
+      "dropped": "pgx-a01107",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "pgx-a00460",
+      "dropped": "pgx-a01118",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "bl-tr-001",
+      "dropped": "bl-t2-tr-007",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "bl-tr-001",
+      "dropped": "bl-t2-tr-036",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "bl-tr-001",
+      "dropped": "bl-t2-tr-044",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "bl-tr-010",
+      "dropped": "bl-t2-tr-050",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "bl-t2-tr-041",
+      "dropped": "bl-t2-tr-065",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_STALE_EXIT"
+    },
+    {
+      "kept": "bl-tr-001",
+      "dropped": "bl-t2-tr-079",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
+    },
+    {
+      "kept": "bl-tr-074",
+      "dropped": "bl-t2-tr-086",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_UNINITIALIZED_VAR"
     },
     {
       "kept": "bl-tr-017",
@@ -119,6 +1176,12 @@
       "dropped_label": "CPP_ARRAY_BOUNDS"
     },
     {
+      "kept": "pgx-a00309",
+      "dropped": "pg-000020",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
       "kept": "pg-000021",
       "dropped": "pg-000022",
       "kept_label": "CPP_OTHER_ERROR",
@@ -173,8 +1236,140 @@
       "dropped_label": "CPP_ARRAY_BOUNDS"
     },
     {
+      "kept": "pgx-a00086",
+      "dropped": "pg-000094",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00086",
+      "dropped": "pg-000095",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
       "kept": "pg-000102",
       "dropped": "pg-000103",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00251",
+      "dropped": "pg-000215",
+      "kept_label": "CPP_STALE_EXIT",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pg-000216",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pg-000217",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pg-000218",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pg-000219",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pg-000220",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00293",
+      "dropped": "pg-000221",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00293",
+      "dropped": "pg-000222",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00293",
+      "dropped": "pg-000223",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00293",
+      "dropped": "pg-000224",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pg-000225",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00131",
+      "dropped": "pg-000226",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00293",
+      "dropped": "pg-000227",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00293",
+      "dropped": "pg-000228",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00130",
+      "dropped": "pg-000239",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00130",
+      "dropped": "pg-000240",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00671",
+      "dropped": "pg-000246",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00723",
+      "dropped": "pg-000247",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00723",
+      "dropped": "pg-000248",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00702",
+      "dropped": "pg-000257",
       "kept_label": "CPP_OTHER_ERROR",
       "dropped_label": "CPP_ARRAY_BOUNDS"
     },
@@ -215,6 +1410,54 @@
       "dropped_label": "CPP_ARRAY_BOUNDS"
     },
     {
+      "kept": "pgx-a00032",
+      "dropped": "pgx-000008",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00032",
+      "dropped": "pgx-000009",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00447",
+      "dropped": "pgx-000014",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00684",
+      "dropped": "pgx-000026",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00363",
+      "dropped": "pgx-000027",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00079",
+      "dropped": "pgx-000039",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00674",
+      "dropped": "pgx-000061",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00162",
+      "dropped": "pgx-000064",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
       "kept": "pgx-000103",
       "dropped": "pgx-000104",
       "kept_label": "CPP_OFF_BY_ONE",
@@ -227,9 +1470,159 @@
       "dropped_label": "CPP_LOOP_BOUNDARY"
     },
     {
-      "kept": "pgx-000572",
-      "dropped": "pgx-000739",
+      "kept": "pgx-a00246",
+      "dropped": "pgx-000118",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00197",
+      "dropped": "pgx-000142",
       "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00076",
+      "dropped": "pgx-000207",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00076",
+      "dropped": "pgx-000208",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00425",
+      "dropped": "pgx-000228",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00425",
+      "dropped": "pgx-000229",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a01021",
+      "dropped": "pgx-000367",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00742",
+      "dropped": "pgx-000396",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00042",
+      "dropped": "pgx-000408",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00188",
+      "dropped": "pgx-000420",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00589",
+      "dropped": "pgx-000555",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00262",
+      "dropped": "pgx-000556",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00218",
+      "dropped": "pgx-000566",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00215",
+      "dropped": "pgx-000567",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00632",
+      "dropped": "pgx-000572",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00340",
+      "dropped": "pgx-000577",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00340",
+      "dropped": "pgx-000578",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00010",
+      "dropped": "pgx-000580",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00010",
+      "dropped": "pgx-000581",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00010",
+      "dropped": "pgx-000582",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-a00476",
+      "dropped": "pgx-000584",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00476",
+      "dropped": "pgx-000585",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00319",
+      "dropped": "pgx-000625",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a01035",
+      "dropped": "pgx-000626",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00632",
+      "dropped": "pgx-000738",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00632",
+      "dropped": "pgx-000739",
+      "kept_label": "CPP_OTHER_ERROR",
       "dropped_label": "CPP_ARRAY_BOUNDS"
     },
     {
@@ -239,10 +1632,190 @@
       "dropped_label": "CPP_LOOP_BOUNDARY"
     },
     {
+      "kept": "pgx-a00056",
+      "dropped": "pgx-000801",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00252",
+      "dropped": "pgx-000823",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00252",
+      "dropped": "pgx-000824",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00126",
+      "dropped": "pgx-000845",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00127",
+      "dropped": "pgx-000852",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00127",
+      "dropped": "pgx-000853",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00369",
+      "dropped": "pgx-000856",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00369",
+      "dropped": "pgx-000858",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a01011",
+      "dropped": "pgx-000859",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00561",
+      "dropped": "pgx-000889",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00049",
+      "dropped": "pgx-000907",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00049",
+      "dropped": "pgx-000908",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00724",
+      "dropped": "pgx-000909",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00721",
+      "dropped": "pgx-000911",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00170",
+      "dropped": "pgx-000913",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00554",
+      "dropped": "pgx-000915",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00944",
+      "dropped": "pgx-000937",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00134",
+      "dropped": "pgx-000942",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00134",
+      "dropped": "pgx-000943",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00018",
+      "dropped": "pgx-000946",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00072",
+      "dropped": "pgx-000949",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00446",
+      "dropped": "pgx-000953",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00446",
+      "dropped": "pgx-000954",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00127",
+      "dropped": "pgx-000975",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
       "kept": "pgx-000991",
       "dropped": "pgx-000992",
       "kept_label": "CPP_OTHER_ERROR",
       "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00470",
+      "dropped": "pgx-000994",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00158",
+      "dropped": "pgx-001006",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00158",
+      "dropped": "pgx-001007",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00158",
+      "dropped": "pgx-001008",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-a00018",
+      "dropped": "pgx-001017",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00018",
+      "dropped": "pgx-001018",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
     },
     {
       "kept": "pgx-001099",
@@ -263,10 +1836,184 @@
       "dropped_label": "CPP_LOOP_BOUNDARY"
     },
     {
+      "kept": "pgx-a00180",
+      "dropped": "pgx-001109",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00018",
+      "dropped": "pgx-001128",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00647",
+      "dropped": "pgx-001139",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00185",
+      "dropped": "pgx-001142",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00185",
+      "dropped": "pgx-001143",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00434",
+      "dropped": "pgx-001150",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00378",
+      "dropped": "pgx-001161",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00155",
+      "dropped": "pgx-001164",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00175",
+      "dropped": "pgx-001169",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00187",
+      "dropped": "pgx-001171",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00187",
+      "dropped": "pgx-001172",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00312",
+      "dropped": "pgx-001187",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00148",
+      "dropped": "pgx-001195",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00113",
+      "dropped": "pgx-001197",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00596",
+      "dropped": "pgx-001210",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00411",
+      "dropped": "pgx-001227",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00420",
+      "dropped": "pgx-001230",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00145",
+      "dropped": "pgx-001245",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00145",
+      "dropped": "pgx-001246",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00422",
+      "dropped": "pgx-001269",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00619",
+      "dropped": "pgx-001271",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00522",
+      "dropped": "pgx-001274",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
       "kept": "pgx-001277",
       "dropped": "pgx-001279",
       "kept_label": "CPP_OTHER_ERROR",
       "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00085",
+      "dropped": "pgx-001283",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00659",
+      "dropped": "pgx-001291",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00132",
+      "dropped": "pgx-001318",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00591",
+      "dropped": "pgx-001319",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00809",
+      "dropped": "pgx-001336",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pgx-a00052",
+      "dropped": "pgx-001338",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-a00052",
+      "dropped": "pgx-001339",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
     },
     {
       "kept": "pg-000286",
@@ -291,62 +2038,20 @@
       "dropped": "pgx-001387",
       "kept_label": "CPP_ARRAY_BOUNDS",
       "dropped_label": "CPP_LOOP_BOUNDARY"
-    },
-    {
-      "kept": "bl-tr-001",
-      "dropped": "bl-t2-tr-007",
-      "kept_label": "CPP_OTHER_ERROR",
-      "dropped_label": "CPP_UNINITIALIZED_VAR"
-    },
-    {
-      "kept": "bl-tr-001",
-      "dropped": "bl-t2-tr-036",
-      "kept_label": "CPP_OTHER_ERROR",
-      "dropped_label": "CPP_UNINITIALIZED_VAR"
-    },
-    {
-      "kept": "bl-tr-001",
-      "dropped": "bl-t2-tr-044",
-      "kept_label": "CPP_OTHER_ERROR",
-      "dropped_label": "CPP_UNINITIALIZED_VAR"
-    },
-    {
-      "kept": "bl-tr-010",
-      "dropped": "bl-t2-tr-050",
-      "kept_label": "CPP_OTHER_ERROR",
-      "dropped_label": "CPP_ARRAY_BOUNDS"
-    },
-    {
-      "kept": "bl-t2-tr-041",
-      "dropped": "bl-t2-tr-065",
-      "kept_label": "CPP_OTHER_ERROR",
-      "dropped_label": "CPP_STALE_EXIT"
-    },
-    {
-      "kept": "bl-tr-001",
-      "dropped": "bl-t2-tr-079",
-      "kept_label": "CPP_OTHER_ERROR",
-      "dropped_label": "CPP_UNINITIALIZED_VAR"
-    },
-    {
-      "kept": "bl-tr-074",
-      "dropped": "bl-t2-tr-086",
-      "kept_label": "CPP_OTHER_ERROR",
-      "dropped_label": "CPP_UNINITIALIZED_VAR"
     }
   ],
   "merged_labels": 0,
   "code_uncovered": 0,
   "per_source": {
     "CODESTREAM": 298,
-    "SYNTHETIC": 483,
-    "PROGPEDIA": 285
+    "PROGPEDIA": 663,
+    "SYNTHETIC": 483
   },
   "per_split": {
-    "test": 163,
-    "dev_gold": 68,
-    "train": 799,
-    "test_iid": 36
+    "test": 325,
+    "dev_gold": 125,
+    "train": 969,
+    "test_iid": 25
   },
   "feature_availability": {
     "static": {
@@ -361,12 +2066,12 @@
     },
     "runtime": {
       "CODESTREAM": 1.0,
-      "PROGPEDIA": 0.474,
+      "PROGPEDIA": 0.789,
       "SYNTHETIC": 1.0
     },
     "tests": {
       "CODESTREAM": 1.0,
-      "PROGPEDIA": 0.474,
+      "PROGPEDIA": 0.789,
       "SYNTHETIC": 1.0
     },
     "cpg": {
@@ -387,7 +2092,7 @@
   },
   "g1": {
     "ok": true,
-    "n_rows": 1688
+    "n_rows": 2746
   },
   "g7": {
     "cluster_split_conflicts": 0,
@@ -404,109 +2109,121 @@
     "comparison": "train_vs_test",
     "gate_scope": "plan G7's PSI<0.2 gate is specced for train/val (same pool) and is evaluated at training time (T9); this train-vs-test probe is informational — violations here reflect pool asymmetry (frozen CodeStream-only test) and require team review before G3, not a merge abort",
     "threshold": 0.2,
-    "n_features_checked": 85,
-    "max": 13.5543,
-    "worst_feature": "context.sample_test_count",
+    "n_features_checked": 93,
+    "max": 15.5151,
+    "worst_feature": "context.statement_length",
     "violations": [
       {
-        "feature": "context.sample_test_count",
-        "psi": 13.5543
-      },
-      {
         "feature": "context.statement_length",
-        "psi": 12.0734
+        "psi": 15.5151
       },
       {
-        "feature": "static.max_indent_depth",
-        "psi": 10.5517
+        "feature": "cpg.edge_count",
+        "psi": 13.0457
       },
       {
-        "feature": "tests.total",
-        "psi": 5.7923
+        "feature": "cpg.node_count",
+        "psi": 12.9529
       },
       {
-        "feature": "static.loc",
-        "psi": 3.078
+        "feature": "cpg.max_depth",
+        "psi": 3.9948
       },
       {
         "feature": "static.token_count",
-        "psi": 2.433
-      },
-      {
-        "feature": "tests.first_fail_numeric_diff",
-        "psi": 1.4229
-      },
-      {
-        "feature": "static.sloc",
-        "psi": 1.1085
-      },
-      {
-        "feature": "static.unique_token_ratio",
-        "psi": 1.0943
+        "psi": 1.8056
       },
       {
         "feature": "static.if_count",
-        "psi": 0.8683
+        "psi": 1.732
       },
       {
         "feature": "static.string_literal_count",
-        "psi": 0.8547
+        "psi": 1.645
       },
       {
-        "feature": "static.function_count",
-        "psi": 0.7556
+        "feature": "static.loc",
+        "psi": 1.4727
+      },
+      {
+        "feature": "static.unique_token_ratio",
+        "psi": 1.4255
+      },
+      {
+        "feature": "static.sloc",
+        "psi": 1.1974
       },
       {
         "feature": "semantics.increment",
-        "psi": 0.6987
+        "psi": 1.1445
       },
       {
         "feature": "static.numeric_literal_count",
-        "psi": 0.6414
+        "psi": 1.1356
       },
       {
-        "feature": "cpg.function_count",
-        "psi": 0.6199
+        "feature": "tests.total",
+        "psi": 1.0793
       },
       {
-        "feature": "warnings.other",
-        "psi": 0.4942
-      },
-      {
-        "feature": "static.loop_count",
-        "psi": 0.4302
+        "feature": "static.function_count",
+        "psi": 1.0138
       },
       {
         "feature": "cpg.loop_count",
-        "psi": 0.4294
+        "psi": 1.0124
       },
       {
-        "feature": "runtime.duration_s",
-        "psi": 0.4268
+        "feature": "static.loop_count",
+        "psi": 1.0015
       },
       {
-        "feature": "tests.pass_rate",
-        "psi": 0.4071
+        "feature": "cpg.function_count",
+        "psi": 0.9168
       },
       {
-        "feature": "tests.wrong_answer_count",
-        "psi": 0.3456
+        "feature": "warnings.other",
+        "psi": 0.8335
+      },
+      {
+        "feature": "static.max_indent_depth",
+        "psi": 0.7435
+      },
+      {
+        "feature": "tests.first_fail_numeric_diff",
+        "psi": 0.7316
       },
       {
         "feature": "warnings.total",
-        "psi": 0.2984
+        "psi": 0.6156
+      },
+      {
+        "feature": "context.sample_test_count",
+        "psi": 0.5786
+      },
+      {
+        "feature": "cpg.comparison_count",
+        "psi": 0.5627
+      },
+      {
+        "feature": "static.max_line_length",
+        "psi": 0.4553
       },
       {
         "feature": "static.avg_line_length",
-        "psi": 0.2962
+        "psi": 0.3922
       },
       {
-        "feature": "tests.first_fail_index",
-        "psi": 0.2236
+        "feature": "cpg.array_write_oob_count",
+        "psi": 0.3224
       },
       {
-        "feature": "tests.failed",
-        "psi": 0.2004
+        "feature": "runtime.duration_s",
+        "psi": 0.2991
+      },
+      {
+        "feature": "static.return_count",
+        "psi": 0.2813
       }
     ]
   }

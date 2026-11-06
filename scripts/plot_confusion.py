@@ -84,5 +84,30 @@ def plot():
               "| misconception recall", sum(t == p for t, p in mis), "/", len(mis), "| wrote", out.name)
 
 
+def plot_heldout():
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import numpy as np
+    d = json.loads((DS / "reports" / "heldout_predictions.json").read_text(encoding="utf-8"))
+    col = d["columns"].index("model: best")
+    for scope in ("all", "PROGPEDIA"):
+        rows = [r for r in d["rows"] if scope == "all" or r[1] == scope]
+        truth = [r[2] for r in rows]; pred = [r[col] for r in rows]
+        rl = sorted(set(truth))
+        cl = sorted((set(truth) | set(pred)) - {"ABSTAIN"}) + (["ABSTAIN"] if "ABSTAIN" in pred else [])
+        M = np.array([[sum(1 for t, p in zip(truth, pred) if t == a and p == b) for b in cl] for a in rl])
+        fig, ax = plt.subplots(figsize=(1.2 * len(cl) + 3, 0.8 * len(rl) + 3.5))
+        ax.imshow(M, cmap="Blues")
+        ax.set_xticks(range(len(cl)), [short(c) for c in cl], rotation=40, ha="right")
+        ax.set_yticks(range(len(rl)), [short(c) for c in rl])
+        for i in range(len(rl)):
+            for j in range(len(cl)):
+                ax.text(j, i, M[i, j], ha="center", va="center", color="white" if M[i, j] > M.max() / 2 else "black")
+        ax.set_xlabel("Predicted"); ax.set_ylabel("Labelled (annotator consensus)")
+        ax.set_title(f"Held-out problems, {scope}: n={len(rows)}, accuracy {sum(a == b for a, b in zip(truth, pred)) / len(rows):.3f}")
+        fig.tight_layout(); fig.savefig(DS / "reports" / f"confusion_heldout_{scope.lower()}.png", dpi=150); plt.close(fig)
+
+
 if __name__ == "__main__":
-    {"score": score, "plot": plot}[sys.argv[1]]()
+    {"score": score, "plot": plot, "heldout": plot_heldout}[sys.argv[1]]()

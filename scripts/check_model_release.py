@@ -33,7 +33,7 @@ def blind(name: str):
 def main() -> int:
     gates: list[tuple[str, bool, str]] = []
     golden = json.loads((ROOT / "backend" / "tests" / "fixtures" / "model_golden.json").read_text(encoding="utf-8"))
-    served = json.loads((DS / "reports" / "blind_final_eval.json").read_text(encoding="utf-8"))["models"]["best"]["sha256_16"]
+    served = json.loads((DS / "reports" / "heldout_eval.json").read_text(encoding="utf-8"))["models"]["best"]["sha256_16"]
     gsha = str(golden.get("model_sha256", golden.get("sha256", "")))[:16]
     gates.append(("S1 model files match golden fixture", bool(gsha) and gsha == served, f"golden {gsha} vs scored {served}"))
     worst = 0.0
@@ -52,6 +52,15 @@ def main() -> int:
                 best_pos = s["n_misconception"]
                 best_prec = s["precision_when_flagged"]["value"]
                 best_rec = s["misconception_recall"]["value"]
+    hp = DS / "reports" / "heldout_eval.json"
+    if hp.exists():
+        allp = json.loads(hp.read_text(encoding="utf-8"))["scopes"]["all"]["systems"]["model: best"]
+        worst = max(worst, allp["false_alarm_rate"]["value"] or 0.0)
+        gates[-1] = ("S2 false alarm on OTHER <= 0.30 (worst set)", worst <= 0.30, f"{worst:.3f}")
+        if allp["n_misconception"] > best_pos:
+            best_pos = allp["n_misconception"]
+            best_prec = allp["precision_when_flagged"]["value"]
+            best_rec = allp["misconception_recall"]["value"]
     gates.append(("P1 precision when flagged >= 0.80 on >= 30 positives",
                   best_pos >= 30 and (best_prec or 0) >= 0.80, f"{best_pos} positives, precision {best_prec}"))
     gates.append(("P2 recall >= 0.50 on that set", best_pos >= 30 and (best_rec or 0) >= 0.50, f"recall {best_rec}"))

@@ -376,6 +376,16 @@ def jaccard(a: set[Any], b: set[Any]) -> float:
     return len(a & b) / len(a | b)
 
 
+def _dedupe_priority(row: dict[str, Any]) -> tuple[int, str]:
+    """Which near-twin survives: a person-reviewed or agent-consensus label beats a weak rule label,
+    and the bulk-read training labels (`bl-t2-`) yield to earlier curated rows."""
+    rid = str(row.get("row_id"))
+    human = row.get("label_source") == "human"
+    if human and not rid.startswith("bl-t2-"):
+        return (0, rid)
+    return (1 if human else 2, rid)
+
+
 def dedupe_rows(
     rows: Sequence[dict[str, Any]],
     code_by_rid: dict[str, str | None],
@@ -399,7 +409,7 @@ def dedupe_rows(
 
     # keep-first by row_id, except the bulk-read training labels (`bl-t2-`) which yield to any
     # earlier-curated near-twin so an existing row (e.g. an IID-holdout row) is never displaced
-    for row in sorted(rows, key=lambda r: (str(r.get("row_id")).startswith("bl-t2-"), str(r.get("row_id")))):
+    for row in sorted(rows, key=_dedupe_priority):
         rid = str(row.get("row_id"))
         code = code_by_rid.get(rid)
         if code is None:
@@ -706,6 +716,8 @@ def merge(
     clusters = load_cluster_table(ds / "splits" / "cluster_assignments.csv")
     clusters = add_extra_clusters(clusters, ds / "splits" / "bank_clusters.csv")
     clusters = apply_pool_overrides(clusters, ds / "splits" / "codestream_clusters.csv")
+    # whole PROGPedia problems held out for the multi-annotator test (never trained on)
+    clusters = apply_pool_overrides(clusters, ds / "splits" / "progpedia_holdout.csv")
     missing = sorted({str(r["problem_id"]) for r in rows if r["problem_id"] not in clusters})
     if missing:
         raise ValueError(

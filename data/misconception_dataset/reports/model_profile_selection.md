@@ -6,10 +6,10 @@ Rule: take the profile with the
 highest real-row macro-F1 whose false-alarm rate is at most 0.30; profiles within 0.01 of
 the best are treated as tied and the shallower (simpler) one wins.
 
-**Chosen: `regular`**
+**Chosen: `strong`**
 
 | Profile | Real-row macro-F1 | False alarm on OTHER | Precision when flagged | Misconception recall | Abstain | OOF macro-F1 (all rows) | In-sample macro-F1 | Threshold |
 |---|---|---|---|---|---|---|---|---|
-| default | 0.2278 | 0.161 | 0.684 | 0.333 | 0.454 | 0.6543 | 0.9631 | 0.56 |
-| regular | 0.2509 | 0.191 | 0.683 | 0.401 | 0.319 | 0.6423 | 0.8467 | 0.46 |
-| strong | 0.2187 | 0.173 | 0.702 | 0.374 | 0.483 | 0.6042 | 0.7384 | 0.53 |
+| default | 0.1834 | 0.045 | 0.569 | 0.179 | 0.589 | 0.6636 | 0.9486 | 0.74 |
+| regular | 0.2213 | 0.084 | 0.502 | 0.256 | 0.402 | 0.64 | 0.8312 | 0.6 |
+| strong | 0.2166 | 0.077 | 0.521 | 0.275 | 0.523 | 0.5943 | 0.7519 | 0.57 |
