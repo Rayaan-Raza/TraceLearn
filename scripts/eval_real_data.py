@@ -48,6 +48,8 @@ for p in (ROOT, ROOT / "scripts"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
+from tracelearn_features.schema import feature_names as schema_feature_names  # noqa: E402
+
 DATASET_DIR = ROOT / "data" / "misconception_dataset"
 CACHE_DIR = DATASET_DIR / "cache"
 REPORTS = DATASET_DIR / "reports"
@@ -181,6 +183,18 @@ def execute_pool(subs: list[Any], probs: dict[str, Any], cache_path: Path, worke
     return done
 
 
+def write_feature_dump(rows: Sequence[dict[str, Any]], path: Path) -> None:
+    """Every scored row's full feature vector, for shift and drift analysis (gitignored cache)."""
+    names = list(schema_feature_names())
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as fh:
+        writer = csv.writer(fh)
+        writer.writerow(["submission_id", "problem_id", "cluster", "user_hash", "attempt_number", "verdict", "branch", *names])
+        for r in rows:
+            writer.writerow([r["submission_id"], r["problem_id"], r["cluster"], r["user_hash"], r["attempt_number"],
+                             r["verdict"], r["branch"], *["" if r["features"][n] is None else r["features"][n] for n in names]])
+
+
 def feature_row(sub: Any, prob: Any, result: dict[str, Any]) -> dict[str, Any]:
     """The row shape the labeler emits for a CodeStream submission, normalized."""
     from label_weak_codestream import slim_runtime, slim_tests
@@ -254,7 +268,7 @@ def training_prior(generators: Sequence[str]) -> tuple[list[str], list[float]]:
 # ------------------------------------------------------------------- driver
 
 
-def run(args: argparse.Namespace) -> dict[str, Any]:
+def run(args: argparse.Namespace) -> dict[str, Any] | None:
     from codestream_common import find_raw, load_problems, load_submissions, user_hash
     from repair_verify import GENERATORS
 
@@ -281,19 +295,24 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         if res is None:
             continue
         norm = feature_row(s, probs[s.problem_id], res)
+        all_features = flatten_blocks(norm, schema_feature_names())
         row: dict[str, Any] = {
             "submission_id": s.submission_id, "problem_id": s.problem_id,
             "cluster": pool_map[s.problem_id][0], "user_hash": user_hash(s.user_id),
             "attempt_number": s.attempt_number, "verdict": s.verdict, "branch": res.get("branch"),
             "lang": s.lang, "code": s.code, "result": res, "tests": probs[s.problem_id].tests,
+            "features": all_features,
         }
         if res.get("branch") == "failing":
             for name, model in models.items():
-                pred = model.predict(flatten_blocks(norm, model.features))
+                pred = model.predict(all_features)  # whole vector: the applicability rules read more than this variant uses
                 row[name] = {"label": pred.top_label, "p": pred.top_probability, "abstained": pred.abstained,
                              "n_missing": pred.n_missing, "n_features": pred.n_features}
         rows.append(row)
 
+    write_feature_dump(rows, CACHE_DIR / f"real_eval_features_{args.pool}.csv")
+    if args.features_only:
+        return None
     failing = [r for r in rows if r["branch"] == "failing"]
     report: dict[str, Any] = {
         "pool": args.pool, "at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
@@ -450,18 +469,26 @@ def render_markdown(rep: dict[str, Any]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--pool", choices=("dev_gold", "test"), required=True)
+    ap.add_argument("--pool", choices=("dev_gold", "test", "train"), required=True)
     ap.add_argument("--raw", default=None)
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--limit", type=int, default=None, help="first N submissions only (smoke test)")
     ap.add_argument("--skip-repairs", action="store_true")
     ap.add_argument("--ceiling", action="store_true", help="also try every class (slow)")
     ap.add_argument("--confirm-test-run", action="store_true")
+    ap.add_argument("--features-only", action="store_true",
+                    help="execute/score and write the feature dump only; leave the reports untouched")
     args = ap.parse_args(argv)
+    if args.pool == "train" and not args.features_only:
+        print("REFUSED: the train pool is not an evaluation pool; use --features-only to dump its features")
+        return 2
     if args.pool == "test" and not args.confirm_test_run:
         print("REFUSED: the test pool is evaluated once; rerun with --confirm-test-run after the model is frozen")
         return 2
     report = run(args)
+    if report is None:
+        print(f"wrote feature dump for pool {args.pool}")
+        return 0
     REPORTS.mkdir(exist_ok=True)
     stem = f"real_eval_{args.pool}"
     (REPORTS / f"{stem}.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
