@@ -213,15 +213,33 @@ def macro_f1(y_true: np.ndarray, y_pred: np.ndarray, classes: Sequence[int]) -> 
 # --------------------------------------------------------------- model
 
 
+# Model profiles. "default" is the original configuration. "regular" and "strong"
+# trade fit for stability on a small, cluster-grouped training set: shallower trees,
+# a minimum leaf weight, L2 shrinkage and row/column subsampling. A profile is chosen
+# by `scripts/select_model_profile.py` on grouped out-of-fold results only, never on
+# the blind test, and is recorded in metrics_v1.json.
+PROFILES: dict[str, dict[str, Any]] = {
+    "default": dict(n_estimators=300, max_depth=4, learning_rate=0.05, subsample=0.9, colsample_bytree=0.9),
+    "regular": dict(n_estimators=250, max_depth=3, learning_rate=0.05, subsample=0.8, colsample_bytree=0.7,
+                    min_child_weight=3, reg_lambda=5.0),
+    "strong": dict(n_estimators=250, max_depth=2, learning_rate=0.06, subsample=0.7, colsample_bytree=0.5,
+                   min_child_weight=5, reg_lambda=10.0, gamma=0.5),
+}
+_ACTIVE_PROFILE = "default"
+
+
+def set_profile(name: str) -> None:
+    global _ACTIVE_PROFILE
+    if name not in PROFILES:
+        raise ValueError(f"unknown model profile {name!r}; expected one of {sorted(PROFILES)}")
+    _ACTIVE_PROFILE = name
+
+
 def _make_model(seed: int):
     from xgboost import XGBClassifier
 
     return XGBClassifier(
-        n_estimators=300,
-        max_depth=4,
-        learning_rate=0.05,
-        subsample=0.9,
-        colsample_bytree=0.9,
+        **PROFILES[_ACTIVE_PROFILE],
         objective="multi:softprob",
         eval_metric="mlogloss",
         tree_method="hist",
@@ -278,8 +296,10 @@ def train(
     cv_folds: int = 3,
     cv_repeats: int = 1,
     synth_grid: Sequence[float] = SYNTH_GRID,
+    profile: str = "default",
 ) -> dict[str, Any]:
     """Train the three variants; write models/ artifacts; return metrics."""
+    set_profile(profile)
     import pandas as pd
     from sklearn.model_selection import StratifiedGroupKFold
 
@@ -487,7 +507,8 @@ def train(
     # dev-gold fit above; it is not servable (R4 source-shortcut gate).
     is_real_tr = (meta_tr["dataset_source"] != "SYNTHETIC").to_numpy()
     calibrator["variants"] = {
-        name: calibrate_variant(reps, y_tr, cluster_tr, is_real_tr, seed)
+        name: calibrate_variant(reps, y_tr, cluster_tr, is_real_tr, seed,
+                                other_idx=classes.index("CPP_OTHER_ERROR") if "CPP_OTHER_ERROR" in classes else None)
         for name, reps in (("best", reps_best), ("common", reps_common))
     }
     dev_metrics: dict[str, Any] = {"n": n_dev, "calibrated": False}
@@ -550,6 +571,7 @@ def train(
 
     metrics: dict[str, Any] = {
         "seed": seed,
+        "profile": {"name": profile, "params": PROFILES[profile]},
         "n_rows": len(y),
         "n_train": int(train_mask.sum()),
         "n_dev_gold": n_dev,
@@ -620,6 +642,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--cv-folds", type=int, default=3)
     parser.add_argument("--cv-repeats", type=int, default=3)
+    parser.add_argument("--profile", choices=sorted(PROFILES), default="default")
     args = parser.parse_args(argv)
 
     try:
@@ -629,6 +652,7 @@ def main(argv: list[str] | None = None) -> int:
             seed=args.seed,
             cv_folds=args.cv_folds,
             cv_repeats=args.cv_repeats,
+            profile=args.profile,
         )
     except ValueError as exc:
         print(f"FAIL  {exc}")

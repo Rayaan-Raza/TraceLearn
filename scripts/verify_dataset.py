@@ -58,10 +58,11 @@ from tracelearn_features.taxonomy import (  # noqa: E402  (after sys.path bootst
 
 # §5 row-ID prefixes per dataset_source. Lanes added later keep their
 # source's prefix family: pgx- (PROGPedia executed on oracle tests) and
-# hr- (rows a person labeled in the pre-review sign-off, any natural source).
+# hr- (rows a person labeled in the pre-review sign-off, any natural source),
+# bl- (blind-labelled CodeStream rows) and stu- (student-style bank programs).
 ROW_ID_PREFIX = {
-    "SYNTHETIC": ("mut-",),
-    "CODESTREAM": ("cs-", "hr-"),
+    "SYNTHETIC": ("mut-", "stu-"),
+    "CODESTREAM": ("cs-", "hr-", "bl-"),
     "PROGPEDIA": ("pg-", "pgx-", "hr-"),
 }
 

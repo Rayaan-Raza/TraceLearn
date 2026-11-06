@@ -218,6 +218,18 @@ metadata (`mutation_op`, `seed_ref`) is never used.
 | `semantics.init_zero` | int | an `int` local is initialized to zero |
 | `semantics.return_minus1` | int | a `return` expression subtracts one |
 | `semantics.base_case` | int | a recursive base-case test against 0/1 is present |
+| `semantics.chained_compare` | int | a condition chains comparisons, as in `1 <= x <= 10` |
+| `semantics.index_is_bound` | int | an index read whose subscript is the length (`a[n]`, `v[v.size()]`) |
+| `semantics.scanf_no_amp` | int | a `scanf` argument that is a bare identifier without `&` |
+| `semantics.no_input_read` | int | the program never reads input |
+| `semantics.prompt_text` | int | output text that looks like a prompt (enter, input, please, type, give) |
+| `semantics.printf_addr_arg` | int | `printf` given the address of a variable |
+| `semantics.int_div_literals` | int | integer division of two literals, as in `1/2` |
+| `semantics.char_vs_string_cmp` | int | a comparison against a one-character string literal |
+| `semantics.empty_body_stmt` | int | an `if`/`for`/`while` header followed directly by `;` |
+| `semantics.loop_var_reused` | int | a loop nested in a loop that re-initialises the same undeclared variable |
+| `semantics.plus1_index_in_full_loop` | int | `a[i + 1]` inside a loop that runs `i` up to `n` (reads one past the end) |
+| `semantics.minus1_index_from_zero` | int | `a[i - 1]` inside a loop that starts `i` at 0 (reads before the start) |
 
 ## `context`
 

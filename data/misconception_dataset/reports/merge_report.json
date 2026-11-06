@@ -1,24 +1,289 @@
 {
   "inputs": [
     "tier0_mutants.jsonl",
+    "tier0b_student_synthetic.jsonl",
     "tier1a_codestream.jsonl",
     "tier1b_progpedia.jsonl",
-    "tier1c_progpedia_exec.jsonl"
+    "tier1c_progpedia_exec.jsonl",
+    "tier1d_human_review.jsonl",
+    "tier1e_blind_review.jsonl"
   ],
   "review_decisions": {
-    "file": null,
-    "applied": {},
+    "file": "label_review_decisions.jsonl",
+    "applied": {
+      "confirm:human": 133,
+      "relabel:human": 66
+    },
     "unknown_row_ids": []
   },
-  "n_rows_before_dedupe": 996,
-  "n_rows": 702,
-  "deduped": 294,
+  "n_rows_before_dedupe": 1475,
+  "n_rows": 978,
+  "deduped": 361,
+  "synthetic_dropped_from_held_out_problems": 136,
   "dedupe_threshold": 0.8,
   "dedupe_label_conflicts": [
+    {
+      "kept": "bl-te-108",
+      "dropped": "bl-te-140",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "bl-te-108",
+      "dropped": "bl-te-143",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR"
+    },
+    {
+      "kept": "bl-te-015",
+      "dropped": "cs-000373",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "bl-tr-017",
+      "dropped": "cs-000397",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "bl-tr-017",
+      "dropped": "cs-000400",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "bl-tr-017",
+      "dropped": "cs-000401",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "bl-tr-017",
+      "dropped": "cs-000402",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "cs-000666",
+      "dropped": "cs-000667",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "cs-001043",
+      "dropped": "cs-001044",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "cs-001043",
+      "dropped": "cs-001046",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "cs-001043",
+      "dropped": "cs-001047",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "cs-002235",
+      "dropped": "cs-002236",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "cs-002524",
+      "dropped": "cs-002525",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "cs-002724",
+      "dropped": "cs-002725",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "bl-te-081",
+      "dropped": "cs-002805",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pg-000011",
+      "dropped": "pg-000012",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000021",
+      "dropped": "pg-000022",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000021",
+      "dropped": "pg-000023",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000051",
+      "dropped": "pg-000052",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000053",
+      "dropped": "pg-000054",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000070",
+      "dropped": "pg-000071",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000070",
+      "dropped": "pg-000072",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000078",
+      "dropped": "pg-000079",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000081",
+      "dropped": "pg-000082",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000081",
+      "dropped": "pg-000083",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000102",
+      "dropped": "pg-000103",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000290",
+      "dropped": "pg-000291",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000318",
+      "dropped": "pg-000319",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000316",
+      "dropped": "pg-000320",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000316",
+      "dropped": "pg-000321",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000316",
+      "dropped": "pg-000322",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pg-000316",
+      "dropped": "pg-000323",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-000103",
+      "dropped": "pgx-000104",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-000103",
+      "dropped": "pgx-000105",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
     {
       "kept": "pgx-000572",
       "dropped": "pgx-000739",
       "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-000798",
+      "dropped": "pgx-000799",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-000991",
+      "dropped": "pgx-000992",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE"
+    },
+    {
+      "kept": "pgx-001099",
+      "dropped": "pgx-001100",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-001099",
+      "dropped": "pgx-001101",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-001099",
+      "dropped": "pgx-001102",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY"
+    },
+    {
+      "kept": "pgx-001277",
+      "dropped": "pgx-001279",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW"
+    },
+    {
+      "kept": "pg-000286",
+      "dropped": "pgx-001365",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-001370",
+      "dropped": "pgx-001371",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS"
+    },
+    {
+      "kept": "pgx-001370",
+      "dropped": "pgx-001372",
+      "kept_label": "CPP_OTHER_ERROR",
       "dropped_label": "CPP_ARRAY_BOUNDS"
     },
     {
@@ -31,14 +296,14 @@
   "merged_labels": 0,
   "code_uncovered": 0,
   "per_source": {
-    "CODESTREAM": 33,
-    "SYNTHETIC": 384,
+    "CODESTREAM": 210,
+    "SYNTHETIC": 483,
     "PROGPEDIA": 285
   },
   "per_split": {
-    "train": 588,
-    "test": 33,
-    "dev_gold": 45,
+    "test": 128,
+    "dev_gold": 68,
+    "train": 746,
     "test_iid": 36
   },
   "feature_availability": {
@@ -48,7 +313,7 @@
       "SYNTHETIC": 1.0
     },
     "warnings": {
-      "CODESTREAM": 0.788,
+      "CODESTREAM": 0.976,
       "PROGPEDIA": 1.0,
       "SYNTHETIC": 1.0
     },
@@ -73,14 +338,14 @@
       "SYNTHETIC": 1.0
     },
     "context": {
-      "CODESTREAM": 1.0,
+      "CODESTREAM": 0.138,
       "PROGPEDIA": 1.0,
-      "SYNTHETIC": 0.099
+      "SYNTHETIC": 0.075
     }
   },
   "g1": {
     "ok": true,
-    "n_rows": 996
+    "n_rows": 1475
   },
   "g7": {
     "cluster_split_conflicts": 0,
@@ -97,129 +362,121 @@
     "comparison": "train_vs_test",
     "gate_scope": "plan G7's PSI<0.2 gate is specced for train/val (same pool) and is evaluated at training time (T9); this train-vs-test probe is informational — violations here reflect pool asymmetry (frozen CodeStream-only test) and require team review before G3, not a merge abort",
     "threshold": 0.2,
-    "n_features_checked": 73,
-    "max": 12.5211,
-    "worst_feature": "context.statement_length",
+    "n_features_checked": 85,
+    "max": 13.5543,
+    "worst_feature": "context.sample_test_count",
     "violations": [
       {
+        "feature": "context.sample_test_count",
+        "psi": 13.5543
+      },
+      {
         "feature": "context.statement_length",
-        "psi": 12.5211
+        "psi": 12.0734
       },
       {
         "feature": "static.max_indent_depth",
-        "psi": 11.1831
-      },
-      {
-        "feature": "tests.wrong_answer_count",
-        "psi": 10.7306
-      },
-      {
-        "feature": "tests.first_fail_numeric_diff",
-        "psi": 10.2263
-      },
-      {
-        "feature": "context.sample_test_count",
-        "psi": 9.1841
-      },
-      {
-        "feature": "runtime.duration_s",
-        "psi": 5.5655
-      },
-      {
-        "feature": "static.numeric_literal_count",
-        "psi": 4.8569
-      },
-      {
-        "feature": "static.unique_token_ratio",
-        "psi": 4.6684
-      },
-      {
-        "feature": "static.token_count",
-        "psi": 4.1858
-      },
-      {
-        "feature": "semantics.increment",
-        "psi": 4.1599
-      },
-      {
-        "feature": "static.sloc",
-        "psi": 4.0713
-      },
-      {
-        "feature": "cpg.comparison_count",
-        "psi": 3.726
-      },
-      {
-        "feature": "static.loc",
-        "psi": 3.5164
+        "psi": 11.8846
       },
       {
         "feature": "tests.total",
-        "psi": 2.6893
+        "psi": 6.661
       },
       {
-        "feature": "static.avg_line_length",
-        "psi": 2.164
+        "feature": "tests.first_fail_numeric_diff",
+        "psi": 6.4251
       },
       {
-        "feature": "cpg.loop_count",
-        "psi": 2.0309
+        "feature": "static.loc",
+        "psi": 2.9044
       },
       {
-        "feature": "static.loop_count",
-        "psi": 2.0309
-      },
-      {
-        "feature": "warnings.total",
-        "psi": 1.9463
+        "feature": "static.token_count",
+        "psi": 2.1567
       },
       {
         "feature": "tests.timeout_count",
-        "psi": 1.9152
+        "psi": 1.8139
       },
       {
-        "feature": "warnings.other",
-        "psi": 1.5352
+        "feature": "static.sloc",
+        "psi": 1.3704
       },
       {
-        "feature": "tests.first_fail_index",
-        "psi": 1.2201
+        "feature": "runtime.duration_s",
+        "psi": 1.3533
       },
       {
-        "feature": "tests.failed",
-        "psi": 1.1858
-      },
-      {
-        "feature": "static.function_count",
-        "psi": 1.0933
+        "feature": "static.unique_token_ratio",
+        "psi": 1.2637
       },
       {
         "feature": "static.string_literal_count",
-        "psi": 0.935
+        "psi": 0.8181
       },
       {
-        "feature": "static.return_count",
-        "psi": 0.7853
-      },
-      {
-        "feature": "static.max_line_length",
-        "psi": 0.6344
-      },
-      {
-        "feature": "cpg.function_count",
-        "psi": 0.6075
-      },
-      {
-        "feature": "tests.passed",
-        "psi": 0.4799
+        "feature": "static.function_count",
+        "psi": 0.81
       },
       {
         "feature": "static.if_count",
-        "psi": 0.4326
+        "psi": 0.7048
+      },
+      {
+        "feature": "static.numeric_literal_count",
+        "psi": 0.6521
+      },
+      {
+        "feature": "tests.wrong_answer_count",
+        "psi": 0.5484
+      },
+      {
+        "feature": "cpg.function_count",
+        "psi": 0.5328
+      },
+      {
+        "feature": "static.avg_line_length",
+        "psi": 0.4777
+      },
+      {
+        "feature": "semantics.increment",
+        "psi": 0.464
+      },
+      {
+        "feature": "warnings.other",
+        "psi": 0.4437
+      },
+      {
+        "feature": "tests.passed",
+        "psi": 0.3773
+      },
+      {
+        "feature": "tests.first_fail_index",
+        "psi": 0.2912
+      },
+      {
+        "feature": "warnings.total",
+        "psi": 0.2742
       },
       {
         "feature": "tests.pass_rate",
-        "psi": 0.3852
+        "psi": 0.2656
+      },
+      {
+        "feature": "cpg.comparison_count",
+        "psi": 0.2534
+      },
+      {
+        "feature": "tests.failed",
+        "psi": 0.248
+      },
+      {
+        "feature": "static.loop_count",
+        "psi": 0.2445
+      },
+      {
+        "feature": "cpg.loop_count",
+        "psi": 0.2431
       }
     ]
   }

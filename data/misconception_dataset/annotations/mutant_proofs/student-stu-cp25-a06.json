@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp25-a06",
+ "seed_submission_id": "student:CP25:A",
+ "problem_id": "bank-CP25",
+ "operator": "student_cpp_other_error_06",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "e9c2c8865fdf166b",
+ "mutant_sha256": "afbde304c09e695c7b4228db1d09e2fc40f9a626db7683cccbacbc07aa457a18",
+ "tests_passed": 7,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "\"Invalid\"",
+  "after": "\"INVALID\"",
+  "note": "output case",
+  "base_sha256": "e9c2c8865fdf166b"
+ }
+}

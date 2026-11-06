@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp28-a05",
+ "seed_submission_id": "student:CP28:A",
+ "problem_id": "bank-CP28",
+ "operator": "student_cpp_other_error_05",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "0ca1e759a397331a",
+ "mutant_sha256": "d5fba2dcb35ebd4d7e3ebb65f07ccc5392f9c73d20c3bcfcbe8e2875419a39a0",
+ "tests_passed": 6,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "cout << 11;",
+  "after": "cout << 12;",
+  "note": "wrong price",
+  "base_sha256": "0ca1e759a397331a"
+ }
+}

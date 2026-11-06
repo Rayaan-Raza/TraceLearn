@@ -14,6 +14,25 @@ a class can occur without any simple construct (INT_OVERFLOW, UNINITIALIZED_VAR,
 and OFF_BY_ONE: 7 of 16 rule-labelled CodeStream OFF_BY_ONE rows have no loop,
 array or recursion, because the off-by-one sits in a formula).
 
+A second table, EVIDENCE, holds the observable evidence a class normally leaves: an
+out-of-bounds access crashes or is flagged by the compiler or sits in an index
+expression; endless recursion crashes or times out; an assignment used as a condition
+shows in the code or in a compiler warning. A class is ruled out when its evidence is
+KNOWN to be absent (every feature the gate reads is present and none shows it). A
+missing feature means "cannot tell", so the class stays possible. Gates exist only for
+ARRAY_BOUNDS, MISSING_BASE_CASE and ASSIGN_VS_COMPARE, whose evidence is reliable
+(0 of 899 certain training rows are ruled out by their own label). Gates for
+STALE_EXIT (no timeout in 15 of 41 mutants), WRONG_LOOP_DIR (no `--` in 16 of 31) and
+UNINITIALIZED_VAR (no compiler report in 8 of 39) were tried and removed: the symptom
+is not reliable enough to demand.
+
+Why. Measured on 140 blind-labelled failures of problems held out from training
+(`reports/blind_test_eval.md`, first run), the served model named ARRAY_BOUNDS for 25
+of 112 programs that were wrong for another reason and got none of the 28 real
+misconceptions right: a class dominated by one source (PROGPedia rows) became "the
+answer for any program with an array". A wrong name costs a student more than an
+abstention, so a name needs evidence.
+
 These are definitions, not learned values, so they do not drift with the data.
 `tests/test_applicability.py` pins that no certain training row (execution-
 verified mutant or repair-verified real row) is ruled out by its own label, and
@@ -79,12 +98,53 @@ RULES: tuple[Rule, ...] = (
 RULES_BY_LABEL = {r.label: r for r in RULES}
 
 
+def _evidence(names: tuple[str, ...]):
+    """True when any named feature is >= 1, False when all are known and none is, None if none is known."""
+    def possible(features: Mapping[str, float | None]) -> bool | None:
+        return _any_positive(features, names)
+    return possible
+
+
+def _has_all(features: Mapping[str, float | None], names: tuple[str, ...]) -> bool:
+    return all(_val(features, n) is not None for n in names)
+
+
+def _array_bounds_evidence(f: Mapping[str, float | None]) -> bool | None:
+    crash = ("tests.runtime_error_count", "runtime.crashed", "runtime.asan_error", "warnings.array_bounds")
+    code = ("semantics.index_is_bound", "semantics.idx_plus1", "semantics.idx_minus1")
+    shown = _any_positive(f, crash + code)
+    # known-absent only when the crash side AND the code side were both observable
+    return shown if (shown or (_has_all(f, ("tests.runtime_error_count", "semantics.index_is_bound"))
+                               and _has_all(f, ("runtime.crashed",)))) else None
+
+
+def _recursion_evidence(f: Mapping[str, float | None]) -> bool | None:
+    run = ("runtime.crashed", "runtime.stack_overflow", "runtime.timed_out", "tests.runtime_error_count",
+           "tests.timeout_count", "warnings.infinite_recursion")
+    shown = _any_positive(f, run)
+    no_base = _val(f, "semantics.recursion") == 1 and _val(f, "semantics.base_case") == 0
+    if shown or no_base:
+        return True
+    return False if _has_all(f, ("tests.timeout_count", "runtime.crashed", "semantics.base_case")) else None
+
+
+EVIDENCE: tuple[Rule, ...] = (
+    Rule("CPP_ARRAY_BOUNDS", "crash, array warning or index equal to the length", _array_bounds_evidence),
+    Rule("CPP_MISSING_BASE_CASE", "crash, timeout or recursion without a base case", _recursion_evidence),
+    Rule("CPP_ASSIGN_VS_COMPARE", "assignment in a condition or a parentheses warning",
+         _evidence(("semantics.assign_in_cond", "warnings.parentheses"))),
+)
+
+
 def ruled_out(features: Mapping[str, float | None]) -> dict[str, str]:
-    """Classes this program cannot exhibit, with the construct each one needs."""
+    """Classes this program cannot exhibit (missing construct) or shows no evidence of."""
     out: dict[str, str] = {}
     for rule in RULES:
         if rule.possible(features) is False:
             out[rule.label] = f"the program has no {rule.needs}"
+    for rule in EVIDENCE:
+        if rule.label not in out and rule.possible(features) is False:
+            out[rule.label] = f"no {rule.needs} was observed"
     return out
 
 

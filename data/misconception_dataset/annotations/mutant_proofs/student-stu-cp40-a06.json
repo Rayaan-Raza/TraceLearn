@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp40-a06",
+ "seed_submission_id": "student:CP40:A",
+ "problem_id": "bank-CP40",
+ "operator": "student_cpp_other_error_06",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "221e3d815a542b12",
+ "mutant_sha256": "cbca49d2d63616584de56a832ce3d941a09d4d0a54ed0032d5e78107ef995f69",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "cout << sum << \" \" << i << endl;",
+  "after": "cout << i << \" \" << sum << endl;",
+  "note": "swapped output",
+  "base_sha256": "221e3d815a542b12"
+ }
+}

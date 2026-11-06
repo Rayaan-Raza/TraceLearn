@@ -321,17 +321,29 @@ def test_problem_without_cluster_row_fails(tmp_path: Path):
         _run(ds)
 
 
-def test_g7_seed_group_must_not_straddle_splits(tmp_path: Path):
-    # two rows share a seed_ref but their problems sit in different splits
+def test_g7_detects_a_seed_group_that_straddles_splits():
+    # the detector itself: two rows share a seed_ref but their problems sit in different splits
+    labels = [
+        {"row_id": "mut-1", "problem_id": "p-1", "dataset_source": "SYNTHETIC", "seed_ref": "seed-1", "label": "CPP_OFF_BY_ONE"},
+        {"row_id": "mut-2", "problem_id": "p-2", "dataset_source": "SYNTHETIC", "seed_ref": "seed-1", "label": "CPP_OFF_BY_ONE"},
+    ]
+    clusters = {"p-1": ("c1", "train"), "p-2": ("c2", "test")}
+    results = g7_checks(labels, clusters)
+    assert results["seed_groups"]["ok"] is False
+    assert results["seed_group_conflicts"] == 1
+
+
+def test_merge_drops_the_held_out_synthetic_row_so_a_shared_seed_cannot_straddle(tmp_path: Path):
     t0 = [
         _tier_row("mut-1", "SYNTHETIC", "seed-1", "p-1", seed_ref="seed-1", label_source="synthetic"),
         _tier_row("mut-2", "SYNTHETIC", "tpl-Y-002", "p-2", seed_ref="seed-1", label_source="synthetic"),
     ]
     ds = _build_dataset(tmp_path, {"tier0_mutants": t0}, _CLUSTERS)
-    _run(ds)  # merge reports G7 findings, it never silently re-splits
-    results = g7_checks(*_load_merged(ds))
-    assert results["seed_groups"]["ok"] is False
-    assert results["seed_group_conflicts"] == 1
+    report = _run(ds)
+    labels, clusters = _load_merged(ds)
+    assert {r["row_id"] for r in labels} == {"mut-1"}
+    assert report["synthetic_dropped_from_held_out_problems"] == 1
+    assert g7_checks(labels, clusters)["seed_groups"]["ok"] is True
 
 
 def _load_merged(ds: Path):
@@ -607,3 +619,92 @@ def test_g7_all_ok_is_structural_only_psi_is_reported_not_gating():
         "psi": {"violations": []},
     }
     assert g7_all_ok(leaky) is False
+
+
+# ---------------------------------------------------- bank (extra) clusters
+
+
+def test_extra_bank_clusters_are_added_as_train(tmp_path: Path):
+    from scripts.merge_dataset import add_extra_clusters
+
+    extra = tmp_path / "bank_clusters.csv"
+    extra.write_text("problem_id,cluster_id,split,statement_len\nbank-CP01,bank-CP01,train,10\n", encoding="utf-8")
+    base = {"p1": ("clu-1", "test")}
+    out = add_extra_clusters(base, extra)
+    assert out["bank-CP01"] == ("bank-CP01", "train") and out["p1"] == ("clu-1", "test")
+    assert "bank-CP01" not in base                                # input untouched
+
+
+def test_extra_clusters_file_is_optional(tmp_path: Path):
+    from scripts.merge_dataset import add_extra_clusters
+
+    base = {"p1": ("clu-1", "train")}
+    assert add_extra_clusters(base, tmp_path / "missing.csv") == base
+
+
+@pytest.mark.parametrize("line", [
+    "bank-CP01,bank-CP01,test,10",          # held-out split is not allowed
+    "p1,bank-CP01,train,10",                # redefines an existing problem
+    "bank-CP01,clu-1,train,10",             # reuses an existing cluster id
+])
+def test_extra_clusters_reject_leaky_or_colliding_rows(tmp_path: Path, line: str):
+    from scripts.merge_dataset import add_extra_clusters
+
+    extra = tmp_path / "bank_clusters.csv"
+    extra.write_text("problem_id,cluster_id,split,statement_len\n" + line + "\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        add_extra_clusters({"p1": ("clu-1", "train")}, extra)
+
+
+# ---------------------------------------------- Lane B gold pools hold clusters out
+
+
+def _pools(tmp_path: Path, rows: str) -> Path:
+    path = tmp_path / "codestream_clusters.csv"
+    path.write_text("problem_id,source_problem_id,problem_cluster,pool\n" + rows, encoding="utf-8")
+    return path
+
+
+def test_a_problem_the_gold_pools_hold_out_is_held_out_with_its_whole_cluster(tmp_path: Path):
+    from scripts.merge_dataset import apply_pool_overrides
+
+    base = {"p1": ("clu-1", "train"), "p2": ("clu-1", "train"), "p3": ("clu-2", "train")}
+    out = apply_pool_overrides(base, _pools(tmp_path, "p1,x,cs-1,test\np3,x,cs-3,train\n"))
+    assert out["p1"] == ("clu-1", "test") and out["p2"] == ("clu-1", "test")      # the cluster moves together
+    assert out["p3"] == ("clu-2", "train")
+
+
+def test_dev_gold_pool_becomes_dev_gold_and_test_wins_a_conflict(tmp_path: Path):
+    from scripts.merge_dataset import apply_pool_overrides
+
+    base = {"p1": ("clu-1", "train"), "p2": ("clu-2", "train"), "p3": ("clu-2", "train")}
+    out = apply_pool_overrides(base, _pools(tmp_path, "p1,x,a,dev_gold\np2,x,b,dev_gold\np3,x,c,test\n"))
+    assert out["p1"][1] == "dev_gold" and out["p2"][1] == "test" and out["p3"][1] == "test"
+
+
+def test_already_held_out_splits_are_never_changed_and_train_pools_change_nothing(tmp_path: Path):
+    from scripts.merge_dataset import apply_pool_overrides
+
+    base = {"p1": ("clu-1", "test"), "p2": ("clu-2", "dev_gold"), "p3": ("clu-3", "train")}
+    out = apply_pool_overrides(base, _pools(tmp_path, "p1,x,a,dev_gold\np2,x,b,test\np3,x,c,train\n"))
+    assert out == base
+
+
+def test_missing_pool_file_changes_nothing(tmp_path: Path):
+    from scripts.merge_dataset import apply_pool_overrides
+
+    base = {"p1": ("clu-1", "train")}
+    assert apply_pool_overrides(base, tmp_path / "nope.csv") == base
+
+
+def test_synthetic_rows_of_held_out_problems_are_dropped_but_natural_rows_stay():
+    from scripts.merge_dataset import drop_held_out_synthetic
+
+    clusters = {"p_train": ("c1", "train"), "p_test": ("c2", "test"), "p_dev": ("c3", "dev_gold")}
+    rows = [
+        {"row_id": "mut-1", "dataset_source": "SYNTHETIC", "problem_id": "p_train"},
+        {"row_id": "mut-2", "dataset_source": "SYNTHETIC", "problem_id": "p_test"},
+        {"row_id": "mut-3", "dataset_source": "SYNTHETIC", "problem_id": "p_dev"},
+        {"row_id": "bl-1", "dataset_source": "CODESTREAM", "problem_id": "p_test"},
+    ]
+    assert [r["row_id"] for r in drop_held_out_synthetic(rows, clusters)] == ["mut-1", "bl-1"]

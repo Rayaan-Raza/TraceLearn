@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp15-b04",
+ "seed_submission_id": "student:CP15:B",
+ "problem_id": "bank-CP15",
+ "operator": "student_cpp_uninitialized_var_04",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "33c2c54eecb9692d",
+ "mutant_sha256": "4fe011208ec9928807751626877bc7e52e62e5fcff6b1f4a9b864a6fb2ab923f",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "i, x, c;",
+  "after": "i, x, c = 0;",
+  "note": "counter never initialised",
+  "base_sha256": "33c2c54eecb9692d"
+ }
+}

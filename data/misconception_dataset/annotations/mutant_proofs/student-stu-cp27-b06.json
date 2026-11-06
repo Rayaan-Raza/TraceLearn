@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp27-b06",
+ "seed_submission_id": "student:CP27:B",
+ "problem_id": "bank-CP27",
+ "operator": "student_cpp_other_error_06",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "f91c0a1b694419b8",
+ "mutant_sha256": "e36c3764046c3aae876f7458510145d1c205ff864d6a09719d4732d2827c67c1",
+ "tests_passed": 3,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "\"LIQUID WATER\\n\"",
+  "after": "\"LIQUID\\n\"",
+  "note": "output text",
+  "base_sha256": "f91c0a1b694419b8"
+ }
+}

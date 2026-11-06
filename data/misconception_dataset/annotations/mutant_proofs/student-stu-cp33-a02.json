@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp33-a02",
+ "seed_submission_id": "student:CP33:A",
+ "problem_id": "bank-CP33",
+ "operator": "student_cpp_missing_base_case_02",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "7839aea86ed55efd",
+ "mutant_sha256": "06fa8534455b01ec13e7f821db12daf9f7a414bd3400928ba803acf4d4b5d734",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "sum_to(n)",
+  "after": "sum_to(n - 1)",
+  "note": "call does not make progress",
+  "base_sha256": "7839aea86ed55efd"
+ }
+}

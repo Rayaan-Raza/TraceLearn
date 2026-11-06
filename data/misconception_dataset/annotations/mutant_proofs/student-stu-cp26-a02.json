@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp26-a02",
+ "seed_submission_id": "student:CP26:A",
+ "problem_id": "bank-CP26",
+ "operator": "student_cpp_uninitialized_var_02",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "996f0a56fbaa21e7",
+ "mutant_sha256": "b2d845b95caf8bd486891bdc0f0c22deec55db1d11a8491c853f0ea6ae6d5581",
+ "tests_passed": 6,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "    else cost = -1;\n",
+  "note": "cost unset for invalid weights",
+  "base_sha256": "996f0a56fbaa21e7"
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp36-a03",
+ "seed_submission_id": "student:CP36:A",
+ "problem_id": "bank-CP36",
+ "operator": "student_cpp_off_by_one_03",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "a014118cf5c88dc6",
+ "mutant_sha256": "582f056217cfeed915d91a503741b896e882dd59f44d5d5a40c34d925cc33eff",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "int count = 1;",
+  "after": "int count = 0;",
+  "note": "counter starts at 1",
+  "base_sha256": "a014118cf5c88dc6"
+ }
+}

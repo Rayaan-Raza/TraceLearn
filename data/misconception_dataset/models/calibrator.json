@@ -1,102 +1,111 @@
 {
-  "temperature": 1.3,
+  "temperature": 1.1,
   "threshold": 0.45,
   "fitted_on": {
-    "n": 45,
+    "n": 68,
     "split": "dev_gold"
   },
   "isotonic_used": false,
   "scope": "one global threshold + temperature",
   "variants": {
     "best": {
-      "temperature": 1.3,
-      "threshold": 0.42,
-      "method": "grouped out-of-fold predictions, selective-precision threshold, cluster bootstrap",
+      "temperature": 1.0,
+      "threshold": 0.38,
+      "method": "grouped out-of-fold predictions, F-beta (0.5) threshold on real rows, cluster bootstrap",
+      "criterion": {
+        "name": "fbeta",
+        "beta": 0.5,
+        "threshold": 0.38,
+        "fbeta": 0.5822,
+        "precision": 0.661,
+        "recall": 0.394,
+        "false_alarm": 0.306
+      },
       "target_precision": 0.8,
       "target_population": "non_synthetic",
       "target_reached_on_full_sample": true,
-      "point_estimate_threshold": 0.43,
+      "point_estimate_threshold": 0.38,
       "bootstrap": {
         "resamples": 200,
         "seed": 7,
-        "p05": 0.2395,
-        "p50": 0.425,
-        "p95": 0.47,
+        "p05": 0.34,
+        "p50": 0.38,
+        "p95": 0.6004999999999998,
         "resamples_reaching_target": 200
       },
       "sensitivity_threshold_by_target_precision": {
-        "0.7": 0.34,
-        "0.9": 0.56
+        "0.7": 0.6,
+        "0.9": null
       },
       "temperature_fit": {
-        "temperature": 1.3,
-        "nll_optimal_temperature": 1.3,
-        "ece_raw": 0.1033,
-        "ece_at_nll_optimal": 0.0975,
-        "applied": true
+        "temperature": 1.0,
+        "nll_optimal_temperature": 1.0,
+        "ece_raw": 0.0433,
+        "ece_at_nll_optimal": 0.0433,
+        "applied": false
       },
       "fitted_on": {
-        "rows": 588,
+        "rows": 746,
         "repeats": 3,
-        "clusters": 23,
-        "non_synthetic_rows": 226
+        "clusters": 59,
+        "non_synthetic_rows": 263
       },
-      "ece_after": 0.0975,
-      "ece_after_real_rows": 0.0999,
+      "ece_after": 0.0433,
+      "ece_after_real_rows": 0.1163,
       "mean_top_probability": {
-        "all": 0.737,
-        "non_synthetic": 0.634,
-        "synthetic": 0.802
+        "all": 0.575,
+        "non_synthetic": 0.543,
+        "synthetic": 0.592
       },
       "risk_coverage": [
         {
           "threshold": 0.2,
-          "coverage_all": 0.997,
-          "precision_all": 0.729,
-          "coverage_real": 0.996,
-          "precision_real": 0.609
+          "coverage_all": 0.992,
+          "precision_all": 0.581,
+          "coverage_real": 0.995,
+          "precision_real": 0.462
         },
         {
           "threshold": 0.3,
-          "coverage_all": 0.918,
-          "precision_all": 0.776,
-          "coverage_real": 0.863,
-          "precision_real": 0.667
+          "coverage_all": 0.878,
+          "precision_all": 0.627,
+          "coverage_real": 0.868,
+          "precision_real": 0.508
         },
         {
           "threshold": 0.4,
-          "coverage_all": 0.823,
-          "precision_all": 0.833,
-          "coverage_real": 0.677,
-          "precision_real": 0.778
+          "coverage_all": 0.689,
+          "precision_all": 0.714,
+          "coverage_real": 0.662,
+          "precision_real": 0.58
         },
         {
           "threshold": 0.5,
-          "coverage_all": 0.76,
-          "precision_all": 0.886,
-          "coverage_real": 0.58,
-          "precision_real": 0.878
+          "coverage_all": 0.546,
+          "precision_all": 0.788,
+          "coverage_real": 0.513,
+          "precision_real": 0.642
         },
         {
           "threshold": 0.6,
-          "coverage_all": 0.711,
-          "precision_all": 0.928,
-          "coverage_real": 0.527,
-          "precision_real": 0.941
+          "coverage_all": 0.426,
+          "precision_all": 0.853,
+          "coverage_real": 0.352,
+          "precision_real": 0.701
         },
         {
           "threshold": 0.7,
-          "coverage_all": 0.667,
-          "precision_all": 0.959,
-          "coverage_real": 0.496,
-          "precision_real": 0.964
+          "coverage_all": 0.333,
+          "precision_all": 0.885,
+          "coverage_real": 0.238,
+          "precision_real": 0.697
         },
         {
           "threshold": 0.8,
-          "coverage_all": 0.604,
-          "precision_all": 0.986,
-          "coverage_real": 0.442,
-          "precision_real": 0.99
+          "coverage_all": 0.251,
+          "precision_all": 0.889,
+          "coverage_real": 0.179,
+          "precision_real": 0.624
         }
       ],
       "caveat": "precision is agreement with row labels; non-synthetic labels are mostly weak-rule labels, and out-of-fold real rows are more familiar than new classrooms",
@@ -104,94 +113,103 @@
       "scope": "one global threshold + temperature per variant"
     },
     "common": {
-      "temperature": 1.0,
-      "threshold": 0.53,
-      "method": "grouped out-of-fold predictions, selective-precision threshold, cluster bootstrap",
+      "temperature": 1.1,
+      "threshold": 0.43,
+      "method": "grouped out-of-fold predictions, F-beta (0.5) threshold on real rows, cluster bootstrap",
+      "criterion": {
+        "name": "fbeta",
+        "beta": 0.5,
+        "threshold": 0.43,
+        "fbeta": 0.5681,
+        "precision": 0.669,
+        "recall": 0.355,
+        "false_alarm": 0.278
+      },
       "target_precision": 0.8,
       "target_population": "non_synthetic",
       "target_reached_on_full_sample": true,
-      "point_estimate_threshold": 0.55,
+      "point_estimate_threshold": 0.43,
       "bootstrap": {
         "resamples": 200,
         "seed": 7,
-        "p05": 0.2795,
-        "p50": 0.53,
-        "p95": 0.67,
+        "p05": 0.4,
+        "p50": 0.43,
+        "p95": 0.61,
         "resamples_reaching_target": 200
       },
       "sensitivity_threshold_by_target_precision": {
-        "0.7": 0.41,
-        "0.9": 0.69
+        "0.7": null,
+        "0.9": null
       },
       "temperature_fit": {
-        "temperature": 1.0,
-        "nll_optimal_temperature": 1.3,
-        "ece_raw": 0.0911,
-        "ece_at_nll_optimal": 0.0957,
-        "applied": false
+        "temperature": 1.1,
+        "nll_optimal_temperature": 1.1,
+        "ece_raw": 0.052,
+        "ece_at_nll_optimal": 0.0489,
+        "applied": true
       },
       "fitted_on": {
-        "rows": 588,
+        "rows": 746,
         "repeats": 3,
-        "clusters": 23,
-        "non_synthetic_rows": 226
+        "clusters": 59,
+        "non_synthetic_rows": 263
       },
-      "ece_after": 0.0911,
-      "ece_after_real_rows": 0.1321,
+      "ece_after": 0.0489,
+      "ece_after_real_rows": 0.0837,
       "mean_top_probability": {
-        "all": 0.807,
-        "non_synthetic": 0.71,
-        "synthetic": 0.868
+        "all": 0.532,
+        "non_synthetic": 0.512,
+        "synthetic": 0.543
       },
       "risk_coverage": [
         {
           "threshold": 0.2,
-          "coverage_all": 0.998,
-          "precision_all": 0.731,
-          "coverage_real": 0.996,
-          "precision_real": 0.622
+          "coverage_all": 0.985,
+          "precision_all": 0.55,
+          "coverage_real": 0.999,
+          "precision_real": 0.444
         },
         {
           "threshold": 0.3,
-          "coverage_all": 0.981,
-          "precision_all": 0.742,
-          "coverage_real": 0.956,
-          "precision_real": 0.644
+          "coverage_all": 0.829,
+          "precision_all": 0.616,
+          "coverage_real": 0.847,
+          "precision_real": 0.497
         },
         {
           "threshold": 0.4,
-          "coverage_all": 0.883,
-          "precision_all": 0.788,
-          "coverage_real": 0.779,
-          "precision_real": 0.693
+          "coverage_all": 0.644,
+          "precision_all": 0.679,
+          "coverage_real": 0.639,
+          "precision_real": 0.548
         },
         {
           "threshold": 0.5,
-          "coverage_all": 0.821,
-          "precision_all": 0.83,
-          "coverage_real": 0.686,
-          "precision_real": 0.761
+          "coverage_all": 0.483,
+          "precision_all": 0.754,
+          "coverage_real": 0.413,
+          "precision_real": 0.632
         },
         {
           "threshold": 0.6,
-          "coverage_all": 0.76,
-          "precision_all": 0.872,
-          "coverage_real": 0.593,
-          "precision_real": 0.843
+          "coverage_all": 0.369,
+          "precision_all": 0.812,
+          "coverage_real": 0.286,
+          "precision_real": 0.677
         },
         {
           "threshold": 0.7,
-          "coverage_all": 0.719,
-          "precision_all": 0.91,
-          "coverage_real": 0.535,
-          "precision_real": 0.909
+          "coverage_all": 0.27,
+          "precision_all": 0.838,
+          "coverage_real": 0.2,
+          "precision_real": 0.671
         },
         {
           "threshold": 0.8,
-          "coverage_all": 0.679,
-          "precision_all": 0.947,
-          "coverage_real": 0.513,
-          "precision_real": 0.94
+          "coverage_all": 0.185,
+          "precision_all": 0.869,
+          "coverage_real": 0.163,
+          "precision_real": 0.628
         }
       ],
       "caveat": "precision is agreement with row labels; non-synthetic labels are mostly weak-rule labels, and out-of-fold real rows are more familiar than new classrooms",
@@ -199,5 +217,5 @@
       "scope": "one global threshold + temperature per variant"
     }
   },
-  "note": "fitted on 45 dev-gold rows"
+  "note": "fitted on 68 dev-gold rows"
 }
