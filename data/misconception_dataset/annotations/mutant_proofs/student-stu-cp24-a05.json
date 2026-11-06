@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp24-a05",
+ "seed_submission_id": "student:CP24:A",
+ "problem_id": "bank-CP24",
+ "operator": "student_cpp_other_error_05",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "95cc58fabf460143",
+ "mutant_sha256": "4d1a6d12d8ddec666b23d040079648ece915202b6157539bebf92cb80962d44d",
+ "tests_passed": 2,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "\"OUT OF RANGE\"",
+  "after": "\"OUT_OF_RANGE\"",
+  "note": "output text",
+  "base_sha256": "95cc58fabf460143"
+ }
+}

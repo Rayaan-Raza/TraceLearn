@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp03-b03",
+ "seed_submission_id": "student:CP03:B",
+ "problem_id": "bank-CP03",
+ "operator": "student_cpp_other_error_03",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "63506d3f6ebd3460",
+ "mutant_sha256": "94a2c90a1698364af8fed0307a09c32c88df4851a40c98203e4c1e4b311df847",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "printf(\"%d\\n\", ans);",
+  "after": "printf(\"%d\\n\", ans + 1);",
+  "note": "forgets the +1",
+  "base_sha256": "63506d3f6ebd3460"
+ }
+}

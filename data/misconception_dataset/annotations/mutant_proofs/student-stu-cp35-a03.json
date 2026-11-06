@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp35-a03",
+ "seed_submission_id": "student:CP35:A",
+ "problem_id": "bank-CP35",
+ "operator": "student_cpp_other_error_03",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "4b5a323874f3bfc5",
+ "mutant_sha256": "0f3b183163e986b28b6f0442f0c2458a5785e2e1e0033ea8ba94599e6f2e5b7e",
+ "tests_passed": 2,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "fib(n - 1) + fib(n - 1)",
+  "after": "fib(n - 1) + fib(n - 2)",
+  "note": "same call twice",
+  "base_sha256": "4b5a323874f3bfc5"
+ }
+}

@@ -125,6 +125,69 @@ def load_cluster_table(path: Path) -> dict[str, tuple[str, str]]:
     return table
 
 
+def add_extra_clusters(
+    clusters: dict[str, tuple[str, str]], path: Path
+) -> dict[str, tuple[str, str]]:
+    """Add train-only clusters for problems that are not CodeStream problems.
+
+    The C++ bank problems behind the student-style synthetic rows have no row in
+    `cluster_assignments.csv`. Their file may only assign `train`, may not reuse a
+    cluster id from the main table, and may not redefine a problem.
+    """
+    if not Path(path).exists():
+        return clusters
+    extra = load_cluster_table(path)
+    main_clusters = {cid for cid, _ in clusters.values()}
+    for pid, (cid, split) in extra.items():
+        if split != "train":
+            raise ValueError(f"{path}: extra cluster {cid!r} is {split!r}; only train is allowed")
+        if pid in clusters or cid in main_clusters:
+            raise ValueError(f"{path}: {pid!r} / {cid!r} collides with cluster_assignments.csv")
+    return {**clusters, **extra}
+
+
+HELD_OUT_SPLITS = frozenset({"test", "dev_gold"})
+
+
+def apply_pool_overrides(
+    clusters: dict[str, tuple[str, str]], path: Path
+) -> dict[str, tuple[str, str]]:
+    """Hold out every cluster that EITHER split table holds out.
+
+    `cluster_assignments.csv` (this merge) and `codestream_clusters.csv` (the Lane B
+    gold pools) were built separately and disagree on 20 of the 30 CodeStream problems
+    that have failing rows: a problem the gold pools hold out as `test` was `train` here,
+    so its rows and the mutants seeded from it reached training. A problem is now held
+    out when either table says so, and the whole `cluster_assignments` cluster moves with
+    it so no cluster straddles splits. A train cluster is never created from a held-out
+    one, and a split already held out here is left as it is.
+    """
+    if not Path(path).exists():
+        return clusters
+    with Path(path).open(newline="", encoding="utf-8") as fh:
+        pools = {r["problem_id"]: r["pool"] for r in csv.DictReader(fh)}
+    demand: dict[str, str] = {}
+    for pid, pool in pools.items():
+        if pool in HELD_OUT_SPLITS and pid in clusters:
+            cid = clusters[pid][0]
+            demand[cid] = "test" if "test" in (demand.get(cid), pool) else "dev_gold"
+    return {
+        pid: ((cid, demand[cid]) if cid in demand and split not in HELD_OUT_SPLITS else (cid, split))
+        for pid, (cid, split) in clusters.items()
+    }
+
+
+def drop_held_out_synthetic(
+    rows: list[dict[str, Any]], clusters: dict[str, tuple[str, str]]
+) -> list[dict[str, Any]]:
+    """Remove SYNTHETIC rows whose problem is in a held-out (test / dev_gold) split."""
+    return [
+        r for r in rows
+        if not (r.get("dataset_source") == "SYNTHETIC"
+                and clusters.get(str(r.get("problem_id")), ("", "train"))[1] in HELD_OUT_SPLITS)
+    ]
+
+
 IID_SPLIT = "test_iid"
 
 
@@ -639,11 +702,19 @@ def merge(
     # 7) cluster/split join — an unlabeled-cluster problem is an integrity
     #    failure, never guessed
     clusters = load_cluster_table(ds / "splits" / "cluster_assignments.csv")
+    clusters = add_extra_clusters(clusters, ds / "splits" / "bank_clusters.csv")
+    clusters = apply_pool_overrides(clusters, ds / "splits" / "codestream_clusters.csv")
     missing = sorted({str(r["problem_id"]) for r in rows if r["problem_id"] not in clusters})
     if missing:
         raise ValueError(
             f"{len(missing)} labeled problem(s) have no cluster row (G7 integrity): {missing[:5]}"
         )
+    # Synthetic rows are training material only. A mutant of a held-out problem is not
+    # needed for any held-out score and, when its seed is a template shared with a train
+    # problem, would put one seed group on both sides of the split (G7). Drop them.
+    before_drop = len(rows)
+    rows = drop_held_out_synthetic(rows, clusters)
+    dropped_synthetic = before_drop - len(rows)
     for row in rows:
         cluster_id, _split = clusters[row["problem_id"]]
         row["problem_cluster"] = cluster_id
@@ -740,6 +811,7 @@ def merge(
         "n_rows_before_dedupe": before,
         "n_rows": len(rows),
         "deduped": n_deduped,
+        "synthetic_dropped_from_held_out_problems": dropped_synthetic,
         "dedupe_threshold": threshold,
         "dedupe_label_conflicts": dedupe_conflicts,
         "merged_labels": n_merged,

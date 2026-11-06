@@ -747,3 +747,19 @@ python scripts/train_xgb_misconception.py --cv-repeats 3             # regenerat
 python scripts/evaluate_holdout.py --split test_iid                  # IID check (8 certain rows)
 # python scripts/evaluate_holdout.py --split test --confirm-one-shot # ONE-SHOT: do not run before gold is signed
 ```
+
+## 12. Model accuracy work (branch `feat/model-accuracy`) - read this before quoting any number
+
+**Provenance.** The owner instructed (2026-11-07) that the CodeStream data be treated as human-labelled. Labels from the model-assisted pre-review and from my own blind labelling are therefore marked `assumed-human`. Every figure below is agreement with that reviewer, not with an independent person. A real pilot with human raters is still needed before claiming human-verified accuracy.
+
+**Corrections to earlier results.** Two split tables (`cluster_assignments.csv`, `codestream_clusters.csv`) disagreed, so some "held-out" problems were in training. The merge now uses the union holdout rule and drops synthetic rows of held-out problems. The earlier 0.68 blind macro-F1 and parts of the earlier dev-gold reports were contaminated and are discarded.
+
+**What changed.** Execution-verified student-style synthetic programs for the bank problems only; 12 label-free surface-pattern features; applicability rules and evidence gates (ruled-out mass moves to OTHER_ERROR); F-beta 0.5 abstain threshold chosen post hoc (disclosed); profile `regular` chosen by the pre-registered grouped out-of-fold rule (`default` fails the 0.30 false-alarm limit).
+
+**Results.**
+- Development set (`blind_test_eval`, 140 items, 14 problems): used to design features and gates, so not an unbiased estimate. Misconception recall 0/28, false alarm 10.7% (best). On genuinely unseen problems the model did not detect problem-specific semantic bugs.
+- Untouched final set (`blind_final_eval`, 83 items, 7 problems, scored once): false alarm on OTHER 5.1% (4/79); 4 misconceptions only; recall 2/4 (CI 0.15-0.85); precision when flagged 2/6; macro-F1 0.40 against 0.24 for always-OTHER. Both positives found were assign-in-condition. The intervals are very wide: this shows the false-alarm rate is low, not that detection is good.
+
+**Known failures.** Gate G8 (synthetic mass and class mass) still fails. Detection of off-by-one, range and other semantic bugs on unseen problems is unproven. Real labelled examples of those classes are what is missing.
+
+**Unrelated failing tests.** `test_history_contract::test_contract_partitions_every_source_type` and the `test_security` setup errors fail on the committed code without these changes.

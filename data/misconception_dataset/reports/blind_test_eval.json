@@ -1,0 +1,431 @@
+{
+  "at": "2026-11-06T11:40:04+00:00",
+  "labels_sha256": "cb2a76dc8820cf4befc10fe4176f4bb23e031633e2db86e77802eb1ad20b9e92",
+  "n_items": 140,
+  "uncertain_dropped": 3,
+  "truth_counts": {
+    "CPP_OTHER_ERROR": 112,
+    "CPP_OFF_BY_ONE": 17,
+    "CPP_RANGE_CHECK": 8,
+    "CPP_ARRAY_BOUNDS": 3
+  },
+  "problems": 14,
+  "provenance": "blind labels by a model-assisted reviewer, treated as human on the owner's instruction (2026-11-07); agreement with that reviewer, not with an independent person",
+  "systems": {
+    "baseline: always OTHER_ERROR": {
+      "n": 140,
+      "n_other": 112,
+      "n_misconception": 28,
+      "false_alarm_rate": {
+        "k": 0,
+        "n": 112,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.033
+        ]
+      },
+      "precision_when_flagged": {
+        "k": 0,
+        "n": 0,
+        "value": null,
+        "ci95": [
+          null,
+          null
+        ]
+      },
+      "misconception_recall": {
+        "k": 0,
+        "n": 28,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.121
+        ]
+      },
+      "misconception_detected_any_class": {
+        "k": 0,
+        "n": 28,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.121
+        ]
+      },
+      "abstain_rate": {
+        "k": 0,
+        "n": 140,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.027
+        ]
+      },
+      "macro_f1": 0.222,
+      "per_class": {
+        "CPP_ARRAY_BOUNDS": {
+          "support": 3,
+          "predicted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "CPP_OFF_BY_ONE": {
+          "support": 17,
+          "predicted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "CPP_OTHER_ERROR": {
+          "support": 112,
+          "predicted": 140,
+          "correct": 112,
+          "precision": 0.8,
+          "recall": 1.0
+        },
+        "CPP_RANGE_CHECK": {
+          "support": 8,
+          "predicted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        }
+      },
+      "macro_f1_ci95_by_problem": [
+        0.2,
+        0.318
+      ]
+    },
+    "baseline: labeling-function rules": {
+      "n": 140,
+      "n_other": 112,
+      "n_misconception": 28,
+      "false_alarm_rate": {
+        "k": 6,
+        "n": 112,
+        "value": 0.054,
+        "ci95": [
+          0.025,
+          0.112
+        ]
+      },
+      "precision_when_flagged": {
+        "k": 1,
+        "n": 8,
+        "value": 0.125,
+        "ci95": [
+          0.022,
+          0.471
+        ]
+      },
+      "misconception_recall": {
+        "k": 1,
+        "n": 28,
+        "value": 0.036,
+        "ci95": [
+          0.006,
+          0.177
+        ]
+      },
+      "misconception_detected_any_class": {
+        "k": 2,
+        "n": 28,
+        "value": 0.071,
+        "ci95": [
+          0.02,
+          0.226
+        ]
+      },
+      "abstain_rate": {
+        "k": 0,
+        "n": 140,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.027
+        ]
+      },
+      "macro_f1": 0.267,
+      "per_class": {
+        "CPP_ARRAY_BOUNDS": {
+          "support": 3,
+          "predicted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "CPP_LOOP_BOUNDARY": {
+          "support": 0,
+          "predicted": 4,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        },
+        "CPP_OFF_BY_ONE": {
+          "support": 17,
+          "predicted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "CPP_OTHER_ERROR": {
+          "support": 112,
+          "predicted": 132,
+          "correct": 106,
+          "precision": 0.803,
+          "recall": 0.946
+        },
+        "CPP_RANGE_CHECK": {
+          "support": 8,
+          "predicted": 2,
+          "correct": 1,
+          "precision": 0.5,
+          "recall": 0.125
+        },
+        "CPP_WRONG_LOOP_DIR": {
+          "support": 0,
+          "predicted": 2,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        }
+      },
+      "macro_f1_ci95_by_problem": [
+        0.205,
+        0.406
+      ]
+    },
+    "model: best": {
+      "n": 140,
+      "n_other": 112,
+      "n_misconception": 28,
+      "false_alarm_rate": {
+        "k": 12,
+        "n": 112,
+        "value": 0.107,
+        "ci95": [
+          0.062,
+          0.178
+        ]
+      },
+      "precision_when_flagged": {
+        "k": 0,
+        "n": 19,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.168
+        ]
+      },
+      "misconception_recall": {
+        "k": 0,
+        "n": 28,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.121
+        ]
+      },
+      "misconception_detected_any_class": {
+        "k": 7,
+        "n": 28,
+        "value": 0.25,
+        "ci95": [
+          0.127,
+          0.434
+        ]
+      },
+      "abstain_rate": {
+        "k": 10,
+        "n": 140,
+        "value": 0.071,
+        "ci95": [
+          0.039,
+          0.126
+        ]
+      },
+      "macro_f1": 0.204,
+      "per_class": {
+        "CPP_ARRAY_BOUNDS": {
+          "support": 3,
+          "predicted": 10,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "CPP_ASSIGN_VS_COMPARE": {
+          "support": 0,
+          "predicted": 1,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        },
+        "CPP_OFF_BY_ONE": {
+          "support": 17,
+          "predicted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "CPP_OTHER_ERROR": {
+          "support": 112,
+          "predicted": 111,
+          "correct": 91,
+          "precision": 0.82,
+          "recall": 0.812
+        },
+        "CPP_RANGE_CHECK": {
+          "support": 8,
+          "predicted": 2,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "CPP_STALE_EXIT": {
+          "support": 0,
+          "predicted": 3,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        },
+        "CPP_UNINITIALIZED_VAR": {
+          "support": 0,
+          "predicted": 3,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        }
+      },
+      "macro_f1_ci95_by_problem": [
+        0.18,
+        0.293
+      ]
+    },
+    "model: common": {
+      "n": 140,
+      "n_other": 112,
+      "n_misconception": 28,
+      "false_alarm_rate": {
+        "k": 23,
+        "n": 112,
+        "value": 0.205,
+        "ci95": [
+          0.141,
+          0.289
+        ]
+      },
+      "precision_when_flagged": {
+        "k": 0,
+        "n": 33,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.104
+        ]
+      },
+      "misconception_recall": {
+        "k": 0,
+        "n": 28,
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.121
+        ]
+      },
+      "misconception_detected_any_class": {
+        "k": 10,
+        "n": 28,
+        "value": 0.357,
+        "ci95": [
+          0.207,
+          0.542
+        ]
+      },
+      "abstain_rate": {
+        "k": 4,
+        "n": 140,
+        "value": 0.029,
+        "ci95": [
+          0.011,
+          0.071
+        ]
+      },
+      "macro_f1": 0.198,
+      "per_class": {
+        "CPP_ARRAY_BOUNDS": {
+          "support": 3,
+          "predicted": 15,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "CPP_ASSIGN_VS_COMPARE": {
+          "support": 0,
+          "predicted": 7,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        },
+        "CPP_INT_OVERFLOW": {
+          "support": 0,
+          "predicted": 4,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        },
+        "CPP_OFF_BY_ONE": {
+          "support": 17,
+          "predicted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "CPP_OTHER_ERROR": {
+          "support": 112,
+          "predicted": 103,
+          "correct": 85,
+          "precision": 0.825,
+          "recall": 0.759
+        },
+        "CPP_RANGE_CHECK": {
+          "support": 8,
+          "predicted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "CPP_STALE_EXIT": {
+          "support": 0,
+          "predicted": 5,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        },
+        "CPP_UNINITIALIZED_VAR": {
+          "support": 0,
+          "predicted": 2,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
+        }
+      },
+      "macro_f1_ci95_by_problem": [
+        0.171,
+        0.285
+      ]
+    }
+  },
+  "models": {
+    "best": {
+      "sha256_16": "f00def4776482155",
+      "temperature": 1.0,
+      "threshold": 0.41
+    },
+    "common": {
+      "sha256_16": "343894591bccd3f6",
+      "temperature": 1.0,
+      "threshold": 0.42
+    }
+  }
+}

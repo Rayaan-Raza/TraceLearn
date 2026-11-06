@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp31-b03",
+ "seed_submission_id": "student:CP31:B",
+ "problem_id": "bank-CP31",
+ "operator": "student_cpp_other_error_03",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "acbcb7b473dc272e",
+ "mutant_sha256": "8d834403785d4c70522f06c98d43ec8e49d075d6c10653f176ebf6fdee644081",
+ "tests_passed": 5,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "r1 == 0",
+  "after": "r1 == 0 && r2 == 0",
+  "note": "second divisor ignored",
+  "base_sha256": "acbcb7b473dc272e"
+ }
+}

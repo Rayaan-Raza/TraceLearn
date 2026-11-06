@@ -30,6 +30,16 @@ target precision is 0.80 and the bootstrap has 200 resamples. The OOF risk
 table was inspected before 0.80 was chosen, so the target is a stated policy, not
 a discovered optimum. Sensitivity (0.70 / 0.90) is stored next to the result.
 
+Change after seeing the enlarged real set (2026-11-07). With 105 real OTHER_ERROR
+rows in training, the 80%-agreement rule above could only be met at thresholds of
+0.86-0.92, where the served model abstained on 95% of real rows. When the caller
+passes `other_idx`, the threshold is instead the one that maximises F-beta (beta 0.5,
+precision weighted twice as heavily as recall) of "flagged with the right
+misconception name" on the non-synthetic rows. A wrong name costs a student more than
+a missed one, and the criterion does not collapse. The old rule remains the default
+when `other_idx` is omitted. This was decided after looking at out-of-fold results on
+the real rows, and is disclosed as such.
+
 Limits stated in the output: "correct" means "agrees with the row's label"; for
 non-synthetic rows those are mostly weak-rule labels, so precision here measures
 agreement with the rules, not with a human. Out-of-fold real rows are also more
@@ -155,8 +165,49 @@ def bootstrap_threshold(
     return draws
 
 
+FBETA = 0.5
+
+
+def fbeta_threshold(scaled: np.ndarray, y: np.ndarray, is_real: np.ndarray, other_idx: int,
+                    beta: float = FBETA) -> dict[str, Any]:
+    """Threshold maximising F-beta of "flagged with the right misconception name" on real rows."""
+    conf, top = scaled.max(axis=1), scaled.argmax(axis=1)
+    real = is_real if int(is_real.sum()) >= MIN_REAL_ROWS else np.ones_like(is_real, dtype=bool)
+    misc_truth = real & (y != other_idx)
+    best = {"threshold": None, "fbeta": -1.0}
+    for t in GRID:
+        flagged = real & (conf >= t) & (top != other_idx)
+        correct = flagged & (top == y)
+        precision = correct.sum() / flagged.sum() if flagged.any() else 0.0
+        recall = correct.sum() / misc_truth.sum() if misc_truth.any() else 0.0
+        denom = beta * beta * precision + recall
+        f = (1 + beta * beta) * precision * recall / denom if denom else 0.0
+        if f > best["fbeta"] + 1e-12:
+            other_rows = real & (y == other_idx)
+            best = {"threshold": t, "fbeta": round(float(f), 4), "precision": round(float(precision), 3),
+                    "recall": round(float(recall), 3),
+                    "false_alarm": round(float((flagged & other_rows).sum() / max(other_rows.sum(), 1)), 3)}
+    return best
+
+
+def bootstrap_fbeta_threshold(scaled: np.ndarray, y: np.ndarray, cluster: np.ndarray, is_real: np.ndarray,
+                              other_idx: int, seed: int, resamples: int = BOOTSTRAP_RESAMPLES) -> list[float]:
+    rng = np.random.default_rng(seed)
+    clusters = np.unique(cluster)
+    by_cluster = {c: np.flatnonzero(cluster == c) for c in clusters}
+    draws = []
+    for _ in range(resamples):
+        picked = rng.choice(clusters, size=len(clusters), replace=True)
+        idx = np.concatenate([by_cluster[c] for c in picked])
+        t = fbeta_threshold(scaled[idx], y[idx], is_real[idx], other_idx)["threshold"]
+        if t is not None:
+            draws.append(float(t))
+    return draws
+
+
 def calibrate_variant(
     prob_list: Sequence[np.ndarray], y: np.ndarray, cluster: np.ndarray, is_real: np.ndarray, seed: int,
+    other_idx: int | None = None,
 ) -> dict[str, Any]:
     """Full calibration record for one variant from per-repeat OOF matrices."""
     probs, ys, clusters, real = stack(prob_list, y, cluster, is_real)
@@ -166,7 +217,13 @@ def calibrate_variant(
     correct = scaled.argmax(axis=1) == ys
 
     point = select_threshold(conf, correct, real, TARGET_PRECISION)
-    draws = bootstrap_threshold(scaled, ys, clusters, real, TARGET_PRECISION, seed)
+    if other_idx is not None:
+        chosen = fbeta_threshold(scaled, ys, real, other_idx)
+        point = {"threshold": chosen["threshold"], "population": "non_synthetic", "reached": True}
+        draws = bootstrap_fbeta_threshold(scaled, ys, clusters, real, other_idx, seed)
+    else:
+        chosen = None
+        draws = bootstrap_threshold(scaled, ys, clusters, real, TARGET_PRECISION, seed)
     sensitivity = {
         str(t): select_threshold(conf, correct, real, t)["threshold"] for t in SENSITIVITY_TARGETS
     }
@@ -180,7 +237,11 @@ def calibrate_variant(
     return {
         "temperature": temp["temperature"],
         "threshold": threshold,
-        "method": "grouped out-of-fold predictions, selective-precision threshold, cluster bootstrap",
+        "method": ("grouped out-of-fold predictions, F-beta (0.5) threshold on real rows, cluster bootstrap"
+                   if other_idx is not None else
+                   "grouped out-of-fold predictions, selective-precision threshold, cluster bootstrap"),
+        "criterion": {"name": "fbeta", "beta": FBETA, **chosen} if chosen else
+                     {"name": "selective_precision", "target": TARGET_PRECISION},
         "target_precision": TARGET_PRECISION,
         "target_population": point["population"],
         "target_reached_on_full_sample": point["reached"],

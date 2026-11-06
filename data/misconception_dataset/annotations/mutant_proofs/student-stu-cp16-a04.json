@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp16-a04",
+ "seed_submission_id": "student:CP16:A",
+ "problem_id": "bank-CP16",
+ "operator": "student_cpp_array_bounds_04",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "67fcd737a8145e3c",
+ "mutant_sha256": "78cd64529b69ba8efc29539df9402a3b04ab35848a26f5dd0558b2082bf16732",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "v[n]",
+  "after": "v[n / 2]",
+  "note": "index n",
+  "base_sha256": "67fcd737a8145e3c"
+ }
+}

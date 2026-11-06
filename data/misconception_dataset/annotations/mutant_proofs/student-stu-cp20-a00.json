@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp20-a00",
+ "seed_submission_id": "student:CP20:A",
+ "problem_id": "bank-CP20",
+ "operator": "student_cpp_stale_exit_00",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "300b989e6d88b97c",
+ "mutant_sha256": "24e8461eeb3811b63c425247cd83a038a1411205b91b0e3939aaa4655aace032",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "        b = t;\n",
+  "note": "b never changes, loop never ends",
+  "base_sha256": "300b989e6d88b97c"
+ }
+}

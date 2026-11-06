@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp32-b05",
+ "seed_submission_id": "student:CP32:B",
+ "problem_id": "bank-CP32",
+ "operator": "student_cpp_uninitialized_var_05",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "51b7a877ca47f363",
+ "mutant_sha256": "c88f80031fb27c3bb50e0b9149b60bc1945f9f62b181191417af1929e4253d48",
+ "tests_passed": 5,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "int isv;",
+  "after": "int isv = 0;",
+  "note": "flag never initialised",
+  "base_sha256": "51b7a877ca47f363"
+ }
+}

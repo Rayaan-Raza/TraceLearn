@@ -24,6 +24,7 @@ import json
 import random
 import sys
 from collections import defaultdict
+from collections.abc import Sequence
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,11 +44,11 @@ def clip(text: str, limit: int) -> str:
 
 
 def sample_failing(index_rows: list[dict[str, str]], pool: str, per_problem: int, already: set[str],
-                   seed: int = SEED) -> list[dict[str, str]]:
+                   seed: int = SEED, problems: Sequence[str] = ()) -> list[dict[str, str]]:
     """Seeded per-problem random sample of failing rows of one pool, skipping already-labelled rows."""
     by_problem: dict[str, list[dict[str, str]]] = defaultdict(list)
     for r in sorted(index_rows, key=lambda r: r["submission_id"]):
-        if r["split_pool"] == pool and r["row_id"] not in already:
+        if (r["problem_id"] in problems if problems else r["split_pool"] == pool) and r["row_id"] not in already:
             by_problem[r["problem_id"]].append(r)
     rng = random.Random(seed)
     chosen: list[dict[str, str]] = []
@@ -67,6 +68,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--raw", default=None)
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--name", default=None)
+    ap.add_argument("--problems", default="", help="comma-separated problem ids: sample these problems instead of a pool")
     ap.add_argument("--seen", default="", help="comma-separated problem ids whose statement the reader already has")
     args = ap.parse_args(argv)
 
@@ -85,7 +87,8 @@ def main(argv: list[str] | None = None) -> int:
         by_id = {r["submission_id"]: r for r in index}
         picked = [by_id[i] for i in picked_ids if i in by_id]
     else:
-        picked = sample_failing(index, args.pool, args.per_problem, labelled)
+        picked = sample_failing(index, args.pool, args.per_problem, labelled,
+                                problems=[x for x in args.problems.split(",") if x])
 
     name = args.name or f"{args.pool}{'_queue' if args.from_queue else ''}"
     exec_path = CACHE / f"label_exec_{name}.jsonl"

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp13-b05",
+ "seed_submission_id": "student:CP13:B",
+ "problem_id": "bank-CP13",
+ "operator": "student_cpp_other_error_05",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "9292202d35c30da8",
+ "mutant_sha256": "df570acae9fffdbf3e23ea299f51bd3e34b718707cfe7477767c1da5e780c66b",
+ "tests_passed": 5,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "x > second",
+  "after": "x > second && x < first",
+  "note": "equal maximum becomes second",
+  "base_sha256": "9292202d35c30da8"
+ }
+}
