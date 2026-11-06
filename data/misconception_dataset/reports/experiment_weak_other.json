@@ -1,0 +1,83 @@
+{
+  "note": "throw-away models; nothing is written to the dataset or the served model",
+  "contamination_estimate": "about 10% (3 of 30 CodeStream pre-reviewed items were a modelled class)",
+  "configurations": {
+    "baseline (no real OTHER)": {
+      "aug_rows": 0,
+      "aug_problems": 0,
+      "oof_macro_f1_original_rows": 0.6963,
+      "unseen_dev_gold": {
+        "failing": 220,
+        "abstain_rate": 0.282,
+        "other_share_of_answers": 0.228,
+        "answers": {
+          "CPP_INT_OVERFLOW": 29,
+          "CPP_ARRAY_BOUNDS": 38,
+          "CPP_OTHER_ERROR": 36,
+          "CPP_UNINITIALIZED_VAR": 5,
+          "CPP_OFF_BY_ONE": 9,
+          "CPP_RANGE_CHECK": 34,
+          "CPP_STALE_EXIT": 3,
+          "CPP_MISSING_BASE_CASE": 4
+        }
+      },
+      "open_set_reference": {
+        "misconception: abstain": 3,
+        "misconception: correct": 9,
+        "misconception: wrong class": 8,
+        "other: FALSE ALARM": 11,
+        "other: abstain": 3
+      }
+    },
+    "+ real no-fire rows, up to 8 per problem": {
+      "aug_rows": 100,
+      "aug_problems": 10,
+      "oof_macro_f1_original_rows": 0.6997,
+      "unseen_dev_gold": {
+        "failing": 220,
+        "abstain_rate": 0.073,
+        "other_share_of_answers": 0.799,
+        "answers": {
+          "CPP_INT_OVERFLOW": 29,
+          "CPP_OTHER_ERROR": 163,
+          "CPP_UNINITIALIZED_VAR": 2,
+          "CPP_OFF_BY_ONE": 5,
+          "CPP_RANGE_CHECK": 3,
+          "CPP_ARRAY_BOUNDS": 1,
+          "CPP_STALE_EXIT": 1
+        }
+      },
+      "open_set_reference": {
+        "misconception: abstain": 2,
+        "misconception: correct": 9,
+        "misconception: wrong class": 9,
+        "other: FALSE ALARM": 11,
+        "other: abstain": 3
+      }
+    },
+    "+ all real no-fire rows": {
+      "aug_rows": 286,
+      "aug_problems": 10,
+      "oof_macro_f1_original_rows": 0.7014,
+      "unseen_dev_gold": {
+        "failing": 220,
+        "abstain_rate": 0.036,
+        "other_share_of_answers": 0.896,
+        "answers": {
+          "CPP_OTHER_ERROR": 190,
+          "CPP_UNINITIALIZED_VAR": 1,
+          "CPP_OFF_BY_ONE": 2,
+          "CPP_INT_OVERFLOW": 18,
+          "CPP_STALE_EXIT": 1
+        }
+      },
+      "open_set_reference": {
+        "misconception: abstain": 2,
+        "misconception: correct": 9,
+        "misconception: wrong class": 9,
+        "other: FALSE ALARM": 12,
+        "other: abstain": 2
+      }
+    }
+  }
+}
