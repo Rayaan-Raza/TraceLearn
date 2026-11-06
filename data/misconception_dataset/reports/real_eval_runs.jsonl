@@ -1,0 +1,5 @@
+{"pool": "dev_gold", "at": "2026-11-06T09:40:31+00:00", "limit": 24, "models": {"best": {"sha256_16": "a82a42a5c08c4854", "threshold": 0.3}, "common": {"sha256_16": "bae6a59bb7b4a20d", "threshold": 0.3}}, "sha": "13fe4bffe98a"}
+{"pool": "dev_gold", "at": "2026-11-06T09:41:28+00:00", "limit": null, "models": {"best": {"sha256_16": "a82a42a5c08c4854", "threshold": 0.3}, "common": {"sha256_16": "bae6a59bb7b4a20d", "threshold": 0.3}}, "sha": "952d93c93535"}
+{"pool": "dev_gold", "at": "2026-11-06T09:46:21+00:00", "limit": null, "models": {"best": {"sha256_16": "18b77aaf3cb9b20e", "threshold": 0.45}, "common": {"sha256_16": "d778bf2ca8d3459e", "threshold": 0.45}}, "sha": "74d30af919f2"}
+{"pool": "dev_gold", "at": "2026-11-06T09:47:56+00:00", "limit": null, "models": {"best": {"sha256_16": "18b77aaf3cb9b20e", "threshold": 0.45}, "common": {"sha256_16": "d778bf2ca8d3459e", "threshold": 0.45}}, "sha": "9444002cad10"}
+{"pool": "dev_gold", "at": "2026-11-06T09:48:45+00:00", "limit": null, "models": {"best": {"sha256_16": "18b77aaf3cb9b20e", "threshold": 0.45}, "common": {"sha256_16": "d778bf2ca8d3459e", "threshold": 0.45}}, "sha": "179623bbb10f"}
