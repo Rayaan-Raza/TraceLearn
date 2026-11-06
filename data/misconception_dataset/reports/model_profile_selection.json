@@ -4,54 +4,54 @@
   "results": [
     {
       "profile": "default",
-      "temperature": 1.4,
-      "threshold": 0.49,
+      "temperature": 1.5,
+      "threshold": 0.56,
       "threshold_bootstrap": [
-        0.37750000000000006,
-        0.6
+        0.35,
+        0.65
       ],
-      "oof_macro_f1_all_rows": 0.6665,
-      "in_sample_macro_f1": 0.9658,
-      "real_rows": 789,
-      "macro_f1": 0.3008,
-      "false_alarm_on_other": 0.311,
-      "precision_when_flagged": 0.682,
-      "misconception_recall": 0.363,
-      "abstain_rate": 0.435
+      "oof_macro_f1_all_rows": 0.6543,
+      "in_sample_macro_f1": 0.9631,
+      "real_rows": 948,
+      "macro_f1": 0.2278,
+      "false_alarm_on_other": 0.161,
+      "precision_when_flagged": 0.684,
+      "misconception_recall": 0.333,
+      "abstain_rate": 0.454
     },
     {
       "profile": "regular",
       "temperature": 1.0,
-      "threshold": 0.54,
+      "threshold": 0.46,
       "threshold_bootstrap": [
-        0.508,
-        0.6309999999999997
+        0.39,
+        0.78
       ],
-      "oof_macro_f1_all_rows": 0.6364,
-      "in_sample_macro_f1": 0.8458,
-      "real_rows": 789,
-      "macro_f1": 0.2547,
-      "false_alarm_on_other": 0.272,
-      "precision_when_flagged": 0.712,
-      "misconception_recall": 0.342,
-      "abstain_rate": 0.499
+      "oof_macro_f1_all_rows": 0.6423,
+      "in_sample_macro_f1": 0.8467,
+      "real_rows": 948,
+      "macro_f1": 0.2509,
+      "false_alarm_on_other": 0.191,
+      "precision_when_flagged": 0.683,
+      "misconception_recall": 0.401,
+      "abstain_rate": 0.319
     },
     {
       "profile": "strong",
       "temperature": 0.9,
-      "threshold": 0.42,
+      "threshold": 0.53,
       "threshold_bootstrap": [
-        0.42,
-        0.62
+        0.44,
+        0.79
       ],
-      "oof_macro_f1_all_rows": 0.6006,
-      "in_sample_macro_f1": 0.7394,
-      "real_rows": 789,
-      "macro_f1": 0.279,
-      "false_alarm_on_other": 0.328,
-      "precision_when_flagged": 0.7,
-      "misconception_recall": 0.422,
-      "abstain_rate": 0.312
+      "oof_macro_f1_all_rows": 0.6042,
+      "in_sample_macro_f1": 0.7384,
+      "real_rows": 948,
+      "macro_f1": 0.2187,
+      "false_alarm_on_other": 0.173,
+      "precision_when_flagged": 0.702,
+      "misconception_recall": 0.374,
+      "abstain_rate": 0.483
     }
   ]
 }

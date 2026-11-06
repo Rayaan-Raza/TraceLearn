@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-06T12:00:48+00:00",
+  "at": "2026-11-06T15:27:47+00:00",
   "labels_sha256": "5cd7529e5a2c416d3c50b50e285987be3848134394755159e4e33ce3dbf60778",
   "n_items": 83,
   "uncertain_dropped": 1,
@@ -194,51 +194,51 @@
       "n_other": 79,
       "n_misconception": 4,
       "false_alarm_rate": {
-        "k": 4,
+        "k": 3,
         "n": 79,
-        "value": 0.051,
+        "value": 0.038,
         "ci95": [
-          0.02,
-          0.123
+          0.013,
+          0.106
         ]
       },
       "precision_when_flagged": {
-        "k": 2,
+        "k": 3,
         "n": 6,
-        "value": 0.333,
+        "value": 0.5,
         "ci95": [
-          0.097,
-          0.7
+          0.188,
+          0.812
         ]
       },
       "misconception_recall": {
-        "k": 2,
+        "k": 3,
         "n": 4,
-        "value": 0.5,
+        "value": 0.75,
         "ci95": [
-          0.15,
-          0.85
+          0.301,
+          0.954
         ]
       },
       "misconception_detected_any_class": {
-        "k": 2,
+        "k": 3,
         "n": 4,
-        "value": 0.5,
+        "value": 0.75,
         "ci95": [
-          0.15,
-          0.85
+          0.301,
+          0.954
         ]
       },
       "abstain_rate": {
-        "k": 2,
+        "k": 3,
         "n": 83,
-        "value": 0.024,
+        "value": 0.036,
         "ci95": [
-          0.007,
-          0.084
+          0.012,
+          0.101
         ]
       },
-      "macro_f1": 0.404,
+      "macro_f1": 0.655,
       "per_class": {
         "CPP_ASSIGN_VS_COMPARE": {
           "support": 2,
@@ -249,9 +249,9 @@
         },
         "CPP_OTHER_ERROR": {
           "support": 79,
-          "predicted": 75,
+          "predicted": 74,
           "correct": 73,
-          "precision": 0.973,
+          "precision": 0.986,
           "recall": 0.924
         },
         "CPP_RANGE_CHECK": {
@@ -271,14 +271,14 @@
         "CPP_UNINITIALIZED_VAR": {
           "support": 1,
           "predicted": 1,
-          "correct": 0,
-          "precision": 0.0,
-          "recall": 0.0
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
         }
       },
       "macro_f1_ci95_by_problem": [
-        0.319,
-        0.813
+        0.489,
+        0.992
       ]
     },
     "model: common": {
@@ -286,51 +286,51 @@
       "n_other": 79,
       "n_misconception": 4,
       "false_alarm_rate": {
-        "k": 4,
+        "k": 6,
         "n": 79,
-        "value": 0.051,
+        "value": 0.076,
         "ci95": [
-          0.02,
-          0.123
+          0.035,
+          0.156
         ]
       },
       "precision_when_flagged": {
-        "k": 2,
-        "n": 6,
+        "k": 3,
+        "n": 9,
         "value": 0.333,
         "ci95": [
-          0.097,
-          0.7
+          0.121,
+          0.646
         ]
       },
       "misconception_recall": {
-        "k": 2,
+        "k": 3,
         "n": 4,
-        "value": 0.5,
+        "value": 0.75,
         "ci95": [
-          0.15,
-          0.85
+          0.301,
+          0.954
         ]
       },
       "misconception_detected_any_class": {
-        "k": 2,
+        "k": 3,
         "n": 4,
-        "value": 0.5,
+        "value": 0.75,
         "ci95": [
-          0.15,
-          0.85
+          0.301,
+          0.954
         ]
       },
       "abstain_rate": {
-        "k": 8,
+        "k": 2,
         "n": 83,
-        "value": 0.096,
+        "value": 0.024,
         "ci95": [
-          0.05,
-          0.179
+          0.007,
+          0.084
         ]
       },
-      "macro_f1": 0.393,
+      "macro_f1": 0.652,
       "per_class": {
         "CPP_ARRAY_BOUNDS": {
           "support": 0,
@@ -348,42 +348,49 @@
         },
         "CPP_OTHER_ERROR": {
           "support": 79,
-          "predicted": 69,
-          "correct": 67,
-          "precision": 0.971,
-          "recall": 0.848
+          "predicted": 72,
+          "correct": 71,
+          "precision": 0.986,
+          "recall": 0.899
         },
         "CPP_RANGE_CHECK": {
           "support": 1,
-          "predicted": 0,
+          "predicted": 1,
           "correct": 0,
-          "precision": null,
+          "precision": 0.0,
           "recall": 0.0
+        },
+        "CPP_STALE_EXIT": {
+          "support": 0,
+          "predicted": 1,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": null
         },
         "CPP_UNINITIALIZED_VAR": {
           "support": 1,
-          "predicted": 0,
-          "correct": 0,
-          "precision": null,
-          "recall": 0.0
+          "predicted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
         }
       },
       "macro_f1_ci95_by_problem": [
-        0.298,
-        0.963
+        0.48,
+        0.993
       ]
     }
   },
   "models": {
     "best": {
-      "sha256_16": "93c20933f8622c10",
+      "sha256_16": "528d92a62d97ea86",
       "temperature": 1.0,
-      "threshold": 0.38
+      "threshold": 0.45
     },
     "common": {
-      "sha256_16": "624a2c06e5075183",
+      "sha256_16": "cb5bc9339e66697a",
       "temperature": 1.1,
-      "threshold": 0.43
+      "threshold": 0.42
     }
   },
   "set": "final"

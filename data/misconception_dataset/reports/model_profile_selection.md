@@ -10,6 +10,6 @@ the best are treated as tied and the shallower (simpler) one wins.
 
 | Profile | Real-row macro-F1 | False alarm on OTHER | Precision when flagged | Misconception recall | Abstain | OOF macro-F1 (all rows) | In-sample macro-F1 | Threshold |
 |---|---|---|---|---|---|---|---|---|
-| default | 0.3008 | 0.311 | 0.682 | 0.363 | 0.435 | 0.6665 | 0.9658 | 0.49 |
-| regular | 0.2547 | 0.272 | 0.712 | 0.342 | 0.499 | 0.6364 | 0.8458 | 0.54 |
-| strong | 0.279 | 0.328 | 0.7 | 0.422 | 0.312 | 0.6006 | 0.7394 | 0.42 |
+| default | 0.2278 | 0.161 | 0.684 | 0.333 | 0.454 | 0.6543 | 0.9631 | 0.56 |
+| regular | 0.2509 | 0.191 | 0.683 | 0.401 | 0.319 | 0.6423 | 0.8467 | 0.46 |
+| strong | 0.2187 | 0.173 | 0.702 | 0.374 | 0.483 | 0.6042 | 0.7384 | 0.53 |
