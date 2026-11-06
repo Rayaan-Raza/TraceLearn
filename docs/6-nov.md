@@ -85,6 +85,44 @@ operators fix almost no real student failures (consistent with only 2 `repair_ve
 rows). With a ceiling near zero the test cannot tell a good model from a bad one. Evidence for the panel is therefore T1
 (human gold) plus the T3 behaviour numbers above, reported as behaviour, not accuracy.
 
+### Week 1, continued: calibration (branch `feat/calibration`)
+
+**Problem.** The calibrator was fitted on the 45 dev-gold rows, most of them weak labels; a retrain alone moved its
+threshold from 0.30 to 0.45, and on unseen CodeStream clusters the model abstained on 66-71% of failures.
+
+**Change** (`scripts/calibration.py`, called by the trainer; each served variant now has its own entry in
+`calibrator.json`): temperature and abstain threshold are fitted on the **grouped out-of-fold predictions** of all 588
+training rows (3 repeats, one matrix per repeat, so the probabilities look like a single deployed model's). Rules, fixed
+before looking at any real-code abstain rate:
+- temperature is applied only if it lowers ECE on those rows, otherwise T = 1;
+- threshold = the smallest value at which the answered **non-synthetic** rows agree with their labels at least 80% of the
+  time (selective classification); if there are too few real rows, all rows are used;
+- the shipped value is the median over 200 resamples of whole problem clusters, and the 5th-95th percentile range is stored.
+The 80% target was chosen after I had seen the out-of-fold risk table, so it is a stated policy, not a discovered optimum;
+70% and 90% sensitivity values are stored beside it. No isotonic regression, no per-class thresholds, nothing tuned on the
+test pool. Tests: `tests/test_calibration.py` (12) and the classifier tests for per-variant loading.
+
+| Variant | Temperature | Threshold (bootstrap 5-95%) | At 70% / 90% target | Out-of-fold real-row coverage at the threshold |
+|---|---|---|---|---|
+| best | 1.3 (helps ECE) | **0.42** (0.24 - 0.47) | 0.34 / 0.56 | about 0.68 |
+| common | 1.0 (NLL-optimal 1.3 would worsen ECE) | **0.53** (0.28 - 0.67) | 0.41 / 0.69 | about 0.69 |
+
+**Findings.**
+- The threshold is poorly determined: the `common` range runs from 0.28 to 0.67. The earlier dev-gold value (0.45) turns out
+  to be close to the new `best` value, so the dev-gold fit was not badly wrong, just unreliable.
+- On the same unseen CodeStream clusters the abstain rate is now 56% (`best`) and 67% (`common`), versus 66% and 71% before.
+  Calibration barely moved it because the cause is **domain shift, not the threshold**: mean top probability is 0.63 on
+  out-of-fold real rows but 0.42 on unseen clusters. Out-of-fold real rows (PROGPedia and CodeStream training clusters)
+  are far more familiar than a new classroom, so no amount of cross-validation calibration can remove the gap.
+- Dev-gold check (45 rows, descriptive only): `best` answers 87% of rows and is right on 85% of those; `common` 87% and 74%.
+- Precision here means agreement with the row's label, mostly weak-rule labels, not agreement with a human.
+
+**Consequence.** Do not tune the threshold to land the abstain rate in the 10-60% band. The honest next step is to
+re-fit both variants' thresholds on the signed dev-gold set (at least 60 certain rows, held-out clusters) once H1/H2
+sign-offs exist, using this OOF fit as the prior. Until then 0.42 / 0.53 are the best-supported values, and the product
+should treat "abstain" as the common outcome on new students and fall back to the rule engine.
+
+
 ---
 
 ## 1. What Iteration 2 requires
