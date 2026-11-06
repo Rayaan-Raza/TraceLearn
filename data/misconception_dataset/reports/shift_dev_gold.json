@@ -1,0 +1,132 @@
+{
+  "unseen_pool": "dev_gold",
+  "n_train": 588,
+  "n_train_real": 226,
+  "n_unseen_failing": 220,
+  "limits": "resemblance only; a small gap does not make labels right",
+  "adversarial": {
+    "best": {
+      "train_vs_unseen": {
+        "auc": 0.981,
+        "n_a": 588,
+        "n_b": 220,
+        "gate": "FAIL"
+      },
+      "real_train_vs_unseen": {
+        "auc": 0.959,
+        "n_a": 226,
+        "n_b": 220,
+        "gate": "FAIL"
+      }
+    },
+    "common": {
+      "train_vs_unseen": {
+        "auc": 0.979,
+        "n_a": 588,
+        "n_b": 220,
+        "gate": "FAIL"
+      },
+      "real_train_vs_unseen": {
+        "auc": 0.934,
+        "n_a": 226,
+        "n_b": 220,
+        "gate": "FAIL"
+      }
+    }
+  },
+  "per_block_real_train_vs_unseen": {
+    "static": 0.93,
+    "warnings": 0.876,
+    "semantics": 0.946,
+    "tests": 0.779,
+    "runtime": 0.981,
+    "cpg": 0.931,
+    "context": 0.872
+  },
+  "top_separating_features_best": [
+    {
+      "feature": "static.loop_count",
+      "auc": 0.043,
+      "distance": 0.457,
+      "median_train": 5.0,
+      "median_unseen": 0.0
+    },
+    {
+      "feature": "semantics.increment",
+      "auc": 0.046,
+      "distance": 0.454,
+      "median_train": 4.0,
+      "median_unseen": 0.0
+    },
+    {
+      "feature": "static.max_indent_depth",
+      "auc": 0.05,
+      "distance": 0.45,
+      "median_train": 6.0,
+      "median_unseen": 2.0
+    },
+    {
+      "feature": "semantics.loop_lt",
+      "auc": 0.12,
+      "distance": 0.38,
+      "median_train": 1.0,
+      "median_unseen": 0.0
+    },
+    {
+      "feature": "static.loc",
+      "auc": 0.293,
+      "distance": 0.207,
+      "median_train": 55.5,
+      "median_unseen": 34.0
+    },
+    {
+      "feature": "static.unique_token_ratio",
+      "auc": 0.704,
+      "distance": 0.204,
+      "median_train": 0.17,
+      "median_unseen": 0.244
+    },
+    {
+      "feature": "static.sloc",
+      "auc": 0.302,
+      "distance": 0.198,
+      "median_train": 43.0,
+      "median_unseen": 26.0
+    },
+    {
+      "feature": "static.comment_lines",
+      "auc": 0.309,
+      "distance": 0.191,
+      "median_train": 0.0,
+      "median_unseen": 0.0
+    },
+    {
+      "feature": "semantics.idx_plus1",
+      "auc": 0.332,
+      "distance": 0.168,
+      "median_train": 0.0,
+      "median_unseen": 0.0
+    },
+    {
+      "feature": "semantics.if_lt",
+      "auc": 0.339,
+      "distance": 0.161,
+      "median_train": 1.0,
+      "median_unseen": 0.0
+    },
+    {
+      "feature": "static.array_decl_count",
+      "auc": 0.347,
+      "distance": 0.153,
+      "median_train": 1.0,
+      "median_unseen": 0.0
+    },
+    {
+      "feature": "static.avg_line_length",
+      "auc": 0.649,
+      "distance": 0.149,
+      "median_train": 18.92,
+      "median_unseen": 24.276
+    }
+  ]
+}
