@@ -58,6 +58,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.calibration import calibrate_variant  # noqa: E402
 from tracelearn_features.schema import feature_names  # noqa: E402
 
 DEFAULT_DATASET_DIR = ROOT / "data" / "misconception_dataset"
@@ -357,7 +358,8 @@ def train(
 
     def oof_for(X_train_src: np.ndarray, X_val_src: np.ndarray,
                 multiplier: float,
-                repeats: int = 1) -> tuple[np.ndarray, list[float]]:
+                repeats: int = 1,
+                collect: list[np.ndarray] | None = None) -> tuple[np.ndarray, list[float]]:
         """OOF probabilities over the TRAIN rows. For the masked variant
         the fold-train matrix is masked while the fold-validation matrix
         is not — mirroring deployment (disclosed in metrics).
@@ -370,6 +372,7 @@ def train(
         oof_count = np.zeros(len(tr_idx), dtype=float)
         fold_scores = []
         for rep in range(max(1, int(repeats))):
+            rep_probs = np.zeros((len(tr_idx), len(classes)))
             folds = StratifiedGroupKFold(
                 n_splits=cv_folds, shuffle=True, random_state=seed + rep
             )
@@ -380,9 +383,12 @@ def train(
                 )
                 oof_sum[va] += probs
                 oof_count[va] += 1.0
+                rep_probs[va] = probs
                 fold_scores.append(
                     macro_f1(y_tr[va], probs.argmax(axis=1), range(len(classes)))
                 )
+            if collect is not None:
+                collect.append(rep_probs)
         oof = oof_sum / np.maximum(oof_count[:, None], 1.0)
         return oof, fold_scores
 
@@ -424,16 +430,18 @@ def train(
 
     common_idx = [i for i, f in enumerate(feature_list) if f.startswith(COMMON_PREFIXES)]
     X_common = X[:, common_idx]
+    reps_common: list[np.ndarray] = []
     oof_common, fold_common = oof_for(
-        X_common[tr_idx], X_common[tr_idx], best_mult, repeats=cv_repeats
+        X_common[tr_idx], X_common[tr_idx], best_mult, repeats=cv_repeats, collect=reps_common
     )
     common_metrics = variant_metrics(oof_common, fold_common)
     common_metrics["features"] = [feature_list[i] for i in common_idx]
 
     best_idx = [i for i, f in enumerate(feature_list) if f.startswith(BEST_PREFIXES)]
     X_best = X[:, best_idx]
+    reps_best: list[np.ndarray] = []
     oof_best, fold_best = oof_for(
-        X_best[tr_idx], X_best[tr_idx], best_mult, repeats=cv_repeats
+        X_best[tr_idx], X_best[tr_idx], best_mult, repeats=cv_repeats, collect=reps_best
     )
     best_metrics = variant_metrics(oof_best, fold_best)
     best_metrics["features"] = [feature_list[i] for i in best_idx]
@@ -473,6 +481,14 @@ def train(
         "fitted_on": {"n": n_dev, "split": "dev_gold"},
         "isotonic_used": False,
         "scope": "one global threshold + temperature",
+    }
+    # Served variants are calibrated on grouped out-of-fold predictions, not on
+    # the 45 dev-gold rows (see scripts/calibration.py). `full` keeps the legacy
+    # dev-gold fit above; it is not servable (R4 source-shortcut gate).
+    is_real_tr = (meta_tr["dataset_source"] != "SYNTHETIC").to_numpy()
+    calibrator["variants"] = {
+        name: calibrate_variant(reps, y_tr, cluster_tr, is_real_tr, seed)
+        for name, reps in (("best", reps_best), ("common", reps_common))
     }
     dev_metrics: dict[str, Any] = {"n": n_dev, "calibrated": False}
     if n_dev >= MIN_CALIBRATION_ROWS:
@@ -564,6 +580,24 @@ def train(
     common_model.get_booster().save_model(str(models / "xgb_common_v1.json"))
     best_model, _ = _fit_model(X_best[train_mask], y[train_mask], w_final, seed)
     best_model.get_booster().save_model(str(models / "xgb_best_v1.json"))
+
+    # Descriptive check of each served calibrator on the dev-gold rows (45 rows,
+    # mostly weak labels: a sanity figure, never a basis for tuning).
+    dev_variants: dict[str, Any] = {}
+    if n_dev:
+        for vname, vmodel, vcols in (("best", best_model, best_idx), ("common", common_model, common_idx)):
+            cal = calibrator["variants"][vname]
+            probs = _rescale(_to_global(vmodel.predict_proba(X[dev_mask][:, vcols]), final_present, len(classes)),
+                             cal["temperature"])
+            answered = probs.max(axis=1) >= cal["threshold"]
+            dev_variants[vname] = {
+                "n": n_dev,
+                "coverage": round(float(answered.mean()), 3),
+                "precision_answered": (round(float((probs.argmax(axis=1)[answered] == y[dev_mask][answered]).mean()), 3)
+                                       if answered.any() else None),
+                "ece": round(ece(probs, y[dev_mask]), 4),
+            }
+    metrics["dev_gold_variants"] = dev_variants
 
     (models / "label_encoder.json").write_text(
         json.dumps({"class_to_idx": class_to_idx, "idx_to_class": classes}, indent=2) + "\n",
