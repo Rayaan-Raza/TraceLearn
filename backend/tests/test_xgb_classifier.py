@@ -199,16 +199,41 @@ def test_label_encoder_with_a_different_class_count_is_refused(models_copy):
 
 @pytest.mark.parametrize("patch", [{"temperature": 0}, {"temperature": -1}, {"threshold": 0}, {"threshold": 1.5}])
 def test_bad_calibrator_is_refused(models_copy, patch):
-    _edit_json(models_copy / "calibrator.json", lambda c: c.update(patch))
+    _edit_json(models_copy / "calibrator.json", lambda c: c["variants"]["best"].update(patch))
     with pytest.raises(ModelContractError, match="calibrator"):
         ModelClassifier.load("best", models_copy)
 
 
 def test_a_high_threshold_makes_the_model_abstain(models_copy, golden):
-    _edit_json(models_copy / "calibrator.json", lambda c: c.update(threshold=1.0))
+    _edit_json(models_copy / "calibrator.json", lambda c: c["variants"]["best"].update(threshold=1.0))
     strict = ModelClassifier.load("best", models_copy)
     pred = strict.predict(golden["cases"][0]["features"])
     assert pred.abstained is True
+
+
+def test_each_served_variant_uses_its_own_calibrator():
+    best, common = ModelClassifier.load("best"), ModelClassifier.load("common")
+    calibrator = json.loads((DEFAULT_MODELS_DIR / "calibrator.json").read_text(encoding="utf-8"))
+    assert (best.temperature, best.threshold) == (
+        calibrator["variants"]["best"]["temperature"], calibrator["variants"]["best"]["threshold"])
+    assert (common.temperature, common.threshold) == (
+        calibrator["variants"]["common"]["temperature"], calibrator["variants"]["common"]["threshold"])
+
+
+def test_a_variant_without_its_own_calibrator_falls_back_to_the_legacy_values():
+    full = ModelClassifier.load("full")
+    calibrator = json.loads((DEFAULT_MODELS_DIR / "calibrator.json").read_text(encoding="utf-8"))
+    assert "full" not in calibrator["variants"]
+    assert (full.temperature, full.threshold) == (calibrator["temperature"], calibrator["threshold"])
+
+
+def test_calibrator_records_how_stable_the_threshold_is():
+    calibrator = json.loads((DEFAULT_MODELS_DIR / "calibrator.json").read_text(encoding="utf-8"))
+    for name in ("best", "common"):
+        v = calibrator["variants"][name]
+        assert v["isotonic_used"] is False
+        assert v["bootstrap"]["p05"] <= v["threshold"] <= v["bootstrap"]["p95"]
+        assert v["fitted_on"]["non_synthetic_rows"] > 40
 
 
 def test_every_model_label_has_a_backend_decision(model):
