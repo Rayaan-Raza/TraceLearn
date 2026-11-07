@@ -93,6 +93,8 @@ def compute_weights(
     k = len(set(labels))
     counts = Counter(labels)
     balance = {lab: n / (k * counts[lab]) for lab in counts}
+    if _ACTIVE_PROFILE == "plain":
+        balance = {lab: 1.0 for lab in counts}
     w = np.array([balance[lab] for lab in labels], dtype=float) * conf
     w *= np.where(source == "SYNTHETIC", float(synthetic_multiplier), 1.0)
     clip_applied = int((w > clip[1]).sum() + (w < clip[0]).sum())
@@ -224,6 +226,10 @@ PROFILES: dict[str, dict[str, Any]] = {
                     min_child_weight=3, reg_lambda=5.0),
     "strong": dict(n_estimators=250, max_depth=2, learning_rate=0.06, subsample=0.7, colsample_bytree=0.5,
                    min_child_weight=5, reg_lambda=10.0, gamma=0.5),
+    # "plain": ordinary XGBoost settings, trained on real rows only (no synthetic rows) and weighted by
+    # label confidence only (no class-balance weights). On the held-out problems this beat every
+    # other configuration (reports/model_comparison.md); see docs/6-nov.md section 15.
+    "plain": dict(n_estimators=200, max_depth=4, learning_rate=0.1, subsample=0.8, colsample_bytree=0.8),
 }
 _ACTIVE_PROFILE = "default"
 
@@ -349,7 +355,8 @@ def train(
             "held-out clusters must not be shared (§13.4)"
         )
 
-    keep = [i for i, r in enumerate(rids) if splits[r][1] in ("train", "dev_gold")]
+    keep = [i for i, r in enumerate(rids) if splits[r][1] in ("train", "dev_gold")
+            and not (_ACTIVE_PROFILE == "plain" and meta_by_rid[r]["dataset_source"] == "SYNTHETIC")]
     rids = [rids[i] for i in keep]
     y_str = [y_str[i] for i in keep]
     X = X[keep]

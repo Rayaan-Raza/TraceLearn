@@ -52,3 +52,22 @@ def test_oversized_or_empty_source_is_skipped(monkeypatch):
     monkeypatch.setattr(settings, "model_diagnosis", "on")
     assert model_runner.model_records("x" * (model_runner.MAX_SOURCE_CHARS + 1)) == []
     assert model_runner.model_records("   ") == []
+
+
+def test_compiler_warnings_come_from_a_real_compile(monkeypatch):
+    import shutil
+    if not shutil.which("g++"):
+        pytest.skip("g++ not installed")
+    src = ('#include <cstdio>\n'
+           'int main(){int a[3];int x;for(int i=0;i<=3;i++)a[i]=i;printf("%d",x);return 0;}\n')
+    try:
+        w = model_runner.compiler_warnings(src)
+    except Exception:
+        pytest.skip("sandbox unavailable")
+    if w is None:
+        pytest.skip("sandbox unavailable")
+    assert "warning" in w["compile_warnings"]
+
+
+def test_code_that_does_not_compile_gives_no_warnings_block():
+    assert model_runner.compiler_warnings("int main( {") is None

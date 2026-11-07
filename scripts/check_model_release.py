@@ -65,7 +65,13 @@ def main() -> int:
                   best_pos >= 30 and (best_prec or 0) >= 0.80, f"{best_pos} positives, precision {best_prec}"))
     gates.append(("P2 recall >= 0.50 on that set", best_pos >= 30 and (best_rec or 0) >= 0.50, f"recall {best_rec}"))
     gates.append(("P3 labels made by independent people", False, "labels are model-assisted, treated as human by instruction"))
-    gates.append(("P4 backend supplies compiler-warning counts", False, "model_runner passes none; 'on' forces abstain while features are missing"))
+    sys.path.insert(0, str(ROOT))
+    from backend.app.analysis import model_runner
+    sample = ('#include <cstdio>\n'
+              'int main(){int a[3];int x;for(int i=0;i<=3;i++)a[i]=i;printf("%d",x);return 0;}\n')
+    got = model_runner.compiler_warnings(sample)
+    gates.append(("P4 backend supplies compiler-warning counts", bool(got and "warning" in got["compile_warnings"]),
+                  "model_runner compiles the submission with the training flags" if got else "compile for warnings failed (g++ or sandbox missing?)"))
     for g, ok, note in gates:
         print(f"{'PASS' if ok else 'FAIL'}  {g}  [{note}]")
     shadow_ok = all(ok for g, ok, _ in gates if g.startswith("S"))

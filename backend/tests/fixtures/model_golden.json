@@ -1,8 +1,8 @@
 {
  "variant": "best",
- "model_sha256": "04278cf6f0af88d941deb7f688aec53d405f7b5ead5b46487c8f86a5e1dec5e4",
- "temperature": 0.9,
- "threshold": 0.58,
+ "model_sha256": "f9cae8d566450acfaa9808a6b937011666f7a02a81aed9f06835a2c9e03a6804",
+ "temperature": 1.0,
+ "threshold": 0.51,
  "cases": [
   {
    "row_id": "bl-te-025",
@@ -82,19 +82,19 @@
    },
    "expected": {
     "top_label": "CPP_OTHER_ERROR",
-    "abstained": true,
+    "abstained": false,
     "probabilities": {
-     "CPP_ARRAY_BOUNDS": 0.0281,
+     "CPP_ARRAY_BOUNDS": 0.003,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0102,
-     "CPP_LOOP_BOUNDARY": 0.1337,
+     "CPP_INT_OVERFLOW": 0.0017,
+     "CPP_LOOP_BOUNDARY": 0.0267,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0227,
-     "CPP_OTHER_ERROR": 0.47,
-     "CPP_RANGE_CHECK": 0.0303,
-     "CPP_STALE_EXIT": 0.2401,
-     "CPP_UNINITIALIZED_VAR": 0.0393,
-     "CPP_WRONG_LOOP_DIR": 0.0256
+     "CPP_OFF_BY_ONE": 0.0008,
+     "CPP_OTHER_ERROR": 0.904,
+     "CPP_RANGE_CHECK": 0.0047,
+     "CPP_STALE_EXIT": 0.0407,
+     "CPP_UNINITIALIZED_VAR": 0.0115,
+     "CPP_WRONG_LOOP_DIR": 0.0069
     }
    }
   },
@@ -175,20 +175,20 @@
     "semantics.minus1_index_from_zero": 0.0
    },
    "expected": {
-    "top_label": "CPP_ASSIGN_VS_COMPARE",
+    "top_label": "CPP_OTHER_ERROR",
     "abstained": false,
     "probabilities": {
-     "CPP_ARRAY_BOUNDS": 0.0004,
-     "CPP_ASSIGN_VS_COMPARE": 0.973,
-     "CPP_INT_OVERFLOW": 0.0001,
-     "CPP_LOOP_BOUNDARY": 0.0026,
-     "CPP_MISSING_BASE_CASE": 0.0006,
-     "CPP_OFF_BY_ONE": 0.0024,
-     "CPP_OTHER_ERROR": 0.0074,
-     "CPP_RANGE_CHECK": 0.001,
-     "CPP_STALE_EXIT": 0.0045,
-     "CPP_UNINITIALIZED_VAR": 0.0055,
-     "CPP_WRONG_LOOP_DIR": 0.0024
+     "CPP_ARRAY_BOUNDS": 0.0018,
+     "CPP_ASSIGN_VS_COMPARE": 0.0054,
+     "CPP_INT_OVERFLOW": 0.0014,
+     "CPP_LOOP_BOUNDARY": 0.0068,
+     "CPP_MISSING_BASE_CASE": 0.0011,
+     "CPP_OFF_BY_ONE": 0.0033,
+     "CPP_OTHER_ERROR": 0.9413,
+     "CPP_RANGE_CHECK": 0.0063,
+     "CPP_STALE_EXIT": 0.0235,
+     "CPP_UNINITIALIZED_VAR": 0.0037,
+     "CPP_WRONG_LOOP_DIR": 0.0055
     }
    }
   },
@@ -274,14 +274,14 @@
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0011,
+     "CPP_INT_OVERFLOW": 0.0001,
      "CPP_LOOP_BOUNDARY": 0.0,
-     "CPP_MISSING_BASE_CASE": 0.2507,
-     "CPP_OFF_BY_ONE": 0.0248,
-     "CPP_OTHER_ERROR": 0.5951,
-     "CPP_RANGE_CHECK": 0.0775,
+     "CPP_MISSING_BASE_CASE": 0.0001,
+     "CPP_OFF_BY_ONE": 0.0194,
+     "CPP_OTHER_ERROR": 0.9789,
+     "CPP_RANGE_CHECK": 0.0012,
      "CPP_STALE_EXIT": 0.0,
-     "CPP_UNINITIALIZED_VAR": 0.0508,
+     "CPP_UNINITIALIZED_VAR": 0.0004,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -363,20 +363,20 @@
     "semantics.minus1_index_from_zero": 0.0
    },
    "expected": {
-    "top_label": "CPP_WRONG_LOOP_DIR",
-    "abstained": true,
+    "top_label": "CPP_OTHER_ERROR",
+    "abstained": false,
     "probabilities": {
-     "CPP_ARRAY_BOUNDS": 0.0095,
+     "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0022,
-     "CPP_LOOP_BOUNDARY": 0.0798,
+     "CPP_INT_OVERFLOW": 0.0,
+     "CPP_LOOP_BOUNDARY": 0.0001,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.1016,
-     "CPP_OTHER_ERROR": 0.1595,
-     "CPP_RANGE_CHECK": 0.0125,
-     "CPP_STALE_EXIT": 0.2898,
-     "CPP_UNINITIALIZED_VAR": 0.0413,
-     "CPP_WRONG_LOOP_DIR": 0.3038
+     "CPP_OFF_BY_ONE": 0.0012,
+     "CPP_OTHER_ERROR": 0.9885,
+     "CPP_RANGE_CHECK": 0.0,
+     "CPP_STALE_EXIT": 0.0099,
+     "CPP_UNINITIALIZED_VAR": 0.0001,
+     "CPP_WRONG_LOOP_DIR": 0.0002
     }
    }
   },
@@ -457,19 +457,19 @@
     "semantics.minus1_index_from_zero": 0.0
    },
    "expected": {
-    "top_label": "CPP_MISSING_BASE_CASE",
+    "top_label": "CPP_OTHER_ERROR",
     "abstained": false,
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0007,
+     "CPP_INT_OVERFLOW": 0.0002,
      "CPP_LOOP_BOUNDARY": 0.0,
-     "CPP_MISSING_BASE_CASE": 0.9844,
-     "CPP_OFF_BY_ONE": 0.0017,
-     "CPP_OTHER_ERROR": 0.0108,
+     "CPP_MISSING_BASE_CASE": 0.0002,
+     "CPP_OFF_BY_ONE": 0.0433,
+     "CPP_OTHER_ERROR": 0.9549,
      "CPP_RANGE_CHECK": 0.0,
      "CPP_STALE_EXIT": 0.0,
-     "CPP_UNINITIALIZED_VAR": 0.0024,
+     "CPP_UNINITIALIZED_VAR": 0.0014,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -551,20 +551,20 @@
     "semantics.minus1_index_from_zero": 0.0
    },
    "expected": {
-    "top_label": "CPP_OTHER_ERROR",
-    "abstained": true,
+    "top_label": "CPP_OFF_BY_ONE",
+    "abstained": false,
     "probabilities": {
-     "CPP_ARRAY_BOUNDS": 0.0359,
+     "CPP_ARRAY_BOUNDS": 0.0068,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.1072,
-     "CPP_LOOP_BOUNDARY": 0.0683,
+     "CPP_INT_OVERFLOW": 0.0005,
+     "CPP_LOOP_BOUNDARY": 0.0017,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.2329,
-     "CPP_OTHER_ERROR": 0.318,
-     "CPP_RANGE_CHECK": 0.0264,
-     "CPP_STALE_EXIT": 0.078,
-     "CPP_UNINITIALIZED_VAR": 0.0844,
-     "CPP_WRONG_LOOP_DIR": 0.0488
+     "CPP_OFF_BY_ONE": 0.7105,
+     "CPP_OTHER_ERROR": 0.261,
+     "CPP_RANGE_CHECK": 0.0009,
+     "CPP_STALE_EXIT": 0.0145,
+     "CPP_UNINITIALIZED_VAR": 0.0023,
+     "CPP_WRONG_LOOP_DIR": 0.0018
     }
    }
   },
@@ -649,15 +649,15 @@
     "abstained": false,
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
-     "CPP_ASSIGN_VS_COMPARE": 0.0915,
-     "CPP_INT_OVERFLOW": 0.0038,
+     "CPP_ASSIGN_VS_COMPARE": 0.0001,
+     "CPP_INT_OVERFLOW": 0.0,
      "CPP_LOOP_BOUNDARY": 0.0,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.035,
-     "CPP_OTHER_ERROR": 0.6462,
-     "CPP_RANGE_CHECK": 0.1821,
+     "CPP_OFF_BY_ONE": 0.0001,
+     "CPP_OTHER_ERROR": 0.9997,
+     "CPP_RANGE_CHECK": 0.0,
      "CPP_STALE_EXIT": 0.0,
-     "CPP_UNINITIALIZED_VAR": 0.0414,
+     "CPP_UNINITIALIZED_VAR": 0.0001,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -740,18 +740,18 @@
    },
    "expected": {
     "top_label": "CPP_OTHER_ERROR",
-    "abstained": true,
+    "abstained": false,
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
-     "CPP_ASSIGN_VS_COMPARE": 0.0929,
-     "CPP_INT_OVERFLOW": 0.0036,
+     "CPP_ASSIGN_VS_COMPARE": 0.0002,
+     "CPP_INT_OVERFLOW": 0.0,
      "CPP_LOOP_BOUNDARY": 0.0,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0571,
-     "CPP_OTHER_ERROR": 0.4297,
-     "CPP_RANGE_CHECK": 0.2669,
+     "CPP_OFF_BY_ONE": 0.0003,
+     "CPP_OTHER_ERROR": 0.9989,
+     "CPP_RANGE_CHECK": 0.0,
      "CPP_STALE_EXIT": 0.0,
-     "CPP_UNINITIALIZED_VAR": 0.1498,
+     "CPP_UNINITIALIZED_VAR": 0.0005,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -833,20 +833,20 @@
     "semantics.minus1_index_from_zero": 0.0
    },
    "expected": {
-    "top_label": "CPP_OTHER_ERROR",
-    "abstained": true,
+    "top_label": "CPP_STALE_EXIT",
+    "abstained": false,
     "probabilities": {
-     "CPP_ARRAY_BOUNDS": 0.0228,
+     "CPP_ARRAY_BOUNDS": 0.0012,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.025,
-     "CPP_LOOP_BOUNDARY": 0.0892,
+     "CPP_INT_OVERFLOW": 0.0019,
+     "CPP_LOOP_BOUNDARY": 0.001,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0984,
-     "CPP_OTHER_ERROR": 0.3128,
-     "CPP_RANGE_CHECK": 0.0272,
-     "CPP_STALE_EXIT": 0.2282,
-     "CPP_UNINITIALIZED_VAR": 0.0265,
-     "CPP_WRONG_LOOP_DIR": 0.1698
+     "CPP_OFF_BY_ONE": 0.0045,
+     "CPP_OTHER_ERROR": 0.3368,
+     "CPP_RANGE_CHECK": 0.0002,
+     "CPP_STALE_EXIT": 0.6492,
+     "CPP_UNINITIALIZED_VAR": 0.0009,
+     "CPP_WRONG_LOOP_DIR": 0.0042
     }
    }
   },
@@ -927,20 +927,20 @@
     "semantics.minus1_index_from_zero": 0.0
    },
    "expected": {
-    "top_label": "CPP_UNINITIALIZED_VAR",
+    "top_label": "CPP_OTHER_ERROR",
     "abstained": false,
     "probabilities": {
-     "CPP_ARRAY_BOUNDS": 0.0008,
+     "CPP_ARRAY_BOUNDS": 0.012,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0143,
-     "CPP_LOOP_BOUNDARY": 0.0937,
+     "CPP_INT_OVERFLOW": 0.0008,
+     "CPP_LOOP_BOUNDARY": 0.0027,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0029,
-     "CPP_OTHER_ERROR": 0.0029,
+     "CPP_OFF_BY_ONE": 0.0712,
+     "CPP_OTHER_ERROR": 0.8385,
      "CPP_RANGE_CHECK": 0.001,
-     "CPP_STALE_EXIT": 0.0016,
-     "CPP_UNINITIALIZED_VAR": 0.8773,
-     "CPP_WRONG_LOOP_DIR": 0.0057
+     "CPP_STALE_EXIT": 0.004,
+     "CPP_UNINITIALIZED_VAR": 0.068,
+     "CPP_WRONG_LOOP_DIR": 0.0018
     }
    }
   },
@@ -1021,20 +1021,20 @@
     "semantics.minus1_index_from_zero": 0.0
    },
    "expected": {
-    "top_label": "CPP_WRONG_LOOP_DIR",
+    "top_label": "CPP_OTHER_ERROR",
     "abstained": false,
     "probabilities": {
-     "CPP_ARRAY_BOUNDS": 0.0041,
+     "CPP_ARRAY_BOUNDS": 0.0004,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0005,
-     "CPP_LOOP_BOUNDARY": 0.0059,
+     "CPP_INT_OVERFLOW": 0.0002,
+     "CPP_LOOP_BOUNDARY": 0.0001,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0138,
-     "CPP_OTHER_ERROR": 0.0213,
-     "CPP_RANGE_CHECK": 0.0029,
-     "CPP_STALE_EXIT": 0.0258,
-     "CPP_UNINITIALIZED_VAR": 0.0027,
-     "CPP_WRONG_LOOP_DIR": 0.9229
+     "CPP_OFF_BY_ONE": 0.0078,
+     "CPP_OTHER_ERROR": 0.9803,
+     "CPP_RANGE_CHECK": 0.0,
+     "CPP_STALE_EXIT": 0.0107,
+     "CPP_UNINITIALIZED_VAR": 0.0001,
+     "CPP_WRONG_LOOP_DIR": 0.0004
     }
    }
   }

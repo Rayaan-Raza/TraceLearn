@@ -1,20 +1,17 @@
 {
   "seed": 7,
   "profile": {
-    "name": "strong",
+    "name": "plain",
     "params": {
-      "n_estimators": 250,
-      "max_depth": 2,
-      "learning_rate": 0.06,
-      "subsample": 0.7,
-      "colsample_bytree": 0.5,
-      "min_child_weight": 5,
-      "reg_lambda": 10.0,
-      "gamma": 0.5
+      "n_estimators": 200,
+      "max_depth": 4,
+      "learning_rate": 0.1,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
     }
   },
-  "n_rows": 1094,
-  "n_train": 969,
+  "n_rows": 611,
+  "n_train": 486,
   "n_dev_gold": 125,
   "classes": [
     "CPP_ARRAY_BOUNDS",
@@ -33,188 +30,136 @@
     "folds": 3,
     "repeats": 3,
     "grouped_by": "problem_cluster",
-    "synthetic_multiplier": 1.0,
+    "synthetic_multiplier": 0.5,
     "grid_scores": {
-      "0.5": 0.6471,
-      "0.75": 0.6586,
-      "1.0": 0.6777
+      "0.5": 0.1515,
+      "0.75": 0.1515,
+      "1.0": 0.1515
     },
-    "macro_f1_mean": 0.6777,
-    "macro_f1_std": 0.0349,
-    "majority_baseline": 0.0568
+    "macro_f1_mean": 0.1515,
+    "macro_f1_std": 0.021,
+    "majority_baseline": 0.0759
   },
   "full": {
-    "macro_f1_oof": 0.677,
+    "macro_f1_oof": 0.1574,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 0.6613,
-        "recall": 0.6508,
-        "f1": 0.656,
-        "support": 63
+        "precision": 0.7288,
+        "recall": 0.7818,
+        "f1": 0.7544,
+        "support": 55
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 0.9286,
-        "recall": 1.0,
-        "f1": 0.963,
-        "support": 26
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       },
       "CPP_INT_OVERFLOW": {
-        "precision": 0.8929,
-        "recall": 0.5,
-        "f1": 0.641,
-        "support": 50
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 23
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.8222,
-        "recall": 0.5441,
-        "f1": 0.6549,
-        "support": 68
+        "precision": 0.3333,
+        "recall": 0.0625,
+        "f1": 0.1053,
+        "support": 16
       },
       "CPP_MISSING_BASE_CASE": {
-        "precision": 0.7213,
-        "recall": 0.9778,
-        "f1": 0.8302,
-        "support": 45
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.4128,
-        "recall": 0.625,
-        "f1": 0.4972,
-        "support": 72
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 14
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.7953,
-        "recall": 0.6886,
-        "f1": 0.7381,
-        "support": 440
+        "precision": 0.7957,
+        "recall": 0.9626,
+        "f1": 0.8713,
+        "support": 348
       },
       "CPP_RANGE_CHECK": {
-        "precision": 0.5596,
-        "recall": 0.8472,
-        "f1": 0.674,
-        "support": 72
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 6
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.5172,
-        "recall": 0.6818,
-        "f1": 0.5882,
-        "support": 44
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 3
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.6,
-        "recall": 0.5789,
-        "f1": 0.5893,
-        "support": 57
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 18
       },
       "CPP_WRONG_LOOP_DIR": {
-        "precision": 0.6061,
-        "recall": 0.625,
-        "f1": 0.6154,
-        "support": 32
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       }
     },
     "confusion": [
       [
-        41,
-        0,
-        0,
-        1,
-        0,
-        8,
-        11,
-        0,
-        1,
-        1,
-        0
-      ],
-      [
-        0,
-        26,
+        43,
         0,
         0,
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        1,
-        0,
-        25,
-        0,
-        1,
-        1,
-        22,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        1,
-        1,
-        0,
-        37,
-        0,
-        6,
-        13,
-        2,
-        6,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        44,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        1,
-        0,
-        1,
-        1,
-        1,
-        45,
         12,
-        4,
-        4,
-        1,
-        2
-      ],
-      [
-        13,
-        1,
-        2,
-        2,
-        15,
-        33,
-        303,
-        40,
-        7,
-        20,
-        4
+        0,
+        0,
+        0,
+        0
       ],
       [
         0,
         0,
         0,
+        0,
+        0,
+        0,
         1,
         0,
-        2,
-        6,
-        61,
-        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        14,
+        0,
+        0,
         0,
         0
       ],
@@ -224,43 +169,95 @@
         0,
         1,
         0,
-        6,
-        4,
         0,
-        30,
         0,
-        3
+        0,
+        0,
+        0,
+        0
       ],
       [
-        5,
         0,
         0,
         0,
         0,
-        6,
+        0,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
         9,
-        1,
-        1,
-        33,
-        2
-      ],
-      [
-        0,
         0,
         0,
         1,
         0,
         2,
-        1,
-        1,
-        7,
+        335,
         0,
-        20
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
       ]
     ],
-    "ece_oof": 0.059,
-    "cv_macro_f1_mean": 0.6777,
-    "cv_macro_f1_std": 0.0349,
+    "ece_oof": 0.1599,
+    "cv_macro_f1_mean": 0.1515,
+    "cv_macro_f1_std": 0.021,
     "features": [
       "static.loc",
       "static.sloc",
@@ -384,177 +381,125 @@
     ]
   },
   "masked": {
-    "macro_f1_oof": 0.677,
+    "macro_f1_oof": 0.1574,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 0.6613,
-        "recall": 0.6508,
-        "f1": 0.656,
-        "support": 63
+        "precision": 0.7288,
+        "recall": 0.7818,
+        "f1": 0.7544,
+        "support": 55
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 0.9286,
-        "recall": 1.0,
-        "f1": 0.963,
-        "support": 26
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       },
       "CPP_INT_OVERFLOW": {
-        "precision": 0.8929,
-        "recall": 0.5,
-        "f1": 0.641,
-        "support": 50
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 23
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.8222,
-        "recall": 0.5441,
-        "f1": 0.6549,
-        "support": 68
+        "precision": 0.3333,
+        "recall": 0.0625,
+        "f1": 0.1053,
+        "support": 16
       },
       "CPP_MISSING_BASE_CASE": {
-        "precision": 0.7213,
-        "recall": 0.9778,
-        "f1": 0.8302,
-        "support": 45
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.4128,
-        "recall": 0.625,
-        "f1": 0.4972,
-        "support": 72
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 14
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.7953,
-        "recall": 0.6886,
-        "f1": 0.7381,
-        "support": 440
+        "precision": 0.7957,
+        "recall": 0.9626,
+        "f1": 0.8713,
+        "support": 348
       },
       "CPP_RANGE_CHECK": {
-        "precision": 0.5596,
-        "recall": 0.8472,
-        "f1": 0.674,
-        "support": 72
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 6
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.5172,
-        "recall": 0.6818,
-        "f1": 0.5882,
-        "support": 44
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 3
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.6,
-        "recall": 0.5789,
-        "f1": 0.5893,
-        "support": 57
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 18
       },
       "CPP_WRONG_LOOP_DIR": {
-        "precision": 0.6061,
-        "recall": 0.625,
-        "f1": 0.6154,
-        "support": 32
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       }
     },
     "confusion": [
       [
-        41,
-        0,
-        0,
-        1,
-        0,
-        8,
-        11,
-        0,
-        1,
-        1,
-        0
-      ],
-      [
-        0,
-        26,
+        43,
         0,
         0,
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        1,
-        0,
-        25,
-        0,
-        1,
-        1,
-        22,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        1,
-        1,
-        0,
-        37,
-        0,
-        6,
-        13,
-        2,
-        6,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        44,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        1,
-        0,
-        1,
-        1,
-        1,
-        45,
         12,
-        4,
-        4,
-        1,
-        2
-      ],
-      [
-        13,
-        1,
-        2,
-        2,
-        15,
-        33,
-        303,
-        40,
-        7,
-        20,
-        4
+        0,
+        0,
+        0,
+        0
       ],
       [
         0,
         0,
         0,
+        0,
+        0,
+        0,
         1,
         0,
-        2,
-        6,
-        61,
-        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        14,
+        0,
+        0,
         0,
         0
       ],
@@ -564,43 +509,95 @@
         0,
         1,
         0,
-        6,
-        4,
         0,
-        30,
         0,
-        3
+        0,
+        0,
+        0,
+        0
       ],
       [
-        5,
         0,
         0,
         0,
         0,
-        6,
+        0,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
         9,
-        1,
-        1,
-        33,
-        2
-      ],
-      [
-        0,
         0,
         0,
         1,
         0,
         2,
-        1,
-        1,
-        7,
+        335,
         0,
-        20
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
       ]
     ],
-    "ece_oof": 0.059,
-    "cv_macro_f1_mean": 0.6777,
-    "cv_macro_f1_std": 0.0349,
+    "ece_oof": 0.1594,
+    "cv_macro_f1_mean": 0.1515,
+    "cv_macro_f1_std": 0.021,
     "role": "informational only (v4.1): lf_inputs NaN'd on weak rows at train time; eval rows unmasked \u2014 the train/test mismatch is real and disclosed, no gate rides on this variant",
     "train_test_mismatch": "weak-row lf_inputs masked during training folds; validation-fold and dev-gold rows are unmasked, mirroring deployment",
     "features": [
@@ -726,137 +723,124 @@
     ]
   },
   "common": {
-    "macro_f1_oof": 0.5684,
+    "macro_f1_oof": 0.1275,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 0.4935,
-        "recall": 0.6032,
-        "f1": 0.5429,
-        "support": 63
+        "precision": 0.6042,
+        "recall": 0.5273,
+        "f1": 0.5631,
+        "support": 55
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 0.8387,
-        "recall": 1.0,
-        "f1": 0.9123,
-        "support": 26
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       },
       "CPP_INT_OVERFLOW": {
-        "precision": 0.6579,
-        "recall": 0.5,
-        "f1": 0.5682,
-        "support": 50
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 23
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.6429,
-        "recall": 0.3971,
-        "f1": 0.4909,
-        "support": 68
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 16
       },
       "CPP_MISSING_BASE_CASE": {
-        "precision": 0.6462,
-        "recall": 0.9333,
-        "f1": 0.7636,
-        "support": 45
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.3727,
-        "recall": 0.5694,
-        "f1": 0.4505,
-        "support": 72
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 14
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.7069,
-        "recall": 0.5591,
-        "f1": 0.6244,
-        "support": 440
+        "precision": 0.7642,
+        "recall": 0.931,
+        "f1": 0.8394,
+        "support": 348
       },
       "CPP_RANGE_CHECK": {
-        "precision": 0.4896,
-        "recall": 0.6528,
-        "f1": 0.5595,
-        "support": 72
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 6
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.4386,
-        "recall": 0.5682,
-        "f1": 0.495,
-        "support": 44
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 3
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.4493,
-        "recall": 0.5439,
-        "f1": 0.4921,
-        "support": 57
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 18
       },
       "CPP_WRONG_LOOP_DIR": {
-        "precision": 0.3333,
-        "recall": 0.375,
-        "f1": 0.3529,
-        "support": 32
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       }
     },
     "confusion": [
       [
-        38,
+        29,
         0,
-        0,
-        2,
-        0,
-        7,
-        11,
-        3,
         1,
+        1,
+        0,
+        0,
+        23,
+        0,
+        0,
         1,
         0
       ],
       [
         0,
-        26,
         0,
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        25,
         0,
         1,
-        2,
-        22,
         0,
         0,
         0,
         0
       ],
       [
-        5,
         0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
         1,
-        27,
         0,
-        9,
+        0,
+        0,
+        0,
+        0,
         15,
-        3,
-        3,
-        1,
-        4
-      ],
-      [
         0,
-        0,
-        1,
-        0,
-        42,
-        0,
-        0,
-        2,
         0,
         0,
         0
@@ -864,85 +848,98 @@
       [
         0,
         0,
-        1,
+        0,
+        0,
+        0,
+        0,
         1,
         0,
-        41,
-        17,
-        5,
-        4,
-        1,
-        2
+        0,
+        0,
+        0
       ],
       [
-        27,
         0,
-        10,
-        4,
-        20,
-        37,
-        246,
-        34,
+        0,
+        0,
+        0,
+        0,
+        0,
         14,
-        33,
-        15
+        0,
+        0,
+        0,
+        0
       ],
       [
-        1,
-        5,
+        13,
         0,
-        2,
-        2,
-        4,
-        7,
-        47,
-        3,
         1,
+        2,
+        0,
+        1,
+        324,
+        0,
+        0,
+        7,
         0
       ],
       [
         0,
         0,
         0,
-        1,
         0,
-        2,
-        12,
-        1,
-        25,
         0,
-        3
-      ],
-      [
+        0,
         6,
         0,
         0,
         0,
-        0,
-        7,
-        10,
-        1,
-        2,
-        31,
         0
       ],
       [
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
         5,
         0,
-        1,
-        8,
         0,
-        5,
+        0,
+        0,
+        0,
+        13,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         1,
-        12
+        0,
+        0,
+        0,
+        0
       ]
     ],
-    "ece_oof": 0.0627,
-    "cv_macro_f1_mean": 0.5715,
-    "cv_macro_f1_std": 0.0394,
+    "ece_oof": 0.1666,
+    "cv_macro_f1_mean": 0.1156,
+    "cv_macro_f1_std": 0.0172,
     "features": [
       "static.loc",
       "static.sloc",
@@ -991,136 +988,175 @@
     ]
   },
   "best": {
-    "macro_f1_oof": 0.627,
+    "macro_f1_oof": 0.1324,
     "per_class": {
       "CPP_ARRAY_BOUNDS": {
-        "precision": 0.6066,
-        "recall": 0.5873,
-        "f1": 0.5968,
-        "support": 63
+        "precision": 0.64,
+        "recall": 0.5818,
+        "f1": 0.6095,
+        "support": 55
       },
       "CPP_ASSIGN_VS_COMPARE": {
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "support": 26
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       },
       "CPP_INT_OVERFLOW": {
-        "precision": 0.8621,
-        "recall": 0.5,
-        "f1": 0.6329,
-        "support": 50
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 23
       },
       "CPP_LOOP_BOUNDARY": {
-        "precision": 0.6349,
-        "recall": 0.5882,
-        "f1": 0.6107,
-        "support": 68
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 16
       },
       "CPP_MISSING_BASE_CASE": {
-        "precision": 0.8148,
-        "recall": 0.9778,
-        "f1": 0.8889,
-        "support": 45
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       },
       "CPP_OFF_BY_ONE": {
-        "precision": 0.375,
-        "recall": 0.5417,
-        "f1": 0.4432,
-        "support": 72
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 14
       },
       "CPP_OTHER_ERROR": {
-        "precision": 0.7241,
-        "recall": 0.5727,
-        "f1": 0.6396,
-        "support": 440
+        "precision": 0.7681,
+        "recall": 0.9425,
+        "f1": 0.8465,
+        "support": 348
       },
       "CPP_RANGE_CHECK": {
-        "precision": 0.5091,
-        "recall": 0.7778,
-        "f1": 0.6154,
-        "support": 72
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 6
       },
       "CPP_STALE_EXIT": {
-        "precision": 0.45,
-        "recall": 0.6136,
-        "f1": 0.5192,
-        "support": 44
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 3
       },
       "CPP_UNINITIALIZED_VAR": {
-        "precision": 0.44,
-        "recall": 0.5789,
-        "f1": 0.5,
-        "support": 57
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 18
       },
       "CPP_WRONG_LOOP_DIR": {
-        "precision": 0.4103,
-        "recall": 0.5,
-        "f1": 0.4507,
-        "support": 32
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
       }
     },
     "confusion": [
       [
-        37,
+        32,
         0,
         0,
-        2,
         0,
-        8,
-        11,
-        2,
+        0,
+        0,
+        22,
+        0,
+        0,
         1,
-        2,
-        0
-      ],
-      [
-        0,
-        26,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
         0
       ],
       [
         0,
         0,
-        25,
+        0,
+        0,
+        0,
+        0,
         1,
-        1,
-        2,
-        21,
         0,
         0,
         0,
         0
       ],
       [
-        3,
         0,
         0,
-        40,
         0,
-        6,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        15,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         14,
         0,
-        3,
         0,
-        2
+        0,
+        0
+      ],
+      [
+        12,
+        0,
+        0,
+        2,
+        0,
+        1,
+        328,
+        0,
+        0,
+        5,
+        0
       ],
       [
         0,
         0,
         0,
         0,
-        44,
         0,
-        1,
+        0,
+        6,
         0,
         0,
         0,
@@ -1129,39 +1165,26 @@
       [
         0,
         0,
-        2,
+        0,
+        0,
+        0,
+        0,
         3,
-        1,
-        39,
-        15,
-        4,
-        3,
-        1,
-        4
+        0,
+        0,
+        0,
+        0
       ],
       [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
         13,
         0,
-        2,
-        14,
-        8,
-        35,
-        252,
-        46,
-        17,
-        39,
-        14
-      ],
-      [
-        2,
         0,
-        0,
-        0,
-        0,
-        4,
-        8,
-        56,
-        2,
         0,
         0
       ],
@@ -1171,43 +1194,17 @@
         0,
         0,
         0,
-        4,
-        10,
         0,
-        27,
-        0,
-        3
-      ],
-      [
-        6,
-        0,
-        0,
-        0,
-        0,
-        5,
-        10,
         1,
-        2,
-        33,
+        0,
+        0,
+        0,
         0
-      ],
-      [
-        0,
-        0,
-        0,
-        3,
-        0,
-        1,
-        6,
-        1,
-        5,
-        0,
-        16
       ]
     ],
-    "ece_oof": 0.0795,
-    "cv_macro_f1_mean": 0.6255,
-    "cv_macro_f1_std": 0.0336,
+    "ece_oof": 0.1609,
+    "cv_macro_f1_mean": 0.1231,
+    "cv_macro_f1_std": 0.0131,
     "features": [
       "static.loc",
       "static.sloc",
@@ -1286,37 +1283,37 @@
   "dev_gold": {
     "n": 125,
     "calibrated": true,
-    "macro_f1": 0.1778,
-    "ece": 0.0637
+    "macro_f1": 0.1549,
+    "ece": 0.1332
   },
   "g8": {
     "gold_not_in_train": true,
     "weight_clip": 10.0,
     "weight_stats": {
       "clip_applied": 0,
-      "min": 0.1401,
-      "max": 3.3881,
-      "synthetic_multiplier": 1.0
+      "min": 0.2,
+      "max": 1.0,
+      "synthetic_multiplier": 0.5
     },
-    "synthetic_mass": 0.7066,
-    "synthetic_mass_ok": false,
-    "max_class_mass": 0.0954,
-    "max_class_mass_ok": true,
+    "synthetic_mass": 0.0,
+    "synthetic_mass_ok": true,
+    "max_class_mass": 0.7247,
+    "max_class_mass_ok": false,
     "class_mass": {
-      "CPP_ARRAY_BOUNDS": 0.0927,
-      "CPP_ASSIGN_VS_COMPARE": 0.0896,
-      "CPP_INT_OVERFLOW": 0.0921,
-      "CPP_LOOP_BOUNDARY": 0.0902,
-      "CPP_MISSING_BASE_CASE": 0.0881,
-      "CPP_OFF_BY_ONE": 0.0905,
-      "CPP_OTHER_ERROR": 0.0954,
-      "CPP_RANGE_CHECK": 0.0893,
-      "CPP_STALE_EXIT": 0.0904,
-      "CPP_UNINITIALIZED_VAR": 0.0911,
-      "CPP_WRONG_LOOP_DIR": 0.0905
+      "CPP_ARRAY_BOUNDS": 0.1099,
+      "CPP_ASSIGN_VS_COMPARE": 0.0021,
+      "CPP_INT_OVERFLOW": 0.0463,
+      "CPP_LOOP_BOUNDARY": 0.0315,
+      "CPP_MISSING_BASE_CASE": 0.0004,
+      "CPP_OFF_BY_ONE": 0.0286,
+      "CPP_OTHER_ERROR": 0.7247,
+      "CPP_RANGE_CHECK": 0.0119,
+      "CPP_STALE_EXIT": 0.0063,
+      "CPP_UNINITIALIZED_VAR": 0.0363,
+      "CPP_WRONG_LOOP_DIR": 0.0021
     },
-    "cv_beats_majority_by_0.25": true,
-    "cv_margin": 0.6209,
+    "cv_beats_majority_by_0.25": false,
+    "cv_margin": 0.0756,
     "threshold_scope": "one global threshold + temperature",
     "isotonic_used": false,
     "dev_gold_n": 125,
@@ -1325,15 +1322,15 @@
   "dev_gold_variants": {
     "best": {
       "n": 125,
-      "coverage": 0.496,
-      "precision_answered": 0.742,
-      "ece": 0.1609
+      "coverage": 1.0,
+      "precision_answered": 0.84,
+      "ece": 0.1372
     },
     "common": {
       "n": 125,
-      "coverage": 0.408,
-      "precision_answered": 0.765,
-      "ece": 0.1865
+      "coverage": 1.0,
+      "precision_answered": 0.832,
+      "ece": 0.1216
     }
   }
 }

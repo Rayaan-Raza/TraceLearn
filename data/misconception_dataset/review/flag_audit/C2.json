@@ -1,0 +1,327 @@
+{
+"AU-001": [
+"CPP_OTHER_ERROR",
+1,
+"stack/VLA size; no concrete bug"
+],
+"AU-002": [
+"CPP_OTHER_ERROR",
+3,
+"debug prints in output"
+],
+"AU-003": [
+"CPP_UNINITIALIZED_VAR",
+3,
+"k uninitialised"
+],
+"AU-004": [
+"CPP_ARRAY_BOUNDS",
+3,
+"somas[100] too small"
+],
+"AU-005": [
+"CPP_ARRAY_BOUNDS",
+3,
+"pares[1001] too small for N(N-1)/2"
+],
+"AU-006": [
+"CPP_ARRAY_BOUNDS",
+2,
+"somas[1000] too small"
+],
+"AU-007": [
+"CPP_OTHER_ERROR",
+2,
+"broken binary search, prints index"
+],
+"AU-008": [
+"CPP_ARRAY_BOUNDS",
+3,
+"soma[1000], soma[middle-1]/high=k"
+],
+"AU-009": [
+"CPP_ARRAY_BOUNDS",
+2,
+"-1 result indexes somas[-1]"
+],
+"AU-010": [
+"CPP_OTHER_ERROR",
+3,
+"missing center/peripheral lists"
+],
+"AU-011": [
+"CPP_ARRAY_BOUNDS",
+3,
+"soma[1000], high=k, middle+1"
+],
+"AU-012": [
+"CPP_OTHER_ERROR",
+1,
+"4MB stack aux; no clear bug"
+],
+"AU-013": [
+"CPP_ARRAY_BOUNDS",
+1,
+"somas[10000], reads past k"
+],
+"AU-014": [
+"CPP_ARRAY_BOUNDS",
+3,
+"soma[1000], high=k"
+],
+"AU-015": [
+"CPP_ARRAY_BOUNDS",
+3,
+"MAX 100 nodes"
+],
+"AU-016": [
+"CPP_ARRAY_BOUNDS",
+2,
+"v[2010] too small"
+],
+"AU-017": [
+"CPP_LOOP_BOUNDARY",
+2,
+"while(low<=n) with n=meio never ends"
+],
+"AU-018": [
+"CPP_ARRAY_BOUNDS",
+3,
+"freq vector size 0 indexed"
+],
+"AU-019": [
+"CPP_OTHER_ERROR",
+1,
+"trailing spaces/large VLAs"
+],
+"AU-020": [
+"CPP_ARRAY_BOUNDS",
+2,
+"somas[-1] when bsearch returns -1"
+],
+"AU-021": [
+"CPP_LOOP_BOUNDARY",
+2,
+"i<l-1 drops last element"
+],
+"AU-022": [
+"CPP_OTHER_ERROR",
+3,
+"debug prints"
+],
+"AU-023": [
+"CPP_OTHER_ERROR",
+1,
+"4MB stack aux; no clear bug"
+],
+"AU-024": [
+"CPP_ARRAY_BOUNDS",
+2,
+"soma[100000] too small, high=s"
+],
+"AU-025": [
+"CPP_ARRAY_BOUNDS",
+3,
+"c[99]/p[99] too small"
+],
+"AU-026": [
+"CPP_ARRAY_BOUNDS",
+3,
+"arrays of 100"
+],
+"AU-027": [
+"CPP_OTHER_ERROR",
+3,
+"never prints anything"
+],
+"AU-028": [
+"CPP_OTHER_ERROR",
+2,
+"binary search logic wrong, no exit"
+],
+"AU-029": [
+"CPP_ARRAY_BOUNDS",
+2,
+"nsoma[10000] too small"
+],
+"AU-030": [
+"CPP_OTHER_ERROR",
+3,
+"prints all sums, bsearch broken"
+],
+"AU-031": [
+"CPP_ARRAY_BOUNDS",
+2,
+"somas[1000] too small"
+],
+"AU-032": [
+"CPP_OTHER_ERROR",
+3,
+"debug matrix output"
+],
+"AU-033": [
+"CPP_LOOP_BOUNDARY",
+2,
+"i<n misses node n in center list"
+],
+"AU-034": [
+"CPP_ARRAY_BOUNDS",
+2,
+"pares[100000] too small"
+],
+"AU-035": [
+"CPP_OTHER_ERROR",
+3,
+"reads n queries, prints once, diff not value"
+],
+"AU-036": [
+"CPP_ARRAY_BOUNDS",
+3,
+"MAX 100 nodes"
+],
+"AU-037": [
+"CPP_ARRAY_BOUNDS",
+2,
+"soma[100000] too small"
+],
+"AU-038": [
+"CPP_ARRAY_BOUNDS",
+2,
+"sums[1000], j runs out of range"
+],
+"AU-039": [
+"CPP_ARRAY_BOUNDS",
+2,
+"somas[1000] and n(n-1) sums"
+],
+"AU-040": [
+"CPP_ARRAY_BOUNDS",
+2,
+"soma[1000], high=k"
+],
+"AU-041": [
+"CPP_OTHER_ERROR",
+1,
+"O(n^3) matrix BFS probably TLE"
+],
+"AU-042": [
+"CPP_OTHER_ERROR",
+3,
+"stray blank line printed"
+],
+"AU-043": [
+"CPP_ARRAY_BOUNDS",
+3,
+"MAX 100 nodes"
+],
+"AU-044": [
+"CPP_OFF_BY_ONE",
+2,
+"eccentricity loop starts j=2, skips node 1"
+],
+"AU-045": [
+"CPP_ARRAY_BOUNDS",
+2,
+"sum[300] too small"
+],
+"AU-046": [
+"CPP_ARRAY_BOUNDS",
+2,
+"somas[100000], somas[-1]"
+],
+"AU-047": [
+"CPP_ARRAY_BOUNDS",
+2,
+"soma[10000], high=a"
+],
+"AU-048": [
+"CPP_OTHER_ERROR",
+2,
+"sums built with p and j=1, wrong"
+],
+"AU-049": [
+"CPP_ARRAY_BOUNDS",
+2,
+"somav[1000], x-1 before check"
+],
+"AU-050": [
+"CPP_ARRAY_BOUNDS",
+3,
+"MAX 100 nodes"
+],
+"AU-051": [
+"CPP_OTHER_ERROR",
+3,
+"debug prints"
+],
+"AU-052": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"VLA sized by n before n is read"
+],
+"AU-053": [
+"CPP_OTHER_ERROR",
+3,
+"prints all sums at end"
+],
+"AU-054": [
+"CPP_ARRAY_BOUNDS",
+2,
+"-1 result indexes somas[-1]"
+],
+"AU-055": [
+"CPP_OTHER_ERROR",
+3,
+"key<middle compares index, one query"
+],
+"AU-056": [
+"CPP_ARRAY_BOUNDS",
+3,
+"arr[n] written past size"
+],
+"AU-057": [
+"CPP_ARRAY_BOUNDS",
+2,
+"somav[1000], x-1 access"
+],
+"AU-058": [
+"CPP_ARRAY_BOUNDS",
+3,
+"MAX 100 nodes, n=120"
+],
+"AU-059": [
+"CPP_ARRAY_BOUNDS",
+2,
+"somas[1000] too small"
+],
+"AU-060": [
+"CPP_LOOP_BOUNDARY",
+2,
+"while(low<=high) with high=med never ends"
+],
+"AU-061": [
+"CPP_ARRAY_BOUNDS",
+2,
+"soma[10000] too small"
+],
+"AU-062": [
+"CPP_OTHER_ERROR",
+3,
+"prints stray /n"
+],
+"AU-063": [
+"CPP_OTHER_ERROR",
+3,
+"merge sort broken, prints sums"
+],
+"AU-064": [
+"CPP_OTHER_ERROR",
+2,
+"8MB local arrays stack overflow"
+],
+"AU-065": [
+"CPP_UNINITIALIZED_VAR",
+3,
+"a uninitialised index"
+]
+}
