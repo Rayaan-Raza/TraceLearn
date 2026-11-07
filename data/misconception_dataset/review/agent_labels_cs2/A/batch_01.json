@@ -1,0 +1,502 @@
+{
+"TR-001": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-002": [
+"CPP_OTHER_ERROR",
+1,
+"rank logic unclear"
+],
+"TR-003": [
+"CPP_OTHER_ERROR",
+3,
+"xors index i not input"
+],
+"TR-004": [
+"CPP_OTHER_ERROR",
+2,
+"missing return in recursive calls"
+],
+"TR-005": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-006": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-007": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"t never set (scanf fails on input)"
+],
+"TR-008": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-009": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-010": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-011": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-012": [
+"CPP_STALE_EXIT",
+3,
+"temp never advances"
+],
+"TR-013": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-014": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-015": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-016": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-017": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-018": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-019": [
+"CPP_ARRAY_BOUNDS",
+3,
+"table indexed by value up to 1e9"
+],
+"TR-020": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-021": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-022": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-023": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-024": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-025": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-026": [
+"CPP_OTHER_ERROR",
+2,
+"scanf without &"
+],
+"TR-027": [
+"CPP_OTHER_ERROR",
+2,
+"scanf without &"
+],
+"TR-028": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-029": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-030": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-031": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-032": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-033": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-034": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-035": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-036": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"t never set (scanf fails on input)"
+],
+"TR-037": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-038": [
+"CPP_OTHER_ERROR",
+2,
+"scanf without &"
+],
+"TR-039": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-040": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-041": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-042": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-043": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-044": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"t never set (scanf fails on input)"
+],
+"TR-045": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-046": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-047": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-048": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-049": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-050": [
+"CPP_ARRAY_BOUNDS",
+2,
+"i goes negative"
+],
+"TR-051": [
+"CPP_ARRAY_BOUNDS",
+3,
+"index from input value, array size 15"
+],
+"TR-052": [
+"CPP_OTHER_ERROR",
+2,
+"new node never assigned to root"
+],
+"TR-053": [
+"CPP_ASSIGN_VS_COMPARE",
+2,
+"if (found = 1)"
+],
+"TR-054": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"t never set"
+],
+"TR-055": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-056": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-057": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-058": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-059": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-060": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-061": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"bad scanf format leaves h unset"
+],
+"TR-062": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-063": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-064": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-065": [
+"CPP_STALE_EXIT",
+3,
+"h never changes in while"
+],
+"TR-066": [
+"CPP_OTHER_ERROR",
+2,
+"scanf without &"
+],
+"TR-067": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-068": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-069": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-070": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-071": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-072": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-073": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-074": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-075": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-076": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-077": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-078": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-079": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"t never set (scanf fails on input)"
+],
+"TR-080": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-081": [
+"CPP_ARRAY_BOUNDS",
+2,
+"array of 50 too small"
+],
+"TR-082": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-083": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-084": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-085": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-086": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"m never read, uninitialized"
+],
+"TR-087": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-088": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-089": [
+"CPP_OTHER_ERROR",
+2,
+"wrong branch for underweight"
+],
+"TR-090": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-091": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-092": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-093": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-094": [
+"CPP_OFF_BY_ONE",
+3,
+"loop starts at 1, reads 14"
+],
+"TR-095": [
+"CPP_OTHER_ERROR",
+3,
+"output text/format/prompt"
+],
+"TR-096": [
+"CPP_ARRAY_BOUNDS",
+3,
+"index from input value"
+],
+"TR-097": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-098": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-099": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+],
+"TR-100": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic"
+]
+}

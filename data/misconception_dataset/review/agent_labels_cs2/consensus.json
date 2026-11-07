@@ -1,0 +1,2578 @@
+{
+ "TR-001": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-002": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "rank logic unclear"
+ },
+ "TR-003": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "xors index i not input"
+ },
+ "TR-004": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "missing return in recursive calls"
+ },
+ "TR-005": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-006": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-007": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "3-of-3",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "CPP_UNINITIALIZED_VAR",
+  "note": "t never set (scanf fails on input)"
+ },
+ "TR-008": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-009": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-010": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-011": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-012": {
+  "label": "CPP_STALE_EXIT",
+  "how": "3-of-3",
+  "A": "CPP_STALE_EXIT",
+  "B": "CPP_STALE_EXIT",
+  "reader": "CPP_STALE_EXIT",
+  "note": "temp never advances"
+ },
+ "TR-013": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-014": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-015": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-016": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-017": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-018": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-019": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "3-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_ARRAY_BOUNDS",
+  "note": "table indexed by value up to 1e9"
+ },
+ "TR-020": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-021": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-022": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-023": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-024": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-025": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-026": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-027": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-028": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-029": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-030": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-031": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-032": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-033": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-034": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-035": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-036": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "3-of-3",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "CPP_UNINITIALIZED_VAR",
+  "note": "t never set (scanf fails on input)"
+ },
+ "TR-037": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-038": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-039": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-040": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-041": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-042": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-043": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-044": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "3-of-3",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "CPP_UNINITIALIZED_VAR",
+  "note": "t never set (scanf fails on input)"
+ },
+ "TR-045": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-046": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong output/logic"
+ },
+ "TR-047": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-048": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-049": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-050": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "3-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_ARRAY_BOUNDS",
+  "note": "i goes negative"
+ },
+ "TR-051": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "3-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_ARRAY_BOUNDS",
+  "note": "index from input value, array size 15"
+ },
+ "TR-052": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "new node never assigned to root"
+ },
+ "TR-053": {
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "how": "3-of-3",
+  "A": "CPP_ASSIGN_VS_COMPARE",
+  "B": "CPP_ASSIGN_VS_COMPARE",
+  "reader": "CPP_ASSIGN_VS_COMPARE",
+  "note": "if (found = 1)"
+ },
+ "TR-054": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "2-of-3",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "UNCERTAIN",
+  "note": "t never set"
+ },
+ "TR-055": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-056": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-057": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-058": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-059": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-060": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-061": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "2-of-3",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "bad scanf format leaves h unset"
+ },
+ "TR-062": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-063": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong output/logic"
+ },
+ "TR-064": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-065": {
+  "label": "CPP_STALE_EXIT",
+  "how": "3-of-3",
+  "A": "CPP_STALE_EXIT",
+  "B": "CPP_STALE_EXIT",
+  "reader": "CPP_STALE_EXIT",
+  "note": "h never changes in while"
+ },
+ "TR-066": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-067": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-068": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-069": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-070": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-071": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-072": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-073": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-074": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-075": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong output/logic"
+ },
+ "TR-076": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-077": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-078": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-079": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "2-of-2",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "",
+  "note": "t never set (scanf fails on input)"
+ },
+ "TR-080": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-081": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "3-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_ARRAY_BOUNDS",
+  "note": "array of 50 too small"
+ },
+ "TR-082": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-083": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-084": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-085": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong output/logic"
+ },
+ "TR-086": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "3-of-3",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "CPP_UNINITIALIZED_VAR",
+  "note": "m never read, uninitialized"
+ },
+ "TR-087": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-088": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-089": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong branch for underweight"
+ },
+ "TR-090": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-091": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-092": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-093": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-094": {
+  "label": "CPP_OFF_BY_ONE",
+  "how": "3-of-3",
+  "A": "CPP_OFF_BY_ONE",
+  "B": "CPP_OFF_BY_ONE",
+  "reader": "CPP_OFF_BY_ONE",
+  "note": "loop starts at 1, reads 14"
+ },
+ "TR-095": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output text/format/prompt"
+ },
+ "TR-096": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "2-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "UNCERTAIN",
+  "note": "index from input value"
+ },
+ "TR-097": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-098": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-099": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-100": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output/logic"
+ },
+ "TR-101": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "no spaces in output"
+ },
+ "TR-102": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "reads %s char digits, wrong approach"
+ },
+ "TR-103": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong algorithm"
+ },
+ "TR-104": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-105": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "replaces whole word only, wrong algorithm"
+ },
+ "TR-106": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "missing space in output"
+ },
+ "TR-107": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "solves different problem"
+ },
+ "TR-108": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong replacement algorithm"
+ },
+ "TR-109": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong algorithm"
+ },
+ "TR-110": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output /n text and wrong search"
+ },
+ "TR-111": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-3",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "digits[i] with i never set"
+ },
+ "TR-112": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "3-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_ARRAY_BOUNDS",
+  "note": "TLE[a[i]] with values up to 1e9"
+ },
+ "TR-113": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "%lf prints 6 decimals"
+ },
+ "TR-114": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prompts printed"
+ },
+ "TR-115": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "Yes vs YES"
+ },
+ "TR-116": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "trailing period"
+ },
+ "TR-117": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prompt printed"
+ },
+ "TR-118": {
+  "label": "CPP_RANGE_CHECK",
+  "how": "3-of-3",
+  "A": "CPP_RANGE_CHECK",
+  "B": "CPP_RANGE_CHECK",
+  "reader": "CPP_RANGE_CHECK",
+  "note": "chained comparison 18.5<=bmi<25"
+ },
+ "TR-119": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "solves different problem"
+ },
+ "TR-120": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prints all non-pair items, wrong algorithm"
+ },
+ "TR-121": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "BMI value not printed"
+ },
+ "TR-122": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-123": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-124": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "Yes vs YES"
+ },
+ "TR-125": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-126": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "extra text in output"
+ },
+ "TR-127": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prompts printed"
+ },
+ "TR-128": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "3-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_ARRAY_BOUNDS",
+  "note": "array[user[i]] input-valued index"
+ },
+ "TR-129": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "first flag reset, no spaces"
+ },
+ "TR-130": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "stores literal 'x' not char"
+ },
+ "TR-131": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "solves different problem"
+ },
+ "TR-132": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong output when not subsequence"
+ },
+ "TR-133": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "no output when not subsequence"
+ },
+ "TR-134": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-135": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "self-compare so never unique"
+ },
+ "TR-136": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "%2f format wrong"
+ },
+ "TR-137": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prompt printed"
+ },
+ "TR-138": {
+  "label": "CPP_STALE_EXIT",
+  "how": "3-of-3",
+  "A": "CPP_STALE_EXIT",
+  "B": "CPP_STALE_EXIT",
+  "reader": "CPP_STALE_EXIT",
+  "note": "inner loop tests i<n, j increments"
+ },
+ "TR-139": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "%2f and /n"
+ },
+ "TR-140": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "space separated, expected lines"
+ },
+ "TR-141": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "UNCERTAIN",
+  "note": "reads t test count not in input"
+ },
+ "TR-142": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prints -1 instead of S"
+ },
+ "TR-143": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prompt printed"
+ },
+ "TR-144": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-145": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong text, no BMI value"
+ },
+ "TR-146": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "prompts printed"
+ },
+ "TR-147": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "%2f format wrong"
+ },
+ "TR-148": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong algorithm"
+ },
+ "TR-149": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "inverted null check if(root)"
+ },
+ "TR-150": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "hardcoded array"
+ },
+ "TR-151": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "missing space"
+ },
+ "TR-152": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "first flag reset, no spaces"
+ },
+ "TR-153": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "%2f and /n"
+ },
+ "TR-154": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong algorithm"
+ },
+ "TR-155": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output looks same; likely trailing/format diff"
+ },
+ "TR-156": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf into loop variable"
+ },
+ "TR-157": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "Underweighted text"
+ },
+ "TR-158": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "%d into long long, prints &c"
+ },
+ "TR-159": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "cin>> for line with spaces"
+ },
+ "TR-160": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-161": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "missing space"
+ },
+ "TR-162": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "Under Weight text"
+ },
+ "TR-163": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "prompts printed"
+ },
+ "TR-164": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "solves different problem"
+ },
+ "TR-165": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "prompt printed"
+ },
+ "TR-166": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-167": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "hardcoded answer"
+ },
+ "TR-168": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong algorithm"
+ },
+ "TR-169": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "space separated not lines"
+ },
+ "TR-170": {
+  "label": "CPP_OFF_BY_ONE",
+  "how": "2-of-2",
+  "A": "CPP_OFF_BY_ONE",
+  "B": "CPP_OFF_BY_ONE",
+  "reader": "",
+  "note": "loop starts at 1, reads 14 numbers"
+ },
+ "TR-171": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong algorithm, infinite loop"
+ },
+ "TR-172": {
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "how": "3-of-3",
+  "A": "CPP_ASSIGN_VS_COMPARE",
+  "B": "CPP_ASSIGN_VS_COMPARE",
+  "reader": "CPP_ASSIGN_VS_COMPARE",
+  "note": "if (found = 1)"
+ },
+ "TR-173": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "shadowed is_unique, prints all"
+ },
+ "TR-174": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "solves different problem, k=0 div"
+ },
+ "TR-175": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "no spaces between values"
+ },
+ "TR-176": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "prompts, head reset each iteration"
+ },
+ "TR-177": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong output words"
+ },
+ "TR-178": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "prompts and missing space"
+ },
+ "TR-179": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong algorithm j from 1, c not reset"
+ },
+ "TR-180": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "%f prints 6 decimals"
+ },
+ "TR-181": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "2-of-2",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "",
+  "note": "m never read"
+ },
+ "TR-182": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "solves different problem"
+ },
+ "TR-183": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "2-of-2",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "",
+  "note": "second loop skipped, b uninit"
+ },
+ "TR-184": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-185": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong algorithm"
+ },
+ "TR-186": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "trailing period"
+ },
+ "TR-187": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "/n text, uninit i, wrong search"
+ },
+ "TR-188": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "head reset each iteration"
+ },
+ "TR-189": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "space separated not lines"
+ },
+ "TR-190": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "never prints secondary tree"
+ },
+ "TR-191": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "3-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_ARRAY_BOUNDS",
+  "note": "TLE[a[i]] with values up to 1e9"
+ },
+ "TR-192": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "solves different problem"
+ },
+ "TR-193": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "xors loop index not input"
+ },
+ "TR-194": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong algorithm"
+ },
+ "TR-195": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "wrong algorithm j not bounded"
+ },
+ "TR-196": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "trailing period"
+ },
+ "TR-197": {
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "how": "2-of-2",
+  "A": "CPP_ASSIGN_VS_COMPARE",
+  "B": "CPP_ASSIGN_VS_COMPARE",
+  "reader": "",
+  "note": "if(unique=1)"
+ },
+ "TR-198": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "prints per element"
+ },
+ "TR-199": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "missing space"
+ },
+ "TR-200": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong formula w/h*h"
+ },
+ "TR-201": {
+  "label": "CPP_OFF_BY_ONE",
+  "how": "2-of-2",
+  "A": "CPP_OFF_BY_ONE",
+  "B": "CPP_OFF_BY_ONE",
+  "reader": "",
+  "note": "loop starts at 1, reads only 14 numbers"
+ },
+ "TR-202": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "removes partial match when A not a subsequence"
+ },
+ "TR-203": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "searches m instead of reading queries"
+ },
+ "TR-204": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "cin>>s truncates line with space"
+ },
+ "TR-205": {
+  "label": "CPP_RANGE_CHECK",
+  "how": "3-of-3",
+  "A": "CPP_RANGE_CHECK",
+  "B": "CPP_RANGE_CHECK",
+  "reader": "CPP_RANGE_CHECK",
+  "note": "|| used instead of && in range"
+ },
+ "TR-206": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-207": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-208": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-209": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "tie handling in rank lookup"
+ },
+ "TR-210": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "comma-operator loop condition stops early, tail not printed"
+ },
+ "TR-211": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-212": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-213": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-214": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-215": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-216": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-217": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-218": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-219": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-220": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-221": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-222": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-223": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "stack order wrong, compares string with itself"
+ },
+ "TR-224": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-225": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-226": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-227": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-228": {
+  "label": "CPP_RANGE_CHECK",
+  "how": "3-of-3",
+  "A": "CPP_RANGE_CHECK",
+  "B": "CPP_RANGE_CHECK",
+  "reader": "CPP_RANGE_CHECK",
+  "note": "duplicate bmi<25 condition, wrong threshold"
+ },
+ "TR-229": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-230": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-231": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-232": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-233": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-234": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prints not-subsequence message instead of S"
+ },
+ "TR-235": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-236": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-237": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-238": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-239": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-240": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "missing return value"
+ },
+ "TR-241": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "%lf for float and bad scanf format"
+ },
+ "TR-242": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-243": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-244": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-245": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-246": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-247": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-248": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-249": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-250": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-251": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-252": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-253": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-254": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-255": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-256": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "cin.ignore eats a char of second line"
+ },
+ "TR-257": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-258": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-259": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-260": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-261": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-262": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-263": {
+  "label": "CPP_LOOP_BOUNDARY",
+  "how": "2-of-2",
+  "A": "CPP_LOOP_BOUNDARY",
+  "B": "CPP_LOOP_BOUNDARY",
+  "reader": "",
+  "note": "i<=15 reads 16 numbers"
+ },
+ "TR-264": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-265": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-266": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-267": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-268": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-269": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-270": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-271": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-272": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-273": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-274": {
+  "label": "CPP_RANGE_CHECK",
+  "how": "3-of-3",
+  "A": "CPP_RANGE_CHECK",
+  "B": "CPP_RANGE_CHECK",
+  "reader": "CPP_RANGE_CHECK",
+  "note": "chained comparison 25.0<=b<30.0"
+ },
+ "TR-275": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-276": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-277": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-278": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-279": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-280": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-281": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-282": {
+  "label": "CPP_RANGE_CHECK",
+  "how": "3-of-3",
+  "A": "CPP_RANGE_CHECK",
+  "B": "CPP_RANGE_CHECK",
+  "reader": "CPP_RANGE_CHECK",
+  "note": "wrong constant 25.5"
+ },
+ "TR-283": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-284": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-285": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "tie handling in rank lookup"
+ },
+ "TR-286": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-287": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-288": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "2-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "arr[5] but 15 numbers needed"
+ },
+ "TR-289": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-290": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "reuses loop var i / wrong scanf format"
+ },
+ "TR-291": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-292": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-293": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-294": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "stack order wrong, compares string with itself"
+ },
+ "TR-295": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-296": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-297": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-298": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-299": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-300": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output/format/logic or different problem"
+ },
+ "TR-301": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "space-separated output instead of one per line"
+ },
+ "TR-302": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "extra endl output in loops"
+ },
+ "TR-303": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "counter c never reset per i, logic bug"
+ },
+ "TR-304": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "stores char literal 'x' not x"
+ },
+ "TR-305": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "2-of-2",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "",
+  "note": "i not reset so second loop skipped, b unset"
+ },
+ "TR-306": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "solves a different problem (binary conversion)"
+ },
+ "TR-307": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "reads t test count that input lacks"
+ },
+ "TR-308": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "no newline between groups"
+ },
+ "TR-309": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "2-of-2",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "",
+  "note": "i not reset so loop skipped, b unset"
+ },
+ "TR-310": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "3-of-3",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "CPP_OTHER_ERROR",
+  "note": "prints endl for every element"
+ },
+ "TR-311": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong printf format, not 2 decimals"
+ },
+ "TR-312": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "handles only one query, not m"
+ },
+ "TR-313": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "word-split replace logic wrong for the input format"
+ },
+ "TR-314": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "scanf %lf into float, wrong format"
+ },
+ "TR-315": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "how": "2-of-2",
+  "A": "CPP_UNINITIALIZED_VAR",
+  "B": "CPP_UNINITIALIZED_VAR",
+  "reader": "",
+  "note": "i not reset so loop skipped, b unset"
+ },
+ "TR-316": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "output text case Yes vs YES"
+ },
+ "TR-317": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "prints prompts"
+ },
+ "TR-318": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "prints prompt"
+ },
+ "TR-319": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "word-boundary replace logic wrong"
+ },
+ "TR-320": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "how": "3-of-3",
+  "A": "CPP_ARRAY_BOUNDS",
+  "B": "CPP_ARRAY_BOUNDS",
+  "reader": "CPP_ARRAY_BOUNDS",
+  "note": "array[user[i]] indexes by input value"
+ },
+ "TR-321": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "space-separated output instead of lines"
+ },
+ "TR-322": {
+  "label": "CPP_OTHER_ERROR",
+  "how": "2-of-2",
+  "A": "CPP_OTHER_ERROR",
+  "B": "CPP_OTHER_ERROR",
+  "reader": "",
+  "note": "wrong algorithm, prints values"
+ }
+}

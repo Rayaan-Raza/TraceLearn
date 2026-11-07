@@ -1,0 +1,23 @@
+{
+  "items": 322,
+  "A_vs_B_agree": 321,
+  "A_vs_B_n": 322,
+  "A_vs_reader_agree": 178,
+  "A_vs_reader_n": 184,
+  "consensus": {
+    "3-of-3": 178,
+    "2-of-2": 138,
+    "2-of-3": 6
+  },
+  "labels": {
+    "CPP_OTHER_ERROR": 285,
+    "CPP_UNINITIALIZED_VAR": 12,
+    "CPP_STALE_EXIT": 3,
+    "CPP_ARRAY_BOUNDS": 10,
+    "CPP_ASSIGN_VS_COMPARE": 3,
+    "CPP_OFF_BY_ONE": 3,
+    "CPP_RANGE_CHECK": 5,
+    "CPP_LOOP_BOUNDARY": 1
+  },
+  "changed_vs_reader": 5
+}

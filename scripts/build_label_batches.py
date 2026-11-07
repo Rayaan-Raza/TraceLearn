@@ -68,6 +68,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--raw", default=None)
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--name", default=None)
+    ap.add_argument("--batch", type=int, default=BATCH, help="items per batch file")
     ap.add_argument("--problems", default="", help="comma-separated problem ids: sample these problems instead of a pool")
     ap.add_argument("--seen", default="", help="comma-separated problem ids whose statement the reader already has")
     args = ap.parse_args(argv)
@@ -117,10 +118,11 @@ def main(argv: list[str] | None = None) -> int:
             f"--- expected:\n{clip(case.get('output', ''), 110)}\n"
             f"--- observed (status {got.get('status')}, rc {got.get('rc')}):\n{clip(got.get('stdout_head', ''), 110)}\n"
             f"--- code:\n{clip(s.code, 1900)}\n")
-    for i in range(0, len(blocks), BATCH):
-        (out_dir / f"batch_{i // BATCH + 1:02d}.txt").write_text("\n".join(blocks[i:i + BATCH]), encoding="utf-8", newline="\n")
+    size = args.batch
+    for i in range(0, len(blocks), size):
+        (out_dir / f"batch_{i // size + 1:02d}.txt").write_text("\n".join(blocks[i:i + size]), encoding="utf-8", newline="\n")
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=1), encoding="utf-8", newline="\n")
-    print(f"{len(manifest)} items in {-(-len(blocks) // BATCH)} batches -> {out_dir}")
+    print(f"{len(manifest)} items in {-(-len(blocks) // size)} batches -> {out_dir}")
     return 0
 
 
