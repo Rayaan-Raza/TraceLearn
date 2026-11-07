@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-03-02",
+ "seed_submission_id": "synth2:S2-N-03",
+ "problem_id": "synth2-S2-N-03",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "a4fafcdd5a8462cb",
+ "mutant_sha256": "f70740c0d2101a20da59ffe91673305d1f88c8a2e15ef8e57f0b6c8761658c94",
+ "tests_passed": 2,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n",
+  "note": "a was never given the starting value 0.",
+  "evidence": null,
+  "base_sha256": "a4fafcdd5a8462cb"
+ },
+ "evidence": null
+}

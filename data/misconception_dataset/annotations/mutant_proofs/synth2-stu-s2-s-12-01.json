@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-12-01",
+ "seed_submission_id": "synth2:S2-S-12",
+ "problem_id": "synth2-S2-S-12",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "36f9e9547edefcd7",
+ "mutant_sha256": "05b591bd9339c1ef271ff19daa8261d297d79f63c9a74ed277b7cd18d574ea83",
+ "tests_passed": 7,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\n#include <cstdio>\nusing namespace std;\nint main() {\n    int k;\n    string s;\n    cin >> k;\n    cin.ignore();\n    getline(cin, s);\n    k %= 26;\n    int n = s.size(",
+  "after": "#include <iostream>\n#include <string>\n#include <cstdio>\nusing namespace std;\nint main() {\n    int k;\n    string s;\n    cin >> k;\n    cin.ignore();\n    getline(cin, s);\n    k %= 26;\n    int n = s.size(",
+  "note": "Output buffer of 64 for lines up to 1000 chars.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "36f9e9547edefcd7"
+ },
+ "evidence": "asan:buffer-overflow"
+}

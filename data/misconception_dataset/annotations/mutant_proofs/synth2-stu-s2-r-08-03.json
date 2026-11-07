@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-08-03",
+ "seed_submission_id": "synth2:S2-R-08",
+ "problem_id": "synth2-S2-R-08",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "3b6d0ec667a77e74",
+ "mutant_sha256": "211c2360c9d1eac9a9831503098069327ad004e4bf31eafad8c77c48f69e7cb2",
+ "tests_passed": 8,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n    }\n    if (inc > 10000) {\n        t",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc",
+  "note": "Forgot to cut the income down after taxing the top bracket, so it is taxed again.",
+  "evidence": null,
+  "base_sha256": "3b6d0ec667a77e74"
+ },
+ "evidence": null
+}

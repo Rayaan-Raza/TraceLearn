@@ -715,6 +715,7 @@ def merge(
     #    failure, never guessed
     clusters = load_cluster_table(ds / "splits" / "cluster_assignments.csv")
     clusters = add_extra_clusters(clusters, ds / "splits" / "bank_clusters.csv")
+    clusters = add_extra_clusters(clusters, ds / "splits" / "synth2_clusters.csv")
     clusters = apply_pool_overrides(clusters, ds / "splits" / "codestream_clusters.csv")
     # whole PROGPedia problems held out for the multi-annotator test (never trained on)
     clusters = apply_pool_overrides(clusters, ds / "splits" / "progpedia_holdout.csv")

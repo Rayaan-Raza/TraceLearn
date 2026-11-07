@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-11-04",
+ "seed_submission_id": "synth2:S2-R-11",
+ "problem_id": "synth2-S2-R-11",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "bc09977e9e032e5c",
+ "mutant_sha256": "2a2e48b5dbdb6777c1c97c592925e1b87a8ec46820b8d77584abe4b932942063",
+ "tests_passed": 6,
+ "tests_total": 14,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) re",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) re",
+  "note": "Adds 1 per digit instead of the digit value.",
+  "evidence": null,
+  "base_sha256": "bc09977e9e032e5c"
+ },
+ "evidence": null
+}

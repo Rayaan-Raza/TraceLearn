@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-04-01",
+ "seed_submission_id": "synth2:S2-S-04",
+ "problem_id": "synth2-S2-S-04",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "a6ed762535ac0243",
+ "mutant_sha256": "9eafc49065677f1fe66f6955b1a8c8bdc7eaf5a903dd81d436ee6e7fc3621964",
+ "tests_passed": 6,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[8][8];\nlong long diag(int n, int anti) {\n    long long s = 0;\n    for (int i = 0; i < n; i++) {\n        if (anti) s += a[i][n - 1 - i];\n        else s += a[i][i];\n    }\n    ret",
+  "after": "#include <cstdio>\nint a[505][505];\nlong long diag(int n, int anti) {\n    long long s = 0;\n    for (int i = 0; i < n; i++) {\n        if (anti) s += a[i][n - 1 - i];\n        else s += a[i][i];\n    }\n   ",
+  "note": "Matrix array only 8x8 but n can be 500.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "a6ed762535ac0243"
+ },
+ "evidence": "asan:buffer-overflow"
+}

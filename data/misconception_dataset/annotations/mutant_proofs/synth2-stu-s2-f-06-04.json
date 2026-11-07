@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-06-04",
+ "seed_submission_id": "synth2:S2-F-06",
+ "problem_id": "synth2-S2-F-06",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "fc5c5d057b2585d6",
+ "mutant_sha256": "71f5e1b66aa5960679b7980265fa64e36d1e7a84832ac7e65bc4ad640b839d22",
+ "tests_passed": 3,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\nusing namespace std;\n\nbool isPal(string &s, int l, int r) {\n    if (l >= r) return true;\n    if (s[l] != s[r]) return false;\n    return isPal(s, l + 1, r - 1);\n}\n",
+  "after": "#include <iostream>\n#include <string>\nusing namespace std;\n\nbool isPal(string &s, int l, int r) {\n    if (l >= r) return true;\n    if (s[l] != s[r]) return false;\n    return isPal(s, l + 1, r - 1);\n}\n",
+  "note": "Wrong output text, prints Yes instead of YES.",
+  "evidence": null,
+  "base_sha256": "fc5c5d057b2585d6"
+ },
+ "evidence": null
+}

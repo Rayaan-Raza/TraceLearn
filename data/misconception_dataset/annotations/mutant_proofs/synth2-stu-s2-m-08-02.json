@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-08-02",
+ "seed_submission_id": "synth2:S2-M-08",
+ "problem_id": "synth2-S2-M-08",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "863b63d974a9ddd7",
+ "mutant_sha256": "17d1025670744568a5c891864e1b7247a3eaede0e508a9596c2f2ee5d8e221f1",
+ "tests_passed": 6,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d < x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\ni",
+  "after": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\n",
+  "note": "Stops before d*d == x so squares of primes are called prime.",
+  "evidence": null,
+  "base_sha256": "863b63d974a9ddd7"
+ },
+ "evidence": null
+}

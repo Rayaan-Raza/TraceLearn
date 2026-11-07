@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-11-01",
+ "seed_submission_id": "synth2:S2-N-11",
+ "problem_id": "synth2-S2-N-11",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "c726c144e3149ce4",
+ "mutant_sha256": "af09d32bdf954fae64149d354c75c088ac8f814e1b794376180bebfb297aa1cf",
+ "tests_passed": 5,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n   ",
+  "note": "Products of two residues overflow int.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "c726c144e3149ce4"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-13-03",
+ "seed_submission_id": "synth2:S2-N-13",
+ "problem_id": "synth2-S2-N-13",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "99abb353f1d4be2a",
+ "mutant_sha256": "c0a4e50aea87d7e46d0e62e35954a414d3a6e15fa50d2188d98de99e5c5f5aab",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long ",
+  "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long ",
+  "note": "best has no starting value.",
+  "evidence": null,
+  "base_sha256": "99abb353f1d4be2a"
+ },
+ "evidence": null
+}

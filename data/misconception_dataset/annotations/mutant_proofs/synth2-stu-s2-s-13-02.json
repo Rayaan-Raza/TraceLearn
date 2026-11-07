@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-13-02",
+ "seed_submission_id": "synth2:S2-S-13",
+ "problem_id": "synth2-S2-S-13",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "b4baba3a249a2e2f",
+ "mutant_sha256": "4c44fa398e252d9c86b61c9a63f1a517bda654cd32f14ba779a78ca51fd02e0c",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\nusing namespace std;\nint rowSum(vector<int>& r) {\n    int s = 0;\n    for (int x : r) s += x;\n    return s;\n}\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vec",
+  "after": "#include <iostream>\n#include <vector>\nusing namespace std;\nint rowSum(vector<int>& r) {\n    int s = 0;\n    for (int x : r) s += x;\n    return s;\n}\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vec",
+  "note": "Prints the 0-based row number instead of 1-based.",
+  "evidence": null,
+  "base_sha256": "b4baba3a249a2e2f"
+ },
+ "evidence": null
+}

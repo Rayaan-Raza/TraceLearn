@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-07-01",
+ "seed_submission_id": "synth2:S2-S-07",
+ "problem_id": "synth2-S2-S-07",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "9a4a09b0e1cc05db",
+ "mutant_sha256": "0081a5591b6d03e4b6dcc85fcb76089ea45edaa16de58c25e30d769a0506b62f",
+ "tests_passed": 5,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    vector<int> a(n), b(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    for (int i = 0; i ",
+  "after": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    vector<int> a(n), b(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    k %= n;\n    for (i",
+  "note": "k is not reduced modulo n so the index runs far past the end.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "9a4a09b0e1cc05db"
+ },
+ "evidence": "asan:buffer-overflow"
+}

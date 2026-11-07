@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-08-01",
+ "seed_submission_id": "synth2:S2-F-08",
+ "problem_id": "synth2-S2-F-08",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "d923b1da17944c8c",
+ "mutant_sha256": "5106a0984d37b94d2259b1858cef6294aa9283a5597887dd5ceb15e4eaa357d0",
+ "tests_passed": 7,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nvoid cd(int n) {\n    if (n == 0) {\n        cout << \"Liftoff!\" << endl;\n        return;\n    }\n    cout << n << \" \";\n    cd(n - 1);\n}\n\nint main() {\n    int n;\n ",
+  "after": "#include <iostream>\nusing namespace std;\n\nvoid cd(int n) {\n    if (n <= 0) {\n        cout << \"Liftoff!\" << endl;\n        return;\n    }\n    cout << n << \" \";\n    cd(n - 1);\n}\n\nint main() {\n    int n;\n ",
+  "note": "Stopping case only matches 0, so a negative start never stops.",
+  "evidence": null,
+  "base_sha256": "d923b1da17944c8c"
+ },
+ "evidence": null
+}

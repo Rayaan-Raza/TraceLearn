@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-05-03",
+ "seed_submission_id": "synth2:S2-N-05",
+ "problem_id": "synth2-S2-N-05",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "2dbe5159d5f5b94c",
+ "mutant_sha256": "796a4a6351e5dd6dba143e06d4c50c2a5d3df140e34fd222e2a97ca864048ffb",
+ "tests_passed": 9,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n    ",
+  "note": "Forgot that the number 0 has one digit.",
+  "evidence": null,
+  "base_sha256": "2dbe5159d5f5b94c"
+ },
+ "evidence": null
+}

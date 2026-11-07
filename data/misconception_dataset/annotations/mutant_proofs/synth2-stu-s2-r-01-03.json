@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-01-03",
+ "seed_submission_id": "synth2:S2-R-01",
+ "problem_id": "synth2-S2-R-01",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "db178a8b35799e34",
+ "mutant_sha256": "9179b93b4e0ef9dcfcc0c17fca67624c4cbafb4557c9204a8d2a6a9acb223d4c",
+ "tests_passed": 12,
+ "tests_total": 14,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s >= 90) cout << \"A\\n\";\n    else if (s >= 80) cout << \"B\\n\";\n    else if (s >= 70) cout << \"C\\n\";\n    else if (s ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s < 0 || s > 100) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (s >= 90) cout << \"A\\n\";\n    else",
+  "note": "Forgot the invalid-score case entirely.",
+  "evidence": null,
+  "base_sha256": "db178a8b35799e34"
+ },
+ "evidence": null
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-13-02",
+ "seed_submission_id": "synth2:S2-R-13",
+ "problem_id": "synth2-S2-R-13",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "2056c211a74ceded",
+ "mutant_sha256": "c7fd6ec86d25fed12446967b759edc478e2081a46fca0f35c74603ebbac9ec6f",
+ "tests_passed": 9,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = ",
+  "note": "Reading of exactly 30 is counted as above 30.",
+  "evidence": null,
+  "base_sha256": "2056c211a74ceded"
+ },
+ "evidence": null
+}

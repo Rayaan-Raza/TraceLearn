@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-12-02",
+ "seed_submission_id": "synth2:S2-S-12",
+ "problem_id": "synth2-S2-S-12",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "36f9e9547edefcd7",
+ "mutant_sha256": "af2ded1f192e99da7de4ff785e5e3933d208117d51cf526ebdb53db206b1ea18",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\n#include <cstdio>\nusing namespace std;\nint main() {\n    int k;\n    string s;\n    cin >> k;\n    cin.ignore();\n    getline(cin, s);\n    k %= 26;\n    int n = s.size(",
+  "after": "#include <iostream>\n#include <string>\n#include <cstdio>\nusing namespace std;\nint main() {\n    int k;\n    string s;\n    cin >> k;\n    cin.ignore();\n    getline(cin, s);\n    k %= 26;\n    int n = s.size(",
+  "note": "Loop starts at 1 and never encodes the first character.",
+  "evidence": null,
+  "base_sha256": "36f9e9547edefcd7"
+ },
+ "evidence": null
+}

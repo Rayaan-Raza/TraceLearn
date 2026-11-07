@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-06-04",
+ "seed_submission_id": "synth2:S2-R-06",
+ "problem_id": "synth2-S2-R-06",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "f2a484554aa044de",
+ "mutant_sha256": "c6419ddcab165e6e6bae9235ec4225ca44058603778b1e0ebe329db9ad99ce8d",
+ "tests_passed": 7,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else",
+  "note": "Wrong parity test for the product sign.",
+  "evidence": null,
+  "base_sha256": "f2a484554aa044de"
+ },
+ "evidence": null
+}

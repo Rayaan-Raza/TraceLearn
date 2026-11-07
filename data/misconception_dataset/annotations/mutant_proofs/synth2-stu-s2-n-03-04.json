@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-03-04",
+ "seed_submission_id": "synth2:S2-N-03",
+ "problem_id": "synth2-S2-N-03",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "a4fafcdd5a8462cb",
+ "mutant_sha256": "8e489d0be800b7031ac41bd856c1bdf781a3239a4a8f81acc20e28d09cfa2044",
+ "tests_passed": 1,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i <= n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n",
+  "note": "Loop runs one step too many and prints F(n+1).",
+  "evidence": null,
+  "base_sha256": "a4fafcdd5a8462cb"
+ },
+ "evidence": null
+}

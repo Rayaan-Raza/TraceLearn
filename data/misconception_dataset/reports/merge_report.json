@@ -2,6 +2,7 @@
   "inputs": [
     "tier0_mutants.jsonl",
     "tier0b_student_synthetic.jsonl",
+    "tier0c_student_synthetic_v2.jsonl",
     "tier1a_codestream.jsonl",
     "tier1b_progpedia.jsonl",
     "tier1c_progpedia_exec.jsonl",
@@ -17,8 +18,8 @@
     },
     "unknown_row_ids": []
   },
-  "n_rows_before_dedupe": 2746,
-  "n_rows": 1444,
+  "n_rows_before_dedupe": 3060,
+  "n_rows": 1758,
   "deduped": 1166,
   "synthetic_dropped_from_held_out_problems": 136,
   "dedupe_threshold": 0.8,
@@ -2045,12 +2046,12 @@
   "per_source": {
     "CODESTREAM": 298,
     "PROGPEDIA": 663,
-    "SYNTHETIC": 483
+    "SYNTHETIC": 797
   },
   "per_split": {
     "test": 325,
     "dev_gold": 125,
-    "train": 969,
+    "train": 1283,
     "test_iid": 25
   },
   "feature_availability": {
@@ -2087,12 +2088,12 @@
     "context": {
       "CODESTREAM": 0.097,
       "PROGPEDIA": 1.0,
-      "SYNTHETIC": 0.075
+      "SYNTHETIC": 0.045
     }
   },
   "g1": {
     "ok": true,
-    "n_rows": 2746
+    "n_rows": 3060
   },
   "g7": {
     "cluster_split_conflicts": 0,
@@ -2130,72 +2131,72 @@
         "psi": 3.9948
       },
       {
-        "feature": "static.token_count",
-        "psi": 1.8056
-      },
-      {
         "feature": "static.if_count",
-        "psi": 1.732
+        "psi": 1.8756
       },
       {
-        "feature": "static.string_literal_count",
-        "psi": 1.645
-      },
-      {
-        "feature": "static.loc",
-        "psi": 1.4727
+        "feature": "static.token_count",
+        "psi": 1.8715
       },
       {
         "feature": "static.unique_token_ratio",
-        "psi": 1.4255
+        "psi": 1.6721
       },
       {
-        "feature": "static.sloc",
-        "psi": 1.1974
+        "feature": "static.string_literal_count",
+        "psi": 1.5234
       },
       {
-        "feature": "semantics.increment",
-        "psi": 1.1445
-      },
-      {
-        "feature": "static.numeric_literal_count",
-        "psi": 1.1356
-      },
-      {
-        "feature": "tests.total",
-        "psi": 1.0793
-      },
-      {
-        "feature": "static.function_count",
-        "psi": 1.0138
-      },
-      {
-        "feature": "cpg.loop_count",
-        "psi": 1.0124
-      },
-      {
-        "feature": "static.loop_count",
-        "psi": 1.0015
-      },
-      {
-        "feature": "cpg.function_count",
-        "psi": 0.9168
-      },
-      {
-        "feature": "warnings.other",
-        "psi": 0.8335
+        "feature": "static.loc",
+        "psi": 1.5131
       },
       {
         "feature": "static.max_indent_depth",
-        "psi": 0.7435
+        "psi": 1.5072
+      },
+      {
+        "feature": "tests.total",
+        "psi": 1.4316
+      },
+      {
+        "feature": "static.sloc",
+        "psi": 1.3616
+      },
+      {
+        "feature": "static.function_count",
+        "psi": 1.2991
+      },
+      {
+        "feature": "semantics.increment",
+        "psi": 1.2267
+      },
+      {
+        "feature": "static.numeric_literal_count",
+        "psi": 1.2115
+      },
+      {
+        "feature": "cpg.loop_count",
+        "psi": 1.1715
+      },
+      {
+        "feature": "static.loop_count",
+        "psi": 1.1615
+      },
+      {
+        "feature": "cpg.function_count",
+        "psi": 1.1069
+      },
+      {
+        "feature": "warnings.other",
+        "psi": 1.0102
+      },
+      {
+        "feature": "warnings.total",
+        "psi": 0.8062
       },
       {
         "feature": "tests.first_fail_numeric_diff",
         "psi": 0.7316
-      },
-      {
-        "feature": "warnings.total",
-        "psi": 0.6156
       },
       {
         "feature": "context.sample_test_count",
@@ -2203,27 +2204,27 @@
       },
       {
         "feature": "cpg.comparison_count",
-        "psi": 0.5627
+        "psi": 0.5409
       },
       {
         "feature": "static.max_line_length",
-        "psi": 0.4553
-      },
-      {
-        "feature": "static.avg_line_length",
-        "psi": 0.3922
+        "psi": 0.428
       },
       {
         "feature": "cpg.array_write_oob_count",
         "psi": 0.3224
       },
       {
+        "feature": "static.return_count",
+        "psi": 0.312
+      },
+      {
         "feature": "runtime.duration_s",
         "psi": 0.2991
       },
       {
-        "feature": "static.return_count",
-        "psi": 0.2813
+        "feature": "tests.pass_rate",
+        "psi": 0.2341
       }
     ]
   }

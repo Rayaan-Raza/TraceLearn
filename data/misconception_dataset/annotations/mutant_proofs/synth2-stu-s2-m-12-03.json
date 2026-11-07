@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-12-03",
+ "seed_submission_id": "synth2:S2-M-12",
+ "problem_id": "synth2-S2-M-12",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "c6ce46d464a122e9",
+ "mutant_sha256": "c1f3c9896401227e0a151cfe6e0734f0f1e5aad7f162c878f015761ab1abbddc",
+ "tests_passed": 4,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n   ",
+  "after": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n   ",
+  "note": "Used a*b as the lcm, forgetting to divide by the gcd.",
+  "evidence": null,
+  "base_sha256": "c6ce46d464a122e9"
+ },
+ "evidence": null
+}

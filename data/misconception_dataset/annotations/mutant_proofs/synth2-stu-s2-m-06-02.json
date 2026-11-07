@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-06-02",
+ "seed_submission_id": "synth2:S2-M-06",
+ "problem_id": "synth2-S2-M-06",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "1ab046618666b83e",
+ "mutant_sha256": "ebbb9e6cb1c05aa1b8b43d67cfd468435130a8a56897bd8f074fa0794dc5dbf9",
+ "tests_passed": 4,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n     ",
+  "after": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n     ",
+  "note": "Forgot the case of unclosed opening brackets at the end.",
+  "evidence": null,
+  "base_sha256": "1ab046618666b83e"
+ },
+ "evidence": null
+}

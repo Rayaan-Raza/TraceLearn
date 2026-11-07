@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-08-05",
+ "seed_submission_id": "synth2:S2-N-08",
+ "problem_id": "synth2-S2-N-08",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "671a219a9a167c73",
+ "mutant_sha256": "03892cdeae760691db827b54e973453b792bd91ca65b47b577bb0084d8e08f06",
+ "tests_passed": 9,
+ "tests_total": 12,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res / i * (",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - ",
+  "note": "Divides before multiplying, so integer division truncates.",
+  "evidence": null,
+  "base_sha256": "671a219a9a167c73"
+ },
+ "evidence": null
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-07-03",
+ "seed_submission_id": "synth2:S2-M-07",
+ "problem_id": "synth2-S2-M-07",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "3da5c1d924fdcacf",
+ "mutant_sha256": "dd547f203226fc3a6ff945b63b26523b05926208cafb08ff520b8842c9517bda",
+ "tests_passed": 2,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; ",
+  "after": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; ",
+  "note": "Comparison reversed, sorts in decreasing order.",
+  "evidence": null,
+  "base_sha256": "3da5c1d924fdcacf"
+ },
+ "evidence": null
+}

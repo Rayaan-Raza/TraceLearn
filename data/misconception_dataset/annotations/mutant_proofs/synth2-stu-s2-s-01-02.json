@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-01-02",
+ "seed_submission_id": "synth2:S2-S-01",
+ "problem_id": "synth2-S2-S-01",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "dc038ad4f6ade0c3",
+ "mutant_sha256": "9a0edfaed865b20e4d1636658b810bce3d02d986846d7e19862546b617791632",
+ "tests_passed": 5,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <cctype>\nint countV(char *s, int n) {\n    int cnt = 0;\n    for (int i = 1; i < n; i++) {\n        char c = tolower(s[i]);\n        if (c == 'a' || c == 'e' || c == 'i' || c ==",
+  "after": "#include <cstdio>\n#include <cctype>\nint countV(char *s, int n) {\n    int cnt = 0;\n    for (int i = 0; i < n; i++) {\n        char c = tolower(s[i]);\n        if (c == 'a' || c == 'e' || c == 'i' || c ==",
+  "note": "Loop starts at index 1 and skips the first character.",
+  "evidence": null,
+  "base_sha256": "dc038ad4f6ade0c3"
+ },
+ "evidence": null
+}
