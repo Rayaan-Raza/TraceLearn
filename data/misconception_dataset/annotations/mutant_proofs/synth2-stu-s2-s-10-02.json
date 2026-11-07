@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-10-02",
+ "seed_submission_id": "synth2:S2-S-10",
+ "problem_id": "synth2-S2-S-10",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "42b8d7fa3ab1cf3d",
+ "mutant_sha256": "eabc31cb18d6705401bafdb5dc164cb2069546426f9db81dfc60071f4a6c8bd5",
+ "tests_passed": 1,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nchar g[105][105];\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 0; i < n; i++) cin >> g[i];\n    for (int i = 0; i < n; i++) {\n        for (int",
+  "after": "#include <iostream>\nusing namespace std;\nchar g[105][105];\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 0; i < n; i++) cin >> g[i];\n    for (int i = 0; i < n; i++) {\n        for (int",
+  "note": "Neighbour counter not reset for each cell.",
+  "evidence": null,
+  "base_sha256": "42b8d7fa3ab1cf3d"
+ },
+ "evidence": null
+}

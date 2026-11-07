@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-08-02",
+ "seed_submission_id": "synth2:S2-S-08",
+ "problem_id": "synth2-S2-S-08",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "48fb4bf58bdde585",
+ "mutant_sha256": "fb756ab0c76e2e3238052c19c35290ac89ed0ec0a97aabcdd6e7e02bf4032eb8",
+ "tests_passed": 3,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nvoid hist(int n) {\n    int cnt[11] = {0};\n    int x;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        cnt[(x - 1) / 10]++;\n    }\n    for (int b = 0; b <= 10; b++) {",
+  "after": "#include <cstdio>\nvoid hist(int n) {\n    int cnt[11] = {0};\n    int x;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        cnt[x / 10]++;\n    }\n    for (int b = 0; b <= 10; b++) {\n     ",
+  "note": "Bucket index off by one: multiples of 10 land in the lower bucket.",
+  "evidence": null,
+  "base_sha256": "48fb4bf58bdde585"
+ },
+ "evidence": null
+}

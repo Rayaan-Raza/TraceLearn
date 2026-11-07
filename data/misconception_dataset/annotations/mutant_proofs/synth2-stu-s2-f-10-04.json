@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-10-04",
+ "seed_submission_id": "synth2:S2-F-10",
+ "problem_id": "synth2-S2-F-10",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "c886e04a76181cf1",
+ "mutant_sha256": "8048e29a5a3b86c933b7267dda4bbca0cdeaaf62c4b39eec16b3211476946d2a",
+ "tests_passed": 3,
+ "tests_total": 12,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nlong long moves(int n) {\n    if (n == 0) return 0;\n    return moves(n - 1) + n;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << moves(n) << endl;\n    ret",
+  "after": "#include <iostream>\nusing namespace std;\n\nlong long moves(int n) {\n    if (n == 0) return 0;\n    return 2 * moves(n - 1) + 1;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << moves(n) << endl;\n   ",
+  "note": "Wrong recurrence, adds n instead of doubling and adding one.",
+  "evidence": null,
+  "base_sha256": "c886e04a76181cf1"
+ },
+ "evidence": null
+}

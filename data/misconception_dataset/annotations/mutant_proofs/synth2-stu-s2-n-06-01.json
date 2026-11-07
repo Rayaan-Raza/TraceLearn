@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-06-01",
+ "seed_submission_id": "synth2:S2-N-06",
+ "problem_id": "synth2-S2-N-06",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "8ab2a0ade6bba3b1",
+ "mutant_sha256": "fbcecb64d0e65c5b8be6709fa1e96518d6d38a96c27fb2bd27e20b2acf594cdd",
+ "tests_passed": 8,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    int sum = 0;\n    for (int i = 0; i < n; i++) {\n ",
+  "after": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i+",
+  "note": "The sum of the numbers is stored in an int.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "8ab2a0ade6bba3b1"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

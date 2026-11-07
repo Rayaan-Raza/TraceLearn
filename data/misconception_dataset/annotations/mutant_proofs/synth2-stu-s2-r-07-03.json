@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-07-03",
+ "seed_submission_id": "synth2:S2-R-07",
+ "problem_id": "synth2-S2-R-07",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "f8008651fa57ae44",
+ "mutant_sha256": "b08c520e5948102e5f33a56f49df81a4a7fbe1d2d5772e323b5efb5c960e23bf",
+ "tests_passed": 14,
+ "tests_total": 15,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4",
+  "note": "Leap-year rule misses years divisible by 400.",
+  "evidence": null,
+  "base_sha256": "f8008651fa57ae44"
+ },
+ "evidence": null
+}

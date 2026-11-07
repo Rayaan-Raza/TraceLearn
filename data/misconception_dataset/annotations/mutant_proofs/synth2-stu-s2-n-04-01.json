@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-04-01",
+ "seed_submission_id": "synth2:S2-N-04",
+ "problem_id": "synth2-S2-N-04",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "74cd0b005a0da7ad",
+ "mutant_sha256": "1c46bf0243b612ade850f6d12b252549914136f0b2e2280be095309d7ccce7cc",
+ "tests_passed": 7,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;",
+  "note": "The lcm product is computed in int before it is stored in a long long.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "74cd0b005a0da7ad"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

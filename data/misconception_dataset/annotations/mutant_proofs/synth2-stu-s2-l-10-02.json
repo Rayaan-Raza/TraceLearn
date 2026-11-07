@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-10-02",
+ "seed_submission_id": "synth2:S2-L-10",
+ "problem_id": "synth2-S2-L-10",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "9f54ce612f964197",
+ "mutant_sha256": "b3c5fb5ebed4202587f73c4a226950870031a6fe26b5000bf51325aad95bb648",
+ "tests_passed": 8,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int first = -2000000000, second = -2000000000;\n    for (int i = 1;",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int first = -2000000000, second = -2000000000;\n    for (int i = 0;",
+  "note": "Started at index 1 and skipped the first element.",
+  "evidence": null,
+  "base_sha256": "9f54ce612f964197"
+ },
+ "evidence": null
+}

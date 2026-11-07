@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-10-02",
+ "seed_submission_id": "synth2:S2-M-10",
+ "problem_id": "synth2-S2-M-10",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "f457ad7d5c443b89",
+ "mutant_sha256": "9a6bf1496d15bd2a849189b70e4f9dc8fe24aeeca654e452cc4ccf91c9d8c4c6",
+ "tests_passed": 6,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int",
+  "note": "Negative odd numbers give remainder -1 and are never counted.",
+  "evidence": null,
+  "base_sha256": "f457ad7d5c443b89"
+ },
+ "evidence": null
+}

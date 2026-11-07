@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-09-04",
+ "seed_submission_id": "synth2:S2-L-09",
+ "problem_id": "synth2-S2-L-09",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "7f4ffb5065f74c2e",
+ "mutant_sha256": "90134faf1c7134b02d30493ffe78b30e67d625660dc2707c0160f55eeccd0920",
+ "tests_passed": 9,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n + 1);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int c = 0;\n    for (int i = ",
+  "after": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n + 1);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int c = 0;\n    for (int i = ",
+  "note": "Allowed equality with the left neighbour, counting plateaus.",
+  "evidence": null,
+  "base_sha256": "7f4ffb5065f74c2e"
+ },
+ "evidence": null
+}

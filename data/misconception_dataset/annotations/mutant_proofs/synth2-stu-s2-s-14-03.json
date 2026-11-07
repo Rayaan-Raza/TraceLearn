@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-14-03",
+ "seed_submission_id": "synth2:S2-S-14",
+ "problem_id": "synth2-S2-S-14",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "367b474f06588129",
+ "mutant_sha256": "4136158ce911ccdbfa782e790e21906cf20b2a845c3531f901c2c980a730f45d",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <string>\nusing namespace std;\nint main() {\n    char s[100005];\n    scanf(\"%s\", s);\n    int n = 0;\n    while (s[n] != '\\0') n++;\n    string out;\n    int i = 0;\n    while (i <",
+  "after": "#include <cstdio>\n#include <string>\nusing namespace std;\nint main() {\n    char s[100005];\n    scanf(\"%s\", s);\n    int n = 0;\n    while (s[n] != '\\0') n++;\n    string out;\n    int i = 0;\n    while (i <",
+  "note": "Run counter never reset or initialised.",
+  "evidence": null,
+  "base_sha256": "367b474f06588129"
+ },
+ "evidence": null
+}

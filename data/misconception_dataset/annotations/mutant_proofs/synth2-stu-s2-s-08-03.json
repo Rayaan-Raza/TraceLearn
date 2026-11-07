@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-08-03",
+ "seed_submission_id": "synth2:S2-S-08",
+ "problem_id": "synth2-S2-S-08",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "48fb4bf58bdde585",
+ "mutant_sha256": "9d8dfcdb493fc070b435d4ccab786b56788d35ffaa44c40fddad793142d302ab",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nvoid hist(int n) {\n    int cnt[11];\n    int x;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        cnt[x / 10]++;\n    }\n    for (int b = 0; b <= 10; b++) {\n        pri",
+  "after": "#include <cstdio>\nvoid hist(int n) {\n    int cnt[11] = {0};\n    int x;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        cnt[x / 10]++;\n    }\n    for (int b = 0; b <= 10; b++) {\n     ",
+  "note": "Bucket counters not zeroed.",
+  "evidence": null,
+  "base_sha256": "48fb4bf58bdde585"
+ },
+ "evidence": null
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-06-04",
+ "seed_submission_id": "synth2:S2-N-06",
+ "problem_id": "synth2-S2-N-06",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "8ab2a0ade6bba3b1",
+ "mutant_sha256": "56866b61f56a36f62579a4efbc639c979b80f464a5041b662bd35a330e87e7b8",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i+",
+  "after": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i+",
+  "note": "Compared the new value with the max instead of the min.",
+  "evidence": null,
+  "base_sha256": "8ab2a0ade6bba3b1"
+ },
+ "evidence": null
+}

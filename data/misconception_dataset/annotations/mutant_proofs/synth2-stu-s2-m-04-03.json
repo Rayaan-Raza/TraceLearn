@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-04-03",
+ "seed_submission_id": "synth2:S2-M-04",
+ "problem_id": "synth2-S2-M-04",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "7fcd5ecd97388fa5",
+ "mutant_sha256": "f52242e658e9689cbd517ef46b4edf213df7b737897aedf72e802d2dc8acbc5f",
+ "tests_passed": 5,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q",
+  "note": "Discount formula rounds differently from total minus a tenth.",
+  "evidence": null,
+  "base_sha256": "7fcd5ecd97388fa5"
+ },
+ "evidence": null
+}

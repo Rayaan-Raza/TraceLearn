@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-07-02",
+ "seed_submission_id": "synth2:S2-M-07",
+ "problem_id": "synth2-S2-M-07",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "3da5c1d924fdcacf",
+ "mutant_sha256": "50e1c20de8ce8bfd28ce1272445d15b43eb3ad7f7d31eb54ec48374c40cf5bfc",
+ "tests_passed": 7,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 2; i++)\n        for (j = 0; j < n - i - 1; ",
+  "after": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; ",
+  "note": "One bubble pass too few, so the smallest two can stay unsorted.",
+  "evidence": null,
+  "base_sha256": "3da5c1d924fdcacf"
+ },
+ "evidence": null
+}

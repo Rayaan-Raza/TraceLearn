@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-04-03",
+ "seed_submission_id": "synth2:S2-F-04",
+ "problem_id": "synth2-S2-F-04",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "63da4f697f3af463",
+ "mutant_sha256": "323cfa8ff653cdf6771aded2d43d63e27c3382f17d6a2d3dd87eaba752bd7786",
+ "tests_passed": 1,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nint digsum(long long n) {\n    if (n == 0) return 0;\n    return n % 10 * digsum(n / 10);\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    cout << digsum(n) <",
+  "after": "#include <iostream>\nusing namespace std;\n\nint digsum(long long n) {\n    if (n == 0) return 0;\n    return n % 10 + digsum(n / 10);\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    cout << digsum(n) <",
+  "note": "Multiplies the digits instead of adding them.",
+  "evidence": null,
+  "base_sha256": "63da4f697f3af463"
+ },
+ "evidence": null
+}

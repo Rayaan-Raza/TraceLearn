@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-13-04",
+ "seed_submission_id": "synth2:S2-N-13",
+ "problem_id": "synth2-S2-N-13",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "99abb353f1d4be2a",
+ "mutant_sha256": "4dd348d5302505a0d4077f3171368f6e21582c2b2b4a4ad57708b478b867c21c",
+ "tests_passed": 4,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long ",
+  "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long ",
+  "note": "Best starts at 0, wrong when all numbers are negative.",
+  "evidence": null,
+  "base_sha256": "99abb353f1d4be2a"
+ },
+ "evidence": null
+}

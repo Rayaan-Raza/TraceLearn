@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-07-04",
+ "seed_submission_id": "synth2:S2-N-07",
+ "problem_id": "synth2-S2-N-07",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "b12f8d165b7eae04",
+ "mutant_sha256": "53056bdbd87ec8749fa8e330f9cd532179669936e9237661b17af3821cc5083c",
+ "tests_passed": 1,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i <= n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x ",
+  "after": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >",
+  "note": "Reads one more number than given.",
+  "evidence": null,
+  "base_sha256": "b12f8d165b7eae04"
+ },
+ "evidence": null
+}

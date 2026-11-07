@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-06-03",
+ "seed_submission_id": "synth2:S2-F-06",
+ "problem_id": "synth2-S2-F-06",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "fc5c5d057b2585d6",
+ "mutant_sha256": "59b18b327bd1baf09efb936babadb32aabdbeb5f3e6b4fcdea97e766329df19b",
+ "tests_passed": 8,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\nusing namespace std;\n\nbool isPal(string &s, int l, int r) {\n    if (l >= r) return true;\n    if (s[l] == s[r]) return true;\n    return isPal(s, l + 1, r - 1);\n}\n\n",
+  "after": "#include <iostream>\n#include <string>\nusing namespace std;\n\nbool isPal(string &s, int l, int r) {\n    if (l >= r) return true;\n    if (s[l] != s[r]) return false;\n    return isPal(s, l + 1, r - 1);\n}\n",
+  "note": "Returns true on the first matching pair instead of checking all pairs.",
+  "evidence": null,
+  "base_sha256": "fc5c5d057b2585d6"
+ },
+ "evidence": null
+}

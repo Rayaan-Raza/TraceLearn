@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-13-02",
+ "seed_submission_id": "synth2:S2-F-13",
+ "problem_id": "synth2-S2-F-13",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "2bb09f69b17593fc",
+ "mutant_sha256": "df1ecb02b6c5cdb6156b1f1ee95b52ffdad12145538126081648ddfef737585e",
+ "tests_passed": 7,
+ "tests_total": 15,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nvoid bin(long long n) {\n    cout << n % 2;\n    if (n > 1) bin(n / 2);\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    bin(n);\n    cout << endl;\n    return ",
+  "after": "#include <iostream>\nusing namespace std;\n\nvoid bin(long long n) {\n    if (n > 1) bin(n / 2);\n    cout << n % 2;\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    bin(n);\n    cout << endl;\n    return ",
+  "note": "Prints the digit before recursing so the bits come out reversed.",
+  "evidence": null,
+  "base_sha256": "2bb09f69b17593fc"
+ },
+ "evidence": null
+}

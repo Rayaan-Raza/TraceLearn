@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-11-02",
+ "seed_submission_id": "synth2:S2-L-11",
+ "problem_id": "synth2-S2-L-11",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "00eb4f12490c0f2e",
+ "mutant_sha256": "cb2185d08a534f0cb6195bc320dfe2106803fe69ef3ccf04b40e780cf67bdc1b",
+ "tests_passed": 5,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n, q;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    scanf(\"%d\", &q);\n    while (q--) {\n        int x;\n        scanf",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n, q;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    scanf(\"%d\", &q);\n    while (q--) {\n        int x;\n        scanf",
+  "note": "Stops at the first hit instead of continuing left for the first occurrence.",
+  "evidence": null,
+  "base_sha256": "00eb4f12490c0f2e"
+ },
+ "evidence": null
+}

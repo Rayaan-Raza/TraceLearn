@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-11-05",
+ "seed_submission_id": "synth2:S2-F-11",
+ "problem_id": "synth2-S2-F-11",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "b458c96db14794aa",
+ "mutant_sha256": "594a07e099431a13b902d88fb0ef988130408fb1f962e7867f8158247d924f7f",
+ "tests_passed": 6,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[100005];\n\nint findLast(int n, int x) {\n    int pos = 0;\n    for (int i = 0; i < n; i++) {\n        if (a[i] == x) pos = i;\n    }\n    return pos;\n}\n\nint ma",
+  "after": "#include <iostream>\nusing namespace std;\nint a[100005];\n\nint findLast(int n, int x) {\n    int pos = -1;\n    for (int i = 0; i < n; i++) {\n        if (a[i] == x) pos = i;\n    }\n    return pos;\n}\n\nint m",
+  "note": "Not-found default is 0, which is a valid index, instead of -1.",
+  "evidence": null,
+  "base_sha256": "b458c96db14794aa"
+ },
+ "evidence": null
+}

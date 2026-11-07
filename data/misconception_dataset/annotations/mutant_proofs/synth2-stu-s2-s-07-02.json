@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-07-02",
+ "seed_submission_id": "synth2:S2-S-07",
+ "problem_id": "synth2-S2-S-07",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "9a4a09b0e1cc05db",
+ "mutant_sha256": "b1776ac36aa65e90011e40a5cfdd609dd1f0e228cb65cd5f81265502b9cd83a8",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    vector<int> a(n), b(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    k %= n;\n    for (i",
+  "after": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    vector<int> a(n), b(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    k %= n;\n    for (i",
+  "note": "Source index is one too far, rotating by k+1.",
+  "evidence": null,
+  "base_sha256": "9a4a09b0e1cc05db"
+ },
+ "evidence": null
+}

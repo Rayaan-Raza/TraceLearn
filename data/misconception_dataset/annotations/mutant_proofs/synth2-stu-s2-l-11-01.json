@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-11-01",
+ "seed_submission_id": "synth2:S2-L-11",
+ "problem_id": "synth2-S2-L-11",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "00eb4f12490c0f2e",
+ "mutant_sha256": "31638407c7b6f852d93f0ba0b0713524727d3caf612c409e1091ae09ad21b9fc",
+ "tests_passed": 3,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n, q;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    scanf(\"%d\", &q);\n    while (q--) {\n        int x;\n        scanf",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n, q;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    scanf(\"%d\", &q);\n    while (q--) {\n        int x;\n        scanf",
+  "note": "Loop stops when one candidate is left, so it is never checked.",
+  "evidence": null,
+  "base_sha256": "00eb4f12490c0f2e"
+ },
+ "evidence": null
+}

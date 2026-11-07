@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-08-03",
+ "seed_submission_id": "synth2:S2-F-08",
+ "problem_id": "synth2-S2-F-08",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "d923b1da17944c8c",
+ "mutant_sha256": "8e376eed2302e2de2b258efd83c964ffc929dbb0d29fe055635bc541fcf89e29",
+ "tests_passed": 3,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nvoid cd(int n) {\n    if (n <= 0) {\n        cout << \"Liftoff!\" << endl;\n        return;\n    }\n    cd(n - 1);\n    cout << n << \" \";\n}\n\nint main() {\n    int n;\n ",
+  "after": "#include <iostream>\nusing namespace std;\n\nvoid cd(int n) {\n    if (n <= 0) {\n        cout << \"Liftoff!\" << endl;\n        return;\n    }\n    cout << n << \" \";\n    cd(n - 1);\n}\n\nint main() {\n    int n;\n ",
+  "note": "Prints after the recursive call so the numbers come out in the wrong order.",
+  "evidence": null,
+  "base_sha256": "d923b1da17944c8c"
+ },
+ "evidence": null
+}

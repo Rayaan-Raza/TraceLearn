@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-02-01",
+ "seed_submission_id": "synth2:S2-S-02",
+ "problem_id": "synth2-S2-S-02",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "046e216f7dc369ee",
+ "mutant_sha256": "609cf542eace460777d97b0512ae41517c88a8c50b6715b9186e4875f0a8ae28",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <sstream>\n#include <string>\nusing namespace std;\nint split(string line, string v[]) {\n    istringstream in(line);\n    string w;\n    int k = 0;\n    while (in >> w) v[k++] =",
+  "after": "#include <iostream>\n#include <sstream>\n#include <string>\nusing namespace std;\nint split(string line, string v[]) {\n    istringstream in(line);\n    string w;\n    int k = 0;\n    while (in >> w) v[k++] =",
+  "note": "cin >> reads only the first word of the line.",
+  "evidence": null,
+  "base_sha256": "046e216f7dc369ee"
+ },
+ "evidence": null
+}

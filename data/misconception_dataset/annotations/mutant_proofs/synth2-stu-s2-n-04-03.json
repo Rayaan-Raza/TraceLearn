@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-04-03",
+ "seed_submission_id": "synth2:S2-N-04",
+ "problem_id": "synth2-S2-N-04",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "74cd0b005a0da7ad",
+ "mutant_sha256": "51dfdba0019eaca5eaf250d5250025443eb9b0483bb0a30c1007a9862343b0a3",
+ "tests_passed": 0,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y >= 0) {\n        int t = x % y;\n        x = y;\n        y = t",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;",
+  "note": "Loop continues when y is 0 and divides by zero.",
+  "evidence": null,
+  "base_sha256": "74cd0b005a0da7ad"
+ },
+ "evidence": null
+}

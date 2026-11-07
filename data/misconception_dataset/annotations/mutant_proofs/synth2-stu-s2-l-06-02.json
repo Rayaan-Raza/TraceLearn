@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-06-02",
+ "seed_submission_id": "synth2:S2-L-06",
+ "problem_id": "synth2-S2-L-06",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "d68e79043c4ac5e0",
+ "mutant_sha256": "14461344e447c7372a04e546f3089d1c2e49bed358e57b1be9a7b8ed8c0498f9",
+ "tests_passed": 0,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int cnt[105] = {0};\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        cnt[x + 1]++;\n    }\n    int best =",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int cnt[105] = {0};\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        cnt[x]++;\n    }\n    int best = 0;\n",
+  "note": "Counted into the slot next to the right one.",
+  "evidence": null,
+  "base_sha256": "d68e79043c4ac5e0"
+ },
+ "evidence": null
+}

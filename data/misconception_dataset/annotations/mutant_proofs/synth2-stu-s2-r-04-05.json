@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-04-05",
+ "seed_submission_id": "synth2:S2-R-04",
+ "problem_id": "synth2-S2-R-04",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "c397e509276861e9",
+ "mutant_sha256": "e4adf470531c2d423268a341c40a8669cb615eb937d54caf98a4a525f87c7274",
+ "tests_passed": 7,
+ "tests_total": 12,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"Fizzbuzz\\n\";\n",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n",
+  "note": "Misspelled the FizzBuzz output text.",
+  "evidence": null,
+  "base_sha256": "c397e509276861e9"
+ },
+ "evidence": null
+}

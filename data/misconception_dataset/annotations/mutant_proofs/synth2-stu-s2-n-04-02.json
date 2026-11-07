@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-04-02",
+ "seed_submission_id": "synth2:S2-N-04",
+ "problem_id": "synth2-S2-N-04",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "74cd0b005a0da7ad",
+ "mutant_sha256": "ac57f394e8ba678489195944a864f268ba667fbc13320eca68ee3fa1afe16240",
+ "tests_passed": 0,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n   ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;",
+  "note": "Step counter not initialised.",
+  "evidence": null,
+  "base_sha256": "74cd0b005a0da7ad"
+ },
+ "evidence": null
+}

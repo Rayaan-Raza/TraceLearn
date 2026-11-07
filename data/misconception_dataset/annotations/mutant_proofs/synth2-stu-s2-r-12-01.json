@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-12-01",
+ "seed_submission_id": "synth2:S2-R-12",
+ "problem_id": "synth2-S2-R-12",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "46438c933311b225",
+ "mutant_sha256": "a2c50a7ed88de3b9f2f6290c2e3c068c930a4a50ef32fd710705ccdaa87128c3",
+ "tests_passed": 8,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age ",
+  "note": "Child band should include age 12.",
+  "evidence": null,
+  "base_sha256": "46438c933311b225"
+ },
+ "evidence": null
+}

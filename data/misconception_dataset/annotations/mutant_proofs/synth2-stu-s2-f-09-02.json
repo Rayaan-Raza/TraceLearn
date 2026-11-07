@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-09-02",
+ "seed_submission_id": "synth2:S2-F-09",
+ "problem_id": "synth2-S2-F-09",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "cb80754b9d677335",
+ "mutant_sha256": "edd7280df2464a96be6ae29aa3e7e1668b355a76defb05d62590c7feda806b4b",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\nusing namespace std;\n\nstring rev(string s) {\n    if (s.size() <= 2) return s;\n    return rev(s.substr(1)) + s[0];\n}\n\nint main() {\n    string s;\n    getline(cin, s",
+  "after": "#include <iostream>\n#include <string>\nusing namespace std;\n\nstring rev(string s) {\n    if (s.size() <= 1) return s;\n    return rev(s.substr(1)) + s[0];\n}\n\nint main() {\n    string s;\n    getline(cin, s",
+  "note": "Stops at length 2, leaving the last two characters unreversed.",
+  "evidence": null,
+  "base_sha256": "cb80754b9d677335"
+ },
+ "evidence": null
+}

@@ -232,6 +232,8 @@ PROFILES: dict[str, dict[str, Any]] = {
     "plain": dict(n_estimators=200, max_depth=4, learning_rate=0.1, subsample=0.8, colsample_bytree=0.8),
 }
 _ACTIVE_PROFILE = "default"
+# "plain" trains on real rows; the round-2 agent-written programs (stu-s2-*) are the only synthetic rows it may add.
+PLAIN_KEEP_SYNTH2 = True
 
 
 def set_profile(name: str) -> None:
@@ -356,7 +358,8 @@ def train(
         )
 
     keep = [i for i, r in enumerate(rids) if splits[r][1] in ("train", "dev_gold")
-            and not (_ACTIVE_PROFILE == "plain" and meta_by_rid[r]["dataset_source"] == "SYNTHETIC")]
+            and not (_ACTIVE_PROFILE == "plain" and meta_by_rid[r]["dataset_source"] == "SYNTHETIC"
+                     and not (PLAIN_KEEP_SYNTH2 and r.startswith("stu-s2-")))]
     rids = [rids[i] for i in keep]
     y_str = [y_str[i] for i in keep]
     X = X[keep]

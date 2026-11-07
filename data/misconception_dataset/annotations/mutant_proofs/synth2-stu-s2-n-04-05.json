@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-04-05",
+ "seed_submission_id": "synth2:S2-N-04",
+ "problem_id": "synth2-S2-N-04",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "74cd0b005a0da7ad",
+ "mutant_sha256": "5031246e4ca378e9f087e5c5dbd38c58e39fce5159dcca09e978d2f725f099a5",
+ "tests_passed": 0,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 1;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;",
+  "note": "Step counter starts at 1.",
+  "evidence": null,
+  "base_sha256": "74cd0b005a0da7ad"
+ },
+ "evidence": null
+}
