@@ -11,8 +11,8 @@ Safety rules (this is the path a student's code takes into a diagnosis):
   does not change.
 - `on`: the prediction becomes `MODEL_PREDICTION` / `MODEL_ABSTAINED` /
   `MODEL_OTHER_ERROR` (see `model_evidence`). If too many features are missing
-  (the backend does not yet supply compiler-warning counts, which the training
-  data had for almost every row) the prediction is forced to abstain, because a
+  (compiler-warning counts come from compiling the submission with the training flags;
+  when that fails the block is absent) the prediction is forced to abstain, because a
   model fed inputs it was not trained on is not trustworthy.
 """
 from __future__ import annotations
@@ -31,6 +31,10 @@ from backend.app.diagnosis.xgb_classifier import ModelClassifier, ModelPredictio
 log = logging.getLogger(__name__)
 
 MAX_SOURCE_CHARS = 20_000
+# The flags the training data's warning counts were produced with (sandbox_runner/config.py WARNING_FLAGS);
+# copied so the backend does not import the research package.
+WARNING_FLAGS = ["-O2", "-Wall", "-Wextra", "-Wmaybe-uninitialized", "-Wparentheses", "-Warray-bounds", "-Wshadow",
+                 "-Wconversion", "-fdiagnostics-color=never", "-fno-diagnostics-show-caret"]
 # Share of the model's features that may be missing before "on" abstains.
 MAX_MISSING_SHARE = 0.25
 
@@ -61,6 +65,39 @@ def code_features(source: str, language: str = "cpp", warnings: dict[str, Any] |
     return out
 
 
+def compiler_warnings(source: str) -> dict[str, Any] | None:
+    """Compile (never run) the submission with the warning flags the model was trained on.
+
+    Returns `{"compile_warnings": <gcc text>}`, or None when the code does not compile, is
+    rejected by the sandbox's directive filter, or the compiler is unavailable; the model then
+    sees the warnings block as missing and abstains instead of guessing. Runs inside the same
+    sandbox as the test runner, with the same time and memory limits.
+    """
+    try:
+        from pathlib import Path
+
+        from backend.app.execution.cpp_runner import COMPILER_MEMORY_MB, CPP_STANDARD
+        from backend.app.execution.sandbox import check_cpp_source, clean_compiler_output, new_workdir, run_in_sandbox
+
+        if check_cpp_source(source):
+            return None
+        tmp = new_workdir()
+        try:
+            workdir = Path(tmp.name)
+            (workdir / "solution.cpp").write_text(source, encoding="utf-8")
+            res = run_in_sandbox(["g++", f"-std={CPP_STANDARD}", *WARNING_FLAGS, "-c", "solution.cpp", "-o", "solution.o"],
+                                 workdir, timeout=settings.compile_timeout_seconds, memory_mb=COMPILER_MEMORY_MB,
+                                 output_bytes=8 * 1024 * 1024)
+            if res.timed_out or res.returncode != 0:
+                return None
+            return {"compile_warnings": clean_compiler_output(res.stderr, workdir) or ""}
+        finally:
+            tmp.cleanup()
+    except Exception:
+        log.exception("compiling for warning counts failed; the model will abstain")
+        return None
+
+
 def predict_source(source: str, language: str = "cpp", warnings: dict[str, Any] | None = None) -> ModelPrediction | None:
     if len(source) > MAX_SOURCE_CHARS or not source.strip():
         return None
@@ -74,6 +111,8 @@ def model_records(source: str, language: str = "cpp", warnings: dict[str, Any] |
     if mode == "off":
         return []
     try:
+        if warnings is None:
+            warnings = compiler_warnings(source)
         pred = predict_source(source, language, warnings)
         if pred is None:
             return []
