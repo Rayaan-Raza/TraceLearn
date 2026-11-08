@@ -184,4 +184,11 @@ export const api = {
     ),
   demoReset: () => request<{ status: string }>('POST', '/api/demo/reset'),
   demoRun: (name: string) => request<{ attempts_processed: number }>('POST', `/api/demo/run-sequence/${e(name)}`),
+  modelStatus: () =>
+    request<{
+      mode: string; variant: string; threshold?: number; temperature?: number; model_sha256?: string;
+      cv_macro_f1_mean?: number; cv_macro_f1_std?: number; oof_macro_f1?: number;
+      dev_gold_n?: number; dev_gold_coverage?: number; dev_gold_precision?: number; dev_gold_ece?: number;
+      n_classes?: number; n_train?: number;
+    }>('GET', '/api/demo/model-status'),
 }
