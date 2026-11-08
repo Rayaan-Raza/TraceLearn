@@ -67,5 +67,12 @@ HINTS = {
         2: "A loop whose state never changes never reaches its exit condition.",
         3: "Move the increment into the body or keep ++i in the for header, and make sure every path updates the state.",
     },
+    # Open-set label: the model is not confident in a specific category.
+    # Give general debugging guidance rather than a misconception hint.
+    "CPP_OTHER_ERROR": {
+        1: "Re-read the problem statement and trace through a small example by hand.",
+        2: "Add a print statement after each step to check whether the values match what you expect.",
+        3: "Compare your output to the expected output for the smallest test case. Work backwards from the first wrong value.",
+    },
 }
 GENERIC_HINT = "Re-read the problem and trace through a small example by hand."
