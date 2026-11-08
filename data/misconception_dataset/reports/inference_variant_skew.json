@@ -1,0 +1,72 @@
+{
+ "note": "macro-F1 on current labels (mostly weak); direction and size of loss, not accuracy",
+ "cv_macro_f1": {
+  "full": 0.7248,
+  "common": 0.7096,
+  "best": 0.7027
+ },
+ "blocks": {
+  "full": {
+   "static": 20,
+   "warnings": 24,
+   "runtime": 14,
+   "tests": 11,
+   "cpg": 15,
+   "semantics": 15,
+   "context": 8
+  },
+  "common": {
+   "static": 20,
+   "warnings": 24
+  },
+  "best": {
+   "static": 20,
+   "warnings": 24,
+   "semantics": 15
+  }
+ },
+ "pools": {
+  "dev_gold": {
+   "n": 45,
+   "sources": {
+    "CODESTREAM": 1,
+    "SYNTHETIC": 3,
+    "PROGPEDIA": 41
+   },
+   "label_sources": {
+    "weak_rule": 40,
+    "synthetic": 3,
+    "repair_verified": 2
+   },
+   "macro_f1": {
+    "full": 0.643,
+    "full without runtime": 0.616,
+    "full without runtime + cpg": 0.186,
+    "full without runtime + cpg + tests": 0.169,
+    "best": 0.616,
+    "common": 0.368
+   },
+   "full_top_label_unchanged_without_runtime": "43/45"
+  },
+  "test_iid": {
+   "n": 36,
+   "sources": {
+    "CODESTREAM": 1,
+    "PROGPEDIA": 35
+   },
+   "label_sources": {
+    "weak_rule": 28,
+    "repair_verified": 8
+   },
+   "macro_f1": {
+    "full": 0.731,
+    "full without runtime": 0.678,
+    "full without runtime + cpg": 0.224,
+    "full without runtime + cpg + tests": 0.196,
+    "best": 0.671,
+    "common": 0.652
+   },
+   "full_top_label_unchanged_without_runtime": "32/36"
+  }
+ }
+}
