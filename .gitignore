@@ -19,7 +19,9 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
-reports/
+reports/*.pdf
+reports/*.html
+reports/*.xlsx
 !data/misconception_dataset/reports/
 .mypy_cache/
 
