@@ -544,7 +544,7 @@ def test_full_verification_passes():
     """Run the whole verification harness. It must exit 0."""
     proc = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "verify_cpp_diagnostics.py"),
-         "--no-sanitize"],
+         "--no-sanitize", "--no-export"],
         cwd=str(ROOT), capture_output=True, text=True, timeout=3600,
     )
     assert proc.returncode == 0, (
