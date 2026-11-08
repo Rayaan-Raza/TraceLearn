@@ -50,6 +50,7 @@ OBSERVED_SOURCES: frozenset[EvidenceSourceType] = frozenset({
     EvidenceSourceType.EXECUTION,
     EvidenceSourceType.TEST,
     EvidenceSourceType.STATIC,
+    EvidenceSourceType.MODEL,
 })
 
 LONGITUDINAL_SOURCES: frozenset[EvidenceSourceType] = frozenset({
