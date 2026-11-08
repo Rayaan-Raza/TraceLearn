@@ -165,7 +165,16 @@ class SubmissionService:
 
         current = self.current_engine.diagnose(db, sub)
         history = self.history_engine.diagnose(db, sub)
-        hint = self.hint_policy.select_hint(db, sub, history)
+
+        if prediction is not None:
+            model_block = prediction.as_dict()
+            for diag in (current, history):
+                exp = json.loads(diag.explanation_json or "{}")
+                exp["model"] = model_block
+                diag.explanation_json = json.dumps(exp)
+            db.commit()
+
+        hint = self.hint_policy.select_hint(db, sub, history, prediction)
 
         return {
             "submission_id": submission_id,
