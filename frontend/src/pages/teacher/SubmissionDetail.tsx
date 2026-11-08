@@ -1,14 +1,54 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../../api/client'
-import type { Diagnosis, EvidenceItem } from '../../api/types'
+import type { Diagnosis, EvidenceItem, ModelTopK } from '../../api/types'
 import { CodeBlock } from '../../components/CodeBlock'
 import { ErrorState, Loading, NotFound } from '../../components/PageState'
 import { StatusBadge } from '../../components/StatusBadge'
 import { confidencePct, display, formatDate, KNOWN_MISCONCEPTIONS, misconceptionLabel } from '../../lib/labels'
 import { useApi } from '../../lib/useApi'
 
-const SOURCES = ['execution', 'test', 'static', 'sequence', 'history', 'context']
+const SOURCES = ['execution', 'test', 'static', 'model', 'sequence', 'history', 'context']
+
+function ModelPanel({ items }: { items: EvidenceItem[] }) {
+  const modelItem = items.find((i) => i.source_type === 'model')
+  if (!modelItem) return null
+  let details: { top_k?: ModelTopK[]; top_label?: string; top_probability?: number; abstained?: boolean; variant?: string } = {}
+  try {
+    details = JSON.parse(modelItem.details_json ?? '{}')
+  } catch {
+    return null
+  }
+  const topK: ModelTopK[] = details.top_k ?? []
+  const abstained = details.abstained ?? false
+  return (
+    <section className="card">
+      <div className="card-label">Model prediction</div>
+      <div className="split-header" style={{ alignItems: 'flex-start', marginTop: '0.3rem' }}>
+        <div>
+          <h2 style={{ margin: 0 }}>{abstained ? 'Abstained' : misconceptionLabel(details.top_label)}</h2>
+          {details.variant ? <p className="muted" style={{ margin: '0.2rem 0 0' }}>Variant: {details.variant}</p> : null}
+        </div>
+        {!abstained && details.top_probability != null ? (
+          <span className="badge completed">{confidencePct(details.top_probability)}</span>
+        ) : null}
+      </div>
+      {topK.length > 0 && (
+        <div style={{ marginTop: '0.9rem' }}>
+          <div className="card-label">Top {topK.length} probabilities</div>
+          <ul className="evidence-list" style={{ marginTop: '0.4rem' }}>
+            {topK.map((tk) => (
+              <li key={tk.label}>
+                <strong>{misconceptionLabel(tk.label)}</strong>
+                <span className="muted"> — {confidencePct(tk.p)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  )
+}
 
 function DiagnosisCol({ title, d, changed }: { title: string; d: Diagnosis | null; changed?: boolean }) {
   return (
@@ -156,6 +196,8 @@ export function SubmissionDetail() {
           <DiagnosisCol title="History-aware" d={history} changed={changed} />
         </div>
       </section>
+
+      <ModelPanel items={evidence} />
 
       <section className="card">
         <div className="card-label">Evidence</div>

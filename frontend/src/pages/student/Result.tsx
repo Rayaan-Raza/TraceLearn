@@ -1,11 +1,18 @@
 import { useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { api } from '../../api/client'
-import type { Diagnosis, Hint, RunResult, Submission, TestResult } from '../../api/types'
+import type { Diagnosis, Hint, ModelPrediction, RunResult, Submission, TestResult } from '../../api/types'
 import { CodeBlock } from '../../components/CodeBlock'
 import { ErrorState, Loading } from '../../components/PageState'
 import { StatusBadge } from '../../components/StatusBadge'
-import { display, formatDate, isRealMisconception, misconceptionLabel } from '../../lib/labels'
+import {
+  confidenceBandLabel,
+  display,
+  formatDate,
+  isRealMisconception,
+  misconceptionDescription,
+  misconceptionLabel,
+} from '../../lib/labels'
 import { useApi } from '../../lib/useApi'
 
 interface Loaded {
@@ -16,6 +23,7 @@ interface Loaded {
   hints: Hint[]
   stderr: string
   status: string
+  modelPrediction: ModelPrediction | null
 }
 
 export function ResultPage() {
@@ -40,6 +48,7 @@ export function ResultPage() {
       hints,
       stderr: fresh?.stderr ?? '',
       status: fresh?.execution_status ?? submission.execution_status ?? 'unknown',
+      modelPrediction: fresh?.model_prediction ?? null,
     }
   }, [id])
   const [hintBusy, setHintBusy] = useState(false)
@@ -49,7 +58,11 @@ export function ResultPage() {
   if (loading) return <Loading />
   if (error || !data) return <ErrorState message={error ?? 'Not found'} onRetry={reload} back={{ to: '/student/submissions', label: 'Submissions' }} />
 
-  const { submission, tests, history, hints } = data
+  const { submission, tests, history, hints, modelPrediction } = data
+  const activePrediction =
+    modelPrediction && !modelPrediction.abstained && modelPrediction.top_label !== 'CPP_OTHER_ERROR'
+      ? modelPrediction
+      : null
   const total = tests.length
   const passedCount = tests.filter((t) => t.passed).length
   const allPassed = total > 0 && passedCount === total
@@ -154,7 +167,19 @@ export function ResultPage() {
       {!allPassed && (
         <section className="card">
           <div className="card-label">What TraceLearn noticed</div>
-          {area ? <h2>{`Possible ${area.toLowerCase()} misunderstanding`}</h2> : null}
+          {activePrediction ? (
+            <>
+              <h2>{`Possible ${misconceptionLabel(activePrediction.top_label).toLowerCase()} issue`}</h2>
+              <p style={{ marginTop: '0.4rem', marginBottom: '0.1rem' }}>
+                {misconceptionDescription(activePrediction.top_label)}
+              </p>
+              <p className="muted" style={{ fontSize: '0.85rem', marginTop: '0.3rem' }}>
+                {confidenceBandLabel(activePrediction.top_probability)}
+              </p>
+            </>
+          ) : area ? (
+            <h2>{`Possible ${area.toLowerCase()} misunderstanding`}</h2>
+          ) : null}
           {history?.requires_teacher_review ? (
             <p style={{ marginTop: '0.55rem' }}>Your teacher will review this attempt.</p>
           ) : null}
