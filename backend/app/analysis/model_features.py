@@ -37,3 +37,34 @@ def parse_warnings(compile_stderr: str) -> list[dict[str, Any]]:
             counts[flag] = 0
         counts[flag] += 1
     return [{"flag": f, "count": counts[f]} for f in order]
+
+
+def map_test_results(test_case_results: list[Any]) -> dict[str, Any] | None:
+    """Convert a list of ``TestCaseResult`` objects to the tests evidence dict.
+
+    Returns ``None`` when the list is empty so the caller can leave the tests
+    block as NaN rather than fabricating zeros.
+    """
+    if not test_case_results:
+        return None
+
+    items: list[dict[str, Any]] = []
+    for r in test_case_results:
+        ok = bool(getattr(r, "passed", False))
+        err = getattr(r, "error_type", None) or ""
+        if err == "Timeout":
+            kind = "timeout"
+        elif err in ("RuntimeError", "MemoryLimitExceeded", "OutputLimitExceeded"):
+            kind = "crash"
+        else:
+            kind = "wrong_answer"
+        entry: dict[str, Any] = {"ok": ok, "kind": kind, "boundary": False}
+        expected = getattr(r, "expected_output", None)
+        actual = getattr(r, "actual_output", None)
+        if expected is not None:
+            entry["expected"] = expected
+        if actual is not None:
+            entry["actual"] = actual
+        items.append(entry)
+
+    return {"results": items}
