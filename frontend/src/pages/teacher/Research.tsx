@@ -10,10 +10,15 @@ function pct(v: unknown) {
   return typeof v === 'number' ? `${(v * 100).toFixed(1)}%` : '—'
 }
 
+function fmt2(v: unknown) {
+  return typeof v === 'number' ? v.toFixed(2) : '—'
+}
+
 export function ResearchPage() {
   const status = useApi(() => api.demoStatus(), [])
   const exp = useApi(() => api.experiment(), [])
   const students = useApi(() => api.students(), [])
+  const model = useApi(() => api.modelStatus(), [])
   const [busy, setBusy] = useState('')
   const [msg, setMsg] = useState('')
 
@@ -80,6 +85,71 @@ export function ResearchPage() {
           </tbody>
         </table>
       </section>
+
+      {model.data && (
+        <section className="card" style={{ padding: 0, overflow: 'hidden' }}>
+          <div style={{ padding: '1.1rem 1.25rem 0.4rem' }}>
+            <div className="card-label">XGBoost classifier</div>
+            <p className="muted" style={{ margin: 0 }}>
+              Mode: <strong>{model.data.mode}</strong> · Variant: <strong>{model.data.variant}</strong>
+              {model.data.n_classes ? ` · ${model.data.n_classes} classes` : ''}
+              {model.data.n_train ? ` · ${model.data.n_train} training rows` : ''}
+            </p>
+          </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {model.data.cv_macro_f1_mean != null && (
+                <tr>
+                  <td>CV macro F1 (mean ± std)</td>
+                  <td>{pct(model.data.cv_macro_f1_mean)}{model.data.cv_macro_f1_std != null ? ` ± ${pct(model.data.cv_macro_f1_std)}` : ''}</td>
+                </tr>
+              )}
+              {model.data.oof_macro_f1 != null && (
+                <tr>
+                  <td>OOF macro F1</td>
+                  <td>{pct(model.data.oof_macro_f1)}</td>
+                </tr>
+              )}
+              {model.data.dev_gold_coverage != null && (
+                <tr>
+                  <td>Dev-gold coverage (n={model.data.dev_gold_n})</td>
+                  <td>{pct(model.data.dev_gold_coverage)}</td>
+                </tr>
+              )}
+              {model.data.dev_gold_precision != null && (
+                <tr>
+                  <td>Dev-gold precision (answered only)</td>
+                  <td>{pct(model.data.dev_gold_precision)}</td>
+                </tr>
+              )}
+              {model.data.dev_gold_ece != null && (
+                <tr>
+                  <td>ECE (calibration error)</td>
+                  <td>{fmt2(model.data.dev_gold_ece)}</td>
+                </tr>
+              )}
+              {model.data.threshold != null && (
+                <tr>
+                  <td>Abstain threshold</td>
+                  <td>{fmt2(model.data.threshold)}</td>
+                </tr>
+              )}
+              {model.data.temperature != null && (
+                <tr>
+                  <td>Temperature</td>
+                  <td>{fmt2(model.data.temperature)}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </section>
+      )}
 
       <section className="card stack">
         <div>

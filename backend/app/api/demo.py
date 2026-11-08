@@ -3,6 +3,7 @@
 Disabled unless ENABLE_DEMO_ENDPOINTS=true, and teacher-only when enabled.
 They never touch real students' data.
 """
+import json
 from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.orm import Session
 
@@ -29,6 +30,42 @@ def demo_status(_: User = Depends(require_teacher)) -> dict:
         "sequences": demo_service.available_sequences() if settings.enable_demo_endpoints else [],
         "sandbox": sandbox_status(),
     }
+
+
+@router.get("/model-status")
+def model_status(_: User = Depends(require_teacher)) -> dict:
+    mode = settings.model_diagnosis
+    variant = settings.model_variant
+    result: dict = {"mode": mode, "variant": variant}
+    if mode == "off":
+        return result
+    try:
+        metrics_path = settings.model_dir / "metrics_v1.json"
+        raw = json.loads(metrics_path.read_text())
+        cv = raw.get("cv", {})
+        dg_variants = raw.get("dev_gold_variants", {})
+        variant_dg = dg_variants.get(variant, {})
+        variant_meta = raw.get(variant, {})
+        result["cv_macro_f1_mean"] = cv.get("macro_f1_mean")
+        result["cv_macro_f1_std"] = cv.get("macro_f1_std")
+        result["oof_macro_f1"] = variant_meta.get("macro_f1_oof")
+        result["dev_gold_n"] = variant_dg.get("n")
+        result["dev_gold_coverage"] = variant_dg.get("coverage")
+        result["dev_gold_precision"] = variant_dg.get("precision_answered")
+        result["dev_gold_ece"] = variant_dg.get("ece")
+        result["n_classes"] = len(raw.get("classes", []))
+        result["n_train"] = raw.get("n_train")
+    except (FileNotFoundError, OSError, json.JSONDecodeError, KeyError):
+        pass
+    try:
+        from backend.app.diagnosis.xgb_classifier import ModelClassifier
+        clf = ModelClassifier.load(variant, settings.model_dir)
+        result["threshold"] = clf.threshold
+        result["temperature"] = clf.temperature
+        result["model_sha256"] = clf.model_sha256[:16]
+    except Exception:
+        pass
+    return result
 
 
 @router.post("/reset", dependencies=[Depends(_require_enabled)])
