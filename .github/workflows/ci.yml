@@ -61,6 +61,38 @@ jobs:
           path: reports/
           retention-days: 30
 
+  dataset-scripts:
+    # tests/ covers the merge, training, evaluation, review and sign-off
+    # scripts. dataset.yml only runs tests/misconception_dataset, and only on
+    # some paths, so without this job these tests never ran in CI.
+    name: Dataset and model script tests (Python 3.12)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
+      - name: Run the script tests (separate process from backend/tests, see pytest.ini)
+        run: >-
+          python -m pytest tests --ignore=tests/misconception_dataset -q -rs
+          --junitxml=reports/pytest-dataset-scripts.xml
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report-dataset-scripts
+          path: reports/
+          retention-days: 30
+
   frontend:
     name: Frontend lint and build
     runs-on: ubuntu-24.04
