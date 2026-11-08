@@ -23,8 +23,11 @@ human-labelled IID rows, with the model on `main`:
 
 | Variant | Macro-F1 (present classes) | Accuracy |
 |---|---:|---:|
-| full | 0.335 | 0.556 |
-| best | 0.303 | 0.500 |
+| full | 0.402 | 0.556 |
+| best | 0.364 | 0.500 |
+
+(After the corrections below. Before them it was 0.335 / 0.303: IID-PG-006's
+`MISSING_BASE_CASE` was a one-row class the model could not score on. Accuracy did not change.)
 
 On the old weak labels the same rows scored about 0.67–0.73. Every one of the 11 rows a person
 labelled `OTHER_ERROR` is missed: the model never predicts it. ARRAY_BOUNDS (13 rows, F1 0.69–0.71)
@@ -52,11 +55,11 @@ mean these labels are **single-rater and partly anchored**. So:
 - the gold claims (G6) still need the blind 4-rater forms. These sheet labels support dev-gold
   calibration and the IID check; they do not replace the gold round.
 
-## Rows to double-check (signed as shown; correct by hand if they were slips)
+## Rows double-checked
 
-| Item | Row | Signed | Why it looks off |
-|---|---|---|---|
-| IID-PG-006 | pgx-000803 | disagree → `CPP_MISSING_BASE_CASE` | Greedy segment cover with no recursion at all; likely a mis-click (model said OTHER_ERROR) |
-| DG-019 / DG-020 | cs-002517 / cs-002520 | `RANGE_CHECK` / `OTHER_ERROR` | Same bug (chained `65<=ch<=90`) labelled two different ways; pick one for both |
-| DG-030 | cs-003390 | agree → `RANGE_CHECK` | Note argues for OTHER_ERROR ("classified as OTHER_ERROR"); label and note disagree |
-| WL-CS-002, -017, -022, -023 | cs-000373, cs-001902, cs-002448, cs-002449 (test clusters) | human labels | Four CodeStream rows in the one-shot **test** split got human labels through this non-blind page. Re-label them on the blind gold forms before the test is scored |
+| Item | Row | Signed | Why it looked off | Resolution (Umaima, 8 Nov) |
+|---|---|---|---|---|
+| IID-PG-006 | pgx-000803 | disagree → `CPP_MISSING_BASE_CASE` | Greedy segment cover with no recursion at all; likely a mis-click (model said OTHER_ERROR) | corrected to `CPP_OTHER_ERROR` |
+| DG-019 / DG-020 | cs-002517 / cs-002520 | `RANGE_CHECK` / `OTHER_ERROR` | Same bug (chained `65<=ch<=90`) labelled two different ways; pick one for both | both `CPP_RANGE_CHECK` |
+| DG-030 | cs-003390 | agree → `RANGE_CHECK` | Note argues for OTHER_ERROR ("classified as OTHER_ERROR"); label and note disagree | corrected to `CPP_OTHER_ERROR` |
+| WL-CS-002, -017, -022, -023 | cs-000373, cs-001902, cs-002448, cs-002449 (test clusters) | human labels | Four CodeStream rows in the one-shot **test** split got human labels through this non-blind page. Re-label them on the blind gold forms before the test is scored | open: keep for the gold round |

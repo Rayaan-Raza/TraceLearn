@@ -8,7 +8,7 @@ Acceptance uses *independent* agreement (the reviewer's first label, before the 
 |---|---:|---:|---:|---:|---:|---:|---|---:|
 | dev_gold_codestream.csv | 30 | 30 | 6/6 | 97% | 3 | 90% | yes | 30 |
 | dev_gold_progpedia.csv | 17 | 17 | 17/17 | 88% | 5 | 59% | no | 17 |
-| iid_test_progpedia.csv | 17 | 17 | 17/17 | 88% | 5 | 59% | no | 17 |
+| iid_test_progpedia.csv | 17 | 17 | 17/17 | 94% | 5 | 65% | no | 17 |
 | weak_labels_codestream.csv | 33 | 8 | 7/7 | 100% | 4 | 50% | no | 8 |
 | weak_labels_progpedia.csv | 150 | 63 | 30/30 | 100% | 28 | 56% | no | 63 |
 
