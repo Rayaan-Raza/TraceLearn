@@ -1,9 +1,14 @@
 # Annotation guideline — `tl-cpp-v2` (DRAFT)
 
-> **Status: draft for the calibration round.** All four raters annotate
-> `annotations/forms/calibration/` together. Afterwards, write the agreed
-> decision tree into section 4 and remove this notice. Gold annotation
-> starts only after that (Master Plan §13.4).
+> **Status: draft for the calibration round.** Each of the four raters labels the 15 items in
+> `annotations/forms/calibration/form.html` **alone**, in their own
+> `answers_<rater>.csv` (no talking until everyone is done). Then
+> `python scripts/calibration_round.py` writes the agreement report and
+> `review/calibration/discussion.csv`. In the meeting, go through the "discuss" items,
+> fill `agreed_label` and `decision_rule`, and turn the rules into section 4. Remove this
+> notice when section 4 is agreed. Gold annotation starts only after that (Master Plan §13.4).
+> If Fleiss κ on the round is below 0.6, do a second round of 10 new items with the revised
+> guideline first.
 
 ## 1. What you are labeling
 
@@ -39,11 +44,41 @@ should pass.
 | `CPP_STALE_EXIT` | a loop's exit condition reads a variable that the loop body never updates (premature or never-ending exit) | the update exists but is wrong arithmetic |
 | `CPP_OTHER_ERROR` | it is a real bug but not one of the above (wrong formula, wrong output format, printing prompts, solving a different problem, …) | — |
 
-## 4. Decision tree (fill in after calibration)
+## 4. Decision tree
 
-1. Does the program print extra prompts / text or use the wrong output format? → usually `OTHER_ERROR`.
-2. …
-3. …
+**PROPOSED, not yet agreed.** This is a starting point built from section 3 so the meeting has
+something to edit. Change, reorder or delete steps from `review/calibration/discussion.csv`,
+then mark the section as agreed (date and raters).
+
+Work through the steps in order and stop at the first "yes".
+
+1. **Output, not logic?** Extra prompts or text, wrong format, or debug prints that alone make
+   the first failing test fail → `OTHER_ERROR`.
+2. **Crash or timeout that grows with input size, from recursion?** No reachable base case →
+   `MISSING_BASE_CASE`.
+3. **`=` inside a condition where `==` was meant**, and it changes the result → `ASSIGN_VS_COMPARE`.
+4. **A variable read before any value is stored in it**, on the failing path → `UNINITIALIZED_VAR`.
+5. **Small tests pass and large ones fail** (or there is a signed-overflow report), and a wider
+   type (`long long`) would fix it → `INT_OVERFLOW`.
+6. **Memory accessed outside an array?** Count how far:
+   - exactly one past the end *because the loop operator is wrong* (`<=` for `<`) → `LOOP_BOUNDARY`;
+   - exactly one past or one short because of index or size arithmetic (`a[i+1]`, `n` vs `n-1`,
+     array declared one slot short), with the operator right → `OFF_BY_ONE`;
+   - more than one past the end, or a fixed array smaller than the stated limits → `ARRAY_BOUNDS`.
+7. **Output off by exactly one element or one step, no out-of-bounds access?** Changing only the
+   loop operator fixes it → `LOOP_BOUNDARY`; otherwise → `OFF_BY_ONE`.
+8. **A validation condition wrong at a range edge** (rejects a valid edge value or accepts an
+   invalid one) → `RANGE_CHECK`.
+9. **A loop whose exit condition reads a variable the body never updates** → `STALE_EXIT`.
+10. **Loop runs in the reverse direction** where the task needs the other order → `WRONG_LOOP_DIR`.
+11. A real bug that none of the above explains → `OTHER_ERROR`. You cannot tell → `UNCERTAIN`.
+
+Questions to settle in the meeting (from the model pre-review, where these cases came up):
+- An array exactly one slot short for the maximum input (`int v[999]` for N ≤ 1000): is that
+  `OFF_BY_ONE` (proposed) or `ARRAY_BOUNDS`?
+- A program whose arrays are big enough but crashes from a huge local array (stack overflow):
+  `OTHER_ERROR` (proposed)?
+- Debug output plus a real bug: label the output problem (step 1) or the real bug?
 
 ## 5. Practical notes
 

@@ -70,6 +70,5 @@ data/misconception_dataset/models/*.pkl
 data/intermediate/normalized/submissions/submissions.jsonl
 data/intermediate/normalized/submissions/submissions.csv
 
-# Local sign-off pages and calibration packets: contain student code, never commit
+# Local sign-off pages: contain student code, never commit
 data/misconception_dataset/review/signoff_pages/
-data/misconception_dataset/review/calibration/forms/
