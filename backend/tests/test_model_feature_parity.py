@@ -189,3 +189,21 @@ def test_parse_warnings_empty_stderr():
 
 def test_parse_warnings_no_warnings_in_stderr():
     assert parse_warnings("solution.cpp:3:1: error: missing semicolon") == []
+
+
+def test_parse_warnings_preserves_first_seen_order():
+    stderr = (
+        "a.cpp:1:1: warning: unused variable 'x' [-Wunused-variable]\n"
+        "a.cpp:2:1: warning: comparison [-Wsign-compare]\n"
+        "a.cpp:3:1: warning: unused variable 'y' [-Wunused-variable]\n"
+    )
+    result = parse_warnings(stderr)
+    assert [d["flag"] for d in result] == ["-Wunused-variable", "-Wsign-compare"]
+    assert result[0]["count"] == 2
+    assert result[1]["count"] == 1
+
+
+def test_parse_warnings_flag_without_bracket_is_skipped():
+    # Lines without [-W...] bracket are ignored
+    stderr = "a.cpp:1:1: warning: some implicit thing\n"
+    assert parse_warnings(stderr) == []
