@@ -12,6 +12,9 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from tracelearn_features.cpg_source import extract_cpg_source
+from tracelearn_features.extractor import extract_features
+
 # Matches [-Wsome-flag] or [-Wsome=value] at the end of a g++ warning line.
 _WFLAG_RE = re.compile(r"\[-W([^\]]+)\]")
 
@@ -68,3 +71,50 @@ def map_test_results(test_case_results: list[Any]) -> dict[str, Any] | None:
         items.append(entry)
 
     return {"results": items}
+
+
+class InferenceFeatureBuilder:
+    """Build a flat feature dict from live backend data for model inference.
+
+    Example::
+
+        builder = InferenceFeatureBuilder()
+        flat = builder.build(
+            source=submission.source_code,
+            compile_stderr=compile_err.stderr,   # from compile_cpp()
+            test_results=exec_result.test_results,  # from run_submission_tests()
+            context={"statement_length": len(problem.description)},
+        )
+        prediction = model.predict(flat)
+    """
+
+    def build(
+        self,
+        source: str,
+        compile_stderr: str = "",
+        test_results: list[Any] | None = None,
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Return a flat ``{block.feature: value}`` dict for the classifier."""
+        warnings_ev = parse_warnings(compile_stderr) if compile_stderr else None
+        tests_ev = map_test_results(test_results) if test_results else None
+
+        cpg_ev: dict[str, Any] | None = None
+        if source and source.strip():
+            cpg_ev = extract_cpg_source(source) or None
+
+        blocks = extract_features(
+            source,
+            language="cpp",
+            warnings=warnings_ev,
+            tests=tests_ev,
+            cpg=cpg_ev,
+            context=context,
+            # runtime omitted — not available at inference time
+        )
+
+        flat: dict[str, Any] = {}
+        for block_name, block_feats in blocks.items():
+            for short, value in block_feats.items():
+                flat[f"{block_name}.{short}"] = value
+        return flat
