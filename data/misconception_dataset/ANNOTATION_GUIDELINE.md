@@ -1,14 +1,9 @@
-# Annotation guideline — `tl-cpp-v2` (DRAFT)
+# Annotation guideline — `tl-cpp-v2`
 
-> **Status: draft for the calibration round.** Each of the four raters labels the 15 items in
-> `annotations/forms/calibration/form.html` **alone**, in their own
-> `answers_<rater>.csv` (no talking until everyone is done). Then
-> `python scripts/calibration_round.py` writes the agreement report and
-> `review/calibration/discussion.csv`. In the meeting, go through the "discuss" items,
-> fill `agreed_label` and `decision_rule`, and turn the rules into section 4. Remove this
-> notice when section 4 is agreed. Gold annotation starts only after that (Master Plan §13.4).
-> If Fleiss κ on the round is below 0.6, do a second round of 10 new items with the revised
-> guideline first.
+> **Status: agreed, 8 Nov 2026.** All four raters (Eman, Rayaan, Umaima, external) labelled the
+> 15 calibration items alone (Fleiss κ 0.76, `reports/calibration_round_report.md`), then settled
+> the three disputed items in a meeting (`review/calibration/discussion.csv`). The decision tree
+> in section 4 is the result. Gold annotation can start.
 
 ## 1. What you are labeling
 
@@ -46,18 +41,24 @@ should pass.
 
 ## 4. Decision tree
 
-**PROPOSED, not yet agreed.** This is a starting point built from section 3 so the meeting has
-something to edit. Change, reorder or delete steps from `review/calibration/discussion.csv`,
-then mark the section as agreed (date and raters).
-
-Work through the steps in order and stop at the first "yes".
+**Agreed 8 Nov 2026** by Eman, Rayaan, Umaima and the external rater after the calibration
+round. Work through the steps in order and stop at the first "yes". The rules marked
+*(calibration)* come from items the raters disagreed on; the item ids are in
+`review/calibration/discussion.csv`.
 
 1. **Output, not logic?** Extra prompts or text, wrong format, or debug prints that alone make
    the first failing test fail → `OTHER_ERROR`.
+   **Wrong I/O call arguments** *(calibration, C0449)*: a wrong argument to `scanf`/`printf`
+   (missing `&`, wrong conversion specifier, a value passed where an address is needed) →
+   `OTHER_ERROR`, even when Valgrind or ASan then report uninitialised values or a crash as a
+   consequence.
 2. **Crash or timeout that grows with input size, from recursion?** No reachable base case →
    `MISSING_BASE_CASE`.
 3. **`=` inside a condition where `==` was meant**, and it changes the result → `ASSIGN_VS_COMPARE`.
 4. **A variable read before any value is stored in it**, on the failing path → `UNINITIALIZED_VAR`.
+   This includes a variable left unset because the program reads input that is never given,
+   so the read fails *(calibration, C0451)*. (A missing `&` is still step 1: there the variable
+   *is* the bad argument.)
 5. **Small tests pass and large ones fail** (or there is a signed-overflow report), and a wider
    type (`long long`) would fix it → `INT_OVERFLOW`.
 6. **Memory accessed outside an array?** Count how far:
@@ -67,13 +68,17 @@ Work through the steps in order and stop at the first "yes".
    - more than one past the end, or a fixed array smaller than the stated limits → `ARRAY_BOUNDS`.
 7. **Output off by exactly one element or one step, no out-of-bounds access?** Changing only the
    loop operator fixes it → `LOOP_BOUNDARY`; otherwise → `OFF_BY_ONE`.
+   **A wrong boundary index in a check or condition** (for example a hard-coded "last index"
+   test that misses the final element) → `OFF_BY_ONE`, even when the fix is not a plain ±1
+   *(calibration, C0459)*.
 8. **A validation condition wrong at a range edge** (rejects a valid edge value or accepts an
    invalid one) → `RANGE_CHECK`.
 9. **A loop whose exit condition reads a variable the body never updates** → `STALE_EXIT`.
 10. **Loop runs in the reverse direction** where the task needs the other order → `WRONG_LOOP_DIR`.
 11. A real bug that none of the above explains → `OTHER_ERROR`. You cannot tell → `UNCERTAIN`.
 
-Questions to settle in the meeting (from the model pre-review, where these cases came up):
+Still open (not reached in the calibration round; use the proposed answer until the team
+decides, and note the item id when one comes up during gold annotation):
 - An array exactly one slot short for the maximum input (`int v[999]` for N ≤ 1000): is that
   `OFF_BY_ONE` (proposed) or `ARRAY_BOUNDS`?
 - A program whose arrays are big enough but crashes from a huge local array (stack overflow):
