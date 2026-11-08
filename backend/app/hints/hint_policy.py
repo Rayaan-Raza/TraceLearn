@@ -1,9 +1,15 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 from sqlalchemy.orm import Session
 from backend.app.db.models import Diagnosis, HintEvent, ProblemHint, Submission
 from backend.app.diagnosis.cpp_mapping import hint_misconception_ids
 from backend.app.diagnosis.taxonomy import NO_MISCONCEPTION, UNCERTAIN
 from backend.app.hints.templates import GENERIC_HINT, HINTS
+
+if TYPE_CHECKING:
+    from backend.app.diagnosis.xgb_classifier import ModelPrediction
+
+_HIGH_CONFIDENCE = 0.75
 
 
 def hint_levels(db: Session, submission: Submission, diagnosis: Diagnosis | None) -> tuple[str, dict[int, str]]:
@@ -33,15 +39,29 @@ def hint_levels(db: Session, submission: Submission, diagnosis: Diagnosis | None
 
 
 class HintPolicy:
-    def select_hint(self, db: Session, submission: Submission, diagnosis: Diagnosis) -> HintEvent | None:
+    def select_hint(
+        self,
+        db: Session,
+        submission: Submission,
+        diagnosis: Diagnosis,
+        model_prediction: "ModelPrediction | None" = None,
+    ) -> HintEvent | None:
         # A submission with no misconception needs no hint.
         if diagnosis.primary_misconception == NO_MISCONCEPTION and not diagnosis.requires_teacher_review:
             return None
-        # The first hint is always the lowest level. The student asks for each
-        # further level on the result page (`/next-hint`), so the scaffolding
-        # order holds and both paths read the same hint source.
         mid, levels = hint_levels(db, submission, diagnosis)
+        # High-confidence model prediction (not abstained, not OTHER_ERROR) →
+        # skip to level 2 when it exists, so the student gets a more specific
+        # hint immediately.
         level = min(levels)
+        if (
+            model_prediction is not None
+            and not model_prediction.abstained
+            and model_prediction.top_label != "CPP_OTHER_ERROR"
+            and model_prediction.top_probability >= _HIGH_CONFIDENCE
+            and 2 in levels
+        ):
+            level = 2
         event = HintEvent(
             student_id=submission.student_id,
             submission_id=submission.id,
