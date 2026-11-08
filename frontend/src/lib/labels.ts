@@ -7,6 +7,7 @@ export interface ChartPoint {
   label: string
   count: number
   tone?: string
+  color?: string
 }
 
 const MISCONCEPTION_LABELS: Record<string, string> = {
