@@ -2,6 +2,8 @@
 input limits, rate limiting, information leakage and sandboxing."""
 from __future__ import annotations
 
+import os
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -323,10 +325,17 @@ def test_sandbox_blocks_files_network_and_env():
     assert not any(k in v["env"] for k in ("SECRET_KEY", "TEACHER_SIGNUP_CODE", "DATABASE_URL"))
 
 
-def test_sandbox_timeout_and_output_limits():
+def test_sandbox_timeout():
     from backend.app.execution.subprocess_runner import SubprocessExecutionRunner
     r = SubprocessExecutionRunner().execute_function("def f():\n    while True: pass\n", "f", [], 2)
     assert r.status == "timeout"
+
+
+@pytest.mark.skipif(os.name != "posix", reason=(
+    "the memory cap is a POSIX rlimit (RLIMIT_AS); Windows has none, so the 8 GB allocation is not "
+    "refused: it runs until the timeout and can exhaust a dev machine. Production runs on Linux."))
+def test_sandbox_memory_limit():
+    from backend.app.execution.subprocess_runner import SubprocessExecutionRunner
     r = SubprocessExecutionRunner().execute_function("def f():\n    x = 'a' * (2**33)\n    return 1\n", "f", [], 5)
     assert r.status == "runtime_error"
 
