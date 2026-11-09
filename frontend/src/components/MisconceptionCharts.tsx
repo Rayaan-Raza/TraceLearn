@@ -16,7 +16,7 @@ export function BarChart({
   embedded?: boolean
 }) {
   const max = Math.max(...points.map((p) => p.count), 1)
-  const columns = Math.min(Math.max(points.length, 2), 5)
+  const columns = Math.min(Math.max(points.length, 2), 13)
 
   return (
     <section className={embedded ? 'chart-embed' : 'card'}>
@@ -38,7 +38,7 @@ export function BarChart({
               <div className="vbar-track">
                 <div
                   className={`vbar-fill ${point.tone ?? ''}${point.count === 0 ? ' zero' : ''}`}
-                  style={{ height: `${height}px` }}
+                  style={{ height: `${height}px`, ...(point.color ? { background: point.color } : {}) }}
                 />
               </div>
               <div className="vbar-label">{point.label}</div>

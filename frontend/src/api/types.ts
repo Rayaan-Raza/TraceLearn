@@ -98,6 +98,25 @@ export interface Diagnosis {
   }
 }
 
+export interface ModelTopK {
+  label: string
+  p: number
+}
+
+export interface ModelPrediction {
+  variant: string
+  model_sha256: string
+  top_label: string
+  top_probability: number
+  abstained: boolean
+  threshold: number
+  temperature: number
+  probabilities: Record<string, number>
+  top_k: ModelTopK[]
+  n_features: number
+  n_missing: number
+}
+
 export interface RunResult {
   submission_id: number
   execution_status: string
@@ -108,8 +127,7 @@ export interface RunResult {
   current_only: Diagnosis | null
   history_aware: Diagnosis | null
   hint: { level: number; text: string } | null
-  /** true when the diagnosis is still being worked out on the server; poll `diagnoses`. */
-  diagnosis_pending?: boolean
+  model_prediction: ModelPrediction | null
 }
 
 export interface EvidenceItem {
