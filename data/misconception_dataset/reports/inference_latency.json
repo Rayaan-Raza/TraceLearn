@@ -1,0 +1,64 @@
+{
+ "sample": {
+  "source": "CodeStream failing C/C++ (compiled, >=1 test failed)",
+  "n": 40,
+  "seed": 20261108,
+  "pool": 1275
+ },
+ "machine": {
+  "cpus": 2,
+  "processor": "x86_64",
+  "python": "3.13.16"
+ },
+ "results": {
+  "sandbox_runner_full": {
+   "n": 40,
+   "p50_s": 1.281,
+   "p95_s": 17.416,
+   "max_s": 29.101,
+   "mean_s": 3.32
+  },
+  "sandbox_runner_no_valgrind": {
+   "n": 40,
+   "p50_s": 0.682,
+   "p95_s": 2.046,
+   "max_s": 2.908,
+   "mean_s": 0.859
+  },
+  "sandbox_runner_compile_tests_warnings": {
+   "n": 40,
+   "p50_s": 0.344,
+   "p95_s": 1.311,
+   "max_s": 1.619,
+   "mean_s": 0.412
+  },
+  "sandbox_runner_compile_tests_warnings_single_run": {
+   "n": 40,
+   "p50_s": 0.207,
+   "p95_s": 0.557,
+   "max_s": 0.992,
+   "mean_s": 0.284
+  },
+  "warnings_compile_training_flags": {
+   "n": 40,
+   "p50_s": 0.037,
+   "p95_s": 1.198,
+   "max_s": 1.238,
+   "mean_s": 0.378
+  },
+  "warnings_backend_fsyntax_only": {
+   "n": 40,
+   "p50_s": 0.011,
+   "p95_s": 1.04,
+   "max_s": 1.09,
+   "mean_s": 0.324
+  },
+  "static_semantics_extraction": {
+   "n": 40,
+   "p50_s": 0.001,
+   "p95_s": 0.001,
+   "max_s": 0.002,
+   "mean_s": 0.001
+  }
+ }
+}

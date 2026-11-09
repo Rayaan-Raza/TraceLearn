@@ -51,6 +51,23 @@ def test_human_rows_and_uncertain_model_rows():
         ap.decide_row(_row(0, "disagree", "NOT_A_CLASS"), False)
 
 
+def test_acceptance_uses_agreement_before_the_reveal():
+    rows = [_row(i, "agree", spot="1") for i in range(10)]
+    assert ap.sheet_status(rows)["accepted_on_spotcheck"]
+    rows[0]["human_notes"] = "label changed after reveal (first: CPP_OTHER_ERROR)"
+    st = ap.sheet_status(rows)
+    assert st["agreement"] == 1.0 and st["changed_after_reveal"] == 1
+    assert st["independent_agreement"] == 0.9 and st["accepted_on_spotcheck"]
+    rows[1]["human_notes"] = "checked | label changed after reveal (first: CPP_ARRAY_BOUNDS)"
+    st = ap.sheet_status(rows)
+    assert st["independent_agreement"] == 0.8 and not st["accepted_on_spotcheck"]
+    # the row itself is still decided by the final signature
+    assert ap.decide_row(rows[0], False) == ("CPP_OFF_BY_ONE", "human")
+    # changed first to the model's own label (e.g. revisited) still counts as agreement
+    rows[1]["human_notes"] = "label changed after reveal (first: CPP_OFF_BY_ONE)"
+    assert ap.sheet_status(rows)["independent_agreement"] == 0.9
+
+
 def test_gold_rows_need_a_person():
     gold = {"pgx-1"}
     assert ap.may_accept_on_spotcheck("weak_labels_progpedia.csv", "pg-1", True, gold)

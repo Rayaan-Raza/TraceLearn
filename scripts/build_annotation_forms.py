@@ -1,11 +1,19 @@
 """U5 — build the blind gold, dev-gold and calibration annotation forms (G6).
 
     python scripts/build_annotation_forms.py [--raw DIR] [--seed 20261021]
+        [--forms all|calibration] [--execute-missing]
+
+``--forms calibration`` renders only the calibration round (the selection and
+the hidden key are still computed for every form, so the items are the same
+as in a full build). ``--execute-missing`` runs ``sandbox_runner`` for any
+rendered item that is not yet in the execution cache, instead of failing, and
+appends it to the cache, so the round can start without the full U1 run.
 
 Reads the labeling index (annotations/codestream_failing_index.csv), the
 execution cache and the raw submissions, and writes
 
-  annotations/forms/calibration/        15 shared items (train-side), all raters
+  annotations/forms/calibration/        15 shared items (train-side), all raters;
+                                        one answers_<rater>.csv per rater
   annotations/forms/<rater>/            gold items for one rater (blind, shuffled)
   annotations/forms/<rater>/answers.csv the sheet the rater fills
   annotations/forms/dev_gold_<rater>/   60 natural-distribution items (dev-gold clusters), ~20 each
@@ -172,32 +180,83 @@ def render_html(title: str, items: list[tuple[str, dict]]) -> str:
     return "\n".join(parts)
 
 
-def write_form(folder: Path, title: str, items: list[tuple[str, dict]]) -> None:
+def write_answers(path: Path, item_ids: list[str]) -> None:
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f, lineterminator="\n")
+        w.writerow(["item_id", "primary_label", *[f"also_{c}" for c in ALL_LABELS], "notes"])
+        for item_id in item_ids:
+            w.writerow([item_id, "", *[""] * len(ALL_LABELS), ""])
+
+
+def write_form(folder: Path, title: str, items: list[tuple[str, dict]],
+               answer_files: tuple[str, ...] = ("answers.csv",)) -> None:
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "form.html").write_text(render_html(title, items), encoding="utf-8")
     with open(folder / "items.jsonl", "w", encoding="utf-8") as f:
         for item_id, ev in items:
             f.write(json.dumps({"item_id": item_id, **ev}, ensure_ascii=False) + "\n")
-    with open(folder / "answers.csv", "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f, lineterminator="\n")
-        w.writerow(["item_id", "primary_label", *[f"also_{c}" for c in ALL_LABELS], "notes"])
-        for item_id, _ in items:
-            w.writerow([item_id, "", *[""] * len(ALL_LABELS), ""])
+    for name in answer_files:
+        if not (folder / name).exists():  # never wipe a rater's answers on a rebuild
+            write_answers(folder / name, [i for i, _ in items])
+
+
+CALIBRATION_ANSWERS = tuple(f"answers_{r}.csv" for r in [*TEAM, EXTERNAL])
+
+
+class ExecCache:
+    """Execution results by submission id; optionally runs missing ones."""
+
+    def __init__(self, path: Path, probs: dict, subs: dict, execute_missing: bool):
+        self.path, self.probs, self.subs, self.execute_missing = path, probs, subs, execute_missing
+        self.results: dict[str, dict] = {}
+        if path.exists():
+            for line in path.open(encoding="utf-8"):
+                r = json.loads(line)
+                self.results[r["submission_id"]] = r["result"]
+
+    def ensure(self, submission_ids: list[str]) -> None:
+        missing = [sid for sid in dict.fromkeys(submission_ids) if sid not in self.results]
+        if not missing:
+            return
+        if not self.execute_missing:
+            raise SystemExit(f"{len(missing)} selected item(s) are not in {self.path}; run "
+                             "scripts/execute_codestream.py or pass --execute-missing")
+        from execute_codestream import slim
+
+        from sandbox_runner import RunConfig, run_many
+        print(f"executing {len(missing)} item(s) missing from the cache ...", flush=True)
+        jobs = [(self.subs[sid].code, self.subs[sid].lang, self.probs[self.subs[sid].problem_id].tests)
+                for sid in missing]
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        with self.path.open("a", encoding="utf-8") as out:
+            for sid, res in zip(missing, run_many(jobs, RunConfig(), cache_dir=str(self.path.parent / "runs"))):
+                s = self.subs[sid]
+                rec = {"submission_id": sid, "verdict": s.verdict, "lang": s.lang, "result": slim(res)}
+                out.write(json.dumps(rec) + "\n")
+                self.results[sid] = rec["result"]
+
+    def __getitem__(self, sid: str) -> dict:
+        return self.results[sid]
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--raw", default=None)
     ap.add_argument("--seed", type=int, default=20261021)
+    ap.add_argument("--forms", choices=["all", "calibration"], default="all")
+    ap.add_argument("--execute-missing", action="store_true")
     a = ap.parse_args()
     rng = random.Random(a.seed)
     raw = find_raw(a.raw)
     probs = load_problems(raw)
     subs = {s.submission_id: s for s in load_submissions(raw)}
-    execd = {}
-    for line in EXEC_PATH.open(encoding="utf-8"):
-        r = json.loads(line)
-        execd[r["submission_id"]] = r["result"]
+    execd = ExecCache(EXEC_PATH, probs, subs, a.execute_missing)
+    render_all = a.forms == "all"
+
+    def render(folder: Path, title: str, items: list, answer_files: tuple[str, ...] = ("answers.csv",)) -> None:
+        execd.ensure([sub.submission_id for _, sub in items])
+        write_form(folder, title, [(item_id, evidence_block(sub, probs[sub.problem_id], execd[sub.submission_id]))
+                                   for item_id, sub in items], answer_files)
     with open(INDEX, encoding="utf-8") as f:
         index = list(csv.DictReader(f))
     for r in index:
@@ -257,13 +316,14 @@ def main() -> int:
             item_no += 1
             item_id = f"G{item_no:04d}"
             s = subs[r["submission_id"]]
-            items.append((item_id, evidence_block(s, probs[s.problem_id], execd[s.submission_id])))
+            items.append((item_id, s))
             key_rows.append({"form": "gold", "rater": rater, "item_id": item_id, "row_id": r["row_id"],
                              "submission_id": r["submission_id"], "problem_cluster": r["problem_cluster"],
                              "user_id_hash": r["user_id_hash"], "stratum": tag,
                              "firing_count": r["firing_count"], "overlap": is_overlap,
                              "duplicate": is_dup, "lf_decision": r["decision"], "lf_label": r["label"]})
-        write_form(FORMS / rater, f"TraceLearn gold annotation — {rater}", items)
+        if render_all:
+            render(FORMS / rater, f"TraceLearn gold annotation — {rater}", items)
 
     # ---- dev-gold: 60 natural-distribution items, ~20 per team rater ------
     dev = list(dev_rows)
@@ -275,13 +335,14 @@ def main() -> int:
             item_no += 1
             item_id = f"D{item_no:04d}"
             s = subs[r["submission_id"]]
-            items.append((item_id, evidence_block(s, probs[s.problem_id], execd[s.submission_id])))
+            items.append((item_id, s))
             key_rows.append({"form": "dev_gold", "rater": rater, "item_id": item_id, "row_id": r["row_id"],
                              "submission_id": r["submission_id"], "problem_cluster": r["problem_cluster"],
                              "user_id_hash": r["user_id_hash"], "stratum": "natural",
                              "firing_count": r["firing_count"], "overlap": False, "duplicate": False,
                              "lf_decision": r["decision"], "lf_label": r["label"]})
-        write_form(FORMS / f"dev_gold_{rater}", f"TraceLearn dev-gold annotation — {rater}", items)
+        if render_all:
+            render(FORMS / f"dev_gold_{rater}", f"TraceLearn dev-gold annotation — {rater}", items)
 
     # ---- calibration: 15 train-side items across strata ---------------------
     cal = []
@@ -300,13 +361,14 @@ def main() -> int:
         item_no += 1
         item_id = f"C{item_no:04d}"
         s = subs[r["submission_id"]]
-        items.append((item_id, evidence_block(s, probs[s.problem_id], execd[s.submission_id])))
+        items.append((item_id, s))
         key_rows.append({"form": "calibration", "rater": "all", "item_id": item_id, "row_id": r["row_id"],
                          "submission_id": r["submission_id"], "problem_cluster": r["problem_cluster"],
                          "user_id_hash": r["user_id_hash"], "stratum": r["stratum"] or "multi",
                          "firing_count": r["firing_count"], "overlap": True, "duplicate": False,
                          "lf_decision": r["decision"], "lf_label": r["label"]})
-    write_form(FORMS / "calibration", "TraceLearn calibration round (15 items, all raters)", items)
+    render(FORMS / "calibration", "TraceLearn calibration round (15 items, all raters)", items,
+           CALIBRATION_ANSWERS)
 
     KEY.mkdir(parents=True, exist_ok=True)
     with open(KEY / "gold_key.csv", "w", newline="", encoding="utf-8") as f:
@@ -343,7 +405,9 @@ def main() -> int:
           "A class whose stratum is short still counts any random-slice item adjudicated to it.", "",
           f"- firing_count over gold: 0 → {fcs[0]}, 1 → {fcs[1]}, 2+ → {fcs[2]}", "",
           "## Rater workflow", "",
-          "1. Everyone does `forms/calibration/` together, discusses, and writes the decision tree into `ANNOTATION_GUIDELINE.md`.",
+          "1. Calibration round: every rater fills their own `forms/calibration/answers_<rater>.csv` alone from "
+          "`forms/calibration/form.html`; then `scripts/calibration_round.py` reports agreement and the items to "
+          "discuss; the group writes the decision tree into `ANNOTATION_GUIDELINE.md`.",
           "2. Each rater fills `forms/<rater>/answers.csv` from `forms/<rater>/form.html`.",
           "3. Run `scripts/adjudicate_gold.py` → Fleiss κ (4 raters, overlap), intra-rater agreement, majority labels → `annotations/gold.jsonl`.",
           "",

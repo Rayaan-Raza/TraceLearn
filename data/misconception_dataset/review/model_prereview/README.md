@@ -11,7 +11,29 @@ The model never relabels a row on its own authority.
 | `dev_gold_codestream.csv` | 30 CodeStream items for the dev-gold calibration pool (mostly new items, `model_verdict = label`) |
 | `dev_gold_progpedia.csv`, `iid_test_progpedia.csv` | held-out PROGPedia rows (dev_gold / test_iid) that no other sheet lists; the model checks their current label |
 
-## What a person fills in
+## The easy way: the sign-off page
+
+```
+python scripts/build_signoff_pages.py --raw-root <Datasets_RAW>
+```
+
+This writes `review/signoff_pages/signoff.html` (git-ignored, because it contains student
+code: keep it local, never commit or share it). Open it in a browser. For each row you must
+sign, it shows the statement, the code and the execution observations, and asks for **your
+own label first**. The current label, the model's verdict, its rationale and the rule or
+repair evidence appear only after you commit. If you change your label after the reveal,
+the export records that in `human_notes`. Progress is kept in the browser. When you're done,
+**Export** each sheet and bring it back:
+
+```
+python scripts/import_signoff.py <downloaded sheet CSVs>   # --dry-run first
+python scripts/apply_prereview_signoff.py --dry-run
+```
+
+The importer copies only the human columns. It refuses an export whose other columns changed,
+and it never overwrites a row someone else already signed differently.
+
+## What a person fills in (if you edit the CSV by hand)
 
 Fill only these columns (leave the model's columns alone):
 

@@ -800,6 +800,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--no-sanitize", action="store_true",
                         help="Skip the AddressSanitizer and UBSan build.")
     parser.add_argument("--only", default="", help="Verify one problem id, for example CP05.")
+    parser.add_argument("--no-export", action="store_true",
+                        help="Do not rewrite exports/verification_report.json (used by the tests, "
+                             "so a test run leaves the tracked report alone).")
     parser.add_argument("--linux", action="store_true",
                         help="Internal. Run in a POSIX environment.")
     args = parser.parse_args(argv)
@@ -821,6 +824,8 @@ def main(argv: list[str] | None = None) -> int:
             inner.append("--no-sanitize")
         if args.only:
             inner += ["--only", args.only]
+        if args.no_export:
+            inner.append("--no-export")
         script = " ".join(f"'{p}'" for p in inner)
         proc = subprocess.run(["wsl", "-d", distro, "--", "bash", "-lc", script])
         return proc.returncode
@@ -847,8 +852,9 @@ def main(argv: list[str] | None = None) -> int:
             print(f"FAIL  {check.name}  {check.detail}")
     passed = sum(1 for c in report.checks if c.passed)
     print(f"checks: {passed} passed, {len(report.failures)} failed, {len(report.checks)} total")
-    export = write_export(report)
-    print(f"report: {export.relative_to(ROOT)}")
+    if not args.no_export:
+        export = write_export(report)
+        print(f"report: {export.relative_to(ROOT)}")
     return 1 if report.failures else 0
 
 

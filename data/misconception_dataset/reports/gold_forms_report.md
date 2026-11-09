@@ -33,7 +33,7 @@ Shortfalls are filled from the uniform random slice (it absorbed 104 extra items
 
 ## Rater workflow
 
-1. Everyone does `forms/calibration/` together, discusses, and writes the decision tree into `ANNOTATION_GUIDELINE.md`.
+1. Calibration round: every rater fills their own `forms/calibration/answers_<rater>.csv` alone from `forms/calibration/form.html`; then `scripts/calibration_round.py` reports agreement and the items to discuss; the group writes the decision tree into `ANNOTATION_GUIDELINE.md`.
 2. Each rater fills `forms/<rater>/answers.csv` from `forms/<rater>/form.html`.
 3. Run `scripts/adjudicate_gold.py` → Fleiss κ (4 raters, overlap), intra-rater agreement, majority labels → `annotations/gold.jsonl`.
 

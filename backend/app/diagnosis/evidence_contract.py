@@ -17,6 +17,15 @@ groups:
   reserved for later use and is treated as longitudinal, so that a new
   producer cannot leak into Mode A by default.
 
+A third group, **derived**, holds `model`: the classifier's reading of the
+current submission (`analysis/model_evidence.py`). It is computed *from*
+observed evidence, so it is not observed evidence itself, and it is in
+neither mode's allow-list until the model router (plan item B5, with the
+`MODEL_DIAGNOSIS` flag) decides where it goes. The learner model never counts
+it as observed support: that would count the same failure twice (once as the
+rule evidence, once as the model's reading of it). Blueprint §10.4 feeds the
+model's calibrated probability into the updater as `P_t` instead.
+
 Mode A (current-only) reads **observed** sources only. It is an allow-list,
 not a block-list: a source type that is not listed in `CURRENT_ONLY_SOURCES`
 never reaches Mode A.
@@ -59,6 +68,10 @@ LONGITUDINAL_SOURCES: frozenset[EvidenceSourceType] = frozenset({
     EvidenceSourceType.SEQUENCE,
     EvidenceSourceType.HISTORY,
     EvidenceSourceType.CONTEXT,
+})
+
+DERIVED_SOURCES: frozenset[EvidenceSourceType] = frozenset({
+    EvidenceSourceType.MODEL,
 })
 
 CURRENT_ONLY_SOURCES: frozenset[EvidenceSourceType] = OBSERVED_SOURCES

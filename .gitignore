@@ -69,3 +69,6 @@ data/misconception_dataset/models/*.pkl
 # Large source data files (>50MB)
 data/intermediate/normalized/submissions/submissions.jsonl
 data/intermediate/normalized/submissions/submissions.csv
+
+# Local sign-off pages: contain student code, never commit
+data/misconception_dataset/review/signoff_pages/
