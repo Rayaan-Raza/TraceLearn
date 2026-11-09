@@ -48,6 +48,23 @@ def seeded_db():
 
 
 @pytest.fixture(autouse=True)
+def _rule_engine_by_default(monkeypatch):
+    """Tests run the rule engine, synchronously, unless a test switches the model on.
+
+    Production serves the model (`model_diagnosis=on`, run records, `model_first`, background
+    worker). Run records make each C++ submission slow and timing-dependent, and most tests check
+    rule and learner-state behaviour, so they ran with the model off before those defaults and
+    still do. Model tests set what they need (`test_xgb_classifier.py`, `test_async_diagnosis.py`,
+    `test_fusion_policy.py`, ...); tests of the defaults read a fresh `Settings()`.
+    """
+    from backend.app.config import settings
+    monkeypatch.setattr(settings, "model_diagnosis", "off")
+    monkeypatch.setattr(settings, "model_run_records", "off")
+    monkeypatch.setattr(settings, "model_async", False)
+    yield
+
+
+@pytest.fixture(autouse=True)
 def _reset_rate_limits():
     from backend.app.security.rate_limit import limiter
     limiter.reset()

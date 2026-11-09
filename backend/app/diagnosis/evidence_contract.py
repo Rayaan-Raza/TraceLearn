@@ -17,14 +17,12 @@ groups:
   reserved for later use and is treated as longitudinal, so that a new
   producer cannot leak into Mode A by default.
 
-A third group, **derived**, holds `model`: the classifier's reading of the
-current submission (`analysis/model_evidence.py`). It is computed *from*
-observed evidence, so it is not observed evidence itself, and it is in
-neither mode's allow-list until the model router (plan item B5, with the
-`MODEL_DIAGNOSIS` flag) decides where it goes. The learner model never counts
-it as observed support: that would count the same failure twice (once as the
-rule evidence, once as the model's reading of it). Blueprint §10.4 feeds the
-model's calibrated probability into the updater as `P_t` instead.
+`model` was briefly a third, **derived** group that no mode read (`344d65d`), so that the
+classifier's reading would not count one failure twice. The model router has since placed it:
+with `model_fusion = model_first` a named model prediction *is* the diagnosis, and it reaches the
+learner state as observed support (`docs/6-nov.md` sections 17-19). Its features come from this
+submission's own run record, so it is observed evidence. The double count is avoided in the
+fusion, not here: the model's answer decides instead of being added to the rule points.
 
 Mode A (current-only) reads **observed** sources only. It is an allow-list,
 not a block-list: a source type that is not listed in `CURRENT_ONLY_SOURCES`
@@ -68,10 +66,6 @@ LONGITUDINAL_SOURCES: frozenset[EvidenceSourceType] = frozenset({
     EvidenceSourceType.SEQUENCE,
     EvidenceSourceType.HISTORY,
     EvidenceSourceType.CONTEXT,
-})
-
-DERIVED_SOURCES: frozenset[EvidenceSourceType] = frozenset({
-    EvidenceSourceType.MODEL,
 })
 
 CURRENT_ONLY_SOURCES: frozenset[EvidenceSourceType] = OBSERVED_SOURCES

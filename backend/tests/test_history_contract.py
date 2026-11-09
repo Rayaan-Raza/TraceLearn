@@ -15,7 +15,7 @@ from backend.app.db.models import (
 from backend.app.diagnosis.confidence import load_weights
 from backend.app.diagnosis.current_only import CurrentOnlyDiagnosisEngine
 from backend.app.diagnosis.evidence_contract import (
-    CURRENT_ONLY_SOURCES, DERIVED_SOURCES, HISTORY_AWARE_SOURCES, LONGITUDINAL_SOURCES, OBSERVED_SOURCES,
+    CURRENT_ONLY_SOURCES, HISTORY_AWARE_SOURCES, LONGITUDINAL_SOURCES, OBSERVED_SOURCES,
     records_from_items,
 )
 from backend.app.diagnosis.history_aware import HistoryAwareDiagnosisEngine
@@ -64,7 +64,7 @@ def diag(db, sub_id, mode):
 # --- the contract itself -------------------------------------------------
 
 def test_contract_partitions_every_source_type():
-    groups = (OBSERVED_SOURCES, LONGITUDINAL_SOURCES, DERIVED_SOURCES)
+    groups = (OBSERVED_SOURCES, LONGITUDINAL_SOURCES)
     assert sum(len(g) for g in groups) == len(set().union(*groups))  # pairwise disjoint
     assert set().union(*groups) == set(EvidenceSourceType)  # a new source type must be placed
     assert CURRENT_ONLY_SOURCES == OBSERVED_SOURCES
@@ -72,14 +72,13 @@ def test_contract_partitions_every_source_type():
     assert EvidenceSourceType.HISTORY not in CURRENT_ONLY_SOURCES
 
 
-def test_model_evidence_is_never_observed_support():
-    # The classifier re-reads observed evidence; counting it as observed
-    # support in the learner model would count one failure twice.
-    assert EvidenceSourceType.MODEL in DERIVED_SOURCES
-    assert EvidenceSourceType.MODEL not in OBSERVED_SOURCES
-    # Neither mode reads it until the model router (B5) places it.
-    assert EvidenceSourceType.MODEL not in CURRENT_ONLY_SOURCES
-    assert EvidenceSourceType.MODEL not in HISTORY_AWARE_SOURCES
+def test_model_evidence_is_observed_support_in_both_modes():
+    # The model reads this submission's own run record, and with model_first its named
+    # prediction is the diagnosis, so it must reach the learner state as observed support.
+    assert EvidenceSourceType.MODEL in OBSERVED_SOURCES
+    assert EvidenceSourceType.MODEL in CURRENT_ONLY_SOURCES
+    assert EvidenceSourceType.MODEL in HISTORY_AWARE_SOURCES
+    assert EvidenceSourceType.MODEL not in LONGITUDINAL_SOURCES
 
 
 def test_current_only_ignores_sequence_and_history_evidence(db, svc, student):
