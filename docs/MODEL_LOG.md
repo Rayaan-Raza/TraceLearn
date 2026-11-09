@@ -1,5 +1,7 @@
 # Model log
 
+Full guide (getting, training, evaluating, confusion matrices): [`MODEL_GUIDE.md`](MODEL_GUIDE.md).
+
 One entry per model worth keeping, newest first. Each entry names the commit that holds the model
 files, how it was measured, and how to go back to it.
 
