@@ -18,7 +18,7 @@ import pytest
 
 from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.analysis.model_evidence import model_evidence
-from backend.app.config import Settings
+from backend.app.config import Settings, settings
 from backend.app.diagnosis.confidence import apply_evidence_weights, fuse_diagnosis
 from backend.app.diagnosis.cpp_mapping import MODEL_LABEL_TO_BACKEND, backend_code_for_model_label
 from backend.app.diagnosis.taxonomy import (
@@ -253,8 +253,10 @@ def test_mapping_is_one_to_one_for_real_beliefs():
     assert len(codes) == len(set(codes))
 
 
-def test_model_is_off_by_default():
-    assert Settings().model_diagnosis == "off"
+def test_the_execution_model_decides_by_default():
+    s = Settings()
+    assert (s.model_diagnosis, s.model_variant, s.model_run_records, s.model_fusion, s.model_async) == (
+        "on", "execution", "on", "model_first", True)
 
 
 # ----------------------------------------------- B4 model evidence + fusion
@@ -296,7 +298,8 @@ def test_confident_model_alone_selects_its_misconception():
     assert result["primary"] == CPP_RANGE_CHECK
 
 
-def test_weak_model_alone_is_uncertain_not_a_confident_label():
+def test_weak_model_alone_is_uncertain_not_a_confident_label(monkeypatch):
+    monkeypatch.setattr(settings, "model_fusion", "points")   # the points policy; model_first: test_fusion_policy.py
     result = fuse_diagnosis([model_evidence(_prediction("CPP_RANGE_CHECK", 0.40), max_weight=0.4)])
     assert result["primary"] == UNCERTAIN and result["requires_review"] is True
 

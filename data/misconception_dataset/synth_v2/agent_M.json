@@ -1,0 +1,600 @@
+{
+ "problems": [
+  {
+   "id": "S2-M-01",
+   "title": "Menu calculator",
+   "statement": "The first line is t. Each of the next t lines has a, an operator (+ - * / or another character) and b. Print the result; print Error for division by zero (integer division) and Invalid for an unknown operator.",
+   "tests": [
+    "3\n5 + 3\n10 - 4\n6 * 7\n",
+    "1\n9 / 0\n",
+    "2\n20 / 4\n7 / 2\n",
+    "1\n100000 * 100000\n",
+    "2\n5 - 9\n3 - 1\n",
+    "1\n7 % 3\n",
+    "4\n1 + 1\n2 + 2\n3 * 3\n8 / 8\n",
+    "1\n123456 * 654321\n",
+    "0\n",
+    "2\n0 / 5\n5 / 0\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        long long a, b;\n        char op;\n        cin >> a >> op >> b;\n        if (op == '+') cout << a + b << endl;\n        else if (op == '-') cout << a - b << endl;\n        else if (op == '*') cout << a * b << endl;\n        else if (op == '/') {\n            if (b == 0) cout << \"Error\" << endl;\n            else cout << a / b << endl;\n        } else cout << \"Invalid\" << endl;\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        int a, b;\n        char op;\n        cin >> a >> op >> b;\n        if (op == '+') cout << a + b << endl;\n        else if (op == '-') cout << a - b << endl;\n        else if (op == '*') cout << a * b << endl;\n        else if (op == '/') {\n            if (b == 0) cout << \"Error\" << endl;\n            else cout << a / b << endl;\n        } else cout << \"Invalid\" << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        long long a, b;\n        char op;\n        cin >> a >> op >> b;\n        if (op == '+') cout << a + b << endl;\n        else if (op == '-') cout << a - b << endl;\n        else if (op == '*') cout << a * b << endl;\n        else if (op == '/') {\n            if (b == 0) cout << \"Error\" << endl;\n            else cout << a / b << endl;\n        } else cout << \"Invalid\" << endl;\n    }\n    return 0;\n}\n",
+     "note": "Operands stored in int, so the product of two large numbers overflows."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        long long a, b;\n        char op;\n        cin >> a >> op >> b;\n        if (op == '+') cout << a + b << endl;\n        else if (op == '-') cout << a - b << endl;\n        else if (op == '*') cout << a * b << endl;\n        else if (op == '/') {\n            if (b = 0) cout << \"Error\" << endl;\n            else cout << a / b << endl;\n        } else cout << \"Invalid\" << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        long long a, b;\n        char op;\n        cin >> a >> op >> b;\n        if (op == '+') cout << a + b << endl;\n        else if (op == '-') cout << a - b << endl;\n        else if (op == '*') cout << a * b << endl;\n        else if (op == '/') {\n            if (b == 0) cout << \"Error\" << endl;\n            else cout << a / b << endl;\n        } else cout << \"Invalid\" << endl;\n    }\n    return 0;\n}\n",
+     "note": "Wrote = instead of == when testing for zero divisor."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        long long a, b;\n        char op;\n        cin >> a >> op >> b;\n        if (op == '+') cout << a + b << endl;\n        else if (op == '-') cout << b - a << endl;\n        else if (op == '*') cout << a * b << endl;\n        else if (op == '/') {\n            if (b == 0) cout << \"Error\" << endl;\n            else cout << a / b << endl;\n        } else cout << \"Invalid\" << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        long long a, b;\n        char op;\n        cin >> a >> op >> b;\n        if (op == '+') cout << a + b << endl;\n        else if (op == '-') cout << a - b << endl;\n        else if (op == '*') cout << a * b << endl;\n        else if (op == '/') {\n            if (b == 0) cout << \"Error\" << endl;\n            else cout << a / b << endl;\n        } else cout << \"Invalid\" << endl;\n    }\n    return 0;\n}\n",
+     "note": "Subtraction operands swapped."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-02",
+   "title": "Bank balance",
+   "statement": "Read the opening balance and n, then n transactions: D amount deposits, W amount withdraws. A withdrawal larger than the balance is rejected. Print the final balance and the number of rejected withdrawals.",
+   "tests": [
+    "100 3\nD 50\nW 30\nW 500\n",
+    "100 2\nW 100\nD 1\n",
+    "0 0\n",
+    "2000000000 2\nD 2000000000\nW 1\n",
+    "50 4\nW 100\nD 10\nW 20\nW 70\n",
+    "10 1\nD 5\n",
+    "1000 5\nW 300\nW 300\nW 300\nW 300\nD 5\n",
+    "5 3\nW 6\nW 7\nD 1\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i <= n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "note": "Loop runs n+1 times, repeating the last transaction."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt < bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "note": "Withdrawing exactly the whole balance is rejected."
+    },
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "note": "Balance kept in int, deposits push it past 2^31."
+    },
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else { rej++; break; }\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "note": "Stops reading transactions after the first rejected withdrawal."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal = amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c >> amt;\n        if (c == 'D') bal += amt;\n        else if (c == 'W') {\n            if (amt <= bal) bal -= amt;\n            else rej++;\n        }\n    }\n    cout << bal << \" \" << rej << endl;\n    return 0;\n}\n",
+     "note": "Deposit replaces the balance instead of adding to it."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-03",
+   "title": "Daily temperatures",
+   "statement": "Read n (1 to 1000) and n daily temperatures. Print the highest, the lowest, and the number of days with temperature from 20 to 30 inclusive.",
+   "tests": [
+    "5\n25 31 18 30 20\n",
+    "1\n-5\n",
+    "3\n-10 -3 -20\n",
+    "4\n22 35 40 41\n",
+    "3\n5 100 7\n",
+    "6\n30 20 19 31 25 24\n",
+    "600\n5 27 24 -2 13 28 20 30 27 -6 28 -10 43 20 6 25 4 2 35 20 24 43 25 20 15 30 45 -1 4 30 -1 45 23 14 37 -10 32 39 -6 0 38 27 -8 9 39 -9 42 45 7 20 28 36 14 35 40 17 15 36 41 26 18 -2 13 -4 -8 -2 21 3 6 33 17 39 30 44 9 16 22 43 14 26 12 24 27 16 27 4 11 33 -9 44 7 28 32 34 0 34 45 10 24 26 26 -4 35 31 3 30 43 26 7 8 -3 -6 20 44 30 20 -5 12 41 -6 16 -1 -9 8 17 39 16 45 -3 -8 28 29 38 -8 14 35 27 11 25 7 22 5 -8 9 -10 -6 -4 28 24 -8 2 16 8 29 6 -1 34 -8 45 11 10 13 -2 45 14 14 19 45 23 14 31 45 28 33 25 -4 29 41 22 7 17 30 36 35 5 9 17 6 23 9 25 11 -10 40 16 27 10 -9 14 29 27 30 -2 -7 30 30 11 19 12 33 12 28 35 7 37 21 -9 27 -7 33 -9 13 6 30 19 9 27 28 10 1 13 1 10 38 13 44 28 6 9 40 14 -4 39 42 -9 26 33 37 -2 9 22 4 31 41 7 5 10 1 33 17 31 34 -4 -4 28 10 11 33 43 4 18 41 44 0 -5 11 37 31 3 26 18 7 4 40 -3 -8 23 2 10 41 43 43 26 1 45 7 11 41 42 31 -5 41 29 12 27 -2 16 8 23 40 44 7 19 12 30 16 8 16 26 16 -8 16 -1 2 -10 20 43 29 22 17 25 35 4 -8 37 19 43 38 32 37 23 8 24 11 4 45 -6 44 27 8 -3 41 5 -8 -8 41 34 22 2 17 26 -7 -10 20 37 -3 0 22 9 5 32 -9 23 24 16 -7 29 -3 11 -2 6 45 24 20 41 40 -7 12 4 2 -3 24 42 -3 0 5 40 7 41 -2 42 -10 21 30 26 45 15 -7 38 7 5 7 29 23 23 17 -7 20 10 39 42 -10 44 -7 39 -2 -8 -3 -7 -6 20 -8 44 35 -5 22 22 21 10 0 10 -6 12 14 31 14 27 9 13 6 2 11 17 -3 -2 25 -10 35 36 14 40 -5 26 1 -8 13 19 28 31 40 24 14 30 41 -8 29 17 -7 13 30 21 38 34 10 16 34 16 19 -9 5 3 24 7 34 27 -6 41 17 4 17 -2 -9 10 13 25 40 45 6 -3 19 34 -3 42 36 32 44 23 40 14 32 -4 36 10 26 24 -4 41 27 35 -10 20 -1 5 39 14 -8 23 -5 26 -4 32 14 1 42 -9 11 43 44 -3 -9 44 -3 33 20 43 34 8 27 9 41 -5 -8 39 26 22 23 35 5 -4 25 37 -4 25 -7 25 10 45 26 1 42 -6 5 1 31 5 19 29 34 38 15 6 13 28 15 12 25 16 -5 14 22\n",
+    "1\n40\n",
+    "2\n10 50\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 && a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx, mn, good = 0;\n    for (int i = 0; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 && a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 && a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+     "note": "max and min never initialised before comparing."
+    },
+    {
+     "label": "CPP_ARRAY_BOUNDS",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[20];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 && a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 && a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+     "note": "Array of 20 but up to 1000 temperatures are read."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 || a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 && a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+     "note": "|| instead of && so every day counts as comfortable."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 2; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 && a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i] > mx) mx = a[i];\n        if (a[i] < mn) mn = a[i];\n    }\n    for (int i = 0; i < n; i++)\n        if (a[i] >= 20 && a[i] <= 30) good++;\n    cout << mx << \" \" << mn << \" \" << good << endl;\n    return 0;\n}\n",
+     "note": "Max/min scan starts at index 2 and skips a[1]."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-04",
+   "title": "Shopping bill",
+   "statement": "Read n (at least 1), then n lines of unit price and quantity. The bill is the sum of price times quantity, with 10 percent (integer division) taken off if it is more than 5000. Print the bill and the cheapest unit price.",
+   "tests": [
+    "2\n100 3\n50 2\n",
+    "1\n5000 1\n",
+    "1\n5001 1\n",
+    "3\n10 1\n20 2\n30 3\n",
+    "1\n100000 100000\n",
+    "2\n1000000 1000000\n1 1\n",
+    "1\n1 1\n",
+    "4\n7 7\n3 100\n999 5\n12 12\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        int p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "note": "Price and quantity are int so p*q overflows before being added."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total >= 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "note": "Discount applied at exactly 5000 although it needs more than 5000."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total / 10 * 9;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "note": "Discount formula rounds differently from total minus a tenth."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 1; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "note": "Loop starts at 1 and skips the first item."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q;\n        total += p * q;\n        if (p < mn) mn = p;\n    }\n    if (total > 5000) total = total - total / 10;\n    cout << total << \" \" << mn << endl;\n    return 0;\n}\n",
+     "note": "Minimum price never initialised."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-05",
+   "title": "Queue simulation",
+   "statement": "Read m commands: E x enqueues x, D dequeues and prints the front (or empty if the queue is empty), S prints the current size. At most 2000 enqueues.",
+   "tests": [
+    "6\nE 5\nE 7\nD\nS\nD\nD\n",
+    "3\nD\nS\nD\n",
+    "5\nE 1\nD\nD\nS\nE 2\n",
+    "8\nE 1\nE 2\nE 3\nS\nD\nS\nE 4\nS\n",
+    "1204\nE 0\nE 3\nE 6\nE 9\nE 12\nE 15\nE 18\nE 21\nE 24\nE 27\nE 30\nE 33\nE 36\nE 39\nE 42\nE 45\nE 48\nE 51\nE 54\nE 57\nE 60\nE 63\nE 66\nE 69\nE 72\nE 75\nE 78\nE 81\nE 84\nE 87\nE 90\nE 93\nE 96\nE 99\nE 102\nE 105\nE 108\nE 111\nE 114\nE 117\nE 120\nE 123\nE 126\nE 129\nE 132\nE 135\nE 138\nE 141\nE 144\nE 147\nE 150\nE 153\nE 156\nE 159\nE 162\nE 165\nE 168\nE 171\nE 174\nE 177\nE 180\nE 183\nE 186\nE 189\nE 192\nE 195\nE 198\nE 201\nE 204\nE 207\nE 210\nE 213\nE 216\nE 219\nE 222\nE 225\nE 228\nE 231\nE 234\nE 237\nE 240\nE 243\nE 246\nE 249\nE 252\nE 255\nE 258\nE 261\nE 264\nE 267\nE 270\nE 273\nE 276\nE 279\nE 282\nE 285\nE 288\nE 291\nE 294\nE 297\nE 300\nE 303\nE 306\nE 309\nE 312\nE 315\nE 318\nE 321\nE 324\nE 327\nE 330\nE 333\nE 336\nE 339\nE 342\nE 345\nE 348\nE 351\nE 354\nE 357\nE 360\nE 363\nE 366\nE 369\nE 372\nE 375\nE 378\nE 381\nE 384\nE 387\nE 390\nE 393\nE 396\nE 399\nE 402\nE 405\nE 408\nE 411\nE 414\nE 417\nE 420\nE 423\nE 426\nE 429\nE 432\nE 435\nE 438\nE 441\nE 444\nE 447\nE 450\nE 453\nE 456\nE 459\nE 462\nE 465\nE 468\nE 471\nE 474\nE 477\nE 480\nE 483\nE 486\nE 489\nE 492\nE 495\nE 498\nE 501\nE 504\nE 507\nE 510\nE 513\nE 516\nE 519\nE 522\nE 525\nE 528\nE 531\nE 534\nE 537\nE 540\nE 543\nE 546\nE 549\nE 552\nE 555\nE 558\nE 561\nE 564\nE 567\nE 570\nE 573\nE 576\nE 579\nE 582\nE 585\nE 588\nE 591\nE 594\nE 597\nE 600\nE 603\nE 606\nE 609\nE 612\nE 615\nE 618\nE 621\nE 624\nE 627\nE 630\nE 633\nE 636\nE 639\nE 642\nE 645\nE 648\nE 651\nE 654\nE 657\nE 660\nE 663\nE 666\nE 669\nE 672\nE 675\nE 678\nE 681\nE 684\nE 687\nE 690\nE 693\nE 696\nE 699\nE 702\nE 705\nE 708\nE 711\nE 714\nE 717\nE 720\nE 723\nE 726\nE 729\nE 732\nE 735\nE 738\nE 741\nE 744\nE 747\nE 750\nE 753\nE 756\nE 759\nE 762\nE 765\nE 768\nE 771\nE 774\nE 777\nE 780\nE 783\nE 786\nE 789\nE 792\nE 795\nE 798\nE 801\nE 804\nE 807\nE 810\nE 813\nE 816\nE 819\nE 822\nE 825\nE 828\nE 831\nE 834\nE 837\nE 840\nE 843\nE 846\nE 849\nE 852\nE 855\nE 858\nE 861\nE 864\nE 867\nE 870\nE 873\nE 876\nE 879\nE 882\nE 885\nE 888\nE 891\nE 894\nE 897\nE 900\nE 903\nE 906\nE 909\nE 912\nE 915\nE 918\nE 921\nE 924\nE 927\nE 930\nE 933\nE 936\nE 939\nE 942\nE 945\nE 948\nE 951\nE 954\nE 957\nE 960\nE 963\nE 966\nE 969\nE 972\nE 975\nE 978\nE 981\nE 984\nE 987\nE 990\nE 993\nE 996\nE 999\nE 1002\nE 1005\nE 1008\nE 1011\nE 1014\nE 1017\nE 1020\nE 1023\nE 1026\nE 1029\nE 1032\nE 1035\nE 1038\nE 1041\nE 1044\nE 1047\nE 1050\nE 1053\nE 1056\nE 1059\nE 1062\nE 1065\nE 1068\nE 1071\nE 1074\nE 1077\nE 1080\nE 1083\nE 1086\nE 1089\nE 1092\nE 1095\nE 1098\nE 1101\nE 1104\nE 1107\nE 1110\nE 1113\nE 1116\nE 1119\nE 1122\nE 1125\nE 1128\nE 1131\nE 1134\nE 1137\nE 1140\nE 1143\nE 1146\nE 1149\nE 1152\nE 1155\nE 1158\nE 1161\nE 1164\nE 1167\nE 1170\nE 1173\nE 1176\nE 1179\nE 1182\nE 1185\nE 1188\nE 1191\nE 1194\nE 1197\nE 1200\nE 1203\nE 1206\nE 1209\nE 1212\nE 1215\nE 1218\nE 1221\nE 1224\nE 1227\nE 1230\nE 1233\nE 1236\nE 1239\nE 1242\nE 1245\nE 1248\nE 1251\nE 1254\nE 1257\nE 1260\nE 1263\nE 1266\nE 1269\nE 1272\nE 1275\nE 1278\nE 1281\nE 1284\nE 1287\nE 1290\nE 1293\nE 1296\nE 1299\nE 1302\nE 1305\nE 1308\nE 1311\nE 1314\nE 1317\nE 1320\nE 1323\nE 1326\nE 1329\nE 1332\nE 1335\nE 1338\nE 1341\nE 1344\nE 1347\nE 1350\nE 1353\nE 1356\nE 1359\nE 1362\nE 1365\nE 1368\nE 1371\nE 1374\nE 1377\nE 1380\nE 1383\nE 1386\nE 1389\nE 1392\nE 1395\nE 1398\nE 1401\nE 1404\nE 1407\nE 1410\nE 1413\nE 1416\nE 1419\nE 1422\nE 1425\nE 1428\nE 1431\nE 1434\nE 1437\nE 1440\nE 1443\nE 1446\nE 1449\nE 1452\nE 1455\nE 1458\nE 1461\nE 1464\nE 1467\nE 1470\nE 1473\nE 1476\nE 1479\nE 1482\nE 1485\nE 1488\nE 1491\nE 1494\nE 1497\nE 1500\nE 1503\nE 1506\nE 1509\nE 1512\nE 1515\nE 1518\nE 1521\nE 1524\nE 1527\nE 1530\nE 1533\nE 1536\nE 1539\nE 1542\nE 1545\nE 1548\nE 1551\nE 1554\nE 1557\nE 1560\nE 1563\nE 1566\nE 1569\nE 1572\nE 1575\nE 1578\nE 1581\nE 1584\nE 1587\nE 1590\nE 1593\nE 1596\nE 1599\nE 1602\nE 1605\nE 1608\nE 1611\nE 1614\nE 1617\nE 1620\nE 1623\nE 1626\nE 1629\nE 1632\nE 1635\nE 1638\nE 1641\nE 1644\nE 1647\nE 1650\nE 1653\nE 1656\nE 1659\nE 1662\nE 1665\nE 1668\nE 1671\nE 1674\nE 1677\nE 1680\nE 1683\nE 1686\nE 1689\nE 1692\nE 1695\nE 1698\nE 1701\nE 1704\nE 1707\nE 1710\nE 1713\nE 1716\nE 1719\nE 1722\nE 1725\nE 1728\nE 1731\nE 1734\nE 1737\nE 1740\nE 1743\nE 1746\nE 1749\nE 1752\nE 1755\nE 1758\nE 1761\nE 1764\nE 1767\nE 1770\nE 1773\nE 1776\nE 1779\nE 1782\nE 1785\nE 1788\nE 1791\nE 1794\nE 1797\nE 1800\nE 1803\nE 1806\nE 1809\nE 1812\nE 1815\nE 1818\nE 1821\nE 1824\nE 1827\nE 1830\nE 1833\nE 1836\nE 1839\nE 1842\nE 1845\nE 1848\nE 1851\nE 1854\nE 1857\nE 1860\nE 1863\nE 1866\nE 1869\nE 1872\nE 1875\nE 1878\nE 1881\nE 1884\nE 1887\nE 1890\nE 1893\nE 1896\nE 1899\nE 1902\nE 1905\nE 1908\nE 1911\nE 1914\nE 1917\nE 1920\nE 1923\nE 1926\nE 1929\nE 1932\nE 1935\nE 1938\nE 1941\nE 1944\nE 1947\nE 1950\nE 1953\nE 1956\nE 1959\nE 1962\nE 1965\nE 1968\nE 1971\nE 1974\nE 1977\nE 1980\nE 1983\nE 1986\nE 1989\nE 1992\nE 1995\nE 1998\nE 2001\nE 2004\nE 2007\nE 2010\nE 2013\nE 2016\nE 2019\nE 2022\nE 2025\nE 2028\nE 2031\nE 2034\nE 2037\nE 2040\nE 2043\nE 2046\nE 2049\nE 2052\nE 2055\nE 2058\nE 2061\nE 2064\nE 2067\nE 2070\nE 2073\nE 2076\nE 2079\nE 2082\nE 2085\nE 2088\nE 2091\nE 2094\nE 2097\nE 2100\nE 2103\nE 2106\nE 2109\nE 2112\nE 2115\nE 2118\nE 2121\nE 2124\nE 2127\nE 2130\nE 2133\nE 2136\nE 2139\nE 2142\nE 2145\nE 2148\nE 2151\nE 2154\nE 2157\nE 2160\nE 2163\nE 2166\nE 2169\nE 2172\nE 2175\nE 2178\nE 2181\nE 2184\nE 2187\nE 2190\nE 2193\nE 2196\nE 2199\nE 2202\nE 2205\nE 2208\nE 2211\nE 2214\nE 2217\nE 2220\nE 2223\nE 2226\nE 2229\nE 2232\nE 2235\nE 2238\nE 2241\nE 2244\nE 2247\nE 2250\nE 2253\nE 2256\nE 2259\nE 2262\nE 2265\nE 2268\nE 2271\nE 2274\nE 2277\nE 2280\nE 2283\nE 2286\nE 2289\nE 2292\nE 2295\nE 2298\nE 2301\nE 2304\nE 2307\nE 2310\nE 2313\nE 2316\nE 2319\nE 2322\nE 2325\nE 2328\nE 2331\nE 2334\nE 2337\nE 2340\nE 2343\nE 2346\nE 2349\nE 2352\nE 2355\nE 2358\nE 2361\nE 2364\nE 2367\nE 2370\nE 2373\nE 2376\nE 2379\nE 2382\nE 2385\nE 2388\nE 2391\nE 2394\nE 2397\nE 2400\nE 2403\nE 2406\nE 2409\nE 2412\nE 2415\nE 2418\nE 2421\nE 2424\nE 2427\nE 2430\nE 2433\nE 2436\nE 2439\nE 2442\nE 2445\nE 2448\nE 2451\nE 2454\nE 2457\nE 2460\nE 2463\nE 2466\nE 2469\nE 2472\nE 2475\nE 2478\nE 2481\nE 2484\nE 2487\nE 2490\nE 2493\nE 2496\nE 2499\nE 2502\nE 2505\nE 2508\nE 2511\nE 2514\nE 2517\nE 2520\nE 2523\nE 2526\nE 2529\nE 2532\nE 2535\nE 2538\nE 2541\nE 2544\nE 2547\nE 2550\nE 2553\nE 2556\nE 2559\nE 2562\nE 2565\nE 2568\nE 2571\nE 2574\nE 2577\nE 2580\nE 2583\nE 2586\nE 2589\nE 2592\nE 2595\nE 2598\nE 2601\nE 2604\nE 2607\nE 2610\nE 2613\nE 2616\nE 2619\nE 2622\nE 2625\nE 2628\nE 2631\nE 2634\nE 2637\nE 2640\nE 2643\nE 2646\nE 2649\nE 2652\nE 2655\nE 2658\nE 2661\nE 2664\nE 2667\nE 2670\nE 2673\nE 2676\nE 2679\nE 2682\nE 2685\nE 2688\nE 2691\nE 2694\nE 2697\nE 2700\nE 2703\nE 2706\nE 2709\nE 2712\nE 2715\nE 2718\nE 2721\nE 2724\nE 2727\nE 2730\nE 2733\nE 2736\nE 2739\nE 2742\nE 2745\nE 2748\nE 2751\nE 2754\nE 2757\nE 2760\nE 2763\nE 2766\nE 2769\nE 2772\nE 2775\nE 2778\nE 2781\nE 2784\nE 2787\nE 2790\nE 2793\nE 2796\nE 2799\nE 2802\nE 2805\nE 2808\nE 2811\nE 2814\nE 2817\nE 2820\nE 2823\nE 2826\nE 2829\nE 2832\nE 2835\nE 2838\nE 2841\nE 2844\nE 2847\nE 2850\nE 2853\nE 2856\nE 2859\nE 2862\nE 2865\nE 2868\nE 2871\nE 2874\nE 2877\nE 2880\nE 2883\nE 2886\nE 2889\nE 2892\nE 2895\nE 2898\nE 2901\nE 2904\nE 2907\nE 2910\nE 2913\nE 2916\nE 2919\nE 2922\nE 2925\nE 2928\nE 2931\nE 2934\nE 2937\nE 2940\nE 2943\nE 2946\nE 2949\nE 2952\nE 2955\nE 2958\nE 2961\nE 2964\nE 2967\nE 2970\nE 2973\nE 2976\nE 2979\nE 2982\nE 2985\nE 2988\nE 2991\nE 2994\nE 2997\nE 3000\nE 3003\nE 3006\nE 3009\nE 3012\nE 3015\nE 3018\nE 3021\nE 3024\nE 3027\nE 3030\nE 3033\nE 3036\nE 3039\nE 3042\nE 3045\nE 3048\nE 3051\nE 3054\nE 3057\nE 3060\nE 3063\nE 3066\nE 3069\nE 3072\nE 3075\nE 3078\nE 3081\nE 3084\nE 3087\nE 3090\nE 3093\nE 3096\nE 3099\nE 3102\nE 3105\nE 3108\nE 3111\nE 3114\nE 3117\nE 3120\nE 3123\nE 3126\nE 3129\nE 3132\nE 3135\nE 3138\nE 3141\nE 3144\nE 3147\nE 3150\nE 3153\nE 3156\nE 3159\nE 3162\nE 3165\nE 3168\nE 3171\nE 3174\nE 3177\nE 3180\nE 3183\nE 3186\nE 3189\nE 3192\nE 3195\nE 3198\nE 3201\nE 3204\nE 3207\nE 3210\nE 3213\nE 3216\nE 3219\nE 3222\nE 3225\nE 3228\nE 3231\nE 3234\nE 3237\nE 3240\nE 3243\nE 3246\nE 3249\nE 3252\nE 3255\nE 3258\nE 3261\nE 3264\nE 3267\nE 3270\nE 3273\nE 3276\nE 3279\nE 3282\nE 3285\nE 3288\nE 3291\nE 3294\nE 3297\nE 3300\nE 3303\nE 3306\nE 3309\nE 3312\nE 3315\nE 3318\nE 3321\nE 3324\nE 3327\nE 3330\nE 3333\nE 3336\nE 3339\nE 3342\nE 3345\nE 3348\nE 3351\nE 3354\nE 3357\nE 3360\nE 3363\nE 3366\nE 3369\nE 3372\nE 3375\nE 3378\nE 3381\nE 3384\nE 3387\nE 3390\nE 3393\nE 3396\nE 3399\nE 3402\nE 3405\nE 3408\nE 3411\nE 3414\nE 3417\nE 3420\nE 3423\nE 3426\nE 3429\nE 3432\nE 3435\nE 3438\nE 3441\nE 3444\nE 3447\nE 3450\nE 3453\nE 3456\nE 3459\nE 3462\nE 3465\nE 3468\nE 3471\nE 3474\nE 3477\nE 3480\nE 3483\nE 3486\nE 3489\nE 3492\nE 3495\nE 3498\nE 3501\nE 3504\nE 3507\nE 3510\nE 3513\nE 3516\nE 3519\nE 3522\nE 3525\nE 3528\nE 3531\nE 3534\nE 3537\nE 3540\nE 3543\nE 3546\nE 3549\nE 3552\nE 3555\nE 3558\nE 3561\nE 3564\nE 3567\nE 3570\nE 3573\nE 3576\nE 3579\nE 3582\nE 3585\nE 3588\nE 3591\nE 3594\nE 3597\nS\nD\nD\nS\n",
+    "1000\nE 0\nD\nE 2\nD\nE 4\nD\nE 6\nD\nE 8\nD\nE 10\nD\nE 12\nD\nE 14\nD\nE 16\nD\nE 18\nD\nE 20\nD\nE 22\nD\nE 24\nD\nE 26\nD\nE 28\nD\nE 30\nD\nE 32\nD\nE 34\nD\nE 36\nD\nE 38\nD\nE 40\nD\nE 42\nD\nE 44\nD\nE 46\nD\nE 48\nD\nE 50\nD\nE 52\nD\nE 54\nD\nE 56\nD\nE 58\nD\nE 60\nD\nE 62\nD\nE 64\nD\nE 66\nD\nE 68\nD\nE 70\nD\nE 72\nD\nE 74\nD\nE 76\nD\nE 78\nD\nE 80\nD\nE 82\nD\nE 84\nD\nE 86\nD\nE 88\nD\nE 90\nD\nE 92\nD\nE 94\nD\nE 96\nD\nE 98\nD\nE 100\nD\nE 102\nD\nE 104\nD\nE 106\nD\nE 108\nD\nE 110\nD\nE 112\nD\nE 114\nD\nE 116\nD\nE 118\nD\nE 120\nD\nE 122\nD\nE 124\nD\nE 126\nD\nE 128\nD\nE 130\nD\nE 132\nD\nE 134\nD\nE 136\nD\nE 138\nD\nE 140\nD\nE 142\nD\nE 144\nD\nE 146\nD\nE 148\nD\nE 150\nD\nE 152\nD\nE 154\nD\nE 156\nD\nE 158\nD\nE 160\nD\nE 162\nD\nE 164\nD\nE 166\nD\nE 168\nD\nE 170\nD\nE 172\nD\nE 174\nD\nE 176\nD\nE 178\nD\nE 180\nD\nE 182\nD\nE 184\nD\nE 186\nD\nE 188\nD\nE 190\nD\nE 192\nD\nE 194\nD\nE 196\nD\nE 198\nD\nE 200\nD\nE 202\nD\nE 204\nD\nE 206\nD\nE 208\nD\nE 210\nD\nE 212\nD\nE 214\nD\nE 216\nD\nE 218\nD\nE 220\nD\nE 222\nD\nE 224\nD\nE 226\nD\nE 228\nD\nE 230\nD\nE 232\nD\nE 234\nD\nE 236\nD\nE 238\nD\nE 240\nD\nE 242\nD\nE 244\nD\nE 246\nD\nE 248\nD\nE 250\nD\nE 252\nD\nE 254\nD\nE 256\nD\nE 258\nD\nE 260\nD\nE 262\nD\nE 264\nD\nE 266\nD\nE 268\nD\nE 270\nD\nE 272\nD\nE 274\nD\nE 276\nD\nE 278\nD\nE 280\nD\nE 282\nD\nE 284\nD\nE 286\nD\nE 288\nD\nE 290\nD\nE 292\nD\nE 294\nD\nE 296\nD\nE 298\nD\nE 300\nD\nE 302\nD\nE 304\nD\nE 306\nD\nE 308\nD\nE 310\nD\nE 312\nD\nE 314\nD\nE 316\nD\nE 318\nD\nE 320\nD\nE 322\nD\nE 324\nD\nE 326\nD\nE 328\nD\nE 330\nD\nE 332\nD\nE 334\nD\nE 336\nD\nE 338\nD\nE 340\nD\nE 342\nD\nE 344\nD\nE 346\nD\nE 348\nD\nE 350\nD\nE 352\nD\nE 354\nD\nE 356\nD\nE 358\nD\nE 360\nD\nE 362\nD\nE 364\nD\nE 366\nD\nE 368\nD\nE 370\nD\nE 372\nD\nE 374\nD\nE 376\nD\nE 378\nD\nE 380\nD\nE 382\nD\nE 384\nD\nE 386\nD\nE 388\nD\nE 390\nD\nE 392\nD\nE 394\nD\nE 396\nD\nE 398\nD\nE 400\nD\nE 402\nD\nE 404\nD\nE 406\nD\nE 408\nD\nE 410\nD\nE 412\nD\nE 414\nD\nE 416\nD\nE 418\nD\nE 420\nD\nE 422\nD\nE 424\nD\nE 426\nD\nE 428\nD\nE 430\nD\nE 432\nD\nE 434\nD\nE 436\nD\nE 438\nD\nE 440\nD\nE 442\nD\nE 444\nD\nE 446\nD\nE 448\nD\nE 450\nD\nE 452\nD\nE 454\nD\nE 456\nD\nE 458\nD\nE 460\nD\nE 462\nD\nE 464\nD\nE 466\nD\nE 468\nD\nE 470\nD\nE 472\nD\nE 474\nD\nE 476\nD\nE 478\nD\nE 480\nD\nE 482\nD\nE 484\nD\nE 486\nD\nE 488\nD\nE 490\nD\nE 492\nD\nE 494\nD\nE 496\nD\nE 498\nD\nE 500\nD\nE 502\nD\nE 504\nD\nE 506\nD\nE 508\nD\nE 510\nD\nE 512\nD\nE 514\nD\nE 516\nD\nE 518\nD\nE 520\nD\nE 522\nD\nE 524\nD\nE 526\nD\nE 528\nD\nE 530\nD\nE 532\nD\nE 534\nD\nE 536\nD\nE 538\nD\nE 540\nD\nE 542\nD\nE 544\nD\nE 546\nD\nE 548\nD\nE 550\nD\nE 552\nD\nE 554\nD\nE 556\nD\nE 558\nD\nE 560\nD\nE 562\nD\nE 564\nD\nE 566\nD\nE 568\nD\nE 570\nD\nE 572\nD\nE 574\nD\nE 576\nD\nE 578\nD\nE 580\nD\nE 582\nD\nE 584\nD\nE 586\nD\nE 588\nD\nE 590\nD\nE 592\nD\nE 594\nD\nE 596\nD\nE 598\nD\nE 600\nD\nE 602\nD\nE 604\nD\nE 606\nD\nE 608\nD\nE 610\nD\nE 612\nD\nE 614\nD\nE 616\nD\nE 618\nD\nE 620\nD\nE 622\nD\nE 624\nD\nE 626\nD\nE 628\nD\nE 630\nD\nE 632\nD\nE 634\nD\nE 636\nD\nE 638\nD\nE 640\nD\nE 642\nD\nE 644\nD\nE 646\nD\nE 648\nD\nE 650\nD\nE 652\nD\nE 654\nD\nE 656\nD\nE 658\nD\nE 660\nD\nE 662\nD\nE 664\nD\nE 666\nD\nE 668\nD\nE 670\nD\nE 672\nD\nE 674\nD\nE 676\nD\nE 678\nD\nE 680\nD\nE 682\nD\nE 684\nD\nE 686\nD\nE 688\nD\nE 690\nD\nE 692\nD\nE 694\nD\nE 696\nD\nE 698\nD\nE 700\nD\nE 702\nD\nE 704\nD\nE 706\nD\nE 708\nD\nE 710\nD\nE 712\nD\nE 714\nD\nE 716\nD\nE 718\nD\nE 720\nD\nE 722\nD\nE 724\nD\nE 726\nD\nE 728\nD\nE 730\nD\nE 732\nD\nE 734\nD\nE 736\nD\nE 738\nD\nE 740\nD\nE 742\nD\nE 744\nD\nE 746\nD\nE 748\nD\nE 750\nD\nE 752\nD\nE 754\nD\nE 756\nD\nE 758\nD\nE 760\nD\nE 762\nD\nE 764\nD\nE 766\nD\nE 768\nD\nE 770\nD\nE 772\nD\nE 774\nD\nE 776\nD\nE 778\nD\nE 780\nD\nE 782\nD\nE 784\nD\nE 786\nD\nE 788\nD\nE 790\nD\nE 792\nD\nE 794\nD\nE 796\nD\nE 798\nD\nE 800\nD\nE 802\nD\nE 804\nD\nE 806\nD\nE 808\nD\nE 810\nD\nE 812\nD\nE 814\nD\nE 816\nD\nE 818\nD\nE 820\nD\nE 822\nD\nE 824\nD\nE 826\nD\nE 828\nD\nE 830\nD\nE 832\nD\nE 834\nD\nE 836\nD\nE 838\nD\nE 840\nD\nE 842\nD\nE 844\nD\nE 846\nD\nE 848\nD\nE 850\nD\nE 852\nD\nE 854\nD\nE 856\nD\nE 858\nD\nE 860\nD\nE 862\nD\nE 864\nD\nE 866\nD\nE 868\nD\nE 870\nD\nE 872\nD\nE 874\nD\nE 876\nD\nE 878\nD\nE 880\nD\nE 882\nD\nE 884\nD\nE 886\nD\nE 888\nD\nE 890\nD\nE 892\nD\nE 894\nD\nE 896\nD\nE 898\nD\nE 900\nD\nE 902\nD\nE 904\nD\nE 906\nD\nE 908\nD\nE 910\nD\nE 912\nD\nE 914\nD\nE 916\nD\nE 918\nD\nE 920\nD\nE 922\nD\nE 924\nD\nE 926\nD\nE 928\nD\nE 930\nD\nE 932\nD\nE 934\nD\nE 936\nD\nE 938\nD\nE 940\nD\nE 942\nD\nE 944\nD\nE 946\nD\nE 948\nD\nE 950\nD\nE 952\nD\nE 954\nD\nE 956\nD\nE 958\nD\nE 960\nD\nE 962\nD\nE 964\nD\nE 966\nD\nE 968\nD\nE 970\nD\nE 972\nD\nE 974\nD\nE 976\nD\nE 978\nD\nE 980\nD\nE 982\nD\nE 984\nD\nE 986\nD\nE 988\nD\nE 990\nD\nE 992\nD\nE 994\nD\nE 996\nD\nE 998\nD\n",
+    "1\nS\n",
+    "4\nE 10\nS\nD\nS\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head >= tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head << endl;\n        }\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_ARRAY_BOUNDS",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[5];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head >= tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head << endl;\n        }\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head >= tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head << endl;\n        }\n    }\n    return 0;\n}\n",
+     "note": "Queue array far too small for the number of enqueues."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head > tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head << endl;\n        }\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head >= tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head << endl;\n        }\n    }\n    return 0;\n}\n",
+     "note": "Empty test misses head == tail, so an empty queue is read."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op = 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head >= tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head << endl;\n        }\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head >= tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head << endl;\n        }\n    }\n    return 0;\n}\n",
+     "note": "Used = in the command test, so every command enqueues."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head >= tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head + 1 << endl;\n        }\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E') {\n            int x;\n            cin >> x;\n            q[tail++] = x;\n        } else if (op == 'D') {\n            if (head >= tail) cout << \"empty\" << endl;\n            else cout << q[head++] << endl;\n        } else if (op == 'S') {\n            cout << tail - head << endl;\n        }\n    }\n    return 0;\n}\n",
+     "note": "Size printed one too large."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-06",
+   "title": "Balanced brackets",
+   "statement": "Read t, then t strings made of ( ) [ ] (length up to 1000). For each print YES if the brackets are balanced and correctly nested, otherwise NO.",
+   "tests": [
+    "3\n()\n([])\n(]\n",
+    "2\n(((\n)(\n",
+    "4\n(\n)\n[]\n[[]]\n",
+    "3\n)\n()\n([)]\n",
+    "2\n(]\n()\n",
+    "2\n(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))\n((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((\n",
+    "3\n[()[]]\n[(])\n((()))\n",
+    "1\n[\n"
+   ],
+   "reference": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n        bool ok = true;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[--top];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        if (top != 0) ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_ARRAY_BOUNDS",
+     "buggy": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[10];\n        int top = 0;\n        bool ok = true;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[--top];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        if (top != 0) ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n        bool ok = true;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[--top];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        if (top != 0) ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+     "note": "Stack array of 10 characters but strings may open hundreds of brackets."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n        bool ok = true;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[--top];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n        bool ok = true;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[--top];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        if (top != 0) ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+     "note": "Forgot the case of unclosed opening brackets at the end."
+    },
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    bool ok = true;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[--top];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        if (top != 0) ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n        bool ok = true;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[--top];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        if (top != 0) ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+     "note": "ok flag is declared outside the loop and never reset between strings."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n        bool ok = true;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[top--];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        if (top != 0) ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n        bool ok = true;\n        for (int i = 0; i < (int)s.size(); i++) {\n            char c = s[i];\n            if (c == '(' || c == '[') st[top++] = c;\n            else if (c == ')' || c == ']') {\n                if (top == 0) { ok = false; break; }\n                char o = st[--top];\n                if ((c == ')' && o != '(') || (c == ']' && o != '[')) { ok = false; break; }\n            }\n        }\n        if (top != 0) ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << endl;\n    }\n    return 0;\n}\n",
+     "note": "Pops the wrong slot (post-decrement) and compares against an unset element."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-07",
+   "title": "Bubble sort by hand",
+   "statement": "Read n (up to 1000) and n integers. Sort them in increasing order with bubble sort and print them on one line separated by spaces.",
+   "tests": [
+    "5\n5 4 3 2 1\n",
+    "3\n3 2 1\n",
+    "1\n7\n",
+    "0\n",
+    "2\n2 1\n",
+    "6\n10 -3 7 7 0 2\n",
+    "4\n1 2 3 4\n",
+    "5\n-5 -1 -9 -3 -7\n",
+    "100\n-337 941 -692 -192 333 -902 -852 681 97 -808 -252 193 -882 863 39 -561 -924 -824 -112 -144 -857 -508 -815 128 -131 -879 693 158 -747 940 -543 291 284 193 940 -874 181 199 -188 -899 999 -548 -905 140 758 -728 -407 -142 -705 107 -759 169 -369 147 671 396 -630 -789 191 169 308 -616 -238 -801 121 458 -872 155 -878 267 -579 16 393 88 -125 591 -357 -47 199 891 -72 -260 -387 -492 626 -632 431 597 -501 -833 176 -386 75 13 792 -297 493 -81 -411 247\n",
+    "4\n9 8 1 2\n"
+   ],
+   "reference": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; j++)\n            if (a[j] > a[j + 1]) {\n                t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;\n            }\n    for (i = 0; i < n; i++) {\n        if (i) printf(\" \");\n        printf(\"%d\", a[i]);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j <= n - i - 1; j++)\n            if (a[j] > a[j + 1]) {\n                t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;\n            }\n    for (i = 0; i < n; i++) {\n        if (i) printf(\" \");\n        printf(\"%d\", a[i]);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; j++)\n            if (a[j] > a[j + 1]) {\n                t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;\n            }\n    for (i = 0; i < n; i++) {\n        if (i) printf(\" \");\n        printf(\"%d\", a[i]);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n",
+     "note": "Inner loop goes one step too far and compares with a[n]."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 2; i++)\n        for (j = 0; j < n - i - 1; j++)\n            if (a[j] > a[j + 1]) {\n                t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;\n            }\n    for (i = 0; i < n; i++) {\n        if (i) printf(\" \");\n        printf(\"%d\", a[i]);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; j++)\n            if (a[j] > a[j + 1]) {\n                t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;\n            }\n    for (i = 0; i < n; i++) {\n        if (i) printf(\" \");\n        printf(\"%d\", a[i]);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n",
+     "note": "One bubble pass too few, so the smallest two can stay unsorted."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; j++)\n            if (a[j] < a[j + 1]) {\n                t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;\n            }\n    for (i = 0; i < n; i++) {\n        if (i) printf(\" \");\n        printf(\"%d\", a[i]);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; j++)\n            if (a[j] > a[j + 1]) {\n                t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;\n            }\n    for (i = 0; i < n; i++) {\n        if (i) printf(\" \");\n        printf(\"%d\", a[i]);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n",
+     "note": "Comparison reversed, sorts in decreasing order."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-08",
+   "title": "Prime test",
+   "statement": "Read t, then t integers (any int, including 0 and negatives). For each print prime or not prime.",
+   "tests": [
+    "5\n2\n3\n5\n7\n11\n",
+    "3\n4\n6\n8\n",
+    "1\n1\n",
+    "3\n9\n15\n25\n",
+    "2\n0\n-7\n",
+    "1\n1000000007\n",
+    "1\n2147483647\n",
+    "2\n49\n121\n",
+    "1\n999999937\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+     "note": "Forgot that 1, 0 and negatives are not prime."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d < x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+     "note": "Stops before d*d == x so squares of primes are called prime."
+    },
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (int d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+     "note": "d*d overflows int for x near 2^31."
+    },
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n        else return true;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        if (isPrime(x)) cout << \"prime\" << endl;\n        else cout << \"not prime\" << endl;\n    }\n    return 0;\n}\n",
+     "note": "Returns true after testing only d = 2."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-09",
+   "title": "Number pyramid",
+   "statement": "Read n from 0 to 9. Print n rows; row i has n-i leading spaces, then 1 up to i and back down to 1 (for example row 3 is 12321).",
+   "tests": [
+    "1\n",
+    "2\n",
+    "3\n",
+    "5\n",
+    "9\n",
+    "0\n",
+    "4\n",
+    "7\n",
+    "6\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << j;\n        for (int j = i - 1; j >= 1; j--) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i < n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << j;\n        for (int j = i - 1; j >= 1; j--) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << j;\n        for (int j = i - 1; j >= 1; j--) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Row loop uses < so the last row is missing."
+    },
+    {
+     "label": "CPP_WRONG_LOOP_DIR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << j;\n        for (int j = 1; j < i; j++) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << j;\n        for (int j = i - 1; j >= 1; j--) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Second half counts up instead of down."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << j;\n        for (int j = i; j >= 1; j--) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << j;\n        for (int j = i - 1; j >= 1; j--) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Downward count starts at i so the peak digit is printed twice."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << i;\n        for (int j = i - 1; j >= 1; j--) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j++) cout << j;\n        for (int j = i - 1; j >= 1; j--) cout << j;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Prints the row number instead of the counter."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-10",
+   "title": "Parity statistics",
+   "statement": "Read n then n integers (may be negative). Print the number of even values, the number of odd values, the sum of the even values, and how many values have exactly two digits (10 to 99).",
+   "tests": [
+    "5\n1 2 3 4 5\n",
+    "3\n10 99 100\n",
+    "4\n-3 -2 0 7\n",
+    "0\n",
+    "2\n2000000000 2000000000\n",
+    "3\n12 34 56\n",
+    "1\n-1\n",
+    "5\n9 10 11 98 99\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem == 0) {\n            ev++;\n            se += x;\n        } else od++;\n        if (x >= 10 && x <= 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem = 0) {\n            ev++;\n            se += x;\n        } else od++;\n        if (x >= 10 && x <= 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem == 0) {\n            ev++;\n            se += x;\n        } else od++;\n        if (x >= 10 && x <= 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+     "note": "Assignment in the parity test; condition is always false."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem == 0) {\n            ev++;\n            se += x;\n        } else if (rem == 1) od++;\n        if (x >= 10 && x <= 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem == 0) {\n            ev++;\n            se += x;\n        } else od++;\n        if (x >= 10 && x <= 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+     "note": "Negative odd numbers give remainder -1 and are never counted."
+    },
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    int se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem == 0) {\n            ev++;\n            se += x;\n        } else od++;\n        if (x >= 10 && x <= 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem == 0) {\n            ev++;\n            se += x;\n        } else od++;\n        if (x >= 10 && x <= 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+     "note": "Sum of evens stored in int."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem == 0) {\n            ev++;\n            se += x;\n        } else od++;\n        if (x > 10 && x < 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem = x % 2;\n        if (rem == 0) {\n            ev++;\n            se += x;\n        } else od++;\n        if (x >= 10 && x <= 99) two++;\n    }\n    cout << ev << \" \" << od << \" \" << se << \" \" << two << endl;\n    return 0;\n}\n",
+     "note": "Bounds 10 and 99 wrongly excluded."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-11",
+   "title": "Rock paper scissors",
+   "statement": "Read n rounds, each with the moves (R, P or S) of player 1 and player 2. Print the wins of player 1, the wins of player 2, and the longest streak of consecutive wins by player 1 (a tie or a loss ends a streak).",
+   "tests": [
+    "3\nR S\nS P\nP R\n",
+    "4\nR R\nS S\nP P\nR R\n",
+    "5\nR S\nR P\nR S\nR S\nS R\n",
+    "1\nP S\n",
+    "0\n",
+    "2\nR P\nP S\n",
+    "6\nS P\nS P\nP S\nR S\nR R\nS P\n",
+    "3\nS R\nP S\nR P\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a == b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'R')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n            cur = 0;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a == b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'R')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a == b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'R')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n            cur = 0;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+     "note": "Streak counter is not reset after a loss."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a = b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'R')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n            cur = 0;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a == b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'R')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n            cur = 0;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+     "note": "Assigns b to a, so every round looks like a tie."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a == b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'S')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n            cur = 0;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a == b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'R')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n            cur = 0;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+     "note": "Wrong winning rule: paper beats rock, not scissors."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 1; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a == b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'R')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n            cur = 0;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n        if (a == b) {\n            cur = 0;\n        } else if ((a == 'R' && b == 'S') || (a == 'S' && b == 'P') || (a == 'P' && b == 'R')) {\n            s1++;\n            cur++;\n            if (cur > best) best = cur;\n        } else {\n            s2++;\n            cur = 0;\n        }\n    }\n    cout << s1 << \" \" << s2 << \" \" << best << endl;\n    return 0;\n}\n",
+     "note": "Skips the first round."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-12",
+   "title": "GCD and LCM",
+   "statement": "Read t, then t pairs of non-negative ints (not both zero). For each pair print the gcd (computed recursively) and the lcm.",
+   "tests": [
+    "3\n12 18\n7 13\n100 75\n",
+    "1\n1 1\n",
+    "2\n1000000000 999999999\n2000000000 1000000000\n",
+    "2\n0 5\n5 0\n",
+    "1\n46341 46340\n",
+    "2\n48 36\n17 17\n",
+    "1\n2147483647 2147483646\n",
+    "1\n270 192\n"
+   ],
+   "reference": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n        int g = gcd(a, b);\n        long long l = 1LL * a / g * b;\n        printf(\"%d %lld\\n\", g, l);\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_MISSING_BASE_CASE",
+     "buggy": "#include <cstdio>\nint gcd(int a, int b) {\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n        int g = gcd(a, b);\n        long long l = 1LL * a / g * b;\n        printf(\"%d %lld\\n\", g, l);\n    }\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n        int g = gcd(a, b);\n        long long l = 1LL * a / g * b;\n        printf(\"%d %lld\\n\", g, l);\n    }\n    return 0;\n}\n",
+     "note": "gcd has no stopping case, ends in a % 0."
+    },
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n        int g = gcd(a, b);\n        long long l = a / g * b;\n        printf(\"%d %lld\\n\", g, l);\n    }\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n        int g = gcd(a, b);\n        long long l = 1LL * a / g * b;\n        printf(\"%d %lld\\n\", g, l);\n    }\n    return 0;\n}\n",
+     "note": "The lcm is computed in int before being stored in long long."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n        int g = gcd(a, b);\n        long long l = 1LL * a * b;\n        printf(\"%d %lld\\n\", g, l);\n    }\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n        int g = gcd(a, b);\n        long long l = 1LL * a / g * b;\n        printf(\"%d %lld\\n\", g, l);\n    }\n    return 0;\n}\n",
+     "note": "Used a*b as the lcm, forgetting to divide by the gcd."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-13",
+   "title": "Collatz steps",
+   "statement": "Read t, then t positive integers. For each, print how many steps the Collatz process (halve if even, 3n+1 if odd) needs to reach 1, using recursion.",
+   "tests": [
+    "3\n1\n2\n3\n",
+    "1\n27\n",
+    "1\n97\n",
+    "2\n6\n7\n",
+    "1\n113383\n",
+    "1\n626331\n",
+    "1\n837799\n",
+    "4\n1\n1\n1\n1\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_MISSING_BASE_CASE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 0) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+     "note": "Stopping case n == 0 is never reached, the recursion cycles 1,4,2,1 forever."
+    },
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint steps(int n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+     "note": "Parameter is int, so 3n+1 overflows for some starting values."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+     "note": "Forgot to count the halving step."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 1;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    long long x;\n    cin >> t;\n    while (t--) {\n        cin >> x;\n        cout << steps(x) << endl;\n    }\n    return 0;\n}\n",
+     "note": "Base case returns 1, so every count is one too high."
+    }
+   ]
+  },
+  {
+   "id": "S2-M-14",
+   "title": "Reverse and look up",
+   "statement": "Read n (1 to 1000) and n integers. Print them in reverse order on one line, then the maximum. Then read q and q positions (1-based); for each print the element at that position, or invalid if the position is outside 1..n.",
+   "tests": [
+    "5\n3 1 4 1 5\n3\n1\n5\n6\n",
+    "3\n-5 -2 -9\n2\n2\n4\n",
+    "1\n7\n3\n1\n2\n0\n",
+    "4\n10 20 30 40\n2\n4\n1000000\n",
+    "6\n1 2 3 4 5 6\n3\n6\n7\n-1\n",
+    "2\n100 -100\n1\n2\n",
+    "4\n8 3 9 2\n0\n",
+    "3\n5 5 7\n2\n3\n1\n",
+    "1\n-1\n1\n1\n"
+   ],
+   "reference": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_WRONG_LOOP_DIR",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = 0; i < n; i++) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "note": "Prints the array forwards instead of from the end."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "note": "Maximum never given a starting value."
+    },
+    {
+     "label": "CPP_ARRAY_BOUNDS",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        printf(\"%d\\n\", a[k - 1]);\n    }\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "note": "Index read from input is used without any check."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k < n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "note": "Position n is rejected because the upper bound is written < n."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    int mx = -1000000000;\n    for (int i = 0; i < n; i++)\n        if (a[i] > mx) mx = a[i];\n    printf(\"%d\\n\", mx);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n        if (k >= 1 && k <= n) printf(\"%d\\n\", a[k - 1]);\n        else printf(\"invalid\\n\");\n    }\n    return 0;\n}\n",
+     "note": "Uses a[k] instead of a[k-1] for a 1-based position."
+    }
+   ]
+  }
+ ]
+}

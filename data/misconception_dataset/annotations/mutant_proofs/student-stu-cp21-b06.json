@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp21-b06",
+ "seed_submission_id": "student:CP21:B",
+ "problem_id": "bank-CP21",
+ "operator": "student_cpp_other_error_06",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "507969301ea78690",
+ "mutant_sha256": "3f38a577484f4264c0c3a89969ef8a810ff22671d66b285bce96c7d6a1f6e78c",
+ "tests_passed": 2,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "printf(\"%d\", a[0]);",
+  "after": "printf(\"%d\", a[n - 1]);",
+  "note": "moves the wrong value to the front",
+  "base_sha256": "507969301ea78690"
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-10-01",
+ "seed_submission_id": "synth2:S2-S-10",
+ "problem_id": "synth2-S2-S-10",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "42b8d7fa3ab1cf3d",
+ "mutant_sha256": "0b58e0e011285d09acf8b6b8409fca7ea08198b8eae9791b0d6e8f4eddbe8f6a",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nchar g[105][105];\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 0; i < n; i++) cin >> g[i];\n    for (int i = 0; i < n; i++) {\n        for (int",
+  "after": "#include <iostream>\nusing namespace std;\nchar g[105][105];\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 0; i < n; i++) cin >> g[i];\n    for (int i = 0; i < n; i++) {\n        for (int",
+  "note": "Prints m-1 columns and drops the last one.",
+  "evidence": null,
+  "base_sha256": "42b8d7fa3ab1cf3d"
+ },
+ "evidence": null
+}

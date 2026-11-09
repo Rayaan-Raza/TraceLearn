@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-10-03",
+ "seed_submission_id": "synth2:S2-F-10",
+ "problem_id": "synth2-S2-F-10",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "c886e04a76181cf1",
+ "mutant_sha256": "c709539a2693ea555813d815b262935619321df8861b49db93680847dfdeb655",
+ "tests_passed": 0,
+ "tests_total": 12,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nlong long moves(int n) {\n    if (n == 0) return 1;\n    return 2 * moves(n - 1) + 1;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << moves(n) << endl;\n   ",
+  "after": "#include <iostream>\nusing namespace std;\n\nlong long moves(int n) {\n    if (n == 0) return 0;\n    return 2 * moves(n - 1) + 1;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << moves(n) << endl;\n   ",
+  "note": "Base case counts one move for zero disks, so every answer is off.",
+  "evidence": null,
+  "base_sha256": "c886e04a76181cf1"
+ },
+ "evidence": null
+}

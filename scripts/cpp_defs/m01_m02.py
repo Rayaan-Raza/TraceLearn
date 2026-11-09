@@ -79,6 +79,9 @@ int main() {
             {"kind": "visible", "n": 3},
             {"kind": "hidden", "n": 0},
             {"kind": "hidden", "n": 10},
+            # The largest n: the sum (and i*i) outgrows int. Added after a simulated
+            # classroom showed int-overflow programs passing every test (docs/6-nov.md section 19).
+            {"kind": "hidden", "n": 100000},
             {"kind": "diagnostic", "tag": "inclusive_upper_bound", "n": 1},
             {"kind": "diagnostic", "tag": "inclusive_upper_bound", "n": 6},
         ],

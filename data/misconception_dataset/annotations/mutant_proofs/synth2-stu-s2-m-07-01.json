@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-07-01",
+ "seed_submission_id": "synth2:S2-M-07",
+ "problem_id": "synth2-S2-M-07",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "3da5c1d924fdcacf",
+ "mutant_sha256": "2d16e813d8862e6cbc1a0679f6032e800ac7d62d49a012091d70bdebe7e66b53",
+ "tests_passed": 3,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j <= n - i - 1;",
+  "after": "#include <cstdio>\nint a[1000];\nint main() {\n    int n, i, j, t;\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - i - 1; ",
+  "note": "Inner loop goes one step too far and compares with a[n].",
+  "evidence": null,
+  "base_sha256": "3da5c1d924fdcacf"
+ },
+ "evidence": null
+}

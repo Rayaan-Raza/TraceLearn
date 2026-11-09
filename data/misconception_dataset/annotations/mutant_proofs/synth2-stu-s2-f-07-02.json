@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-07-02",
+ "seed_submission_id": "synth2:S2-F-07",
+ "problem_id": "synth2-S2-F-07",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "65b324e7d596e437",
+ "mutant_sha256": "55be1d30f2eb546a0a596c0a472bc31e40ccca815744225a87a983aa7f8eeabe",
+ "tests_passed": 8,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[2005];\n\nint findFirst(int lo, int hi, int x) {\n    if (lo > hi) return -1;\n    int mid = (lo + hi) / 2;\n    if (a[mid] == x) {\n        int r = findFirst(",
+  "after": "#include <iostream>\nusing namespace std;\nint a[2005];\n\nint findFirst(int lo, int hi, int x) {\n    if (lo > hi) return -1;\n    int mid = (lo + hi) / 2;\n    if (a[mid] == x) {\n        int r = findFirst(",
+  "note": "Search range is 1..n instead of 0..n-1.",
+  "evidence": null,
+  "base_sha256": "65b324e7d596e437"
+ },
+ "evidence": null
+}

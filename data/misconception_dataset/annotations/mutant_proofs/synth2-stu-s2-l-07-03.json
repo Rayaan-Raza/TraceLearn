@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-07-03",
+ "seed_submission_id": "synth2:S2-L-07",
+ "problem_id": "synth2-S2-L-07",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "d34da18d40ec9da5",
+ "mutant_sha256": "4e181b79316327c981a2f28f2667f7f7668015c9fe27f9e9f6dc95a1f337cfee",
+ "tests_passed": 3,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[1005], b[1005];\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    for (int j = 0; j < m; j++) cin >> b[j];\n ",
+  "after": "#include <iostream>\nusing namespace std;\nint a[1005], b[1005];\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    for (int j = 0; j < m; j++) cin >> b[j];\n ",
+  "note": "Picked the larger front element, so the merge is not ascending.",
+  "evidence": null,
+  "base_sha256": "d34da18d40ec9da5"
+ },
+ "evidence": null
+}

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp38-b06",
+ "seed_submission_id": "student:CP38:B",
+ "problem_id": "bank-CP38",
+ "operator": "student_cpp_other_error_06",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "c8a4f01421546b03",
+ "mutant_sha256": "e1f5cfd99543dffae35a15a51e4123e108f66ad994eef725089ab538f6aec45d",
+ "tests_passed": 2,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "printf(\"%d %d\\n\", sum, count);",
+  "after": "printf(\"%d %d\\n\", count, sum);",
+  "note": "swapped output",
+  "base_sha256": "c8a4f01421546b03"
+ }
+}

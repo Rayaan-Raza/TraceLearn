@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-04-02",
+ "seed_submission_id": "synth2:S2-R-04",
+ "problem_id": "synth2-S2-R-04",
+ "operator": "synth2_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "c397e509276861e9",
+ "mutant_sha256": "d353f771f1334c69a30c0aee87f2c9c74848d602db858fb080d9eae674b40d6c",
+ "tests_passed": 4,
+ "tests_total": 12,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n",
+  "note": "Wrote = in the Buzz test so it is never true.",
+  "evidence": null,
+  "base_sha256": "c397e509276861e9"
+ },
+ "evidence": null
+}

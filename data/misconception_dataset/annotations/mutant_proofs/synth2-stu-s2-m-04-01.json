@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-04-01",
+ "seed_submission_id": "synth2:S2-M-04",
+ "problem_id": "synth2-S2-M-04",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "7fcd5ecd97388fa5",
+ "mutant_sha256": "5e729486c5134b33ae1c1910dafa0ad8f0aef72161311df4fad645ae04845cab",
+ "tests_passed": 6,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        int p, q;\n        cin >> p >> q;\n    ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q",
+  "note": "Price and quantity are int so p*q overflows before being added.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "7fcd5ecd97388fa5"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

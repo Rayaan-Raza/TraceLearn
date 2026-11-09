@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-14-02",
+ "seed_submission_id": "synth2:S2-F-14",
+ "problem_id": "synth2-S2-F-14",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "ac7212abe74679b8",
+ "mutant_sha256": "08aa45f4d6769b5d62f9b31d2b3a7cd927a12de9fafc1cea0e38977ea73f62f9",
+ "tests_passed": 9,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nint steps(int n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\n\nint main() {\n    long long n;\n  ",
+  "after": "#include <iostream>\nusing namespace std;\n\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\n\nint main() {\n    long long",
+  "note": "The parameter is int so 3n+1 overflows for some starting values.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "ac7212abe74679b8"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

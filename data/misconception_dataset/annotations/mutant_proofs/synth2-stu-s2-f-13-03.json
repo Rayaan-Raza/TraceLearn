@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-13-03",
+ "seed_submission_id": "synth2:S2-F-13",
+ "problem_id": "synth2-S2-F-13",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "2bb09f69b17593fc",
+ "mutant_sha256": "db51bc05f4969728b08d584c749e97021ce7589da60852fa9e0df2c8863831c5",
+ "tests_passed": 8,
+ "tests_total": 15,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nvoid bin(long long n) {\n    if (n > 2) bin(n / 2);\n    cout << n % 2;\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    bin(n);\n    cout << endl;\n    return ",
+  "after": "#include <iostream>\nusing namespace std;\n\nvoid bin(long long n) {\n    if (n > 1) bin(n / 2);\n    cout << n % 2;\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    bin(n);\n    cout << endl;\n    return ",
+  "note": "Threshold is 2 instead of 1, so the leading bit is dropped for n = 2 and 4.",
+  "evidence": null,
+  "base_sha256": "2bb09f69b17593fc"
+ },
+ "evidence": null
+}

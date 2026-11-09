@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp12-a06",
+ "seed_submission_id": "student:CP12:A",
+ "problem_id": "bank-CP12",
+ "operator": "student_cpp_other_error_06",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "5d45fd29bcaf8107",
+ "mutant_sha256": "47026c335a4595f6ab076f982d7cd1ada3dee8d841082605358c82f5283be757",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "p += (2 * i + 1);",
+  "after": "p *= (2 * i + 1);",
+  "note": "adds instead of multiplying",
+  "base_sha256": "5d45fd29bcaf8107"
+ }
+}

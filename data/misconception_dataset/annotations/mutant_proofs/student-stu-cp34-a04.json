@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp34-a04",
+ "seed_submission_id": "student:CP34:A",
+ "problem_id": "bank-CP34",
+ "operator": "student_cpp_other_error_04",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "7cf1032fa00cd834",
+ "mutant_sha256": "22b4801a69c9f39d3939eece7b80acc92814f5bd74dc72b6aaefa69195a24530",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "return b + power(b, e - 1);",
+  "after": "return b * power(b, e - 1);",
+  "note": "adds instead of multiplying",
+  "base_sha256": "7cf1032fa00cd834"
+ }
+}

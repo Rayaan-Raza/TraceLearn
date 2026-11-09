@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-14-02",
+ "seed_submission_id": "synth2:S2-M-14",
+ "problem_id": "synth2-S2-M-14",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "468847a34c5ce471",
+ "mutant_sha256": "a5c2631df863d5e827a702854d014de07bda3d706a913f7bda40f0332f99b527",
+ "tests_passed": 5,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[",
+  "after": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[",
+  "note": "Maximum never given a starting value.",
+  "evidence": null,
+  "base_sha256": "468847a34c5ce471"
+ },
+ "evidence": null
+}

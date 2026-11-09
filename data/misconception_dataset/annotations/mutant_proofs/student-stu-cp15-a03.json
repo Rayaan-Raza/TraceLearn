@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp15-a03",
+ "seed_submission_id": "student:CP15:A",
+ "problem_id": "bank-CP15",
+ "operator": "student_cpp_other_error_03",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "2c72601da86dd7c0",
+ "mutant_sha256": "d88e04ae6c14615d5d824597a438895e4acb27e6a059bb067a4ea588b87494fe",
+ "tests_passed": 3,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "if (v[i] == t) cnt = i;",
+  "after": "if (v[i] == t) cnt++;",
+  "note": "keeps the position",
+  "base_sha256": "2c72601da86dd7c0"
+ }
+}

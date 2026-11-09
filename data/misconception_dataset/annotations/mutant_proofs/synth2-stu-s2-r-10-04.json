@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-10-04",
+ "seed_submission_id": "synth2:S2-R-10",
+ "problem_id": "synth2-S2-R-10",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "5ec60198688b5474",
+ "mutant_sha256": "74ff9dae4beb3fc2794cbe9d62532d9a68a9b178bdd2ea7fb0109050b36d65f1",
+ "tests_passed": 6,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg ==",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg ==",
+  "note": "Comparison direction finds the oldest, not the youngest.",
+  "evidence": null,
+  "base_sha256": "5ec60198688b5474"
+ },
+ "evidence": null
+}

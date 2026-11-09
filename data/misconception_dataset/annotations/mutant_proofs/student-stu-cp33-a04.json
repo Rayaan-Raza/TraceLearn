@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp33-a04",
+ "seed_submission_id": "student:CP33:A",
+ "problem_id": "bank-CP33",
+ "operator": "student_cpp_other_error_04",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "7839aea86ed55efd",
+ "mutant_sha256": "3ea4dffa949c3db41d5dbb4296af0f14457f46db0f2a49366d0f6d458a9b01cc",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "return n * sum_to(n - 1);",
+  "after": "return n + sum_to(n - 1);",
+  "note": "multiplies instead of adding",
+  "base_sha256": "7839aea86ed55efd"
+ }
+}

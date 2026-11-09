@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-14-01",
+ "seed_submission_id": "synth2:S2-S-14",
+ "problem_id": "synth2-S2-S-14",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "367b474f06588129",
+ "mutant_sha256": "76e0f12467290f7de7204dc73d71967f3103b8ce4723c8a222979a68af2478ca",
+ "tests_passed": 7,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <string>\nusing namespace std;\nint main() {\n    char s[16];\n    scanf(\"%s\", s);\n    int n = 0;\n    while (s[n] != '\\0') n++;\n    string out;\n    int i = 0;\n    while (i < n) ",
+  "after": "#include <cstdio>\n#include <string>\nusing namespace std;\nint main() {\n    char s[100005];\n    scanf(\"%s\", s);\n    int n = 0;\n    while (s[n] != '\\0') n++;\n    string out;\n    int i = 0;\n    while (i <",
+  "note": "Word buffer of 16 chars for words of 100000.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "367b474f06588129"
+ },
+ "evidence": "asan:buffer-overflow"
+}

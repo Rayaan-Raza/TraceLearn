@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-02-03",
+ "seed_submission_id": "synth2:S2-F-02",
+ "problem_id": "synth2-S2-F-02",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "35c52ed4b27b2616",
+ "mutant_sha256": "359a61c9622753b0bbae0d65056aefdcbf2b0346bd7ffbc431cdf3bb4e4edaea",
+ "tests_passed": 0,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i <= n; i++) cout ",
+  "after": "#include <iostream>\nusing namespace std;\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cout <",
+  "note": "Loop prints n+1 numbers because of <= instead of <.",
+  "evidence": null,
+  "base_sha256": "35c52ed4b27b2616"
+ },
+ "evidence": null
+}

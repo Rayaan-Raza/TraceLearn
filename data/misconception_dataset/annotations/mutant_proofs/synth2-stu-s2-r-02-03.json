@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-02-03",
+ "seed_submission_id": "synth2:S2-R-02",
+ "problem_id": "synth2-S2-R-02",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "b4bdc43e99ecd8ce",
+ "mutant_sha256": "1f22aeb397a6e501a98f584ca5eae31a86b9a95acf8280a8e53ce403db339ab6",
+ "tests_passed": 6,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (",
+  "note": "Keeps the first leap year found instead of the last one.",
+  "evidence": null,
+  "base_sha256": "b4bdc43e99ecd8ce"
+ },
+ "evidence": null
+}

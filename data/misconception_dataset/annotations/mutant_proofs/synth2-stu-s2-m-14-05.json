@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-14-05",
+ "seed_submission_id": "synth2:S2-M-14",
+ "problem_id": "synth2-S2-M-14",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "468847a34c5ce471",
+ "mutant_sha256": "d24a295dad91329ebc84c7f70bc23f7eaa191e0bda95d8da013f4f4b53c37523",
+ "tests_passed": 1,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[",
+  "after": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[",
+  "note": "Uses a[k] instead of a[k-1] for a 1-based position.",
+  "evidence": null,
+  "base_sha256": "468847a34c5ce471"
+ },
+ "evidence": null
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-09-04",
+ "seed_submission_id": "synth2:S2-M-09",
+ "problem_id": "synth2-S2-M-09",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "37ff5a2c8c1f286e",
+ "mutant_sha256": "d69f08456b8461adc5da286162d6a4386612ded6d3448083eaf7accd5b3ddb11",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        for (int s = 0; s < n - i; s++) cout << \" \";\n        for (int j = 1; j <= i; j",
+  "note": "Prints the row number instead of the counter.",
+  "evidence": null,
+  "base_sha256": "37ff5a2c8c1f286e"
+ },
+ "evidence": null
+}

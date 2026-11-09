@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-08-01",
+ "seed_submission_id": "synth2:S2-S-08",
+ "problem_id": "synth2-S2-S-08",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "48fb4bf58bdde585",
+ "mutant_sha256": "0ad3e5ca51af9acaddaf8467981aac30c62ac2936017509db0de064d678d359b",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nvoid hist(int n) {\n    int cnt[10] = {0};\n    int x;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        cnt[x / 10]++;\n    }\n    for (int b = 0; b <= 10; b++) {\n     ",
+  "after": "#include <cstdio>\nvoid hist(int n) {\n    int cnt[11] = {0};\n    int x;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        cnt[x / 10]++;\n    }\n    for (int b = 0; b <= 10; b++) {\n     ",
+  "note": "Only 10 buckets but a score of 100 needs an eleventh.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "48fb4bf58bdde585"
+ },
+ "evidence": "asan:buffer-overflow"
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-05-01",
+ "seed_submission_id": "synth2:S2-F-05",
+ "problem_id": "synth2-S2-F-05",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "f5f7470f928eeae5",
+ "mutant_sha256": "43895850047ad74e0f9fb98f089434b7decd73c06eff376e6bacbc7a68c43577",
+ "tests_passed": 1,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nlong long findgcd(long long a, long long b) {\n    if (a == 0) return b;\n    return findgcd(b, a % b);\n}\n\nint main() {\n    long long a, b;\n    cin >> a >> b;\n ",
+  "after": "#include <iostream>\nusing namespace std;\n\nlong long findgcd(long long a, long long b) {\n    if (b == 0) return a;\n    return findgcd(b, a % b);\n}\n\nint main() {\n    long long a, b;\n    cin >> a >> b;\n ",
+  "note": "Stopping test is on the wrong variable, so the recursion ends in a modulo by zero.",
+  "evidence": null,
+  "base_sha256": "f5f7470f928eeae5"
+ },
+ "evidence": null
+}

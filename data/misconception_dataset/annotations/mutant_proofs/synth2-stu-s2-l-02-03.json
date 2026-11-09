@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-02-03",
+ "seed_submission_id": "synth2:S2-L-02",
+ "problem_id": "synth2-S2-L-02",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "9eabdecc68fb87a3",
+ "mutant_sha256": "f1576aafe0fb6098e4587f57d91de1edbe4ecf28510222a54f3bfacfc143b3aa",
+ "tests_passed": 1,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint v[100005];\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> v[i];\n    for (int i = n - 1; i > 0; i--) {\n        cout << v[i];\n ",
+  "after": "#include <iostream>\nusing namespace std;\nint v[100005];\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> v[i];\n    for (int i = n - 1; i >= 0; i--) {\n        cout << v[i];\n",
+  "note": "Stopped before index 0, so the first element is never printed.",
+  "evidence": null,
+  "base_sha256": "9eabdecc68fb87a3"
+ },
+ "evidence": null
+}

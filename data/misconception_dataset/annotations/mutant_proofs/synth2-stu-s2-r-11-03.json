@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-11-03",
+ "seed_submission_id": "synth2:S2-R-11",
+ "problem_id": "synth2-S2-R-11",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "bc09977e9e032e5c",
+ "mutant_sha256": "00dc19f5bd7e7c1e85fc9579df991c0060c650bccb5591b0aef0ae8dcb59abf7",
+ "tests_passed": 12,
+ "tests_total": 14,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) re",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) re",
+  "note": "The previous digit is never updated, so repeats are not noticed.",
+  "evidence": null,
+  "base_sha256": "bc09977e9e032e5c"
+ },
+ "evidence": null
+}

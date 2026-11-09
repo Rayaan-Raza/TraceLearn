@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-06-01",
+ "seed_submission_id": "synth2:S2-R-06",
+ "problem_id": "synth2-S2-R-06",
+ "operator": "synth2_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "f2a484554aa044de",
+ "mutant_sha256": "a94738dd4bcb5642f6fe272e7a2c95d945102519066b800b965b275750608fec",
+ "tests_passed": 5,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else",
+  "note": "Used = in the zero test, so zeros are counted as positive.",
+  "evidence": null,
+  "base_sha256": "f2a484554aa044de"
+ },
+ "evidence": null
+}

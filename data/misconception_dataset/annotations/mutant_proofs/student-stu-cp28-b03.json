@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp28-b03",
+ "seed_submission_id": "student:CP28:B",
+ "problem_id": "bank-CP28",
+ "operator": "student_cpp_range_check_03",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "08ad98a689d8486c",
+ "mutant_sha256": "476a276092c8b6ce7ccd55eb9965555ce00366aa3d7356197f77de10508d788a",
+ "tests_passed": 7,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "age > 65",
+  "after": "age >= 65",
+  "note": "65 pays the adult price",
+  "base_sha256": "08ad98a689d8486c"
+ }
+}

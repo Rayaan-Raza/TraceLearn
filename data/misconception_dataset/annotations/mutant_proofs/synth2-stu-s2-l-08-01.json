@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-08-01",
+ "seed_submission_id": "synth2:S2-L-08",
+ "problem_id": "synth2-S2-L-08",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "9e1dc3cb68fb0c3f",
+ "mutant_sha256": "e0489bf95f7718d0ddf8692cf554ab5cb6c251c1673946ce6a020435c306c5bd",
+ "tests_passed": 9,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int best = 1, cur = 1;\n    for (int i = 1; i < n; i++) {\n        i",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int best = 1, cur = 1;\n    for (int i = 1; i < n; i++) {\n        i",
+  "note": "Compared with the next element instead of the previous one.",
+  "evidence": null,
+  "base_sha256": "9e1dc3cb68fb0c3f"
+ },
+ "evidence": null
+}

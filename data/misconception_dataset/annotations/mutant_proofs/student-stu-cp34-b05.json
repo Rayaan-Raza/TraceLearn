@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp34-b05",
+ "seed_submission_id": "student:CP34:B",
+ "problem_id": "bank-CP34",
+ "operator": "student_cpp_other_error_05",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "eedefaf3ef08702e",
+ "mutant_sha256": "0e3e5acfed4ab3738a3fc0a730561b8ce6df8c5f6ddee7139460d8ab02c985f6",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "return 0;",
+  "after": "return 1;",
+  "note": "base case returns 0",
+  "base_sha256": "eedefaf3ef08702e"
+ }
+}

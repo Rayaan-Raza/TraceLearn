@@ -28,6 +28,8 @@ from pathlib import Path
 import pytest
 
 from scripts.merge_dataset import (
+    attach_execution_evidence,
+    dedupe_rows,
     g7_checks,
     jaccard,
     merge,
@@ -321,17 +323,29 @@ def test_problem_without_cluster_row_fails(tmp_path: Path):
         _run(ds)
 
 
-def test_g7_seed_group_must_not_straddle_splits(tmp_path: Path):
-    # two rows share a seed_ref but their problems sit in different splits
+def test_g7_detects_a_seed_group_that_straddles_splits():
+    # the detector itself: two rows share a seed_ref but their problems sit in different splits
+    labels = [
+        {"row_id": "mut-1", "problem_id": "p-1", "dataset_source": "SYNTHETIC", "seed_ref": "seed-1", "label": "CPP_OFF_BY_ONE"},
+        {"row_id": "mut-2", "problem_id": "p-2", "dataset_source": "SYNTHETIC", "seed_ref": "seed-1", "label": "CPP_OFF_BY_ONE"},
+    ]
+    clusters = {"p-1": ("c1", "train"), "p-2": ("c2", "test")}
+    results = g7_checks(labels, clusters)
+    assert results["seed_groups"]["ok"] is False
+    assert results["seed_group_conflicts"] == 1
+
+
+def test_merge_drops_the_held_out_synthetic_row_so_a_shared_seed_cannot_straddle(tmp_path: Path):
     t0 = [
         _tier_row("mut-1", "SYNTHETIC", "seed-1", "p-1", seed_ref="seed-1", label_source="synthetic"),
         _tier_row("mut-2", "SYNTHETIC", "tpl-Y-002", "p-2", seed_ref="seed-1", label_source="synthetic"),
     ]
     ds = _build_dataset(tmp_path, {"tier0_mutants": t0}, _CLUSTERS)
-    _run(ds)  # merge reports G7 findings, it never silently re-splits
-    results = g7_checks(*_load_merged(ds))
-    assert results["seed_groups"]["ok"] is False
-    assert results["seed_group_conflicts"] == 1
+    report = _run(ds)
+    labels, clusters = _load_merged(ds)
+    assert {r["row_id"] for r in labels} == {"mut-1"}
+    assert report["synthetic_dropped_from_held_out_problems"] == 1
+    assert g7_checks(labels, clusters)["seed_groups"]["ok"] is True
 
 
 def _load_merged(ds: Path):
@@ -513,7 +527,7 @@ def test_feature_availability_matrix_reports_lane_gaps(tmp_path: Path):
     avail = report["feature_availability"]
     assert avail["static"]["PROGPEDIA"] == 0.5
     assert set(avail) <= {
-        "static", "warnings", "runtime", "tests", "cpg", "semantics", "context"
+        "static", "warnings", "runtime", "tests", "cpg", "semantics", "context", "source", "evidence", "repair"
     }
 
 
@@ -607,3 +621,175 @@ def test_g7_all_ok_is_structural_only_psi_is_reported_not_gating():
         "psi": {"violations": []},
     }
     assert g7_all_ok(leaky) is False
+
+
+# ---------------------------------------------------- bank (extra) clusters
+
+
+def test_extra_bank_clusters_are_added_as_train(tmp_path: Path):
+    from scripts.merge_dataset import add_extra_clusters
+
+    extra = tmp_path / "bank_clusters.csv"
+    extra.write_text("problem_id,cluster_id,split,statement_len\nbank-CP01,bank-CP01,train,10\n", encoding="utf-8")
+    base = {"p1": ("clu-1", "test")}
+    out = add_extra_clusters(base, extra)
+    assert out["bank-CP01"] == ("bank-CP01", "train") and out["p1"] == ("clu-1", "test")
+    assert "bank-CP01" not in base                                # input untouched
+
+
+def test_extra_clusters_file_is_optional(tmp_path: Path):
+    from scripts.merge_dataset import add_extra_clusters
+
+    base = {"p1": ("clu-1", "train")}
+    assert add_extra_clusters(base, tmp_path / "missing.csv") == base
+
+
+@pytest.mark.parametrize("line", [
+    "bank-CP01,bank-CP01,test,10",          # held-out split is not allowed
+    "p1,bank-CP01,train,10",                # redefines an existing problem
+    "bank-CP01,clu-1,train,10",             # reuses an existing cluster id
+])
+def test_extra_clusters_reject_leaky_or_colliding_rows(tmp_path: Path, line: str):
+    from scripts.merge_dataset import add_extra_clusters
+
+    extra = tmp_path / "bank_clusters.csv"
+    extra.write_text("problem_id,cluster_id,split,statement_len\n" + line + "\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        add_extra_clusters({"p1": ("clu-1", "train")}, extra)
+
+
+# ---------------------------------------------- Lane B gold pools hold clusters out
+
+
+def _pools(tmp_path: Path, rows: str) -> Path:
+    path = tmp_path / "codestream_clusters.csv"
+    path.write_text("problem_id,source_problem_id,problem_cluster,pool\n" + rows, encoding="utf-8")
+    return path
+
+
+def test_a_problem_the_gold_pools_hold_out_is_held_out_with_its_whole_cluster(tmp_path: Path):
+    from scripts.merge_dataset import apply_pool_overrides
+
+    base = {"p1": ("clu-1", "train"), "p2": ("clu-1", "train"), "p3": ("clu-2", "train")}
+    out = apply_pool_overrides(base, _pools(tmp_path, "p1,x,cs-1,test\np3,x,cs-3,train\n"))
+    assert out["p1"] == ("clu-1", "test") and out["p2"] == ("clu-1", "test")      # the cluster moves together
+    assert out["p3"] == ("clu-2", "train")
+
+
+def test_dev_gold_pool_becomes_dev_gold_and_test_wins_a_conflict(tmp_path: Path):
+    from scripts.merge_dataset import apply_pool_overrides
+
+    base = {"p1": ("clu-1", "train"), "p2": ("clu-2", "train"), "p3": ("clu-2", "train")}
+    out = apply_pool_overrides(base, _pools(tmp_path, "p1,x,a,dev_gold\np2,x,b,dev_gold\np3,x,c,test\n"))
+    assert out["p1"][1] == "dev_gold" and out["p2"][1] == "test" and out["p3"][1] == "test"
+
+
+def test_already_held_out_splits_are_never_changed_and_train_pools_change_nothing(tmp_path: Path):
+    from scripts.merge_dataset import apply_pool_overrides
+
+    base = {"p1": ("clu-1", "test"), "p2": ("clu-2", "dev_gold"), "p3": ("clu-3", "train")}
+    out = apply_pool_overrides(base, _pools(tmp_path, "p1,x,a,dev_gold\np2,x,b,test\np3,x,c,train\n"))
+    assert out == base
+
+
+def test_missing_pool_file_changes_nothing(tmp_path: Path):
+    from scripts.merge_dataset import apply_pool_overrides
+
+    base = {"p1": ("clu-1", "train")}
+    assert apply_pool_overrides(base, tmp_path / "nope.csv") == base
+
+
+def test_synthetic_rows_of_held_out_problems_are_dropped_but_natural_rows_stay():
+    from scripts.merge_dataset import drop_held_out_synthetic
+
+    clusters = {"p_train": ("c1", "train"), "p_test": ("c2", "test"), "p_dev": ("c3", "dev_gold")}
+    rows = [
+        {"row_id": "mut-1", "dataset_source": "SYNTHETIC", "problem_id": "p_train"},
+        {"row_id": "mut-2", "dataset_source": "SYNTHETIC", "problem_id": "p_test"},
+        {"row_id": "mut-3", "dataset_source": "SYNTHETIC", "problem_id": "p_dev"},
+        {"row_id": "bl-1", "dataset_source": "CODESTREAM", "problem_id": "p_test"},
+    ]
+    assert [r["row_id"] for r in drop_held_out_synthetic(rows, clusters)] == ["mut-1", "bl-1"]
+
+
+# ------------------------------------------------- identical code and near copies
+
+
+def _code_row(rid, problem, label, source="human"):
+    return {"row_id": rid, "problem_id": problem, "label": label, "label_source": source, "dataset_source": "PROGPEDIA"}
+
+
+_PROGRAM = CODE_A
+_NEAR = CODE_A_EDIT
+
+
+def test_dedupe_keeps_near_copies_within_a_problem():
+    rows = [_code_row("a", "p1", "CPP_OFF_BY_ONE"), _code_row("b", "p1", "CPP_OTHER_ERROR")]
+    kept, dropped, _ = dedupe_rows(rows, {"a": _PROGRAM, "b": _NEAR})
+    assert [r["row_id"] for r in kept] == ["a", "b"] and dropped == 0
+
+
+def test_dedupe_drops_near_copies_across_problems():
+    rows = [_code_row("a", "p1", "CPP_OFF_BY_ONE"), _code_row("b", "p2", "CPP_OFF_BY_ONE")]
+    kept, _, _ = dedupe_rows(rows, {"a": _PROGRAM, "b": _NEAR})
+    assert [r["row_id"] for r in kept] == ["a"]
+
+
+def test_dedupe_drops_near_copy_of_a_holdout_row_even_within_its_problem():
+    # "z" is the frozen row and sorts last, so it must still be the one that survives.
+    rows = [_code_row("a", "p1", "CPP_OFF_BY_ONE"), _code_row("z", "p1", "CPP_OFF_BY_ONE")]
+    kept, _, _ = dedupe_rows(rows, {"a": _NEAR, "z": _PROGRAM}, protected=frozenset({"z"}))
+    assert [r["row_id"] for r in kept] == ["z"]
+
+
+def test_identical_code_keeps_the_majority_label():
+    rows = [_code_row("a", "p1", "CPP_OTHER_ERROR"), _code_row("b", "p1", "CPP_OFF_BY_ONE"), _code_row("c", "p1", "CPP_OFF_BY_ONE")]
+    kept, _, conflicts = dedupe_rows(rows, {r["row_id"]: _PROGRAM for r in rows})
+    assert [r["row_id"] for r in kept] == ["b"]
+    assert any(c["dropped"] == "a" and c["reason"] == "identical_code_outvoted" for c in conflicts)
+
+
+def test_identical_code_tie_drops_every_copy():
+    rows = [_code_row("a", "p1", "CPP_OTHER_ERROR"), _code_row("b", "p1", "CPP_OFF_BY_ONE")]
+    kept, _, conflicts = dedupe_rows(rows, {r["row_id"]: _PROGRAM for r in rows})
+    assert kept == [] and {c["reason"] for c in conflicts} == {"identical_code_tie"}
+
+
+def test_identical_code_tie_goes_to_the_frozen_holdout_row():
+    rows = [_code_row("a", "p1", "CPP_OTHER_ERROR"), _code_row("z", "p1", "CPP_OFF_BY_ONE")]
+    kept, _, conflicts = dedupe_rows(rows, {r["row_id"]: _PROGRAM for r in rows}, protected=frozenset({"z"}))
+    assert [r["row_id"] for r in kept] == ["z"]
+    assert [c["reason"] for c in conflicts] == ["identical_code_tie_frozen_holdout"]
+
+
+def test_execution_evidence_attaches_blocks_and_reports_coverage(tmp_path: Path):
+    path = tmp_path / "evidence.jsonl"
+    record = {"row_id": "a", "compiled": True,
+              "tests": {"results": [{"status": "pass"}, {"status": "crash"}]},
+              "cf": {"classes": {"CPP_OFF_BY_ONE": {"compiled": 1, "fix_first": 5, "fix_first_noreg": 1, "fix_all": 2, "best_gain": 0.5}}}}
+    path.write_text(json.dumps(record) + "\n" + json.dumps({"row_id": "b", "error": "boom"}) + "\n", encoding="utf-8")
+    rows = [{"row_id": "a"}, {"row_id": "b"}, {"row_id": "c"}]
+    stats = attach_execution_evidence(rows, path)
+    assert stats == {"present": True, "records": 2, "rows_with_evidence": 1}
+    assert rows[0]["evidence"]["ff_crash"] == 1 and rows[0]["repair"]["off_by_one_fix_first"] == 3
+    assert rows[0]["repair"]["off_by_one_fix_all"] == 1 and rows[0]["repair"]["n_fix_all"] == 1
+    assert "evidence" not in rows[1] and "evidence" not in rows[2]
+
+
+def test_runner_warnings_replace_what_a_lane_stored(tmp_path: Path):
+    path = tmp_path / "evidence.jsonl"
+    path.write_text(json.dumps({"row_id": "a", "compiled": True, "warnings": {"-Wparentheses": 2, "-Wformat=": 1}}) + "\n"
+                    + json.dumps({"row_id": "b", "compiled": True, "warnings": {}}) + "\n"
+                    + json.dumps({"row_id": "c", "compiled": False, "warnings": {"-Wparentheses": 9}}) + "\n", encoding="utf-8")
+    stale = {"available": True, "total": 99, "parentheses": 99}
+    rows = [{"row_id": r, "warnings": dict(stale)} for r in "abc"]
+    attach_execution_evidence(rows, path)
+    assert rows[0]["warnings"]["parentheses"] == 2 and rows[0]["warnings"]["format"] == 1 and rows[0]["warnings"]["total"] == 3
+    # compiled with no warnings means zero, not unknown
+    assert rows[1]["warnings"]["available"] is True and rows[1]["warnings"]["total"] == 0
+    # no usable run: the lane's value stays
+    assert rows[2]["warnings"]["total"] == 99
+
+
+def test_execution_evidence_without_a_cache_says_so(tmp_path: Path):
+    assert attach_execution_evidence([], tmp_path / "missing.jsonl")["present"] is False

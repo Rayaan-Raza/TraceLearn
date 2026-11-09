@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-09-01",
+ "seed_submission_id": "synth2:S2-N-09",
+ "problem_id": "synth2-S2-N-09",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "05c09964fe98064a",
+ "mutant_sha256": "e80853444444bacef77ecd3eb98a987d0c10a30af8656c651606f84507c429d3",
+ "tests_passed": 7,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] =",
+  "note": "Dimensions stored in int so the volume overflows.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "05c09964fe98064a"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

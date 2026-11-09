@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp02-a01",
+ "seed_submission_id": "student:CP02:A",
+ "problem_id": "bank-CP02",
+ "operator": "student_cpp_other_error_01",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "5f26b637f0c2654f",
+ "mutant_sha256": "6be2e0759f844ada3ce0cf550bfddfa216ca02fc89a22c1d54ebd75d368633eb",
+ "tests_passed": 7,
+ "tests_total": 10,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "if (v[i] > best) best = i;",
+  "after": "if (v[i] > best) best = v[i];",
+  "note": "keeps the position, not the value",
+  "base_sha256": "5f26b637f0c2654f"
+ }
+}

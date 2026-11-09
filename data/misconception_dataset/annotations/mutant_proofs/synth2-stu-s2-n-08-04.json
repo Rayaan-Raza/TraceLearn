@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-08-04",
+ "seed_submission_id": "synth2:S2-N-08",
+ "problem_id": "synth2-S2-N-08",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "671a219a9a167c73",
+ "mutant_sha256": "9cd4400005f293397b887f81d7a8e3fab61d14fc2f1e141f74eb8c7db5222d78",
+ "tests_passed": 0,
+ "tests_total": 12,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - ",
+  "note": "res is not started at 1.",
+  "evidence": null,
+  "base_sha256": "671a219a9a167c73"
+ },
+ "evidence": null
+}

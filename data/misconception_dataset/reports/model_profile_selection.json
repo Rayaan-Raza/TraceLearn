@@ -1,0 +1,57 @@
+{
+  "rule": "take the profile with the\nhighest real-row macro-F1 whose false-alarm rate is at most 0.30; profiles within 0.01 of\nthe best are treated as tied and the shallower (simpler) one wins.",
+  "chosen": "strong",
+  "results": [
+    {
+      "profile": "default",
+      "temperature": 1.4,
+      "threshold": 0.74,
+      "threshold_bootstrap": [
+        0.5,
+        0.81
+      ],
+      "oof_macro_f1_all_rows": 0.6636,
+      "in_sample_macro_f1": 0.9486,
+      "real_rows": 1458,
+      "macro_f1": 0.1834,
+      "false_alarm_on_other": 0.045,
+      "precision_when_flagged": 0.569,
+      "misconception_recall": 0.179,
+      "abstain_rate": 0.589
+    },
+    {
+      "profile": "regular",
+      "temperature": 1.0,
+      "threshold": 0.6,
+      "threshold_bootstrap": [
+        0.4995,
+        0.82
+      ],
+      "oof_macro_f1_all_rows": 0.64,
+      "in_sample_macro_f1": 0.8312,
+      "real_rows": 1458,
+      "macro_f1": 0.2213,
+      "false_alarm_on_other": 0.084,
+      "precision_when_flagged": 0.502,
+      "misconception_recall": 0.256,
+      "abstain_rate": 0.402
+    },
+    {
+      "profile": "strong",
+      "temperature": 0.9,
+      "threshold": 0.57,
+      "threshold_bootstrap": [
+        0.52,
+        0.68
+      ],
+      "oof_macro_f1_all_rows": 0.5943,
+      "in_sample_macro_f1": 0.7519,
+      "real_rows": 1458,
+      "macro_f1": 0.2166,
+      "false_alarm_on_other": 0.077,
+      "precision_when_flagged": 0.521,
+      "misconception_recall": 0.275,
+      "abstain_rate": 0.523
+    }
+  ]
+}
