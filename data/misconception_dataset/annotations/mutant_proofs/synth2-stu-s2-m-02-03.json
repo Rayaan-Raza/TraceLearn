@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-02-03",
+ "seed_submission_id": "synth2:S2-M-02",
+ "problem_id": "synth2-S2-M-02",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "18e888d563296485",
+ "mutant_sha256": "ff6620671f51c7fe5da4c4f4e5eaca3bb16494104a11c590dc8689ee859884c9",
+ "tests_passed": 7,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> c ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin",
+  "note": "Balance kept in int, deposits push it past 2^31.",
+  "evidence": "wrong_result_on_large_input",
+  "base_sha256": "18e888d563296485"
+ },
+ "evidence": "wrong_result_on_large_input"
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { api } from '../../api/client'
 import type { Diagnosis, Hint, RunResult, Submission, TestResult } from '../../api/types'
@@ -16,7 +16,11 @@ interface Loaded {
   hints: Hint[]
   stderr: string
   status: string
+  pending: boolean
 }
+
+const POLL_MS = 3000
+const POLL_LIMIT = 100 // about five minutes, the longest a run record takes
 
 export function ResultPage() {
   const { submissionId = '' } = useParams()
@@ -29,21 +33,50 @@ export function ResultPage() {
     const [problem, tests, diags, hints] = await Promise.all([
       api.problem(submission.problem_id).catch(() => null),
       fresh ? Promise.resolve(fresh.test_results) : api.testResults(id),
-      fresh ? Promise.resolve([fresh.history_aware].filter(Boolean) as Diagnosis[]) : api.diagnoses(id),
+      fresh && !fresh.diagnosis_pending ? Promise.resolve([fresh.history_aware].filter(Boolean) as Diagnosis[]) : api.diagnoses(id),
       api.hints(id),
     ])
+    const history = [...diags].reverse().find((d) => d.mode === 'history_aware') ?? null
     return {
       submission,
       problemTitle: problem?.title ?? submission.problem_id,
       tests,
-      history: [...diags].reverse().find((d) => d.mode === 'history_aware') ?? null,
+      history,
       hints,
       stderr: fresh?.stderr ?? '',
       status: fresh?.execution_status ?? submission.execution_status ?? 'unknown',
+      pending: Boolean(fresh?.diagnosis_pending) && !history,
     }
   }, [id])
   const [hintBusy, setHintBusy] = useState(false)
   const [hintError, setHintError] = useState('')
+  const pending = data?.pending ?? false
+
+  // The diagnosis of a failing C++ attempt is worked out in the background; fetch it when it lands.
+  useEffect(() => {
+    if (!pending) return
+    let tries = 0
+    let stopped = false
+    const timer = window.setInterval(async () => {
+      tries += 1
+      try {
+        const diags = await api.diagnoses(id)
+        const history = [...diags].reverse().find((d) => d.mode === 'history_aware') ?? null
+        if (history || tries >= POLL_LIMIT) {
+          window.clearInterval(timer)
+          const hints = history ? await api.hints(id).catch(() => null) : null
+          if (!stopped)
+            setData((prev) => (prev ? { ...prev, history, hints: hints ?? prev.hints, pending: false } : prev))
+        }
+      } catch {
+        /* keep polling; a later try may succeed */
+      }
+    }, POLL_MS)
+    return () => {
+      stopped = true
+      window.clearInterval(timer)
+    }
+  }, [pending, id, setData])
 
   if (!Number.isInteger(id) || id < 1) return <ErrorState message="Invalid submission." back={{ to: '/student/submissions', label: 'Submissions' }} />
   if (loading) return <Loading />
@@ -154,7 +187,12 @@ export function ResultPage() {
       {!allPassed && (
         <section className="card">
           <div className="card-label">What TraceLearn noticed</div>
-          {area ? <h2>{`Possible ${area.toLowerCase()} misunderstanding`}</h2> : null}
+          {data.pending ? (
+            <p className="muted" role="status" style={{ marginTop: '0.55rem' }}>
+              Analysing your code… this can take up to a minute.
+            </p>
+          ) : null}
+          {area ?<h2>{`Possible ${area.toLowerCase()} misunderstanding`}</h2> : null}
           {history?.requires_teacher_review ? (
             <p style={{ marginTop: '0.55rem' }}>Your teacher will review this attempt.</p>
           ) : null}

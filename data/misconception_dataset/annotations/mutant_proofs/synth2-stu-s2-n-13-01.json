@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-13-01",
+ "seed_submission_id": "synth2:S2-N-13",
+ "problem_id": "synth2-S2-N-13",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "99abb353f1d4be2a",
+ "mutant_sha256": "b6529dd1ffa788792afd6b47a7db8eb64ffdfd386ab5b1d48d52e8d6275bf2bc",
+ "tests_passed": 8,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int c",
+  "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long ",
+  "note": "Running sums held in int.",
+  "evidence": "wrong_result_on_large_input",
+  "base_sha256": "99abb353f1d4be2a"
+ },
+ "evidence": "wrong_result_on_large_input"
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-09-02",
+ "seed_submission_id": "synth2:S2-S-09",
+ "problem_id": "synth2-S2-S-09",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "debddf56ef907b95",
+ "mutant_sha256": "b80afc45a9f3494892fbc7a1fa47919e06d7105572a93e15d9b3b8f83af1b777",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n, q, k;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n, q, k;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    scanf(\"%d\", &q);\n    while (q--) {\n        scanf(\"%d\", &k);\n",
+  "note": "Index from the end is off by one.",
+  "evidence": null,
+  "base_sha256": "debddf56ef907b95"
+ },
+ "evidence": null
+}

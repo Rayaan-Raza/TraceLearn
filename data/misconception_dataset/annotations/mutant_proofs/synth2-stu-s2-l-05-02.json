@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-05-02",
+ "seed_submission_id": "synth2:S2-L-05",
+ "problem_id": "synth2-S2-L-05",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "ae1003d37b53530b",
+ "mutant_sha256": "39578a0ba8d65a2365c8e3a7e941f3b9d65a5ac321b9fe108667da837f9b83f6",
+ "tests_passed": 8,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[3005];\nint main() {\n    int n, t, cnt = 0;\n    scanf(\"%d %d\", &n, &t);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = 0; i < n; i++) {\n        for (int j ",
+  "after": "#include <cstdio>\nint a[3005];\nint main() {\n    int n, t, cnt = 0;\n    scanf(\"%d %d\", &n, &t);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = 0; i < n; i++) {\n        for (int j ",
+  "note": "Inner loop reads a[n], an extra zero element.",
+  "evidence": null,
+  "base_sha256": "ae1003d37b53530b"
+ },
+ "evidence": null
+}

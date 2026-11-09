@@ -35,6 +35,7 @@ from collections import Counter
 from typing import Any
 
 from tracelearn_features.cpg_source import extract_cpg_source
+from tracelearn_features.execution import source_features
 from tracelearn_features.extractor import extract_features
 from tracelearn_features.schema import WARNING_FLAG_OF
 from tracelearn_features.semantics import extract_semantics
@@ -326,6 +327,21 @@ def _codestream_context(context: Any) -> dict[str, Any]:
 # --------------------------------------------------------------- public API
 
 
+def runner_warnings(record: dict[str, Any] | None, language: str = "cpp") -> dict[str, Any] | None:
+    """The `warnings` block from one run record, or None when the program did not compile.
+
+    Every row with a run record takes its warnings from here rather than from its lane. The lanes
+    did not agree: `tier1b` counts match the runner on 65% of programs, every other lane on 100%,
+    and models learned that difference. Their `tier1b` flags were 55/55 against 0/452 on two other
+    lanes of the same held-out problems. These are also the flags the backend compiles with.
+    """
+    if not record or "error" in record or not record.get("compiled") or not isinstance(record.get("warnings"), dict):
+        return None
+    evidence = _warning_evidence({"warnings": {**record["warnings"], "_compiled": True}})
+    return extract_features("", language, warnings=evidence)["warnings"]
+
+
+
 def normalize_row(row: dict[str, Any], code: str | None = None) -> dict[str, Any]:
     """Return a copy of `row` with canonical feature blocks filled in.
 
@@ -357,6 +373,7 @@ def normalize_row(row: dict[str, Any], code: str | None = None) -> dict[str, Any
         # row whose code resolved gets them, PROGPedia included. Leaving them
         # NaN there made the block's absence a fingerprint of the source.
         _fill_block(out, "semantics", extract_semantics(source))
+        _fill_block(out, "source", source_features(source))
     if mine_static and source:
         _fill_block(out, "cpg", extract_cpg_source(source))
 

@@ -1,0 +1,17 @@
+{
+ "run_id": "stu-cn-wd-001",
+ "seed_submission_id": "codenet:p02708/C++/s776011733.cpp",
+ "problem_id": "tl-codenet-p02708",
+ "operator": "codenet_cpp_wrong_loop_dir",
+ "label": "CPP_WRONG_LOOP_DIR",
+ "seed_sha256": "21226a2d315427cb",
+ "mutant_sha256": "25f7fa99781381f712d4634864290091e699b9ffa0c86f8da99cc744b1896a4a",
+ "tests_passed": 5,
+ "tests_total": 19,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "for (int i = ((int)(n)) - 1; i >= 0; i--)",
+  "after": "for (int i = 0; i < (int)(n); i++)",
+  "base_sha256": "21226a2d315427cb"
+ }
+}

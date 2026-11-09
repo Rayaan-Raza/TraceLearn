@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-02-02",
+ "seed_submission_id": "synth2:S2-L-02",
+ "problem_id": "synth2-S2-L-02",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "9eabdecc68fb87a3",
+ "mutant_sha256": "3b42593674057261a3bee1d82840df3a31e18018091d61298a8ccc19d6e885dc",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint v[100005];\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> v[i];\n    for (int i = n; i >= 0; i--) {\n        cout << v[i];\n    ",
+  "after": "#include <iostream>\nusing namespace std;\nint v[100005];\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> v[i];\n    for (int i = n - 1; i >= 0; i--) {\n        cout << v[i];\n",
+  "note": "Started the backward loop at index n, one past the last element.",
+  "evidence": null,
+  "base_sha256": "9eabdecc68fb87a3"
+ },
+ "evidence": null
+}

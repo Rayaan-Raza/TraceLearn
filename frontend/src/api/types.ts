@@ -108,6 +108,8 @@ export interface RunResult {
   current_only: Diagnosis | null
   history_aware: Diagnosis | null
   hint: { level: number; text: string } | null
+  /** true when the diagnosis is still being worked out on the server; poll `diagnoses`. */
+  diagnosis_pending?: boolean
 }
 
 export interface EvidenceItem {

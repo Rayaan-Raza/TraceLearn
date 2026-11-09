@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-05-01",
+ "seed_submission_id": "synth2:S2-L-05",
+ "problem_id": "synth2-S2-L-05",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "ae1003d37b53530b",
+ "mutant_sha256": "40d169223461df8fb8d7c652cf41dcee12d1f4b8f8bac62e1bbe49065b86c630",
+ "tests_passed": 3,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[3005];\nint main() {\n    int n, t, cnt = 0;\n    scanf(\"%d %d\", &n, &t);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = 0; i < n; i++) {\n        for (int j ",
+  "after": "#include <cstdio>\nint a[3005];\nint main() {\n    int n, t, cnt = 0;\n    scanf(\"%d %d\", &n, &t);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = 0; i < n; i++) {\n        for (int j ",
+  "note": "Inner loop starts at i, so an element is paired with itself.",
+  "evidence": null,
+  "base_sha256": "ae1003d37b53530b"
+ },
+ "evidence": null
+}

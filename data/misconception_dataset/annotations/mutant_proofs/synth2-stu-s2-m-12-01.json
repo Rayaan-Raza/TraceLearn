@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-12-01",
+ "seed_submission_id": "synth2:S2-M-12",
+ "problem_id": "synth2-S2-M-12",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "c6ce46d464a122e9",
+ "mutant_sha256": "2ac0ba047ccf75f6a53b16bf3660b10991975d66d3fbb629bf758e082d5b67eb",
+ "tests_passed": 0,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint gcd(int a, int b) {\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n        int g = gcd(a, b);\n  ",
+  "after": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n   ",
+  "note": "gcd has no stopping case, ends in a % 0.",
+  "evidence": null,
+  "base_sha256": "c6ce46d464a122e9"
+ },
+ "evidence": null
+}

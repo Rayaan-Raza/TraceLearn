@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-12-02",
+ "seed_submission_id": "synth2:S2-M-12",
+ "problem_id": "synth2-S2-M-12",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "c6ce46d464a122e9",
+ "mutant_sha256": "4d77abdfe4c9205c6b3aa606f15f4dca1575a7e9da9b25a73947092c31e0d7ed",
+ "tests_passed": 6,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n   ",
+  "after": "#include <cstdio>\nint gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);\n}\nint main() {\n    int t, a, b;\n    scanf(\"%d\", &t);\n    while (t--) {\n        scanf(\"%d %d\", &a, &b);\n   ",
+  "note": "The lcm is computed in int before being stored in long long.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "c6ce46d464a122e9"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

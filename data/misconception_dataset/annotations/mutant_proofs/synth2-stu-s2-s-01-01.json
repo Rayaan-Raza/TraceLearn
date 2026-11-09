@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-01-01",
+ "seed_submission_id": "synth2:S2-S-01",
+ "problem_id": "synth2-S2-S-01",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "dc038ad4f6ade0c3",
+ "mutant_sha256": "9eb34b1ba71497be0607dd33a2edcda5826d0fdc52ff7a902df768b724f64950",
+ "tests_passed": 7,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <cctype>\nint countV(char *s, int n) {\n    int cnt = 0;\n    for (int i = 0; i < n; i++) {\n        char c = tolower(s[i]);\n        if (c == 'a' || c == 'e' || c == 'i' || c ==",
+  "after": "#include <cstdio>\n#include <cctype>\nint countV(char *s, int n) {\n    int cnt = 0;\n    for (int i = 0; i < n; i++) {\n        char c = tolower(s[i]);\n        if (c == 'a' || c == 'e' || c == 'i' || c ==",
+  "note": "Line buffer far too small for long lines.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "dc038ad4f6ade0c3"
+ },
+ "evidence": "asan:buffer-overflow"
+}

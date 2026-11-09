@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-05-02",
+ "seed_submission_id": "synth2:S2-F-05",
+ "problem_id": "synth2-S2-F-05",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "f5f7470f928eeae5",
+ "mutant_sha256": "a4a34238f86ff1cb7d3bde1584d8de48a5521a16e175e6100c8fc6b1eedd5db1",
+ "tests_passed": 8,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nlong long findgcd(long long a, long long b) {\n    if (b == 0) return a;\n    return findgcd(b, a % b);\n}\n\nint main() {\n    long long a, b;\n    cin >> a >> b;\n ",
+  "after": "#include <iostream>\nusing namespace std;\n\nlong long findgcd(long long a, long long b) {\n    if (b == 0) return a;\n    return findgcd(b, a % b);\n}\n\nint main() {\n    long long a, b;\n    cin >> a >> b;\n ",
+  "note": "The lcm is stored in an int and overflows for large inputs.",
+  "evidence": "wrong_result_on_large_input",
+  "base_sha256": "f5f7470f928eeae5"
+ },
+ "evidence": "wrong_result_on_large_input"
+}

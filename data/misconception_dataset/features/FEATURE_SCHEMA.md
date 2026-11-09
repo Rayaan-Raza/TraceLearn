@@ -1,6 +1,6 @@
 # TraceLearn dataset feature schema
 
-**schema_version:** 1.1 · **taxonomy_version:** tl-cpp-v2 · **library:** `tracelearn_features` 0.x
+**schema_version:** 1.2 · **taxonomy_version:** tl-cpp-v2 · **library:** `tracelearn_features` 0.x
 **Status:** frozen at Week-0 (R1). Additive changes bump `schema_version`; breaking changes only in the single post-G3 window executed by `scripts/migrate_schema.py` (§6).
 
 This file is the *enumerated* contract: every feature name and type the
@@ -69,6 +69,8 @@ the submitted text (no execution required — always available when code exists)
 
 Compiler warnings from the `-O2 -Wall -Wextra` pass (§9.2-U0 first compile).
 `warnings.available` gates the block: NaN everywhere when no pass ran.
+Every row with a run record takes this block from that record (`normalize.runner_warnings`), because lanes
+that measured it themselves disagreed and models learned the disagreement (`docs/6-nov.md` section 15).
 
 | feature | type | meaning |
 |---|---|---|
@@ -218,6 +220,18 @@ metadata (`mutation_op`, `seed_ref`) is never used.
 | `semantics.init_zero` | int | an `int` local is initialized to zero |
 | `semantics.return_minus1` | int | a `return` expression subtracts one |
 | `semantics.base_case` | int | a recursive base-case test against 0/1 is present |
+| `semantics.chained_compare` | int | a condition chains comparisons, as in `1 <= x <= 10` |
+| `semantics.index_is_bound` | int | an index read whose subscript is the length (`a[n]`, `v[v.size()]`) |
+| `semantics.scanf_no_amp` | int | a `scanf` argument that is a bare identifier without `&` |
+| `semantics.no_input_read` | int | the program never reads input |
+| `semantics.prompt_text` | int | output text that looks like a prompt (enter, input, please, type, give) |
+| `semantics.printf_addr_arg` | int | `printf` given the address of a variable |
+| `semantics.int_div_literals` | int | integer division of two literals, as in `1/2` |
+| `semantics.char_vs_string_cmp` | int | a comparison against a one-character string literal |
+| `semantics.empty_body_stmt` | int | an `if`/`for`/`while` header followed directly by `;` |
+| `semantics.loop_var_reused` | int | a loop nested in a loop that re-initialises the same undeclared variable |
+| `semantics.plus1_index_in_full_loop` | int | `a[i + 1]` inside a loop that runs `i` up to `n` (reads one past the end) |
+| `semantics.minus1_index_from_zero` | int | `a[i - 1]` inside a loop that starts `i` at 0 (reads before the start) |
 
 ## `context`
 
@@ -233,6 +247,163 @@ Problem context joined from normalized `problems.csv` at merge time (§4).
 | `context.difficulty` | float | problem difficulty if the source provides one (NaN for CodeStream/PROGpedia) |
 | `context.concept_tag_count` | int | concept tags on the problem |
 | `context.cpp_submission_count` | int | C/C++ submissions recorded for the problem |
+
+## `source`
+
+Patterns in the submission's own code, from `tracelearn_features/execution.py`. Added in 1.2.
+
+| feature | type | meaning |
+|---|---|---|
+| `source.arr_fixed_n` | int | arrays declared with a constant size |
+| `source.arr_vla_n` | int | arrays sized by a non-constant |
+| `source.arr_fixed_max_log` | float | log10 of the largest constant array size |
+| `source.arr_fixed_min_log` | float | log10 of the smallest constant array size |
+| `source.heap_alloc` | int | malloc, calloc or new uses |
+| `source.uses_ll` | int | long long or a 64-bit type appears |
+| `source.uses_long` | int | `long` appears |
+| `source.uses_double` | int | double or float appears |
+| `source.mult_ident` | int | multiplications of identifiers |
+| `source.mult_assign` | int | `*=` uses |
+| `source.pow_call` | int | pow() calls |
+| `source.accum` | int | `+=` uses |
+| `source.fmt_ll` | int | `%ld` or `%lld` appears |
+| `source.lp_le` | int | loop conditions using `<=` |
+| `source.lp_lt` | int | loop conditions using `<` |
+| `source.lp_ge` | int | loop conditions using `>=` |
+| `source.lp_gt` | int | loop conditions using `>` |
+| `source.lp_le_idx` | int | `<=` loops indexing with the loop variable |
+| `source.lp_lt_m1` | int | `<` loops bounded by something minus 1 |
+| `source.lp_s1_lt` | int | loops from 1 using `<` |
+| `source.lp_s1_le` | int | loops from 1 using `<=` |
+| `source.lp_s0_le` | int | loops from 0 using `<=` |
+| `source.lp_idx_plus` | int | loops indexing `[i+k]` |
+| `source.lp_idx_minus` | int | loops indexing `[i-k]` |
+| `source.lp_wrong_idx` | int | loops indexing only with other variables |
+| `source.lp_stale` | int | while loops whose condition variables never change in the body |
+| `source.lp_desc` | int | loops with a decrementing update |
+| `source.read_before_write` | int | declared-unset variables whose first use reads them |
+| `source.if_lit_cmp` | int | if conditions comparing to a literal |
+| `source.if_and` | int | if conditions with `&&` |
+| `source.if_or` | int | if conditions with `\|\|` |
+| `source.else_if` | int | `else if` uses |
+| `source.if_strict` | int | if conditions with `<` or `>` |
+| `source.if_nonstrict` | int | if conditions with `<=` or `>=` |
+| `source.if_eq` | int | if conditions with `==` |
+| `source.minus1` | int | `- 1` uses |
+| `source.plus1` | int | `+ 1` uses |
+
+## `evidence`
+
+What running the program against the problem's tests shows, from `scripts/counterfactual_evidence.py`: one runner and one set of flags for every lane, with sanitizers on and Valgrind off. NaN when the program did not compile or has no run record. Added in 1.2.
+
+| feature | type | meaning |
+|---|---|---|
+| `evidence.n` | float | tests run |
+| `evidence.pass_frac` | float | share of tests passed |
+| `evidence.ff_frac` | float | position of the first failing test, 0 to 1 |
+| `evidence.ff_wrong` | float | first failing test has status wrong |
+| `evidence.fr_wrong` | float | share of failures with status wrong |
+| `evidence.ff_crash` | float | first failing test has status crash |
+| `evidence.fr_crash` | float | share of failures with status crash |
+| `evidence.ff_timeout` | float | first failing test has status timeout |
+| `evidence.fr_timeout` | float | share of failures with status timeout |
+| `evidence.ff_presentation` | float | first failing test has status presentation |
+| `evidence.fr_presentation` | float | share of failures with status presentation |
+| `evidence.tok_delta` | float | output token count minus expected, first failing test |
+| `evidence.tok_ratio` | float | output tokens over expected tokens, first failing test |
+| `evidence.prefix_frac` | float | share of expected tokens matched before the first difference |
+| `evidence.exp_tok_log` | float | log10 of expected token count |
+| `evidence.is_prefix_of_expected` | float | first failing test: is prefix of expected |
+| `evidence.expected_is_prefix` | float | first failing test: expected is prefix |
+| `evidence.is_suffix_of_expected` | float | first failing test: is suffix of expected |
+| `evidence.expected_is_suffix` | float | first failing test: expected is suffix |
+| `evidence.empty_output` | float | first failing test: empty output |
+| `evidence.reversed_tokens` | float | first failing test: reversed tokens |
+| `evidence.reversed_lines` | float | first failing test: reversed lines |
+| `evidence.same_multiset` | float | first failing test: same multiset |
+| `evidence.all_deltas_pm1` | float | first failing test: all deltas pm1 |
+| `evidence.negative_where_positive` | float | first failing test: negative where positive |
+| `evidence.maxd_log` | float | log10 of the largest numeric difference |
+| `evidence.nd_frac` | float | differing numeric tokens over expected tokens |
+| `evidence.sign_delta` | float | sign of the first numeric difference |
+| `evidence.fr_pm1` | float | share of failures where every difference is 1 |
+| `evidence.fr_neg` | float | share of failures with a negative where a positive was expected |
+| `evidence.fr_empty` | float | share of failures with empty output |
+| `evidence.sa_avail` | float | the sanitizer pass ran |
+| `evidence.sa_oob` | float | sanitizer reported oob |
+| `evidence.sa_stack` | float | sanitizer reported stack |
+| `evidence.sa_heap` | float | sanitizer reported heap |
+| `evidence.sa_global` | float | sanitizer reported global |
+| `evidence.sa_signed` | float | sanitizer reported signed |
+| `evidence.sa_shift` | float | sanitizer reported shift |
+| `evidence.sa_div` | float | sanitizer reported div |
+| `evidence.sa_null` | float | sanitizer reported null |
+| `evidence.sa_so` | float | sanitizer reported so |
+| `evidence.sa_uaf` | float | sanitizer reported uaf |
+| `evidence.sa_vla` | float | sanitizer reported vla |
+| `evidence.sa_n` | float | distinct sanitizer report kinds |
+| `evidence.sa_past_min` | float | smallest elements past the end of an array |
+| `evidence.sa_past_max_log` | float | log10 of the largest elements past the end |
+| `evidence.sa_neg_idx` | float | a report shows a negative index |
+| `evidence.sa_left` | float | a report shows an access left of the buffer |
+| `evidence.sa_write` | float | a report shows a write |
+| `evidence.rt_so` | float | stack overflow reported |
+
+## `repair`
+
+For each class's inverse edits (`scripts/repair_verify.py`), whether one small edit changes the test results. No label is read. NaN when no first failing test exists or no run record exists. Added in 1.2.
+
+| feature | type | meaning |
+|---|---|---|
+| `repair.loop_boundary_fix_first` | float | LOOP_BOUNDARY inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.loop_boundary_noreg` | float | LOOP_BOUNDARY inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.loop_boundary_fix_all` | float | LOOP_BOUNDARY inverse edits: an edit passes every test |
+| `repair.loop_boundary_gain` | float | LOOP_BOUNDARY inverse edits: best gain in share of tests passed |
+| `repair.loop_boundary_tried` | float | LOOP_BOUNDARY inverse edits: at least one edit compiled |
+| `repair.off_by_one_fix_first` | float | OFF_BY_ONE inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.off_by_one_noreg` | float | OFF_BY_ONE inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.off_by_one_fix_all` | float | OFF_BY_ONE inverse edits: an edit passes every test |
+| `repair.off_by_one_gain` | float | OFF_BY_ONE inverse edits: best gain in share of tests passed |
+| `repair.off_by_one_tried` | float | OFF_BY_ONE inverse edits: at least one edit compiled |
+| `repair.array_bounds_fix_first` | float | ARRAY_BOUNDS inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.array_bounds_noreg` | float | ARRAY_BOUNDS inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.array_bounds_fix_all` | float | ARRAY_BOUNDS inverse edits: an edit passes every test |
+| `repair.array_bounds_gain` | float | ARRAY_BOUNDS inverse edits: best gain in share of tests passed |
+| `repair.array_bounds_tried` | float | ARRAY_BOUNDS inverse edits: at least one edit compiled |
+| `repair.uninitialized_var_fix_first` | float | UNINITIALIZED_VAR inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.uninitialized_var_noreg` | float | UNINITIALIZED_VAR inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.uninitialized_var_fix_all` | float | UNINITIALIZED_VAR inverse edits: an edit passes every test |
+| `repair.uninitialized_var_gain` | float | UNINITIALIZED_VAR inverse edits: best gain in share of tests passed |
+| `repair.uninitialized_var_tried` | float | UNINITIALIZED_VAR inverse edits: at least one edit compiled |
+| `repair.int_overflow_fix_first` | float | INT_OVERFLOW inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.int_overflow_noreg` | float | INT_OVERFLOW inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.int_overflow_fix_all` | float | INT_OVERFLOW inverse edits: an edit passes every test |
+| `repair.int_overflow_gain` | float | INT_OVERFLOW inverse edits: best gain in share of tests passed |
+| `repair.int_overflow_tried` | float | INT_OVERFLOW inverse edits: at least one edit compiled |
+| `repair.missing_base_case_fix_first` | float | MISSING_BASE_CASE inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.missing_base_case_noreg` | float | MISSING_BASE_CASE inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.missing_base_case_fix_all` | float | MISSING_BASE_CASE inverse edits: an edit passes every test |
+| `repair.missing_base_case_gain` | float | MISSING_BASE_CASE inverse edits: best gain in share of tests passed |
+| `repair.missing_base_case_tried` | float | MISSING_BASE_CASE inverse edits: at least one edit compiled |
+| `repair.assign_vs_compare_fix_first` | float | ASSIGN_VS_COMPARE inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.assign_vs_compare_noreg` | float | ASSIGN_VS_COMPARE inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.assign_vs_compare_fix_all` | float | ASSIGN_VS_COMPARE inverse edits: an edit passes every test |
+| `repair.assign_vs_compare_gain` | float | ASSIGN_VS_COMPARE inverse edits: best gain in share of tests passed |
+| `repair.assign_vs_compare_tried` | float | ASSIGN_VS_COMPARE inverse edits: at least one edit compiled |
+| `repair.wrong_loop_dir_fix_first` | float | WRONG_LOOP_DIR inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.wrong_loop_dir_noreg` | float | WRONG_LOOP_DIR inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.wrong_loop_dir_fix_all` | float | WRONG_LOOP_DIR inverse edits: an edit passes every test |
+| `repair.wrong_loop_dir_gain` | float | WRONG_LOOP_DIR inverse edits: best gain in share of tests passed |
+| `repair.wrong_loop_dir_tried` | float | WRONG_LOOP_DIR inverse edits: at least one edit compiled |
+| `repair.range_check_fix_first` | float | RANGE_CHECK inverse edits: edits passing the first failing test, capped at 3 |
+| `repair.range_check_noreg` | float | RANGE_CHECK inverse edits: of those, edits breaking no passing test, capped at 3 |
+| `repair.range_check_fix_all` | float | RANGE_CHECK inverse edits: an edit passes every test |
+| `repair.range_check_gain` | float | RANGE_CHECK inverse edits: best gain in share of tests passed |
+| `repair.range_check_tried` | float | RANGE_CHECK inverse edits: at least one edit compiled |
+| `repair.n_fix_all` | float | classes with an edit that passes every test |
+| `repair.n_fix_first` | float | classes with an edit that passes the first failing test |
+| `repair.uninit_differs` | float | first failing test output changes between zero and pattern initialisation of locals |
+| `repair.uninit_zero_fixes` | float | zero-initialising locals passes the first failing test |
 
 ## `tracelearn_features` v0 interface (fixed, Week 0)
 

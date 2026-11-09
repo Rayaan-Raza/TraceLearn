@@ -58,15 +58,20 @@ from tracelearn_features.taxonomy import (  # noqa: E402  (after sys.path bootst
 
 # §5 row-ID prefixes per dataset_source. Lanes added later keep their
 # source's prefix family: pgx- (PROGPedia executed on oracle tests) and
-# hr- (rows a person labeled in the pre-review sign-off, any natural source).
+# hr- (rows a person labeled in the pre-review sign-off, any natural source),
+# bl- (blind-labelled CodeStream rows) and stu- (student-style bank programs).
 ROW_ID_PREFIX = {
-    "SYNTHETIC": ("mut-",),
-    "CODESTREAM": ("cs-", "hr-"),
+    "SYNTHETIC": ("mut-", "stu-"),
+    "CODESTREAM": ("cs-", "hr-", "bl-"),
     "PROGPEDIA": ("pg-", "pgx-", "hr-"),
+    # CodeNet rows: executed on reference-solution tests and labelled by independent annotators
+    # (docs/master_plan_dataset.md section 2.1, revised 2026-11-09). Traced through
+    # annotations/codenet_index.csv rather than the normalized submissions index.
+    "CODENET": ("cnx-",),
 }
 
-# §2.1: CodeNet is excluded from labels, so it is not a legal label source.
 DATASET_SOURCES = frozenset(ROW_ID_PREFIX)
+CODENET_INDEX = Path(__file__).resolve().parents[1] / "data" / "misconception_dataset" / "annotations" / "codenet_index.csv"
 
 LABEL_VOCAB = frozenset(MODELED_LABELS) | {NO_MISCONCEPTION}
 LANGUAGES = frozenset({"c", "cpp"})
@@ -349,11 +354,14 @@ def load_normalized_ids(
         }
     if csv_path is not None:
         ids: set[str] = set()
-        with csv_path.open(newline="", encoding="utf-8") as fh:
-            for row in csv.DictReader(fh):
-                value = (row.get("source_record_id") or "").strip()
-                if value:
-                    ids.add(value)
+        for path in (csv_path, CODENET_INDEX):
+            if path != csv_path and not path.exists():
+                continue
+            with path.open(newline="", encoding="utf-8") as fh:
+                for row in csv.DictReader(fh):
+                    value = (row.get("source_record_id") or "").strip()
+                    if value:
+                        ids.add(value)
         return ids
     return set()
 

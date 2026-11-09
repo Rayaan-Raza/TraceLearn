@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-08-04",
+ "seed_submission_id": "synth2:S2-S-08",
+ "problem_id": "synth2-S2-S-08",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "48fb4bf58bdde585",
+ "mutant_sha256": "3c3d39b1d4dffbee1f2ff7797fc7168d87309938119687d6ad45905cb4c434d7",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nvoid hist(int n) {\n    int cnt[11] = {0};\n    int x;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        cnt[x / 10]++;\n    }\n    for (int b = 0; b <= 10; b++) {\n     ",
+  "after": "#include <cstdio>\nvoid hist(int n) {\n    int cnt[11] = {0};\n    int x;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        cnt[x / 10]++;\n    }\n    for (int b = 0; b <= 10; b++) {\n     ",
+  "note": "Prints the bucket number instead of its start value.",
+  "evidence": null,
+  "base_sha256": "48fb4bf58bdde585"
+ },
+ "evidence": null
+}

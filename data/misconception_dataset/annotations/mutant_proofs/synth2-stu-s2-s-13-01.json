@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-13-01",
+ "seed_submission_id": "synth2:S2-S-13",
+ "problem_id": "synth2-S2-S-13",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "b4baba3a249a2e2f",
+ "mutant_sha256": "7a0a8ca46c64910dca442d831c6b1e7cfa251a79e1aedc0725889c31e2b5c1c7",
+ "tests_passed": 5,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\nusing namespace std;\nint rowSum(vector<int>& r) {\n    int s = 0;\n    for (int x : r) s += x;\n    return s;\n}\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vec",
+  "after": "#include <iostream>\n#include <vector>\nusing namespace std;\nint rowSum(vector<int>& r) {\n    int s = 0;\n    for (int x : r) s += x;\n    return s;\n}\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vec",
+  "note": "Row-sum array has 10 slots for up to 100 rows.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "b4baba3a249a2e2f"
+ },
+ "evidence": "asan:buffer-overflow"
+}

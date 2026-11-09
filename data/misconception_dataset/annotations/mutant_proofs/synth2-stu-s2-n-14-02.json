@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-14-02",
+ "seed_submission_id": "synth2:S2-N-14",
+ "problem_id": "synth2-S2-N-14",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "04178c97f77b951f",
+ "mutant_sha256": "01875a7f04f3c2b78f33756e656943ac3fa2d475ea789854927b0221354a3792",
+ "tests_passed": 0,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * n / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k *",
+  "note": "Wrong formula for the sum 1..n.",
+  "evidence": null,
+  "base_sha256": "04178c97f77b951f"
+ },
+ "evidence": null
+}

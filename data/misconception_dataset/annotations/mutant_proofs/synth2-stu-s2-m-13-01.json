@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-13-01",
+ "seed_submission_id": "synth2:S2-M-13",
+ "problem_id": "synth2-S2-M-13",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "db54ebbaa373e007",
+ "mutant_sha256": "1c9d24078acf46cb3e2dca053e65770a15d685f4fabd09eda9e21dab2e74ffca",
+ "tests_passed": 0,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 0) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    ",
+  "after": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    ",
+  "note": "Stopping case n == 0 is never reached, the recursion cycles 1,4,2,1 forever.",
+  "evidence": null,
+  "base_sha256": "db54ebbaa373e007"
+ },
+ "evidence": null
+}

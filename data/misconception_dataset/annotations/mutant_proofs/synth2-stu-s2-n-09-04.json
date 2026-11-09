@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-09-04",
+ "seed_submission_id": "synth2:S2-N-09",
+ "problem_id": "synth2-S2-N-09",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "05c09964fe98064a",
+ "mutant_sha256": "9710182f9de2bf3809bbb808ef79857d9437b3f608c520d0e6c016437dd09dcb",
+ "tests_passed": 7,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] =",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] =",
+  "note": "Skips the first face when looking for the smallest.",
+  "evidence": null,
+  "base_sha256": "05c09964fe98064a"
+ },
+ "evidence": null
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-07-02",
+ "seed_submission_id": "synth2:S2-R-07",
+ "problem_id": "synth2-S2-R-07",
+ "operator": "synth2_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "f8008651fa57ae44",
+ "mutant_sha256": "564adbf46d5e9ebd385af41cd56f7bc0bf70006922bc259f86baf906d15f0a6c",
+ "tests_passed": 11,
+ "tests_total": 15,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m = 2) {\n        if ((y % 4 ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4",
+  "note": "Wrote = in the February test, which overwrites the month.",
+  "evidence": null,
+  "base_sha256": "f8008651fa57ae44"
+ },
+ "evidence": null
+}

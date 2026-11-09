@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-05-04",
+ "seed_submission_id": "synth2:S2-L-05",
+ "problem_id": "synth2-S2-L-05",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "ae1003d37b53530b",
+ "mutant_sha256": "534c44a455f20d5d823c09646fd20ca6b5c5e6c37d14a7b7112cd41c79160b65",
+ "tests_passed": 6,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[3005];\nint main() {\n    int n, t, cnt = 0;\n    scanf(\"%d %d\", &n, &t);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = 0; i < n; i++) {\n        for (int j ",
+  "after": "#include <cstdio>\nint a[3005];\nint main() {\n    int n, t, cnt = 0;\n    scanf(\"%d %d\", &n, &t);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = 0; i < n; i++) {\n        for (int j ",
+  "note": "Counted pairs with sum at least t instead of exactly t.",
+  "evidence": null,
+  "base_sha256": "ae1003d37b53530b"
+ },
+ "evidence": null
+}

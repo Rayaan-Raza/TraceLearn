@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-10-01",
+ "seed_submission_id": "synth2:S2-M-10",
+ "problem_id": "synth2-S2-M-10",
+ "operator": "synth2_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "f457ad7d5c443b89",
+ "mutant_sha256": "d8bd216588c124420b7a6f707983eb3c27d795b2cdd68e4bf2da25cdeb936547",
+ "tests_passed": 2,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int",
+  "note": "Assignment in the parity test; condition is always false.",
+  "evidence": null,
+  "base_sha256": "f457ad7d5c443b89"
+ },
+ "evidence": null
+}

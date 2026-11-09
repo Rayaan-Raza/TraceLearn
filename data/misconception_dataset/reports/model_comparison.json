@@ -1,0 +1,771 @@
+{
+  "test_rows": 324,
+  "truth": {
+    "CPP_ARRAY_BOUNDS": 54,
+    "CPP_ASSIGN_VS_COMPARE": 1,
+    "CPP_INT_OVERFLOW": 6,
+    "CPP_LOOP_BOUNDARY": 2,
+    "CPP_OFF_BY_ONE": 23,
+    "CPP_OTHER_ERROR": 223,
+    "CPP_RANGE_CHECK": 11,
+    "CPP_STALE_EXIT": 1,
+    "CPP_UNINITIALIZED_VAR": 3
+  },
+  "threshold": 0.6,
+  "results": {
+    "always OTHER": {
+      "all": {
+        "abstain_rule": {
+          "accuracy": 0.688,
+          "false_alarm": 0.0,
+          "precision_flagged": null,
+          "n_flagged": 0,
+          "recall": 0.0,
+          "abstain": 0.0,
+          "macro_f1": 0.091
+        },
+        "argmax": {
+          "accuracy": 0.688,
+          "false_alarm": 0.0,
+          "precision_flagged": null,
+          "n_flagged": 0,
+          "recall": 0.0,
+          "abstain": 0.0,
+          "macro_f1": 0.091
+        }
+      }
+    },
+    "xgboost": {
+      "all | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.772,
+          "false_alarm": 0.054,
+          "precision_flagged": 0.778,
+          "n_flagged": 63,
+          "recall": 0.485,
+          "abstain": 0.046,
+          "macro_f1": 0.264
+        },
+        "argmax": {
+          "accuracy": 0.796,
+          "false_alarm": 0.063,
+          "precision_flagged": 0.742,
+          "n_flagged": 66,
+          "recall": 0.485,
+          "abstain": 0.0,
+          "macro_f1": 0.265
+        }
+      },
+      "real | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.806,
+          "false_alarm": 0.045,
+          "precision_flagged": 0.814,
+          "n_flagged": 59,
+          "recall": 0.475,
+          "abstain": 0.003,
+          "macro_f1": 0.192
+        },
+        "argmax": {
+          "accuracy": 0.806,
+          "false_alarm": 0.045,
+          "precision_flagged": 0.8,
+          "n_flagged": 60,
+          "recall": 0.475,
+          "abstain": 0.0,
+          "macro_f1": 0.191
+        }
+      },
+      "all | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.784,
+          "false_alarm": 0.054,
+          "precision_flagged": 0.774,
+          "n_flagged": 62,
+          "recall": 0.475,
+          "abstain": 0.031,
+          "macro_f1": 0.354
+        },
+        "argmax": {
+          "accuracy": 0.809,
+          "false_alarm": 0.058,
+          "precision_flagged": 0.776,
+          "n_flagged": 67,
+          "recall": 0.515,
+          "abstain": 0.0,
+          "macro_f1": 0.39
+        }
+      },
+      "real | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.809,
+          "false_alarm": 0.049,
+          "precision_flagged": 0.81,
+          "n_flagged": 63,
+          "recall": 0.505,
+          "abstain": 0.022,
+          "macro_f1": 0.267
+        },
+        "argmax": {
+          "accuracy": 0.818,
+          "false_alarm": 0.049,
+          "precision_flagged": 0.791,
+          "n_flagged": 67,
+          "recall": 0.525,
+          "abstain": 0.0,
+          "macro_f1": 0.294
+        }
+      },
+      "all | all features": {
+        "abstain_rule": {
+          "accuracy": 0.806,
+          "false_alarm": 0.049,
+          "precision_flagged": 0.815,
+          "n_flagged": 65,
+          "recall": 0.525,
+          "abstain": 0.019,
+          "macro_f1": 0.402
+        },
+        "argmax": {
+          "accuracy": 0.821,
+          "false_alarm": 0.054,
+          "precision_flagged": 0.809,
+          "n_flagged": 68,
+          "recall": 0.545,
+          "abstain": 0.0,
+          "macro_f1": 0.441
+        }
+      },
+      "real | all features": {
+        "abstain_rule": {
+          "accuracy": 0.818,
+          "false_alarm": 0.045,
+          "precision_flagged": 0.828,
+          "n_flagged": 64,
+          "recall": 0.525,
+          "abstain": 0.012,
+          "macro_f1": 0.294
+        },
+        "argmax": {
+          "accuracy": 0.821,
+          "false_alarm": 0.049,
+          "precision_flagged": 0.818,
+          "n_flagged": 66,
+          "recall": 0.535,
+          "abstain": 0.0,
+          "macro_f1": 0.338
+        }
+      }
+    },
+    "random_forest": {
+      "all | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.207,
+          "false_alarm": 0.004,
+          "precision_flagged": 0.5,
+          "n_flagged": 2,
+          "recall": 0.01,
+          "abstain": 0.698,
+          "macro_f1": 0.12
+        },
+        "argmax": {
+          "accuracy": 0.664,
+          "false_alarm": 0.054,
+          "precision_flagged": 0.222,
+          "n_flagged": 18,
+          "recall": 0.04,
+          "abstain": 0.0,
+          "macro_f1": 0.15
+        }
+      },
+      "real | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.401,
+          "false_alarm": 0.0,
+          "precision_flagged": null,
+          "n_flagged": 0,
+          "recall": 0.0,
+          "abstain": 0.426,
+          "macro_f1": 0.071
+        },
+        "argmax": {
+          "accuracy": 0.685,
+          "false_alarm": 0.004,
+          "precision_flagged": 0.0,
+          "n_flagged": 1,
+          "recall": 0.0,
+          "abstain": 0.0,
+          "macro_f1": 0.09
+        }
+      },
+      "all | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.491,
+          "false_alarm": 0.049,
+          "precision_flagged": 0.774,
+          "n_flagged": 53,
+          "recall": 0.406,
+          "abstain": 0.414,
+          "macro_f1": 0.159
+        },
+        "argmax": {
+          "accuracy": 0.793,
+          "false_alarm": 0.067,
+          "precision_flagged": 0.754,
+          "n_flagged": 65,
+          "recall": 0.485,
+          "abstain": 0.0,
+          "macro_f1": 0.238
+        }
+      },
+      "real | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.602,
+          "false_alarm": 0.027,
+          "precision_flagged": 0.611,
+          "n_flagged": 18,
+          "recall": 0.109,
+          "abstain": 0.262,
+          "macro_f1": 0.126
+        },
+        "argmax": {
+          "accuracy": 0.806,
+          "false_alarm": 0.045,
+          "precision_flagged": 0.814,
+          "n_flagged": 59,
+          "recall": 0.475,
+          "abstain": 0.0,
+          "macro_f1": 0.191
+        }
+      },
+      "all | all features": {
+        "abstain_rule": {
+          "accuracy": 0.5,
+          "false_alarm": 0.049,
+          "precision_flagged": 0.774,
+          "n_flagged": 53,
+          "recall": 0.406,
+          "abstain": 0.398,
+          "macro_f1": 0.232
+        },
+        "argmax": {
+          "accuracy": 0.796,
+          "false_alarm": 0.063,
+          "precision_flagged": 0.766,
+          "n_flagged": 64,
+          "recall": 0.485,
+          "abstain": 0.0,
+          "macro_f1": 0.235
+        }
+      },
+      "real | all features": {
+        "abstain_rule": {
+          "accuracy": 0.667,
+          "false_alarm": 0.031,
+          "precision_flagged": 0.778,
+          "n_flagged": 36,
+          "recall": 0.277,
+          "abstain": 0.198,
+          "macro_f1": 0.163
+        },
+        "argmax": {
+          "accuracy": 0.806,
+          "false_alarm": 0.045,
+          "precision_flagged": 0.814,
+          "n_flagged": 59,
+          "recall": 0.475,
+          "abstain": 0.0,
+          "macro_f1": 0.191
+        }
+      }
+    },
+    "extra_trees": {
+      "all | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.108,
+          "false_alarm": 0.004,
+          "precision_flagged": 0.5,
+          "n_flagged": 2,
+          "recall": 0.01,
+          "abstain": 0.855,
+          "macro_f1": 0.102
+        },
+        "argmax": {
+          "accuracy": 0.636,
+          "false_alarm": 0.108,
+          "precision_flagged": 0.206,
+          "n_flagged": 34,
+          "recall": 0.069,
+          "abstain": 0.0,
+          "macro_f1": 0.158
+        }
+      },
+      "real | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.16,
+          "false_alarm": 0.0,
+          "precision_flagged": null,
+          "n_flagged": 0,
+          "recall": 0.0,
+          "abstain": 0.781,
+          "macro_f1": 0.039
+        },
+        "argmax": {
+          "accuracy": 0.676,
+          "false_alarm": 0.027,
+          "precision_flagged": 0.182,
+          "n_flagged": 11,
+          "recall": 0.02,
+          "abstain": 0.0,
+          "macro_f1": 0.168
+        }
+      },
+      "all | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.398,
+          "false_alarm": 0.049,
+          "precision_flagged": 0.769,
+          "n_flagged": 52,
+          "recall": 0.396,
+          "abstain": 0.528,
+          "macro_f1": 0.218
+        },
+        "argmax": {
+          "accuracy": 0.781,
+          "false_alarm": 0.094,
+          "precision_flagged": 0.68,
+          "n_flagged": 75,
+          "recall": 0.505,
+          "abstain": 0.0,
+          "macro_f1": 0.281
+        }
+      },
+      "real | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.546,
+          "false_alarm": 0.022,
+          "precision_flagged": 0.5,
+          "n_flagged": 12,
+          "recall": 0.059,
+          "abstain": 0.346,
+          "macro_f1": 0.11
+        },
+        "argmax": {
+          "accuracy": 0.799,
+          "false_alarm": 0.054,
+          "precision_flagged": 0.774,
+          "n_flagged": 62,
+          "recall": 0.475,
+          "abstain": 0.0,
+          "macro_f1": 0.234
+        }
+      },
+      "all | all features": {
+        "abstain_rule": {
+          "accuracy": 0.389,
+          "false_alarm": 0.058,
+          "precision_flagged": 0.745,
+          "n_flagged": 55,
+          "recall": 0.406,
+          "abstain": 0.537,
+          "macro_f1": 0.188
+        },
+        "argmax": {
+          "accuracy": 0.79,
+          "false_alarm": 0.081,
+          "precision_flagged": 0.708,
+          "n_flagged": 72,
+          "recall": 0.505,
+          "abstain": 0.0,
+          "macro_f1": 0.304
+        }
+      },
+      "real | all features": {
+        "abstain_rule": {
+          "accuracy": 0.556,
+          "false_alarm": 0.031,
+          "precision_flagged": 0.556,
+          "n_flagged": 18,
+          "recall": 0.099,
+          "abstain": 0.33,
+          "macro_f1": 0.12
+        },
+        "argmax": {
+          "accuracy": 0.809,
+          "false_alarm": 0.045,
+          "precision_flagged": 0.817,
+          "n_flagged": 60,
+          "recall": 0.485,
+          "abstain": 0.0,
+          "macro_f1": 0.247
+        }
+      }
+    },
+    "logistic_regression": {
+      "all | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.198,
+          "false_alarm": 0.3,
+          "precision_flagged": 0.077,
+          "n_flagged": 104,
+          "recall": 0.079,
+          "abstain": 0.448,
+          "macro_f1": 0.07
+        },
+        "argmax": {
+          "accuracy": 0.346,
+          "false_alarm": 0.605,
+          "precision_flagged": 0.117,
+          "n_flagged": 206,
+          "recall": 0.238,
+          "abstain": 0.0,
+          "macro_f1": 0.112
+        }
+      },
+      "real | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.321,
+          "false_alarm": 0.229,
+          "precision_flagged": 0.087,
+          "n_flagged": 69,
+          "recall": 0.059,
+          "abstain": 0.358,
+          "macro_f1": 0.163
+        },
+        "argmax": {
+          "accuracy": 0.432,
+          "false_alarm": 0.43,
+          "precision_flagged": 0.09,
+          "n_flagged": 144,
+          "recall": 0.129,
+          "abstain": 0.0,
+          "macro_f1": 0.181
+        }
+      },
+      "all | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.457,
+          "false_alarm": 0.274,
+          "precision_flagged": 0.35,
+          "n_flagged": 120,
+          "recall": 0.416,
+          "abstain": 0.228,
+          "macro_f1": 0.212
+        },
+        "argmax": {
+          "accuracy": 0.546,
+          "false_alarm": 0.413,
+          "precision_flagged": 0.282,
+          "n_flagged": 163,
+          "recall": 0.455,
+          "abstain": 0.0,
+          "macro_f1": 0.193
+        }
+      },
+      "real | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.546,
+          "false_alarm": 0.193,
+          "precision_flagged": 0.391,
+          "n_flagged": 87,
+          "recall": 0.337,
+          "abstain": 0.185,
+          "macro_f1": 0.22
+        },
+        "argmax": {
+          "accuracy": 0.633,
+          "false_alarm": 0.256,
+          "precision_flagged": 0.336,
+          "n_flagged": 116,
+          "recall": 0.386,
+          "abstain": 0.0,
+          "macro_f1": 0.231
+        }
+      },
+      "all | all features": {
+        "abstain_rule": {
+          "accuracy": 0.494,
+          "false_alarm": 0.283,
+          "precision_flagged": 0.37,
+          "n_flagged": 127,
+          "recall": 0.465,
+          "abstain": 0.191,
+          "macro_f1": 0.2
+        },
+        "argmax": {
+          "accuracy": 0.552,
+          "false_alarm": 0.413,
+          "precision_flagged": 0.286,
+          "n_flagged": 168,
+          "recall": 0.475,
+          "abstain": 0.0,
+          "macro_f1": 0.183
+        }
+      },
+      "real | all features": {
+        "abstain_rule": {
+          "accuracy": 0.608,
+          "false_alarm": 0.139,
+          "precision_flagged": 0.488,
+          "n_flagged": 82,
+          "recall": 0.396,
+          "abstain": 0.179,
+          "macro_f1": 0.214
+        },
+        "argmax": {
+          "accuracy": 0.67,
+          "false_alarm": 0.229,
+          "precision_flagged": 0.391,
+          "n_flagged": 115,
+          "recall": 0.446,
+          "abstain": 0.0,
+          "macro_f1": 0.216
+        }
+      }
+    },
+    "knn": {
+      "all | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.488,
+          "false_alarm": 0.072,
+          "precision_flagged": 0.136,
+          "n_flagged": 22,
+          "recall": 0.03,
+          "abstain": 0.247,
+          "macro_f1": 0.098
+        },
+        "argmax": {
+          "accuracy": 0.62,
+          "false_alarm": 0.135,
+          "precision_flagged": 0.167,
+          "n_flagged": 48,
+          "recall": 0.079,
+          "abstain": 0.0,
+          "macro_f1": 0.12
+        }
+      },
+      "real | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.515,
+          "false_alarm": 0.022,
+          "precision_flagged": 0.25,
+          "n_flagged": 8,
+          "recall": 0.02,
+          "abstain": 0.247,
+          "macro_f1": 0.102
+        },
+        "argmax": {
+          "accuracy": 0.645,
+          "false_alarm": 0.085,
+          "precision_flagged": 0.161,
+          "n_flagged": 31,
+          "recall": 0.05,
+          "abstain": 0.0,
+          "macro_f1": 0.127
+        }
+      },
+      "all | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.623,
+          "false_alarm": 0.076,
+          "precision_flagged": 0.667,
+          "n_flagged": 60,
+          "recall": 0.396,
+          "abstain": 0.201,
+          "macro_f1": 0.236
+        },
+        "argmax": {
+          "accuracy": 0.756,
+          "false_alarm": 0.121,
+          "precision_flagged": 0.605,
+          "n_flagged": 81,
+          "recall": 0.485,
+          "abstain": 0.0,
+          "macro_f1": 0.245
+        }
+      },
+      "real | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.67,
+          "false_alarm": 0.018,
+          "precision_flagged": 0.75,
+          "n_flagged": 24,
+          "recall": 0.178,
+          "abstain": 0.142,
+          "macro_f1": 0.19
+        },
+        "argmax": {
+          "accuracy": 0.75,
+          "false_alarm": 0.045,
+          "precision_flagged": 0.714,
+          "n_flagged": 42,
+          "recall": 0.297,
+          "abstain": 0.0,
+          "macro_f1": 0.275
+        }
+      },
+      "all | all features": {
+        "abstain_rule": {
+          "accuracy": 0.682,
+          "false_alarm": 0.094,
+          "precision_flagged": 0.689,
+          "n_flagged": 74,
+          "recall": 0.505,
+          "abstain": 0.142,
+          "macro_f1": 0.253
+        },
+        "argmax": {
+          "accuracy": 0.769,
+          "false_alarm": 0.121,
+          "precision_flagged": 0.631,
+          "n_flagged": 84,
+          "recall": 0.525,
+          "abstain": 0.0,
+          "macro_f1": 0.253
+        }
+      },
+      "real | all features": {
+        "abstain_rule": {
+          "accuracy": 0.781,
+          "false_alarm": 0.049,
+          "precision_flagged": 0.8,
+          "n_flagged": 60,
+          "recall": 0.475,
+          "abstain": 0.052,
+          "macro_f1": 0.251
+        },
+        "argmax": {
+          "accuracy": 0.806,
+          "false_alarm": 0.058,
+          "precision_flagged": 0.785,
+          "n_flagged": 65,
+          "recall": 0.505,
+          "abstain": 0.0,
+          "macro_f1": 0.306
+        }
+      }
+    },
+    "mlp": {
+      "all | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.583,
+          "false_alarm": 0.148,
+          "precision_flagged": 0.13,
+          "n_flagged": 54,
+          "recall": 0.069,
+          "abstain": 0.034,
+          "macro_f1": 0.121
+        },
+        "argmax": {
+          "accuracy": 0.593,
+          "false_alarm": 0.175,
+          "precision_flagged": 0.131,
+          "n_flagged": 61,
+          "recall": 0.079,
+          "abstain": 0.0,
+          "macro_f1": 0.123
+        }
+      },
+      "real | best (static+warnings+semantics)": {
+        "abstain_rule": {
+          "accuracy": 0.633,
+          "false_alarm": 0.054,
+          "precision_flagged": 0.24,
+          "n_flagged": 25,
+          "recall": 0.059,
+          "abstain": 0.04,
+          "macro_f1": 0.128
+        },
+        "argmax": {
+          "accuracy": 0.651,
+          "false_alarm": 0.081,
+          "precision_flagged": 0.188,
+          "n_flagged": 32,
+          "recall": 0.059,
+          "abstain": 0.0,
+          "macro_f1": 0.129
+        }
+      },
+      "all | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.654,
+          "false_alarm": 0.152,
+          "precision_flagged": 0.402,
+          "n_flagged": 82,
+          "recall": 0.327,
+          "abstain": 0.052,
+          "macro_f1": 0.233
+        },
+        "argmax": {
+          "accuracy": 0.673,
+          "false_alarm": 0.175,
+          "precision_flagged": 0.362,
+          "n_flagged": 94,
+          "recall": 0.337,
+          "abstain": 0.0,
+          "macro_f1": 0.211
+        }
+      },
+      "real | best+runtime+tests": {
+        "abstain_rule": {
+          "accuracy": 0.704,
+          "false_alarm": 0.081,
+          "precision_flagged": 0.569,
+          "n_flagged": 51,
+          "recall": 0.287,
+          "abstain": 0.043,
+          "macro_f1": 0.209
+        },
+        "argmax": {
+          "accuracy": 0.719,
+          "false_alarm": 0.099,
+          "precision_flagged": 0.533,
+          "n_flagged": 60,
+          "recall": 0.317,
+          "abstain": 0.0,
+          "macro_f1": 0.237
+        }
+      },
+      "all | all features": {
+        "abstain_rule": {
+          "accuracy": 0.642,
+          "false_alarm": 0.188,
+          "precision_flagged": 0.344,
+          "n_flagged": 90,
+          "recall": 0.307,
+          "abstain": 0.043,
+          "macro_f1": 0.326
+        },
+        "argmax": {
+          "accuracy": 0.66,
+          "false_alarm": 0.197,
+          "precision_flagged": 0.347,
+          "n_flagged": 101,
+          "recall": 0.347,
+          "abstain": 0.0,
+          "macro_f1": 0.339
+        }
+      },
+      "real | all features": {
+        "abstain_rule": {
+          "accuracy": 0.772,
+          "false_alarm": 0.108,
+          "precision_flagged": 0.627,
+          "n_flagged": 83,
+          "recall": 0.515,
+          "abstain": 0.006,
+          "macro_f1": 0.246
+        },
+        "argmax": {
+          "accuracy": 0.772,
+          "false_alarm": 0.112,
+          "precision_flagged": 0.612,
+          "n_flagged": 85,
+          "recall": 0.515,
+          "abstain": 0.0,
+          "macro_f1": 0.246
+        }
+      }
+    }
+  }
+}

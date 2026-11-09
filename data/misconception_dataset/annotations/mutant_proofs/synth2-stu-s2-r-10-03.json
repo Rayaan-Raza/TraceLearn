@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-10-03",
+ "seed_submission_id": "synth2:S2-R-10",
+ "problem_id": "synth2-S2-R-10",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "5ec60198688b5474",
+ "mutant_sha256": "c12990d476475464c1ea9bd6ffb3539f2d176f24277b58ada3eccc8c54970f15",
+ "tests_passed": 7,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg ==",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg ==",
+  "note": "Keeps the first eligible age forever instead of updating the minimum.",
+  "evidence": null,
+  "base_sha256": "5ec60198688b5474"
+ },
+ "evidence": null
+}

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp23-a00",
+ "seed_submission_id": "student:CP23:A",
+ "problem_id": "bank-CP23",
+ "operator": "student_cpp_array_bounds_00",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "fb0b436a45975287",
+ "mutant_sha256": "0bee8015286da8153b163345a984f9fc373b4d6136e0acaf695e99eadebd69c6",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "v[v.size()]",
+  "after": "v[v.size() - 2]",
+  "note": "reads index size()",
+  "base_sha256": "fb0b436a45975287"
+ }
+}

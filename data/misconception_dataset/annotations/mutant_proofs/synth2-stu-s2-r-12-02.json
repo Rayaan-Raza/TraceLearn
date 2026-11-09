@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-12-02",
+ "seed_submission_id": "synth2:S2-R-12",
+ "problem_id": "synth2-S2-R-12",
+ "operator": "synth2_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "46438c933311b225",
+ "mutant_sha256": "ff9c7760c439123d9a45d8c17427563ccb11de8893bdeb86f6156503a3d147c8",
+ "tests_passed": 6,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age ",
+  "note": "Wrote = for the weekday test, so the day variable is overwritten.",
+  "evidence": null,
+  "base_sha256": "46438c933311b225"
+ },
+ "evidence": null
+}

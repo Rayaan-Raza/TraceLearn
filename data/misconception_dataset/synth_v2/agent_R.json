@@ -1,0 +1,623 @@
+{
+ "problems": [
+  {
+   "id": "S2-R-01",
+   "title": "Grade bands with validity",
+   "statement": "Read one integer score. If it is below 0 or above 100 print INVALID. Otherwise print the letter grade: A for 90 and up, B for 80 and up, C for 70 and up, D for 60 and up, F otherwise.",
+   "tests": [
+    "95",
+    "90",
+    "89",
+    "80",
+    "79",
+    "70",
+    "65",
+    "60",
+    "59",
+    "0",
+    "100",
+    "-5",
+    "101",
+    "85"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s < 0 || s > 100) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (s >= 90) cout << \"A\\n\";\n    else if (s >= 80) cout << \"B\\n\";\n    else if (s >= 70) cout << \"C\\n\";\n    else if (s >= 60) cout << \"D\\n\";\n    else cout << \"F\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s < 0 || s > 100) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (s > 90) cout << \"A\\n\";\n    else if (s >= 80) cout << \"B\\n\";\n    else if (s >= 70) cout << \"C\\n\";\n    else if (s >= 60) cout << \"D\\n\";\n    else cout << \"F\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s < 0 || s > 100) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (s >= 90) cout << \"A\\n\";\n    else if (s >= 80) cout << \"B\\n\";\n    else if (s >= 70) cout << \"C\\n\";\n    else if (s >= 60) cout << \"D\\n\";\n    else cout << \"F\\n\";\n    return 0;\n}\n",
+     "note": "A starts at 90 but the student used a strict comparison, so 90 gets a B."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s < 0 || s > 100) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (s >= 90) cout << \"A\\n\";\n    else if (s = 80) cout << \"B\\n\";\n    else if (s >= 70) cout << \"C\\n\";\n    else if (s >= 60) cout << \"D\\n\";\n    else cout << \"F\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s < 0 || s > 100) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (s >= 90) cout << \"A\\n\";\n    else if (s >= 80) cout << \"B\\n\";\n    else if (s >= 70) cout << \"C\\n\";\n    else if (s >= 60) cout << \"D\\n\";\n    else cout << \"F\\n\";\n    return 0;\n}\n",
+     "note": "Wrote = instead of a comparison for the B band, so every score below 90 gets B."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s >= 90) cout << \"A\\n\";\n    else if (s >= 80) cout << \"B\\n\";\n    else if (s >= 70) cout << \"C\\n\";\n    else if (s >= 60) cout << \"D\\n\";\n    else cout << \"F\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int s;\n    cin >> s;\n    if (s < 0 || s > 100) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (s >= 90) cout << \"A\\n\";\n    else if (s >= 80) cout << \"B\\n\";\n    else if (s >= 70) cout << \"C\\n\";\n    else if (s >= 60) cout << \"D\\n\";\n    else cout << \"F\\n\";\n    return 0;\n}\n",
+     "note": "Forgot the invalid-score case entirely."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-02",
+   "title": "Leap years in a list",
+   "statement": "Read n, then n years. Print how many of them are leap years, then on the next line print the last leap year in the list, or NONE if there is none.",
+   "tests": [
+    "5\n1900 2000 2023 2024 2100",
+    "1\n2000",
+    "1\n1900",
+    "3\n2001 2002 2003",
+    "4\n2024 2020 2016 2012",
+    "6\n1600 1700 1800 1900 2000 2400",
+    "2\n4 100",
+    "1\n2024",
+    "3\n1996 2000 1999",
+    "2\n2400 2100"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (y % 100 != 0 || y % 400 == 0)) {\n            cnt++;\n            last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r = 0 && (y % 100 != 0 || y % 400 == 0)) {\n            cnt++;\n            last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (y % 100 != 0 || y % 400 == 0)) {\n            cnt++;\n            last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+     "note": "Used = in the divisible-by-4 test, which sets r to 0 and makes the condition false."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (y % 100 != 0 && y % 400 == 0)) {\n            cnt++;\n            last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (y % 100 != 0 || y % 400 == 0)) {\n            cnt++;\n            last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+     "note": "Joined the century rule with && instead of ||, so ordinary leap years fail."
+    },
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (y % 100 != 0 || y % 400 == 0)) {\n            cnt++;\n            if (last == -1) last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (y % 100 != 0 || y % 400 == 0)) {\n            cnt++;\n            last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+     "note": "Keeps the first leap year found instead of the last one."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (y % 100 != 0)) {\n            cnt++;\n            last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (y % 100 != 0 || y % 400 == 0)) {\n            cnt++;\n            last = y;\n        }\n    }\n    cout << cnt << \"\\n\";\n    if (last == -1) cout << \"NONE\\n\";\n    else cout << last << \"\\n\";\n    return 0;\n}\n",
+     "note": "Forgot the divisible-by-400 exception, so years like 2000 are not leap."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-03",
+   "title": "Triangle type",
+   "statement": "Read three positive side lengths (they can be as large as 1500000000). Print INVALID if they cannot form a triangle (a degenerate one with two sides summing to the third also counts as invalid), otherwise EQUILATERAL, ISOSCELES or SCALENE.",
+   "tests": [
+    "3 4 5",
+    "3 3 3",
+    "3 4 3",
+    "4 3 3",
+    "3 3 4",
+    "1 2 3",
+    "1 1 5",
+    "2 2 3",
+    "5 5 5",
+    "10 6 5",
+    "1500000000 1500000000 1500000000",
+    "1500000000 1500000000 1",
+    "7 7 14"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c || a == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b < c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c || a == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c || a == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+     "note": "Used < instead of <= for the first side pair, so a degenerate triangle slips through."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a = b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c || a == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c || a == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+     "note": "Wrote = instead of == in the equilateral test, which overwrites a."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c || a == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+     "note": "Isosceles test forgets to compare the first and third sides."
+    },
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c || a == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == c)\n        cout << \"EQUILATERAL\\n\";\n    else if (a == b || b == c || a == c)\n        cout << \"ISOSCELES\\n\";\n    else\n        cout << \"SCALENE\\n\";\n    return 0;\n}\n",
+     "note": "Sum of two large sides overflows int, so valid triangles look invalid."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-04",
+   "title": "FizzBuzz",
+   "statement": "Read n. For each i from 1 to n print on its own line FizzBuzz if i is divisible by 3 and 5, Fizz if divisible by 3, Buzz if divisible by 5, otherwise i itself.",
+   "tests": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "5",
+    "6",
+    "10",
+    "15",
+    "16",
+    "30",
+    "31",
+    "100"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i < n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Loop stops one short because of < instead of <=."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b = 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Wrote = in the Buzz test so it is never true."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 || b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Used || for the FizzBuzz test, so multiples of 3 or 5 all print FizzBuzz."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Starts counting at 0 so an extra line for 0 is printed."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"Fizzbuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int a = i % 3, b = i % 5;\n        if (a == 0 && b == 0) cout << \"FizzBuzz\\n\";\n        else if (a == 0) cout << \"Fizz\\n\";\n        else if (b == 0) cout << \"Buzz\\n\";\n        else cout << i << \"\\n\";\n    }\n    return 0;\n}\n",
+     "note": "Misspelled the FizzBuzz output text."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-05",
+   "title": "In-range count and longest run",
+   "statement": "Read n, a lower bound lo and an upper bound hi, then n integers. Print the number of values with lo <= x <= hi, then the length of the longest block of consecutive in-range values, separated by a space.",
+   "tests": [
+    "5 1 10\n1 5 11 3 10",
+    "3 0 0\n0 0 0",
+    "4 5 10\n1 2 3 4",
+    "6 1 5\n1 2 9 3 4 5",
+    "6 1 5\n1 2 3 9 4 5",
+    "1 -5 5\n-5",
+    "1 -5 5\n6",
+    "7 10 20\n10 20 21 9 15 16 17",
+    "0 1 2\n",
+    "8 -3 3\n-4 -3 0 3 4 -1 -2 5",
+    "5 1 3\n1 9 1 9 1"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x >= lo && x <= hi) {\n            cnt++;\n            run++;\n            if (run > best) best = run;\n        }\n        else run = 0;\n    }\n    cout << cnt << \" \" << best << \"\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x > lo && x < hi) {\n            cnt++;\n            run++;\n            if (run > best) best = run;\n        }\n        else run = 0;\n    }\n    cout << cnt << \" \" << best << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x >= lo && x <= hi) {\n            cnt++;\n            run++;\n            if (run > best) best = run;\n        }\n        else run = 0;\n    }\n    cout << cnt << \" \" << best << \"\\n\";\n    return 0;\n}\n",
+     "note": "Bounds are inclusive but the student excluded both ends."
+    },
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x >= lo && x <= hi) {\n            cnt++;\n            run++;\n            if (run > best) best = run;\n        }\n    }\n    cout << cnt << \" \" << best << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x >= lo && x <= hi) {\n            cnt++;\n            run++;\n            if (run > best) best = run;\n        }\n        else run = 0;\n    }\n    cout << cnt << \" \" << best << \"\\n\";\n    return 0;\n}\n",
+     "note": "The current run counter is never reset when an out-of-range value appears."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x >= lo && x <= hi) {\n            cnt++;\n            run++;\n            best = run;\n        }\n        else run = 0;\n    }\n    cout << cnt << \" \" << best << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x >= lo && x <= hi) {\n            cnt++;\n            run++;\n            if (run > best) best = run;\n        }\n        else run = 0;\n    }\n    cout << cnt << \" \" << best << \"\\n\";\n    return 0;\n}\n",
+     "note": "Stores the latest run instead of the longest run."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-06",
+   "title": "Signs and product sign",
+   "statement": "Read n then n integers. Print the count of negatives, zeros and positives separated by spaces. On the next line print the sign of the product of all the numbers (ZERO, POSITIVE or NEGATIVE) without multiplying them.",
+   "tests": [
+    "5\n-1 2 -3 4 5",
+    "3\n0 0 0",
+    "4\n1 2 3 4",
+    "3\n-1 -2 -3",
+    "1\n0",
+    "1\n-7",
+    "5\n3 0 -2 5 -1",
+    "6\n-1 0 2 3 -4 5",
+    "2\n-1 -1",
+    "4\n5 -5 0 7"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else if (x == 0) zero++;\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg % 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else if (x = 0) zero++;\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg % 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else if (x == 0) zero++;\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg % 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+     "note": "Used = in the zero test, so zeros are counted as positive."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x <= 0) neg++;\n        else if (x == 0) zero++;\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg % 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else if (x == 0) zero++;\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg % 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+     "note": "Zero is included in the negative test."
+    },
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else if (x == 0) { zero++; break; }\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg % 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else if (x == 0) zero++;\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg % 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+     "note": "Stops reading numbers at the first zero, so later values are never counted."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else if (x == 0) zero++;\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg / 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, neg = 0, zero = 0, pos = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x < 0) neg++;\n        else if (x == 0) zero++;\n        else pos++;\n    }\n    cout << neg << \" \" << zero << \" \" << pos << \"\\n\";\n    if (zero > 0) cout << \"ZERO\\n\";\n    else if (neg % 2 == 0) cout << \"POSITIVE\\n\";\n    else cout << \"NEGATIVE\\n\";\n    return 0;\n}\n",
+     "note": "Wrong parity test for the product sign."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-07",
+   "title": "Date validity",
+   "statement": "Read day, month and year (year at least 1). Print VALID if it is a real calendar date (leap years follow the Gregorian rule), otherwise INVALID.",
+   "tests": [
+    "15 6 2020",
+    "31 1 2021",
+    "31 4 2021",
+    "30 4 2021",
+    "29 2 2000",
+    "29 2 1900",
+    "29 2 2024",
+    "28 2 2023",
+    "29 2 2023",
+    "0 5 2020",
+    "5 13 2020",
+    "31 12 2022",
+    "5 0 2020",
+    "31 9 2020",
+    "1 1 1"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) days = 29;\n        else days = 28;\n    }\n    else days = 31;\n    if (m < 1 || m > 12 || d < 1 || d > days || y < 1) cout << \"INVALID\\n\";\n    else cout << \"VALID\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) days = 29;\n        else days = 28;\n    }\n    else days = 31;\n    if (m < 1 || m > 12 || d < 1 || d >= days || y < 1) cout << \"INVALID\\n\";\n    else cout << \"VALID\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) days = 29;\n        else days = 28;\n    }\n    else days = 31;\n    if (m < 1 || m > 12 || d < 1 || d > days || y < 1) cout << \"INVALID\\n\";\n    else cout << \"VALID\\n\";\n    return 0;\n}\n",
+     "note": "Rejects the last day of every month."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m = 2) {\n        if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) days = 29;\n        else days = 28;\n    }\n    else days = 31;\n    if (m < 1 || m > 12 || d < 1 || d > days || y < 1) cout << \"INVALID\\n\";\n    else cout << \"VALID\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) days = 29;\n        else days = 28;\n    }\n    else days = 31;\n    if (m < 1 || m > 12 || d < 1 || d > days || y < 1) cout << \"INVALID\\n\";\n    else cout << \"VALID\\n\";\n    return 0;\n}\n",
+     "note": "Wrote = in the February test, which overwrites the month."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4 == 0 && y % 100 != 0)) days = 29;\n        else days = 28;\n    }\n    else days = 31;\n    if (m < 1 || m > 12 || d < 1 || d > days || y < 1) cout << \"INVALID\\n\";\n    else cout << \"VALID\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int d, m, y, days;\n    cin >> d >> m >> y;\n    if (m == 4 || m == 6 || m == 9 || m == 11) days = 30;\n    else if (m == 2) {\n        if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) days = 29;\n        else days = 28;\n    }\n    else days = 31;\n    if (m < 1 || m > 12 || d < 1 || d > days || y < 1) cout << \"INVALID\\n\";\n    else cout << \"VALID\\n\";\n    return 0;\n}\n",
+     "note": "Leap-year rule misses years divisible by 400."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-08",
+   "title": "Progressive tax",
+   "statement": "Read an income (integer, up to 2000000000). Tax is 10 percent of the first 10000, 20 percent of the part between 10000 and 40000, and 30 percent of the part above 40000. Compute each portion with integer division by 100 and print the total tax.",
+   "tests": [
+    "5000",
+    "10000",
+    "10001",
+    "25000",
+    "40000",
+    "40001",
+    "100000",
+    "0",
+    "2000000000",
+    "1500000000",
+    "39999"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc > 10000) {\n        tax += (inc - 10000) * 20 / 100;\n        inc = 10000;\n    }\n    tax += inc * 10 / 100;\n    cout << tax << \"\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc > 10000) {\n        tax += (inc - 10000) * 20 / 100;\n        inc = 10000;\n    }\n    tax += inc * 10 / 100;\n    cout << tax << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc > 10000) {\n        tax += (inc - 10000) * 20 / 100;\n        inc = 10000;\n    }\n    tax += inc * 10 / 100;\n    cout << tax << \"\\n\";\n    return 0;\n}\n",
+     "note": "The portion times 30 overflows int for large incomes."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 4000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc > 10000) {\n        tax += (inc - 10000) * 20 / 100;\n        inc = 10000;\n    }\n    tax += inc * 10 / 100;\n    cout << tax << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc > 10000) {\n        tax += (inc - 10000) * 20 / 100;\n        inc = 10000;\n    }\n    tax += inc * 10 / 100;\n    cout << tax << \"\\n\";\n    return 0;\n}\n",
+     "note": "Compared against the wrong bound for the top bracket."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n    }\n    if (inc > 10000) {\n        tax += (inc - 10000) * 20 / 100;\n        inc = 10000;\n    }\n    tax += inc * 10 / 100;\n    cout << tax << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc > 10000) {\n        tax += (inc - 10000) * 20 / 100;\n        inc = 10000;\n    }\n    tax += inc * 10 / 100;\n    cout << tax << \"\\n\";\n    return 0;\n}\n",
+     "note": "Forgot to cut the income down after taxing the top bracket, so it is taxed again."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-09",
+   "title": "Parking fee",
+   "statement": "Read the minutes parked m. The first 30 minutes of each day are free; after that each started hour costs 2, but a single day (1440 minutes) never costs more than 20. Every full 1440 minutes costs exactly 20. Print the total fee.",
+   "tests": [
+    "0",
+    "20",
+    "30",
+    "31",
+    "90",
+    "91",
+    "600",
+    "1439",
+    "1440",
+    "1441",
+    "1500",
+    "2000000000",
+    "3000",
+    "45",
+    "5000"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 30) fee = ((rem - 30 + 59) / 60) * 2;\n    if (fee > 20) fee = 20;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 60) fee = ((rem - 30 + 59) / 60) * 2;\n    if (fee > 20) fee = 20;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 30) fee = ((rem - 30 + 59) / 60) * 2;\n    if (fee > 20) fee = 20;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+     "note": "Compared against the wrong bound for the free period."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m = 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 30) fee = ((rem - 30 + 59) / 60) * 2;\n    if (fee > 20) fee = 20;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 30) fee = ((rem - 30 + 59) / 60) * 2;\n    if (fee > 20) fee = 20;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+     "note": "Used = in the zero check, which sets m to 0."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 30) fee = ((rem - 30 + 60) / 60) * 2;\n    if (fee > 20) fee = 20;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 30) fee = ((rem - 30 + 59) / 60) * 2;\n    if (fee > 20) fee = 20;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+     "note": "Rounding up to started hours is off by one."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 30) fee = ((rem - 30 + 59) / 60) * 2;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n    if (rem > 30) fee = ((rem - 30 + 59) / 60) * 2;\n    if (fee > 20) fee = 20;\n    cout << days * 20 + fee << \"\\n\";\n    return 0;\n}\n",
+     "note": "Forgot the daily cap."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-10",
+   "title": "Voting eligibility",
+   "statement": "Read n people. For each, read age, citizen (1 or 0) and registered (1 or 0). A person is eligible if age is at least 18 and both flags are 1. Print the number of eligible people and the age of the youngest eligible person (or -1 if none), separated by a space.",
+   "tests": [
+    "3\n20 1 1\n18 1 1\n30 1 1",
+    "2\n17 1 1\n16 1 1",
+    "2\n18 1 1\n25 1 0",
+    "3\n40 0 1\n30 1 1\n22 1 1",
+    "4\n50 1 1\n19 1 1\n18 1 1\n60 1 1",
+    "1\n18 1 1",
+    "1\n18 0 0",
+    "3\n30 1 0\n25 0 1\n19 1 1",
+    "4\n19 1 1\n21 1 1\n20 1 1\n80 1 1",
+    "1\n99 1 1"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg == 1 && age >= 18) {\n            cnt++;\n            if (youngest == -1 || age < youngest) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg == 1 && age > 18) {\n            cnt++;\n            if (youngest == -1 || age < youngest) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg == 1 && age >= 18) {\n            cnt++;\n            if (youngest == -1 || age < youngest) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+     "note": "Voting age is 18 but the student used a strict comparison."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit = 1 && reg == 1 && age >= 18) {\n            cnt++;\n            if (youngest == -1 || age < youngest) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg == 1 && age >= 18) {\n            cnt++;\n            if (youngest == -1 || age < youngest) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+     "note": "Wrote = in the citizen check, which overwrites the flag and is always true."
+    },
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg == 1 && age >= 18) {\n            cnt++;\n            if (youngest == -1) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg == 1 && age >= 18) {\n            cnt++;\n            if (youngest == -1 || age < youngest) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+     "note": "Keeps the first eligible age forever instead of updating the minimum."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg == 1 && age >= 18) {\n            cnt++;\n            if (youngest == -1 || age > youngest) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, cit, reg, cnt = 0, youngest = -1;\n    cin >> n;\n    while (n--) {\n        cin >> age >> cit >> reg;\n        if (cit == 1 && reg == 1 && age >= 18) {\n            cnt++;\n            if (youngest == -1 || age < youngest) youngest = age;\n        }\n    }\n    cout << cnt << \" \" << youngest << \"\\n\";\n    return 0;\n}\n",
+     "note": "Comparison direction finds the oldest, not the youngest."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-11",
+   "title": "Numeric password rules",
+   "statement": "Read a positive integer (up to 18 digits). It is a VALID password if it has between 6 and 10 digits, no two neighbouring digits are equal, and its digit sum is at least 20. Otherwise print INVALID.",
+   "tests": [
+    "123456789",
+    "9898",
+    "12345678901",
+    "121212",
+    "112345678",
+    "1234567890",
+    "123456",
+    "987654",
+    "9876543210",
+    "98989898",
+    "19191919",
+    "555555",
+    "3141592653",
+    "123456789012345678"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        prev = d;\n        sum += d;\n        len++;\n        x /= 10;\n    }\n    if (rep == 0 && len >= 6 && len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        prev = d;\n        sum += d;\n        len++;\n        x /= 10;\n    }\n    if (rep == 0 && 6 <= len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        prev = d;\n        sum += d;\n        len++;\n        x /= 10;\n    }\n    if (rep == 0 && len >= 6 && len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+     "note": "Chained comparison is always true, so the length is never checked."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        prev = d;\n        sum += d;\n        len++;\n        x /= 10;\n    }\n    if (rep = 0 && len >= 6 && len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        prev = d;\n        sum += d;\n        len++;\n        x /= 10;\n    }\n    if (rep == 0 && len >= 6 && len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+     "note": "Wrote = in the final condition, which makes it always false."
+    },
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        sum += d;\n        len++;\n        x /= 10;\n    }\n    if (rep == 0 && len >= 6 && len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        prev = d;\n        sum += d;\n        len++;\n        x /= 10;\n    }\n    if (rep == 0 && len >= 6 && len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+     "note": "The previous digit is never updated, so repeats are not noticed."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        prev = d;\n        sum += 1;\n        len++;\n        x /= 10;\n    }\n    if (rep == 0 && len >= 6 && len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) rep = 1;\n        prev = d;\n        sum += d;\n        len++;\n        x /= 10;\n    }\n    if (rep == 0 && len >= 6 && len <= 10 && sum >= 20) cout << \"VALID\\n\";\n    else cout << \"INVALID\\n\";\n    return 0;\n}\n",
+     "note": "Adds 1 per digit instead of the digit value."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-12",
+   "title": "Cinema ticket total",
+   "statement": "Read n and the weekday number (1 to 7), then n ages. Under 3 is free, 3 to 12 costs 8, 13 to 64 costs 12, 65 and over costs 9. On weekday 2 every non-free ticket is 2 cheaper. Print the total.",
+   "tests": [
+    "3 1\n2 10 30",
+    "3 2\n2 10 30",
+    "4 5\n3 12 13 64",
+    "4 5\n65 70 2 0",
+    "2 2\n1 2",
+    "2 2\n12 13",
+    "3 3\n11 12 13",
+    "1 2\n65",
+    "5 2\n1 5 20 70 2",
+    "0 4\n",
+    "3 7\n64 65 66"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age < 3) p = 0;\n        else if (age <= 12) p = 8;\n        else if (age < 65) p = 12;\n        else p = 9;\n        if (day == 2 && p > 0) p -= 2;\n        total += p;\n    }\n    cout << total << \"\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age < 3) p = 0;\n        else if (age < 12) p = 8;\n        else if (age < 65) p = 12;\n        else p = 9;\n        if (day == 2 && p > 0) p -= 2;\n        total += p;\n    }\n    cout << total << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age < 3) p = 0;\n        else if (age <= 12) p = 8;\n        else if (age < 65) p = 12;\n        else p = 9;\n        if (day == 2 && p > 0) p -= 2;\n        total += p;\n    }\n    cout << total << \"\\n\";\n    return 0;\n}\n",
+     "note": "Child band should include age 12."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age < 3) p = 0;\n        else if (age <= 12) p = 8;\n        else if (age < 65) p = 12;\n        else p = 9;\n        if (day = 2 && p > 0) p -= 2;\n        total += p;\n    }\n    cout << total << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age < 3) p = 0;\n        else if (age <= 12) p = 8;\n        else if (age < 65) p = 12;\n        else p = 9;\n        if (day == 2 && p > 0) p -= 2;\n        total += p;\n    }\n    cout << total << \"\\n\";\n    return 0;\n}\n",
+     "note": "Wrote = for the weekday test, so the day variable is overwritten."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age < 3) p = 0;\n        else if (age <= 12) p = 8;\n        else if (age < 65) p = 12;\n        else p = 9;\n        if (day == 2) p -= 2;\n        total += p;\n    }\n    cout << total << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, age, day;\n    cin >> n >> day;\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> age;\n        int p;\n        if (age < 3) p = 0;\n        else if (age <= 12) p = 8;\n        else if (age < 65) p = 12;\n        else p = 9;\n        if (day == 2 && p > 0) p -= 2;\n        total += p;\n    }\n    cout << total << \"\\n\";\n    return 0;\n}\n",
+     "note": "Discount is also applied to free tickets, giving negative prices."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-13",
+   "title": "Freezing and heat readings",
+   "statement": "Read n temperature readings. Print the 1-based position of the first reading below 0 and the position of the last reading above 30, separated by a space. Use -1 for a missing one.",
+   "tests": [
+    "5\n10 -2 35 -4 40",
+    "3\n10 20 25",
+    "3\n-1 -2 -3",
+    "3\n31 32 33",
+    "1\n30",
+    "1\n-1",
+    "6\n31 5 -5 35 31 -1",
+    "4\n0 30 31 0",
+    "5\n40 -3 -3 -3 20",
+    "7\n1 2 3 4 5 6 -7"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = i;\n        if (t > 30) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_STALE_EXIT",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = i;\n        if (t > 30 && last == -1) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = i;\n        if (t > 30) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+     "note": "Keeps the first hot reading instead of the last one."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = i;\n        if (t >= 30) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = i;\n        if (t > 30) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+     "note": "Reading of exactly 30 is counted as above 30."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first = -1 && t < 0) first = i;\n        if (t > 30) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = i;\n        if (t > 30) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+     "note": "Wrote = so first is overwritten on every reading."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = i;\n        if (t > 30) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = i;\n        if (t > 30) last = i;\n    }\n    cout << first << \" \" << last << \"\\n\";\n    return 0;\n}\n",
+     "note": "Reports 0-based positions instead of 1-based."
+    }
+   ]
+  },
+  {
+   "id": "S2-R-14",
+   "title": "Part of the day",
+   "statement": "Read hour h and minute m. If h is not 0-23 or m not 0-59 print INVALID. Otherwise print MORNING (5:00-11:59), AFTERNOON (12:00-16:59), EVENING (17:00-20:59) or NIGHT, followed by the word SHARP (after a space) when m is 0.",
+   "tests": [
+    "8 30",
+    "8 0",
+    "12 0",
+    "12 1",
+    "11 59",
+    "16 59",
+    "17 0",
+    "20 59",
+    "21 0",
+    "4 59",
+    "5 0",
+    "0 0",
+    "23 59",
+    "24 0",
+    "-1 10",
+    "10 60",
+    "10 -1"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0 || m > 59) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (h >= 5 && h < 12) s = \"MORNING\";\n    else if (h >= 12 && h < 17) s = \"AFTERNOON\";\n    else if (h >= 17 && h < 21) s = \"EVENING\";\n    else s = \"NIGHT\";\n    cout << s;\n    if (m == 0) cout << \" SHARP\";\n    cout << \"\\n\";\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0 || m > 59) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (h >= 5 && h < 12) s = \"MORNING\";\n    else if (h > 12 && h < 17) s = \"AFTERNOON\";\n    else if (h >= 17 && h < 21) s = \"EVENING\";\n    else s = \"NIGHT\";\n    cout << s;\n    if (m == 0) cout << \" SHARP\";\n    cout << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0 || m > 59) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (h >= 5 && h < 12) s = \"MORNING\";\n    else if (h >= 12 && h < 17) s = \"AFTERNOON\";\n    else if (h >= 17 && h < 21) s = \"EVENING\";\n    else s = \"NIGHT\";\n    cout << s;\n    if (m == 0) cout << \" SHARP\";\n    cout << \"\\n\";\n    return 0;\n}\n",
+     "note": "Noon is excluded from the afternoon band."
+    },
+    {
+     "label": "CPP_ASSIGN_VS_COMPARE",
+     "buggy": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0 || m > 59) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (h >= 5 && h < 12) s = \"MORNING\";\n    else if (h >= 12 && h < 17) s = \"AFTERNOON\";\n    else if (h >= 17 && h < 21) s = \"EVENING\";\n    else s = \"NIGHT\";\n    cout << s;\n    if (m = 0) cout << \" SHARP\";\n    cout << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0 || m > 59) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (h >= 5 && h < 12) s = \"MORNING\";\n    else if (h >= 12 && h < 17) s = \"AFTERNOON\";\n    else if (h >= 17 && h < 21) s = \"EVENING\";\n    else s = \"NIGHT\";\n    cout << s;\n    if (m == 0) cout << \" SHARP\";\n    cout << \"\\n\";\n    return 0;\n}\n",
+     "note": "Wrote = in the SHARP test, so SHARP is never printed."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (h >= 5 && h < 12) s = \"MORNING\";\n    else if (h >= 12 && h < 17) s = \"AFTERNOON\";\n    else if (h >= 17 && h < 21) s = \"EVENING\";\n    else s = \"NIGHT\";\n    cout << s;\n    if (m == 0) cout << \" SHARP\";\n    cout << \"\\n\";\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0 || m > 59) {\n        cout << \"INVALID\\n\";\n        return 0;\n    }\n    if (h >= 5 && h < 12) s = \"MORNING\";\n    else if (h >= 12 && h < 17) s = \"AFTERNOON\";\n    else if (h >= 17 && h < 21) s = \"EVENING\";\n    else s = \"NIGHT\";\n    cout << s;\n    if (m == 0) cout << \" SHARP\";\n    cout << \"\\n\";\n    return 0;\n}\n",
+     "note": "Forgot to reject minutes above 59."
+    }
+   ]
+  }
+ ]
+}

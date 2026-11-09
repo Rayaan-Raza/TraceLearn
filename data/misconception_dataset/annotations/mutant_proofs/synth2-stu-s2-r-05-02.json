@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-05-02",
+ "seed_submission_id": "synth2:S2-R-05",
+ "problem_id": "synth2-S2-R-05",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "a61cd1f2590032d7",
+ "mutant_sha256": "eee51f2088e3be53a9e1010709415d0e16ff1f5b3aa09f5dd921bdbc1480356d",
+ "tests_passed": 5,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x >= l",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, lo, hi, x, cnt = 0, run = 0, best = 0;\n    cin >> n >> lo >> hi;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        if (x >= l",
+  "note": "The current run counter is never reset when an out-of-range value appears.",
+  "evidence": null,
+  "base_sha256": "a61cd1f2590032d7"
+ },
+ "evidence": null
+}

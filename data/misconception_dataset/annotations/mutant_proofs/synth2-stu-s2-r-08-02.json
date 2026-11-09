@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-08-02",
+ "seed_submission_id": "synth2:S2-R-08",
+ "problem_id": "synth2-S2-R-08",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "3b6d0ec667a77e74",
+ "mutant_sha256": "27e6016f311ef088242f0de25120f0c55d0ed87fa4eb18e278fc90677f55ec05",
+ "tests_passed": 6,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 4000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long inc, tax = 0;\n    cin >> inc;\n    if (inc > 40000) {\n        tax += (inc - 40000) * 30 / 100;\n        inc = 40000;\n    }\n    if (inc",
+  "note": "Compared against the wrong bound for the top bracket.",
+  "evidence": null,
+  "base_sha256": "3b6d0ec667a77e74"
+ },
+ "evidence": null
+}

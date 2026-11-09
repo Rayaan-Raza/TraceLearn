@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp18-a02",
+ "seed_submission_id": "student:CP18:A",
+ "problem_id": "bank-CP18",
+ "operator": "student_cpp_other_error_02",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "4d2b8e301769e91d",
+ "mutant_sha256": "82c2c269c01da16ba8347434553d7af5a1b1788fb7d0b50bb664b69de473ef90",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "largest_of_three(a, b, c)",
+  "after": "largest_of_three(a, b, c) + 1",
+  "note": "forgets +1",
+  "base_sha256": "4d2b8e301769e91d"
+ }
+}

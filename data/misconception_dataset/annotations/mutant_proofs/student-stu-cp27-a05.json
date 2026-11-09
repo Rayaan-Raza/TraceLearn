@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp27-a05",
+ "seed_submission_id": "student:CP27:A",
+ "problem_id": "bank-CP27",
+ "operator": "student_cpp_other_error_05",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "593e910bcc15edd1",
+ "mutant_sha256": "457fc041d69bc52dc8b73e43b890b36f6639bad898729180a3f1988207781f92",
+ "tests_passed": 7,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "\"Gas\"",
+  "after": "\"GAS\"",
+  "note": "output case",
+  "base_sha256": "593e910bcc15edd1"
+ }
+}

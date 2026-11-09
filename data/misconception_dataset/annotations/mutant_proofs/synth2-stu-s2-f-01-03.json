@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-01-03",
+ "seed_submission_id": "synth2:S2-F-01",
+ "problem_id": "synth2-S2-F-01",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "324b287413e21a68",
+ "mutant_sha256": "13f0193aa4ab2f79f02e07c5d422e07f95cddef40725ff62d97a27e5cbbd491d",
+ "tests_passed": 2,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nlong long fact(int n) {\n    if (n <= 2) return 1;\n    return n * fact(n - 1);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << fact(n) << endl;\n    return",
+  "after": "#include <iostream>\nusing namespace std;\n\nlong long fact(int n) {\n    if (n <= 1) return 1;\n    return n * fact(n - 1);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << fact(n) << endl;\n    return",
+  "note": "The base case stops at 2 instead of 1, so 2! comes out as 1.",
+  "evidence": null,
+  "base_sha256": "324b287413e21a68"
+ },
+ "evidence": null
+}

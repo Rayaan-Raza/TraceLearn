@@ -1564,6 +1564,20 @@
           "sort_order": 5
         },
         {
+          "id": "CP09-H3",
+          "name": "hidden n",
+          "db_type": "hidden",
+          "partition": "hidden",
+          "stdin": "100000\n",
+          "expected_output": "333328333350000\n",
+          "diagnostic_tag": null,
+          "diagnostic_trait": null,
+          "is_boundary": false,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "sort_order": 6
+        },
+        {
           "id": "CP09-D1",
           "name": "diagnostic inclusive_upper_bound",
           "db_type": "diagnostic",
@@ -1575,7 +1589,7 @@
           "is_boundary": false,
           "time_limit_ms": 2000,
           "memory_limit_mb": 256,
-          "sort_order": 6
+          "sort_order": 7
         },
         {
           "id": "CP09-D2",
@@ -1589,7 +1603,7 @@
           "is_boundary": false,
           "time_limit_ms": 2000,
           "memory_limit_mb": 256,
-          "sort_order": 7
+          "sort_order": 8
         }
       ]
     },
@@ -4848,6 +4862,20 @@
           "sort_order": 5
         },
         {
+          "id": "CP30-H3",
+          "name": "hidden text",
+          "db_type": "hidden",
+          "partition": "hidden",
+          "stdin": "pass word\n",
+          "expected_output": "OK\n",
+          "diagnostic_tag": null,
+          "diagnostic_trait": null,
+          "is_boundary": false,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "sort_order": 6
+        },
+        {
           "id": "CP30-D1",
           "name": "diagnostic assignment_in_condition",
           "db_type": "diagnostic",
@@ -4859,7 +4887,7 @@
           "is_boundary": false,
           "time_limit_ms": 2000,
           "memory_limit_mb": 256,
-          "sort_order": 6
+          "sort_order": 7
         },
         {
           "id": "CP30-D2",
@@ -4873,7 +4901,7 @@
           "is_boundary": false,
           "time_limit_ms": 2000,
           "memory_limit_mb": 256,
-          "sort_order": 7
+          "sort_order": 8
         }
       ]
     },
@@ -5464,6 +5492,20 @@
           "sort_order": 5
         },
         {
+          "id": "CP34-H3",
+          "name": "hidden base exponent",
+          "db_type": "hidden",
+          "partition": "hidden",
+          "stdin": "10 18\n",
+          "expected_output": "1000000000000000000\n",
+          "diagnostic_tag": null,
+          "diagnostic_trait": null,
+          "is_boundary": false,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "sort_order": 6
+        },
+        {
           "id": "CP34-D1",
           "name": "diagnostic no_progress",
           "db_type": "diagnostic",
@@ -5475,7 +5517,7 @@
           "is_boundary": false,
           "time_limit_ms": 2000,
           "memory_limit_mb": 256,
-          "sort_order": 6
+          "sort_order": 7
         },
         {
           "id": "CP34-D2",
@@ -5489,7 +5531,7 @@
           "is_boundary": false,
           "time_limit_ms": 2000,
           "memory_limit_mb": 256,
-          "sort_order": 7
+          "sort_order": 8
         }
       ]
     },
@@ -6386,6 +6428,20 @@
           "sort_order": 5
         },
         {
+          "id": "CP40-H3",
+          "name": "hidden vals t",
+          "db_type": "hidden",
+          "partition": "hidden",
+          "stdin": "5\n999999996 999999997 999999998 999999999 1000000000\n1000000000\n",
+          "expected_output": "4 3999999990\n",
+          "diagnostic_tag": null,
+          "diagnostic_trait": null,
+          "is_boundary": false,
+          "time_limit_ms": 2000,
+          "memory_limit_mb": 256,
+          "sort_order": 6
+        },
+        {
           "id": "CP40-D1",
           "name": "diagnostic exit_condition_not_updated",
           "db_type": "diagnostic",
@@ -6397,7 +6453,7 @@
           "is_boundary": false,
           "time_limit_ms": 2000,
           "memory_limit_mb": 256,
-          "sort_order": 6
+          "sort_order": 7
         },
         {
           "id": "CP40-D2",
@@ -6411,7 +6467,7 @@
           "is_boundary": false,
           "time_limit_ms": 2000,
           "memory_limit_mb": 256,
-          "sort_order": 7
+          "sort_order": 8
         }
       ]
     }

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-09-04",
+ "seed_submission_id": "synth2:S2-R-09",
+ "problem_id": "synth2-S2-R-09",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "ab88dceb6c0810b2",
+ "mutant_sha256": "5df4d6c175fa7c5cd9122f9d3a6576d9a962584af9a78e60676b507cf462f7ff",
+ "tests_passed": 12,
+ "tests_total": 15,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n  ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    if (m == 0) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int days = m / 1440, rem = m % 1440, fee = 0;\n  ",
+  "note": "Forgot the daily cap.",
+  "evidence": null,
+  "base_sha256": "ab88dceb6c0810b2"
+ },
+ "evidence": null
+}

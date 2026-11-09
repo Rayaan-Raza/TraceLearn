@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-11-03",
+ "seed_submission_id": "synth2:S2-M-11",
+ "problem_id": "synth2-S2-M-11",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "b0739ba784bef168",
+ "mutant_sha256": "a2f4be6edfe37ebe37717a7df6e8b9621daffdab6a36aa8c3a7058859f2680ec",
+ "tests_passed": 3,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n  ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n  ",
+  "note": "Wrong winning rule: paper beats rock, not scissors.",
+  "evidence": null,
+  "base_sha256": "b0739ba784bef168"
+ },
+ "evidence": null
+}

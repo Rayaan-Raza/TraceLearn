@@ -1,0 +1,17 @@
+{
+ "run_id": "stu-cn-av-054",
+ "seed_submission_id": "codenet:p02594/C++/s677928563.cpp",
+ "problem_id": "tl-codenet-p02594",
+ "operator": "codenet_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "152f374d1d6328f4",
+ "mutant_sha256": "81a3940dc8ddbcb751facc4b574310d0f907865e2dc5b1bd240fd35a1d83401b",
+ "tests_passed": 4,
+ "tests_total": 18,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(t = 30)",
+  "after": "(t==30)",
+  "base_sha256": "152f374d1d6328f4"
+ }
+}

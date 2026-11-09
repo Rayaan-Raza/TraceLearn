@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp03-a00",
+ "seed_submission_id": "student:CP03:A",
+ "problem_id": "bank-CP03",
+ "operator": "student_cpp_other_error_00",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "c3456d3a2556724e",
+ "mutant_sha256": "9be63c299c5f21d8a70b666f8bcee78a7a203d127053f367de29d5f0d75b3313",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "cout << x * 2 << endl;\n    return 0;",
+  "after": "return x * 2;",
+  "note": "prints inside the function instead of returning",
+  "base_sha256": "c3456d3a2556724e"
+ }
+}

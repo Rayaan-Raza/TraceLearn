@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-03-02",
+ "seed_submission_id": "synth2:S2-L-03",
+ "problem_id": "synth2-S2-L-03",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "21082d18fc914e10",
+ "mutant_sha256": "0ffb68af7154be75d5932899b1d90a7a722bb93055557c30626790e814de8939",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nlong long pre[100005];\nint main() {\n    int n, q;\n    cin >> n;\n    for (int i = 1; i < n; i++) {\n        int x;\n        cin >> x;\n        pre[i] = pre[i - 1] ",
+  "after": "#include <iostream>\nusing namespace std;\nlong long pre[100005];\nint main() {\n    int n, q;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        pre[i] = pre[i - 1]",
+  "note": "Prefix loop stops before n so the last element is never read.",
+  "evidence": null,
+  "base_sha256": "21082d18fc914e10"
+ },
+ "evidence": null
+}

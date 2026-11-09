@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-10-01",
+ "seed_submission_id": "synth2:S2-F-10",
+ "problem_id": "synth2-S2-F-10",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "c886e04a76181cf1",
+ "mutant_sha256": "271ecde2bbc04b2f9059e024d9f05ffda5b3007bb2d558b03ae6ed973c2c34ae",
+ "tests_passed": 11,
+ "tests_total": 12,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nlong long moves(int n) {\n    if (n == 1) return 1;\n    return 2 * moves(n - 1) + 1;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << moves(n) << endl;\n   ",
+  "after": "#include <iostream>\nusing namespace std;\n\nlong long moves(int n) {\n    if (n == 0) return 0;\n    return 2 * moves(n - 1) + 1;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << moves(n) << endl;\n   ",
+  "note": "Stopping case is only n == 1, so zero disks recurse forever.",
+  "evidence": null,
+  "base_sha256": "c886e04a76181cf1"
+ },
+ "evidence": null
+}

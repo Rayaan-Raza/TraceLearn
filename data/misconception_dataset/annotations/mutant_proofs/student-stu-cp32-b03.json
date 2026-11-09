@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp32-b03",
+ "seed_submission_id": "student:CP32:B",
+ "problem_id": "bank-CP32",
+ "operator": "student_cpp_other_error_03",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "51b7a877ca47f363",
+ "mutant_sha256": "e47ebb426b63fae0a0d4a2bb04d1f3f305e00e10188bc6b03d4ce30e83519a51",
+ "tests_passed": 5,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "    if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') isv = 1;\n",
+  "note": "uppercase vowels missing",
+  "base_sha256": "51b7a877ca47f363"
+ }
+}

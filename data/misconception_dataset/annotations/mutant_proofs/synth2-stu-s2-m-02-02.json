@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-02-02",
+ "seed_submission_id": "synth2:S2-M-02",
+ "problem_id": "synth2-S2-M-02",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "18e888d563296485",
+ "mutant_sha256": "8b126d00cc4dcc4ecfcd2e72dadb19cc71beb618b03700dc59878bacab50193a",
+ "tests_passed": 7,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin",
+  "note": "Withdrawing exactly the whole balance is rejected.",
+  "evidence": null,
+  "base_sha256": "18e888d563296485"
+ },
+ "evidence": null
+}

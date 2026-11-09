@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-05-05",
+ "seed_submission_id": "synth2:S2-N-05",
+ "problem_id": "synth2-S2-N-05",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "2dbe5159d5f5b94c",
+ "mutant_sha256": "279487c6ee48d8c1ccd898097fd3162bb3308488cacc8a3cc65c21b0e7de8a19",
+ "tests_passed": 1,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 1;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n    ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n    ",
+  "note": "Digit counter starts at 1 and over counts.",
+  "evidence": null,
+  "base_sha256": "2dbe5159d5f5b94c"
+ },
+ "evidence": null
+}

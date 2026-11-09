@@ -479,7 +479,7 @@ def test_examples_match_the_visible_test_cases():
 def test_manifest_checksums_match_the_files():
     manifest = load_manifest()
     assert manifest["problem_count"] == 40
-    assert manifest["test_case_count"] == 305
+    assert manifest["test_case_count"] == 309
     assert manifest["variant_count"] == 32
     assert manifest["hint_count"] == 120
     for path, digest in manifest["checksums"].items():

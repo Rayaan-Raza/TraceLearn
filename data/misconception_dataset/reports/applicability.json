@@ -1,0 +1,113 @@
+{
+  "safety": {
+    "rows": {
+      "certain": 899,
+      "weak": 79
+    },
+    "ruled_out_own_label": {},
+    "examples": []
+  },
+  "cost": {
+    "oof_macro_f1_all": {
+      "without_rules": 0.6717,
+      "with_rules": 0.6703
+    },
+    "oof_macro_f1_non_synthetic": {
+      "without_rules": 0.2373,
+      "with_rules": 0.2284
+    },
+    "top_class_changed_rows": 29,
+    "repeats": 3
+  },
+  "unseen": {
+    "pool": "dev_gold",
+    "failing": 220,
+    "best": {
+      "without_rules": {
+        "abstain_rate": 0.377,
+        "other_error_share_of_answers": 0.942,
+        "answer_histogram": {
+          "CPP_OTHER_ERROR": 129,
+          "CPP_ARRAY_BOUNDS": 5,
+          "CPP_UNINITIALIZED_VAR": 2,
+          "CPP_STALE_EXIT": 1
+        }
+      },
+      "with_rules": {
+        "abstain_rate": 0.186,
+        "other_error_share_of_answers": 0.955,
+        "answer_histogram": {
+          "CPP_OTHER_ERROR": 171,
+          "CPP_ARRAY_BOUNDS": 5,
+          "CPP_UNINITIALIZED_VAR": 2,
+          "CPP_STALE_EXIT": 1
+        }
+      },
+      "rows_with_a_ruled_out_class": 220,
+      "top_class_was_ruled_out": 0
+    },
+    "common": {
+      "without_rules": {
+        "abstain_rate": 0.25,
+        "other_error_share_of_answers": 0.903,
+        "answer_histogram": {
+          "CPP_OTHER_ERROR": 149,
+          "CPP_INT_OVERFLOW": 7,
+          "CPP_ARRAY_BOUNDS": 4,
+          "CPP_ASSIGN_VS_COMPARE": 3,
+          "CPP_UNINITIALIZED_VAR": 2
+        }
+      },
+      "with_rules": {
+        "abstain_rate": 0.1,
+        "other_error_share_of_answers": 0.919,
+        "answer_histogram": {
+          "CPP_OTHER_ERROR": 182,
+          "CPP_INT_OVERFLOW": 7,
+          "CPP_ARRAY_BOUNDS": 4,
+          "CPP_ASSIGN_VS_COMPARE": 3,
+          "CPP_UNINITIALIZED_VAR": 2
+        }
+      },
+      "rows_with_a_ruled_out_class": 220,
+      "top_class_was_ruled_out": 3
+    }
+  },
+  "open_set_reference": {
+    "n": 34,
+    "reference": "model-assisted pre-review labels, unsigned; not gold",
+    "reference_other": 14,
+    "best": {
+      "without_rules": {
+        "misconception: abstain": 12,
+        "misconception: correct": 6,
+        "misconception: wrong class": 2,
+        "other: FALSE ALARM": 8,
+        "other: abstain": 6
+      },
+      "with_rules": {
+        "misconception: abstain": 11,
+        "misconception: correct": 6,
+        "misconception: wrong class": 3,
+        "other: FALSE ALARM": 8,
+        "other: abstain": 6
+      }
+    },
+    "common": {
+      "without_rules": {
+        "misconception: abstain": 10,
+        "misconception: correct": 5,
+        "misconception: wrong class": 5,
+        "other: FALSE ALARM": 8,
+        "other: abstain": 6
+      },
+      "with_rules": {
+        "misconception: abstain": 9,
+        "misconception: correct": 5,
+        "misconception: wrong class": 6,
+        "other: FALSE ALARM": 8,
+        "other: abstain": 6
+      }
+    }
+  }
+}
