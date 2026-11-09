@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-05-03",
+ "seed_submission_id": "synth2:S2-F-05",
+ "problem_id": "synth2-S2-F-05",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "f5f7470f928eeae5",
+ "mutant_sha256": "ecee8dad11ad9080ce266dbda15fdcc9c40c7e6b8d70aad28da503fc57a6b4c3",
+ "tests_passed": 7,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nlong long findgcd(long long a, long long b) {\n    if (b == 0) return a;\n    return findgcd(b, a % b);\n}\n\nint main() {\n    long long a, b;\n    cin >> a >> b;\n ",
+  "after": "#include <iostream>\nusing namespace std;\n\nlong long findgcd(long long a, long long b) {\n    if (b == 0) return a;\n    return findgcd(b, a % b);\n}\n\nint main() {\n    long long a, b;\n    cin >> a >> b;\n ",
+  "note": "Uses a*b as the lcm and forgets to divide by the gcd.",
+  "evidence": null,
+  "base_sha256": "f5f7470f928eeae5"
+ },
+ "evidence": null
+}

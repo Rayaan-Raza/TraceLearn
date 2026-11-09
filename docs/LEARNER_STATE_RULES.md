@@ -132,6 +132,20 @@ replays submit many attempts in the same second. The weight is
 A related success lowers the score of M. It does not by itself put the attempt into review: a
 failure after a success is a regression, not a conflict inside the current evidence.
 
+**History needs observed support (`history_needs_observed_support`, default on).** Support from
+`history` or `sequence` evidence counts only for a misconception that this attempt's own observed
+evidence (tests, static, execution, or a named model prediction) also supports. History can still
+raise a misconception's confidence and drive PERSISTENT, RECURRED and RESOLVED, but it can no longer
+name a misconception on an attempt that shows no sign of it. Before this rule, a student's earlier
+loop bug named LOOP_BOUNDARY on later failures that had nothing to do with loops: 20 of 35 "other"
+failures in the simulated classroom (`docs/6-nov.md` section 18). Set it off to reproduce the
+earlier behaviour for the current-only vs history-aware comparison.
+
+**Model fusion (`model_fusion`).** `points`: the model is one weighted vote among the rules.
+`model_first` (default since 2026-11-09): a confident named model prediction is the diagnosis. The model's "none of my classes"
+leaves only M02/M03, which it has no class for, to the rules; everything else becomes UNCERTAIN. An
+abstention falls back to points, and a submission that passes every test is never overridden.
+
 ## Configuration reference
 
 ```yaml

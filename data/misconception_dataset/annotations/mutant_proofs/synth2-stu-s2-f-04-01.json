@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-04-01",
+ "seed_submission_id": "synth2:S2-F-04",
+ "problem_id": "synth2-S2-F-04",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "63da4f697f3af463",
+ "mutant_sha256": "419dfa1b09db1497bf78709a7eb0cd09e5eb518f273d7dfde77f742025cc3e64",
+ "tests_passed": 0,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nint digsum(long long n) {\n    return n % 10 + digsum(n / 10);\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    cout << digsum(n) << endl;\n    return 0;\n}\n",
+  "after": "#include <iostream>\nusing namespace std;\n\nint digsum(long long n) {\n    if (n == 0) return 0;\n    return n % 10 + digsum(n / 10);\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    cout << digsum(n) <",
+  "note": "No stopping case, so digsum(0) calls itself forever.",
+  "evidence": null,
+  "base_sha256": "63da4f697f3af463"
+ },
+ "evidence": null
+}

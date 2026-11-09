@@ -87,16 +87,38 @@ class Settings(BaseSettings):
     max_concurrent_executions: int = 4
 
     # --- trained misconception classifier ----------------------------------
+    # Defaults (2026-11-09): the `execution` model decides (model_first), measured on a background
+    # worker. On real code from 20 unseen problems it named a misconception with 0.81 precision and
+    # scored 0.785 accuracy (docs/MODEL_LOG.md); the rules-only path never named one from the model.
+    # Set MODEL_DIAGNOSIS=off (or MODEL_FUSION=points) to go back to the rule engine.
     # off: the model is never loaded. shadow: it runs and its output is
     # stored, but nothing the student or teacher sees changes. on: its output
     # joins the rule evidence in the diagnosis.
-    model_diagnosis: Literal["off", "shadow", "on"] = "off"
-    model_variant: Literal["full", "common", "best"] = "best"
+    model_diagnosis: Literal["off", "shadow", "on"] = "on"
+    model_variant: Literal["full", "common", "best", "execution"] = "execution"
     model_dir: Path = Path("./data/misconception_dataset/models")
     # Largest evidence weight a confident prediction can add. A design
     # parameter, not a learned value: static_strong is 0.30 and
     # diagnostic_match is 0.35, so the model sits just above both.
     model_evidence_weight: float = 0.40
+    # Test and repair evidence for the `execution` model, measured in the sandbox for a failing
+    # C++ submission (seconds, up to a few minutes). The container needs a memory limit, because
+    # sanitizer builds cannot run under an address-space cap.
+    # shadow: a background thread stores what `execution` would say, as weightless evidence.
+    # on: measured before the diagnosis, so the prediction joins the evidence the diagnosis and
+    #     the learner state are built from (needs model_diagnosis=on and model_variant=execution).
+    model_run_records: Literal["off", "shadow", "on"] = "on"
+    # How a model prediction combines with the rule evidence (`diagnosis/confidence.py`).
+    # points: the model is one weighted vote among the rules (the frozen evidence weights decide).
+    # model_first: a confident named prediction decides; "none of my classes" leaves only the
+    #     misconceptions the model has no class for to the rules; an abstention falls back to points.
+    model_fusion: Literal["points", "model_first"] = "model_first"
+    # History and sequence evidence may only strengthen a misconception this attempt's own
+    # (observed) evidence supports; it can no longer name one on its own.
+    history_needs_observed_support: bool = True
+    # on: a failing C++ submission returns its test result at once and the run record, the
+    # model and the diagnosis follow on a background worker (needs model_run_records=on).
+    model_async: bool = True
 
     # ---------------------------------------------------------------------
     @property

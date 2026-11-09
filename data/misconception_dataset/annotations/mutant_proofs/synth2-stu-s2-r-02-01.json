@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-02-01",
+ "seed_submission_id": "synth2:S2-R-02",
+ "problem_id": "synth2-S2-R-02",
+ "operator": "synth2_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "b4bdc43e99ecd8ce",
+ "mutant_sha256": "5b44c9c917d3abca0ef4bd71a6675661fb028ec50dc36d05e4e9c7ffb0d95389",
+ "tests_passed": 2,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r = 0 && (y",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, y, cnt = 0, last = -1;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> y;\n        int r = y % 4;\n        if (r == 0 && (",
+  "note": "Used = in the divisible-by-4 test, which sets r to 0 and makes the condition false.",
+  "evidence": null,
+  "base_sha256": "b4bdc43e99ecd8ce"
+ },
+ "evidence": null
+}

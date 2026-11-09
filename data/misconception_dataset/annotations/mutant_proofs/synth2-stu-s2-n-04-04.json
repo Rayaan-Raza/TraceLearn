@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-04-04",
+ "seed_submission_id": "synth2:S2-N-04",
+ "problem_id": "synth2-S2-N-04",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "74cd0b005a0da7ad",
+ "mutant_sha256": "0f38be200cc82556925fb53e279ebd214157fbda81d33937cbbc946611d7127e",
+ "tests_passed": 6,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;",
+  "note": "lcm computed as a*b, forgetting to divide by the gcd.",
+  "evidence": null,
+  "base_sha256": "74cd0b005a0da7ad"
+ },
+ "evidence": null
+}

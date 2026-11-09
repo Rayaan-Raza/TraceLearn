@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-12-03",
+ "seed_submission_id": "synth2:S2-L-12",
+ "problem_id": "synth2-S2-L-12",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "9924c6d8442dc446",
+ "mutant_sha256": "ed4dc2436d094800ea35f365e0fb26725ee0445f741554452a5b288b3324ea49",
+ "tests_passed": 5,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[105][105];\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < n; j++) cin >> a[i][j];\n    long long d1 = 0",
+  "after": "#include <iostream>\nusing namespace std;\nint a[105][105];\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < n; j++) cin >> a[i][j];\n    long long d1 = 0",
+  "note": "Centre cell is counted twice for odd n.",
+  "evidence": null,
+  "base_sha256": "9924c6d8442dc446"
+ },
+ "evidence": null
+}

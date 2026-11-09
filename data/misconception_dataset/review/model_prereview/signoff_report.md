@@ -9,18 +9,20 @@ Acceptance uses *independent* agreement (the reviewer's first label, before the 
 | dev_gold_codestream.csv | 30 | 30 | 6/6 | 97% | 3 | 90% | yes | 30 |
 | dev_gold_progpedia.csv | 17 | 17 | 17/17 | 88% | 5 | 59% | no | 17 |
 | iid_test_progpedia.csv | 17 | 17 | 17/17 | 94% | 5 | 65% | no | 17 |
-| weak_labels_codestream.csv | 33 | 8 | 7/7 | 100% | 4 | 50% | no | 8 |
-| weak_labels_progpedia.csv | 150 | 63 | 30/30 | 100% | 28 | 56% | no | 63 |
+| weak_labels_codestream.csv | 33 | 33 | 7/7 | 100% | 4 | 87% | no | 31 |
+| weak_labels_progpedia.csv | 150 | 150 | 30/30 | 100% | 28 | 80% | no | 141 |
 
-Decisions on existing rows: {'relabel': 42, 'confirm': 64} · new human-labeled rows: 29
+Decisions on existing rows: {'relabel': 72, 'confirm': 135} · new human-labeled rows: 0
 
 | Audit key | Audited | Correct |
 |---|---:|---:|
-| lf_array_bounds | 12 | 6 |
-| lf_int_overflow | 10 | 8 |
-| lf_loop_boundary | 16 | 5 |
-| lf_off_by_one | 8 | 5 |
-| pg-3 | 63 | 44 |
+| lf_array_bounds | 17 | 10 |
+| lf_assign_vs_compare | 1 | 1 |
+| lf_int_overflow | 16 | 12 |
+| lf_loop_boundary | 18 | 5 |
+| lf_off_by_one | 17 | 6 |
+| pg-3 | 141 | 105 |
+| repair_verified:CPP_ASSIGN_VS_COMPARE | 1 | 1 |
 | repair_verified:CPP_INT_OVERFLOW | 6 | 6 |
 | repair_verified:CPP_LOOP_BOUNDARY | 3 | 3 |
 | repair_verified:CPP_OFF_BY_ONE | 2 | 2 |

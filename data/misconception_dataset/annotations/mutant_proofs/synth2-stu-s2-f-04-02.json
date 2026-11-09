@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-04-02",
+ "seed_submission_id": "synth2:S2-F-04",
+ "problem_id": "synth2-S2-F-04",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "63da4f697f3af463",
+ "mutant_sha256": "54969029d369f5d24ed42cb75d9f02899252e95a94fdbdef02cfa32984a12a29",
+ "tests_passed": 7,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nint digsum(long long n) {\n    if (n == 0) return 0;\n    return n % 10 + digsum(n / 10);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << digsum(n) << endl",
+  "after": "#include <iostream>\nusing namespace std;\n\nint digsum(long long n) {\n    if (n == 0) return 0;\n    return n % 10 + digsum(n / 10);\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    cout << digsum(n) <",
+  "note": "n is read into an int so values above 2^31 are truncated.",
+  "evidence": "wrong_result_on_large_input",
+  "base_sha256": "63da4f697f3af463"
+ },
+ "evidence": "wrong_result_on_large_input"
+}

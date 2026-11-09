@@ -31,6 +31,7 @@ from typing import Any, Mapping
 
 import numpy as np
 
+from backend.app.diagnosis.applicability import move_ruled_out_mass, ruled_out
 from tracelearn_features.schema import feature_names as schema_feature_names
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -41,6 +42,7 @@ VARIANT_FILES: dict[str, str] = {
     "masked": "xgb_masked_v1.json",
     "common": "xgb_common_v1.json",
     "best": "xgb_best_v1.json",
+    "execution": "xgb_execution_v1.json",
 }
 TOP_K = 3
 
@@ -62,6 +64,7 @@ class ModelPrediction:
     top_k: tuple[tuple[str, float], ...]
     n_features: int
     n_missing: int
+    ruled_out: tuple[tuple[str, str], ...] = ()
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -76,6 +79,7 @@ class ModelPrediction:
             "top_k": [{"label": label, "p": p} for label, p in self.top_k],
             "n_features": self.n_features,
             "n_missing": self.n_missing,
+            "ruled_out": [{"label": label, "reason": reason} for label, reason in self.ruled_out],
         }
 
 
@@ -210,9 +214,21 @@ class ModelClassifier:
             row[0, i] = value
         return row, missing
 
-    def predict(self, features: Mapping[str, Any]) -> ModelPrediction:
+    def predict(self, features: Mapping[str, Any], apply_applicability: bool = True) -> ModelPrediction:
+        """Calibrated prediction for one feature mapping.
+
+        With `apply_applicability`, classes whose required construct is absent from
+        the program (`applicability.py`) get probability 0 and that mass moves to
+        OTHER_ERROR before the abstain decision. The rules read the mapping the
+        caller passes, which may hold more features than this variant uses.
+        """
         row, missing = self.vector(features)
         scaled = rescale(self._raw(row), self.temperature)[0]
+        out_rules: dict[str, str] = {}
+        if apply_applicability:
+            numeric = {k: _as_float(v) for k, v in features.items()}
+            out_rules = ruled_out({k: (None if math.isnan(v) else v) for k, v in numeric.items()})
+            scaled = move_ruled_out_mass(scaled, self.classes, out_rules)
         order = np.argsort(-scaled, kind="stable")
         top = int(order[0])
         top_p = float(scaled[top])
@@ -229,4 +245,5 @@ class ModelClassifier:
             top_k=tuple((self.classes[int(i)], round(float(scaled[i]), 6)) for i in order[:TOP_K]),
             n_features=len(self.features),
             n_missing=missing,
+            ruled_out=tuple(sorted(out_rules.items())),
         )

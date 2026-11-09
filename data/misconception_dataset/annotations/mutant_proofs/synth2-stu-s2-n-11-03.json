@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-11-03",
+ "seed_submission_id": "synth2:S2-N-11",
+ "problem_id": "synth2-S2-N-11",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "c726c144e3149ce4",
+ "mutant_sha256": "6da8a339742c3df0ecd015325bda621e65b15329b5e0ef542cd77eddadbd03a0",
+ "tests_passed": 0,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b >= 0) {\n        if (b % 2 == 1) r = r * a % m;\n  ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n   ",
+  "note": "Loop never ends since b stays at 0.",
+  "evidence": null,
+  "base_sha256": "c726c144e3149ce4"
+ },
+ "evidence": null
+}

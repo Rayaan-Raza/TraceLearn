@@ -1,0 +1,574 @@
+{
+ "TE-001": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text 'Not sorted' vs 'Not Sorted'"
+ },
+ "TE-002": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong median logic on unsorted list"
+ },
+ "TE-003": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Descending order'"
+ },
+ "TE-004": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separator"
+ },
+ "TE-005": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "loop starts at i=0 but reads arr[i-1]"
+ },
+ "TE-006": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "integer division 1/2 in rounding test"
+ },
+ "TE-007": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "two-heap median logic wrong"
+ },
+ "TE-008": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "last element printed twice"
+ },
+ "TE-009": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (triangle)"
+ },
+ "TE-010": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separator"
+ },
+ "TE-011": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "newline instead of space"
+ },
+ "TE-012": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (median)"
+ },
+ "TE-013": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "truncation toward zero for negatives in ceil/floor"
+ },
+ "TE-014": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "negative rounding wrong, %d with long long"
+ },
+ "TE-015": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints every value +1 (formula, not index/count)"
+ },
+ "TE-016": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &, crashes; wrong sort logic"
+ },
+ "TE-017": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "comparator only inspects 6 bits; ordering wrong"
+ },
+ "TE-018": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "(int)X+1 as ceiling wrong for negatives"
+ },
+ "TE-019": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "a+b<c accepts degenerate triangle 1 2 3 (edge should be invalid)"
+ },
+ "TE-020": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "-1 used as empty sentinel but -1 is valid data"
+ },
+ "TE-021": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misreads task: removes a instead of inserting both values"
+ },
+ "TE-022": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (BST merge)"
+ },
+ "TE-023": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong ranking logic leaves holes in result"
+ },
+ "TE-024": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (students/height) and crashes"
+ },
+ "TE-025": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "stores 2m extra values past a VLA of size n"
+ },
+ "TE-026": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "range test written backwards (<=97 && >=122), never true"
+ },
+ "TE-027": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "exits on division by zero instead of the rule in the statement"
+ },
+ "TE-028": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "|| instead of && in the validity test"
+ },
+ "TE-029": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "prefix scan starts at j=1 and skips the first bucket"
+ },
+ "TE-030": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong constant ch+90"
+ },
+ "TE-031": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'order'"
+ },
+ "TE-032": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no case toggle; scanf with char constant"
+ },
+ "TE-033": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without & crashes"
+ },
+ "TE-034": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "tax bracket logic wrong, output case"
+ },
+ "TE-035": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "chained comparison 65<=ch<=90"
+ },
+ "TE-036": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "extra prompt and label text printed"
+ },
+ "TE-037": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misspelt output 'Desending'"
+ },
+ "TE-038": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong insertion/median approach"
+ },
+ "TE-039": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "maps letters to index mod 10 instead of position"
+ },
+ "TE-040": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "digit test '1'..'9' rejects the valid digit 0"
+ },
+ "TE-041": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "X+1 as ceiling wrong for negatives"
+ },
+ "TE-042": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Not sorted'"
+ },
+ "TE-043": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "compares char with string literal"
+ },
+ "TE-044": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Not sorted'"
+ },
+ "TE-045": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints signed C; misreads spec"
+ },
+ "TE-046": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "hard-coded output"
+ },
+ "TE-047": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints address of char with %c"
+ },
+ "TE-048": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "a+b<c accepts the degenerate triangle 1 2 3"
+ },
+ "TE-049": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misspelt output 'Desending'"
+ },
+ "TE-050": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "%lf instead of %.4lf is the first failure (also = inside the condition)"
+ },
+ "TE-051": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "hard-coded special case, no division handling"
+ },
+ "TE-052": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "sorts by second digit only; criteria incomplete"
+ },
+ "TE-053": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "countOnes updates num instead of count"
+ },
+ "TE-054": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "b+c<a strict accepts degenerate triangle 1 2 3"
+ },
+ "TE-055": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "missing output labels, tax bracket logic wrong"
+ },
+ "TE-056": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "signed C and unset d on one path; misreads spec"
+ },
+ "TE-057": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong ranking leaves holes in result"
+ },
+ "TE-058": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "median rank (n+2i+1)/2 is one below the required rank"
+ },
+ "TE-059": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "two sequential ifs convert twice"
+ },
+ "TE-060": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "freq vector never sized, indexed with values"
+ },
+ "TE-061": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators; countOnes bug"
+ },
+ "TE-062": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "compares chars with integers 0..9 instead of '0'..'9'"
+ },
+ "TE-063": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "rank collisions on equal values leave holes"
+ },
+ "TE-064": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misspelt output 'Desending'"
+ },
+ "TE-065": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf %d into a char"
+ },
+ "TE-066": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "== instead of >= on cumulative count, stale val"
+ },
+ "TE-067": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "ascending and descending messages swapped"
+ },
+ "TE-068": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "A=x+1 is not ceiling; D also read uninitialised"
+ },
+ "TE-069": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "median rank n/2 one short, patched with +1 on output"
+ },
+ "TE-070": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "median rank (n+1)/2 one below required for even count"
+ },
+ "TE-071": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misspelt output 'Desending'"
+ },
+ "TE-072": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "last element printed twice"
+ },
+ "TE-073": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "printf given &tax instead of tax"
+ },
+ "TE-074": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misspelt output 'Invaild'"
+ },
+ "TE-075": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "chained comparison 65<=ch<=90"
+ },
+ "TE-076": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one-digit numbers get second digit -1 instead of 0"
+ },
+ "TE-077": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "-1 used as empty sentinel but -1 is valid data"
+ },
+ "TE-078": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "comparator only inspects 6 bits"
+ },
+ "TE-079": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no branch prints Invalid; typos"
+ },
+ "TE-080": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "&& instead of || in the validity test"
+ },
+ "TE-081": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "i++ before the store skips slot n"
+ },
+ "TE-082": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "tax bracket arithmetic wrong"
+ },
+ "TE-083": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "operand2 == '0' compares int with char"
+ },
+ "TE-084": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "median rank (total+1)/2 is one below the required rank for even totals"
+ },
+ "TE-085": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ },
+ "TE-086": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "operands popped in the wrong order for - and /"
+ },
+ "TE-087": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Not sorted'"
+ },
+ "TE-088": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (BST merge)"
+ },
+ "TE-089": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "reads n as data (while cin>>x)"
+ },
+ "TE-090": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (linked list)"
+ },
+ "TE-091": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "inserted values never added to the stored list"
+ },
+ "TE-092": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misspelt output 'Desending'"
+ },
+ "TE-093": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "separator condition i<n-2 instead of n-1"
+ },
+ "TE-094": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "comparison loop starts at 1 instead of 0"
+ },
+ "TE-095": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "median index (n-1)/2 is one below the required rank for even n"
+ },
+ "TE-096": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong ranking leaves holes in result"
+ },
+ "TE-097": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "freq vector never sized, indexed with values"
+ },
+ "TE-098": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "|| instead of && in validity test"
+ },
+ "TE-099": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "hard-coded output"
+ },
+ "TE-100": {
+  "label": "UNCERTAIN",
+  "note": "round_up should give 91 for 90.22 but prints 90; cause not identifiable by reading"
+ },
+ "TE-101": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "|| instead of && in validity test"
+ },
+ "TE-102": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "median index z-1 with z=(n+1)/2 is one below the required rank for even n"
+ },
+ "TE-103": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ },
+ "TE-104": {
+  "label": "UNCERTAIN",
+  "note": "code truncated in the batch; output matches the lower-median signature"
+ },
+ "TE-105": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "(int)X+1 as ceiling wrong for negatives"
+ },
+ "TE-106": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "prefix scan starts at j=1 and skips the first bucket"
+ },
+ "TE-107": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "one-digit numbers get second digit -1 instead of 0"
+ },
+ "TE-108": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "reads arr[i+1] for i up to n-1"
+ },
+ "TE-109": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "rank collisions patched with b[i-1] copy"
+ },
+ "TE-110": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "hard-coded output"
+ },
+ "TE-111": {
+  "label": "UNCERTAIN",
+  "note": "several compounding bugs: reads n-1 values, reads arr[i+1] past the end, misspelt output"
+ },
+ "TE-112": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "median rank (n+1)/2 is one below the required rank for even n"
+ },
+ "TE-113": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "division pushes a+b; hard-coded case"
+ },
+ "TE-114": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf %d into a char"
+ },
+ "TE-115": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt and labels printed first; chained comparisons also present"
+ },
+ "TE-116": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "|| instead of && in validity test"
+ },
+ "TE-117": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "house-rent exemption not clamped at zero"
+ },
+ "TE-118": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "|| instead of && in validity test"
+ },
+ "TE-119": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "reads arr[i+1] for i up to n-1"
+ },
+ "TE-120": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong format specifiers and bracket logic"
+ },
+ "TE-121": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "reads arr[i+1] for i up to n-1"
+ },
+ "TE-122": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "-1 used as empty sentinel but -1 is valid data"
+ },
+ "TE-123": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "last element printed twice"
+ },
+ "TE-124": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "debug output and zero replaced by 2"
+ },
+ "TE-125": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (students/height)"
+ },
+ "TE-126": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "earlier inserted pairs are not kept between queries"
+ },
+ "TE-127": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong output format (%lf, missing Taka)"
+ },
+ "TE-128": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no exemptions in taxable income; ints"
+ },
+ "TE-129": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Not sorted'"
+ },
+ "TE-130": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "-1 used as empty sentinel but -1 is valid data"
+ },
+ "TE-131": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "a+b<c strict accepts the degenerate triangle 1 2 3"
+ },
+ "TE-132": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no division-by-zero rule, hard-coded case"
+ },
+ "TE-133": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "cin>>arr[n] instead of arr[i] (wrong index variable)"
+ },
+ "TE-134": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "integer division 1/2 in rounding test"
+ },
+ "TE-135": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts printed; tax bracket logic wrong"
+ },
+ "TE-136": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt and labels printed first; chained comparisons also present"
+ },
+ "TE-137": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "cnt accumulates wrongly; == on cumulative count; val unset"
+ },
+ "TE-138": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "house-rent exemption not clamped at zero"
+ },
+ "TE-139": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "bit-count tie-break applied when second digits differ"
+ },
+ "TE-140": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "inverted comparison logic for the sorted flags"
+ },
+ "TE-141": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "always subtracts 32, no case test"
+ },
+ "TE-142": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "median rank (num+1)/2 is one below the required rank for even counts"
+ },
+ "TE-143": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "inverted comparison logic for the sorted flags"
+ }
+}

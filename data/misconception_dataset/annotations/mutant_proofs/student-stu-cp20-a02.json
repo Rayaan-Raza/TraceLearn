@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp20-a02",
+ "seed_submission_id": "student:CP20:A",
+ "problem_id": "bank-CP20",
+ "operator": "student_cpp_other_error_02",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "300b989e6d88b97c",
+ "mutant_sha256": "e64faf3fc0eab865f90f117f36e216540f387a121152470100b112a509a7581c",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "int t = a / b;",
+  "after": "int t = a % b;",
+  "note": "division instead of remainder",
+  "base_sha256": "300b989e6d88b97c"
+ }
+}

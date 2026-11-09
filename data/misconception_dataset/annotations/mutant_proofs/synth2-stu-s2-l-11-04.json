@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-11-04",
+ "seed_submission_id": "synth2:S2-L-11",
+ "problem_id": "synth2-S2-L-11",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "00eb4f12490c0f2e",
+ "mutant_sha256": "fa07dc3ecc4cc67b6fdcc9c8b6aaa55eb51692a6968b88bf33bc11bf281e9660",
+ "tests_passed": 4,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n, q;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    scanf(\"%d\", &q);\n    while (q--) {\n        int x;\n        scanf",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n, q;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    scanf(\"%d\", &q);\n    while (q--) {\n        int x;\n        scanf",
+  "note": "Moved the search in the wrong direction.",
+  "evidence": null,
+  "base_sha256": "00eb4f12490c0f2e"
+ },
+ "evidence": null
+}

@@ -7,8 +7,10 @@ Evidence has a source type (`EvidenceSourceType`). The sources fall in two
 groups:
 
 * **Observed** sources describe the current submission only:
-  `execution`, `test` and `static`. They come from running and reading the
-  code of this one attempt.
+  `execution`, `test`, `static` and `model`. They come from running and reading
+  the code of this one attempt. The trained classifier is observed evidence
+  because its features are built from this submission alone (static, compiler
+  warnings and source semantics; no history or label metadata).
 * **Longitudinal** sources describe the student's earlier work:
   `sequence` (an earlier attempt on the same problem) and `history`
   (other problems, earlier learner states, earlier successes). `context` is
@@ -59,6 +61,7 @@ OBSERVED_SOURCES: frozenset[EvidenceSourceType] = frozenset({
     EvidenceSourceType.EXECUTION,
     EvidenceSourceType.TEST,
     EvidenceSourceType.STATIC,
+    EvidenceSourceType.MODEL,
 })
 
 LONGITUDINAL_SOURCES: frozenset[EvidenceSourceType] = frozenset({

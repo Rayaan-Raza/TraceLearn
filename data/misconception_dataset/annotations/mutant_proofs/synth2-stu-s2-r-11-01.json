@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-11-01",
+ "seed_submission_id": "synth2:S2-R-11",
+ "problem_id": "synth2-S2-R-11",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "bc09977e9e032e5c",
+ "mutant_sha256": "ca67d2b6d026154b23aa2213b93779b214b7a83e311c79ba16fde2c72b1ebd63",
+ "tests_passed": 11,
+ "tests_total": 14,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) re",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int len = 0, sum = 0, rep = 0, prev = -1;\n    while (x > 0) {\n        int d = x % 10;\n        if (d == prev) re",
+  "note": "Chained comparison is always true, so the length is never checked.",
+  "evidence": null,
+  "base_sha256": "bc09977e9e032e5c"
+ },
+ "evidence": null
+}

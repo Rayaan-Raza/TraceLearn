@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-13-03",
+ "seed_submission_id": "synth2:S2-S-13",
+ "problem_id": "synth2-S2-S-13",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "b4baba3a249a2e2f",
+ "mutant_sha256": "97ded193c85673876e9b68547218ee91f2c1d808f346499eac795e17c080a4b4",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\nusing namespace std;\nint rowSum(vector<int>& r) {\n    int s;\n    for (int x : r) s += x;\n    return s;\n}\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<",
+  "after": "#include <iostream>\n#include <vector>\nusing namespace std;\nint rowSum(vector<int>& r) {\n    int s = 0;\n    for (int x : r) s += x;\n    return s;\n}\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vec",
+  "note": "Row sum not initialised.",
+  "evidence": null,
+  "base_sha256": "b4baba3a249a2e2f"
+ },
+ "evidence": null
+}

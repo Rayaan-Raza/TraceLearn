@@ -2,6 +2,13 @@
 
 Owner: Umaima · 8 Nov 2026 · for Rayaan's `MODEL_VARIANT` choice (6-Nov plan §6, Umaima week 1)
 
+> **Superseded (9 Nov 2026).** The backend now takes option **(a)**. A failing submission gets a
+> run record (sandbox tests, sanitizers and single-edit repairs) on a background worker, and the
+> `execution` variant is served. On 525 held-out real programs from unseen problems, `execution`
+> names a misconception with precision 0.81 and `best` with precision 0.18. See
+> `docs/MODEL_GUIDE.md` and `docs/6-nov.md` section 19. The latency figures below still describe
+> the cost of option (a).
+
 ## Question
 
 The `full` model was trained with **runtime** features (ASan/UBSan, Valgrind) that come from

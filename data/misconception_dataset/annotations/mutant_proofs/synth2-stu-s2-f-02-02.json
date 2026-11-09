@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-02-02",
+ "seed_submission_id": "synth2:S2-F-02",
+ "problem_id": "synth2-S2-F-02",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "35c52ed4b27b2616",
+ "mutant_sha256": "d48dc3103d80d1a14e4ab58f71045f7f0464c141e33cfc392b28f907f3fdf5b9",
+ "tests_passed": 1,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cout <",
+  "after": "#include <iostream>\nusing namespace std;\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cout <",
+  "note": "Prints fib(i+1) so the sequence is shifted by one position.",
+  "evidence": null,
+  "base_sha256": "35c52ed4b27b2616"
+ },
+ "evidence": null
+}

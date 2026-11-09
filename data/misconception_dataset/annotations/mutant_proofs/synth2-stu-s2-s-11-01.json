@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-11-01",
+ "seed_submission_id": "synth2:S2-S-11",
+ "problem_id": "synth2-S2-S-11",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "77fc77dc68953b06",
+ "mutant_sha256": "269c04194de20a6e6b1ebedfc5d42c6616971b59a61b6d579d0e87cb6b7cb5cb",
+ "tests_passed": 8,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nbool isPal(char *s) {\n    int i = 0, j = strlen(s) - 1;\n    int bad = 0;\n    while (i < j) {\n        if (tolower(s[i]) != tolower(s[j])) bad++;\n ",
+  "after": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nbool isPal(char *s) {\n    int i = 0, j = strlen(s) - 1;\n    int bad = 0;\n    while (i < j) {\n        if (tolower(s[i]) != tolower(s[j])) bad++;\n ",
+  "note": "Word buffer of 10 chars for words of 100000.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "77fc77dc68953b06"
+ },
+ "evidence": "asan:buffer-overflow"
+}

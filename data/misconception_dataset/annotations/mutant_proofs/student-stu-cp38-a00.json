@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp38-a00",
+ "seed_submission_id": "student:CP38:A",
+ "problem_id": "bank-CP38",
+ "operator": "student_cpp_stale_exit_00",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "64ec66571ef16777",
+ "mutant_sha256": "a0259bc9caaadf78c81e39e6957d9e928ff49dbb0e27ffe5b9542b1109a49072",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "        sum += x;\n",
+  "after": "        sum += x;\n        cin >> x;\n",
+  "note": "next value never read",
+  "base_sha256": "64ec66571ef16777"
+ }
+}

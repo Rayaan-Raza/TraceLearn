@@ -1,0 +1,669 @@
+{
+ "problems": [
+  {
+   "id": "S2-N-01",
+   "title": "Factorial",
+   "statement": "Read n (0 to 20) from stdin and print n factorial.",
+   "tests": [
+    "0\n",
+    "1\n",
+    "2\n",
+    "3\n",
+    "5\n",
+    "10\n",
+    "12\n",
+    "13\n",
+    "15\n",
+    "20\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int f = 1;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "note": "Stored the factorial in an int, which overflows from 13! on."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i < n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "note": "Loop stops before multiplying by n."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "note": "Forgot to start the product at 1."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f += i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "note": "Added instead of multiplied."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 3; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+     "note": "Started multiplying from 3 and skipped the factor 2."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-02",
+   "title": "Sum of squares",
+   "statement": "Read n (0 to 1000000) and print 1*1 + 2*2 + ... + n*n.",
+   "tests": [
+    "0\n",
+    "1\n",
+    "2\n",
+    "3\n",
+    "10\n",
+    "100\n",
+    "1000\n",
+    "2000\n",
+    "50000\n",
+    "100000\n",
+    "1000000\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        sum += i * i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        sum += i * i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        sum += i * i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "The running total is an int and passes 2 billion."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        sum += i * i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        sum += i * i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "sum is never set to 0 before adding."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        sum += i * i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        sum += i * i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "Last square n*n is left out."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        sum += i * 2;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        sum += i * i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "Used i*2 instead of i*i."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-03",
+   "title": "Fibonacci number",
+   "statement": "Read n (0 to 90) and print the n-th Fibonacci number with F(0)=0 and F(1)=1.",
+   "tests": [
+    "0\n",
+    "1\n",
+    "2\n",
+    "3\n",
+    "10\n",
+    "20\n",
+    "46\n",
+    "47\n",
+    "50\n",
+    "70\n",
+    "90\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "note": "Fibonacci values were kept in int and wrap after F(46)."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "note": "a was never given the starting value 0."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 1; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "note": "Loop runs one step too few."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i <= n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "note": "Loop runs one step too many and prints F(n+1)."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a * b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long t = a + b;\n        a = b;\n        b = t;\n    }\n    cout << a << endl;\n    return 0;\n}\n",
+     "note": "Multiplied the last two numbers instead of adding."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-04",
+   "title": "GCD, LCM and steps",
+   "statement": "Read two positive integers a and b (each at most 2000000000). Print their gcd, their lcm and the number of division steps Euclid's algorithm took, separated by spaces.",
+   "tests": [
+    "12 18\n",
+    "7 13\n",
+    "100 10\n",
+    "1 1\n",
+    "6 6\n",
+    "2000000000 1999999999\n",
+    "2147483647 2147483646\n",
+    "1836311903 1134903170\n",
+    "46341 46343\n",
+    "1000000000 2000000000\n",
+    "35 14\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "note": "The lcm product is computed in int before it is stored in a long long."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "note": "Step counter not initialised."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y >= 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "note": "Loop continues when y is 0 and divides by zero."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "note": "lcm computed as a*b, forgetting to divide by the gcd."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 1;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int x = a, y = b;\n    int steps = 0;\n    while (y > 0) {\n        int t = x % y;\n        x = y;\n        y = t;\n        steps++;\n    }\n    long long l = (long long)a / x * b;\n    cout << x << \" \" << l << \" \" << steps << endl;\n    return 0;\n}\n",
+     "note": "Step counter starts at 1."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-05",
+   "title": "Digit sum and digit count",
+   "statement": "Read a non-negative integer n (up to 10^18) and print the sum of its digits and how many digits it has, separated by a space.",
+   "tests": [
+    "0\n",
+    "5\n",
+    "10\n",
+    "123\n",
+    "999\n",
+    "1000000007\n",
+    "2147483648\n",
+    "9876543210\n",
+    "999999999999999999\n",
+    "1000000000000000000\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "note": "n read into an int cannot hold values above 2147483647."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "note": "sum is not set to 0 before the loop."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "note": "Forgot that the number 0 has one digit."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n >= 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "note": "Loop never ends because n stays 0."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 1;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        cnt++;\n    }\n    cout << sum << \" \" << cnt << endl;\n    return 0;\n}\n",
+     "note": "Digit counter starts at 1 and over counts."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-06",
+   "title": "Min max average",
+   "statement": "Read n (1 or more) and then n integers (each between -2147483648 and 2147483647). Print the minimum, the maximum and the average with 2 decimals, separated by spaces.",
+   "tests": [
+    "3\n1 2 3\n",
+    "1\n5\n",
+    "4\n-5 -2 -9 -1\n",
+    "3\n10 20 35\n",
+    "3\n2000000000 2000000000 2000000000\n",
+    "5\n7 7 7 7 7\n",
+    "2\n-2147483648 2147483647\n",
+    "4\n3 1 4 1\n",
+    "3\n8 9 12\n"
+   ],
+   "reference": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mn) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << (double)sum / n << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    int sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mn) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << (double)sum / n << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mn) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << (double)sum / n << endl;\n    return 0;\n}\n",
+     "note": "The sum of the numbers is stored in an int."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn, mx;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mn) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << (double)sum / n << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mn) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << (double)sum / n << endl;\n    return 0;\n}\n",
+     "note": "min and max never given starting values."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mn) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << sum / n << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mn) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << (double)sum / n << endl;\n    return 0;\n}\n",
+     "note": "Integer division loses the decimals of the average."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mx) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << (double)sum / n << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        sum += x;\n        if (x < mn) mn = x;\n        if (x > mx) mx = x;\n    }\n    cout << mn << \" \" << mx << \" \" << fixed << setprecision(2) << (double)sum / n << endl;\n    return 0;\n}\n",
+     "note": "Compared the new value with the max instead of the min."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-07",
+   "title": "Product and big count",
+   "statement": "Read n (1 to 9) and then n integers between 1 and 100. Print their product and how many of them are at least 50, separated by a space. The product always fits in 64 bits.",
+   "tests": [
+    "1\n5\n",
+    "3\n2 3 4\n",
+    "9\n100 100 100 100 100 100 100 100 100\n",
+    "4\n50 51 49 50\n",
+    "5\n1 1 1 1 1\n",
+    "4\n99 98 97 96\n",
+    "6\n100 100 100 100 100 100\n",
+    "7\n77 88 99 11 22 33 44\n",
+    "2\n49 50\n"
+   ],
+   "reference": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, x;\n    int prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "note": "The product is kept in an int."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "note": "prod is not started at 1."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x > 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "note": "Value exactly 50 is not counted."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod += x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "note": "Summed instead of multiplying."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i <= n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "fixed": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) big++;\n    }\n    printf(\"%lld %d\\n\", prod, big);\n    return 0;\n}\n",
+     "note": "Reads one more number than given."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-08",
+   "title": "Binomial coefficient",
+   "statement": "Read n and k (0 <= k <= n <= 60). Print C(n, k), the number of ways to choose k items from n.",
+   "tests": [
+    "5 2\n",
+    "10 0\n",
+    "10 10\n",
+    "1 1\n",
+    "0 0\n",
+    "20 10\n",
+    "30 15\n",
+    "40 20\n",
+    "60 30\n",
+    "60 1\n",
+    "52 5\n",
+    "34 17\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    int res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "note": "The running binomial is an int."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i < k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "note": "Last factor is skipped."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "note": "Numerator factor is off by one."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "note": "res is not started at 1."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res / i * (n - i + 1);\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - i + 1) / i;\n    }\n    cout << res << endl;\n    return 0;\n}\n",
+     "note": "Divides before multiplying, so integer division truncates."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-09",
+   "title": "Box surface and volume",
+   "statement": "Read the length, width and height of a box (each 1 to 1000000). Print its volume, its surface area and the area of its smallest face, separated by spaces.",
+   "tests": [
+    "1 1 1\n",
+    "2 3 4\n",
+    "10 20 30\n",
+    "1000 1000 1000\n",
+    "100000 100000 100000\n",
+    "1000000 1000000 1000000\n",
+    "1 1000000 1000000\n",
+    "5 7 2000\n",
+    "46341 46341 1\n",
+    "3 1000000 7\n",
+    "9 4 30\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small = 4000000000000000000LL;\n    for (int i = 0; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small = 4000000000000000000LL;\n    for (int i = 0; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small = 4000000000000000000LL;\n    for (int i = 0; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+     "note": "Dimensions stored in int so the volume overflows."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small;\n    for (int i = 0; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small = 4000000000000000000LL;\n    for (int i = 0; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+     "note": "Minimum has no starting value."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small = 4000000000000000000LL;\n    for (int i = 0; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small = 4000000000000000000LL;\n    for (int i = 0; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+     "note": "Surface formula misses one pair of faces."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small = 4000000000000000000LL;\n    for (int i = 1; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] = {l * w, w * h, l * h};\n    long long small = 4000000000000000000LL;\n    for (int i = 0; i < 3; i++) {\n        if (f[i] < small) small = f[i];\n    }\n    cout << vol << \" \" << sa << \" \" << small << endl;\n    return 0;\n}\n",
+     "note": "Skips the first face when looking for the smallest."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-10",
+   "title": "Collatz steps and peak",
+   "statement": "Read n (1 to 1000000000). Repeat: if n is even halve it, otherwise replace it by 3n+1, until it reaches 1. Print the number of steps and the largest value reached, separated by a space.",
+   "tests": [
+    "1\n",
+    "2\n",
+    "3\n",
+    "6\n",
+    "7\n",
+    "16\n",
+    "27\n",
+    "97\n",
+    "8\n",
+    "100000\n",
+    "113383\n",
+    "837799\n",
+    "670617279\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps = 0;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int x;\n    cin >> x;\n    int steps = 0;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps = 0;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+     "note": "3n+1 passes 2^31 for some starts but x is an int."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps = 0;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+     "note": "steps not initialised."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps = 0;\n    long long mx = x;\n    while (x >= 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps = 0;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+     "note": "Loop never stops once x reaches 1."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps = 0;\n    long long mx = 1;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps = 0;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x + 1;\n        steps++;\n        if (x > mx) mx = x;\n    }\n    cout << steps << \" \" << mx << endl;\n    return 0;\n}\n",
+     "note": "Peak should start at the starting value, which may itself be the peak."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-11",
+   "title": "Modular power",
+   "statement": "Read a, b and m (0 <= a <= 1000000000, 0 <= b <= 1000000000, 1 <= m <= 1000000000). Print a to the power b modulo m.",
+   "tests": [
+    "2 10 1000\n",
+    "3 0 7\n",
+    "5 3 1\n",
+    "7 1000000 1000000007\n",
+    "123456789 987654321 999999937\n",
+    "2 62 1000000000\n",
+    "999999999 999999999 1000000000\n",
+    "10 18 1000000007\n",
+    "1 5 2\n",
+    "0 5 3\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+     "note": "Products of two residues overflow int."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+     "note": "Result not given a starting value."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+     "note": "Missed the case m = 1, where the answer is 0."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b >= 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m;\n    cin >> a >> b >> m;\n    long long r = 1 % m;\n    a %= m;\n    while (b > 0) {\n        if (b % 2 == 1) r = r * a % m;\n        a = a * a % m;\n        b /= 2;\n    }\n    cout << r << endl;\n    return 0;\n}\n",
+     "note": "Loop never ends since b stays at 0."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-12",
+   "title": "Multiples of 3 or 5",
+   "statement": "Read n (1 to 10000000). Print the sum of all positive integers below n that are divisible by 3 or by 5.",
+   "tests": [
+    "1\n",
+    "3\n",
+    "4\n",
+    "6\n",
+    "10\n",
+    "16\n",
+    "100\n",
+    "1000\n",
+    "100000\n",
+    "1000000\n",
+    "10000000\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "Total stored in an int."
+    },
+    {
+     "label": "CPP_LOOP_BOUNDARY",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i <= n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "n itself is included when divisible."
+    },
+    {
+     "label": "CPP_RANGE_CHECK",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 && i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "Used && where || was meant."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "sum is not zero at the start."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += 1;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}\n",
+     "note": "Counted the numbers instead of adding them."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-13",
+   "title": "Best contiguous sum",
+   "statement": "Read n (1 to 100000) and then n integers with absolute value at most 2000000000. Print the largest sum of any non-empty run of consecutive numbers.",
+   "tests": [
+    "1\n5\n",
+    "1\n-5\n",
+    "5\n-2 1 -3 4 -1\n",
+    "3\n-3 -1 -2\n",
+    "4\n2000000000 2000000000 -1000000000 2000000000\n",
+    "6\n1 2 3 4 5 6\n",
+    "4\n-5 -4 -3 -9\n",
+    "3\n7 -10 7\n",
+    "2\n-2000000000 -2000000000\n"
+   ],
+   "reference": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long long cur = a[0], best = a[0];\n    for (int i = 1; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int cur = a[0], best = a[0];\n    for (int i = 1; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long long cur = a[0], best = a[0];\n    for (int i = 1; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+     "note": "Running sums held in int."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long long cur = a[0], best = a[0];\n    for (int i = 0; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long long cur = a[0], best = a[0];\n    for (int i = 1; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+     "note": "Loop restarts at 0 and counts a[0] twice."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long long cur = a[0], best;\n    for (int i = 1; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long long cur = a[0], best = a[0];\n    for (int i = 1; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+     "note": "best has no starting value."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long long cur = a[0], best = 0;\n    for (int i = 1; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long long cur = a[0], best = a[0];\n    for (int i = 1; i < n; i++) {\n        cur = max(a[i], cur + a[i]);\n        best = max(best, cur);\n    }\n    cout << best << endl;\n    return 0;\n}\n",
+     "note": "Best starts at 0, wrong when all numbers are negative."
+    }
+   ]
+  },
+  {
+   "id": "S2-N-14",
+   "title": "Sum of non multiples",
+   "statement": "Read n and k (1 <= k <= n <= 2000000000). Print the sum 1+2+...+n, how many numbers from 1 to n are multiples of k, the sum of the numbers that are not multiples of k, and the number of digits of n, separated by spaces.",
+   "tests": [
+    "10 3\n",
+    "1 1\n",
+    "100 7\n",
+    "1000000 3\n",
+    "65536 256\n",
+    "2000000000 1\n",
+    "2000000000 7\n",
+    "99999 100\n",
+    "50000 3\n",
+    "12 12\n"
+   ],
+   "reference": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d = 0;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+   "bugs": [
+    {
+     "label": "CPP_INT_OVERFLOW",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d = 0;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d = 0;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+     "note": "n*(n+1) is computed in int before widening."
+    },
+    {
+     "label": "CPP_OTHER_ERROR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * n / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d = 0;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d = 0;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+     "note": "Wrong formula for the sum 1..n."
+    },
+    {
+     "label": "CPP_OFF_BY_ONE",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = (n - 1) / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d = 0;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d = 0;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+     "note": "Number of multiples is off by one when n is a multiple of k."
+    },
+    {
+     "label": "CPP_UNINITIALIZED_VAR",
+     "buggy": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+     "fixed": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mult + 1) / 2;\n    int d = 0;\n    int t = n;\n    while (t > 0) {\n        d++;\n        t /= 10;\n    }\n    cout << total << \" \" << mult << \" \" << total - msum << \" \" << d << endl;\n    return 0;\n}\n",
+     "note": "Digit counter not initialised."
+    }
+   ]
+  }
+ ]
+}

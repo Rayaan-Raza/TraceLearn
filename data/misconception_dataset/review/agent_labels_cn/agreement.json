@@ -1,0 +1,24 @@
+{
+ "items": 742,
+ "dropped_correct": 34,
+ "rules": {
+  "A=B": 687,
+  "2of3": 20,
+  "no_majority": 1
+ },
+ "agreement_AB_keep": 0.969,
+ "kappa_AB_keep": 0.93,
+ "labels": {
+  "CPP_OTHER_ERROR": 528,
+  "CPP_OFF_BY_ONE": 66,
+  "CPP_INT_OVERFLOW": 30,
+  "CPP_UNINITIALIZED_VAR": 28,
+  "CPP_RANGE_CHECK": 27,
+  "CPP_LOOP_BOUNDARY": 13,
+  "CPP_ARRAY_BOUNDS": 9,
+  "CPP_STALE_EXIT": 3,
+  "CPP_ASSIGN_VS_COMPARE": 2,
+  "CPP_MISSING_BASE_CASE": 1,
+  "UNCERTAIN": 1
+ }
+}

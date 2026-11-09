@@ -34,6 +34,15 @@ Raw data at `G:\TraceLearn\Datasets_RAW` (read-only). Normalized index maps raw 
 
 No verdicts, no tests on disk: we cannot know if a submission is wrong, nor execute it to learn why. Regex-guessing 139k labels would drown the high-quality rows. Accepted-looking rows serve only as **seeds (after human spot-check) and executor sanity material** — they receive no labels of any kind. Tier 1c possible if the small upstream `metadata/` folder is later downloaded (wrong rows only, warning-unambiguous conjunctions, ≤0.65).
 
+**Revised 2026-11-09 (owner request: label real code ourselves).** The three reasons above are now met for a narrow subset, so 11 AtCoder beginner problems enter as a labelled lane (`tier1g_codenet_agent.jsonl`, `CODENET`, row ids `cnx-`):
+- *Tests:* each problem's tests are its statement samples plus seeded generated inputs, with expected outputs from a reference solution written from the statement that must reproduce every sample (`scripts/build_codenet_pool.py`, `REFERENCES`). The submissions' majority output is only a cross-check. It is wrong on p02742's one-row boards, which the annotators found first.
+- *Wrong or not:* every sampled submission is executed. Only programs that compile and fail a reference test are labelled.
+- *Labels:* blind multi-annotator consensus under `review/AGENT_LABELLING_PROTOCOL.md`: two annotators, plus a blind adjudicator on disagreements. There is no regex labelling. Agreement 96.9%, Cohen's kappa 0.93; 707 labelled rows.
+- *Held out:* p02766 and p03803 are held out whole (`splits/codenet_holdout.csv`).
+- *Traceability:* rows trace to the raw files through `annotations/codenet_index.csv`.
+
+Verified single-edit mutants of accepted programs on the training problems (`tier0d_codenet_mutants.jsonl`, `stu-cn-*`) add examples for the classes real code rarely shows. **Open:** the CodeNet licence is still not recorded in this copy (`docs/SOURCE_AUDIT_REPORT.md` item 14).
+
 ### 2.2 The five never-downloaded sources
 
 McMining (67-misconception taxonomy — cross-check `tl-cpp-v2` against it later), ProgFeed, CSEDM, HELP-DKT, FalconCode. No local data → nothing to label today; they matter for the V2 history-aware model.

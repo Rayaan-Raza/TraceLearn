@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-10-03",
+ "seed_submission_id": "synth2:S2-S-10",
+ "problem_id": "synth2-S2-S-10",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "42b8d7fa3ab1cf3d",
+ "mutant_sha256": "c440f7d48629708c8588778fb4759eea7b9fe8b1ddd7e5174fa58daeb5b66a72",
+ "tests_passed": 1,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nchar g[105][105];\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 0; i < n; i++) cin >> g[i];\n    for (int i = 0; i < n; i++) {\n        for (int",
+  "after": "#include <iostream>\nusing namespace std;\nchar g[105][105];\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 0; i < n; i++) cin >> g[i];\n    for (int i = 0; i < n; i++) {\n        for (int",
+  "note": "Forgot continue so mine cells also print a count.",
+  "evidence": null,
+  "base_sha256": "42b8d7fa3ab1cf3d"
+ },
+ "evidence": null
+}

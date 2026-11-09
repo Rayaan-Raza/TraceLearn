@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-04-01",
+ "seed_submission_id": "synth2:S2-L-04",
+ "problem_id": "synth2-S2-L-04",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "c93f98008c04ebb1",
+ "mutant_sha256": "ac9edd90bbe5ee8b7d34a0172a906f7c815b1c5b935645c9bf2bff7b1020f29f",
+ "tests_passed": 2,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[1005], b[1005];\nint main() {\n    int n, k;\n    cin >> n >> k;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    k = k % n;\n    for (int i = 0; i < n; i++)",
+  "after": "#include <iostream>\nusing namespace std;\nint a[1005], b[1005];\nint main() {\n    int n, k;\n    cin >> n >> k;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    k = k % n;\n    for (int i = 0; i < n; i++)",
+  "note": "Destination index is shifted by one position.",
+  "evidence": null,
+  "base_sha256": "c93f98008c04ebb1"
+ },
+ "evidence": null
+}

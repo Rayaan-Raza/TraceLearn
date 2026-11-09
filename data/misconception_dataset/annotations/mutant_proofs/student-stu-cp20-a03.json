@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp20-a03",
+ "seed_submission_id": "student:CP20:A",
+ "problem_id": "bank-CP20",
+ "operator": "student_cpp_other_error_03",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "300b989e6d88b97c",
+ "mutant_sha256": "eb537bd0b053d0e52fcf05f54a3f179e3dbfaa833589cdf35f75afde417a06d1",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "gcd(a, b)",
+  "after": "gcd(a, b) + 1",
+  "note": "forgets +1",
+  "base_sha256": "300b989e6d88b97c"
+ }
+}

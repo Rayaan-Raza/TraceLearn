@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-03-03",
+ "seed_submission_id": "synth2:S2-M-03",
+ "problem_id": "synth2-S2-M-03",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "cc5f0c1eaeba4b94",
+ "mutant_sha256": "3e5b14dd7a1e43c0f1df3a39163797ee52a9d2e4773de41dcf5ee006fe1f370f",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; ",
+  "note": "|| instead of && so every day counts as comfortable.",
+  "evidence": null,
+  "base_sha256": "cc5f0c1eaeba4b94"
+ },
+ "evidence": null
+}

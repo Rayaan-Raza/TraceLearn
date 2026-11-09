@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-06-02",
+ "seed_submission_id": "synth2:S2-N-06",
+ "problem_id": "synth2-S2-N-06",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "8ab2a0ade6bba3b1",
+ "mutant_sha256": "72d51dbfea79f65561e93b4c6ee6cd2d393d96ef5886c669cc578be30b16caf3",
+ "tests_passed": 1,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn, mx;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        ",
+  "after": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i+",
+  "note": "min and max never given starting values.",
+  "evidence": null,
+  "base_sha256": "8ab2a0ade6bba3b1"
+ },
+ "evidence": null
+}

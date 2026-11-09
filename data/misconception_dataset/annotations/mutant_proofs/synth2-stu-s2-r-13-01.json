@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-13-01",
+ "seed_submission_id": "synth2:S2-R-13",
+ "problem_id": "synth2-S2-R-13",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "2056c211a74ceded",
+ "mutant_sha256": "98977281e0ba0321abc638a238ce56113cda5f69e29cd219c593d68f14ffd123",
+ "tests_passed": 7,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, t, first = -1, last = -1;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        cin >> t;\n        if (first == -1 && t < 0) first = ",
+  "note": "Keeps the first hot reading instead of the last one.",
+  "evidence": null,
+  "base_sha256": "2056c211a74ceded"
+ },
+ "evidence": null
+}

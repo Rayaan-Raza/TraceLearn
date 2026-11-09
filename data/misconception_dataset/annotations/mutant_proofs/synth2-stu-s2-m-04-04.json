@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-04-04",
+ "seed_submission_id": "synth2:S2-M-04",
+ "problem_id": "synth2-S2-M-04",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "7fcd5ecd97388fa5",
+ "mutant_sha256": "516a2c17c0aca2d00a3724e8aa0a7b00806ffa213931d7cde2a1bff7ad2d44b6",
+ "tests_passed": 0,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 1; i < n; i++) {\n        long long p, q;\n        cin >> p >> q",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0, mn = 1000000000;\n    for (int i = 0; i < n; i++) {\n        long long p, q;\n        cin >> p >> q",
+  "note": "Loop starts at 1 and skips the first item.",
+  "evidence": null,
+  "base_sha256": "7fcd5ecd97388fa5"
+ },
+ "evidence": null
+}

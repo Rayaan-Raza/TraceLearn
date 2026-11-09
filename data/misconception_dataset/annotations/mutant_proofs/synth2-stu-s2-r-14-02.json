@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-14-02",
+ "seed_submission_id": "synth2:S2-R-14",
+ "problem_id": "synth2-S2-R-14",
+ "operator": "synth2_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "9e60824d9af34410",
+ "mutant_sha256": "2341a774f8b6b2ac2974df1f0f35c056d2da0c942b5f4cb0f9956d30fb39d5a9",
+ "tests_passed": 11,
+ "tests_total": 17,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0 || m > 59) {\n        cout << \"INVALID\\n\";\n      ",
+  "after": "#include <iostream>\nusing namespace std;\n#include <string>\nint main() {\n    int h, m;\n    string s;\n    cin >> h >> m;\n    if (h < 0 || h > 23 || m < 0 || m > 59) {\n        cout << \"INVALID\\n\";\n      ",
+  "note": "Wrote = in the SHARP test, so SHARP is never printed.",
+  "evidence": null,
+  "base_sha256": "9e60824d9af34410"
+ },
+ "evidence": null
+}

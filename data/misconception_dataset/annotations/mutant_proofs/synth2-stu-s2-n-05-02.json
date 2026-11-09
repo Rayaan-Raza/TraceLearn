@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-05-02",
+ "seed_submission_id": "synth2:S2-N-05",
+ "problem_id": "synth2-S2-N-05",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "2dbe5159d5f5b94c",
+ "mutant_sha256": "f53261df970dccf73d99e8d09ce7fd4d957a046bd4b0ac0e13577818a98324f8",
+ "tests_passed": 0,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n        ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n    ",
+  "note": "sum is not set to 0 before the loop.",
+  "evidence": null,
+  "base_sha256": "2dbe5159d5f5b94c"
+ },
+ "evidence": null
+}

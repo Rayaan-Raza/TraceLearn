@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-13-03",
+ "seed_submission_id": "synth2:S2-L-13",
+ "problem_id": "synth2-S2-L-13",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "d9d79a67ac111273",
+ "mutant_sha256": "c524acff4abf7a91be4bfb8f176b20f8fd39469caced9e794329a59715688758",
+ "tests_passed": 2,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[2005];\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j",
+  "after": "#include <iostream>\nusing namespace std;\nint a[2005];\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j",
+  "note": "Swap condition reversed, sorting in descending order.",
+  "evidence": null,
+  "base_sha256": "d9d79a67ac111273"
+ },
+ "evidence": null
+}

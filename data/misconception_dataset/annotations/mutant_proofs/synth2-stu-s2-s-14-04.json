@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-14-04",
+ "seed_submission_id": "synth2:S2-S-14",
+ "problem_id": "synth2-S2-S-14",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "367b474f06588129",
+ "mutant_sha256": "0470571cf8262e2f3b7f45b3b677c4ab9afb263ce5b14b18e55910db533b61f3",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <string>\nusing namespace std;\nint main() {\n    char s[100005];\n    scanf(\"%s\", s);\n    int n = 0;\n    while (s[n] != '\\0') n++;\n    string out;\n    int i = 0;\n    while (i <",
+  "after": "#include <cstdio>\n#include <string>\nusing namespace std;\nint main() {\n    char s[100005];\n    scanf(\"%s\", s);\n    int n = 0;\n    while (s[n] != '\\0') n++;\n    string out;\n    int i = 0;\n    while (i <",
+  "note": "Writes count before the letter.",
+  "evidence": null,
+  "base_sha256": "367b474f06588129"
+ },
+ "evidence": null
+}

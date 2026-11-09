@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-09-01",
+ "seed_submission_id": "synth2:S2-F-09",
+ "problem_id": "synth2-S2-F-09",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "cb80754b9d677335",
+ "mutant_sha256": "2dabf6ac02a16a97f8d579960d6e3a821acaf494f11ddc0b9f9c79b47265abb3",
+ "tests_passed": 8,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\nusing namespace std;\n\nstring rev(string s) {\n    if (s.size() == 1) return s;\n    return rev(s.substr(1)) + s[0];\n}\n\nint main() {\n    string s;\n    getline(cin, s",
+  "after": "#include <iostream>\n#include <string>\nusing namespace std;\n\nstring rev(string s) {\n    if (s.size() <= 1) return s;\n    return rev(s.substr(1)) + s[0];\n}\n\nint main() {\n    string s;\n    getline(cin, s",
+  "note": "Stopping case misses the empty string so substr runs past the end.",
+  "evidence": null,
+  "base_sha256": "cb80754b9d677335"
+ },
+ "evidence": null
+}

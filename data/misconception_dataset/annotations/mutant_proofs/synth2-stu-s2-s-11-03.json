@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-11-03",
+ "seed_submission_id": "synth2:S2-S-11",
+ "problem_id": "synth2-S2-S-11",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "77fc77dc68953b06",
+ "mutant_sha256": "73d991285a34cc437fde88638f481f811d0d5975ad4c6eee93de0221b778acdf",
+ "tests_passed": 4,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nbool isPal(char *s) {\n    int i = 0, j = strlen(s) - 1;\n    int bad;\n    while (i < j) {\n        if (tolower(s[i]) != tolower(s[j])) bad++;\n     ",
+  "after": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nbool isPal(char *s) {\n    int i = 0, j = strlen(s) - 1;\n    int bad = 0;\n    while (i < j) {\n        if (tolower(s[i]) != tolower(s[j])) bad++;\n ",
+  "note": "Mismatch counter not initialised.",
+  "evidence": null,
+  "base_sha256": "77fc77dc68953b06"
+ },
+ "evidence": null
+}

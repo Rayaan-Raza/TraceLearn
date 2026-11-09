@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp22-a06",
+ "seed_submission_id": "student:CP22:A",
+ "problem_id": "bank-CP22",
+ "operator": "student_cpp_other_error_06",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "2f9c011bf2b17b00",
+ "mutant_sha256": "c73ba3edbd73bef6e561181c23a56d74896d44b6fb1f7a3eb5c7410f16dbe24e",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "cout << \"Sum = \" << sum << endl;",
+  "after": "cout << sum << endl;",
+  "note": "label printed",
+  "base_sha256": "2f9c011bf2b17b00"
+ }
+}

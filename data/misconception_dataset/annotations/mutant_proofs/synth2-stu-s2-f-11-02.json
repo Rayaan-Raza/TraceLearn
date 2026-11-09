@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-11-02",
+ "seed_submission_id": "synth2:S2-F-11",
+ "problem_id": "synth2-S2-F-11",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "b458c96db14794aa",
+ "mutant_sha256": "f82551b72a776a605a9683983c7f0384859e4960b0115ab741315b1a6bd4f964",
+ "tests_passed": 7,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[100005];\n\nint findLast(int n, int x) {\n    int pos = -1;\n    for (int i = 1; i < n; i++) {\n        if (a[i] == x) pos = i;\n    }\n    return pos;\n}\n\nint m",
+  "after": "#include <iostream>\nusing namespace std;\nint a[100005];\n\nint findLast(int n, int x) {\n    int pos = -1;\n    for (int i = 0; i < n; i++) {\n        if (a[i] == x) pos = i;\n    }\n    return pos;\n}\n\nint m",
+  "note": "Loop in the helper starts at 1 and skips the first element.",
+  "evidence": null,
+  "base_sha256": "b458c96db14794aa"
+ },
+ "evidence": null
+}

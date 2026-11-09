@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-03-04",
+ "seed_submission_id": "synth2:S2-L-03",
+ "problem_id": "synth2-S2-L-03",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "21082d18fc914e10",
+ "mutant_sha256": "d10414c5d90af093e665267f20355f1254a9623c67ebe088c676ff00f335aad5",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nlong long pre[100005];\nint main() {\n    int n, q;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        pre[i] = pre[i - 1]",
+  "after": "#include <iostream>\nusing namespace std;\nlong long pre[100005];\nint main() {\n    int n, q;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        pre[i] = pre[i - 1]",
+  "note": "Wrong formula for the range sum.",
+  "evidence": null,
+  "base_sha256": "21082d18fc914e10"
+ },
+ "evidence": null
+}

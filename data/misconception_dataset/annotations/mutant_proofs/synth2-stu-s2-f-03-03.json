@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-03-03",
+ "seed_submission_id": "synth2:S2-F-03",
+ "problem_id": "synth2-S2-F-03",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "833c054b964d7fba",
+ "mutant_sha256": "f2c5890b650ad815470d66e712bc8a78923e24c6cbcfeb187906330e748605c4",
+ "tests_passed": 4,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nlong long power(long long a, int b) {\n    if (b == 0) return 1;\n    if (b % 2 == 0) {\n        long long h = power(a, b / 2);\n        return h + h;\n    }\n    r",
+  "after": "#include <iostream>\nusing namespace std;\n\nlong long power(long long a, int b) {\n    if (b == 0) return 1;\n    if (b % 2 == 0) {\n        long long h = power(a, b / 2);\n        return h * h;\n    }\n    r",
+  "note": "Adds the half power to itself instead of multiplying.",
+  "evidence": null,
+  "base_sha256": "833c054b964d7fba"
+ },
+ "evidence": null
+}

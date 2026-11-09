@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-07-01",
+ "seed_submission_id": "synth2:S2-N-07",
+ "problem_id": "synth2-S2-N-07",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "b12f8d165b7eae04",
+ "mutant_sha256": "8e6f9478d86d131ffccfd5fe3f64e963a3a95a53b7a3cd8a8fbacb761e24adfb",
+ "tests_passed": 6,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint main() {\n    int n, x;\n    int prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >= 50) ",
+  "after": "#include <cstdio>\nint main() {\n    int n, x;\n    long long prod = 1;\n    int big = 0;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        prod *= x;\n        if (x >",
+  "note": "The product is kept in an int.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "b12f8d165b7eae04"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

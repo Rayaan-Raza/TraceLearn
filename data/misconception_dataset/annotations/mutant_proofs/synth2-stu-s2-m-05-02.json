@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-05-02",
+ "seed_submission_id": "synth2:S2-M-05",
+ "problem_id": "synth2-S2-M-05",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "a9fa86eccd94dc1c",
+ "mutant_sha256": "8c7c62a96bae41135905b8052191e54b7fe974774adb7e5c693f7bb605bad954",
+ "tests_passed": 5,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E')",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int q[2000];\n    int head = 0, tail = 0;\n    int m;\n    cin >> m;\n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'E')",
+  "note": "Empty test misses head == tail, so an empty queue is read.",
+  "evidence": null,
+  "base_sha256": "a9fa86eccd94dc1c"
+ },
+ "evidence": null
+}

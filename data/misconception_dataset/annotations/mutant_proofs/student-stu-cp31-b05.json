@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp31-b05",
+ "seed_submission_id": "student:CP31:B",
+ "problem_id": "bank-CP31",
+ "operator": "student_cpp_other_error_05",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "acbcb7b473dc272e",
+ "mutant_sha256": "401e4f643a013c833084ea94e9d12cda80f82b3a69cc3a61ce53099b5758c274",
+ "tests_passed": 3,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "int r1 = x / p, r2 = x / q;",
+  "after": "int r1 = x % p, r2 = x % q;",
+  "note": "quotient instead of remainder",
+  "base_sha256": "acbcb7b473dc272e"
+ }
+}

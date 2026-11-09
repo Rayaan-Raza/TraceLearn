@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp08-a04",
+ "seed_submission_id": "student:CP08:A",
+ "problem_id": "bank-CP08",
+ "operator": "student_cpp_wrong_loop_dir_04",
+ "label": "CPP_WRONG_LOOP_DIR",
+ "seed_sha256": "c6f63fac0976dfe9",
+ "mutant_sha256": "c4ce5b227773a36600ebcf1b43e2a4062327dd86e826264b333693a234167e50",
+ "tests_passed": 9,
+ "tests_total": 10,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "for (int i = n - 1; i >= 0; i--) {\n        if (v[i] == t) {",
+  "after": "for (int i = 0; i < n; i++) {\n        if (v[i] == t) {",
+  "note": "scans from the end, finds the last",
+  "base_sha256": "c6f63fac0976dfe9"
+ }
+}

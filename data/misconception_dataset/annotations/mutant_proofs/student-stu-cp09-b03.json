@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp09-b03",
+ "seed_submission_id": "student:CP09:B",
+ "problem_id": "bank-CP09",
+ "operator": "student_cpp_int_overflow_03",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "4f78fc6dbd1a5e3e",
+ "mutant_sha256": "8f4f77588164ef51aa964c9ce1460e879259f8107c4fd1cf37859e02a6c7ec18",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "int n, i, sum = 0;",
+  "after": "long long n, i, sum = 0;",
+  "note": "sum stored in int",
+  "base_sha256": "4f78fc6dbd1a5e3e"
+ }
+}

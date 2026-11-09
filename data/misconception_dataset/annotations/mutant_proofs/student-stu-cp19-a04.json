@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp19-a04",
+ "seed_submission_id": "student:CP19:A",
+ "problem_id": "bank-CP19",
+ "operator": "student_cpp_other_error_04",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "87474944eb97db02",
+ "mutant_sha256": "cd7ce8c72a003d0465614429855384ca372bb887e806fec9b48d41e2d634cb7f",
+ "tests_passed": 2,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "cout << \"yes\" << endl;",
+  "after": "cout << 1 << endl;",
+  "note": "output text",
+  "base_sha256": "87474944eb97db02"
+ }
+}
