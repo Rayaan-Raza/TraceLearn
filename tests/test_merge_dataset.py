@@ -28,6 +28,8 @@ from pathlib import Path
 import pytest
 
 from scripts.merge_dataset import (
+    attach_execution_evidence,
+    dedupe_rows,
     g7_checks,
     jaccard,
     merge,
@@ -525,7 +527,7 @@ def test_feature_availability_matrix_reports_lane_gaps(tmp_path: Path):
     avail = report["feature_availability"]
     assert avail["static"]["PROGPEDIA"] == 0.5
     assert set(avail) <= {
-        "static", "warnings", "runtime", "tests", "cpg", "semantics", "context"
+        "static", "warnings", "runtime", "tests", "cpg", "semantics", "context", "source", "evidence", "repair"
     }
 
 
@@ -708,3 +710,86 @@ def test_synthetic_rows_of_held_out_problems_are_dropped_but_natural_rows_stay()
         {"row_id": "bl-1", "dataset_source": "CODESTREAM", "problem_id": "p_test"},
     ]
     assert [r["row_id"] for r in drop_held_out_synthetic(rows, clusters)] == ["mut-1", "bl-1"]
+
+
+# ------------------------------------------------- identical code and near copies
+
+
+def _code_row(rid, problem, label, source="human"):
+    return {"row_id": rid, "problem_id": problem, "label": label, "label_source": source, "dataset_source": "PROGPEDIA"}
+
+
+_PROGRAM = CODE_A
+_NEAR = CODE_A_EDIT
+
+
+def test_dedupe_keeps_near_copies_within_a_problem():
+    rows = [_code_row("a", "p1", "CPP_OFF_BY_ONE"), _code_row("b", "p1", "CPP_OTHER_ERROR")]
+    kept, dropped, _ = dedupe_rows(rows, {"a": _PROGRAM, "b": _NEAR})
+    assert [r["row_id"] for r in kept] == ["a", "b"] and dropped == 0
+
+
+def test_dedupe_drops_near_copies_across_problems():
+    rows = [_code_row("a", "p1", "CPP_OFF_BY_ONE"), _code_row("b", "p2", "CPP_OFF_BY_ONE")]
+    kept, _, _ = dedupe_rows(rows, {"a": _PROGRAM, "b": _NEAR})
+    assert [r["row_id"] for r in kept] == ["a"]
+
+
+def test_dedupe_drops_near_copy_of_a_holdout_row_even_within_its_problem():
+    # "z" is the frozen row and sorts last, so it must still be the one that survives.
+    rows = [_code_row("a", "p1", "CPP_OFF_BY_ONE"), _code_row("z", "p1", "CPP_OFF_BY_ONE")]
+    kept, _, _ = dedupe_rows(rows, {"a": _NEAR, "z": _PROGRAM}, protected=frozenset({"z"}))
+    assert [r["row_id"] for r in kept] == ["z"]
+
+
+def test_identical_code_keeps_the_majority_label():
+    rows = [_code_row("a", "p1", "CPP_OTHER_ERROR"), _code_row("b", "p1", "CPP_OFF_BY_ONE"), _code_row("c", "p1", "CPP_OFF_BY_ONE")]
+    kept, _, conflicts = dedupe_rows(rows, {r["row_id"]: _PROGRAM for r in rows})
+    assert [r["row_id"] for r in kept] == ["b"]
+    assert any(c["dropped"] == "a" and c["reason"] == "identical_code_outvoted" for c in conflicts)
+
+
+def test_identical_code_tie_drops_every_copy():
+    rows = [_code_row("a", "p1", "CPP_OTHER_ERROR"), _code_row("b", "p1", "CPP_OFF_BY_ONE")]
+    kept, _, conflicts = dedupe_rows(rows, {r["row_id"]: _PROGRAM for r in rows})
+    assert kept == [] and {c["reason"] for c in conflicts} == {"identical_code_tie"}
+
+
+def test_identical_code_tie_goes_to_the_frozen_holdout_row():
+    rows = [_code_row("a", "p1", "CPP_OTHER_ERROR"), _code_row("z", "p1", "CPP_OFF_BY_ONE")]
+    kept, _, conflicts = dedupe_rows(rows, {r["row_id"]: _PROGRAM for r in rows}, protected=frozenset({"z"}))
+    assert [r["row_id"] for r in kept] == ["z"]
+    assert [c["reason"] for c in conflicts] == ["identical_code_tie_frozen_holdout"]
+
+
+def test_execution_evidence_attaches_blocks_and_reports_coverage(tmp_path: Path):
+    path = tmp_path / "evidence.jsonl"
+    record = {"row_id": "a", "compiled": True,
+              "tests": {"results": [{"status": "pass"}, {"status": "crash"}]},
+              "cf": {"classes": {"CPP_OFF_BY_ONE": {"compiled": 1, "fix_first": 5, "fix_first_noreg": 1, "fix_all": 2, "best_gain": 0.5}}}}
+    path.write_text(json.dumps(record) + "\n" + json.dumps({"row_id": "b", "error": "boom"}) + "\n", encoding="utf-8")
+    rows = [{"row_id": "a"}, {"row_id": "b"}, {"row_id": "c"}]
+    stats = attach_execution_evidence(rows, path)
+    assert stats == {"present": True, "records": 2, "rows_with_evidence": 1}
+    assert rows[0]["evidence"]["ff_crash"] == 1 and rows[0]["repair"]["off_by_one_fix_first"] == 3
+    assert rows[0]["repair"]["off_by_one_fix_all"] == 1 and rows[0]["repair"]["n_fix_all"] == 1
+    assert "evidence" not in rows[1] and "evidence" not in rows[2]
+
+
+def test_runner_warnings_replace_what_a_lane_stored(tmp_path: Path):
+    path = tmp_path / "evidence.jsonl"
+    path.write_text(json.dumps({"row_id": "a", "compiled": True, "warnings": {"-Wparentheses": 2, "-Wformat=": 1}}) + "\n"
+                    + json.dumps({"row_id": "b", "compiled": True, "warnings": {}}) + "\n"
+                    + json.dumps({"row_id": "c", "compiled": False, "warnings": {"-Wparentheses": 9}}) + "\n", encoding="utf-8")
+    stale = {"available": True, "total": 99, "parentheses": 99}
+    rows = [{"row_id": r, "warnings": dict(stale)} for r in "abc"]
+    attach_execution_evidence(rows, path)
+    assert rows[0]["warnings"]["parentheses"] == 2 and rows[0]["warnings"]["format"] == 1 and rows[0]["warnings"]["total"] == 3
+    # compiled with no warnings means zero, not unknown
+    assert rows[1]["warnings"]["available"] is True and rows[1]["warnings"]["total"] == 0
+    # no usable run: the lane's value stays
+    assert rows[2]["warnings"]["total"] == 99
+
+
+def test_execution_evidence_without_a_cache_says_so(tmp_path: Path):
+    assert attach_execution_evidence([], tmp_path / "missing.jsonl")["present"] is False

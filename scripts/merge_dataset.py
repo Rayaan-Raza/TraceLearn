@@ -8,7 +8,7 @@ Pipeline (one entry point, `merge`):
         -> join label_mapping.csv (family/modeled/hard3; pre-registered
            merged_into folds execute as a join, never a regeneration)
         -> resolve each row's own code from the raw corpus
-        -> dedupe (token 5-gram Jaccard >= 0.8, keep-first by row_id)
+        -> dedupe (identical code in a problem; token 5-gram Jaccard >= 0.8 across problems)
         -> join cluster_assignments.csv -> problem_cluster + split
         -> G7 leakage checks
         -> annotations/labels.jsonl + features/features.csv
@@ -27,7 +27,8 @@ Binding rulings encoded here (2026-10-23 three-lane merge):
   collapse distinct mutants of one seed. They therefore dedupe by
   identity `(seed_ref, mutation_op, problem_id, label)` — the correct
   notion of a duplicate mutant. Code-bearing rows (CODESTREAM,
-  PROGPEDIA) dedupe by token 5-gram Jaccard >= 0.8 over their own code.
+  PROGPEDIA) dedupe over their own code: identical programs within a
+  problem, token 5-gram Jaccard >= 0.8 across problems (see `dedupe_rows`).
   The plan names MinHash for scale; at pilot scale exact pairwise
   Jaccard is affordable and strictly stricter (no candidate misses) with
   identical threshold semantics — revisit LSH banding at >= 1e5 rows.
@@ -56,6 +57,7 @@ import bisect
 import csv
 import json
 import math
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -66,7 +68,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.verify_dataset import check_row, load_jsonl, load_proof_keys  # noqa: E402
-from tracelearn_features.normalize import normalize_row  # noqa: E402
+from tracelearn_features.execution import execution_blocks  # noqa: E402
+from tracelearn_features.normalize import normalize_row, runner_warnings  # noqa: E402
 from tracelearn_features.schema import FEATURE_BLOCKS, feature_names  # noqa: E402
 
 DEFAULT_DATASET_DIR = ROOT / "data" / "misconception_dataset"
@@ -386,32 +389,89 @@ def _dedupe_priority(row: dict[str, Any]) -> tuple[int, str]:
     return (1 if human else 2, rid)
 
 
+def normalized_code(code: str) -> str:
+    """Code without comments and whitespace: two rows equal here are the same program."""
+    return re.sub(r"\s+", "", re.sub(r"//.*?$|/\*.*?\*/", "", code, flags=re.MULTILINE | re.DOTALL))
+
+
+def _resolve_identical_code(
+    rows: Sequence[dict[str, Any]], code_by_rid: dict[str, str | None], protected: frozenset[str] = frozenset()
+) -> tuple[set[str], list[dict[str, str]]]:
+    """Identical code in one problem can carry different labels (annotators disagreed).
+
+    The one program can only have one answer, so the label is decided here, in the open: the
+    majority among the human-labelled copies (all copies when none is human). A tie goes to a
+    `protected` row (the frozen IID holdout must not change size because a later label disagreed);
+    any other tie cannot be decided, so every copy is dropped. Returns (rows to drop, conflict records).
+    """
+    groups: dict[tuple[Any, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        code = code_by_rid.get(str(row.get("row_id")))
+        if code is not None:
+            groups[(row.get("problem_id"), normalized_code(code))].append(row)
+    out: set[str] = set()
+    conflicts: list[dict[str, str]] = []
+    for copies in groups.values():
+        if len({r.get("label") for r in copies}) < 2:
+            continue
+        voters = [r for r in copies if r.get("label_source") == "human"] or copies
+        tally = Counter(str(r.get("label")) for r in voters).most_common()
+        winner = tally[0][0] if len(tally) == 1 or tally[0][1] > tally[1][1] else None
+        reason = "identical_code_outvoted"
+        if winner is None:
+            frozen = {str(r.get("label")) for r in voters if str(r.get("row_id")) in protected}
+            winner = frozen.pop() if len(frozen) == 1 else None
+            reason = "identical_code_tie_frozen_holdout" if winner else "identical_code_tie"
+        for r in copies:
+            if winner is None or str(r.get("label")) != winner:
+                out.add(str(r.get("row_id")))
+                conflicts.append({"kept": "", "dropped": str(r.get("row_id")), "kept_label": winner or "",
+                                  "dropped_label": str(r.get("label")),
+                                  "reason": reason})
+    return out, conflicts
+
+
 def dedupe_rows(
     rows: Sequence[dict[str, Any]],
     code_by_rid: dict[str, str | None],
     threshold: float = JACCARD_THRESHOLD,
+    protected: frozenset[str] = frozenset(),
 ) -> tuple[list[dict[str, Any]], int, list[dict[str, str]]]:
     """Drop duplicates, keep-first by row_id. Returns (kept, n_deduped, conflicts).
 
     Two bases, never mixed:
-    - code-bearing rows: own-code token 5-gram Jaccard >= `threshold`;
+    - code-bearing rows: the same program in one problem (identical after removing comments and
+      whitespace), or a program with token 5-gram Jaccard >= `threshold` to one in ANOTHER problem;
     - SYNTHETIC rows: exact identity (seed_ref, mutation_op, problem_id,
       label) — seed code must not drive mutant dedupe.
+
+    Two submissions to one problem routinely look alike and may differ only by the bug, so a
+    similarity threshold inside a problem removes exactly the rows that teach the difference
+    (it dropped about 40% of the distinct labelled programs and 180 twins whose labels disagreed).
+    It also protects nothing there: rows of one problem never straddle a problem-grouped split or
+    CV fold. Two cases can leak, so the threshold still applies to them: a near-copy in another
+    problem, and a near-copy of a `protected` row, because the IID holdout sits inside training
+    problems on purpose.
 
     `conflicts` records dropped twins whose labels disagree — surfaced in
     the report, never silently resolved.
     """
     kept: list[dict[str, Any]] = []
-    kept_code: list[tuple[str, set[tuple[str, ...]], str]] = []
+    kept_code: list[tuple[str, set[tuple[str, ...]], Any]] = []
+    kept_exact: set[tuple[Any, str]] = set()
     kept_identities: set[tuple[Any, ...]] = set()
     dropped = 0
-    conflicts: list[dict[str, str]] = []
+    excluded, conflicts = _resolve_identical_code(rows, code_by_rid, protected)
 
     # keep-first by row_id, except the bulk-read training labels (`bl-t2-`) which yield to any
     # earlier-curated near-twin so an existing row (e.g. an IID-holdout row) is never displaced
-    for row in sorted(rows, key=_dedupe_priority):
+    # Frozen holdout rows go first: they are never the copy that gets dropped.
+    for row in sorted(rows, key=lambda r: (str(r.get("row_id")) not in protected, _dedupe_priority(r))):
         rid = str(row.get("row_id"))
         code = code_by_rid.get(rid)
+        if rid in excluded:
+            dropped += 1
+            continue
         if code is None:
             identity = (
                 row.get("seed_ref") or row.get("source_record_id"),
@@ -424,9 +484,15 @@ def dedupe_rows(
                 continue
             kept_identities.add(identity)
         else:
+            problem = row.get("problem_id")
+            exact = (problem, normalized_code(code))
+            if exact in kept_exact:
+                dropped += 1
+                continue
             shingles = token_shingles(code)
             twin = next(
-                (k for k, prev, _ in kept_code if jaccard(shingles, prev) >= threshold),
+                (k for k, prev, other in kept_code
+                 if (other != problem or k in protected) and jaccard(shingles, prev) >= threshold),
                 None,
             )
             if twin is not None:
@@ -436,10 +502,12 @@ def dedupe_rows(
                     conflicts.append(
                         {"kept": twin, "dropped": rid,
                          "kept_label": str(keeper.get("label")),
-                         "dropped_label": str(row.get("label"))}
+                         "dropped_label": str(row.get("label")),
+                         "reason": "near_copy_across_problems"}
                     )
                 continue
-            kept_code.append((rid, shingles, str(row.get("label"))))
+            kept_exact.add(exact)
+            kept_code.append((rid, shingles, problem))
         kept.append(row)
     return kept, dropped, conflicts
 
@@ -618,6 +686,33 @@ def flatten_features(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
     return flat
 
 
+def attach_execution_evidence(rows: list[dict[str, Any]], path: Path) -> dict[str, Any]:
+    """Fill `evidence` and `repair`, and replace `warnings`, from the run records; returns coverage counts.
+
+    The cache is gitignored, so a merge without it must say so: the report records
+    `present: false` and `main` prints it, because the `execution` model cannot train without it.
+    """
+    if not path.is_file():
+        return {"present": False, "records": 0, "rows_with_evidence": 0}
+    records: dict[str, dict[str, Any]] = {}
+    with path.open(encoding="utf-8") as fh:
+        for line in fh:
+            if line.strip():
+                record = json.loads(line)
+                records[record["row_id"]] = record
+    attached = 0
+    for row in rows:
+        record = records.get(str(row["row_id"]))
+        blocks = execution_blocks(record)
+        for name, block in blocks.items():
+            row[name] = block
+        warnings = runner_warnings(record, str(row.get("language") or "cpp"))
+        if warnings is not None:
+            row["warnings"] = warnings
+        attached += bool(blocks)
+    return {"present": True, "records": len(records), "rows_with_evidence": attached}
+
+
 # ---------------------------------------------------------------- merge
 
 
@@ -657,6 +752,9 @@ def merge(
 
     # 3) G1 on every lane row — invalid lanes abort before any output
     index = load_index(index_csv)
+    codenet_index = ds / "annotations" / "codenet_index.csv"
+    if codenet_index.exists():          # CodeNet is not in the normalized submissions index
+        index.update(load_index(codenet_index))
     proof_keys = load_proof_keys(ds / "annotations" / "mutant_proofs")
     g1_issues = []
     for row in rows:
@@ -698,7 +796,8 @@ def merge(
 
     # 6) dedupe (kept, dropped, label conflicts)
     before = len(rows)
-    rows, n_deduped, dedupe_conflicts = dedupe_rows(rows, code_by_rid, threshold=threshold)
+    frozen_holdout = frozenset(load_iid_holdout(ds / "splits" / "iid_holdout.csv"))
+    rows, n_deduped, dedupe_conflicts = dedupe_rows(rows, code_by_rid, threshold=threshold, protected=frozen_holdout)
 
     # 6b) normalize each lane's raw evidence onto the canonical registry.
     # tier0 embeds the mutant's source; CodeStream's own code was resolved in
@@ -711,14 +810,21 @@ def merge(
         for row in rows
     ]
 
+    # 6c) execution and repair evidence, measured by one runner for every lane
+    # (scripts/counterfactual_evidence.py). A row without a record keeps NaN.
+    execution_stats = attach_execution_evidence(rows, ds / "cache" / "counterfactual" / "evidence.jsonl")
+
     # 7) cluster/split join — an unlabeled-cluster problem is an integrity
     #    failure, never guessed
     clusters = load_cluster_table(ds / "splits" / "cluster_assignments.csv")
     clusters = add_extra_clusters(clusters, ds / "splits" / "bank_clusters.csv")
     clusters = add_extra_clusters(clusters, ds / "splits" / "synth2_clusters.csv")
+    clusters = add_extra_clusters(clusters, ds / "splits" / "codenet_clusters.csv")
     clusters = apply_pool_overrides(clusters, ds / "splits" / "codestream_clusters.csv")
     # whole PROGPedia problems held out for the multi-annotator test (never trained on)
     clusters = apply_pool_overrides(clusters, ds / "splits" / "progpedia_holdout.csv")
+    # whole CodeNet problems held out the same way (scripts/ingest_codenet_labels.py)
+    clusters = apply_pool_overrides(clusters, ds / "splits" / "codenet_holdout.csv")
     missing = sorted({str(r["problem_id"]) for r in rows if r["problem_id"] not in clusters})
     if missing:
         raise ValueError(
@@ -834,6 +940,7 @@ def merge(
         "per_source": per_source,
         "per_split": per_split,
         "feature_availability": feature_availability,
+        "execution_evidence": execution_stats,
         "g1": {"ok": True, "n_rows": before},
         "g7": g7,
         "psi": psi_report,
@@ -912,6 +1019,12 @@ def main(argv: list[str] | None = None) -> int:
     print(f"per source: {report['per_source']}")
     print(f"per split:  {report['per_split']}")
     print(f"merged labels: {report['merged_labels']}  code uncovered: {report['code_uncovered']}")
+    ex = report["execution_evidence"]
+    if ex["present"]:
+        print(f"execution evidence: {ex['rows_with_evidence']} of {report['n_rows']} rows ({ex['records']} records)")
+    else:
+        print("NOTE  no execution evidence cache: evidence.* and repair.* are NaN, so the execution model "
+              "cannot be trained. Run scripts/counterfactual_evidence.py first.")
     if report["dedupe_label_conflicts"]:
         print(f"NOTE  {len(report['dedupe_label_conflicts'])} dropped twin(s) disagreed on label — "
               f"see merge_report.json")

@@ -268,7 +268,7 @@ def test_semantics_idx_offset_features():
 
 
 def test_schema_version_and_version_stamp():
-    assert SCHEMA_VERSION == "1.1"
+    assert SCHEMA_VERSION == "1.2"
     import tracelearn_features
 
     assert tracelearn_features.__version__

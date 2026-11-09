@@ -1,0 +1,17 @@
+{
+ "run_id": "stu-cn-rc-035",
+ "seed_submission_id": "codenet:p03012/C++/s801652359.cpp",
+ "problem_id": "tl-codenet-p03012",
+ "operator": "codenet_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "4dc2c786b4ec26cd",
+ "mutant_sha256": "9da139a6a25ee94ea4bb78fe818480b7ffcbc08d76b5cff7140e2c510c6482ee",
+ "tests_passed": 15,
+ "tests_total": 19,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(r <= l)",
+  "after": "(r < l)",
+  "base_sha256": "4dc2c786b4ec26cd"
+ }
+}

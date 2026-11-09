@@ -160,9 +160,12 @@ def test_aggregate_scores_includes_cpp_codes():
 # ---------------------------------------------------------------------------
 # end to end without a compiler
 # ---------------------------------------------------------------------------
-def _seed_cpp_problem(db, problem: dict) -> None:
+def _seed_cpp_problem(db, problem: dict) -> bool:
+    """Insert the problem unless the database seed already holds it; return whether it was inserted."""
     from backend.app.db.models import TestCase as TestCaseModel, TestType as TestTypeModel
 
+    if db.get(Problem, problem["id"]) is not None:
+        return False
     db.add(Problem(
         id=problem["id"], slug=problem["slug"], title=problem["title"],
         description=problem["statement_markdown"], function_name="main",
@@ -187,9 +190,10 @@ def _seed_cpp_problem(db, problem: dict) -> None:
             level=int(hint["order"]), text=hint["hint_text"],
         ))
     db.commit()
+    return True
 
 
-def _remove_cpp_problem(db, problem_id: str, student_id: int) -> None:
+def _remove_cpp_problem(db, problem_id: str, student_id: int, drop_problem: bool = True) -> None:
     from backend.app.db.models import TestCase as TestCaseModel, TestResult as TestResultModel
 
     submission_ids = [row.id for row in db.query(Submission).filter(Submission.problem_id == problem_id)]
@@ -201,6 +205,10 @@ def _remove_cpp_problem(db, problem_id: str, student_id: int) -> None:
         db.query(Submission).filter(Submission.id.in_(submission_ids)).delete(synchronize_session=False)
     db.query(LearnerStateHistory).filter(LearnerStateHistory.student_id == student_id).delete(synchronize_session=False)
     db.query(LearnerState).filter(LearnerState.student_id == student_id).delete(synchronize_session=False)
+    db.query(Student).filter(Student.id == student_id).delete(synchronize_session=False)
+    if not drop_problem:  # the database seed owns it
+        db.commit()
+        return
     db.query(ProblemHint).filter(ProblemHint.problem_id == problem_id).delete(synchronize_session=False)
     db.query(TestCaseModel).filter(TestCaseModel.problem_id == problem_id).delete(synchronize_session=False)
     db.query(ProblemSolution).filter(ProblemSolution.problem_id == problem_id).delete(synchronize_session=False)
@@ -219,7 +227,7 @@ def cpp_submission(db):
     db.add(student)
     db.commit()
     db.refresh(student)
-    _seed_cpp_problem(db, problem)
+    inserted = _seed_cpp_problem(db, problem)
     submission = Submission(
         student_id=student.id, problem_id=problem["id"],
         source_code=problem["misconception_variant_source"],
@@ -240,7 +248,7 @@ def cpp_submission(db):
     try:
         yield {"problem": problem, "student": student, "submission": submission}
     finally:
-        _remove_cpp_problem(db, problem["id"], student.id)
+        _remove_cpp_problem(db, problem["id"], student.id, drop_problem=inserted)
 
 
 def test_cpp_diagnostic_failure_reaches_diagnosis_state_and_hints(db, cpp_submission):

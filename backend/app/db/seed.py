@@ -4,10 +4,12 @@ import json
 from pathlib import Path
 from sqlalchemy.orm import Session
 from backend.app.db.database import init_db
-from backend.app.db.models import Problem, Student, TestCase, TestType
+from backend.app.db.models import Problem, ProblemHint, ProblemSolution, Student, TestCase, TestType
 
 PROBLEMS_JSON = Path("data/problems/problems.json")
-SEED_EXPECTED_COUNTS = {"problems": 6, "test_cases": 36, "students": 5}
+CPP_BANK_JSON = Path("data/cpp_diagnostics/problems.json")
+# 6 Python problems (36 tests) + the 40-problem C++ diagnostic bank (309 tests).
+SEED_EXPECTED_COUNTS = {"problems": 46, "test_cases": 345, "students": 5}
 _TOPIC_BY_TAG = {"loops": "Loops", "lists": "Arrays", "functions": "Functions"}
 
 
@@ -46,6 +48,38 @@ def seed_problems(db: Session) -> None:
                 diagnostic_tag=tc.get("diagnostic_tag"),
             ))
 
+def seed_cpp_bank(db: Session) -> None:
+    """The C++ diagnostic bank: problems, tests (stdin/stdout), hints and reference solutions.
+
+    Idempotent per problem, so it also fills in a database seeded before the bank existed.
+    """
+    if not CPP_BANK_JSON.exists():
+        return
+    for row in json.loads(CPP_BANK_JSON.read_text(encoding="utf-8"))["problems"]:
+        if db.get(Problem, row["id"]) is not None:
+            continue
+        db.add(Problem(
+            id=row["id"], slug=row["slug"], title=row["title"], description=row["statement_markdown"],
+            function_name="main", concept_tags="[]", prerequisite_tags="[]", starter_code="",
+            language="cpp", language_standard=row.get("language_standard") or "cpp17",
+            topic=row.get("primary_topic") or "General", difficulty=row.get("difficulty") or "",
+            created_by_user_id=None,
+        ))
+        for case in row["test_cases"]:
+            db.add(TestCase(
+                id=case["id"], problem_id=row["id"], test_type=TestType(case["db_type"]), name=case["name"],
+                input_json=json.dumps({"stdin": case["stdin"]}), expected_output_json=json.dumps(case["expected_output"]),
+                diagnostic_tag=case.get("diagnostic_tag"), time_limit_ms=case.get("time_limit_ms"),
+                memory_limit_mb=case.get("memory_limit_mb"),
+            ))
+        for hint in row.get("hints") or []:
+            db.add(ProblemHint(problem_id=row["id"], misconception_id=hint["related_misconception_id"],
+                               level=int(hint["order"]), text=hint["hint_text"]))
+        if row.get("reference_solution_source"):
+            db.add(ProblemSolution(problem_id=row["id"], language="cpp", language_standard=row.get("language_standard") or "cpp17",
+                                   source_code=row["reference_solution_source"]))
+
+
 def seed_students(db: Session) -> None:
     if db.query(Student).count() > 0:
         return
@@ -54,6 +88,7 @@ def seed_students(db: Session) -> None:
 
 def run_seed(db: Session) -> None:
     seed_problems(db)
+    seed_cpp_bank(db)
     seed_students(db)
     db.commit()
 

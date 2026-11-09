@@ -44,17 +44,25 @@ def _classifier(variant: str, models_dir: str) -> ModelClassifier:
     return ModelClassifier.load(variant, models_dir)
 
 
-def code_features(source: str, language: str = "cpp", warnings: dict[str, Any] | None = None) -> dict[str, float | None]:
+def code_features(source: str, language: str = "cpp", warnings: dict[str, Any] | None = None,
+                  run_record: dict[str, Any] | None = None) -> dict[str, float | None]:
     """Feature mapping ("block.name" -> number) built from the submission's own code.
 
     Static and semantic features come from the source. Compiler-warning counts
     are used when the caller has them; otherwise the whole warnings block is absent.
+    `run_record` (the shape scripts/counterfactual_evidence.py writes) supplies the
+    `evidence` and `repair` blocks; without it they are absent, and the `execution`
+    variant abstains because too many of its features are missing.
     """
-    from tracelearn_features.normalize import normalize_row
+    from tracelearn_features.execution import execution_blocks
+    from tracelearn_features.normalize import normalize_row, runner_warnings
     from tracelearn_features.schema import feature_names
 
-    row = {"dataset_source": "CODESTREAM", "language": language, "warnings": warnings}
+    # A run record carries the warnings the training rows were given, so it wins.
+    measured = runner_warnings(run_record, language)
+    row = {"dataset_source": "CODESTREAM", "language": language, "warnings": measured if measured is not None else warnings}
     normalized = normalize_row(row, code=source)
+    normalized.update(execution_blocks(run_record))
     out: dict[str, float | None] = {}
     for name in feature_names():
         block, _, short = name.partition(".")
@@ -98,14 +106,30 @@ def compiler_warnings(source: str) -> dict[str, Any] | None:
         return None
 
 
-def predict_source(source: str, language: str = "cpp", warnings: dict[str, Any] | None = None) -> ModelPrediction | None:
+def predict_source(source: str, language: str = "cpp", warnings: dict[str, Any] | None = None,
+                   run_record: dict[str, Any] | None = None) -> ModelPrediction | None:
     if len(source) > MAX_SOURCE_CHARS or not source.strip():
         return None
     clf = _classifier(settings.model_variant, str(settings.model_dir))
-    return clf.predict(code_features(source, language, warnings))
+    return clf.predict(code_features(source, language, warnings, run_record))
 
 
-def model_records(source: str, language: str = "cpp", warnings: dict[str, Any] | None = None) -> list[EvidenceRecord]:
+def execution_shadow_record(source: str, run_record: dict[str, Any], language: str = "cpp") -> EvidenceRecord | None:
+    """What the `execution` model would say for this run record, as weightless evidence."""
+    if len(source) > MAX_SOURCE_CHARS or not source.strip():
+        return None
+    pred = _classifier("execution", str(settings.model_dir)).predict(code_features(source, language, None, run_record))
+    if pred.n_features and pred.n_missing / pred.n_features > MAX_MISSING_SHARE and not pred.abstained:
+        pred = dataclasses.replace(pred, abstained=True)
+    return EvidenceRecord(
+        source_type="model", evidence_code="MODEL_SHADOW", direction="neutral", weight=0.0,
+        description=(f"Shadow mode: the execution classifier would say {pred.top_label} "
+                     f"at {pred.top_probability:.2f}{' (abstained)' if pred.abstained else ''}; not used."),
+        details=pred.as_dict())
+
+
+def model_records(source: str, language: str = "cpp", warnings: dict[str, Any] | None = None,
+                  run_record: dict[str, Any] | None = None) -> list[EvidenceRecord]:
     """Zero or one evidence record for this submission, according to `model_diagnosis`."""
     mode = settings.model_diagnosis
     if mode == "off":
@@ -113,17 +137,17 @@ def model_records(source: str, language: str = "cpp", warnings: dict[str, Any] |
     try:
         if warnings is None:
             warnings = compiler_warnings(source)
-        pred = predict_source(source, language, warnings)
+        pred = predict_source(source, language, warnings, run_record)
         if pred is None:
             return []
+        if pred.n_features and pred.n_missing / pred.n_features > MAX_MISSING_SHARE and not pred.abstained:
+            pred = dataclasses.replace(pred, abstained=True)
         if mode == "shadow":
             return [EvidenceRecord(
                 source_type="model", evidence_code="MODEL_SHADOW", direction="neutral", weight=0.0,
                 description=(f"Shadow mode: the classifier would say {pred.top_label} "
                              f"at {pred.top_probability:.2f}{' (abstained)' if pred.abstained else ''}; not used."),
                 details=pred.as_dict())]
-        if pred.n_features and pred.n_missing / pred.n_features > MAX_MISSING_SHARE and not pred.abstained:
-            pred = dataclasses.replace(pred, abstained=True)
         return [model_evidence(pred)]
     except Exception:  # the rules must still diagnose
         log.exception("model diagnosis failed; continuing with rules only")

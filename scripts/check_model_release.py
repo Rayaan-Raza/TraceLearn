@@ -77,6 +77,14 @@ def main() -> int:
     shadow_ok = all(ok for g, ok, _ in gates if g.startswith("S"))
     on_ok = shadow_ok and all(ok for g, ok, _ in gates if g.startswith("P"))
     print(f"\nVERDICT: shadow {'CLEARED' if shadow_ok else 'BLOCKED'}; on {'CLEARED' if on_ok else 'BLOCKED'}")
+    # The gates above score `best`, the code-only default. `execution` needs a run record the backend does not
+    # produce yet, so it cannot be cleared here; this line shows how far it is from P1 and P2.
+    if hp.exists():
+        ex = json.loads(hp.read_text(encoding="utf-8"))["scopes"]["all"]["systems"].get("model: execution")
+        if ex:
+            print(f"INFO  execution variant, not served: {ex['n_misconception']} positives, precision "
+                  f"{ex['precision_when_flagged']['value']}, recall {ex['misconception_recall']['value']}, "
+                  f"false alarm {ex['false_alarm_rate']['value']}")
     return 0 if shadow_ok else 1
 
 

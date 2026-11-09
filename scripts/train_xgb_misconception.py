@@ -70,6 +70,9 @@ MIN_CALIBRATION_ROWS = 10     # below this, calibration is a fit on noise
 DEFAULT_THRESHOLD = 0.5
 COMMON_PREFIXES = ("static.", "warnings.")
 BEST_PREFIXES = ("static.", "warnings.", "semantics.")
+# Chosen by leave-one-problem-cluster-out on train + dev problems (docs/6-nov.md section 15). `static.*` is
+# excluded: its size features separate the lanes, which is what stopped synthetic rows from transferring.
+EXECUTION_PREFIXES = ("warnings.", "semantics.", "source.", "evidence.", "repair.")
 
 
 # ------------------------------------------------------------- weights
@@ -94,7 +97,12 @@ def compute_weights(
     counts = Counter(labels)
     balance = {lab: n / (k * counts[lab]) for lab in counts}
     if _ACTIVE_PROFILE == "plain":
-        balance = {lab: 1.0 for lab in counts}
+        # "plain" chooses its class balance (`--balance`): none, the square root of the
+        # inverse frequency (a rare class counts more, but not 80 times more), or full.
+        if _BALANCE == "none":
+            balance = {lab: 1.0 for lab in counts}
+        elif _BALANCE == "sqrt":
+            balance = {lab: math.sqrt(v) for lab, v in balance.items()}
     w = np.array([balance[lab] for lab in labels], dtype=float) * conf
     w *= np.where(source == "SYNTHETIC", float(synthetic_multiplier), 1.0)
     clip_applied = int((w > clip[1]).sum() + (w < clip[0]).sum())
@@ -226,14 +234,27 @@ PROFILES: dict[str, dict[str, Any]] = {
                     min_child_weight=3, reg_lambda=5.0),
     "strong": dict(n_estimators=250, max_depth=2, learning_rate=0.06, subsample=0.7, colsample_bytree=0.5,
                    min_child_weight=5, reg_lambda=10.0, gamma=0.5),
-    # "plain": ordinary XGBoost settings, trained on real rows only (no synthetic rows) and weighted by
-    # label confidence only (no class-balance weights). On the held-out problems this beat every
-    # other configuration (reports/model_comparison.md); see docs/6-nov.md section 15.
+    # "plain": ordinary XGBoost settings, trained on human-labelled real rows (see PLAIN_SYNTHETIC_PREFIXES for
+    # the synthetic families it may add) and weighted by label confidence only (no class-balance weights).
+    # reports/model_comparison.md shows it winning on the held-out problems, but that comparison predates the
+    # tier1b warnings fix and its recall was a lane fingerprint; see docs/6-nov.md section 15.
     "plain": dict(n_estimators=200, max_depth=4, learning_rate=0.1, subsample=0.8, colsample_bytree=0.8),
 }
 _ACTIVE_PROFILE = "default"
-# "plain" trains on real rows; the round-2 agent-written programs (stu-s2-*) are the only synthetic rows it may add.
-PLAIN_KEEP_SYNTH2 = True
+# "plain" trains on real rows plus these agent-written synthetic families: round-2 programs on new problems
+# (stu-s2-*) and student-style programs on the product's own bank problems (stu-cp*). The bank programs lift
+# leave-one-author-out recall on bank problems from 0.56 to 0.75 (docs/6-nov.md section 17).
+PLAIN_SYNTHETIC_PREFIXES = ("stu-s2-", "stu-cp", "stu-cn-")
+# Class balance for "plain" (`--balance`); chosen on grouped out-of-fold results, never on the test split.
+_BALANCE = "none"
+BALANCES = ("none", "sqrt", "full")
+
+
+def set_balance(name: str) -> None:
+    global _BALANCE
+    if name not in BALANCES:
+        raise ValueError(f"unknown balance {name!r}; expected one of {BALANCES}")
+    _BALANCE = name
 
 
 def set_profile(name: str) -> None:
@@ -305,9 +326,11 @@ def train(
     cv_repeats: int = 1,
     synth_grid: Sequence[float] = SYNTH_GRID,
     profile: str = "default",
+    balance: str = "none",
 ) -> dict[str, Any]:
     """Train the three variants; write models/ artifacts; return metrics."""
     set_profile(profile)
+    set_balance(balance)
     import pandas as pd
     from sklearn.model_selection import StratifiedGroupKFold
 
@@ -357,9 +380,15 @@ def train(
             "held-out clusters must not be shared (§13.4)"
         )
 
+    def _plain_excludes(rid: str) -> bool:
+        """"plain" trains on human-labelled real rows and, optionally, the round-2 agent-written programs."""
+        row = meta_by_rid[rid]
+        if row["dataset_source"] == "SYNTHETIC":
+            return not rid.startswith(PLAIN_SYNTHETIC_PREFIXES)
+        return row.get("label_source") != "human"
+
     keep = [i for i, r in enumerate(rids) if splits[r][1] in ("train", "dev_gold")
-            and not (_ACTIVE_PROFILE == "plain" and meta_by_rid[r]["dataset_source"] == "SYNTHETIC"
-                     and not (PLAIN_KEEP_SYNTH2 and r.startswith("stu-s2-")))]
+            and not (_ACTIVE_PROFILE == "plain" and _plain_excludes(r))]
     rids = [rids[i] for i in keep]
     y_str = [y_str[i] for i in keep]
     X = X[keep]
@@ -480,6 +509,19 @@ def train(
         "G8 still rides on full"
     )
 
+    exec_idx = [i for i, f in enumerate(feature_list) if f.startswith(EXECUTION_PREFIXES)]
+    X_exec = X[:, exec_idx]
+    reps_exec: list[np.ndarray] = []
+    oof_exec, fold_exec = oof_for(
+        X_exec[tr_idx], X_exec[tr_idx], best_mult, repeats=cv_repeats, collect=reps_exec
+    )
+    exec_metrics = variant_metrics(oof_exec, fold_exec)
+    exec_metrics["features"] = [feature_list[i] for i in exec_idx]
+    exec_metrics["role"] = (
+        "needs a run record: code + warnings + execution evidence + repair evidence; "
+        "abstains when they are absent, because it was not trained without them"
+    )
+
     lf_features = _load_registry(ds)
     X_masked = mask_weak_inputs(X, feature_list, meta, lf_features)
     oof_masked, fold_masked = oof_for(
@@ -519,7 +561,7 @@ def train(
     calibrator["variants"] = {
         name: calibrate_variant(reps, y_tr, cluster_tr, is_real_tr, seed,
                                 other_idx=classes.index("CPP_OTHER_ERROR") if "CPP_OTHER_ERROR" in classes else None)
-        for name, reps in (("best", reps_best), ("common", reps_common))
+        for name, reps in (("best", reps_best), ("common", reps_common), ("execution", reps_exec))
     }
     dev_metrics: dict[str, Any] = {"n": n_dev, "calibrated": False}
     if n_dev >= MIN_CALIBRATION_ROWS:
@@ -581,7 +623,7 @@ def train(
 
     metrics: dict[str, Any] = {
         "seed": seed,
-        "profile": {"name": profile, "params": PROFILES[profile]},
+        "profile": {"name": profile, "params": PROFILES[profile], "balance": _BALANCE},
         "n_rows": len(y),
         "n_train": int(train_mask.sum()),
         "n_dev_gold": n_dev,
@@ -600,6 +642,7 @@ def train(
         "masked": masked_metrics,
         "common": common_metrics,
         "best": best_metrics,
+        "execution": exec_metrics,
         "dev_gold": dev_metrics,
         "g8": g8,
     }
@@ -612,12 +655,15 @@ def train(
     common_model.get_booster().save_model(str(models / "xgb_common_v1.json"))
     best_model, _ = _fit_model(X_best[train_mask], y[train_mask], w_final, seed)
     best_model.get_booster().save_model(str(models / "xgb_best_v1.json"))
+    exec_model, _ = _fit_model(X_exec[train_mask], y[train_mask], w_final, seed)
+    exec_model.get_booster().save_model(str(models / "xgb_execution_v1.json"))
 
     # Descriptive check of each served calibrator on the dev-gold rows (45 rows,
     # mostly weak labels: a sanity figure, never a basis for tuning).
     dev_variants: dict[str, Any] = {}
     if n_dev:
-        for vname, vmodel, vcols in (("best", best_model, best_idx), ("common", common_model, common_idx)):
+        for vname, vmodel, vcols in (("best", best_model, best_idx), ("common", common_model, common_idx),
+                                     ("execution", exec_model, exec_idx)):
             cal = calibrator["variants"][vname]
             probs = _rescale(_to_global(vmodel.predict_proba(X[dev_mask][:, vcols]), final_present, len(classes)),
                              cal["temperature"])
@@ -653,6 +699,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--cv-folds", type=int, default=3)
     parser.add_argument("--cv-repeats", type=int, default=3)
     parser.add_argument("--profile", choices=sorted(PROFILES), default="default")
+    parser.add_argument("--balance", choices=BALANCES, default="none",
+                        help="class balance for the plain profile (other profiles always use full balance)")
     args = parser.parse_args(argv)
 
     try:
@@ -663,6 +711,7 @@ def main(argv: list[str] | None = None) -> int:
             cv_folds=args.cv_folds,
             cv_repeats=args.cv_repeats,
             profile=args.profile,
+            balance=args.balance,
         )
     except ValueError as exc:
         print(f"FAIL  {exc}")
@@ -675,7 +724,7 @@ def main(argv: list[str] | None = None) -> int:
           f"macro-F1 {cv['macro_f1_mean']} +/- {cv['macro_f1_std']} "
           f"vs majority {cv['majority_baseline']} (margin {metrics['g8']['cv_margin']})")
     print(f"synthetic multiplier: {cv['synthetic_multiplier']} (grid {cv['grid_scores']})")
-    for variant in ("full", "masked", "common", "best"):
+    for variant in ("full", "masked", "common", "best", "execution"):
         v = metrics[variant]
         extra = f", role={v['role'][:40]}..." if "role" in v else ""
         print(f"  {variant:8s} OOF macro-F1={v['macro_f1_oof']} ece={v['ece_oof']}{extra}")

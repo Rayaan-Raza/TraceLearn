@@ -139,8 +139,17 @@ def verify_problem(p: dict) -> dict:
     return out
 
 
+# Author labels that contradict the taxonomy, corrected with the reason (row id -> label, reason).
+# stu-s2-f-06-03: the edit adds a wrong early `return true` to a recursive palindrome check. There is
+# no loop, so it cannot be a stale loop exit (applicability.py rules STALE_EXIT out without a loop).
+LABEL_CORRECTIONS = {"stu-s2-f-06-03": ("CPP_OTHER_ERROR", "wrong early return in recursion; no loop, not STALE_EXIT")}
+
+
 def make_row(pid: str, n: int, b: dict) -> dict:
     code = b["buggy"]
+    fix = LABEL_CORRECTIONS.get(f"stu-{pid.lower()}-{n:02d}")
+    if fix:
+        b = {**b, "label": fix[0], "note": f"{b['note']} [label corrected: {fix[1]}]"}
     return {
         "row_id": f"stu-{pid.lower()}-{n:02d}", "dataset_source": "SYNTHETIC", "source_record_id": f"synth2:{pid}:{n}",
         "problem_id": f"synth2-{pid}", "problem_cluster": None, "language": "cpp",

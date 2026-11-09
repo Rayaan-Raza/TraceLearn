@@ -122,6 +122,10 @@ def _run_tests(binary: str, tests: list[dict], inputs: list[str], workdir: str,
         r = run_process([binary], stdin_path=inputs[i], workdir=workdir,
                         timeout_s=cfg.limits.time_s, limits=cfg.limits,
                         isolate_network=cfg.network_isolation, tag=f"t{i}")
+        if r["timed_out"] and cfg.confirm_timeouts:
+            r = run_process([binary], stdin_path=inputs[i], workdir=workdir,
+                            timeout_s=cfg.limits.time_s * 3, limits=cfg.limits,
+                            isolate_network=cfg.network_isolation, tag=f"t{i}c")
         crashed = r["signal"] is not None or r["timed_out"]
         cmp = None if crashed else compare_output(r["stdout"], t["output"])
         status = _classify(r, cmp)

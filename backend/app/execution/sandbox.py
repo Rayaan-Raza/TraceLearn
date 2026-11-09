@@ -169,11 +169,12 @@ def _prlimit_path() -> str | None:
     return os.path.realpath(exe) if exe and os.path.realpath(exe).startswith("/usr/") else None
 
 
-def _limits(cpu_seconds: int, memory_mb: int, file_bytes: int):
+def _limits(cpu_seconds: int, memory_mb: int | None, file_bytes: int):
     def apply() -> None:  # runs in the child between fork and exec
         resource.setrlimit(resource.RLIMIT_CPU, (cpu_seconds, cpu_seconds + 1))
-        mem = memory_mb * 1024 * 1024
-        resource.setrlimit(resource.RLIMIT_AS, (mem, mem))
+        if memory_mb is not None:
+            mem = memory_mb * 1024 * 1024
+            resource.setrlimit(resource.RLIMIT_AS, (mem, mem))
         resource.setrlimit(resource.RLIMIT_FSIZE, (file_bytes, file_bytes))
         resource.setrlimit(resource.RLIMIT_NOFILE, (64, 64))
         resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
@@ -198,8 +199,12 @@ def run_in_sandbox(
     timeout: float,
     memory_mb: int | None = None,
     output_bytes: int | None = None,
+    address_limit: bool = True,
 ) -> SandboxResult:
     """Run ``argv`` with ``workdir`` as its working directory.
+
+    ``address_limit=False`` drops the address-space cap, and only that: sanitizer builds reserve
+    terabytes of virtual memory and cannot start under it. Isolation and all other limits stay.
 
     Paths inside ``argv`` must be relative to the working directory (or
     absolute system paths under /usr), so they are valid both inside the
@@ -241,7 +246,7 @@ def run_in_sandbox(
             # Limits apply to the student program only (not to bwrap), and are
             # set by an external helper, avoiding preexec_fn in a threaded server.
             limit_prefix = [
-                prlimit, f"--cpu={cpu}", f"--as={memory_mb * 1024 * 1024}",
+                prlimit, f"--cpu={cpu}", *([f"--as={memory_mb * 1024 * 1024}"] if address_limit else []),
                 f"--fsize={fsize}", "--nofile=64", "--core=0", "--",
             ]
             if exe:
@@ -250,7 +255,7 @@ def run_in_sandbox(
             else:
                 cmd = limit_prefix + cmd
         else:
-            popen_kwargs["preexec_fn"] = _limits(cpu, memory_mb, fsize)
+            popen_kwargs["preexec_fn"] = _limits(cpu, memory_mb if address_limit else None, fsize)
 
     timed_out = False
     with open(out_path, "wb") as out_fh, open(err_path, "wb") as err_fh:

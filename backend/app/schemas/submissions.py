@@ -93,6 +93,8 @@ class RunAndAnalyzeResponse(BaseModel):
     current_only: DiagnosisBrief | None = None
     history_aware: DiagnosisBrief | None = None
     hint: dict | None = None
+    # True when the diagnosis runs on the background worker (`model_async`); poll /diagnoses.
+    diagnosis_pending: bool = False
 
 
 class HintRead(BaseModel):

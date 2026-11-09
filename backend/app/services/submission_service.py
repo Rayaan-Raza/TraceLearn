@@ -3,7 +3,9 @@ import json
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from backend.app.analysis.pipeline import AnalysisPipeline
+from backend.app.analysis import async_diagnosis
+from backend.app.analysis.pipeline import AnalysisPipeline, _is_cpp
+from backend.app.analysis.run_record import schedule_shadow_prediction
 from backend.app.db.models import DiagnosisMode, Student, Submission
 from backend.app.diagnosis.current_only import CurrentOnlyDiagnosisEngine
 from backend.app.diagnosis.history_aware import HistoryAwareDiagnosisEngine
@@ -63,12 +65,12 @@ class SubmissionService:
             "test_results": [tr.__dict__ for tr in result.test_results],
         }
 
-    def analyze(self, db: Session, submission_id: int) -> dict:
+    def analyze(self, db: Session, submission_id: int, defer_model: bool = False) -> dict:
         sub = db.get(Submission, submission_id)
         if not sub:
             raise ValueError("Submission not found")
         pipeline = AnalysisPipeline()
-        items = pipeline.analyze_submission(db, sub, include_history=True)
+        items = pipeline.analyze_submission(db, sub, include_history=True, defer_model=defer_model)
         return {"submission_id": submission_id, "evidence_count": len(items)}
 
     def diagnose(self, db: Session, submission_id: int) -> dict:
@@ -87,9 +89,21 @@ class SubmissionService:
 
     def run_and_analyze(self, db: Session, submission_id: int) -> dict:
         exec_result = self.execute(db, submission_id)
+        sub = db.get(Submission, submission_id)
+        if async_diagnosis.enabled() and sub and (
+                AnalysisPipeline.model_applies(sub) or async_diagnosis.has_pending(sub.student_id)):
+            # The test result now; evidence, diagnosis and learner state from the background worker,
+            # in submission order per student. Clients read them from /diagnoses and /hints.
+            async_diagnosis.enqueue(submission_id, sub.student_id)
+            return {**exec_result, "evidence_count": 0, "current_only": None, "history_aware": None,
+                    "hint": None, "diagnosis_pending": True}
         analyze_result = self.analyze(db, submission_id)
         diag_result = self.diagnose(db, submission_id)
-        return {**exec_result, **analyze_result, **diag_result}
+        sub = db.get(Submission, submission_id)
+        # Failing C++ only: the classes describe bugs, and the path measures failing tests.
+        if sub and exec_result["execution_status"] not in ("success", "syntax_error", "system_error") and _is_cpp(sub.source_code):
+            schedule_shadow_prediction(submission_id)
+        return {**exec_result, **analyze_result, **diag_result, "diagnosis_pending": False}
 
     def _diag_dict(self, d) -> dict:
         return {

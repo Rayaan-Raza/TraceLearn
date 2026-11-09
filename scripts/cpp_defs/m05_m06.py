@@ -470,6 +470,8 @@ int main() {
             {"kind": "visible", "text": "12345678901234"},
             {"kind": "hidden", "text": "1234567"},
             {"kind": "hidden", "text": "12345678"},
+            # Spaces count; `cin >> s` stops at the first one (docs/6-nov.md section 19).
+            {"kind": "hidden", "text": "pass word"},
             {"kind": "diagnostic", "tag": "assignment_in_condition", "text": "abcdefgh"},
             {"kind": "diagnostic", "tag": "assignment_in_condition", "text": "short"},
         ],

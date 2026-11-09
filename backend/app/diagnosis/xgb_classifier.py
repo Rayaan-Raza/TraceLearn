@@ -42,6 +42,7 @@ VARIANT_FILES: dict[str, str] = {
     "masked": "xgb_masked_v1.json",
     "common": "xgb_common_v1.json",
     "best": "xgb_best_v1.json",
+    "execution": "xgb_execution_v1.json",
 }
 TOP_K = 3
 
