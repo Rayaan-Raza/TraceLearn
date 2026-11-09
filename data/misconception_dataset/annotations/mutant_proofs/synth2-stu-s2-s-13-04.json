@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-13-04",
+ "seed_submission_id": "synth2:S2-S-13",
+ "problem_id": "synth2-S2-S-13",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "b4baba3a249a2e2f",
+ "mutant_sha256": "adab52e6f4b1efc07a9ec0875c9c4cbe82c035c20dc8f949a716ed7d4f0f31c6",
+ "tests_passed": 5,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\nusing namespace std;\nint rowSum(vector<int>& r) {\n    int s = 0;\n    for (int x : r) s += x;\n    return s;\n}\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vec",
+  "after": "#include <iostream>\n#include <vector>\nusing namespace std;\nint rowSum(vector<int>& r) {\n    int s = 0;\n    for (int x : r) s += x;\n    return s;\n}\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vec",
+  "note": "Prints the last row's sum instead of the best sum.",
+  "evidence": null,
+  "base_sha256": "b4baba3a249a2e2f"
+ },
+ "evidence": null
+}

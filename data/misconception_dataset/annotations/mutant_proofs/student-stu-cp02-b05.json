@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp02-b05",
+ "seed_submission_id": "student:CP02:B",
+ "problem_id": "bank-CP02",
+ "operator": "student_cpp_other_error_05",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "3aadddbf215f2aaa",
+ "mutant_sha256": "1d6c661075f1c65de7c742824086785e3e6f520739302cc4cb2b832f18832fa9",
+ "tests_passed": 9,
+ "tests_total": 10,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "printf(\"None\\n\")",
+  "after": "printf(\"NONE\\n\")",
+  "note": "output case",
+  "base_sha256": "3aadddbf215f2aaa"
+ }
+}

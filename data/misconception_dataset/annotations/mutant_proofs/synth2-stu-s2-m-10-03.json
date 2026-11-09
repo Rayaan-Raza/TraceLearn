@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-10-03",
+ "seed_submission_id": "synth2:S2-M-10",
+ "problem_id": "synth2-S2-M-10",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "f457ad7d5c443b89",
+ "mutant_sha256": "ab232970000b560397080af594f4c4c9b17c22629765caae714599c2fb43ade1",
+ "tests_passed": 7,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    int se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int rem =",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int",
+  "note": "Sum of evens stored in int.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "f457ad7d5c443b89"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

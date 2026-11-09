@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-13-01",
+ "seed_submission_id": "synth2:S2-F-13",
+ "problem_id": "synth2-S2-F-13",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "2bb09f69b17593fc",
+ "mutant_sha256": "de7986446c88f21a966d70aa48e39bff6494c9ca2ac84c944aa8a6e96e036bee",
+ "tests_passed": 0,
+ "tests_total": 15,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nvoid bin(long long n) {\n    if (n >= 0) bin(n / 2);\n    cout << n % 2;\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    bin(n);\n    cout << endl;\n    return",
+  "after": "#include <iostream>\nusing namespace std;\n\nvoid bin(long long n) {\n    if (n > 1) bin(n / 2);\n    cout << n % 2;\n}\n\nint main() {\n    long long n;\n    cin >> n;\n    bin(n);\n    cout << endl;\n    return ",
+  "note": "Condition is always true for n >= 0, so the recursion never stops.",
+  "evidence": null,
+  "base_sha256": "2bb09f69b17593fc"
+ },
+ "evidence": null
+}

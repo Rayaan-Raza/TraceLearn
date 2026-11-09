@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-06-01",
+ "seed_submission_id": "synth2:S2-M-06",
+ "problem_id": "synth2-S2-M-06",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "1ab046618666b83e",
+ "mutant_sha256": "8f46f8f309891f62072a96ac8eec8717f2c638dd807b6920c6b75a3070b9b6f8",
+ "tests_passed": 7,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[10];\n        int top = 0;\n       ",
+  "after": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char st[1000];\n        int top = 0;\n     ",
+  "note": "Stack array of 10 characters but strings may open hundreds of brackets.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "1ab046618666b83e"
+ },
+ "evidence": "asan:buffer-overflow"
+}

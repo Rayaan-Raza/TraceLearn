@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-05-04",
+ "seed_submission_id": "synth2:S2-N-05",
+ "problem_id": "synth2-S2-N-05",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "2dbe5159d5f5b94c",
+ "mutant_sha256": "6394e4549574d4f24ff48176bf03c9dc453ee7e539709e26d6db87fb7c60871c",
+ "tests_passed": 0,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n >= 0) {\n        sum += n % 10;\n        n /= 10;\n   ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    int sum = 0, cnt = 0;\n    if (n == 0) cnt = 1;\n    while (n > 0) {\n        sum += n % 10;\n        n /= 10;\n    ",
+  "note": "Loop never ends because n stays 0.",
+  "evidence": null,
+  "base_sha256": "2dbe5159d5f5b94c"
+ },
+ "evidence": null
+}

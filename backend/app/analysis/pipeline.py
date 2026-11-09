@@ -3,6 +3,7 @@ import json
 from sqlalchemy.orm import Session
 from backend.app.analysis.cpp_static import CppStaticAnalyzer
 from backend.app.analysis.diff_analyzer import DiffAnalyzer
+from backend.app.analysis.model_runner import model_records
 from backend.app.analysis.runtime_analyzer import RuntimeAnalyzer
 from backend.app.analysis.static_analyzer import StaticAnalyzer
 from backend.app.analysis.test_analyzer import TestAnalyzer
@@ -24,7 +25,30 @@ class AnalysisPipeline:
         self.runtime = RuntimeAnalyzer()
         self.diff = DiffAnalyzer(self.history)
 
-    def analyze_submission(self, db: Session, submission: Submission, include_history: bool = True) -> list[EvidenceItem]:
+    @staticmethod
+    def _run_record(db: Session, submission: Submission):
+        """With model_run_records=on, the failing submission's run record; otherwise None."""
+        from backend.app.config import settings
+        from backend.app.db.models import ExecutionStatus
+
+        if settings.model_run_records != "on" or settings.model_diagnosis == "off":
+            return None
+        if submission.execution_status in (None, ExecutionStatus.SUCCESS, ExecutionStatus.SYNTAX_ERROR, ExecutionStatus.SYSTEM_ERROR):
+            return None
+        from backend.app.analysis.run_record import build_run_record, tests_for_problem
+
+        return build_run_record(submission.source_code, tests_for_problem(db, submission.problem_id))
+
+    @staticmethod
+    def model_applies(submission: Submission) -> bool:
+        """The classifier describes bugs in failing C++: not passing code, not compile or system errors."""
+        from backend.app.db.models import ExecutionStatus
+
+        return _is_cpp(submission.source_code) and submission.execution_status not in (
+            None, ExecutionStatus.SUCCESS, ExecutionStatus.SYNTAX_ERROR, ExecutionStatus.SYSTEM_ERROR)
+
+    def analyze_submission(self, db: Session, submission: Submission, include_history: bool = True,
+                           defer_model: bool = False) -> list[EvidenceItem]:
         db.query(EvidenceItem).filter(EvidenceItem.submission_id == submission.id).delete()
         problem = db.get(Problem, submission.problem_id)
         fn_name = problem.function_name if problem else ""
@@ -36,6 +60,8 @@ class AnalysisPipeline:
         records.extend(self.test.analyze(db, submission.id))
         records.extend(self.runtime.analyze(submission))
         records.extend(self.diff.analyze(db, submission))
+        if self.model_applies(submission) and not defer_model:   # trained on failing C/C++ only
+            records.extend(model_records(submission.source_code, "cpp", run_record=self._run_record(db, submission)))
         if include_history:
             from backend.app.analysis.history_analyzer import HistoryAnalyzer
             records.extend(HistoryAnalyzer(self.history).analyze(db, submission))

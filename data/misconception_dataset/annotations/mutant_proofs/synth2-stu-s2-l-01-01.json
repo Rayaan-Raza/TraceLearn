@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-01-01",
+ "seed_submission_id": "synth2:S2-L-01",
+ "problem_id": "synth2-S2-L-01",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "d696e97156b079ce",
+ "mutant_sha256": "1457255e11d3a051dd7abdedc7b0d80cf5fec557df4dfe34daae3b2e6804eb11",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int mx = a[0], pos = 0;\n    for (int i = 1; i < n; i++) {\n        ",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int mx = a[0], pos = 0;\n    for (int i = 1; i < n; i++) {\n        ",
+  "note": "Printed the 0-based index instead of the 1-based position.",
+  "evidence": null,
+  "base_sha256": "d696e97156b079ce"
+ },
+ "evidence": null
+}

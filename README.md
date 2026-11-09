@@ -152,9 +152,10 @@ These design rules apply:
 | Code analysis | Python `ast` module. Regular expressions and `g++` warnings for C++. |
 | Code execution | `g++` and `python3` in a bubblewrap sandbox, with resource limits |
 | Authentication | JSON Web Token (JWT) in an httpOnly cookie, bcrypt password hashes |
-| Metrics | pandas and scikit-learn. These calculate F1 values and confusion matrices only. The diagnosis does not use ML. |
+| Metrics | pandas and scikit-learn. These calculate F1 values and confusion matrices. |
+| Misconception model | XGBoost classifier for C++ (`execution` variant, 11 labels). It names the misconception in a failing submission; the rules handle the rest. See [`docs/MODEL_GUIDE.md`](docs/MODEL_GUIDE.md) (how to get, train and evaluate it) and [`docs/MODEL_LOG.md`](docs/MODEL_LOG.md). |
 
-The POC does not use: browser-side code execution, Pyodide, payments, mobile apps, plagiarism detection, LSTM or XGBoost models, or LLM help for errors.
+The POC does not use: browser-side code execution, Pyodide, payments, mobile apps, plagiarism detection, LSTM models, or LLM help for errors.
 
 ---
 
@@ -688,6 +689,11 @@ Open `.env` in a text editor. The file `.env.example` explains each setting. The
 | `COOKIE_SECURE` | `true` in production | Send cookies only on HTTPS. |
 | `DATABASE_URL` | `sqlite:///./tracelearn.db` | Database address |
 | `EVIDENCE_WEIGHTS_PATH` | `./config/evidence_weights.yaml` | Weights file |
+| `MODEL_DIAGNOSIS` | `on` | `on`: the XGBoost model takes part in C++ diagnosis. `shadow`: store its answer only. `off`: rules only. |
+| `MODEL_VARIANT` | `execution` | Which trained model to use. `execution` needs run records. |
+| `MODEL_RUN_RECORDS` | `on` | Run each failing C++ program's tests, sanitizers and single-edit repairs to build the model's features (5-60 s; needs `g++`). |
+| `MODEL_FUSION` | `model_first` | `model_first`: a confident model answer decides, an unsure one becomes UNCERTAIN for teacher review. `points`: the model is one weighted vote. |
+| `MODEL_ASYNC` | `true` | Diagnose on a background worker. The student sees test results at once, and the diagnosis appears when ready. |
 
 To make a random secret key, type:
 

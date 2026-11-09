@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-14-01",
+ "seed_submission_id": "synth2:S2-N-14",
+ "problem_id": "synth2-S2-N-14",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "04178c97f77b951f",
+ "mutant_sha256": "19527b05bc9a2a4557a5fefa10fac53ba36d84f930ed4ef501c79e44f47fe036",
+ "tests_passed": 4,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k * mult * (mu",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    long long total = (long long)n * (n + 1) / 2;\n    long long mult = n / k;\n    long long msum = (long long)k *",
+  "note": "n*(n+1) is computed in int before widening.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "04178c97f77b951f"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

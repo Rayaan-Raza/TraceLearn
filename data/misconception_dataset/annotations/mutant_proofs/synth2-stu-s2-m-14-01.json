@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-14-01",
+ "seed_submission_id": "synth2:S2-M-14",
+ "problem_id": "synth2-S2-M-14",
+ "operator": "synth2_cpp_wrong_loop_dir",
+ "label": "CPP_WRONG_LOOP_DIR",
+ "seed_sha256": "468847a34c5ce471",
+ "mutant_sha256": "9116707ff1e6d5e4f01fae469396d0dcf2ab6267af976c52e8dde9a6a3ae71db",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = 0; i < n; i++) {\n        printf(\"%d\", a[i]);\n",
+  "after": "#include <cstdio>\nint main() {\n    int n, q, k;\n    int a[1000];\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    for (int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", a[",
+  "note": "Prints the array forwards instead of from the end.",
+  "evidence": null,
+  "base_sha256": "468847a34c5ce471"
+ },
+ "evidence": null
+}

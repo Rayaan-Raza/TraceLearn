@@ -41,13 +41,11 @@ def test_seed_counts(seeded_db: None) -> None:
         db.close()
 
 
-def test_list_problems_returns_six(client: TestClient) -> None:
+def test_list_problems_returns_the_python_and_cpp_banks(client: TestClient) -> None:
     response = client.get("/api/problems")
     assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 6
-    ids = {row["id"] for row in data}
-    assert ids == {f"P0{i}" for i in range(1, 7)}
+    ids = {row["id"] for row in response.json()}
+    assert ids == {f"P0{i}" for i in range(1, 7)} | {f"CP{i:02d}" for i in range(1, 41)}
 
 
 def test_get_problem_detail(client: TestClient) -> None:

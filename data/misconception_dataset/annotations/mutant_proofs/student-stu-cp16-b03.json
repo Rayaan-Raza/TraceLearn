@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp16-b03",
+ "seed_submission_id": "student:CP16:B",
+ "problem_id": "bank-CP16",
+ "operator": "student_cpp_other_error_03",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "915f1898c5b6d367",
+ "mutant_sha256": "1fc47389d89f32b13a8829ec37ac7d556cf238af8c97f40eccc5f0af6a34eb31",
+ "tests_passed": 3,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "qsort(a, n, sizeof(int), cmp);",
+  "note": "never sorts",
+  "base_sha256": "915f1898c5b6d367"
+ }
+}

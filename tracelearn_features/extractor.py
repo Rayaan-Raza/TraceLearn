@@ -21,6 +21,7 @@ import math
 import re
 from typing import Any
 
+from tracelearn_features.execution import source_features
 from tracelearn_features.schema import FEATURE_BLOCKS, WARNING_FLAG_OF
 from tracelearn_features.semantics import extract_semantics
 
@@ -41,6 +42,14 @@ def _nan_block(block: str) -> dict[str, Any]:
         else:
             feats[short] = _NAN
     return feats
+
+
+def _compute_source(source: str) -> dict[str, Any]:
+    """The `source` block; NaN without code, so an evidence-only call does not claim zero loops."""
+    block = _nan_block("source")
+    if source and source.strip():
+        block.update(source_features(source))
+    return block
 
 
 def _int_nan() -> float:
@@ -450,4 +459,8 @@ def extract_features(
         "cpg": _compute_cpg(cpg),
         "semantics": _compute_semantics(source),
         "context": _compute_context(context),
+        "source": _compute_source(source),
+        # These need a run record, which this signature does not take: see execution.execution_blocks.
+        "evidence": _nan_block("evidence"),
+        "repair": _nan_block("repair"),
     }

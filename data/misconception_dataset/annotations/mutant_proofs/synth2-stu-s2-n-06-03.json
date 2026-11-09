@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-06-03",
+ "seed_submission_id": "synth2:S2-N-06",
+ "problem_id": "synth2-S2-N-06",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "8ab2a0ade6bba3b1",
+ "mutant_sha256": "6a0de1d4a8a1638105ae7b91dc4b4b35620130761a239c4ee1b580569bc3ff12",
+ "tests_passed": 0,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i+",
+  "after": "#include <iostream>\n#include <iomanip>\nusing namespace std;\nint main() {\n    int n, x;\n    cin >> n;\n    int mn = 2147483647, mx = -2147483647 - 1;\n    long long sum = 0;\n    for (int i = 0; i < n; i+",
+  "note": "Integer division loses the decimals of the average.",
+  "evidence": null,
+  "base_sha256": "8ab2a0ade6bba3b1"
+ },
+ "evidence": null
+}

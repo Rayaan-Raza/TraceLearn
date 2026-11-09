@@ -67,6 +67,20 @@ overflow (e.g. Inversions). See `reports/progpedia_oracle_tests.md` and
 - Dev-gold reaches ≥ 60 **certain** rows once the dev-gold sheets are signed (30 CodeStream items + 41 PROGPedia rows)
 - Only certain labels (human / repair-verified / synthetic) are scored on held-out pools (`scripts/evaluate_holdout.py`); see `splits/README.md`
 
+## Current model status (2026-11-09)
+
+The backend serves the plain-profile `execution` model by default (`docs/MODEL_LOG.md`, revert point `7b92fdc`). On 525 held-out real programs from 20 unseen problems: accuracy 0.785, precision 0.807 when it names a misconception, recall 0.406, false alarm 0.026. With the two held-out CodeNet problems (664 rows): accuracy 0.788, precision 0.721.
+
+New lanes since v0.6:
+- `tier1g_codenet_agent`: 707 CodeNet failures on 11 problems, labelled by three annotator agents (A, B, adjudicator C; `review/agent_labels_cn/`). Problems p02766 and p03803 are held out (`splits/codenet_holdout.csv`).
+- `tier0d_codenet_mutants`: 268 single-edit mutants of accepted CodeNet programs for the rare classes, each with an execution proof in `annotations/mutant_proofs/codenet-*.json`.
+
+A model trained with both lanes and sqrt class weights was rejected: it was worse on held-out real code. G8 for that model: synthetic mass 0.504 (fails ≤ 0.5), class mass 0.267 (fails ≤ 15%).
+
+## Earlier model status (schema 1.2)
+
+Earlier held-out recall was a data-lane fingerprint: `tier1b` warning counts differed from every other lane, and the code-only model flagged that lane rather than bugs. With one runner's warnings for all rows, code-only variants score 0/175 on the held-out problems. The `execution` variant (code, warnings, test evidence, repair evidence) scores recall 0.434 (76/175), precision 0.826, false alarm 0.023 there, mostly array bounds on one problem; without that problem recall is 0.286. It needs a run record the backend does not produce yet. Every number is agreement with annotators treated as human by instruction. Details and limits: `docs/6-nov.md` section 15. The v0.6 table below is kept for history and is not an estimate of performance on unseen problems.
+
 ## Model performance (v0.6)
 
 | Variant | CV macro-F1 | OOF macro-F1 | ECE |

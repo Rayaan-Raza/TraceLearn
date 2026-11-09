@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-11-04",
+ "seed_submission_id": "synth2:S2-M-11",
+ "problem_id": "synth2-S2-M-11",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "b0739ba784bef168",
+ "mutant_sha256": "e8480c7c469e8cc49c20c3865cc4a06ac51c4bf10fca9118e6098f1e390398db",
+ "tests_passed": 2,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 1; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n  ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int s1 = 0, s2 = 0, cur = 0, best = 0;\n    for (int i = 0; i < n; i++) {\n        char a, b;\n        cin >> a >> b;\n  ",
+  "note": "Skips the first round.",
+  "evidence": null,
+  "base_sha256": "b0739ba784bef168"
+ },
+ "evidence": null
+}

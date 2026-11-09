@@ -83,7 +83,57 @@ def apply_evidence_weights(records: list[EvidenceRecord]) -> list[EvidenceRecord
 def clamp(v: float) -> float:
     return max(0.0, min(1.0, v))
 
+# Misconceptions the classifier has no class for; under `model_first` the rules keep them.
+RULE_ONLY_MISCONCEPTIONS = frozenset({"M02_INDEX_VALUE", "M03_MISSING_RETURN"})
+LONGITUDINAL = frozenset({"history", "sequence", "context"})
+
+
+def gate_longitudinal(records: list[EvidenceRecord]) -> list[EvidenceRecord]:
+    """Drop history/sequence support for misconceptions this attempt shows no sign of.
+
+    Earlier problems say how likely a misconception is, not whether this attempt has it.
+    Without the gate a student's earlier loop bug named a misconception on a later failure
+    that had nothing to do with it (docs/6-nov.md section 18).
+    """
+    observed = {r.misconception_id for r in records
+                if r.direction == "support" and r.source_type in OBSERVED_SOURCE_VALUES and r.misconception_id
+                and not (r.source_type == "model" and r.evidence_code != "MODEL_PREDICTION")}
+    return [r for r in records
+            if not (r.source_type in LONGITUDINAL and r.direction == "support" and r.misconception_id
+                    and r.misconception_id not in observed)]
+
+
+def _model_first(records: list[EvidenceRecord], result: dict) -> dict:
+    """The model's named class decides; its "none of my classes" leaves only rule-only misconceptions."""
+    if result["primary"] == NO_MISCONCEPTION and result["uncertainty"] == "low":
+        return result                               # every test passed
+    model = next((r for r in records if r.source_type == "model"
+                  and r.evidence_code in ("MODEL_PREDICTION", "MODEL_OTHER_ERROR")), None)
+    if model is None:
+        return result                               # no prediction, or it abstained: points decide
+    if model.evidence_code == "MODEL_PREDICTION":
+        p = float((model.details or {}).get("top_probability") or 0.5)
+        alt = result["primary"] if result["primary"] not in (model.misconception_id, NO_MISCONCEPTION, UNCERTAIN) else result.get("alternative")
+        return {**result, "primary": model.misconception_id, "primary_confidence": p,
+                "alternative": alt if alt != model.misconception_id else None,
+                "uncertainty": "low" if p >= 0.55 else "medium", "requires_review": False,
+                "explanation": {**result["explanation"], "policy": "model_first"}}
+    if result["primary"] in RULE_ONLY_MISCONCEPTIONS:
+        return result
+    return {**result, "primary": UNCERTAIN, "uncertainty": "high", "requires_review": True,
+            "explanation": {**result["explanation"], "policy": "model_first"}}
+
+
 def fuse_diagnosis(records: list[EvidenceRecord]) -> dict:
+    if settings.history_needs_observed_support:
+        records = gate_longitudinal(records)
+    result = _fuse_points(records)
+    if settings.model_fusion == "model_first":
+        result = _model_first(records, result)
+    return result
+
+
+def _fuse_points(records: list[EvidenceRecord]) -> dict:
     cfg = load_weights()
     thresholds = cfg.get("thresholds", {})
     review_conf = thresholds.get("review_confidence", 0.35)

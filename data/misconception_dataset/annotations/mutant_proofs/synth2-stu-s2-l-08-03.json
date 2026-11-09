@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-08-03",
+ "seed_submission_id": "synth2:S2-L-08",
+ "problem_id": "synth2-S2-L-08",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "9e1dc3cb68fb0c3f",
+ "mutant_sha256": "aa0752237d25dee2d76daae63feeb7555c0785c4e73924b199b3afd5e93db8dc",
+ "tests_passed": 7,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int best = 1, cur = 1;\n    for (int i = 1; i < n; i++) {\n        i",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int best = 1, cur = 1;\n    for (int i = 1; i < n; i++) {\n        i",
+  "note": "Best is only updated when a run ends, so the final run is never counted.",
+  "evidence": null,
+  "base_sha256": "9e1dc3cb68fb0c3f"
+ },
+ "evidence": null
+}

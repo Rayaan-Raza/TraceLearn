@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-12-05",
+ "seed_submission_id": "synth2:S2-F-12",
+ "problem_id": "synth2-S2-F-12",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "8d15ee8cbd07570d",
+ "mutant_sha256": "f8f7fe0ac53815c57ecb6ecf41f1f0748db2e1004916115e3c0f9dc97d45674a",
+ "tests_passed": 7,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nbool p;\n\nbool isPrime(long long n) {\n    p = true;\n    if (n < 2) p = false;\n    for (long long i = 2; i * i <= n; i++) {\n        if (n % i == 0) p = false;\n  ",
+  "after": "#include <iostream>\nusing namespace std;\nbool p;\n\nbool isPrime(long long n) {\n    p = true;\n    if (n < 2) p = false;\n    for (long long i = 2; i * i <= n; i++) {\n        if (n % i == 0) p = false;\n  ",
+  "note": "The total of large primes overflows an int.",
+  "evidence": "wrong_result_on_large_input",
+  "base_sha256": "8d15ee8cbd07570d"
+ },
+ "evidence": "wrong_result_on_large_input"
+}

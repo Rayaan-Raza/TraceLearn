@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-06-01",
+ "seed_submission_id": "synth2:S2-S-06",
+ "problem_id": "synth2-S2-S-06",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "9704f311bf9b9eac",
+ "mutant_sha256": "5cbebf574fbc07b63c1a5128b381d329c88042386af99fade6d532e09996232e",
+ "tests_passed": 8,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nint cmp(char *a, char *b) {\n    int la = strlen(a), lb = strlen(b);\n    int n = la < lb ? la : lb;\n    int res = 0;\n    for (int i = 0; i < n && ",
+  "after": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nint cmp(char *a, char *b) {\n    int la = strlen(a), lb = strlen(b);\n    int n = la < lb ? la : lb;\n    int res = 0;\n    for (int i = 0; i < n && ",
+  "note": "Word buffers of 16 chars for words of up to 1000.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "9704f311bf9b9eac"
+ },
+ "evidence": "asan:buffer-overflow"
+}

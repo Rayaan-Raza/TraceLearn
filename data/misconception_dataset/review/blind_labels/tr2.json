@@ -1,0 +1,738 @@
+{
+ "TR-001": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts printed; chained comparison also present"
+ },
+ "TR-002": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong rank direction"
+ },
+ "TR-003": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "xors the index not the value"
+ },
+ "TR-004": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "recursive result not returned"
+ },
+ "TR-005": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "whole-word replacement only"
+ },
+ "TR-006": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints a prompt text"
+ },
+ "TR-007": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "note": "t is read with scanf %d from a line holding a string; t stays uninitialised"
+ },
+ "TR-008": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "hardcoded array"
+ },
+ "TR-009": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word swapping approach"
+ },
+ "TR-010": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints a prompt"
+ },
+ "TR-011": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "does not merge in order"
+ },
+ "TR-012": {
+  "label": "CPP_STALE_EXIT",
+  "note": "print loop never advances temp"
+ },
+ "TR-013": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "format specifier missing %"
+ },
+ "TR-014": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "counter never reset"
+ },
+ "TR-015": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word logic"
+ },
+ "TR-016": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "separator is space not newline"
+ },
+ "TR-017": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "whole-word replacement"
+ },
+ "TR-018": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "category text wrong"
+ },
+ "TR-019": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "values used as an index into a fixed table, negative and large values go out of range"
+ },
+ "TR-020": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "separator is space not newline"
+ },
+ "TR-021": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "greedy removal wrong"
+ },
+ "TR-022": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "counter never reset"
+ },
+ "TR-023": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "missing line break between trees"
+ },
+ "TR-024": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts and else bound to the last if"
+ },
+ "TR-025": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "spacing wrong"
+ },
+ "TR-026": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-027": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-028": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts, chained compare"
+ },
+ "TR-029": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-030": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "hardcoded array"
+ },
+ "TR-031": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "whole-word replacement"
+ },
+ "TR-032": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints a message"
+ },
+ "TR-033": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "hardcoded"
+ },
+ "TR-034": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "blank lines in output"
+ },
+ "TR-035": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts"
+ },
+ "TR-036": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "note": "t read from a line holding a string; stays uninitialised"
+ },
+ "TR-037": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts, chained"
+ },
+ "TR-038": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without & crashes first; j also uninitialised"
+ },
+ "TR-039": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-040": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "last word edge"
+ },
+ "TR-041": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "%2f format"
+ },
+ "TR-042": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "/n typo"
+ },
+ "TR-043": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "Yes vs YES"
+ },
+ "TR-044": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "note": "t read from a line holding a string; stays uninitialised"
+ },
+ "TR-045": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "greedy logic"
+ },
+ "TR-047": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prefix text"
+ },
+ "TR-048": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no space between number and category"
+ },
+ "TR-049": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-050": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "index i goes below zero when no match, s[-1] read"
+ },
+ "TR-051": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "input values used as indexes into a 15-slot array"
+ },
+ "TR-052": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "null dereference after creating node, missing return"
+ },
+ "TR-053": {
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "note": "if (found = 1) always true, loop breaks early and the output loop never ends"
+ },
+ "TR-054": {
+  "label": "UNCERTAIN",
+  "note": "code cut, cause unclear"
+ },
+ "TR-055": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-056": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "subsequence removal logic"
+ },
+ "TR-057": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "message case differs first; high bound n also reads a[n]"
+ },
+ "TR-058": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "outer loop variable reused by the inner loop"
+ },
+ "TR-059": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-060": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-061": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-062": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "greedy removal logic"
+ },
+ "TR-064": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "inner loop condition stops at j==i"
+ },
+ "TR-065": {
+  "label": "CPP_STALE_EXIT",
+  "note": "while(h>0) never changes h"
+ },
+ "TR-066": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without & crashes; compares x to mid"
+ },
+ "TR-067": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-068": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-069": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-070": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-071": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-072": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-073": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "tail insert is positional"
+ },
+ "TR-074": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-076": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-077": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-078": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-080": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-081": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "array of 50 for n up to 1e5; %s into int slots"
+ },
+ "TR-082": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-083": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "only checks later duplicates"
+ },
+ "TR-084": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "counter never reset (inner bound also short)"
+ },
+ "TR-086": {
+  "label": "CPP_UNINITIALIZED_VAR",
+  "note": "m is never read yet used as the loop bound"
+ },
+ "TR-087": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-088": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-089": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "else prints Obese for underweight"
+ },
+ "TR-090": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "nested loop logic"
+ },
+ "TR-091": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "greedy removal"
+ },
+ "TR-092": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-093": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-094": {
+  "label": "CPP_OFF_BY_ONE",
+  "note": "read loop starts at 1 so only 14 of 15 numbers are read"
+ },
+ "TR-095": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-096": {
+  "label": "UNCERTAIN",
+  "note": "huge table indexed by input values, verdict unclear"
+ },
+ "TR-097": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-098": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "extra check message"
+ },
+ "TR-099": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-100": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-101": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-102": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-103": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "tracks last differing value"
+ },
+ "TR-104": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without & crashes first"
+ },
+ "TR-105": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-106": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-107": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem"
+ },
+ "TR-108": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-109": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-110": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-111": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-112": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "values up to 1e9 used as index into a 1e6 table, negatives too"
+ },
+ "TR-113": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-114": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-115": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-116": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-117": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-118": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "range test written as a chained comparison 18.5<=bmi<25, always true"
+ },
+ "TR-119": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-120": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-121": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-122": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-123": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without & crashes first"
+ },
+ "TR-124": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-125": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-126": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-127": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-128": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "input values used as indexes into a 15-slot array"
+ },
+ "TR-129": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-130": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "stores literal 'x'"
+ },
+ "TR-131": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem"
+ },
+ "TR-132": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "greedy"
+ },
+ "TR-133": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "greedy"
+ },
+ "TR-134": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without & crashes first; j uninitialised"
+ },
+ "TR-135": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "algorithm flawed"
+ },
+ "TR-137": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-138": {
+  "label": "CPP_STALE_EXIT",
+  "note": "inner loop tests i<n while only j changes"
+ },
+ "TR-139": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-140": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-141": {
+  "label": "UNCERTAIN",
+  "note": "code cut, cause unclear"
+ },
+ "TR-142": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints -1"
+ },
+ "TR-143": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output text/format, prompt or algorithm (first failing difference)"
+ },
+ "TR-144": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-148": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "algorithm flawed"
+ },
+ "TR-149": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "inverted null test"
+ },
+ "TR-156": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf overwrites the loop variable"
+ },
+ "TR-157": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word 'Underweighted'"
+ },
+ "TR-160": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without & crashes first"
+ },
+ "TR-162": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "category text"
+ },
+ "TR-166": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-171": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "loop logic"
+ },
+ "TR-172": {
+  "label": "CPP_ASSIGN_VS_COMPARE",
+  "note": "if (found = 1) always true, outer loop breaks after the first pass"
+ },
+ "TR-174": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "different problem"
+ },
+ "TR-179": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "counter not reset, start at 1"
+ },
+ "TR-182": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "different problem"
+ },
+ "TR-184": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-191": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "table of 1e6+1 indexed by values down to -1e9 with no lower guard"
+ },
+ "TR-195": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "reads t[-1] after full match; greedy"
+ },
+ "TR-202": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-205": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "|| instead of && makes the range test always true"
+ },
+ "TR-209": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "duplicate value maps to first index"
+ },
+ "TR-210": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "comma in loop condition ignores i<size"
+ },
+ "TR-214": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-223": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "algorithm"
+ },
+ "TR-228": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "second range test repeats <25 so Overweight is unreachable"
+ },
+ "TR-231": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "different problem"
+ },
+ "TR-234": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "message printed"
+ },
+ "TR-238": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "skips min(len) instead of the length of the word"
+ },
+ "TR-240": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "missing return at end of function"
+ },
+ "TR-245": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "merge duplicates nodes"
+ },
+ "TR-246": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-250": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "lowercase text"
+ },
+ "TR-253": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "greedy"
+ },
+ "TR-264": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "algorithm"
+ },
+ "TR-268": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "finds first element without later duplicate"
+ },
+ "TR-271": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "merge order"
+ },
+ "TR-274": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "range test written as a chained comparison"
+ },
+ "TR-280": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf without &"
+ },
+ "TR-281": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints y not x"
+ },
+ "TR-282": {
+  "label": "CPP_RANGE_CHECK",
+  "note": "overweight threshold 25.5 instead of 25"
+ },
+ "TR-285": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "duplicate value maps to first index"
+ },
+ "TR-288": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "reads only 5 values"
+ },
+ "TR-294": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "compares the stack to the input, not the reverse"
+ },
+ "TR-295": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "algorithm"
+ },
+ "TR-296": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints multiple times"
+ },
+ "TR-299": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "removal logic"
+ },
+ "TR-304": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "stores literal 'x'"
+ },
+ "TR-310": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "blank lines"
+ },
+ "TR-320": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "input values used as indexes into a 15-slot array"
+ }
+}

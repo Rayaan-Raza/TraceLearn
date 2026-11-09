@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-02-01",
+ "seed_submission_id": "synth2:S2-F-02",
+ "problem_id": "synth2-S2-F-02",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "35c52ed4b27b2616",
+ "mutant_sha256": "b839ab2d74d154e538a9b8aa8e0842791c8075f4d1d54e5507b97f11d2d21cb0",
+ "tests_passed": 2,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\n\nint fib(int n) {\n    if (n == 0) return 0;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cout <",
+  "after": "#include <iostream>\nusing namespace std;\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; i++) cout <",
+  "note": "Only fib(0) has a stopping case, so fib(1) recurses into negative numbers forever.",
+  "evidence": null,
+  "base_sha256": "35c52ed4b27b2616"
+ },
+ "evidence": null
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-03-02",
+ "seed_submission_id": "synth2:S2-M-03",
+ "problem_id": "synth2-S2-M-03",
+ "operator": "synth2_cpp_array_bounds",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "cc5f0c1eaeba4b94",
+ "mutant_sha256": "47fbcdc4a646c80f81f10caf6c2f157fbde85d29765b7bc7a881db1cdd16ea9c",
+ "tests_passed": 8,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[20];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; i+",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; ",
+  "note": "Array of 20 but up to 1000 temperatures are read.",
+  "evidence": "asan:buffer-overflow",
+  "base_sha256": "cc5f0c1eaeba4b94"
+ },
+ "evidence": "asan:buffer-overflow"
+}

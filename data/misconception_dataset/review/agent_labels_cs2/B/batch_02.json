@@ -1,0 +1,502 @@
+{
+"TR-101": [
+"CPP_OTHER_ERROR",
+3,
+"missing spaces in output"
+],
+"TR-102": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-103": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-104": [
+"CPP_OTHER_ERROR",
+3,
+"scanf without &"
+],
+"TR-105": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-106": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-107": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-108": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-109": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-110": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-111": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-112": [
+"CPP_ARRAY_BOUNDS",
+3,
+"negative/huge value used as index into TLE[1000001]"
+],
+"TR-113": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-114": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-115": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-116": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-117": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-118": [
+"CPP_RANGE_CHECK",
+3,
+"chained comparison 18.5<=bmi<25"
+],
+"TR-119": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-120": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-121": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-122": [
+"CPP_OTHER_ERROR",
+3,
+"scanf without &"
+],
+"TR-123": [
+"CPP_OTHER_ERROR",
+3,
+"scanf without & crash"
+],
+"TR-124": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-125": [
+"CPP_OTHER_ERROR",
+3,
+"scanf without &"
+],
+"TR-126": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-127": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-128": [
+"CPP_ARRAY_BOUNDS",
+3,
+"array[user[i]] indexed by input value"
+],
+"TR-129": [
+"CPP_OTHER_ERROR",
+3,
+"first=true always so no spaces"
+],
+"TR-130": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-131": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-132": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-133": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-134": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-135": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-136": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-137": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-138": [
+"CPP_STALE_EXIT",
+2,
+"inner loop tests i<n but increments j"
+],
+"TR-139": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-140": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-141": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-142": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-143": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-144": [
+"CPP_OTHER_ERROR",
+3,
+"scanf without &"
+],
+"TR-145": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-146": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-147": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-148": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-149": [
+"CPP_OTHER_ERROR",
+2,
+"inverted null check in insertPri causes null deref"
+],
+"TR-150": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-151": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-152": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-153": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-154": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-155": [
+"CPP_OTHER_ERROR",
+1,
+"output identical in view; likely trailing format"
+],
+"TR-156": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-157": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-158": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-159": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-160": [
+"CPP_OTHER_ERROR",
+3,
+"scanf without &"
+],
+"TR-161": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-162": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-163": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-164": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-165": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-166": [
+"CPP_OTHER_ERROR",
+3,
+"scanf without &"
+],
+"TR-167": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-168": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-169": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-170": [
+"CPP_OFF_BY_ONE",
+3,
+"loop starts at 1 so reads 14 numbers"
+],
+"TR-171": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-172": [
+"CPP_ASSIGN_VS_COMPARE",
+2,
+"if (found = 1) always breaks"
+],
+"TR-173": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-174": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-175": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-176": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-177": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-178": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-179": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-180": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-181": [
+"CPP_UNINITIALIZED_VAR",
+3,
+"m never read so uninitialised"
+],
+"TR-182": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-183": [
+"CPP_UNINITIALIZED_VAR",
+2,
+"second loop never runs; b unset"
+],
+"TR-184": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-185": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-186": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-187": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-188": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-189": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-190": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-191": [
+"CPP_ARRAY_BOUNDS",
+3,
+"TLE[a[i]] with negative index"
+],
+"TR-192": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-193": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-194": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-195": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-196": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-197": [
+"CPP_ASSIGN_VS_COMPARE",
+3,
+"if(unique=1)"
+],
+"TR-198": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-199": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+],
+"TR-200": [
+"CPP_OTHER_ERROR",
+2,
+"wrong output/logic/format"
+]
+}

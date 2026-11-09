@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-03-01",
+ "seed_submission_id": "synth2:S2-L-03",
+ "problem_id": "synth2-S2-L-03",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "21082d18fc914e10",
+ "mutant_sha256": "bb84c0bdb4364c86d43e6d969eaf73ab179412aacb05cbe73c63a30668d4c49d",
+ "tests_passed": 1,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nlong long pre[100005];\nint main() {\n    int n, q;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        pre[i] = pre[i - 1]",
+  "after": "#include <iostream>\nusing namespace std;\nlong long pre[100005];\nint main() {\n    int n, q;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        pre[i] = pre[i - 1]",
+  "note": "Subtracted the prefix at l instead of l-1, dropping element l.",
+  "evidence": null,
+  "base_sha256": "21082d18fc914e10"
+ },
+ "evidence": null
+}

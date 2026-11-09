@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-06-04",
+ "seed_submission_id": "synth2:S2-S-06",
+ "problem_id": "synth2-S2-S-06",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "9704f311bf9b9eac",
+ "mutant_sha256": "863efb6cef1ab0e8b85a3c94904c63184587cc813d13118c77b113cbcc61e93b",
+ "tests_passed": 6,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nint cmp(char *a, char *b) {\n    int la = strlen(a), lb = strlen(b);\n    int n = la < lb ? la : lb;\n    int res = 0;\n    for (int i = 0; i < n && ",
+  "after": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nint cmp(char *a, char *b) {\n    int la = strlen(a), lb = strlen(b);\n    int n = la < lb ? la : lb;\n    int res = 0;\n    for (int i = 0; i < n && ",
+  "note": "Forgot to ignore case.",
+  "evidence": null,
+  "base_sha256": "9704f311bf9b9eac"
+ },
+ "evidence": null
+}

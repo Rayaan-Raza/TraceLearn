@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-10-04",
+ "seed_submission_id": "synth2:S2-L-10",
+ "problem_id": "synth2-S2-L-10",
+ "operator": "synth2_cpp_assign_vs_compare",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "9f54ce612f964197",
+ "mutant_sha256": "c964b855580e5421faae9d02ee42d0cd4d796c4595c25fa98fb8f1f0ac96686c",
+ "tests_passed": 2,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int first = -2000000000, second = -2000000000;\n    for (int i = 0;",
+  "after": "#include <cstdio>\nint a[100005];\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) scanf(\"%d\", &a[i]);\n    int first = -2000000000, second = -2000000000;\n    for (int i = 0;",
+  "note": "Wrote = instead of == in the NONE test.",
+  "evidence": null,
+  "base_sha256": "9f54ce612f964197"
+ },
+ "evidence": null
+}

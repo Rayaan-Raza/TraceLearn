@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-12-03",
+ "seed_submission_id": "synth2:S2-N-12",
+ "problem_id": "synth2-S2-N-12",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "437a0ae392fb5c12",
+ "mutant_sha256": "6af0db6ef75adafed8b0836617d8c13e05b2a7f6fbda7b3ace60006bb2a7b097",
+ "tests_passed": 2,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 && i % 5 == 0) sum += i;\n    }\n    cout << ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, sum = 0;\n    cin >> n;\n    for (long long i = 1; i < n; i++) {\n        if (i % 3 == 0 || i % 5 == 0) sum += i;\n    }\n    cout << ",
+  "note": "Used && where || was meant.",
+  "evidence": null,
+  "base_sha256": "437a0ae392fb5c12"
+ },
+ "evidence": null
+}

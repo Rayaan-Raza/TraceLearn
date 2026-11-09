@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-07-01",
+ "seed_submission_id": "synth2:S2-F-07",
+ "problem_id": "synth2-S2-F-07",
+ "operator": "synth2_cpp_missing_base_case",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "65b324e7d596e437",
+ "mutant_sha256": "4a059a5cff659c2e117e0ebfc2680af4609fb141a47966349c169c6fd553cb1c",
+ "tests_passed": 0,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[2005];\n\nint findFirst(int lo, int hi, int x) {\n    int mid = (lo + hi) / 2;\n    if (a[mid] == x) {\n        int r = findFirst(lo, mid - 1, x);\n        if ",
+  "after": "#include <iostream>\nusing namespace std;\nint a[2005];\n\nint findFirst(int lo, int hi, int x) {\n    if (lo > hi) return -1;\n    int mid = (lo + hi) / 2;\n    if (a[mid] == x) {\n        int r = findFirst(",
+  "note": "No stopping case for an empty range, so a missing value recurses forever.",
+  "evidence": null,
+  "base_sha256": "65b324e7d596e437"
+ },
+ "evidence": null
+}

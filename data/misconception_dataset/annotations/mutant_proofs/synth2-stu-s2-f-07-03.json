@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-f-07-03",
+ "seed_submission_id": "synth2:S2-F-07",
+ "problem_id": "synth2-S2-F-07",
+ "operator": "synth2_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "65b324e7d596e437",
+ "mutant_sha256": "d672348265448276cb7b257ddb556973ad99e4773facb9b10416c0e45b9eb057",
+ "tests_passed": 9,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint a[2005];\n\nint findFirst(int lo, int hi, int x) {\n    if (lo > hi) return -1;\n    int mid = (lo + hi) / 2;\n    if (a[mid] == x) {\n        return mid;\n    }\n",
+  "after": "#include <iostream>\nusing namespace std;\nint a[2005];\n\nint findFirst(int lo, int hi, int x) {\n    if (lo > hi) return -1;\n    int mid = (lo + hi) / 2;\n    if (a[mid] == x) {\n        int r = findFirst(",
+  "note": "Returns the first hit found instead of continuing left for the smallest index.",
+  "evidence": null,
+  "base_sha256": "65b324e7d596e437"
+ },
+ "evidence": null
+}

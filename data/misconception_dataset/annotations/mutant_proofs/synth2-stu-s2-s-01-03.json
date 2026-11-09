@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-01-03",
+ "seed_submission_id": "synth2:S2-S-01",
+ "problem_id": "synth2-S2-S-01",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "dc038ad4f6ade0c3",
+ "mutant_sha256": "e1119a4b867be83fa7644f1f4f2a3b673a8ddef4806258fd7bd0e16b3bdb9f10",
+ "tests_passed": 6,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <cctype>\nint countV(char *s, int n) {\n    int cnt = 0;\n    for (int i = 0; i < n; i++) {\n        char c = s[i];\n        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c",
+  "after": "#include <cstdio>\n#include <cctype>\nint countV(char *s, int n) {\n    int cnt = 0;\n    for (int i = 0; i < n; i++) {\n        char c = tolower(s[i]);\n        if (c == 'a' || c == 'e' || c == 'i' || c ==",
+  "note": "Forgot that uppercase vowels count too.",
+  "evidence": null,
+  "base_sha256": "dc038ad4f6ade0c3"
+ },
+ "evidence": null
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-08-01",
+ "seed_submission_id": "synth2:S2-M-08",
+ "problem_id": "synth2-S2-M-08",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "863b63d974a9ddd7",
+ "mutant_sha256": "9e65fd15b9b53a3ca9b065783fe9df1af16a36364bad827c3700aa9811a73174",
+ "tests_passed": 7,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t, x;\n  ",
+  "after": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (long long d = 2; d * d <= x; d++) {\n        if (x % d == 0) return false;\n    }\n    return true;\n}\n",
+  "note": "Forgot that 1, 0 and negatives are not prime.",
+  "evidence": null,
+  "base_sha256": "863b63d974a9ddd7"
+ },
+ "evidence": null
+}

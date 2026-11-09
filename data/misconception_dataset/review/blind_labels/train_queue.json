@@ -1,0 +1,306 @@
+{
+ "TR-001": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misreads input format (reads count that is not there)"
+ },
+ "TR-002": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts printed"
+ },
+ "TR-003": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "requires word boundaries the task does not"
+ },
+ "TR-004": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "stores the literal 'x' instead of the character"
+ },
+ "TR-005": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "inner loop reuses outer loop variable"
+ },
+ "TR-006": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "space instead of newline"
+ },
+ "TR-007": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "space instead of newline"
+ },
+ "TR-008": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misreads input format (reads count that is not there)"
+ },
+ "TR-009": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "tie handling in position lookup"
+ },
+ "TR-010": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong greedy subsequence removal"
+ },
+ "TR-011": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "no separator, backspace character"
+ },
+ "TR-012": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "tie handling in position lookup"
+ },
+ "TR-013": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (heap)"
+ },
+ "TR-014": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Not found'; search bound n also present"
+ },
+ "TR-015": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints a verdict for every element, not per query"
+ },
+ "TR-016": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "recursive calls not returned"
+ },
+ "TR-017": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (binary conversion)"
+ },
+ "TR-018": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "presence table of 1000001 indexed by values up to 1e9"
+ },
+ "TR-019": {
+  "label": "CPP_ARRAY_BOUNDS",
+  "note": "presence table of 1000001 indexed by values up to 1e9"
+ },
+ "TR-020": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "base case creates a node but does not return it"
+ },
+ "TR-021": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (heap)"
+ },
+ "TR-022": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompt printed"
+ },
+ "TR-023": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "groups not separated by newlines"
+ },
+ "TR-024": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts printed, newline inside output"
+ },
+ "TR-025": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints debug lines, never prints the xor"
+ },
+ "TR-026": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "inverted null test in insertion"
+ },
+ "TR-027": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Not found'"
+ },
+ "TR-028": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (binary conversion)"
+ },
+ "TR-029": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong subsequence removal algorithm"
+ },
+ "TR-030": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (BST merge)"
+ },
+ "TR-031": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "space instead of newline"
+ },
+ "TR-032": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "missing space between BMI and category"
+ },
+ "TR-033": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "requires word boundaries the task does not"
+ },
+ "TR-034": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ },
+ "TR-035": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints nothing unless the second line is a subsequence"
+ },
+ "TR-036": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "counter never reset between iterations"
+ },
+ "TR-037": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (postfix)"
+ },
+ "TR-038": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong substring replacement algorithm"
+ },
+ "TR-039": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "space instead of newline"
+ },
+ "TR-040": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints a message instead of the result"
+ },
+ "TR-041": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misreads input format; typo N0"
+ },
+ "TR-042": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "first flag set true after printing, no separators"
+ },
+ "TR-043": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ },
+ "TR-044": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "position lookup by float value misses ties"
+ },
+ "TR-045": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints tree structure order, not merged sorted order"
+ },
+ "TR-046": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Yes'"
+ },
+ "TR-047": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "misreads the meaning of p"
+ },
+ "TR-048": {
+  "label": "UNCERTAIN",
+  "note": "output looks identical; hidden difference not visible"
+ },
+ "TR-049": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prompts and a different output format"
+ },
+ "TR-050": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "extra text before the answer"
+ },
+ "TR-051": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "searches for m instead of reading the queries"
+ },
+ "TR-052": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (sortedness)"
+ },
+ "TR-053": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints a debug list before the answer"
+ },
+ "TR-054": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "searches for m instead of reading the queries"
+ },
+ "TR-055": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints newlines while reading"
+ },
+ "TR-056": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints newlines while reading"
+ },
+ "TR-057": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "space instead of newline"
+ },
+ "TR-058": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "replaces whole words only"
+ },
+ "TR-059": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "searches for m instead of reading the queries"
+ },
+ "TR-060": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "space instead of newline"
+ },
+ "TR-061": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints a newline after every value"
+ },
+ "TR-062": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "'/n' typed instead of newline"
+ },
+ "TR-063": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "stores the literal 'x' instead of the character"
+ },
+ "TR-064": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ },
+ "TR-065": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "first flag set true after printing, no separators"
+ },
+ "TR-066": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "solves a different problem (binary conversion)"
+ },
+ "TR-067": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "strips digits and replaces whole words only"
+ },
+ "TR-068": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "wrong subsequence removal algorithm"
+ },
+ "TR-069": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "word-level replacement with punctuation handling"
+ },
+ "TR-070": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "reads tokens, not lines; wrong removal"
+ },
+ "TR-071": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "tab instead of space"
+ },
+ "TR-072": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "hard-coded output"
+ },
+ "TR-073": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "output case 'Not found'"
+ },
+ "TR-074": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "scanf %d into long long; inner loop reuses outer variable"
+ },
+ "TR-075": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "trailing period in output"
+ },
+ "TR-076": {
+  "label": "CPP_OTHER_ERROR",
+  "note": "prints without separators"
+ }
+}

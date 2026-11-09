@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-01-04",
+ "seed_submission_id": "synth2:S2-N-01",
+ "problem_id": "synth2-S2-N-01",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "1897cdf8223d412f",
+ "mutant_sha256": "5682927fe648adcf9ce84a1afb9588925b5b767d7d735997a9c1e2ac6041459c",
+ "tests_passed": 3,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f += i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long f = 1;\n    for (int i = 2; i <= n; i++) {\n        f *= i;\n    }\n    cout << f << endl;\n    return 0;\n}\n",
+  "note": "Added instead of multiplied.",
+  "evidence": null,
+  "base_sha256": "1897cdf8223d412f"
+ },
+ "evidence": null
+}

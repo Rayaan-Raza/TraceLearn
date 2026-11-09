@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-03-03",
+ "seed_submission_id": "synth2:S2-R-03",
+ "problem_id": "synth2-S2-R-03",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "ede8ad3063a9c33e",
+ "mutant_sha256": "062eb120a74a8c255375bd6ce1d516ecf17776d5d01f801ec4dbad9aa4a3067d",
+ "tests_passed": 12,
+ "tests_total": 13,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b &&",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b &&",
+  "note": "Isosceles test forgets to compare the first and third sides.",
+  "evidence": null,
+  "base_sha256": "ede8ad3063a9c33e"
+ },
+ "evidence": null
+}

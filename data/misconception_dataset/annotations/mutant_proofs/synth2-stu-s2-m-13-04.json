@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-13-04",
+ "seed_submission_id": "synth2:S2-M-13",
+ "problem_id": "synth2-S2-M-13",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "db54ebbaa373e007",
+ "mutant_sha256": "a0f21788d3ddda561d4f4eb1c114bfd27002995b2a967c81e070d71b4a2d0c1f",
+ "tests_passed": 0,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 1;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    ",
+  "after": "#include <iostream>\nusing namespace std;\nint steps(long long n) {\n    if (n == 1) return 0;\n    if (n % 2 == 0) return 1 + steps(n / 2);\n    return 1 + steps(3 * n + 1);\n}\nint main() {\n    int t;\n    ",
+  "note": "Base case returns 1, so every count is one too high.",
+  "evidence": null,
+  "base_sha256": "db54ebbaa373e007"
+ },
+ "evidence": null
+}

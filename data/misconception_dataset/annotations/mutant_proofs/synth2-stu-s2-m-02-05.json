@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-02-05",
+ "seed_submission_id": "synth2:S2-M-02",
+ "problem_id": "synth2-S2-M-02",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "18e888d563296485",
+ "mutant_sha256": "f3abcce4dc6f04b56ee1514f7cccfd6657ceabc38c063f3d02c9b6291f9b5ee9",
+ "tests_passed": 2,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long bal;\n    int n, rej = 0;\n    char c = ' ';\n    long long amt = 0;\n    cin >> bal >> n;\n    for (int i = 0; i < n; i++) {\n        cin",
+  "note": "Deposit replaces the balance instead of adding to it.",
+  "evidence": null,
+  "base_sha256": "18e888d563296485"
+ },
+ "evidence": null
+}

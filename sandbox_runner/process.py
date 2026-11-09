@@ -26,6 +26,10 @@ import time
 from .config import Limits
 
 NOBODY = 65534
+# Set only by scripts/run_record_worker.py, which already runs inside bubblewrap with every capability
+# dropped. There, euid 0 has no privileges to give up and setuid would fail. Anywhere else a failed
+# drop must stay an error, so this is explicit and is not a fallback on failure.
+ALREADY_CONFINED = "SANDBOX_RUNNER_ALREADY_CONFINED"
 
 
 def _works(argv: list[str]) -> bool:
@@ -108,7 +112,7 @@ def run_process(argv: list[str], *, stdin_path: str | None, workdir: str, timeou
     """Run ``argv`` and return rc / signal / timing / captured output."""
     out_path = os.path.join(workdir, f".{tag}.out")
     err_path = os.path.join(workdir, f".{tag}.err")
-    prefix, drop = launcher(isolate_network, drop_root)
+    prefix, drop = launcher(isolate_network, drop_root and os.environ.get(ALREADY_CONFINED) != "1")
     full_env = {"PATH": "/usr/bin:/bin", "LANG": "C", "LC_ALL": "C", "HOME": workdir}
     if env:
         full_env.update(env)

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-09-03",
+ "seed_submission_id": "synth2:S2-L-09",
+ "problem_id": "synth2-S2-L-09",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "7f4ffb5065f74c2e",
+ "mutant_sha256": "e035217d5943934b74daa2ffb15f3a9f3b2227547206833a907129cdb4957d32",
+ "tests_passed": 7,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n + 1);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int c = 0;\n    for (int i = ",
+  "after": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n + 1);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int c = 0;\n    for (int i = ",
+  "note": "Used || so greater than one neighbour counts as a peak.",
+  "evidence": null,
+  "base_sha256": "7f4ffb5065f74c2e"
+ },
+ "evidence": null
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-09-03",
+ "seed_submission_id": "synth2:S2-N-09",
+ "problem_id": "synth2-S2-N-09",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "05c09964fe98064a",
+ "mutant_sha256": "e7967f8a81cde14cd89bf6b102c82670d1cc2213f4581123d7d5790b8de0a25f",
+ "tests_passed": 0,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h);\n    long long f[3] = {l * w,",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, w, h;\n    cin >> l >> w >> h;\n    long long vol = l * w * h;\n    long long sa = 2 * (l * w + w * h + l * h);\n    long long f[3] =",
+  "note": "Surface formula misses one pair of faces.",
+  "evidence": null,
+  "base_sha256": "05c09964fe98064a"
+ },
+ "evidence": null
+}

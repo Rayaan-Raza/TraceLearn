@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-l-14-04",
+ "seed_submission_id": "synth2:S2-L-14",
+ "problem_id": "synth2-S2-L-14",
+ "operator": "synth2_cpp_other_error",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "bdf135b262875406",
+ "mutant_sha256": "496f6b1ba4916479e7e3ba7b50dc01b3dfea4a6e11d65dfe52c0d8bbe4de5c4b",
+ "tests_passed": 0,
+ "tests_total": 11,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    string s;\n    cin >> s;\n    int cnt[30] = {0};\n    for (int i = 0; i < (int)s.size(); i++) {\n        cnt[s[i] - 'a']++;\n    ",
+  "after": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    string s;\n    cin >> s;\n    int cnt[30] = {0};\n    for (int i = 0; i < (int)s.size(); i++) {\n        cnt[s[i] - 'a']++;\n    ",
+  "note": "Printed the letter number instead of the letter.",
+  "evidence": null,
+  "base_sha256": "bdf135b262875406"
+ },
+ "evidence": null
+}

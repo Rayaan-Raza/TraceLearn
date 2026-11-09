@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-10-02",
+ "seed_submission_id": "synth2:S2-N-10",
+ "problem_id": "synth2-S2-N-10",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "a4c7a2a71861b3bb",
+ "mutant_sha256": "59e3589488dd0329080122ce2e3c6e438a4905989ccac94ebfac1b422daa995c",
+ "tests_passed": 0,
+ "tests_total": 13,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 * x ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long x;\n    cin >> x;\n    int steps = 0;\n    long long mx = x;\n    while (x > 1) {\n        if (x % 2 == 0) x = x / 2;\n        else x = 3 ",
+  "note": "steps not initialised.",
+  "evidence": null,
+  "base_sha256": "a4c7a2a71861b3bb"
+ },
+ "evidence": null
+}

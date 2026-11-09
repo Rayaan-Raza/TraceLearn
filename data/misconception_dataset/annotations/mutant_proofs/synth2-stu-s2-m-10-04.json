@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-10-04",
+ "seed_submission_id": "synth2:S2-M-10",
+ "problem_id": "synth2-S2-M-10",
+ "operator": "synth2_cpp_range_check",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "f457ad7d5c443b89",
+ "mutant_sha256": "2701d401945620c0a5905c69201219c2d1f0d58e8353a1f46f8dac4346bcdbd8",
+ "tests_passed": 6,
+ "tests_total": 8,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x;\n    int ev = 0, od = 0, two = 0;\n    long long se = 0;\n    cin >> n;\n    for (int i = 0; i < n; i++) {\n        cin >> x;\n        int",
+  "note": "Bounds 10 and 99 wrongly excluded.",
+  "evidence": null,
+  "base_sha256": "f457ad7d5c443b89"
+ },
+ "evidence": null
+}

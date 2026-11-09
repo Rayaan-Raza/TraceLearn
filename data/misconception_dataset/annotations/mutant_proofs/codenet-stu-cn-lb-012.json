@@ -1,0 +1,17 @@
+{
+ "run_id": "stu-cn-lb-012",
+ "seed_submission_id": "codenet:p02887/C++/s342163892.cpp",
+ "problem_id": "tl-codenet-p02887",
+ "operator": "codenet_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "4ab8fc60186e52d0",
+ "mutant_sha256": "e1bb595d25b32f477a8b12b5dc3f9e3d2861afa710e2392d8cfce6e3401f8e9c",
+ "tests_passed": 0,
+ "tests_total": 19,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "i <= N",
+  "after": "i < N",
+  "base_sha256": "4ab8fc60186e52d0"
+ }
+}

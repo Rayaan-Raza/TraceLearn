@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-r-03-04",
+ "seed_submission_id": "synth2:S2-R-03",
+ "problem_id": "synth2-S2-R-03",
+ "operator": "synth2_cpp_int_overflow",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "ede8ad3063a9c33e",
+ "mutant_sha256": "946634c379a7394198a548418a117e71c5fce76ae880f9bab96a89220d5aa48c",
+ "tests_passed": 11,
+ "tests_total": 13,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b && b == ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, c;\n    cin >> a >> b >> c;\n    if (a + b <= c || a + c <= b || b + c <= a)\n        cout << \"INVALID\\n\";\n    else if (a == b &&",
+  "note": "Sum of two large sides overflows int, so valid triangles look invalid.",
+  "evidence": "ubsan:signed-integer-overflow",
+  "base_sha256": "ede8ad3063a9c33e"
+ },
+ "evidence": "ubsan:signed-integer-overflow"
+}

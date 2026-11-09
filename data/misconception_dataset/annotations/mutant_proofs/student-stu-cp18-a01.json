@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp18-a01",
+ "seed_submission_id": "student:CP18:A",
+ "problem_id": "bank-CP18",
+ "operator": "student_cpp_other_error_01",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "4d2b8e301769e91d",
+ "mutant_sha256": "13f2b8be28b4902f5e0bcfa076f915428068ea0d950de1d45ba7855672b9a38b",
+ "tests_passed": 5,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "if (c > b) m = c;",
+  "after": "if (c > m) m = c;",
+  "note": "compares with the wrong variable",
+  "base_sha256": "4d2b8e301769e91d"
+ }
+}

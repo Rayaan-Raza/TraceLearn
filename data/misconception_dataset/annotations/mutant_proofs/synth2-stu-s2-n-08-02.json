@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-08-02",
+ "seed_submission_id": "synth2:S2-N-08",
+ "problem_id": "synth2-S2-N-08",
+ "operator": "synth2_cpp_loop_boundary",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "671a219a9a167c73",
+ "mutant_sha256": "41e5b7913b72e6857119f4c736bf7e7ca3e8dcec5b8ee7266d2efd6ed7fb81c6",
+ "tests_passed": 4,
+ "tests_total": 12,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i < k; i++) {\n        res = res * (n - i",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    if (k > n - k) k = n - k;\n    long long res = 1;\n    for (int i = 1; i <= k; i++) {\n        res = res * (n - ",
+  "note": "Last factor is skipped.",
+  "evidence": null,
+  "base_sha256": "671a219a9a167c73"
+ },
+ "evidence": null
+}

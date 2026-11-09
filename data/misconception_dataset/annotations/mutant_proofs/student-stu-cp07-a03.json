@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp07-a03",
+ "seed_submission_id": "student:CP07:A",
+ "problem_id": "bank-CP07",
+ "operator": "student_cpp_int_overflow_03",
+ "label": "CPP_INT_OVERFLOW",
+ "seed_sha256": "de893334bdb8e744",
+ "mutant_sha256": "e1bbbd762fea061e4479944a65e8e2be8d19a582c00ee178f65d4b9fa34ddb4e",
+ "tests_passed": 8,
+ "tests_total": 9,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "int factorial(int n)",
+  "after": "long long factorial(int n)",
+  "note": "result type too small",
+  "base_sha256": "de893334bdb8e744"
+ }
+}

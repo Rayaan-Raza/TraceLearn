@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-n-13-02",
+ "seed_submission_id": "synth2:S2-N-13",
+ "problem_id": "synth2-S2-N-13",
+ "operator": "synth2_cpp_off_by_one",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "99abb353f1d4be2a",
+ "mutant_sha256": "42b8dfa1536ad503c91a878c36f65087b27694e2060373e82e0db0fa0f104961",
+ "tests_passed": 5,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long ",
+  "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    long ",
+  "note": "Loop restarts at 0 and counts a[0] twice.",
+  "evidence": null,
+  "base_sha256": "99abb353f1d4be2a"
+ },
+ "evidence": null
+}

@@ -38,6 +38,9 @@ async def lifespan(app: FastAPI):
             log.error(msg + " Execution requests will be refused (REQUIRE_SANDBOX is on).")
         else:
             log.warning(msg + " Do not expose this server to untrusted users.")
+    from backend.app.analysis.async_diagnosis import recover_pending
+    if (n := recover_pending()):
+        log.info("queued %d submission(s) still waiting for a background diagnosis", n)
     yield
 
 

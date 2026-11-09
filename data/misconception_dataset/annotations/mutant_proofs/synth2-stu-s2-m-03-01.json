@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-m-03-01",
+ "seed_submission_id": "synth2:S2-M-03",
+ "problem_id": "synth2-S2-M-03",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "cc5f0c1eaeba4b94",
+ "mutant_sha256": "ab84e826fc69d8920f7036126da5b0684934234cf131b871a7fcd65c181acb61",
+ "tests_passed": 3,
+ "tests_total": 9,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx, mn, good = 0;\n    for (int i = 0; i < n; i++) {\n       ",
+  "after": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, a[1000];\n    cin >> n;\n    for (int i = 0; i < n; i++) cin >> a[i];\n    int mx = a[0], mn = a[0], good = 0;\n    for (int i = 1; i < n; ",
+  "note": "max and min never initialised before comparing.",
+  "evidence": null,
+  "base_sha256": "cc5f0c1eaeba4b94"
+ },
+ "evidence": null
+}

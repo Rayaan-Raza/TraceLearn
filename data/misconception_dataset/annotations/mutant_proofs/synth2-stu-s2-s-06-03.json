@@ -1,0 +1,20 @@
+{
+ "run_id": "stu-s2-s-06-03",
+ "seed_submission_id": "synth2:S2-S-06",
+ "problem_id": "synth2-S2-S-06",
+ "operator": "synth2_cpp_uninitialized_var",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "9704f311bf9b9eac",
+ "mutant_sha256": "f8d035a907447dde4cc287bf653b748e80b5b8f8f354e08f0d0c628407ccafb2",
+ "tests_passed": 8,
+ "tests_total": 10,
+ "fixed_version": {
+  "op": "fixed_version",
+  "before": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nint cmp(char *a, char *b) {\n    int la = strlen(a), lb = strlen(b);\n    int n = la < lb ? la : lb;\n    int res;\n    for (int i = 0; i < n && res ",
+  "after": "#include <cstdio>\n#include <cstring>\n#include <cctype>\nint cmp(char *a, char *b) {\n    int la = strlen(a), lb = strlen(b);\n    int n = la < lb ? la : lb;\n    int res = 0;\n    for (int i = 0; i < n && ",
+  "note": "Result variable never initialised.",
+  "evidence": null,
+  "base_sha256": "9704f311bf9b9eac"
+ },
+ "evidence": null
+}

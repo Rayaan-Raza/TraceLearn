@@ -1,86 +1,1712 @@
 {
   "inputs": [
     "tier0_mutants.jsonl",
+    "tier0b_student_synthetic.jsonl",
+    "tier0c_student_synthetic_v2.jsonl",
+    "tier0d_codenet_mutants.jsonl",
     "tier1a_codestream.jsonl",
     "tier1b_progpedia.jsonl",
-    "tier1c_progpedia_exec.jsonl"
+    "tier1c_progpedia_exec.jsonl",
+    "tier1d_human_review.jsonl",
+    "tier1e_blind_review.jsonl",
+    "tier1f_agent_labelled.jsonl",
+    "tier1g_codenet_agent.jsonl"
   ],
   "review_decisions": {
-    "file": null,
-    "applied": {},
+    "file": "label_review_decisions.jsonl",
+    "applied": {
+      "confirm:human": 133,
+      "relabel:human": 66
+    },
     "unknown_row_ids": []
   },
-  "n_rows_before_dedupe": 996,
-  "n_rows": 702,
-  "deduped": 294,
+  "n_rows_before_dedupe": 4035,
+  "n_rows": 3352,
+  "deduped": 547,
+  "synthetic_dropped_from_held_out_problems": 136,
   "dedupe_threshold": 0.8,
   "dedupe_label_conflicts": [
     {
-      "kept": "pgx-000572",
-      "dropped": "pgx-000739",
-      "kept_label": "CPP_OFF_BY_ONE",
-      "dropped_label": "CPP_ARRAY_BOUNDS"
+      "kept": "",
+      "dropped": "cs-000667",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
     },
     {
-      "kept": "pg-000313",
-      "dropped": "pgx-001387",
+      "kept": "",
+      "dropped": "cs-001046",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "cs-001442",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "cs-002805",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000002",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000007",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000008",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-a01005",
+      "kept_label": "",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000016",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-a00896",
       "kept_label": "CPP_ARRAY_BOUNDS",
-      "dropped_label": "CPP_LOOP_BOUNDARY"
+      "dropped_label": "CPP_RANGE_CHECK",
+      "reason": "identical_code_tie_frozen_holdout"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000041",
+      "kept_label": "CPP_RANGE_CHECK",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000042",
+      "kept_label": "CPP_RANGE_CHECK",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000047",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000048",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000049",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000050",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000052",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000057",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000059",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000060",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000058",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000061",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000067",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000072",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000077",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000079",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000085",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000094",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000095",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000105",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000106",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000107",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000108",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000113",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000119",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000120",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000124",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000125",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000126",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000127",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-a00184",
+      "kept_label": "",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000131",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000133",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000134",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000135",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000136",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-a00358",
+      "kept_label": "",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000137",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000145",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000147",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000148",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000150",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000151",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000153",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000165",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000167",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000168",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000174",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000181",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000184",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-a00304",
+      "kept_label": "",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000182",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000183",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000185",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000186",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000194",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000195",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000199",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000200",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000201",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000215",
+      "kept_label": "CPP_STALE_EXIT",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000216",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000217",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000218",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000219",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000220",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000225",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000221",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000222",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000227",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000223",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000224",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000226",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000228",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000238",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000239",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000240",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000242",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000245",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000246",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000247",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000248",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-a00037",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_tie_frozen_holdout"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000257",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000262",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000264",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000272",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000274",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000283",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000291",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000293",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000303",
+      "kept_label": "CPP_LOOP_BOUNDARY",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000309",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000319",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000325",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000326",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000327",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000328",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pg-000329",
+      "kept_label": "",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-a00866",
+      "kept_label": "",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000008",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000009",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000011",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000014",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000026",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000039",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000061",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000064",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000105",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000104",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000118",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000142",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000207",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000208",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-a00855",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_tie_frozen_holdout"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000367",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000396",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000408",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000420",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000555",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000556",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000566",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000567",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000572",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000577",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000578",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000580",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000581",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000582",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000584",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000585",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000625",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000626",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000738",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000799",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000801",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000823",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000824",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000845",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000852",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000853",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000856",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000858",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000859",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000889",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000907",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000908",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000909",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000911",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000913",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000915",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000937",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000942",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000943",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000946",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000949",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000953",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000954",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000975",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000992",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-000994",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001002",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001006",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001007",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001008",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001017",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001018",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001090",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001091",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001100",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001101",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001102",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001109",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001128",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001135",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001142",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001161",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001169",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001171",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001197",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001246",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001269",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001283",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001295",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001296",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001299",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001318",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001319",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001336",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001338",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001339",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001365",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001371",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "pgx-001372",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "",
+      "dropped": "bl-tr-001",
+      "kept_label": "",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "bl-t2-tr-007",
+      "kept_label": "",
+      "dropped_label": "CPP_UNINITIALIZED_VAR",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "bl-tr-008",
+      "kept_label": "",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "bl-t2-tr-044",
+      "kept_label": "",
+      "dropped_label": "CPP_UNINITIALIZED_VAR",
+      "reason": "identical_code_tie"
+    },
+    {
+      "kept": "",
+      "dropped": "bl-tr-041",
+      "kept_label": "CPP_UNINITIALIZED_VAR",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "identical_code_outvoted"
+    },
+    {
+      "kept": "bl-tr-017",
+      "dropped": "cs-000397",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pg-000039",
+      "dropped": "pgx-a00017",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_RANGE_CHECK",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pgx-001277",
+      "dropped": "pgx-a00189",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pg-000241",
+      "dropped": "pgx-a00543",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pgx-000991",
+      "dropped": "pgx-a00593",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_LOOP_BOUNDARY",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pgx-a00018",
+      "dropped": "pgx-a00678",
+      "kept_label": "CPP_OFF_BY_ONE",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pg-000004",
+      "dropped": "pgx-a00682",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_UNINITIALIZED_VAR",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pg-000241",
+      "dropped": "pgx-a00970",
+      "kept_label": "CPP_ARRAY_BOUNDS",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pgx-001236",
+      "dropped": "pgx-a01042",
+      "kept_label": "CPP_INT_OVERFLOW",
+      "dropped_label": "CPP_OTHER_ERROR",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pgx-000991",
+      "dropped": "pgx-a01043",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_RANGE_CHECK",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "bl-tr-017",
+      "dropped": "cs-000400",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "bl-tr-017",
+      "dropped": "cs-000401",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "bl-tr-017",
+      "dropped": "cs-000402",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "cs-001043",
+      "dropped": "cs-001044",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "cs-001043",
+      "dropped": "cs-001047",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_OFF_BY_ONE",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pg-000021",
+      "dropped": "pg-000022",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pg-000021",
+      "dropped": "pg-000023",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pg-000073",
+      "dropped": "pg-000071",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_ARRAY_BOUNDS",
+      "reason": "near_copy_across_problems"
+    },
+    {
+      "kept": "pgx-001277",
+      "dropped": "pgx-001279",
+      "kept_label": "CPP_OTHER_ERROR",
+      "dropped_label": "CPP_INT_OVERFLOW",
+      "reason": "near_copy_across_problems"
     }
   ],
   "merged_labels": 0,
   "code_uncovered": 0,
   "per_source": {
-    "CODESTREAM": 33,
-    "SYNTHETIC": 384,
-    "PROGPEDIA": 285
+    "CODESTREAM": 375,
+    "PROGPEDIA": 1206,
+    "CODENET": 707,
+    "SYNTHETIC": 1064
   },
   "per_split": {
-    "train": 588,
-    "test": 33,
-    "dev_gold": 45,
-    "test_iid": 36
+    "test_iid": 25,
+    "test": 674,
+    "dev_gold": 209,
+    "train": 2444
   },
   "feature_availability": {
     "static": {
+      "CODENET": 1.0,
       "CODESTREAM": 1.0,
       "PROGPEDIA": 1.0,
       "SYNTHETIC": 1.0
     },
     "warnings": {
-      "CODESTREAM": 0.788,
+      "CODENET": 1.0,
+      "CODESTREAM": 0.995,
       "PROGPEDIA": 1.0,
       "SYNTHETIC": 1.0
     },
     "runtime": {
+      "CODENET": 0.0,
       "CODESTREAM": 1.0,
-      "PROGPEDIA": 0.474,
+      "PROGPEDIA": 0.877,
       "SYNTHETIC": 1.0
     },
     "tests": {
+      "CODENET": 0.0,
       "CODESTREAM": 1.0,
-      "PROGPEDIA": 0.474,
+      "PROGPEDIA": 0.877,
       "SYNTHETIC": 1.0
     },
     "cpg": {
+      "CODENET": 1.0,
       "CODESTREAM": 1.0,
       "PROGPEDIA": 1.0,
       "SYNTHETIC": 1.0
     },
     "semantics": {
+      "CODENET": 1.0,
       "CODESTREAM": 1.0,
       "PROGPEDIA": 1.0,
       "SYNTHETIC": 1.0
     },
     "context": {
+      "CODENET": 1.0,
+      "CODESTREAM": 0.093,
+      "PROGPEDIA": 1.0,
+      "SYNTHETIC": 0.034
+    },
+    "source": {
+      "CODENET": 1.0,
       "CODESTREAM": 1.0,
       "PROGPEDIA": 1.0,
-      "SYNTHETIC": 0.099
+      "SYNTHETIC": 1.0
+    },
+    "evidence": {
+      "CODENET": 1.0,
+      "CODESTREAM": 0.984,
+      "PROGPEDIA": 0.986,
+      "SYNTHETIC": 0.767
+    },
+    "repair": {
+      "CODENET": 1.0,
+      "CODESTREAM": 0.984,
+      "PROGPEDIA": 0.967,
+      "SYNTHETIC": 0.767
     }
+  },
+  "execution_evidence": {
+    "present": true,
+    "records": 3238,
+    "rows_with_evidence": 3081
   },
   "g1": {
     "ok": true,
-    "n_rows": 996
+    "n_rows": 4035
   },
   "g7": {
     "cluster_split_conflicts": 0,
@@ -97,129 +1723,221 @@
     "comparison": "train_vs_test",
     "gate_scope": "plan G7's PSI<0.2 gate is specced for train/val (same pool) and is evaluated at training time (T9); this train-vs-test probe is informational — violations here reflect pool asymmetry (frozen CodeStream-only test) and require team review before G3, not a merge abort",
     "threshold": 0.2,
-    "n_features_checked": 73,
-    "max": 12.5211,
+    "n_features_checked": 229,
+    "max": 16.7874,
     "worst_feature": "context.statement_length",
     "violations": [
       {
         "feature": "context.statement_length",
-        "psi": 12.5211
+        "psi": 16.7874
       },
       {
-        "feature": "static.max_indent_depth",
-        "psi": 11.1831
+        "feature": "cpg.edge_count",
+        "psi": 13.0298
       },
       {
-        "feature": "tests.wrong_answer_count",
-        "psi": 10.7306
+        "feature": "cpg.node_count",
+        "psi": 11.17
       },
       {
-        "feature": "tests.first_fail_numeric_diff",
-        "psi": 10.2263
+        "feature": "evidence.n",
+        "psi": 5.0299
       },
       {
-        "feature": "context.sample_test_count",
-        "psi": 9.1841
-      },
-      {
-        "feature": "runtime.duration_s",
-        "psi": 5.5655
-      },
-      {
-        "feature": "static.numeric_literal_count",
-        "psi": 4.8569
-      },
-      {
-        "feature": "static.unique_token_ratio",
-        "psi": 4.6684
-      },
-      {
-        "feature": "static.token_count",
-        "psi": 4.1858
-      },
-      {
-        "feature": "semantics.increment",
-        "psi": 4.1599
-      },
-      {
-        "feature": "static.sloc",
-        "psi": 4.0713
-      },
-      {
-        "feature": "cpg.comparison_count",
-        "psi": 3.726
-      },
-      {
-        "feature": "static.loc",
-        "psi": 3.5164
-      },
-      {
-        "feature": "tests.total",
-        "psi": 2.6893
-      },
-      {
-        "feature": "static.avg_line_length",
-        "psi": 2.164
-      },
-      {
-        "feature": "cpg.loop_count",
-        "psi": 2.0309
-      },
-      {
-        "feature": "static.loop_count",
-        "psi": 2.0309
-      },
-      {
-        "feature": "warnings.total",
-        "psi": 1.9463
-      },
-      {
-        "feature": "tests.timeout_count",
-        "psi": 1.9152
-      },
-      {
-        "feature": "warnings.other",
-        "psi": 1.5352
-      },
-      {
-        "feature": "tests.first_fail_index",
-        "psi": 1.2201
-      },
-      {
-        "feature": "tests.failed",
-        "psi": 1.1858
-      },
-      {
-        "feature": "static.function_count",
-        "psi": 1.0933
-      },
-      {
-        "feature": "static.string_literal_count",
-        "psi": 0.935
-      },
-      {
-        "feature": "static.return_count",
-        "psi": 0.7853
-      },
-      {
-        "feature": "static.max_line_length",
-        "psi": 0.6344
-      },
-      {
-        "feature": "cpg.function_count",
-        "psi": 0.6075
-      },
-      {
-        "feature": "tests.passed",
-        "psi": 0.4799
+        "feature": "cpg.max_depth",
+        "psi": 3.2571
       },
       {
         "feature": "static.if_count",
-        "psi": 0.4326
+        "psi": 1.6447
+      },
+      {
+        "feature": "source.arr_fixed_min_log",
+        "psi": 1.5036
+      },
+      {
+        "feature": "evidence.nd_frac",
+        "psi": 1.2645
+      },
+      {
+        "feature": "tests.first_fail_numeric_diff",
+        "psi": 1.2251
+      },
+      {
+        "feature": "static.string_literal_count",
+        "psi": 1.2151
+      },
+      {
+        "feature": "source.if_strict",
+        "psi": 1.2039
+      },
+      {
+        "feature": "source.lp_lt",
+        "psi": 1.2027
+      },
+      {
+        "feature": "source.arr_fixed_max_log",
+        "psi": 1.0902
+      },
+      {
+        "feature": "static.unique_token_ratio",
+        "psi": 1.0555
+      },
+      {
+        "feature": "cpg.loop_count",
+        "psi": 1.0373
+      },
+      {
+        "feature": "static.loop_count",
+        "psi": 1.0327
+      },
+      {
+        "feature": "static.function_count",
+        "psi": 1.0282
+      },
+      {
+        "feature": "static.token_count",
+        "psi": 1.0221
+      },
+      {
+        "feature": "source.else_if",
+        "psi": 1.0159
+      },
+      {
+        "feature": "evidence.exp_tok_log",
+        "psi": 0.9628
+      },
+      {
+        "feature": "static.loc",
+        "psi": 0.889
+      },
+      {
+        "feature": "cpg.function_count",
+        "psi": 0.8875
+      },
+      {
+        "feature": "warnings.other",
+        "psi": 0.8775
+      },
+      {
+        "feature": "tests.total",
+        "psi": 0.8655
+      },
+      {
+        "feature": "static.sloc",
+        "psi": 0.8654
+      },
+      {
+        "feature": "runtime.signal",
+        "psi": 0.842
+      },
+      {
+        "feature": "semantics.increment",
+        "psi": 0.8405
+      },
+      {
+        "feature": "evidence.sa_past_max_log",
+        "psi": 0.7702
+      },
+      {
+        "feature": "source.if_eq",
+        "psi": 0.7381
+      },
+      {
+        "feature": "warnings.total",
+        "psi": 0.734
+      },
+      {
+        "feature": "static.numeric_literal_count",
+        "psi": 0.7299
+      },
+      {
+        "feature": "context.sample_test_count",
+        "psi": 0.646
+      },
+      {
+        "feature": "runtime.duration_s",
+        "psi": 0.6301
+      },
+      {
+        "feature": "cpg.comparison_count",
+        "psi": 0.4996
+      },
+      {
+        "feature": "static.max_indent_depth",
+        "psi": 0.4817
+      },
+      {
+        "feature": "repair.n_fix_all",
+        "psi": 0.425
+      },
+      {
+        "feature": "source.plus1",
+        "psi": 0.4242
+      },
+      {
+        "feature": "source.minus1",
+        "psi": 0.4162
+      },
+      {
+        "feature": "evidence.fr_pm1",
+        "psi": 0.385
+      },
+      {
+        "feature": "static.return_count",
+        "psi": 0.3726
+      },
+      {
+        "feature": "source.lp_wrong_idx",
+        "psi": 0.3724
+      },
+      {
+        "feature": "source.mult_ident",
+        "psi": 0.372
+      },
+      {
+        "feature": "cpg.array_write_oob_count",
+        "psi": 0.3703
+      },
+      {
+        "feature": "evidence.maxd_log",
+        "psi": 0.3636
+      },
+      {
+        "feature": "static.max_line_length",
+        "psi": 0.3142
+      },
+      {
+        "feature": "evidence.sa_n",
+        "psi": 0.2645
+      },
+      {
+        "feature": "repair.n_fix_first",
+        "psi": 0.2381
+      },
+      {
+        "feature": "tests.first_fail_index",
+        "psi": 0.2365
+      },
+      {
+        "feature": "semantics.index_is_bound",
+        "psi": 0.233
+      },
+      {
+        "feature": "evidence.tok_delta",
+        "psi": 0.2305
       },
       {
         "feature": "tests.pass_rate",
-        "psi": 0.3852
+        "psi": 0.2188
+      },
+      {
+        "feature": "evidence.tok_ratio",
+        "psi": 0.2132
+      },
+      {
+        "feature": "source.if_lit_cmp",
+        "psi": 0.2013
       }
     ]
   }
