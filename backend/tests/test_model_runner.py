@@ -37,9 +37,10 @@ def test_on_emits_a_model_record(monkeypatch):
 
 def test_missing_warnings_block_forces_abstain_in_on_mode(monkeypatch):
     monkeypatch.setattr(settings, "model_diagnosis", "on")
+    monkeypatch.setattr(model_runner, "compiler_warnings", lambda source: None)  # e.g. it did not compile
     pred = model_runner.predict_source(ASSIGN)
-    if pred.n_missing / pred.n_features > model_runner.MAX_MISSING_SHARE:
-        assert model_runner.model_records(ASSIGN)[0].evidence_code != "MODEL_PREDICTION"
+    assert pred.n_missing / pred.n_features > model_runner.MAX_MISSING_SHARE
+    assert model_runner.model_records(ASSIGN)[0].evidence_code != "MODEL_PREDICTION"
 
 
 def test_failure_never_raises(monkeypatch):

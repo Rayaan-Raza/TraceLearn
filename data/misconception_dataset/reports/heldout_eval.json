@@ -1,19 +1,19 @@
 {
-  "at": "2026-11-08T11:42:38+00:00",
+  "at": "2026-11-09T05:52:03+00:00",
   "split": "test",
-  "n_rows": 525,
+  "n_rows": 664,
   "truth_counts": {
-    "CPP_OTHER_ERROR": 350,
-    "CPP_ASSIGN_VS_COMPARE": 2,
-    "CPP_STALE_EXIT": 2,
-    "CPP_RANGE_CHECK": 16,
-    "CPP_OFF_BY_ONE": 34,
+    "CPP_OTHER_ERROR": 460,
+    "CPP_ASSIGN_VS_COMPARE": 3,
+    "CPP_STALE_EXIT": 4,
+    "CPP_RANGE_CHECK": 24,
+    "CPP_OFF_BY_ONE": 35,
     "CPP_ARRAY_BOUNDS": 96,
-    "CPP_INT_OVERFLOW": 6,
-    "CPP_UNINITIALIZED_VAR": 14,
-    "CPP_LOOP_BOUNDARY": 5
+    "CPP_UNINITIALIZED_VAR": 18,
+    "CPP_LOOP_BOUNDARY": 15,
+    "CPP_INT_OVERFLOW": 9
   },
-  "problems": 20,
+  "problems": 22,
   "models": {
     "best": {
       "sha256_16": "faba7929e8cc617e",
@@ -33,31 +33,31 @@
   },
   "scopes": {
     "all": {
-      "n": 525,
+      "n": 664,
       "truth_counts": {
-        "CPP_OTHER_ERROR": 350,
-        "CPP_ASSIGN_VS_COMPARE": 2,
-        "CPP_STALE_EXIT": 2,
-        "CPP_RANGE_CHECK": 16,
-        "CPP_OFF_BY_ONE": 34,
+        "CPP_OTHER_ERROR": 460,
+        "CPP_ASSIGN_VS_COMPARE": 3,
+        "CPP_STALE_EXIT": 4,
+        "CPP_RANGE_CHECK": 24,
+        "CPP_OFF_BY_ONE": 35,
         "CPP_ARRAY_BOUNDS": 96,
-        "CPP_INT_OVERFLOW": 6,
-        "CPP_UNINITIALIZED_VAR": 14,
-        "CPP_LOOP_BOUNDARY": 5
+        "CPP_UNINITIALIZED_VAR": 18,
+        "CPP_LOOP_BOUNDARY": 15,
+        "CPP_INT_OVERFLOW": 9
       },
-      "problems": 20,
+      "problems": 22,
       "systems": {
         "baseline: always OTHER_ERROR": {
-          "n": 525,
-          "n_other": 350,
-          "n_misconception": 175,
+          "n": 664,
+          "n_other": 460,
+          "n_misconception": 204,
           "false_alarm_rate": {
             "k": 0,
-            "n": 350,
+            "n": 460,
             "value": 0.0,
             "ci95": [
               0.0,
-              0.011
+              0.008
             ]
           },
           "precision_when_flagged": {
@@ -71,32 +71,32 @@
           },
           "misconception_recall": {
             "k": 0,
-            "n": 175,
+            "n": 204,
             "value": 0.0,
             "ci95": [
               0.0,
-              0.021
+              0.018
             ]
           },
           "misconception_detected_any_class": {
             "k": 0,
-            "n": 175,
+            "n": 204,
             "value": 0.0,
             "ci95": [
               0.0,
-              0.021
+              0.018
             ]
           },
           "abstain_rate": {
             "k": 0,
-            "n": 525,
+            "n": 664,
             "value": 0.0,
             "ci95": [
               0.0,
-              0.007
+              0.006
             ]
           },
-          "macro_f1": 0.089,
+          "macro_f1": 0.091,
           "per_class": {
             "CPP_ARRAY_BOUNDS": {
               "support": 96,
@@ -106,239 +106,239 @@
               "recall": 0.0
             },
             "CPP_ASSIGN_VS_COMPARE": {
-              "support": 2,
+              "support": 3,
               "predicted": 0,
               "correct": 0,
               "precision": null,
               "recall": 0.0
             },
             "CPP_INT_OVERFLOW": {
-              "support": 6,
+              "support": 9,
               "predicted": 0,
               "correct": 0,
               "precision": null,
               "recall": 0.0
             },
             "CPP_LOOP_BOUNDARY": {
-              "support": 5,
+              "support": 15,
               "predicted": 0,
               "correct": 0,
               "precision": null,
               "recall": 0.0
             },
             "CPP_OFF_BY_ONE": {
-              "support": 34,
+              "support": 35,
               "predicted": 0,
               "correct": 0,
               "precision": null,
               "recall": 0.0
             },
             "CPP_OTHER_ERROR": {
-              "support": 350,
-              "predicted": 525,
-              "correct": 350,
-              "precision": 0.667,
+              "support": 460,
+              "predicted": 664,
+              "correct": 460,
+              "precision": 0.693,
               "recall": 1.0
             },
             "CPP_RANGE_CHECK": {
-              "support": 16,
+              "support": 24,
               "predicted": 0,
               "correct": 0,
               "precision": null,
               "recall": 0.0
             },
             "CPP_STALE_EXIT": {
-              "support": 2,
+              "support": 4,
               "predicted": 0,
               "correct": 0,
               "precision": null,
               "recall": 0.0
             },
             "CPP_UNINITIALIZED_VAR": {
-              "support": 14,
+              "support": 18,
               "predicted": 0,
               "correct": 0,
               "precision": null,
               "recall": 0.0
+            }
+          },
+          "accuracy": 0.693,
+          "macro_f1_ci95_by_problem": [
+            0.086,
+            0.126
+          ]
+        },
+        "model: best": {
+          "n": 664,
+          "n_other": 460,
+          "n_misconception": 204,
+          "false_alarm_rate": {
+            "k": 13,
+            "n": 460,
+            "value": 0.028,
+            "ci95": [
+              0.017,
+              0.048
+            ]
+          },
+          "precision_when_flagged": {
+            "k": 4,
+            "n": 22,
+            "value": 0.182,
+            "ci95": [
+              0.073,
+              0.385
+            ]
+          },
+          "misconception_recall": {
+            "k": 4,
+            "n": 204,
+            "value": 0.02,
+            "ci95": [
+              0.008,
+              0.049
+            ]
+          },
+          "misconception_detected_any_class": {
+            "k": 9,
+            "n": 204,
+            "value": 0.044,
+            "ci95": [
+              0.023,
+              0.082
+            ]
+          },
+          "abstain_rate": {
+            "k": 14,
+            "n": 664,
+            "value": 0.021,
+            "ci95": [
+              0.013,
+              0.035
+            ]
+          },
+          "macro_f1": 0.153,
+          "per_class": {
+            "CPP_ARRAY_BOUNDS": {
+              "support": 96,
+              "predicted": 1,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_ASSIGN_VS_COMPARE": {
+              "support": 3,
+              "predicted": 3,
+              "correct": 1,
+              "precision": 0.333,
+              "recall": 0.333
+            },
+            "CPP_INT_OVERFLOW": {
+              "support": 9,
+              "predicted": 2,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_LOOP_BOUNDARY": {
+              "support": 15,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OFF_BY_ONE": {
+              "support": 35,
+              "predicted": 2,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_OTHER_ERROR": {
+              "support": 460,
+              "predicted": 628,
+              "correct": 439,
+              "precision": 0.699,
+              "recall": 0.954
+            },
+            "CPP_RANGE_CHECK": {
+              "support": 24,
+              "predicted": 10,
+              "correct": 1,
+              "precision": 0.1,
+              "recall": 0.042
+            },
+            "CPP_STALE_EXIT": {
+              "support": 4,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_UNINITIALIZED_VAR": {
+              "support": 18,
+              "predicted": 4,
+              "correct": 2,
+              "precision": 0.5,
+              "recall": 0.111
             }
           },
           "accuracy": 0.667,
           "macro_f1_ci95_by_problem": [
-            0.085,
-            0.153
-          ]
-        },
-        "model: best": {
-          "n": 525,
-          "n_other": 350,
-          "n_misconception": 175,
-          "false_alarm_rate": {
-            "k": 5,
-            "n": 350,
-            "value": 0.014,
-            "ci95": [
-              0.006,
-              0.033
-            ]
-          },
-          "precision_when_flagged": {
-            "k": 1,
-            "n": 7,
-            "value": 0.143,
-            "ci95": [
-              0.026,
-              0.513
-            ]
-          },
-          "misconception_recall": {
-            "k": 1,
-            "n": 175,
-            "value": 0.006,
-            "ci95": [
-              0.001,
-              0.032
-            ]
-          },
-          "misconception_detected_any_class": {
-            "k": 2,
-            "n": 175,
-            "value": 0.011,
-            "ci95": [
-              0.003,
-              0.041
-            ]
-          },
-          "abstain_rate": {
-            "k": 0,
-            "n": 525,
-            "value": 0.0,
-            "ci95": [
-              0.0,
-              0.007
-            ]
-          },
-          "macro_f1": 0.099,
-          "per_class": {
-            "CPP_ARRAY_BOUNDS": {
-              "support": 96,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_ASSIGN_VS_COMPARE": {
-              "support": 2,
-              "predicted": 1,
-              "correct": 0,
-              "precision": 0.0,
-              "recall": 0.0
-            },
-            "CPP_INT_OVERFLOW": {
-              "support": 6,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_LOOP_BOUNDARY": {
-              "support": 5,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_OFF_BY_ONE": {
-              "support": 34,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_OTHER_ERROR": {
-              "support": 350,
-              "predicted": 518,
-              "correct": 345,
-              "precision": 0.666,
-              "recall": 0.986
-            },
-            "CPP_RANGE_CHECK": {
-              "support": 16,
-              "predicted": 5,
-              "correct": 1,
-              "precision": 0.2,
-              "recall": 0.062
-            },
-            "CPP_STALE_EXIT": {
-              "support": 2,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_UNINITIALIZED_VAR": {
-              "support": 14,
-              "predicted": 1,
-              "correct": 0,
-              "precision": 0.0,
-              "recall": 0.0
-            }
-          },
-          "accuracy": 0.659,
-          "macro_f1_ci95_by_problem": [
-            0.085,
-            0.175
+            0.095,
+            0.215
           ]
         },
         "model: common": {
-          "n": 525,
-          "n_other": 350,
-          "n_misconception": 175,
+          "n": 664,
+          "n_other": 460,
+          "n_misconception": 204,
           "false_alarm_rate": {
-            "k": 2,
-            "n": 350,
-            "value": 0.006,
+            "k": 8,
+            "n": 460,
+            "value": 0.017,
             "ci95": [
-              0.002,
-              0.021
+              0.009,
+              0.034
             ]
           },
           "precision_when_flagged": {
-            "k": 0,
-            "n": 2,
-            "value": 0.0,
+            "k": 4,
+            "n": 14,
+            "value": 0.286,
             "ci95": [
-              0.0,
-              0.658
+              0.117,
+              0.546
             ]
           },
           "misconception_recall": {
-            "k": 0,
-            "n": 175,
-            "value": 0.0,
+            "k": 4,
+            "n": 204,
+            "value": 0.02,
             "ci95": [
-              0.0,
-              0.021
+              0.008,
+              0.049
             ]
           },
           "misconception_detected_any_class": {
-            "k": 0,
-            "n": 175,
-            "value": 0.0,
+            "k": 6,
+            "n": 204,
+            "value": 0.029,
             "ci95": [
-              0.0,
-              0.021
+              0.014,
+              0.063
             ]
           },
           "abstain_rate": {
-            "k": 8,
-            "n": 525,
-            "value": 0.015,
+            "k": 30,
+            "n": 664,
+            "value": 0.045,
             "ci95": [
-              0.008,
-              0.03
+              0.032,
+              0.064
             ]
           },
-          "macro_f1": 0.088,
+          "macro_f1": 0.145,
           "per_class": {
             "CPP_ARRAY_BOUNDS": {
               "support": 96,
@@ -348,118 +348,118 @@
               "recall": 0.0
             },
             "CPP_ASSIGN_VS_COMPARE": {
-              "support": 2,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
+              "support": 3,
+              "predicted": 5,
+              "correct": 1,
+              "precision": 0.2,
+              "recall": 0.333
             },
             "CPP_INT_OVERFLOW": {
-              "support": 6,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_LOOP_BOUNDARY": {
-              "support": 5,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_OFF_BY_ONE": {
-              "support": 34,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_OTHER_ERROR": {
-              "support": 350,
-              "predicted": 515,
-              "correct": 341,
-              "precision": 0.662,
-              "recall": 0.974
-            },
-            "CPP_RANGE_CHECK": {
-              "support": 16,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_STALE_EXIT": {
-              "support": 2,
-              "predicted": 0,
-              "correct": 0,
-              "precision": null,
-              "recall": 0.0
-            },
-            "CPP_UNINITIALIZED_VAR": {
-              "support": 14,
+              "support": 9,
               "predicted": 2,
               "correct": 0,
               "precision": 0.0,
               "recall": 0.0
+            },
+            "CPP_LOOP_BOUNDARY": {
+              "support": 15,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OFF_BY_ONE": {
+              "support": 35,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OTHER_ERROR": {
+              "support": 460,
+              "predicted": 620,
+              "correct": 435,
+              "precision": 0.702,
+              "recall": 0.946
+            },
+            "CPP_RANGE_CHECK": {
+              "support": 24,
+              "predicted": 1,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_STALE_EXIT": {
+              "support": 4,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_UNINITIALIZED_VAR": {
+              "support": 18,
+              "predicted": 6,
+              "correct": 3,
+              "precision": 0.5,
+              "recall": 0.167
             }
           },
-          "accuracy": 0.65,
+          "accuracy": 0.661,
           "macro_f1_ci95_by_problem": [
-            0.084,
-            0.15
+            0.087,
+            0.248
           ]
         },
         "model: execution": {
-          "n": 525,
-          "n_other": 350,
-          "n_misconception": 175,
+          "n": 664,
+          "n_other": 460,
+          "n_misconception": 204,
           "false_alarm_rate": {
-            "k": 9,
-            "n": 350,
+            "k": 12,
+            "n": 460,
             "value": 0.026,
             "ci95": [
-              0.014,
-              0.048
+              0.015,
+              0.045
             ]
           },
           "precision_when_flagged": {
-            "k": 71,
-            "n": 88,
-            "value": 0.807,
+            "k": 75,
+            "n": 104,
+            "value": 0.721,
             "ci95": [
-              0.712,
-              0.876
+              0.628,
+              0.798
             ]
           },
           "misconception_recall": {
-            "k": 71,
-            "n": 175,
-            "value": 0.406,
+            "k": 75,
+            "n": 204,
+            "value": 0.368,
             "ci95": [
-              0.336,
-              0.48
+              0.304,
+              0.436
             ]
           },
           "misconception_detected_any_class": {
-            "k": 79,
-            "n": 175,
+            "k": 92,
+            "n": 204,
             "value": 0.451,
             "ci95": [
-              0.38,
-              0.525
+              0.384,
+              0.52
             ]
           },
           "abstain_rate": {
-            "k": 4,
-            "n": 525,
+            "k": 5,
+            "n": 664,
             "value": 0.008,
             "ci95": [
               0.003,
-              0.019
+              0.018
             ]
           },
-          "macro_f1": 0.408,
+          "macro_f1": 0.394,
           "per_class": {
             "CPP_ARRAY_BOUNDS": {
               "support": 96,
@@ -469,118 +469,118 @@
               "recall": 0.635
             },
             "CPP_ASSIGN_VS_COMPARE": {
-              "support": 2,
-              "predicted": 3,
-              "correct": 2,
-              "precision": 0.667,
+              "support": 3,
+              "predicted": 4,
+              "correct": 3,
+              "precision": 0.75,
               "recall": 1.0
             },
             "CPP_INT_OVERFLOW": {
-              "support": 6,
+              "support": 9,
               "predicted": 6,
               "correct": 4,
               "precision": 0.667,
-              "recall": 0.667
+              "recall": 0.444
             },
             "CPP_LOOP_BOUNDARY": {
-              "support": 5,
+              "support": 15,
               "predicted": 1,
               "correct": 1,
               "precision": 1.0,
-              "recall": 0.2
+              "recall": 0.067
             },
             "CPP_OFF_BY_ONE": {
-              "support": 34,
-              "predicted": 2,
+              "support": 35,
+              "predicted": 12,
               "correct": 1,
-              "precision": 0.5,
+              "precision": 0.083,
               "recall": 0.029
             },
             "CPP_OTHER_ERROR": {
-              "support": 350,
-              "predicted": 433,
-              "correct": 341,
-              "precision": 0.788,
+              "support": 460,
+              "predicted": 555,
+              "correct": 448,
+              "precision": 0.807,
               "recall": 0.974
             },
             "CPP_RANGE_CHECK": {
-              "support": 16,
-              "predicted": 0,
+              "support": 24,
+              "predicted": 1,
               "correct": 0,
-              "precision": null,
+              "precision": 0.0,
               "recall": 0.0
             },
             "CPP_STALE_EXIT": {
-              "support": 2,
+              "support": 4,
               "predicted": 0,
               "correct": 0,
               "precision": null,
               "recall": 0.0
             },
             "CPP_UNINITIALIZED_VAR": {
-              "support": 14,
-              "predicted": 5,
-              "correct": 2,
-              "precision": 0.4,
-              "recall": 0.143
+              "support": 18,
+              "predicted": 9,
+              "correct": 5,
+              "precision": 0.556,
+              "recall": 0.278
             }
           },
-          "accuracy": 0.785,
+          "accuracy": 0.788,
           "macro_f1_ci95_by_problem": [
-            0.219,
-            0.484
+            0.242,
+            0.47
           ]
         },
         "model: execution, no abstain": {
-          "n": 525,
-          "n_other": 350,
-          "n_misconception": 175,
+          "n": 664,
+          "n_other": 460,
+          "n_misconception": 204,
           "false_alarm_rate": {
-            "k": 9,
-            "n": 350,
+            "k": 12,
+            "n": 460,
             "value": 0.026,
             "ci95": [
-              0.014,
-              0.048
+              0.015,
+              0.045
             ]
           },
           "precision_when_flagged": {
-            "k": 73,
-            "n": 90,
-            "value": 0.811,
+            "k": 77,
+            "n": 108,
+            "value": 0.713,
             "ci95": [
-              0.718,
-              0.879
+              0.621,
+              0.79
             ]
           },
           "misconception_recall": {
-            "k": 73,
-            "n": 175,
-            "value": 0.417,
+            "k": 77,
+            "n": 204,
+            "value": 0.377,
             "ci95": [
-              0.347,
-              0.491
+              0.314,
+              0.446
             ]
           },
           "misconception_detected_any_class": {
-            "k": 81,
-            "n": 175,
-            "value": 0.463,
+            "k": 96,
+            "n": 204,
+            "value": 0.471,
             "ci95": [
-              0.391,
-              0.537
+              0.403,
+              0.539
             ]
           },
           "abstain_rate": {
             "k": 0,
-            "n": 525,
+            "n": 664,
             "value": 0.0,
             "ci95": [
               0.0,
-              0.007
+              0.006
             ]
           },
-          "macro_f1": 0.44,
+          "macro_f1": 0.398,
           "per_class": {
             "CPP_ARRAY_BOUNDS": {
               "support": 96,
@@ -590,42 +590,172 @@
               "recall": 0.635
             },
             "CPP_ASSIGN_VS_COMPARE": {
-              "support": 2,
-              "predicted": 3,
-              "correct": 2,
-              "precision": 0.667,
+              "support": 3,
+              "predicted": 5,
+              "correct": 3,
+              "precision": 0.6,
               "recall": 1.0
             },
             "CPP_INT_OVERFLOW": {
-              "support": 6,
+              "support": 9,
               "predicted": 6,
               "correct": 4,
               "precision": 0.667,
-              "recall": 0.667
+              "recall": 0.444
             },
             "CPP_LOOP_BOUNDARY": {
-              "support": 5,
+              "support": 15,
               "predicted": 2,
               "correct": 2,
               "precision": 1.0,
-              "recall": 0.4
+              "recall": 0.133
             },
             "CPP_OFF_BY_ONE": {
-              "support": 34,
-              "predicted": 3,
+              "support": 35,
+              "predicted": 14,
               "correct": 2,
-              "precision": 0.667,
-              "recall": 0.059
+              "precision": 0.143,
+              "recall": 0.057
             },
             "CPP_OTHER_ERROR": {
-              "support": 350,
-              "predicted": 435,
-              "correct": 341,
-              "precision": 0.784,
+              "support": 460,
+              "predicted": 556,
+              "correct": 448,
+              "precision": 0.806,
               "recall": 0.974
             },
             "CPP_RANGE_CHECK": {
-              "support": 16,
+              "support": 24,
+              "predicted": 1,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_STALE_EXIT": {
+              "support": 4,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_UNINITIALIZED_VAR": {
+              "support": 18,
+              "predicted": 9,
+              "correct": 5,
+              "precision": 0.556,
+              "recall": 0.278
+            }
+          },
+          "accuracy": 0.791,
+          "macro_f1_ci95_by_problem": [
+            0.238,
+            0.495
+          ]
+        }
+      }
+    },
+    "CODENET": {
+      "n": 139,
+      "truth_counts": {
+        "CPP_RANGE_CHECK": 8,
+        "CPP_OTHER_ERROR": 110,
+        "CPP_STALE_EXIT": 2,
+        "CPP_UNINITIALIZED_VAR": 4,
+        "CPP_LOOP_BOUNDARY": 10,
+        "CPP_ASSIGN_VS_COMPARE": 1,
+        "CPP_OFF_BY_ONE": 1,
+        "CPP_INT_OVERFLOW": 3
+      },
+      "problems": 2,
+      "systems": {
+        "baseline: always OTHER_ERROR": {
+          "n": 139,
+          "n_other": 110,
+          "n_misconception": 29,
+          "false_alarm_rate": {
+            "k": 0,
+            "n": 110,
+            "value": 0.0,
+            "ci95": [
+              0.0,
+              0.034
+            ]
+          },
+          "precision_when_flagged": {
+            "k": 0,
+            "n": 0,
+            "value": null,
+            "ci95": [
+              null,
+              null
+            ]
+          },
+          "misconception_recall": {
+            "k": 0,
+            "n": 29,
+            "value": 0.0,
+            "ci95": [
+              0.0,
+              0.117
+            ]
+          },
+          "misconception_detected_any_class": {
+            "k": 0,
+            "n": 29,
+            "value": 0.0,
+            "ci95": [
+              0.0,
+              0.117
+            ]
+          },
+          "abstain_rate": {
+            "k": 0,
+            "n": 139,
+            "value": 0.0,
+            "ci95": [
+              0.0,
+              0.027
+            ]
+          },
+          "macro_f1": 0.11,
+          "per_class": {
+            "CPP_ASSIGN_VS_COMPARE": {
+              "support": 1,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_INT_OVERFLOW": {
+              "support": 3,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_LOOP_BOUNDARY": {
+              "support": 10,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OFF_BY_ONE": {
+              "support": 1,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OTHER_ERROR": {
+              "support": 110,
+              "predicted": 139,
+              "correct": 110,
+              "precision": 0.791,
+              "recall": 1.0
+            },
+            "CPP_RANGE_CHECK": {
+              "support": 8,
               "predicted": 0,
               "correct": 0,
               "precision": null,
@@ -639,17 +769,480 @@
               "recall": 0.0
             },
             "CPP_UNINITIALIZED_VAR": {
-              "support": 14,
-              "predicted": 5,
-              "correct": 2,
-              "precision": 0.4,
-              "recall": 0.143
+              "support": 4,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
             }
           },
-          "accuracy": 0.789,
+          "accuracy": 0.791,
           "macro_f1_ci95_by_problem": [
-            0.234,
-            0.524
+            0.11,
+            0.243
+          ]
+        },
+        "model: best": {
+          "n": 139,
+          "n_other": 110,
+          "n_misconception": 29,
+          "false_alarm_rate": {
+            "k": 8,
+            "n": 110,
+            "value": 0.073,
+            "ci95": [
+              0.037,
+              0.137
+            ]
+          },
+          "precision_when_flagged": {
+            "k": 3,
+            "n": 15,
+            "value": 0.2,
+            "ci95": [
+              0.07,
+              0.452
+            ]
+          },
+          "misconception_recall": {
+            "k": 3,
+            "n": 29,
+            "value": 0.103,
+            "ci95": [
+              0.036,
+              0.264
+            ]
+          },
+          "misconception_detected_any_class": {
+            "k": 7,
+            "n": 29,
+            "value": 0.241,
+            "ci95": [
+              0.122,
+              0.421
+            ]
+          },
+          "abstain_rate": {
+            "k": 14,
+            "n": 139,
+            "value": 0.101,
+            "ci95": [
+              0.061,
+              0.162
+            ]
+          },
+          "macro_f1": 0.262,
+          "per_class": {
+            "CPP_ARRAY_BOUNDS": {
+              "support": 0,
+              "predicted": 1,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": null
+            },
+            "CPP_ASSIGN_VS_COMPARE": {
+              "support": 1,
+              "predicted": 2,
+              "correct": 1,
+              "precision": 0.5,
+              "recall": 1.0
+            },
+            "CPP_INT_OVERFLOW": {
+              "support": 3,
+              "predicted": 2,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_LOOP_BOUNDARY": {
+              "support": 10,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OFF_BY_ONE": {
+              "support": 1,
+              "predicted": 2,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_OTHER_ERROR": {
+              "support": 110,
+              "predicted": 110,
+              "correct": 94,
+              "precision": 0.855,
+              "recall": 0.855
+            },
+            "CPP_RANGE_CHECK": {
+              "support": 8,
+              "predicted": 5,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_STALE_EXIT": {
+              "support": 2,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_UNINITIALIZED_VAR": {
+              "support": 4,
+              "predicted": 3,
+              "correct": 2,
+              "precision": 0.667,
+              "recall": 0.5
+            }
+          },
+          "accuracy": 0.698,
+          "macro_f1_ci95_by_problem": [
+            0.2,
+            0.403
+          ]
+        },
+        "model: common": {
+          "n": 139,
+          "n_other": 110,
+          "n_misconception": 29,
+          "false_alarm_rate": {
+            "k": 6,
+            "n": 110,
+            "value": 0.055,
+            "ci95": [
+              0.025,
+              0.114
+            ]
+          },
+          "precision_when_flagged": {
+            "k": 4,
+            "n": 12,
+            "value": 0.333,
+            "ci95": [
+              0.138,
+              0.609
+            ]
+          },
+          "misconception_recall": {
+            "k": 4,
+            "n": 29,
+            "value": 0.138,
+            "ci95": [
+              0.055,
+              0.306
+            ]
+          },
+          "misconception_detected_any_class": {
+            "k": 6,
+            "n": 29,
+            "value": 0.207,
+            "ci95": [
+              0.098,
+              0.384
+            ]
+          },
+          "abstain_rate": {
+            "k": 22,
+            "n": 139,
+            "value": 0.158,
+            "ci95": [
+              0.107,
+              0.228
+            ]
+          },
+          "macro_f1": 0.245,
+          "per_class": {
+            "CPP_ASSIGN_VS_COMPARE": {
+              "support": 1,
+              "predicted": 5,
+              "correct": 1,
+              "precision": 0.2,
+              "recall": 1.0
+            },
+            "CPP_INT_OVERFLOW": {
+              "support": 3,
+              "predicted": 2,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_LOOP_BOUNDARY": {
+              "support": 10,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OFF_BY_ONE": {
+              "support": 1,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OTHER_ERROR": {
+              "support": 110,
+              "predicted": 105,
+              "correct": 94,
+              "precision": 0.895,
+              "recall": 0.855
+            },
+            "CPP_RANGE_CHECK": {
+              "support": 8,
+              "predicted": 1,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_STALE_EXIT": {
+              "support": 2,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_UNINITIALIZED_VAR": {
+              "support": 4,
+              "predicted": 4,
+              "correct": 3,
+              "precision": 0.75,
+              "recall": 0.75
+            }
+          },
+          "accuracy": 0.705,
+          "macro_f1_ci95_by_problem": [
+            0.199,
+            0.659
+          ]
+        },
+        "model: execution": {
+          "n": 139,
+          "n_other": 110,
+          "n_misconception": 29,
+          "false_alarm_rate": {
+            "k": 3,
+            "n": 110,
+            "value": 0.027,
+            "ci95": [
+              0.009,
+              0.077
+            ]
+          },
+          "precision_when_flagged": {
+            "k": 4,
+            "n": 16,
+            "value": 0.25,
+            "ci95": [
+              0.102,
+              0.495
+            ]
+          },
+          "misconception_recall": {
+            "k": 4,
+            "n": 29,
+            "value": 0.138,
+            "ci95": [
+              0.055,
+              0.306
+            ]
+          },
+          "misconception_detected_any_class": {
+            "k": 13,
+            "n": 29,
+            "value": 0.448,
+            "ci95": [
+              0.284,
+              0.625
+            ]
+          },
+          "abstain_rate": {
+            "k": 2,
+            "n": 139,
+            "value": 0.014,
+            "ci95": [
+              0.004,
+              0.051
+            ]
+          },
+          "macro_f1": 0.335,
+          "per_class": {
+            "CPP_ASSIGN_VS_COMPARE": {
+              "support": 1,
+              "predicted": 1,
+              "correct": 1,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "CPP_INT_OVERFLOW": {
+              "support": 3,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_LOOP_BOUNDARY": {
+              "support": 10,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OFF_BY_ONE": {
+              "support": 1,
+              "predicted": 10,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_OTHER_ERROR": {
+              "support": 110,
+              "predicted": 121,
+              "correct": 107,
+              "precision": 0.884,
+              "recall": 0.973
+            },
+            "CPP_RANGE_CHECK": {
+              "support": 8,
+              "predicted": 1,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_STALE_EXIT": {
+              "support": 2,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_UNINITIALIZED_VAR": {
+              "support": 4,
+              "predicted": 4,
+              "correct": 3,
+              "precision": 0.75,
+              "recall": 0.75
+            }
+          },
+          "accuracy": 0.799,
+          "macro_f1_ci95_by_problem": [
+            0.266,
+            0.494
+          ]
+        },
+        "model: execution, no abstain": {
+          "n": 139,
+          "n_other": 110,
+          "n_misconception": 29,
+          "false_alarm_rate": {
+            "k": 3,
+            "n": 110,
+            "value": 0.027,
+            "ci95": [
+              0.009,
+              0.077
+            ]
+          },
+          "precision_when_flagged": {
+            "k": 4,
+            "n": 18,
+            "value": 0.222,
+            "ci95": [
+              0.09,
+              0.452
+            ]
+          },
+          "misconception_recall": {
+            "k": 4,
+            "n": 29,
+            "value": 0.138,
+            "ci95": [
+              0.055,
+              0.306
+            ]
+          },
+          "misconception_detected_any_class": {
+            "k": 15,
+            "n": 29,
+            "value": 0.517,
+            "ci95": [
+              0.344,
+              0.686
+            ]
+          },
+          "abstain_rate": {
+            "k": 0,
+            "n": 139,
+            "value": 0.0,
+            "ci95": [
+              0.0,
+              0.027
+            ]
+          },
+          "macro_f1": 0.293,
+          "per_class": {
+            "CPP_ASSIGN_VS_COMPARE": {
+              "support": 1,
+              "predicted": 2,
+              "correct": 1,
+              "precision": 0.5,
+              "recall": 1.0
+            },
+            "CPP_INT_OVERFLOW": {
+              "support": 3,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_LOOP_BOUNDARY": {
+              "support": 10,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_OFF_BY_ONE": {
+              "support": 1,
+              "predicted": 11,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_OTHER_ERROR": {
+              "support": 110,
+              "predicted": 121,
+              "correct": 107,
+              "precision": 0.884,
+              "recall": 0.973
+            },
+            "CPP_RANGE_CHECK": {
+              "support": 8,
+              "predicted": 1,
+              "correct": 0,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "CPP_STALE_EXIT": {
+              "support": 2,
+              "predicted": 0,
+              "correct": 0,
+              "precision": null,
+              "recall": 0.0
+            },
+            "CPP_UNINITIALIZED_VAR": {
+              "support": 4,
+              "predicted": 4,
+              "correct": 3,
+              "precision": 0.75,
+              "recall": 0.75
+            }
+          },
+          "accuracy": 0.799,
+          "macro_f1_ci95_by_problem": [
+            0.266,
+            0.411
           ]
         }
       }
@@ -1629,12 +2222,12 @@
             ]
           },
           "abstain_rate": {
-            "k": 3,
+            "k": 2,
             "n": 333,
-            "value": 0.009,
+            "value": 0.006,
             "ci95": [
-              0.003,
-              0.026
+              0.002,
+              0.022
             ]
           },
           "macro_f1": 0.271,
@@ -1669,9 +2262,9 @@
             },
             "CPP_OTHER_ERROR": {
               "support": 198,
-              "predicted": 257,
+              "predicted": 258,
               "correct": 195,
-              "precision": 0.759,
+              "precision": 0.756,
               "recall": 0.985
             },
             "CPP_RANGE_CHECK": {
@@ -1698,7 +2291,7 @@
           },
           "accuracy": 0.778,
           "macro_f1_ci95_by_problem": [
-            0.251,
+            0.24,
             0.412
           ]
         },
@@ -1812,7 +2405,7 @@
           },
           "accuracy": 0.781,
           "macro_f1_ci95_by_problem": [
-            0.251,
+            0.238,
             0.412
           ]
         }
@@ -1855,12 +2448,12 @@
           "correct": 0
         },
         "model: execution": {
-          "flagged": 21,
-          "correct": 21
+          "flagged": 22,
+          "correct": 22
         },
         "model: execution, no abstain": {
-          "flagged": 21,
-          "correct": 21
+          "flagged": 22,
+          "correct": 22
         }
       }
     },
@@ -1899,12 +2492,34 @@
           "correct": 0
         },
         "model: execution": {
-          "flagged": 52,
-          "correct": 43
+          "flagged": 51,
+          "correct": 42
         },
         "model: execution, no abstain": {
-          "flagged": 53,
-          "correct": 44
+          "flagged": 52,
+          "correct": 43
+        }
+      }
+    },
+    "tier1g": {
+      "rows": 139,
+      "positives": 29,
+      "systems": {
+        "model: best": {
+          "flagged": 15,
+          "correct": 3
+        },
+        "model: common": {
+          "flagged": 12,
+          "correct": 4
+        },
+        "model: execution": {
+          "flagged": 16,
+          "correct": 4
+        },
+        "model: execution, no abstain": {
+          "flagged": 18,
+          "correct": 4
         }
       }
     }

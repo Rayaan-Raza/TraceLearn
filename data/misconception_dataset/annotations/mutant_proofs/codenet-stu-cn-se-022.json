@@ -1,0 +1,17 @@
+{
+ "run_id": "stu-cn-se-022",
+ "seed_submission_id": "codenet:p02887/C++/s632400469.cpp",
+ "problem_id": "tl-codenet-p02887",
+ "operator": "codenet_cpp_stale_exit",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "794cb5283396b01e",
+ "mutant_sha256": "aa2c4ff7dfc83110e72ec2392b8facc30bcaab61aa984115d7d78cc7359d7e18",
+ "tests_passed": 0,
+ "tests_total": 1,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "i+=1;",
+  "base_sha256": "794cb5283396b01e"
+ }
+}

@@ -91,6 +91,9 @@ class RunConfig:
     double_run: bool = True
     # Stop running the remaining plain tests after a timeout, to bound cost.
     stop_after_timeouts: int = 3
+    # Re-run a test that timed out once at three times the limit before calling it a timeout,
+    # so a loaded machine does not change the result.
+    confirm_timeouts: bool = False
     keep_stdout_bytes: int = 2048  # how much stdout each test result keeps
     network_isolation: bool = True  # local backend: unshare -n when possible
     use_pch: bool = True  # speed only; excluded from the fingerprint

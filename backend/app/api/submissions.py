@@ -138,6 +138,7 @@ def run_and_analyze(submission_id: SubmissionId, db: Session = Depends(get_db), 
         current_only=DiagnosisBrief(**result["current_only"]) if result.get("current_only") else None,
         history_aware=DiagnosisBrief(**result["history_aware"]) if result.get("history_aware") else None,
         hint=result.get("hint"),
+        diagnosis_pending=result.get("diagnosis_pending", False),
     )
 
 

@@ -1,4 +1,4 @@
-"""Enumerated feature registry for schema_version 1.1 (§6, R1).
+"""Enumerated feature registry for schema_version 1.2 (§6, R1).
 
 `FEATURE_BLOCKS` is the single source of truth: every feature name and type the
 dataset may ever contain is listed here, and `FEATURE_SCHEMA.md` must document
@@ -16,7 +16,7 @@ breaking changes only in the single post-G3 window (§6).
 
 from __future__ import annotations
 
-SCHEMA_VERSION = "1.1"
+SCHEMA_VERSION = "1.2"
 
 # block -> {short_name: type}. Order = column order in features.csv.
 FEATURE_BLOCKS: dict[str, dict[str, str]] = {
@@ -152,6 +152,36 @@ FEATURE_BLOCKS: dict[str, dict[str, str]] = {
         "difficulty": "float",
         "concept_tag_count": "int",
         "cpp_submission_count": "int",
+    },
+    # Added in 1.2. Produced by tracelearn_features/execution.py.
+    "source": {
+        **{k: "int" for k in (
+            "arr_fixed_n", "arr_vla_n")},
+        "arr_fixed_max_log": "float",
+        "arr_fixed_min_log": "float",
+        **{k: "int" for k in (
+            "heap_alloc", "uses_ll", "uses_long", "uses_double", "mult_ident", "mult_assign", "pow_call", "accum", "fmt_ll",
+            "lp_le", "lp_lt", "lp_ge", "lp_gt", "lp_le_idx", "lp_lt_m1", "lp_s1_lt", "lp_s1_le", "lp_s0_le", "lp_idx_plus",
+            "lp_idx_minus", "lp_wrong_idx", "lp_stale", "lp_desc", "read_before_write", "if_lit_cmp", "if_and", "if_or",
+            "else_if", "if_strict", "if_nonstrict", "if_eq", "minus1", "plus1")},
+    },
+    "evidence": {k: "float" for k in (
+        "n", "pass_frac", "ff_frac", "ff_wrong", "fr_wrong", "ff_crash", "fr_crash", "ff_timeout", "fr_timeout",
+        "ff_presentation", "fr_presentation", "tok_delta", "tok_ratio", "prefix_frac", "exp_tok_log",
+        "is_prefix_of_expected", "expected_is_prefix", "is_suffix_of_expected", "expected_is_suffix", "empty_output",
+        "reversed_tokens", "reversed_lines", "same_multiset", "all_deltas_pm1", "negative_where_positive", "maxd_log",
+        "nd_frac", "sign_delta", "fr_pm1", "fr_neg", "fr_empty", "sa_avail", "sa_oob", "sa_stack", "sa_heap", "sa_global",
+        "sa_signed", "sa_shift", "sa_div", "sa_null", "sa_so", "sa_uaf", "sa_vla", "sa_n", "sa_past_min", "sa_past_max_log",
+        "sa_neg_idx", "sa_left", "sa_write", "rt_so")},
+    "repair": {
+        **{f"{cls}_{kind}": "float"
+           for cls in ("loop_boundary", "off_by_one", "array_bounds", "uninitialized_var", "int_overflow",
+                       "missing_base_case", "assign_vs_compare", "wrong_loop_dir", "range_check")
+           for kind in ("fix_first", "noreg", "fix_all", "gain", "tried")},
+        "n_fix_all": "float",
+        "n_fix_first": "float",
+        "uninit_differs": "float",
+        "uninit_zero_fixes": "float",
     },
 }
 

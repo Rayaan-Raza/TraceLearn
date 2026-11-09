@@ -151,6 +151,8 @@ int main() {
             {"kind": "visible", "base": 3, "exponent": 1},
             {"kind": "hidden", "base": 5, "exponent": 4},
             {"kind": "hidden", "base": 10, "exponent": 6},
+            # The largest result needs 64 bits (docs/6-nov.md section 19).
+            {"kind": "hidden", "base": 10, "exponent": 18},
             {"kind": "diagnostic", "tag": "no_progress", "base": 3, "exponent": 1},
             {"kind": "diagnostic", "tag": "no_progress", "base": 2, "exponent": 5},
         ],
@@ -642,6 +644,8 @@ int main() {
             {"kind": "visible", "vals": [2, 4, 6], "t": 10},
             {"kind": "hidden", "vals": [10, 20, 30, 40], "t": 25},
             {"kind": "hidden", "vals": [-5, -1, 0, 3], "t": 0},
+            # The sum before the index outgrows int (docs/6-nov.md section 19).
+            {"kind": "hidden", "vals": [999999996, 999999997, 999999998, 999999999, 1000000000], "t": 1000000000},
             {"kind": "diagnostic", "tag": "exit_condition_not_updated", "vals": [1, 3, 5, 7, 9], "t": 100},
             {"kind": "diagnostic", "tag": "exit_condition_not_updated", "vals": [2, 4, 6], "t": 5},
         ],

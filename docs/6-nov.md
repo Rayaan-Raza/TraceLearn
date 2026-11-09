@@ -789,3 +789,166 @@ Confusion matrices: `reports/confusion_final.png`, `reports/confusion_test.png`.
 **Split.** PROGPedia problems 21, 39, 53 (plus their clusters) are held out whole (`splits/progpedia_holdout.csv`). Near-duplicate removal keeps agent/human labels over weak rules.
 **Held-out result** (`reports/heldout_eval.md`, 324 rows, 20 unseen problems, model `best`, profile `strong`): false alarm 9.0%, precision when flagged 62.5%, misconception recall 44.6%, abstain 43.8%. PROGPedia part (3 problems): recall 62%, precision 75%, array bounds P 0.79 / R 0.78. CodeStream part: recall 6% (semantic bugs). Off-by-one 0/23 and range check 1/11 are not detected. Overall accuracy (0.43) is below always-OTHER (0.69) because of abstention.
 **Gate.** `check_model_release.py`: shadow cleared; `on` blocked (precision < 0.80, recall < 0.50, no independent labels, no warning counts from the backend). G8 synthetic mass still fails.
+
+## 15. Recall audit: the earlier recall was a data-lane fingerprint, and what replaced it (supersedes the model numbers in sections 12-14)
+
+**Read this first.** The recall reported in section 14 and in `reports/model_comparison.md` did not measure bug detection. The code-only model flagged 55 of 55 `tier1b` rows and 0 of 452 `tier1e` and `tier1f` rows on the same held-out problems. `tier1b` warning counts were produced differently (they match a single runner on 65% of programs; every other lane matches on 100%), and `tier1b` is 82% positive, so the model learned the lane. With one runner's warnings for every row, that same committed model flags nothing: 0 of 175.
+
+**Bugs fixed.**
+1. Near-duplicate removal kept only about 960 of 1,714 real human labels (1,593 distinct programs). Two submissions to one problem routinely look alike and may differ only by the bug. The threshold now applies across problems and to near-copies of IID-holdout rows; within a problem only identical code is removed (majority label; ties dropped, unless a frozen holdout row settles them).
+2. `tier1b` warnings fingerprint, above. Every row with a run record now takes `warnings.*` from that record, using the flags the backend compiles with.
+3. Evidence differed by lane: sanitizers ran on about 7-10% of CodeStream rows, and synthetic rows had only pass/fail totals. `scripts/counterfactual_evidence.py` now runs every labelled row through one runner.
+
+**New features** (schema 1.2, `tracelearn_features/execution.py`): `source.*` (loop, array and integer-width patterns), `evidence.*` (per-test output diffs, sanitizer reports), `repair.*` (does a class's inverse edit fix the first failing test, or every test: the labelling rule measured directly, without reading a label). Computing them took about 61 minutes for 2,263 rows on 10 workers (10 s median, 35 s p90 per row).
+
+**Selection** used leave-one-problem-cluster-out on train + dev problems only: 1,042 real rows, 303 positives, 19 clusters. Exact-class recall, no abstention:
+
+| Features, all with the fingerprint removed unless noted | Recall | Precision | False alarm |
+|---|---:|---:|---:|
+| Code only (static, warnings, semantics) | 0.063 | 0.264 | 0.061 |
+| Code only, fingerprint still in | 0.162 | 0.551 | 0.035 |
+| **`execution`: warnings, semantics, source, evidence, repair, plus `stu-s2` synthetic** | **0.538** | **0.606** | **0.097** |
+| Rule: exactly one class's repair passes every test (no model) | 0.244 | 0.881 | 0.003 |
+
+Synthetic rows failed the earlier transfer test (`reports/synth_v2_transfer`) because `static.*` size features separate the lanes (median 15 lines synthetic, 30 CodeStream, 54 PROGPedia). Without those features, on shared evidence, they help: the `stu-s2` set is the only source of INT_OVERFLOW training rows when that problem is held out. The older bank synthetic rows added nothing. Class balance, depth and tree count barely moved results. Synthetic rows make a code-only model worse, so no code-only variant uses them.
+
+**Held-out result** (`reports/heldout_eval.md`, 525 rows, 175 positives, 20 unseen problems):
+
+| System | Recall | Precision | False alarm | Abstain | Accuracy |
+|---|---:|---:|---:|---:|---:|
+| Always OTHER | 0 | n/a | 0 | 0 | 0.667 |
+| Committed `best`, as reported before (fingerprint in) | 0.251 | 0.786 | 0.029 | 0 | 0.731 |
+| Committed `best`, fingerprint removed | 0 (0/175) | n/a | 0 | 0 | 0.667 |
+| Retrained `best`, code only | 0 (0/175) | 0 (0/2) | 0.006 | 0 | 0.663 |
+| **`execution`, as served (T 1.4, threshold 0.46)** | **0.434 (76/175)** | **0.826** | **0.023** | 0.011 | 0.794 |
+
+Per class (`execution`): ARRAY_BOUNDS 64/96, INT_OVERFLOW 4/6, ASSIGN_VS_COMPARE 2/2, LOOP_BOUNDARY 2/5, UNINITIALIZED_VAR 2/14, OFF_BY_ONE 2/34, RANGE_CHECK 0/16, STALE_EXIT 0/2. By source: PROGPedia 68/135 (precision 0.883), CodeStream 8/40 (precision 0.533, false alarm 0.033).
+
+**How far to trust this.**
+- One problem dominates: `tl-progpedia-00000039` holds 112 of the 175 positives. Without it recall is 18/63 (0.286), precision 0.720. Treat the 0.434 as mostly an array-bounds result on that problem. Resampling whole problems gives recall [0.107, 0.508] and precision [0.364, 0.925]; the narrower row-level intervals in `heldout_eval.md` ignore this.
+- The rise is array-bounds, plus small counts elsewhere. OFF_BY_ONE, RANGE_CHECK and UNINITIALIZED_VAR remain largely undetected. RANGE_CHECK and OFF_BY_ONE are also the classes annotators disagree on most (44% and 28%), so part of that gap may be a ceiling. All 41 INT_OVERFLOW training positives come from one problem.
+- The test split is not pristine. `plain` was chosen on it earlier; this round scored it twice: the first pass's per-lane breakdown exposed the fingerprint, and the fix was then checked on training problems and rescored. Nothing was changed after the second pass. Restoring rows also grew it from 324 to 525 rows, so old and new totals are not directly comparable: compare the rows of this table instead.
+- Labels are agent consensus treated as human on the owner's instruction, and annotators saw the first failing test, so the evidence features overlap with what they looked at. Repair output itself was not shown to them (3 of 1,042 rows carry a repair proof). Every number is agreement with those annotators.
+- The evaluation does not apply `MAX_MISSING_SHARE`; 1.9% of test rows exceed it and would abstain in production.
+
+**Not done: the backend does not produce run records.** `model_records(..., run_record=...)` accepts one and `execution` abstains without one, but `pipeline.py` does not pass one. Live use needs a decision: repairs compile and run many edited programs at 10-35 s per submission, so they need an asynchronous worker; `sandbox_runner` is not in the Docker image and has weaker isolation than `backend/app/execution/sandbox.py`; backend `TestCase` rows must be mapped to stdin/stdout tests; and bubblewrap was unavailable on the machine this work was done on, so none of that path has been exercised. `model_diagnosis` stays `off` and the default variant stays `best`, whose honest recall is zero: **do not turn `on` the code-only variant.** `check_model_release.py` blocks `on`; `execution` would pass P1 (0.826) and miss P2 (0.434 against 0.50).
+
+Reproduce (the first needs WSL, sandbox_runner and the raw data):
+
+```
+wsl python3 scripts/counterfactual_evidence.py --raw-root /mnt/g/TraceLearn/Datasets_RAW --workers 10
+python scripts/merge_dataset.py --raw-root G:/TraceLearn/Datasets_RAW
+python scripts/train_xgb_misconception.py --profile plain --cv-repeats 3
+python scripts/eval_heldout_rows.py --confirm-one-shot
+python scripts/check_model_release.py
+```
+
+## 16. Production attempt: second repair set, reachable ceiling, and the live path (follows section 15)
+
+**Second repair set** (`scripts/repair_extra.py`, kept apart from `repair_verify` so `repair_verified` proofs keep their meaning). Written for mistakes the first set could not try: chained comparisons (`65<=ch<=90`), reversed ranges, `&&`/`||` swaps, variable-length and heap arrays, every array at once, local arrays and all scalars zeroed, printed and returned values off by one, a `for` loop testing the wrong variable, and a `while` loop that never advances. On training problems it raised own-class repair coverage (RANGE_CHECK 0 to 14 of 14, ARRAY_BOUNDS 39 to 53 of 126, OFF_BY_ONE 26 to 33 of 40), but those edits also pass every test on many rows annotators labelled OTHER (18 for RANGE_CHECK), and recall did not move: 0.538 to 0.505 at precision 0.606 to 0.632 (leave-one-problem-cluster-out, train + dev problems). It is not used by the model or the live worker; `counterfactual_evidence.py --extra` still produces it for research.
+
+**What is reachable with these features** (train + dev problems only):
+- Best exact recall at precision 0.80 is about 0.24-0.30 for every variant tried, including an ensemble. Nothing reaches the release gate's P1 and P2 together.
+- Annotator A against annotator B on the same rows: recall 0.92, precision 0.92 (same model family, so an upper bound). The model against the final labels: recall 0.58, precision 0.63, with OFF_BY_ONE at 0.17 and RANGE_CHECK at 0. The labels are consistent enough; the features are what fall short. Annotators read the code and the problem; hand-built features and single edits do not capture intent for these classes.
+- Learning curve: training on 25%, 50%, 75% and 100% of each fold's real rows gives recall 0.50, 0.47, 0.48, 0.54. More labels of the same kind will not close the gap with this model.
+- Rule "exactly one class's first-set repair passes every test", fixed from training problems in section 15 and scored once on the held-out rows: 18 of 20 flags correct, no false alarm on OTHER rows, recall 0.103 (by-problem interval: precision 0.40-1.00, recall 0.04-0.16). Precise and explainable (it can show the fixing edit), but it covers few submissions.
+
+**Live run records** (`backend/app/analysis/run_record.py`, `scripts/run_record_worker.py`). With `model_run_records = "shadow"` (default `off`), each failing C++ submission gets a background run, one at a time, after the student has their result: the worker runs the same `counterfactual_evidence.evidence_for` that built the training data inside one `run_in_sandbox` call, and stores what `execution` would say as a weightless MODEL_SHADOW row. Checked in the production image:
+- Under bubblewrap the worker failed at first: it runs as uid 0 with no capabilities, so `sandbox_runner` could not drop to nobody. The worker now says so explicitly (`SANDBOX_RUNNER_ALREADY_CONFINED`); a failed drop elsewhere is still an error.
+- Docker's default seccomp profile blocks user namespaces, so bubblewrap cannot start there. The sandbox then falls back to resource limits only, and a probe program could read `/app` and `/etc/passwd`. With bubblewrap working the same probe read neither. `require_sandbox` (on in production) refuses to run code in the fallback. **The host must allow unprivileged user namespaces** (locally that took `--security-opt seccomp=unconfined --security-opt apparmor=unconfined`); confirm what your host allows before enabling this.
+- The image was Debian with g++ 14; training ran on Ubuntu 24.04 with g++ 13.3, whose defaults include `_FORTIFY_SOURCE` and stack protection. On 59 training programs only 9 got the same features, and 13 got different test results. The image is now `ubuntu:24.04`. Rerun on 60 training programs: 50 identical features (the image against itself: 53), test results changed on 5 (against itself: 2), and **the model's answer was the same on 60 of 60**, both against training and between two runs. Keep the image and the machine that builds run records on the same OS and compiler.
+- Ubuntu run time per submission: 5.6 s median, 40 s p90, 177 s max. A sanitizer build cannot run under an address-space cap, so that cap is lifted for this call only (`run_in_sandbox(address_limit=False)`); give the container a memory limit.
+- A student program cannot forge its record through its output (tested). It shares the worker's sandbox, so a hostile program could tamper with its own record, which can only mislead its own diagnosis.
+
+**Verdict.** Not ready for `on`. `execution` misses P2 on the held-out problems (recall 0.434 against 0.50) and on training problems at any precision of 0.80 or more; P3 (labels by independent people) cannot be met by this work. It is ready for `shadow` on a host that allows user namespaces. Options that could change the verdict: independent human labels on fresh problems (needed in every case to measure anything trustworthy), a narrow "repair rule only" feature, or a code-reading model; the last sends student code to an outside service and cannot be judged fairly against labels made by the same model family.
+
+## 17. The product's own problems: model on the C++ bank, seeding, and the path to the learner state
+
+**Why this section matters most.** The product diagnoses attempts at its own problem bank (`data/cpp_diagnostics`, 40 problems, CPP-M01 to M08). Sections 13-16 measured the model on other people's problems that it had never seen, which is a harder question than the product asks. Here it is measured on the bank. The only labelled programs on bank problems are 235 student-style programs written by five author agents (`stu-cp0` to `stu-cp4`) and the 40 misconception variants, all verified by execution. No real student has attempted these problems yet, so every number below is an optimistic estimate until real attempts arrive.
+
+**Model alone on bank programs** (235 programs, 149 with a misconception):
+
+| Approach | Recall | Precision | False alarm |
+|---|---:|---:|---:|
+| Tag rules (first failing diagnostic test) | 0.342 | 0.352 | 0.523 |
+| Served `execution` model, never trained on bank programs | 0.557 | 0.830 | 0.093 |
+| `execution` trained with other bank programs, one author held out | 0.745 | 0.860 | 0.070 |
+| Same, one problem held out | 0.765 | 0.851 | 0.070 |
+
+Failing-test tag features added nothing. The served `execution` model now trains on `stu-cp*` as well (`PLAIN_SYNTHETIC_PREFIXES`). On the held-out real problems that cost a little (rescored a third time, nothing selected from it: recall 0.406, precision 0.807, false alarm 0.026, against 0.434 / 0.826 / 0.023).
+
+**Seeding.** The database held only the 6 Python problems; the C++ bank existed only in test fixtures. `seed.py` now loads the 40 C++ problems with their 305 tests, hints and reference solutions, idempotently per problem.
+
+**Model to diagnosis to learner state.** `model` evidence already counts as observed support (`evidence_contract.OBSERVED_SOURCES`), so a model prediction reaches the learner state through the existing history-aware diagnosis. With `model_diagnosis=on`, `model_variant=execution` and `model_run_records=on`, the pipeline measures the failing submission's run record before diagnosing, so the prediction joins the evidence in time.
+
+**End to end through the real backend** (submit, run tests, analyse, diagnose, update the learner state), with an `execution` model trained without author `stu-cp3`, on that author's 62 programs and the 32 variants:
+
+| Policy | `stu-cp3` recall / precision / false alarm | Variants recall / precision |
+|---|---|---|
+| Rules only | 0.500 / 0.500 / 0.50 | 0.875 / 1.000 |
+| Rules + model, current fusion (built) | 0.595 / 0.568 / 0.50 | 0.875 / 1.000 |
+| Model's named class wins, its OTHER ignored (simulated) | 0.786 / 0.660 / 0.55 | 0.812 / 0.929 |
+| Model first: named class wins, OTHER leaves only M02/M03 rules (simulated) | 0.667 / 0.875 / 0.10 | 0.562 / 0.900 |
+
+- The rules flag half of `stu-cp3`'s correct-by-other-means programs (10 of 20), all at confidence 0.70, so no confidence cut separates them from correct rule calls. The model's "none of my classes" (`MODEL_OTHER_ERROR`) is neutral and weightless by design, so in the current fusion it cannot overrule them.
+- Learner state for `stu-cp3`: rules alone end with 2 misconceptions PERSISTENT and 1 sent to review; with the model, 5 PERSISTENT, all of them in the author's programs and none false.
+- Time per failing submission with the run record: median 8.1 s, p90 34 s, max 64 s (rules only: 1.9 s).
+- The fusion weights in `config/evidence_weights.yaml` are marked frozen for the holdout evaluation and were not changed. Choosing how the model and the rules combine is the owner's decision: model-first is far better on realistic programs and worse on the bank's own textbook variants.
+
+## 18. Simulated classroom: seven students through the real backend (follows section 17)
+
+**Setup.** Six independent author agents each wrote 25 attempts at the C++ bank, working only from the student view (statements and visible tests). The attempts were a mix of correct programs, programs with named misconceptions, and programs that fail for other reasons. Each agent recorded the intended label and a fix. I wrote a seventh student of 27 attempts. Every attempt was checked against the bank's full tests: a bug must fail and its fix must pass, and a correct program must pass. 161 of 177 attempts passed this check: 81 named misconceptions, 35 other failures and 45 correct programs. 16 were rejected because their bug passes every bank test: 12 overflow bugs on CP09, plus bugs on CP34 and CP40, and two whitespace bugs on CP30. Those are gaps in the bank's tests. Each student submitted in order through `SubmissionService.run_and_analyze` on a fresh database, under three policies:
+
+- rules only;
+- the current fusion with `model_diagnosis=on`, `model_variant=execution` and `model_run_records=on`;
+- model first (simulation only: the classroom script wraps `fuse_diagnosis` so the model's named class decides and its "none of my classes" leaves only M02/M03 to the rules; production code is unchanged).
+
+The served model was trained on `stu-cp*` but not on these programs. The median shingle Jaccard similarity to a training program was 0.41, and 18 attempts were at 0.8 or above. The fusion run stopped after 144 attempts when the disk filled up. The seventh student, the only one it had not finished, was rerun on her own; memory is per student, so this is exact.
+
+| Policy | Right name on 81 named bugs | Precision of named calls | Accuses one of 35 "other" failures | Accuses one of 45 correct programs |
+|---|---:|---:|---:|---:|
+| Rules only (today's default) | 34 = 0.42 | 0.40 | 20 | 0 |
+| Rules + model, current fusion (built) | 43 = 0.53 | 0.47 | 20 | 0 |
+| Model first (run through the pipeline) | 62 = 0.77 | 0.78 | 9 | 0 |
+
+**Memory** (final learner states per student, against the misconceptions each student actually showed; 51 student-misconception pairs, 17 of them shown on two or more problems):
+
+| Policy | Real misconceptions tracked | False entries | Repeated misconception marked PERSISTENT |
+|---|---:|---:|---:|
+| Rules only | 35/51 | 10 | 4/17 |
+| Rules + model, current fusion | 37/51 | 10 | 7/17 |
+| Model first | 46/51 | 5 | 10/17 |
+
+- On the bugs it has a class for, the model's own top label is right on 54 of 67 (0.81). On "other" failures it answers "none of my classes" on 33 of 35. Removing the 18 attempts that resemble training programs barely changes this: model first 0.76 / 0.77, current fusion 0.52 / 0.45.
+- The current fusion wastes most of this. The model is right but outvoted on every OFF_BY_ONE (0 of 14 reach the diagnosis, against 10 for the model), on WRONG_LOOP_DIR, and on most UNINITIALIZED_VAR cases. OFF_BY_ONE never enters any student's memory under rules or fusion; under model first it is in 7 students' memory.
+- **False accusations come from history evidence.** The 20 "other" failures that rules and fusion name are carried by `CROSS_PROBLEM_RECURRENCE` and `PREVIOUS_RELATED_CPP` support from the student's earlier problems. In the current fusion the model's weightless "none of my classes" cannot overrule them. Model first halves them. The remaining false memory entries are mostly CPP_ARRAY_BOUNDS and M02/M03, which the model has no class for.
+- **Run-to-run stability.** In the model and model-first runs (two separate runs), 2 of 158 shared attempts got a different model prediction. The run-record measurements depend on timing, and both runs were sharing the machine.
+- The model is also scored on passing submissions, where it has no run record. On 32 of 44 correct programs its top label was CPP_ARRAY_BOUNDS at about 0.8. It abstained only because of the missing-feature share, so it should not be called on passing code at all.
+- Time per failing submission with the run record, measured synchronously in the request: median 7.5 s, p90 131 s, max 187 s (rules only: 1.9 s).
+
+**Reading.** With model first, the flow the user described works on bank-style code: the student submits, the model names the misconception, and memory records it. Under it, 46 of 51 real misconceptions reach memory with 5 false entries. Under the current fusion that is 37 with 10. Changing the fusion is the owner's decision; `config/evidence_weights.yaml` is frozen. Before production, the run record must leave the request path, the model must not be called on passing code, and the run records must be deterministic. These programs come from author agents, not real students, and on unseen real problems the model is weaker (section 16).
+
+## 19. Production defaults: the model decides (follows section 18; supersedes the "not ready for `on`" verdict of section 16)
+
+**What changed.** The defaults in `backend/app/config.py` are now `model_diagnosis=on`, `model_variant=execution`, `model_run_records=on`, `model_fusion=model_first` and `model_async=true`. Before this the model was off, its default variant was the weak `best`, and the rules decided, so a student's submission almost never got a model-named misconception. Set `MODEL_DIAGNOSIS=off` or `MODEL_FUSION=points` to go back.
+
+- **Model first** (`confidence.py`): a named model prediction above the abstain threshold is the diagnosis. The model's "none of my classes" makes the diagnosis UNCERTAIN with teacher review, unless the rules found M02/M03, which the model has no class for. An abstention falls back to the points fusion. A submission that passes every test is never overridden, and the model is not called on passing code.
+- **History gating:** history evidence (`CROSS_PROBLEM_RECURRENCE`, `PREVIOUS_RELATED_CPP`) can no longer name a misconception without observed support in the current submission. In section 18 this was the source of most false accusations. Both diagnosis modes stay, so the current-only vs history-aware comparison still runs.
+- **Off the request path** (`backend/app/analysis/async_diagnosis.py`): the student gets test results at once with `diagnosis_pending=true`. The run record, model and diagnosis follow on a background worker, and `Result.tsx` polls every 3 s.
+
+**Served model.** The plain-profile `execution` model, committed as a revert point in `7b92fdc` (`docs/MODEL_LOG.md`), was not changed. A retrain with 707 agent-labelled CodeNet failures, 268 verified CodeNet mutants and sqrt class weights looked better in cross-validation (macro-F1 0.765 against 0.70) but was worse on the held-out problems: accuracy 0.595 at its threshold, and false alarms on 31% of the CodeNet OTHER programs. It was rejected. The data stays in the dataset (`tier1g_codenet_agent`, `tier0d_codenet_mutants`) for later work.
+
+**Numbers for the served defaults:**
+
+| Measurement | Accuracy | Precision when it names one | Recall |
+|---|---:|---:|---:|
+| Held-out real programs, 20 unseen problems (525) | 0.785 | 0.807 (71/88) | 0.406 |
+| Same plus the two held-out CodeNet problems (664) | 0.788 | 0.721 (75/104) | 0.368 |
+| Simulated classroom of section 18, failing attempts (116), through the real backend | 0.759 | 0.787 (63/80) | 0.778 |
+| Same classroom, all 161 attempts (45 correct programs all left clean) | 0.826 | – | – |
+
+The classroom run matches the simulated model-first row of section 18 (0.78 precision), now with production code. False accusations on the 35 "other" failures fell from 20 (rules) to 9. A threshold of 0.60 would give held-out precision of about 0.91 at accuracy 0.76, but it was read off the test set. It needs fresh labelled data before it is adopted.
+
+**Data fixes found by the applicability test:** CN-0479 is an `==` used as a statement, not ASSIGN_VS_COMPARE, so it is relabelled to OTHER (`TAXONOMY_CORRECTIONS` in `scripts/ingest_codenet_labels.py`). `stu-s2-f-06-03` is a wrong early return in recursion with no loop, so it is relabelled from STALE_EXIT to OTHER (`LABEL_CORRECTIONS` in `scripts/build_synth_v2.py`).
+
+**Still open.** Recall on unseen real problems is about 0.4: the model names a misconception for only 2 in 5 of the programs that have one. All labels are by annotator agents, not independent people, and no real student has used the bank yet. Each diagnosis takes about 48 s (median 7.5 s per run record in section 18; the classroom shared the machine), and the host must allow unprivileged user namespaces for bubblewrap (section 16).
