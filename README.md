@@ -153,7 +153,7 @@ These design rules apply:
 | Code execution | `g++` and `python3` in a bubblewrap sandbox, with resource limits |
 | Authentication | JSON Web Token (JWT) in an httpOnly cookie, bcrypt password hashes |
 | Metrics | pandas and scikit-learn. These calculate F1 values and confusion matrices. |
-| Misconception model | XGBoost classifier for C++ (`execution` variant, 11 labels). It names the misconception in a failing submission; the rules handle the rest. See [`docs/MODEL_LOG.md`](docs/MODEL_LOG.md). |
+| Misconception model | XGBoost classifier for C++ (`execution` variant, 11 labels). It names the misconception in a failing submission; the rules handle the rest. See [`docs/MODEL_GUIDE.md`](docs/MODEL_GUIDE.md) (how to get, train and evaluate it) and [`docs/MODEL_LOG.md`](docs/MODEL_LOG.md). |
 
 The POC does not use: browser-side code execution, Pyodide, payments, mobile apps, plagiarism detection, LSTM models, or LLM help for errors.
 
