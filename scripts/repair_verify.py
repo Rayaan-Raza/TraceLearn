@@ -329,6 +329,36 @@ def stale_while_loops(prog: Program):
     return out
 
 
+def repairs_stale_exit(prog: Program) -> list[Repair]:
+    """Fix a stale while-loop by adding an increment of the condition variable.
+
+    Strategy: for each while loop whose condition variable is never updated in
+    the body, synthesise a repair that adds ``<var>++`` (or ``<var>--`` as a
+    second candidate) before the closing brace. This is the simplest mutation
+    that can convert an infinite / never-entered loop into a finite one.
+
+    Unlike the other generators this function only produces candidates — the
+    oracle verifier still runs the repaired code against the problem's tests to
+    confirm the fix is genuine.
+    """
+    cls = "CPP_STALE_EXIT"
+    out = []
+    t = prog.text
+    for lp, names in stale_while_loops(prog):
+        body = lp.body
+        braced = t[body.start:body.end].lstrip().startswith("{")
+        for var in names:
+            for update in (f"{var}++;", f"{var}--;"):
+                if braced:
+                    at = body.start + t[body.start:body.end].rfind("}")
+                    new_code = splice(prog.code, at, at, f" {update} ")
+                else:
+                    new_code = splice(prog.code, body.start, body.end,
+                                      "{ " + prog.code[body.start:body.end] + f" {update} }}")
+                out.append(Repair(cls, "while_add_increment", lp.line, "", update, new_code))
+    return out[:MAX_CANDIDATES]
+
+
 GENERATORS = {
     "CPP_LOOP_BOUNDARY": repairs_loop_boundary,
     "CPP_OFF_BY_ONE": repairs_off_by_one,
@@ -339,7 +369,7 @@ GENERATORS = {
     "CPP_ASSIGN_VS_COMPARE": repairs_assign_vs_compare,
     "CPP_WRONG_LOOP_DIR": repairs_wrong_loop_dir,
     "CPP_RANGE_CHECK": repairs_range_check,
-    # CPP_STALE_EXIT has no safe generic inverse operator: detector + human review only.
+    "CPP_STALE_EXIT": repairs_stale_exit,
 }
 
 
