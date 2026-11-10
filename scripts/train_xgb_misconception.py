@@ -685,6 +685,18 @@ def train(
     (models / "metrics_v1.json").write_text(
         json.dumps(metrics, indent=2) + "\n", encoding="utf-8", newline="\n")
 
+    # Write a dataset manifest so the served model can be traced back to the
+    # exact labels/features/splits snapshot used to train it.
+    import subprocess  # noqa: PLC0415 — intentional late import to keep this optional
+    try:
+        subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "make_dataset_manifest.py"),
+             "--out", str(models / "dataset_manifest.json")],
+            check=True,
+        )
+    except Exception as exc:  # noqa: BLE001
+        print(f"[manifest] WARNING: could not write dataset manifest: {exc}")
+
     return metrics
 
 
@@ -701,7 +713,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--profile", choices=sorted(PROFILES), default="default")
     parser.add_argument("--balance", choices=BALANCES, default="none",
                         help="class balance for the plain profile (other profiles always use full balance)")
+    parser.add_argument("--force", action="store_true",
+                        help="overwrite an existing served model; without this flag the script refuses "
+                             "if models/xgb_best_v1.json already exists, to prevent accidental replacement")
     args = parser.parse_args(argv)
+
+    # Refuse to silently overwrite a served model unless the caller explicitly opts in.
+    served_model = args.models_dir / "xgb_best_v1.json"
+    if served_model.exists() and not args.force:
+        print(f"REFUSED: {served_model} already exists. Re-run with --force to overwrite the served model.")
+        print("  Run  scripts/make_dataset_manifest.py --check  first to confirm data matches the existing model.")
+        return 2
 
     try:
         metrics = train(
