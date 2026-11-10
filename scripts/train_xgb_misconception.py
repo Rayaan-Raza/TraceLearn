@@ -192,6 +192,30 @@ def tune_threshold(
     return float(best[1])
 
 
+def bootstrap_threshold(
+    probs: np.ndarray,
+    y: np.ndarray,
+    n_repeats: int = 50,
+    seed: int = 42,
+    grid: Sequence[float] | None = None,
+) -> float:
+    """Return the median optimal threshold over ``n_repeats`` bootstrap draws.
+
+    A single call to tune_threshold() is sensitive to the particular fold
+    assignment. Bootstrapping over rows and taking the median reduces
+    variance: the threshold is stable across seeds and CV splits.
+    """
+    rng = np.random.default_rng(seed)
+    n = len(y)
+    thresholds = []
+    for _ in range(n_repeats):
+        idx = rng.integers(0, n, size=n)
+        t = tune_threshold(probs[idx], y[idx], grid=grid)
+        thresholds.append(t)
+    thresholds.sort()
+    return float(thresholds[len(thresholds) // 2])
+
+
 def ece(probs: np.ndarray, y: np.ndarray, n_bins: int = 10) -> float:
     """Expected calibration error, confidence-decile bins."""
     conf = probs.max(axis=1)
@@ -567,16 +591,17 @@ def train(
     if n_dev >= MIN_CALIBRATION_ROWS:
         dev_probs = final_proba(X[dev_mask])
         temperature = fit_temperature(dev_probs, y[dev_mask])
-        threshold = tune_threshold(_rescale(dev_probs, temperature), y[dev_mask])
+        scaled_dev = _rescale(dev_probs, temperature)
+        # Use bootstrap median to stabilise the threshold across fold assignments.
+        threshold = bootstrap_threshold(scaled_dev, y[dev_mask], seed=args.seed if hasattr(args, "seed") else 42)
         calibrator["temperature"] = round(float(temperature), 4)
         calibrator["threshold"] = round(float(threshold), 4)
-        calibrator["note"] = f"fitted on {n_dev} dev-gold rows"
+        calibrator["note"] = f"fitted on {n_dev} dev-gold rows; threshold stabilised via bootstrap median"
         dev_metrics["calibrated"] = True
-        scaled = _rescale(dev_probs, temperature)
-        pred_dev = np.where(scaled.max(axis=1) >= threshold, scaled.argmax(axis=1), -1)
+        pred_dev = np.where(scaled_dev.max(axis=1) >= threshold, scaled_dev.argmax(axis=1), -1)
         dev_metrics["macro_f1"] = round(
             macro_f1(y[dev_mask], pred_dev, range(len(classes))), 4)
-        dev_metrics["ece"] = round(ece(dev_probs, y[dev_mask]), 4)
+        dev_metrics["ece"] = round(ece(scaled_dev, y[dev_mask]), 4)
     else:
         calibrator["note"] = (
             f"dev-gold too small for calibration ({n_dev} < {MIN_CALIBRATION_ROWS} rows); "
