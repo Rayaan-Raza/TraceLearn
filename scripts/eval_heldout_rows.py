@@ -97,11 +97,18 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--confirm-one-shot", action="store_true")
     ap.add_argument("--split", default="test")
+    ap.add_argument("--exclude-problems", metavar="ID", nargs="+", default=[],
+                    help="problem IDs to drop before scoring (e.g. tl-progpedia-00000039)")
     args = ap.parse_args()
     if not args.confirm_one_shot:
         print("REFUSED: rerun with --confirm-one-shot (each scoring of a held-out split is logged)")
         return 2
     rows = [r for r in load_rows(args.split) if r["label_source"] == "human"]
+    if args.exclude_problems:
+        excluded = set(args.exclude_problems)
+        dropped = sum(1 for r in rows if r["problem"] in excluded)
+        rows = [r for r in rows if r["problem"] not in excluded]
+        print(f"[exclude-problems] dropped {dropped} rows from: {', '.join(sorted(excluded))}")
     models = {v: ModelClassifier.load(v) for v in ("best", "common", "execution")}
     systems = {"baseline: always OTHER_ERROR": [OTHER] * len(rows)}
     for v, m in models.items():
