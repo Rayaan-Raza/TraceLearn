@@ -146,7 +146,13 @@ def extra_uninitialized(prog: Program) -> list[Repair]:
             at = s.end + m.end()
             out.append(_mk(cls, f"init_array_{d.var}_0", prog, at, at, " = {0}"))
     for d in scalars:
+        out.append(_mk(cls, f"init_{d.var}_0", prog, d.span.end, d.span.end, " = 0"))
         out.append(_mk(cls, f"init_{d.var}_1", prog, d.span.end, d.span.end, " = 1"))
+    # Also initialise pointer-typed uninitialized locals to nullptr.
+    for d in prog.decls:
+        if d.in_function and not d.initialized and not d.array_size_span:
+            if re.search(r"\*", prog.text[d.span.start:d.span.end]):
+                out.append(_mk(cls, f"init_ptr_{d.var}_nullptr", prog, d.span.end, d.span.end, " = nullptr"))
     return out[:MAX_CANDIDATES]
 
 
