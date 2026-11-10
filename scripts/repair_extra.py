@@ -43,6 +43,11 @@ def _if_spans(prog: Program):
     return [c for c in prog.conds if c.kind == "if"]
 
 
+def _guard_spans(prog: Program):
+    """All condition spans — if, while, for — that may contain range-check guards."""
+    return [c for c in prog.conds if c.kind in ("if", "while", "for")]
+
+
 # ---------------------------------------------------------------- RANGE_CHECK
 
 
@@ -74,12 +79,16 @@ def extra_range_check(prog: Program) -> list[Repair]:
                  for m in re.finditer(r"&&|\|\|", seg)]
         if logic:
             out.append(_multi(cls, "if_swap_and_or", prog, logic, c.line))
-    for c in _if_spans(prog):
+    # Flip < ↔ <= (and > ↔ >=) in every guard span, including while/for loop
+    # conditions used as range validators (the pattern the senior review flagged).
+    for c in _guard_spans(prog):
         for op, a, b in comparisons(prog.text, c.span):
             if op in FLIP:
-                out.append(_mk(cls, f"if_any_cmp_{op}_to_{FLIP[op]}", prog, a, b, FLIP[op]))
+                tag = c.kind
+                out.append(_mk(cls, f"{tag}_any_cmp_{op}_to_{FLIP[op]}", prog, a, b, FLIP[op]))
             if op in REVERSE:
-                out.append(_mk(cls, f"if_any_cmp_{op}_to_{REVERSE[op]}", prog, a, b, REVERSE[op]))
+                tag = c.kind
+                out.append(_mk(cls, f"{tag}_any_cmp_{op}_to_{REVERSE[op]}", prog, a, b, REVERSE[op]))
     return out[:MAX_CANDIDATES]
 
 
