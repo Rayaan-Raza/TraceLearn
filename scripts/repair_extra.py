@@ -231,10 +231,53 @@ def extra_stale_exit(prog: Program) -> list[Repair]:
     return out[:MAX_CANDIDATES]
 
 
+# ---------------------------------------------------------------- INT_OVERFLOW
+
+
+def extra_int_overflow(prog: Program) -> list[Repair]:
+    """Additional INT_OVERFLOW candidates beyond the global int→long long rewrite.
+
+    Covers three patterns that the global rewrite misses:
+    1. An arithmetic sub-expression that is computed as int before assignment
+       to a long long variable — wrap it in (long long).
+    2. A literal constant that participates in an overflow-prone multiply —
+       append LL suffix.
+    3. A printf/scanf format specifier %d that must become %lld after the
+       type widens.
+    """
+    cls = "CPP_INT_OVERFLOW"
+    out = []
+    t = prog.text
+
+    # Pattern 1: (a * b) where both operands look like int variables or small
+    # literals — insert (long long) cast before the left operand.
+    for m in re.finditer(r"\b([A-Za-z_]\w*)\s*\*\s*([A-Za-z_]\w*)\b", t):
+        a = m.start(1)
+        out.append(_mk(cls, "cast_lhs_long_long", prog, a, a, "(long long)"))
+        if len(out) >= MAX_CANDIDATES:
+            break
+
+    # Pattern 2: integer literals participating in a multiply — add LL suffix.
+    for m in re.finditer(r"\b(\d+)\s*\*", t):
+        out.append(_mk(cls, "literal_ll_suffix", prog, m.end(1), m.end(1), "LL"))
+        if len(out) >= MAX_CANDIDATES:
+            break
+
+    # Pattern 3: replace %d with %lld in format strings (scanf/printf).
+    for m in re.finditer(r'"%[^"]*%d[^"]*"', t):
+        new_fmt = prog.code[m.start():m.end()].replace("%d", "%lld", 1)
+        out.append(Repair(cls, "printf_d_to_lld", m.start() // 1, "", "%lld", new_fmt))
+        if len(out) >= MAX_CANDIDATES:
+            break
+
+    return out[:MAX_CANDIDATES]
+
+
 EXTRA_GENERATORS = {
     "CPP_OFF_BY_ONE": extra_off_by_one,
     "CPP_ARRAY_BOUNDS": extra_array_bounds,
     "CPP_UNINITIALIZED_VAR": extra_uninitialized,
     "CPP_RANGE_CHECK": extra_range_check,
     "CPP_STALE_EXIT": extra_stale_exit,
+    "CPP_INT_OVERFLOW": extra_int_overflow,
 }
