@@ -92,3 +92,40 @@ decides, and note the item id when one comes up during gold annotation):
   unless a class explains it.
 - Sanitizer lines report *where* memory went wrong, not *why*. Use them as evidence, not as the answer.
 - Write a short note whenever you choose `UNCERTAIN` or `OTHER_ERROR`. The notes feed the decision tree.
+
+## 6. LOOP_BOUNDARY vs OFF_BY_ONE — formal boundary rule
+
+**Added 10 Nov 2026 after senior-review finding: ~40 real rows labelled inconsistently across the two classes. All relabellers must use this rule.**
+
+### The one-sentence rule
+
+> `LOOP_BOUNDARY` ↔ the loop-test *operator* is wrong; `OFF_BY_ONE` ↔ the loop-test operator is correct but an *operand* (index, start value, or count) is off by one.
+
+### Detailed criteria
+
+| Situation | Label |
+|---|---|
+| Loop runs `i <= n` where `i < n` was needed, accessing `a[n]` | `LOOP_BOUNDARY` |
+| Loop runs `i != n+1` or `i < n+1` instead of `i <= n` | `LOOP_BOUNDARY` |
+| Loop runs `i < n` (correct) but array declared as `a[n-1]` or starts at `i=1` instead of `i=0` | `OFF_BY_ONE` |
+| Final element skipped because counter starts at 1 instead of 0 | `OFF_BY_ONE` |
+| Loop accesses `a[i+1]` inside the body (body-index shift), operator correct | `OFF_BY_ONE` |
+| Hard-coded boundary index is off by one (e.g. `if i == 99` for a 100-element array) | `OFF_BY_ONE` |
+| Access is more than ±1 element past the array, or array is far too small | `ARRAY_BOUNDS` |
+
+### Edge cases the team has agreed on
+
+| Pattern | Decision | Notes |
+|---|---|---|
+| `for (i = 0; i < n; i++) { ... a[i+1] ... }` — operator `<` is right, body has `a[i+1]` | `OFF_BY_ONE` | The *operator* is correct; the *index expression* inside the body is off |
+| `for (i = 1; i <= n; i++)` on 0-indexed array | `OFF_BY_ONE` if operator correct for 1-based, `LOOP_BOUNDARY` if `<=` itself is the problem | Apply the one-sentence rule to the failing test |
+| `while (i != n)` where `i` increments past `n` (never-terminating) | `STALE_EXIT` if `i` is never updated; `LOOP_BOUNDARY` if `!=` should be `<` and `i` is updated | |
+
+### Relabelling protocol
+
+Rows flagged as LOOP_BOUNDARY/OFF_BY_ONE conflicts in `review/label_conflicts/lb_obo_conflicts.csv`:
+1. Apply the one-sentence rule to the failing test (look at the operator, not the symptom).
+2. Record your decision and a one-line justification in that CSV's `relabel` and `note` columns.
+3. If you disagree with the rule → flag as `UNCERTAIN` and schedule a team discussion; do **not** apply a personal interpretation.
+
+Target: relabel all ~40 conflict rows before the next model training run.
