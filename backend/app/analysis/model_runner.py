@@ -111,12 +111,12 @@ def predict_source(source: str, language: str = "cpp", warnings: dict[str, Any] 
     if len(source) > MAX_SOURCE_CHARS or not source.strip():
         return None
     features = code_features(source, language, warnings, run_record)
-    # Repair-first stage: when exactly one class's repair fixes all oracle tests
-    # the answer is certain — skip model inference.
+    # Repair-first stage: when exactly one class's repair fixes every test, that class
+    # replaces the model's label (about 0.9 precision on real rows; see repair_override).
+    # The model still runs so the prediction keeps its top-k and probabilities for display.
     override = repair_override(features)
     if override is not None:
         clf = _classifier(settings.model_variant, str(settings.model_dir))
-        # Return a full ModelPrediction with top_probability=1.0 to signal certainty.
         pred = clf.predict(features)
         import dataclasses  # noqa: PLC0415
         return dataclasses.replace(

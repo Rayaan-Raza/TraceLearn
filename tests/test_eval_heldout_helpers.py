@@ -53,12 +53,13 @@ class TestProblemWeightedMacroF1:
 
 class TestConcentrationWarnings:
     def test_no_warning_when_no_dominant_problem(self):
-        problems = ["A"] * 10 + ["B"] * 10 + ["C"] * 10
+        # Ten problems of 10 rows each: every problem supplies 10 % (< 20 %).
+        problems = [p for p in "ABCDEFGHIJ" for _ in range(10)]
         assert concentration_warnings(problems) == []
 
     def test_warning_when_one_problem_over_threshold(self):
-        # 25 out of 100 = 25 % > 20 % threshold
-        problems = ["dominant"] * 25 + ["other"] * 75
+        # 25 out of 100 = 25 % > 20 % threshold; the other 75 rows are spread over 15 problems (5 % each)
+        problems = ["dominant"] * 25 + [f"other{i}" for i in range(15) for _ in range(5)]
         warnings = concentration_warnings(problems)
         assert len(warnings) == 1
         assert "dominant" in warnings[0]

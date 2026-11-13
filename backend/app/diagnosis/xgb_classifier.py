@@ -47,9 +47,10 @@ VARIANT_FILES: dict[str, str] = {
 TOP_K = 3
 
 # Repair-first stage: if exactly one class has repair.{class}_fix_all == 1 in
-# the feature mapping, that class is returned as a certain override before the
-# model runs. Cross-validation on the training set showed this rule is correct
-# on 100% of rows where it fires (by definition: the repair passes all tests).
+# the feature mapping, that class overrides the model's label. Measured on real
+# rows (docs/6-nov.md section 15, senior review 2026-11-09): right on 102 of 115
+# training-problem rows (0.89) and 27 of 29 held-out rows (0.93). Not 100%: a
+# passing edit shows *a* fix, and the annotators sometimes name another cause.
 _REPAIR_FIX_ALL_FEATURES: dict[str, str] = {
     "CPP_LOOP_BOUNDARY": "repair.loop_boundary_fix_all",
     "CPP_OFF_BY_ONE": "repair.off_by_one_fix_all",

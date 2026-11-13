@@ -43,11 +43,6 @@ def _if_spans(prog: Program):
     return [c for c in prog.conds if c.kind == "if"]
 
 
-def _guard_spans(prog: Program):
-    """All condition spans — if, while, for — that may contain range-check guards."""
-    return [c for c in prog.conds if c.kind in ("if", "while", "for")]
-
-
 # ---------------------------------------------------------------- RANGE_CHECK
 
 
@@ -79,16 +74,12 @@ def extra_range_check(prog: Program) -> list[Repair]:
                  for m in re.finditer(r"&&|\|\|", seg)]
         if logic:
             out.append(_multi(cls, "if_swap_and_or", prog, logic, c.line))
-    # Flip < ↔ <= (and > ↔ >=) in every guard span, including while/for loop
-    # conditions used as range validators (the pattern the senior review flagged).
-    for c in _guard_spans(prog):
+    for c in _if_spans(prog):
         for op, a, b in comparisons(prog.text, c.span):
             if op in FLIP:
-                tag = c.kind
-                out.append(_mk(cls, f"{tag}_any_cmp_{op}_to_{FLIP[op]}", prog, a, b, FLIP[op]))
+                out.append(_mk(cls, f"if_any_cmp_{op}_to_{FLIP[op]}", prog, a, b, FLIP[op]))
             if op in REVERSE:
-                tag = c.kind
-                out.append(_mk(cls, f"{tag}_any_cmp_{op}_to_{REVERSE[op]}", prog, a, b, REVERSE[op]))
+                out.append(_mk(cls, f"if_any_cmp_{op}_to_{REVERSE[op]}", prog, a, b, REVERSE[op]))
     return out[:MAX_CANDIDATES]
 
 
@@ -146,13 +137,7 @@ def extra_uninitialized(prog: Program) -> list[Repair]:
             at = s.end + m.end()
             out.append(_mk(cls, f"init_array_{d.var}_0", prog, at, at, " = {0}"))
     for d in scalars:
-        out.append(_mk(cls, f"init_{d.var}_0", prog, d.span.end, d.span.end, " = 0"))
         out.append(_mk(cls, f"init_{d.var}_1", prog, d.span.end, d.span.end, " = 1"))
-    # Also initialise pointer-typed uninitialized locals to nullptr.
-    for d in prog.decls:
-        if d.in_function and not d.initialized and not d.array_size_span:
-            if re.search(r"\*", prog.text[d.span.start:d.span.end]):
-                out.append(_mk(cls, f"init_ptr_{d.var}_nullptr", prog, d.span.end, d.span.end, " = nullptr"))
     return out[:MAX_CANDIDATES]
 
 
@@ -231,53 +216,10 @@ def extra_stale_exit(prog: Program) -> list[Repair]:
     return out[:MAX_CANDIDATES]
 
 
-# ---------------------------------------------------------------- INT_OVERFLOW
-
-
-def extra_int_overflow(prog: Program) -> list[Repair]:
-    """Additional INT_OVERFLOW candidates beyond the global int→long long rewrite.
-
-    Covers three patterns that the global rewrite misses:
-    1. An arithmetic sub-expression that is computed as int before assignment
-       to a long long variable — wrap it in (long long).
-    2. A literal constant that participates in an overflow-prone multiply —
-       append LL suffix.
-    3. A printf/scanf format specifier %d that must become %lld after the
-       type widens.
-    """
-    cls = "CPP_INT_OVERFLOW"
-    out = []
-    t = prog.text
-
-    # Pattern 1: (a * b) where both operands look like int variables or small
-    # literals — insert (long long) cast before the left operand.
-    for m in re.finditer(r"\b([A-Za-z_]\w*)\s*\*\s*([A-Za-z_]\w*)\b", t):
-        a = m.start(1)
-        out.append(_mk(cls, "cast_lhs_long_long", prog, a, a, "(long long)"))
-        if len(out) >= MAX_CANDIDATES:
-            break
-
-    # Pattern 2: integer literals participating in a multiply — add LL suffix.
-    for m in re.finditer(r"\b(\d+)\s*\*", t):
-        out.append(_mk(cls, "literal_ll_suffix", prog, m.end(1), m.end(1), "LL"))
-        if len(out) >= MAX_CANDIDATES:
-            break
-
-    # Pattern 3: replace %d with %lld in format strings (scanf/printf).
-    for m in re.finditer(r'"%[^"]*%d[^"]*"', t):
-        new_fmt = prog.code[m.start():m.end()].replace("%d", "%lld", 1)
-        out.append(Repair(cls, "printf_d_to_lld", m.start() // 1, "", "%lld", new_fmt))
-        if len(out) >= MAX_CANDIDATES:
-            break
-
-    return out[:MAX_CANDIDATES]
-
-
 EXTRA_GENERATORS = {
     "CPP_OFF_BY_ONE": extra_off_by_one,
     "CPP_ARRAY_BOUNDS": extra_array_bounds,
     "CPP_UNINITIALIZED_VAR": extra_uninitialized,
     "CPP_RANGE_CHECK": extra_range_check,
     "CPP_STALE_EXIT": extra_stale_exit,
-    "CPP_INT_OVERFLOW": extra_int_overflow,
 }

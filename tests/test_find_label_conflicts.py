@@ -48,3 +48,25 @@ class TestLoadAgentLabels:
         result = load_agent_labels()
         assert result["row-001"] == [LB, OBO]
         assert result["row-002"] == [LB]
+
+
+class TestRepairSignal:
+    def test_lb_row_fixed_by_off_by_one_repair_is_a_conflict(self):
+        from find_label_conflicts import conflict_signals
+        s = conflict_signals(LB, {"repair.off_by_one_fix_all": "1", "repair.loop_boundary_fix_all": "0"}, [])
+        assert s and s[0].startswith("repair:off_by_one_fix_all=1")
+
+    def test_row_fixed_only_by_its_own_repair_is_not_a_conflict(self):
+        from find_label_conflicts import conflict_signals
+        assert conflict_signals(OBO, {"repair.off_by_one_fix_all": "1", "repair.loop_boundary_fix_all": "0"}, []) == []
+
+    def test_other_labels_are_ignored(self):
+        from find_label_conflicts import conflict_signals
+        assert conflict_signals("CPP_ARRAY_BOUNDS", {"repair.off_by_one_fix_all": "1"}, [LB]) == []
+
+    def test_synthetic_rows_are_skipped(self):
+        from find_label_conflicts import find_conflicts
+        labels = {"stu-1": {"label": LB, "dataset_source": "SYNTHETIC"},
+                  "pgx-1": {"label": LB, "dataset_source": "PROGPEDIA", "problem_id": "p"}}
+        feats = {k: {"repair.off_by_one_fix_all": "1"} for k in labels}
+        assert [c["row_id"] for c in find_conflicts(labels, feats, {})] == ["pgx-1"]

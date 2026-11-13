@@ -128,6 +128,8 @@ export interface RunResult {
   history_aware: Diagnosis | null
   hint: { level: number; text: string } | null
   model_prediction: ModelPrediction | null
+  /** True when the diagnosis runs on the background worker; the result page polls for it. */
+  diagnosis_pending?: boolean
 }
 
 export interface EvidenceItem {
