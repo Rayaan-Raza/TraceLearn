@@ -76,7 +76,7 @@ def test_first_hint_is_level_one_and_levels_escalate(db, student):
     assert r["history_aware"]["requires_teacher_review"] is False
     assert r["hint"]["level"] == 1
     _, levels = _hint_target(db, db.get(Submission, sub.id))
-    assert max(levels) == 3
+    assert max(levels) == 4  # level 4 = remedial practice hint, added for every label in #14 (A10)
     events = db.query(HintEvent).filter(HintEvent.submission_id == sub.id).all()
     assert [e.hint_level for e in events] == [1]
 

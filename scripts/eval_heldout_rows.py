@@ -14,6 +14,10 @@ abstain rate, accuracy, macro-F1 (abstention counts as a miss), Wilson 95% inter
 problem-level bootstrap interval for macro-F1. Writes reports/heldout_eval.{json,md} and
 reports/heldout_predictions.json (for the confusion matrix) and appends to
 reports/holdout_evaluations.jsonl.
+
+A per-problem-weighted macro-F1 is also reported: each problem contributes equally regardless of
+its row count, preventing a single high-volume problem from dominating the aggregate score. A
+concentration warning is emitted when any problem supplies >20 % of the rows in a scope.
 """
 from __future__ import annotations
 
@@ -31,11 +35,39 @@ for p in (ROOT, ROOT / "scripts"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
-from eval_blind_test import ABSTAIN, OTHER, bootstrap_macro_f1, summarize  # noqa: E402
+from eval_blind_test import ABSTAIN, OTHER, bootstrap_macro_f1, macro_f1, summarize  # noqa: E402
 
 from backend.app.diagnosis.xgb_classifier import ModelClassifier  # noqa: E402
 
 DS = ROOT / "data" / "misconception_dataset"
+
+# A single problem contributing more than this share of rows is flagged.
+_CONCENTRATION_THRESHOLD = 0.20
+
+
+def problem_weighted_macro_f1(truth: list[str], pred: list[str], problems: list[str]) -> float:
+    """Macro-F1 averaged per problem then averaged across problems (equal problem weight)."""
+    by: dict[str, tuple[list[str], list[str]]] = {}
+    for t, p, g in zip(truth, pred, problems):
+        ts, ps = by.setdefault(g, ([], []))
+        ts.append(t)
+        ps.append(p)
+    scores = [macro_f1(ts, ps) for ts, ps in by.values() if ts]
+    scores = [s for s in scores if not math.isnan(s)]
+    return round(sum(scores) / len(scores), 3) if scores else math.nan
+
+
+def concentration_warnings(problems: list[str]) -> list[str]:
+    """Return warning strings for problems that supply > _CONCENTRATION_THRESHOLD of rows."""
+    total = len(problems)
+    if total == 0:
+        return []
+    counts = Counter(problems)
+    return [
+        f"WARNING: '{p}' supplies {c}/{total} rows ({c/total:.0%}) — per-problem weighting is recommended"
+        for p, c in counts.most_common()
+        if c / total > _CONCENTRATION_THRESHOLD
+    ]
 
 
 def load_rows(split: str) -> list[dict]:
@@ -65,11 +97,18 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--confirm-one-shot", action="store_true")
     ap.add_argument("--split", default="test")
+    ap.add_argument("--exclude-problems", metavar="ID", nargs="+", default=[],
+                    help="problem IDs to drop before scoring (e.g. tl-progpedia-00000039)")
     args = ap.parse_args()
     if not args.confirm_one_shot:
         print("REFUSED: rerun with --confirm-one-shot (each scoring of a held-out split is logged)")
         return 2
     rows = [r for r in load_rows(args.split) if r["label_source"] == "human"]
+    if args.exclude_problems:
+        excluded = set(args.exclude_problems)
+        dropped = sum(1 for r in rows if r["problem"] in excluded)
+        rows = [r for r in rows if r["problem"] not in excluded]
+        print(f"[exclude-problems] dropped {dropped} rows from: {', '.join(sorted(excluded))}")
     models = {v: ModelClassifier.load(v) for v in ("best", "common", "execution")}
     systems = {"baseline: always OTHER_ERROR": [OTHER] * len(rows)}
     for v, m in models.items():
@@ -90,15 +129,18 @@ def main() -> int:
     for scope, idx in scopes.items():
         truth = [rows[i]["truth"] for i in idx]
         groups = [rows[i]["problem"] for i in idx]
+        warnings = concentration_warnings(groups)
         res = {}
         for name, pred in systems.items():
             sub = [pred[i] for i in idx]
             s = summarize(truth, sub)
             s["accuracy"] = round(sum(t == p for t, p in zip(truth, sub)) / len(truth), 3)
             s["macro_f1_ci95_by_problem"] = bootstrap_macro_f1(truth, sub, groups)
+            s["macro_f1_problem_weighted"] = problem_weighted_macro_f1(truth, sub, groups)
             res[name] = s
         rep["scopes"][scope] = {"n": len(idx), "truth_counts": dict(Counter(truth)),
-                                "problems": len(set(groups)), "systems": res}
+                                "problems": len(set(groups)), "concentration_warnings": warnings,
+                                "systems": res}
     lanes = {}
     for path in sorted((DS / "annotations").glob("tier*.jsonl")):
         for line in path.open(encoding="utf-8"):
@@ -137,12 +179,17 @@ def main() -> int:
             f"{b['systems'][n]['flagged']} / {b['systems'][n]['correct']}" for n in names) + " |")
     lines.append("")
     for scope, body in rep["scopes"].items():
-        lines += [f"## {scope} (n={body['n']}, {body['problems']} problems)", "",
-                  "| System | Accuracy | False alarm on OTHER | Precision when flagged | Misconception recall | Abstain | Macro-F1 [95% CI by problem] |",
-                  "|---|---|---|---|---|---|---|"]
+        lines += [f"## {scope} (n={body['n']}, {body['problems']} problems)", ""]
+        for w in body.get("concentration_warnings", []):
+            lines.append(f"> {w}")
+        if body.get("concentration_warnings"):
+            lines.append("")
+        lines += ["| System | Accuracy | False alarm on OTHER | Precision when flagged | Misconception recall | Abstain | Macro-F1 [95% CI by problem] | Macro-F1 (problem-weighted) |",
+                  "|---|---|---|---|---|---|---|---|"]
         for name, s in body["systems"].items():
             lines.append(f"| {name} | {s['accuracy']} | {r(s['false_alarm_rate'])} | {r(s['precision_when_flagged'])} | "
-                         f"{r(s['misconception_recall'])} | {r(s['abstain_rate'])} | {s['macro_f1']} {s['macro_f1_ci95_by_problem']} |")
+                         f"{r(s['misconception_recall'])} | {r(s['abstain_rate'])} | {s['macro_f1']} {s['macro_f1_ci95_by_problem']} "
+                         f"| {s.get('macro_f1_problem_weighted', 'N/A')} |")
         for system in ("model: best", "model: execution", "model: execution, no abstain"):
             lines += ["", f"Per class ({system}):", "", "| Class | Support | Predicted | Correct | Precision | Recall |", "|---|---:|---:|---:|---:|---:|"]
             for c, v in body["systems"][system]["per_class"].items():

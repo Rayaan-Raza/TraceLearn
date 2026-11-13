@@ -26,7 +26,7 @@ from typing import Any
 from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.analysis.model_evidence import model_evidence
 from backend.app.config import settings
-from backend.app.diagnosis.xgb_classifier import ModelClassifier, ModelPrediction
+from backend.app.diagnosis.xgb_classifier import ModelClassifier, ModelPrediction, repair_override
 
 log = logging.getLogger(__name__)
 
@@ -110,8 +110,23 @@ def predict_source(source: str, language: str = "cpp", warnings: dict[str, Any] 
                    run_record: dict[str, Any] | None = None) -> ModelPrediction | None:
     if len(source) > MAX_SOURCE_CHARS or not source.strip():
         return None
+    features = code_features(source, language, warnings, run_record)
+    # Repair-first stage: when exactly one class's repair fixes every test, that class
+    # replaces the model's label (about 0.9 precision on real rows; see repair_override).
+    # The model still runs so the prediction keeps its top-k and probabilities for display.
+    override = repair_override(features)
+    if override is not None:
+        clf = _classifier(settings.model_variant, str(settings.model_dir))
+        pred = clf.predict(features)
+        import dataclasses  # noqa: PLC0415
+        return dataclasses.replace(
+            pred,
+            top_label=override,
+            top_probability=1.0,
+            abstained=False,
+        )
     clf = _classifier(settings.model_variant, str(settings.model_dir))
-    return clf.predict(code_features(source, language, warnings, run_record))
+    return clf.predict(features)
 
 
 def execution_shadow_record(source: str, run_record: dict[str, Any], language: str = "cpp") -> EvidenceRecord | None:
