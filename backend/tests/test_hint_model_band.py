@@ -73,6 +73,16 @@ class TestHintModelBand:
         event = self._select(None)
         assert event.hint_level == 1
 
+    def test_confident_prediction_of_another_misconception_uses_level_1(self):
+        """The shortcut is about THIS hint's misconception; a different class says nothing about it."""
+        event = self._select(_pred(top_label="CPP_OFF_BY_ONE", top_prob=0.95), diag_mid="CPP_LOOP_BOUNDARY")
+        assert event.hint_level == 1
+
+    def test_repair_decision_at_its_measured_precision_uses_level_2(self):
+        from backend.app.diagnosis.xgb_classifier import rule_confidence
+        event = self._select(_pred(top_prob=rule_confidence("repair")))
+        assert event.hint_level == 2
+
     def test_no_level_2_available_uses_level_1(self):
         event = self._select(_pred(top_prob=0.90), levels={1: "hint one"})
         assert event.hint_level == 1

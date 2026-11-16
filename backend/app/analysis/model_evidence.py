@@ -19,10 +19,45 @@ apart:
 """
 from __future__ import annotations
 
+import json
+import logging
+
+from sqlalchemy.orm import Session
+
 from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.config import settings
+from backend.app.db.models import EvidenceItem, EvidenceSourceType
 from backend.app.diagnosis.cpp_mapping import backend_code_for_model_label
 from backend.app.diagnosis.xgb_classifier import ModelPrediction
+
+log = logging.getLogger(__name__)
+
+
+def stored_model_prediction(db: Session, submission_id: int) -> ModelPrediction | None:
+    """The named model prediction stored for a submission, or None.
+
+    Reads what the analysis stored (inline or on the background worker) instead of predicting
+    again, so the hint follows the diagnosis that was actually made. Only `MODEL_PREDICTION`
+    counts: shadow, abstained and OTHER_ERROR records name no misconception and must never
+    change a hint.
+    """
+    item = (
+        db.query(EvidenceItem)
+        .filter(
+            EvidenceItem.submission_id == submission_id,
+            EvidenceItem.source_type == EvidenceSourceType.MODEL,
+            EvidenceItem.evidence_code == "MODEL_PREDICTION",
+        )
+        .order_by(EvidenceItem.id.desc())
+        .first()
+    )
+    if item is None:
+        return None
+    try:
+        return ModelPrediction.from_dict(json.loads(item.details_json or "{}"))
+    except (KeyError, TypeError, ValueError):
+        log.warning("stored model prediction for submission %s is unreadable; hint ignores it", submission_id)
+        return None
 
 
 def model_evidence(prediction: ModelPrediction, max_weight: float | None = None) -> EvidenceRecord:

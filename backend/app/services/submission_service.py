@@ -4,6 +4,7 @@ from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from backend.app.analysis import async_diagnosis
+from backend.app.analysis.model_evidence import stored_model_prediction
 from backend.app.analysis.pipeline import AnalysisPipeline, _is_cpp
 from backend.app.analysis.run_record import schedule_shadow_prediction
 from backend.app.db.models import DiagnosisMode, Student, Submission
@@ -79,7 +80,7 @@ class SubmissionService:
             raise ValueError("Submission not found")
         current = self.current_engine.diagnose(db, sub)
         history = self.history_engine.diagnose(db, sub)
-        hint = self.hint_policy.select_hint(db, sub, history)
+        hint = self.hint_policy.select_hint(db, sub, history, stored_model_prediction(db, sub.id))
         return {
             "submission_id": submission_id,
             "current_only": self._diag_dict(current),

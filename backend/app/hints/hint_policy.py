@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from sqlalchemy.orm import Session
 from backend.app.db.models import Diagnosis, HintEvent, ProblemHint, Submission
-from backend.app.diagnosis.cpp_mapping import hint_misconception_ids
+from backend.app.diagnosis.cpp_mapping import MODEL_LABEL_TO_BACKEND, hint_misconception_ids
 from backend.app.diagnosis.taxonomy import NO_MISCONCEPTION, UNCERTAIN
 from backend.app.hints.templates import GENERIC_HINT, HINTS
 
@@ -50,14 +50,16 @@ class HintPolicy:
         if diagnosis.primary_misconception == NO_MISCONCEPTION and not diagnosis.requires_teacher_review:
             return None
         mid, levels = hint_levels(db, submission, diagnosis)
-        # High-confidence model prediction (not abstained, not OTHER_ERROR) →
-        # skip to level 2 when it exists, so the student gets a more specific
-        # hint immediately.
+        # High-confidence model prediction (not abstained, not OTHER_ERROR) for the
+        # same misconception the hint is about → skip to level 2 when it exists, so
+        # the student gets a more specific hint immediately. A confident prediction
+        # of a different misconception says nothing about this hint.
         level = min(levels)
         if (
             model_prediction is not None
             and not model_prediction.abstained
             and model_prediction.top_label != "CPP_OTHER_ERROR"
+            and MODEL_LABEL_TO_BACKEND.get(model_prediction.top_label) == mid
             and model_prediction.top_probability >= _HIGH_CONFIDENCE
             and 2 in levels
         ):
