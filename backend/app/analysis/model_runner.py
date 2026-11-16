@@ -26,11 +26,12 @@ from typing import Any
 from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.analysis.model_evidence import model_evidence
 from backend.app.config import settings
-from backend.app.diagnosis.xgb_classifier import (
+from backend.app.diagnosis.xgb_classifier import (  # noqa: F401  (MAX_MISSING_SHARE is re-exported)
+    MAX_MISSING_SHARE,
     ModelClassifier,
     ModelPrediction,
-    decided_by_rule,
-    repair_override,
+    runtime_decision,
+    too_many_missing,
 )
 
 log = logging.getLogger(__name__)
@@ -40,8 +41,6 @@ MAX_SOURCE_CHARS = 20_000
 # copied so the backend does not import the research package.
 WARNING_FLAGS = ["-O2", "-Wall", "-Wextra", "-Wmaybe-uninitialized", "-Wparentheses", "-Warray-bounds", "-Wshadow",
                  "-Wconversion", "-fdiagnostics-color=never", "-fno-diagnostics-show-caret"]
-# Share of the model's features that may be missing before "on" abstains.
-MAX_MISSING_SHARE = 0.25
 
 
 @lru_cache(maxsize=2)
@@ -117,25 +116,7 @@ def predict_source(source: str, language: str = "cpp", warnings: dict[str, Any] 
         return None
     features = code_features(source, language, warnings, run_record)
     clf = _classifier(settings.model_variant, str(settings.model_dir))
-    pred = clf.predict(features)
-    # Repair-first stage: when exactly one class's repair fixes every test, that class replaces
-    # the model's label. It reports its measured precision (about 0.9 on real rows; see
-    # RULE_STAGE_PRECISION), not certainty, and the classifier's own answer and top-k stay on
-    # the prediction so the two can be told apart.
-    override = repair_override(features)
-    if override is not None:
-        return decided_by_rule(pred, override, "repair")
-    return pred
-
-
-def _too_many_missing(pred: ModelPrediction) -> bool:
-    """The classifier abstains when too many of its features are missing.
-
-    Only a classifier decision is affected: a rule decision reads its own evidence (a repair that
-    passes every test), not the classifier's feature vector.
-    """
-    return (pred.decision_source == "model" and bool(pred.n_features)
-            and pred.n_missing / pred.n_features > MAX_MISSING_SHARE and not pred.abstained)
+    return runtime_decision(clf, features, run_record)
 
 
 def execution_shadow_record(source: str, run_record: dict[str, Any], language: str = "cpp") -> EvidenceRecord | None:
@@ -143,7 +124,7 @@ def execution_shadow_record(source: str, run_record: dict[str, Any], language: s
     if len(source) > MAX_SOURCE_CHARS or not source.strip():
         return None
     pred = _classifier("execution", str(settings.model_dir)).predict(code_features(source, language, None, run_record))
-    if _too_many_missing(pred):
+    if too_many_missing(pred):
         pred = dataclasses.replace(pred, abstained=True)
     return EvidenceRecord(
         source_type="model", evidence_code="MODEL_SHADOW", direction="neutral", weight=0.0,
@@ -164,7 +145,7 @@ def model_records(source: str, language: str = "cpp", warnings: dict[str, Any] |
         pred = predict_source(source, language, warnings, run_record)
         if pred is None:
             return []
-        if _too_many_missing(pred):
+        if too_many_missing(pred):
             pred = dataclasses.replace(pred, abstained=True)
         if mode == "shadow":
             return [EvidenceRecord(
