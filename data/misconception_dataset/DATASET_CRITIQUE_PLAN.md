@@ -45,12 +45,12 @@ the old generators. They are reverted in this PR and come back in their own PR w
 ## How to verify the problem-39 concentration fix
 
 ```bash
-# With --exclude-problems p39 is dropped from the score
+# Every table is reported with and without tl-progpedia-00000039
 python scripts/eval_heldout_rows.py run --confirm-one-shot --tag <name>
 python scripts/eval_heldout_rows.py report --runs <name> --served <name>
 ```
 
-The problem-weighted column in the new report table is the honest figure.
+Read the problem-weighted column with its floor: on problems with no named-class row, always-OTHER scores 1.0 (0.468 on the current held-out set; see the report's limitations).
 
 ## How to run the LB/OBO conflict finder
 
