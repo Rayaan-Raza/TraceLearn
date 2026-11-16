@@ -40,13 +40,14 @@ the old generators. They are reverted in this PR and come back in their own PR w
 - Mining ≥30 real rows for ASSIGN_VS_COMPARE, MISSING_BASE_CASE, WRONG_LOOP_DIR, STALE_EXIT
 - Building real test sets per class (≥15 rows, ≥5 problems each)
 - Two-stage classifier ("named vs OTHER" binary first) — deferred; needs training data first
-- Re-running eval_heldout_rows.py with --exclude-problems tl-progpedia-00000039 (needs WSL + model files)
+- ~~Re-running eval_heldout_rows.py without tl-progpedia-00000039~~: done 16 Nov; the report now always includes that table (`reports/heldout_eval.md`)
 
 ## How to verify the problem-39 concentration fix
 
 ```bash
 # With --exclude-problems p39 is dropped from the score
-wsl python3 scripts/eval_heldout_rows.py --confirm-one-shot --exclude-problems tl-progpedia-00000039
+python scripts/eval_heldout_rows.py run --confirm-one-shot --tag <name>
+python scripts/eval_heldout_rows.py report --runs <name> --served <name>
 ```
 
 The problem-weighted column in the new report table is the honest figure.
