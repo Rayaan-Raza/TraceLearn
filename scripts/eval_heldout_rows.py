@@ -357,6 +357,9 @@ def cmd_report(a: argparse.Namespace) -> int:
     scopes = {"All rows": score_scope(rows, systems),
               f"Without {P39}": score_scope([rows[i] for i in keep_without],
                                             {k: [v[i] for i in keep_without] for k, v in systems.items()})}
+    all_rows = scopes["All rows"]
+    only_other = sum(1 for v in all_rows["per_problem"].values() if v["named_truth"] == 0)
+    floor = all_rows["systems"]["baseline: always OTHER_ERROR"]["macro_f1_problem_weighted"]
     sources = {t: Counter(r["runtime"]["decision_source"] for r in d) for t, d in detail.items()}
     order = sorted({k for c in sources.values() for k in c}, key=lambda k: (k != "model", k))
     rep = {
@@ -371,6 +374,9 @@ def cmd_report(a: argparse.Namespace) -> int:
         "scopes": scopes,
         "decision_sources": {t: dict(c) for t, c in sources.items()}, "decision_sources_order": order,
         "limitations": [
+            f"Problem-weighted macro-F1 has a floor here: {only_other} of {all_rows['problems']} problems have no "
+            "named-class row, and on such a problem a system that never names a class scores 1.0. That is why "
+            f"always-OTHER reaches {floor}. Compare systems with each other and with that floor, not with zero.",
             "The development set has been scored many times and choices were made with it "
             "(EVAL_PROTOCOL section 8); these numbers are development evidence, not an independent test.",
             "Labels are mostly agent consensus and blind review, treated as human; agreement with them is "
