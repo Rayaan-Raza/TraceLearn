@@ -90,7 +90,7 @@ def plot_heldout():
     import matplotlib.pyplot as plt
     import numpy as np
     d = json.loads((DS / "reports" / "heldout_predictions.json").read_text(encoding="utf-8"))
-    col = d["columns"].index("model: best")
+    col = d["columns"].index(d.get("served_system", "model: best"))
     for scope in ("all", "PROGPEDIA"):
         rows = [r for r in d["rows"] if scope == "all" or r[1] == scope]
         truth = [r[2] for r in rows]; pred = [r[col] for r in rows]

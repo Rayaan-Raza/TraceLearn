@@ -2,7 +2,9 @@
 
     python scripts/check_model_release.py
 
-Reads the frozen reports; changes nothing. Prints each gate and the verdict.
+Reads the frozen reports; changes nothing. Prints each gate and the verdict. The held-out gates
+read the served system named in `reports/heldout_eval.json` (`served_system`); the two blind-set
+reports are historical and still score the retired `best` variant.
 
   shadow  (run, store, change nothing): needs S1-S3.
   on      (the model's output joins the diagnosis): needs S1-S3 and P1-P4.
@@ -33,7 +35,9 @@ def blind(name: str):
 def main() -> int:
     gates: list[tuple[str, bool, str]] = []
     golden = json.loads((ROOT / "backend" / "tests" / "fixtures" / "model_golden.json").read_text(encoding="utf-8"))
-    served = json.loads((DS / "reports" / "heldout_eval.json").read_text(encoding="utf-8"))["models"]["best"]["sha256_16"]
+    held = json.loads((DS / "reports" / "heldout_eval.json").read_text(encoding="utf-8"))
+    served_system = held["served_system"]                 # e.g. "audited: full runtime"
+    served = held["models"][served_system.split(":")[0]]["sha256_16"]
     gsha = str(golden.get("model_sha256", golden.get("sha256", "")))[:16]
     gates.append(("S1 model files match golden fixture", bool(gsha) and gsha == served, f"golden {gsha} vs scored {served}"))
     worst = 0.0
@@ -54,7 +58,7 @@ def main() -> int:
                 best_rec = s["misconception_recall"]["value"]
     hp = DS / "reports" / "heldout_eval.json"
     if hp.exists():
-        allp = json.loads(hp.read_text(encoding="utf-8"))["scopes"]["all"]["systems"]["model: best"]
+        allp = held["scopes"]["All rows"]["systems"][served_system]
         worst = max(worst, allp["false_alarm_rate"]["value"] or 0.0)
         gates[-1] = ("S2 false alarm on OTHER <= 0.30 (worst set)", worst <= 0.30, f"{worst:.3f}")
         if allp["n_misconception"] > best_pos:
@@ -77,14 +81,6 @@ def main() -> int:
     shadow_ok = all(ok for g, ok, _ in gates if g.startswith("S"))
     on_ok = shadow_ok and all(ok for g, ok, _ in gates if g.startswith("P"))
     print(f"\nVERDICT: shadow {'CLEARED' if shadow_ok else 'BLOCKED'}; on {'CLEARED' if on_ok else 'BLOCKED'}")
-    # The gates above score `best`, the code-only default. `execution` needs a run record the backend does not
-    # produce yet, so it cannot be cleared here; this line shows how far it is from P1 and P2.
-    if hp.exists():
-        ex = json.loads(hp.read_text(encoding="utf-8"))["scopes"]["all"]["systems"].get("model: execution")
-        if ex:
-            print(f"INFO  execution variant, not served: {ex['n_misconception']} positives, precision "
-                  f"{ex['precision_when_flagged']['value']}, recall {ex['misconception_recall']['value']}, "
-                  f"false alarm {ex['false_alarm_rate']['value']}")
     return 0 if shadow_ok else 1
 
 
