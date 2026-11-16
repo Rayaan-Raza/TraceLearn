@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp33-d00",
+ "seed_submission_id": "student:CP33:D",
+ "problem_id": "bank-CP33",
+ "operator": "student_cpp_other_error_00",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "76051426bddece29",
+ "mutant_sha256": "bc79301fe642748ff48b19b1b5ba0b0fb7b67b41788f678f543dc98a1eb11feb",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "printf(\"Result = %",
+  "after": "printf(\"%",
+  "note": "printf(\"% -> printf(\"Result = %",
+  "base_sha256": "76051426bddece29"
+ }
+}

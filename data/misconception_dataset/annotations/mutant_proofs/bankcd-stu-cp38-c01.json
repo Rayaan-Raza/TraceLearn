@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp38-c01",
+ "seed_submission_id": "student:CP38:C",
+ "problem_id": "bank-CP38",
+ "operator": "student_cpp_uninitialized_var_01",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "5a79e361b723c314",
+ "mutant_sha256": "a7a2bcf19c0035e77599f376e59512e3ec525d620e10f73b2ac96f4d63208946",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "int sum;",
+  "after": "int sum = 0;",
+  "note": "int sum = 0; -> int sum;",
+  "base_sha256": "5a79e361b723c314"
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp30-c00",
+ "seed_submission_id": "student:CP30:C",
+ "problem_id": "bank-CP30",
+ "operator": "student_cpp_other_error_00",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "085d87a15e589d2a",
+ "mutant_sha256": "0d2d46752c74ae46e4566792856a2842769f71d216dc6f627926b7b980bf3c97",
+ "tests_passed": 3,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "\"Ok\"",
+  "after": "\"OK\"",
+  "note": "\"OK\" -> \"Ok\"",
+  "base_sha256": "085d87a15e589d2a"
+ }
+}

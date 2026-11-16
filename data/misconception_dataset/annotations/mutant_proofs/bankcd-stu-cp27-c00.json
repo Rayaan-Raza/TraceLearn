@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp27-c00",
+ "seed_submission_id": "student:CP27:C",
+ "problem_id": "bank-CP27",
+ "operator": "student_cpp_other_error_00",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "7e85596ed7c3d4af",
+ "mutant_sha256": "19f42ec0551e45318a009c9353b6be3d48ca726d84a15c16972fa3586d250ffe",
+ "tests_passed": 0,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "cout << \"Answer: \" <<",
+  "after": "cout <<",
+  "note": "cout << -> cout << \"Answer: \" <<",
+  "base_sha256": "7e85596ed7c3d4af"
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp13-c00",
+ "seed_submission_id": "student:CP13:C",
+ "problem_id": "bank-CP13",
+ "operator": "student_cpp_range_check_00",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "277e63fdf01c3d55",
+ "mutant_sha256": "86a51fdb1519d9436ad19ec6c249fccfa0f2d72646b22cfb80ab5fe6be7ab9b3",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(count <= 2)",
+  "after": "(count < 2)",
+  "note": "(count < 2) -> (count <= 2)",
+  "base_sha256": "277e63fdf01c3d55"
+ }
+}

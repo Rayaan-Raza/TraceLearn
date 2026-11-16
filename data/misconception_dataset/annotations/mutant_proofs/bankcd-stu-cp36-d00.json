@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp36-d00",
+ "seed_submission_id": "student:CP36:D",
+ "problem_id": "bank-CP36",
+ "operator": "student_cpp_missing_base_case_00",
+ "label": "CPP_MISSING_BASE_CASE",
+ "seed_sha256": "f9438cda87178a09",
+ "mutant_sha256": "09f765c3b12df6ddaec73ed3272241d3526b8c62c0cde841da22e23bcc2d4a65",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(base case removed)",
+  "after": "if (n == 0) {\n        return 0;\n    }",
+  "note": "if (n == 0) {\n        return 0;\n    } -> (base case removed)",
+  "base_sha256": "f9438cda87178a09"
+ }
+}

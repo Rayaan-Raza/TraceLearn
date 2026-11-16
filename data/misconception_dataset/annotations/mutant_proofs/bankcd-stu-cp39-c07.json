@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp39-c07",
+ "seed_submission_id": "student:CP39:C",
+ "problem_id": "bank-CP39",
+ "operator": "student_cpp_other_error_07",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "b49c4aa99b910b1e",
+ "mutant_sha256": "4c576cd5b847b381315ba9f4a072282c1ef518033dbb600ace0f0c236321651b",
+ "tests_passed": 3,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "\"None\"",
+  "after": "\"NONE\"",
+  "note": "\"NONE\" -> \"None\"",
+  "base_sha256": "b49c4aa99b910b1e"
+ }
+}

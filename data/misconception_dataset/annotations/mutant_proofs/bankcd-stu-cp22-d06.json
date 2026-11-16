@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp22-d06",
+ "seed_submission_id": "student:CP22:D",
+ "problem_id": "bank-CP22",
+ "operator": "student_cpp_stale_exit_06",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "c784e206140ec3bf",
+ "mutant_sha256": "02c7b97bdd671794021a8e77be14282a967e9b7839ab1e54412d8df19f373c48",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "i++;",
+  "note": "i++; -> ",
+  "base_sha256": "c784e206140ec3bf"
+ }
+}

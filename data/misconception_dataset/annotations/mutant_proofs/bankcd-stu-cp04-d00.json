@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp04-d00",
+ "seed_submission_id": "student:CP04:D",
+ "problem_id": "bank-CP04",
+ "operator": "student_cpp_stale_exit_00",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "66cd3aaf2304804d",
+ "mutant_sha256": "428f45bb41499bc782cb81bd0915489ec28429ec46cf56763bbd340a8a05c54b",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "i++;",
+  "note": "i++; -> ",
+  "base_sha256": "66cd3aaf2304804d"
+ }
+}

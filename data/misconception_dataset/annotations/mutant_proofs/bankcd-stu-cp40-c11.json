@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp40-c11",
+ "seed_submission_id": "student:CP40:C",
+ "problem_id": "bank-CP40",
+ "operator": "student_cpp_stale_exit_11",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "9d1d5ee6dc22eb1e",
+ "mutant_sha256": "2478d0ed0a27c44edd4f7cdde9add245f67b821e73ed8e0ac602b73bf550291f",
+ "tests_passed": 1,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(loop step removed)",
+  "after": "for (int i = 0; i < n; i++)",
+  "note": "for (int i = 0; i < n; i++) -> (loop step removed)",
+  "base_sha256": "9d1d5ee6dc22eb1e"
+ }
+}

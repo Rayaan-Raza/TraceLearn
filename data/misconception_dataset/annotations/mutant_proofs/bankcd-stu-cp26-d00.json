@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp26-d00",
+ "seed_submission_id": "student:CP26:D",
+ "problem_id": "bank-CP26",
+ "operator": "student_cpp_range_check_00",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "c3048f24a89b9566",
+ "mutant_sha256": "f2a5f1d051a6fc4041b344ed45248126f3515476023ae5cbd4e65775d4690d12",
+ "tests_passed": 6,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(1 <= w <= 500)",
+  "after": "(w >= 1 && w <= 500)",
+  "note": "(w >= 1 && w <= 500) -> (1 <= w <= 500)",
+  "base_sha256": "c3048f24a89b9566"
+ }
+}
