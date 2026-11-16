@@ -47,6 +47,7 @@ import argparse
 import csv
 import json
 import math
+import os
 import sys
 from collections import Counter
 from pathlib import Path
@@ -97,7 +98,7 @@ def compute_weights(
     k = len(set(labels))
     counts = Counter(labels)
     balance = {lab: n / (k * counts[lab]) for lab in counts}
-    if _ACTIVE_PROFILE == "plain":
+    if _ACTIVE_PROFILE in PLAIN_FAMILY:
         # "plain" chooses its class balance (`--balance`): none, the square root of the
         # inverse frequency (a rare class counts more, but not 80 times more), or full.
         if _BALANCE == "none":
@@ -264,7 +265,27 @@ PROFILES: dict[str, dict[str, Any]] = {
     # reports/model_comparison.md shows it winning on the held-out problems, but that comparison predates the
     # tier1b warnings fix and its recall was a lane fingerprint; see docs/6-nov.md section 15.
     "plain": dict(n_estimators=200, max_depth=4, learning_rate=0.1, subsample=0.8, colsample_bytree=0.8),
+    # "plain_reg": the same rows and weights as "plain", regularised against memorising the training
+    # problems. On real training rows "plain" fits at macro-F1 0.99 and scores 0.48 grouped out-of-fold;
+    # this scores 0.80 and 0.53, and is no worse on bank programs whose solution style was held out
+    # (docs/MODEL_LOG.md, 2026-11-15). Chosen on those two train-side checks, not on the test split.
+    "plain_reg": dict(n_estimators=200, max_depth=4, learning_rate=0.1, subsample=0.7, colsample_bytree=0.5,
+                      min_child_weight=5, reg_lambda=10.0, gamma=0.5),
 }
+PLAIN_FAMILY = ("plain", "plain_reg")
+# Synthetic families "plain" leaves out although their prefix is allowed. `stu-cn-rc-` are the
+# CodeNet RANGE_CHECK mutants: a model trained with them flagged 58% of the OTHER programs on the
+# held-out CodeNet problems as RANGE_CHECK (docs/MODEL_LOG.md, 2026-11-14). TL_PLAIN_EXCLUDE
+# (comma-separated row-id prefixes) replaces the list for an experiment.
+PLAIN_EXCLUDED_PREFIXES = tuple(
+    x for x in os.environ.get("TL_PLAIN_EXCLUDE", "stu-cn-rc-").split(",") if x)
+
+
+def plain_row_selected(row_id: str, row: dict) -> bool:
+    """Whether a "plain"-family model trains on this row (split membership is the caller's check)."""
+    if row["dataset_source"] == "SYNTHETIC":
+        return row_id.startswith(PLAIN_SYNTHETIC_PREFIXES) and not row_id.startswith(PLAIN_EXCLUDED_PREFIXES)
+    return row.get("label_source") == "human"
 _ACTIVE_PROFILE = "default"
 # "plain" trains on real rows plus these agent-written synthetic families: round-2 programs on new problems
 # (stu-s2-*) and student-style programs on the product's own bank problems (stu-cp*). The bank programs lift
@@ -406,14 +427,11 @@ def train(
         )
 
     def _plain_excludes(rid: str) -> bool:
-        """"plain" trains on human-labelled real rows and, optionally, the round-2 agent-written programs."""
-        row = meta_by_rid[rid]
-        if row["dataset_source"] == "SYNTHETIC":
-            return not rid.startswith(PLAIN_SYNTHETIC_PREFIXES)
-        return row.get("label_source") != "human"
+        """"plain" trains on human-labelled real rows and the allowed agent-written families."""
+        return not plain_row_selected(rid, meta_by_rid[rid])
 
     keep = [i for i, r in enumerate(rids) if splits[r][1] in ("train", "dev_gold")
-            and not (_ACTIVE_PROFILE == "plain" and _plain_excludes(r))]
+            and not (_ACTIVE_PROFILE in PLAIN_FAMILY and _plain_excludes(r))]
     rids = [rids[i] for i in keep]
     y_str = [y_str[i] for i in keep]
     X = X[keep]
