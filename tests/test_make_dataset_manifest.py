@@ -50,3 +50,40 @@ class TestBuildManifest:
         for path, digest in m["files"].items():
             assert len(digest) == 64, f"{path} hash has wrong length"
             assert all(c in "0123456789abcdef" for c in digest), f"{path} hash not hex"
+
+
+class TestCrossPlatform:
+    """--check must agree on Windows and Linux (audit finding on claim E13)."""
+
+    def test_keys_use_forward_slashes(self):
+        for key in build_manifest()["files"]:
+            assert "\\" not in key, key
+
+    def test_check_passes_against_a_manifest_written_on_linux(self, tmp_path):
+        import subprocess
+
+        stored = tmp_path / "dataset_manifest.json"
+        m = build_manifest()
+        m["files"] = {k.replace("\\", "/"): v for k, v in m["files"].items()}
+        stored.write_text(json.dumps(m), encoding="utf-8")
+        done = subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "make_dataset_manifest.py"),
+             "--out", str(stored), "--check"],
+            capture_output=True, text=True,
+        )
+        assert done.returncode == 0, done.stdout + done.stderr
+
+    def test_hash_ignores_checkout_line_endings(self, tmp_path):
+        lf = tmp_path / "lf.csv"
+        crlf = tmp_path / "crlf.csv"
+        lf.write_bytes(b"a,b\n1,2\n")
+        crlf.write_bytes(b"a,b\r\n1,2\r\n")
+        assert sha256_file(lf) == sha256_file(crlf)
+
+    def test_hash_handles_crlf_split_across_chunks(self, tmp_path):
+        import hashlib
+
+        body = b"x" * ((1 << 20) - 1) + b"\r\n" + b"tail\n"
+        p = tmp_path / "big.txt"
+        p.write_bytes(body)
+        assert sha256_file(p) == hashlib.sha256(body.replace(b"\r\n", b"\n")).hexdigest()
