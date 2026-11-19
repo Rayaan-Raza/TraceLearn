@@ -32,18 +32,31 @@ MANIFEST_FILES = [
 ]
 
 
+CR, LF, CRLF = b"\r", b"\n", b"\r\n"
+
+
 def sha256_file(path: Path) -> str:
+    """SHA-256 of the file with CRLF read as LF.
+
+    The tracked files are LF in git. A Windows checkout with core.autocrlf turns them into CRLF,
+    which would change a plain hash; normalising makes this equal `git show <rev>:<path> | sha256sum`
+    on every platform.
+    """
     h = hashlib.sha256()
+    held = b""
     with path.open("rb") as fh:
         for chunk in iter(lambda: fh.read(1 << 20), b""):
-            h.update(chunk)
+            chunk = held + chunk
+            held = CR if chunk.endswith(CR) else b""
+            h.update((chunk[:-1] if held else chunk).replace(CRLF, LF))
+    h.update(held)
     return h.hexdigest()
 
 
 def build_manifest() -> dict:
     return {
         "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-        "files": {str(p.relative_to(ROOT)): sha256_file(p) for p in MANIFEST_FILES},
+        "files": {p.relative_to(ROOT).as_posix(): sha256_file(p) for p in MANIFEST_FILES},
     }
 
 
