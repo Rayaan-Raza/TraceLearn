@@ -31,6 +31,7 @@ on:
       - "scripts/export_codestream_seeds.py"
       - "scripts/sandbox_manifest.py"
       - "scripts/check_lane_b_artifacts.py"
+      - "scripts/make_dataset_manifest.py"
       - "tests/misconception_dataset/**"
       - "data/misconception_dataset/**"
       - "ruff.toml"
@@ -48,6 +49,7 @@ on:
       - "scripts/export_codestream_seeds.py"
       - "scripts/sandbox_manifest.py"
       - "scripts/check_lane_b_artifacts.py"
+      - "scripts/make_dataset_manifest.py"
       - "tests/misconception_dataset/**"
       - "data/misconception_dataset/**"
       - "ruff.toml"
@@ -142,6 +144,8 @@ jobs:
           python-version: "3.12"
       - name: Validate splits, tier1a rows, review pools and blind-form hygiene
         run: python scripts/check_lane_b_artifacts.py
+      - name: Check the model and training data still match the committed manifest
+        run: python scripts/make_dataset_manifest.py --check
 
   sandbox-image:
     name: Sandbox image (build, verify, publish)
