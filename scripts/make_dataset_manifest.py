@@ -1,17 +1,20 @@
-"""Create a dataset manifest that pins the files used to train a model.
+"""Create a manifest that identifies a trained model and the data it came from.
 
     python scripts/make_dataset_manifest.py [--out data/misconception_dataset/models/dataset_manifest.json]
+    python scripts/make_dataset_manifest.py --check
 
-Records SHA-256 hashes of:
-- annotations/labels.jsonl
-- features/features.csv
-- splits/splits.csv
+The manifest records:
+- SHA-256 of labels.jsonl, features.csv and splits.csv;
+- SHA-256 of the five model files, calibrator.json, label_encoder.json and metrics_v1.json;
+- the git commit it was written at;
+- the training profile and its parameters, the synthetic rule, and the row ids the trainer
+  actually used (models/training_row_ids.txt, hashed and counted by origin).
 
-The manifest is written alongside the model files so that any future
-training run can verify it is working from the same data snapshot. If the
-manifest already exists and the hashes match, the script exits cleanly. If
-the hashes differ (data has changed since the last training run), the script
-prints a warning so the caller knows the model and dataset are out of sync.
+Hashes read CRLF as LF, so a Windows checkout and a Linux checkout agree, and keys use forward
+slashes. `--check` exits 1 if anything the manifest lists has changed, or if there is no manifest.
+
+A model trained before the trainer wrote training_row_ids.txt has no row list; its manifest says so
+in `training.row_ids_note` instead of pretending the data hashes identify the training rows.
 """
 from __future__ import annotations
 
@@ -19,18 +22,19 @@ import argparse
 import datetime as dt
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DS = ROOT / "data" / "misconception_dataset"
+SCHEMA_VERSION = 2
 
-MANIFEST_FILES = [
-    DS / "annotations" / "labels.jsonl",
-    DS / "features" / "features.csv",
-    DS / "splits" / "splits.csv",
-]
-
+DATA_FILES = ("annotations/labels.jsonl", "features/features.csv", "splits/splits.csv")
+MODEL_FILES = (
+    "xgb_v1.json", "xgb_masked_v1.json", "xgb_common_v1.json", "xgb_best_v1.json",
+    "xgb_execution_v1.json", "calibrator.json", "label_encoder.json", "metrics_v1.json",
+)
+ROW_IDS_FILE = "training_row_ids.txt"
 
 CR, LF, CRLF = b"\r", b"\n", b"\r\n"
 
@@ -53,36 +57,143 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def build_manifest() -> dict:
+def row_ids_sha256(row_ids) -> str:
+    """Hash of the sorted row ids, one per line: the same bytes the trainer writes to ROW_IDS_FILE."""
+    return hashlib.sha256(("\n".join(sorted(row_ids)) + "\n").encode("utf-8")).hexdigest()
+
+
+def write_training_row_ids(models_dir: Path, row_ids) -> Path:
+    """Write the sorted ids of the rows a model was trained on, next to the model."""
+    path = Path(models_dir) / ROW_IDS_FILE
+    path.write_bytes(("\n".join(sorted(row_ids)) + "\n").encode("utf-8"))
+    return path
+
+
+def _key(path: Path, root: Path) -> str:
+    return path.relative_to(root).as_posix()
+
+
+def _git_commit(root: Path) -> str | None:
+    try:
+        done = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return done.stdout.strip() or None if done.returncode == 0 else None
+
+
+def _allowed_synthetic_prefixes(profile: dict) -> list[str] | None:
+    """The synthetic families a 'plain' model may train on; None for profiles that use them all."""
+    if "synthetic_prefixes_allowed" in profile:
+        return profile["synthetic_prefixes_allowed"]
+    if profile.get("name") != "plain":
+        return None
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    from scripts.train_xgb_misconception import PLAIN_SYNTHETIC_PREFIXES  # noqa: PLC0415 (heavy import, only needed here)
+    return list(PLAIN_SYNTHETIC_PREFIXES)
+
+
+def _training_block(ds: Path) -> dict:
+    models = ds / "models"
+    profile: dict = {}
+    if (models / "metrics_v1.json").exists():
+        profile = json.loads((models / "metrics_v1.json").read_text(encoding="utf-8")).get("profile") or {}
+    name = profile.get("name")
+    block: dict = {
+        "profile": name,
+        "params": profile.get("params"),
+        "balance": profile.get("balance"),
+        "synthetic_prefixes_allowed": _allowed_synthetic_prefixes(profile),
+        "synthetic_rule": (
+            "SYNTHETIC rows are used only if row_id starts with an allowed prefix; every other "
+            "SYNTHETIC row is excluded. Other rows are used only if label_source == 'human'."
+            if name == "plain" else
+            "every SYNTHETIC row in the train split is used, weighted by the cross-validated multiplier."
+            if name else None),
+        "row_ids_file": None,
+        "n_rows": None,
+        "n_real_source": None,
+        "n_synthetic": None,
+        "row_ids_sha256": None,
+        "row_ids_note": None,
+    }
+    ids_path = models / ROW_IDS_FILE
+    if not ids_path.exists():
+        block["row_ids_note"] = (
+            "not recorded: this model was trained before the trainer wrote its row-id list, so the "
+            "data hashes alone do not say which rows it used.")
+        return block
+    ids = [line for line in ids_path.read_text(encoding="utf-8").splitlines() if line]
+    origin = {}
+    with (ds / "annotations" / "labels.jsonl").open(encoding="utf-8") as fh:
+        for line in fh:
+            try:
+                row = json.loads(line)
+                origin[row["row_id"]] = row.get("dataset_source")
+            except (ValueError, KeyError, TypeError):
+                continue  # a damaged line must show up as a changed hash, not crash the check
+    n_syn = sum(1 for r in ids if origin.get(r) == "SYNTHETIC")
+    block.update(
+        row_ids_file=_key(ids_path, ds.parents[1]),
+        n_rows=len(ids), n_synthetic=n_syn, n_real_source=len(ids) - n_syn,
+        row_ids_sha256=row_ids_sha256(ids),
+    )
+    return block
+
+
+def build_manifest(root: Path | None = None) -> dict:
+    root = Path(root) if root else ROOT
+    ds = root / "data" / "misconception_dataset"
+
+    def hashes(base: Path, names) -> dict:
+        return {_key(base / n, root): (sha256_file(base / n) if (base / n).exists() else None) for n in names}
+
     return {
+        "schema_version": SCHEMA_VERSION,
         "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-        "files": {p.relative_to(ROOT).as_posix(): sha256_file(p) for p in MANIFEST_FILES},
+        "git_commit": _git_commit(root),
+        "files": hashes(ds, DATA_FILES),
+        "model_files": hashes(ds / "models", MODEL_FILES),
+        "training": _training_block(ds),
     }
 
 
-def main() -> int:
+def differences(stored: dict, current: dict) -> list[str]:
+    """What changed since `stored` was written. Sections an older manifest lacks are not compared."""
+    out = []
+    for section in ("files", "model_files"):
+        if section not in stored:
+            continue
+        for key, digest in current[section].items():
+            if key in stored[section] and stored[section][key] != digest:
+                out.append(f"  {key}: stored={stored[section][key]} current={digest}")
+            elif key not in stored[section]:
+                out.append(f"  {key}: stored=(missing) current={digest}")
+    s_train, c_train = stored.get("training"), current["training"]
+    if s_train is not None and s_train.get("row_ids_sha256") != c_train.get("row_ids_sha256"):
+        out.append(f"  training row ids: stored={s_train.get('row_ids_sha256')} current={c_train.get('row_ids_sha256')}")
+    return out
+
+
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=str(DS / "models" / "dataset_manifest.json"))
+    ap.add_argument("--out", default=str(ROOT / "data" / "misconception_dataset" / "models" / "dataset_manifest.json"))
     ap.add_argument("--check", action="store_true",
                     help="only verify an existing manifest, don't write")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     out_path = Path(args.out)
     manifest = build_manifest()
 
     if out_path.exists():
         existing = json.loads(out_path.read_text(encoding="utf-8"))
-        mismatches = [
-            f"  {k}: stored={existing['files'].get(k, '(missing)')} current={v}"
-            for k, v in manifest["files"].items()
-            if existing["files"].get(k) != v
-        ]
-        if not mismatches:
-            print(f"[manifest] all {len(manifest['files'])} files match {out_path}")
+        changed = differences(existing, manifest)
+        if not changed:
+            print(f"[manifest] everything listed in {out_path} matches")
             return 0
-        print(f"[manifest] WARNING — {len(mismatches)} file(s) changed since manifest was written:")
-        for m in mismatches:
-            print(m)
+        print(f"[manifest] WARNING — {len(changed)} item(s) changed since the manifest was written:")
+        for line in changed:
+            print(line)
         if args.check:
             return 1
 
@@ -91,8 +202,8 @@ def main() -> int:
         return 1
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    print(f"[manifest] wrote {out_path} ({len(manifest['files'])} files)")
+    out_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n")
+    print(f"[manifest] wrote {out_path}")
     return 0
 
 
