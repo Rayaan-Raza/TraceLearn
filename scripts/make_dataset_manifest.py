@@ -19,6 +19,7 @@ in `training.row_ids_note` instead of pretending the data hashes identify the tr
 from __future__ import annotations
 
 import argparse
+import ast
 import datetime as dt
 import hashlib
 import json
@@ -87,10 +88,13 @@ def _allowed_synthetic_prefixes(profile: dict) -> list[str] | None:
         return profile["synthetic_prefixes_allowed"]
     if profile.get("name") != "plain":
         return None
-    if str(ROOT) not in sys.path:
-        sys.path.insert(0, str(ROOT))
-    from scripts.train_xgb_misconception import PLAIN_SYNTHETIC_PREFIXES  # noqa: PLC0415 (heavy import, only needed here)
-    return list(PLAIN_SYNTHETIC_PREFIXES)
+    # Read the constant from the trainer's source: importing the trainer needs numpy and xgboost,
+    # which the CI job that runs --check does not install.
+    tree = ast.parse((ROOT / "scripts" / "train_xgb_misconception.py").read_text(encoding="utf-8"))
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and any(getattr(t, "id", None) == "PLAIN_SYNTHETIC_PREFIXES" for t in node.targets):
+            return list(ast.literal_eval(node.value))
+    return None
 
 
 def _training_block(ds: Path) -> dict:
