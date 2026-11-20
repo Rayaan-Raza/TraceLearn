@@ -57,3 +57,28 @@ An owner of the repository must set these items in **Settings → Branches**:
 - Protect `main`.
 - Require a pull request before a merge.
 - Require the status checks `Backend tests (Python 3.11)`, `Backend tests (Python 3.12)` and `Frontend lint and build`.
+
+## 4. Memory limits in the sandbox image
+
+The dataset workflow (`dataset.yml`, job `sandbox-image`) builds the sandbox image. It then runs
+`tests/misconception_dataset/test_docker_backend.py`. Three checks in that file test the memory limits:
+
+| Check | What it shows |
+|-------|---------------|
+| `test_docker_memory_bomb_stops_at_the_limit` | A C++ program that allocates until it is refused stops at 496 MB. The per-process limit is 512 MB. |
+| `test_docker_limit_applies_to_every_test_run_not_only_the_first` | Three programs run one after the other. Each one has its own limit. |
+| `test_docker_container_kills_a_process_that_has_no_address_cap` | The sanitizer and valgrind runs have no per-process limit. A process with no limit is killed by the container at 1024 MB (exit code 137). |
+
+Measured values (local run, 20 Nov 2026, image `tracelearn-sandbox:ci`, Docker 28.3.0):
+
+| Limit | Value | Set in |
+|-------|-------|--------|
+| Per process, plain build | 512 MB address space | `sandbox_runner/config.py` (`Limits.memory_mb`) |
+| Per container, sandbox image | 1024 MB (`--memory` and `--memory-swap`) | `sandbox_runner/docker_backend.py` |
+| Backend student program | 256 MB address space | `backend/app/config.py` (`max_memory_mb`) |
+| Backend run-record worker | no address limit (sanitizer builds need it) | `backend/app/analysis/run_record.py` |
+
+> **WARNING:** The production container (root `Dockerfile`, `railway.json`) has no memory limit in the
+> repository. The run-record worker has no address limit, so only the container limit can stop a runaway
+> program there. Set the limit in the Railway service settings and write the deployed value here.
+> Deployed value: **not set yet**.
