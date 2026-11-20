@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp08-d05",
+ "seed_submission_id": "student:CP08:D",
+ "problem_id": "bank-CP08",
+ "operator": "student_cpp_off_by_one_05",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "4948ca9dd19f6cda",
+ "mutant_sha256": "8364ac7488112ec1b254195da44b71114e24a7727265b6f07560fb68a7869731",
+ "tests_passed": 3,
+ "tests_total": 10,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "[i + 1]",
+  "after": "[i]",
+  "note": "[i] -> [i + 1]",
+  "base_sha256": "4948ca9dd19f6cda"
+ }
+}

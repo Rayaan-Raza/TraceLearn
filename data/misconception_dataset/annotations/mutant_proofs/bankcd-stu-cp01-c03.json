@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp01-c03",
+ "seed_submission_id": "student:CP01:C",
+ "problem_id": "bank-CP01",
+ "operator": "student_cpp_loop_boundary_03",
+ "label": "CPP_LOOP_BOUNDARY",
+ "seed_sha256": "55dc1af34cc0c042",
+ "mutant_sha256": "ad9e9b04ccac9f00a2ec1bce5886fcf197eeb1f5fc5228cecc1eb0d07a993d76",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "k <= n",
+  "after": "k < n",
+  "note": "k < n -> k <= n",
+  "base_sha256": "55dc1af34cc0c042"
+ }
+}

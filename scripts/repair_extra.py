@@ -59,12 +59,31 @@ def _chained_edits(prog: Program) -> list[tuple[int, int, str]]:
     return out
 
 
+_RANGE_PAIR = re.compile(
+    r"\b([A-Za-z_]\w*(?:\[[^\]]*\])?)\s*(<=|>=|<|>)\s*[^&|()]+?\s*(&&|\|\|)\s*\1\s*(<=|>=|<|>)")
+
+
+def _range_logic_edits(prog: Program) -> list[tuple[int, int, str, int]]:
+    """(start, end, new, line) for `x > a || x < b`: one variable tested from both sides with the wrong joiner."""
+    out = []
+    for c in _if_spans(prog):
+        seg = prog.text[c.span.start:c.span.end]
+        for m in _RANGE_PAIR.finditer(seg):
+            if (m.group(2)[0] == "<") == (m.group(4)[0] == "<"):
+                continue  # both comparisons point the same way: not a two-sided range test
+            a = c.span.start + m.start(3)
+            out.append((a, a + 2, "||" if m.group(3) == "&&" else "&&", c.line))
+    return out
+
+
 def extra_range_check(prog: Program) -> list[Repair]:
     cls = "CPP_RANGE_CHECK"
     out = []
     chained = _chained_edits(prog)
     if chained:
         out.append(_multi(cls, "chained_compare_split_all", prog, chained))
+    for a, b, new, line in _range_logic_edits(prog)[:3]:
+        out.append(Repair(cls, "range_test_swap_and_or", line, "", new, _apply(prog, [(a, b, new)])))
     for c in _if_spans(prog):
         cmps = [x for x in comparisons(prog.text, c.span) if x[0] in REVERSE]
         if len(cmps) >= 2:
@@ -185,10 +204,32 @@ def _step_var(step: str) -> str | None:
     return m.group(1) if m else None
 
 
+_FOR_NO_STEP = re.compile(r"\bfor\s*\(([^;()]*);([^;()]*);(\s*)\)")
+
+
+def _missing_for_steps(prog: Program) -> list[Repair]:
+    """`for (i = 0; i < n; )` whose body never writes `i`: put the step back (`i++`, then `i--`)."""
+    out = []
+    t = prog.text
+    for m in _FOR_NO_STEP.finditer(t):
+        var = re.match(r"\s*([A-Za-z_]\w*)\s*(?:<=|>=|<|>|!=)", m.group(2))
+        lp = next((x for x in prog.loops if x.kind == "for" and x.keyword <= m.start() < x.body.start), None)
+        if not var or lp is None:
+            continue
+        v = re.escape(var.group(1))
+        body = t[lp.body.start:lp.body.end]
+        if re.search(rf"(?:\+\+|--)\s*{v}\b|\b{v}\s*(?:\+\+|--|[-+*/%]?=(?!=))", body):
+            continue  # the body moves the variable itself: nothing is missing
+        for step in (f"{var.group(1)}++", f"{var.group(1)}--"):
+            out.append(Repair("CPP_STALE_EXIT", "for_add_missing_step", lp.line, "", step,
+                              splice(prog.code, m.start(3), m.end(3), step)))
+    return out
+
+
 def extra_stale_exit(prog: Program) -> list[Repair]:
     """Make the loop's condition move: test the variable the step changes, or add the missing update."""
     cls = "CPP_STALE_EXIT"
-    out = []
+    out = _missing_for_steps(prog)
     t = prog.text
     for lp in prog.loops:
         if lp.kind != "for" or not (lp.cond and lp.step):
@@ -216,10 +257,59 @@ def extra_stale_exit(prog: Program) -> list[Repair]:
     return out[:MAX_CANDIDATES]
 
 
+# ------------------------------------------------------------- WRONG_LOOP_DIR
+
+_FOR_UP = re.compile(r"\bfor\s*\(\s*((?:int|long long|long|size_t)\s+)?([A-Za-z_]\w*)\s*=\s*0\s*;\s*\2\s*<\s*([^;]+?)\s*;"
+                     r"\s*(?:\+\+\2|\2\s*\+\+|\2\s*\+=\s*1)\s*\)")
+
+
+def extra_wrong_loop_dir(prog: Program) -> list[Repair]:
+    """An upward `0 .. n-1` loop runs downward instead. `repair_verify` only turns a downward loop
+    upward; a task that wants the reverse order (print n-1 down to 0) needs this direction."""
+    out = []
+    for m in _FOR_UP.finditer(prog.text):
+        decl = "" if m.group(1) is None else prog.code[m.start(1):m.end(1)]
+        var, bound = m.group(2), prog.code[m.start(3):m.end(3)]
+        if decl.strip() == "size_t":
+            continue  # `>= 0` never ends for an unsigned counter
+        new = f"for ({decl}{var} = ({bound}) - 1; {var} >= 0; {var}--)"
+        lp = next((x for x in prog.loops if x.kind == "for" and x.keyword <= m.start() < x.body.start), None)
+        out.append(Repair("CPP_WRONG_LOOP_DIR", "for_run_downward", lp.line if lp else 1, "", new,
+                          splice(prog.code, m.start(), m.end(), new)))
+    return out[:MAX_CANDIDATES]
+
+
 EXTRA_GENERATORS = {
+    "CPP_WRONG_LOOP_DIR": extra_wrong_loop_dir,
     "CPP_OFF_BY_ONE": extra_off_by_one,
     "CPP_ARRAY_BOUNDS": extra_array_bounds,
     "CPP_UNINITIALIZED_VAR": extra_uninitialized,
     "CPP_RANGE_CHECK": extra_range_check,
     "CPP_STALE_EXIT": extra_stale_exit,
 }
+
+
+# The edits precise enough to act on alone. The backend classifier's NARROW_REPAIR_OPS must
+# list the same names; tests/test_repair_extra.py checks that they agree.
+NARROW_OPS = {
+    "CPP_ARRAY_BOUNDS": ("enlarge_every_array",),
+    "CPP_OFF_BY_ONE": ("output_-1_added", "output_+1_added"),
+    "CPP_RANGE_CHECK": ("chained_compare_split_all", "range_test_swap_and_or"),
+    "CPP_STALE_EXIT": ("while_add_update", "for_add_missing_step"),
+    "CPP_WRONG_LOOP_DIR": ("for_run_downward",),
+}
+
+
+def narrow_candidates(prog: Program) -> dict[str, list[Repair]]:
+    """Per class, the narrow edits among the candidates the full generator would try.
+
+    The full list is cut at MAX_CANDIDATES first, as it was when the edits were measured.
+    """
+    out = {}
+    for cls, ops in NARROW_OPS.items():
+        try:
+            cands = EXTRA_GENERATORS[cls](prog)
+        except Exception:  # noqa: BLE001  a program the light parser trips on has no candidates
+            cands = []
+        out[cls] = [r for r in cands if r.op in ops]
+    return out

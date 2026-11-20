@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp24-d07",
+ "seed_submission_id": "student:CP24:D",
+ "problem_id": "bank-CP24",
+ "operator": "student_cpp_range_check_07",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "3fad7b35ff3e9324",
+ "mutant_sha256": "d7c21a99ba9f409d184e0239ac5f0c88ac8d66c0b490dd80bfb2a26aec0d8fd3",
+ "tests_passed": 6,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(idx <= 0 || idx >= n)",
+  "after": "(idx < 0 || idx >= n)",
+  "note": "(idx < 0 || idx >= n) -> (idx <= 0 || idx >= n)",
+  "base_sha256": "3fad7b35ff3e9324"
+ }
+}

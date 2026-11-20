@@ -113,10 +113,23 @@ background worker (backend/app/analysis/async_diagnosis.py)
    │     compile with sanitizers, run the tests, try single small edits for each
    │     class and record which edits make the failing test pass
    │
+   ├─ rules for the two classes real code cannot train (MODEL_LOG 2026-11-16):
+   │     • MISSING_BASE_CASE: the compiler's endless-recursion warning, or the base-case
+   │       repair passing every test on a recursive program that crashed or timed out
+   │     • WRONG_LOOP_DIR: a loop-direction repair passing every test
+   │
+   ├─ repair rules (no model needed, backend/app/diagnosis/xgb_classifier.py):
+   │     • exactly one class's first-set repair passes every test → that class
+   │     • else exactly one narrow second-set repair does (`cf_narrow`) → that class
+   │
    ├─ XGBoost `execution` model ──► temperature-scaled probabilities
+   │     • some classes have their own bar (now ARRAY_BOUNDS 0.50, INT_OVERFLOW 0.20,
+   │       LOOP_BOUNDARY 0.20, UNINITIALIZED_VAR 0.55): above it they are named even when
+   │       OTHER_ERROR is more probable (`class_thresholds` in calibrator.json, fitted by
+   │       scripts/tune_class_thresholds.py; MODEL_LOG 2026-11-14 and 2026-11-15)
    │
    ├─ fusion "model_first" (backend/app/diagnosis/confidence.py):
-   │     • names a class above threshold 0.44 → that is the diagnosis
+   │     • names a class above its threshold (0.63, or the class's own bar) → that is the diagnosis
    │     • says OTHER_ERROR                   → UNCERTAIN + teacher review
    │                                            (unless the rules found M02/M03,
    │                                             which the model has no class for)
@@ -148,7 +161,16 @@ repository because of their licences. The labels, splits and extracted features 
 The two CodeNet lanes are in the dataset, but the served model was trained before they existed.
 A model trained with them was worse on unseen real code (section 8.4).
 
-**Training set of the served model:** 1,349 rows, plus 208 dev-gold rows used only for checks. By
+> **Update 2026-11-15.** The served model is now the `plain_reg` profile trained on 2,475 train
+> rows (plus 205 dev-gold rows): OTHER_ERROR 1,249, OFF_BY_ONE 228, LOOP_BOUNDARY 167, RANGE_CHECK
+> 130, ARRAY_BOUNDS 123, STALE_EXIT 119, UNINITIALIZED_VAR 119, ASSIGN_VS_COMPARE 119, INT_OVERFLOW
+> 108, WRONG_LOOP_DIR 74, MISSING_BASE_CASE 39. That includes the CodeNet lanes (without the
+> RANGE_CHECK mutants) and 587 bank rows (235 in styles A/B, 352 new in styles C/D from
+> `scripts/build_bank_synthetic.py`). The table below and sections 8.1-8.4 describe the model
+> served before that; the current numbers are in `MODEL_LOG.md` (2026-11-15) and
+> `data/misconception_dataset/reports/bank_benchmark.md`.
+
+**Training set of the previous served model:** 1,349 rows, plus 208 dev-gold rows used only for checks. By
 label (from the cross-validation in `metrics_v1.json`):
 
 | Label | Rows | | Label | Rows |
@@ -207,8 +229,13 @@ Training reads `features/features.csv`, `annotations/labels.jsonl` and `splits/s
 not need the raw programs or g++.
 
 ```bash
-python scripts/train_xgb_misconception.py --profile plain --models-dir C:/tmp/new_models
+python scripts/train_xgb_misconception.py --profile plain_reg --models-dir C:/tmp/new_models
+python scripts/tune_class_thresholds.py --models-dir C:/tmp/new_models --write   # per-class bars
 ```
+
+`plain_reg` is the served profile since 2026-11-15: the rows and weights of `plain`, with
+`subsample=0.7, colsample_bytree=0.5, min_child_weight=5, reg_lambda=10, gamma=0.5` so it memorises
+the training problems less (`plain` settings are described below).
 
 What it does:
 1. Selects rows from `train` and `dev_gold`: real rows with consensus labels, plus the
@@ -447,6 +474,9 @@ To switch the model off quickly, set `MODEL_DIAGNOSIS=off`.
 | `scripts/eval_heldout_rows.py` | held-out evaluation |
 | `scripts/check_model_release.py` | release gates |
 | `scripts/merge_dataset.py`, `scripts/verify_dataset.py` | build and check the dataset |
+| `scripts/build_bank_synthetic.py`, `scripts/student_specs_c.py` | student-style buggy programs on the 40 bank problems, one class operator each |
+| `scripts/eval_bank_benchmark.py` | balanced per-class benchmark on the bank (`build`, `records`, `score`) |
+| `scripts/tune_class_thresholds.py` | per-class decision bars from grouped out-of-fold predictions |
 | `scripts/counterfactual_evidence.py` | run records for training rows |
 | `scripts/make_model_golden.py` | golden fixture for the model tests |
 | `tracelearn_features/` | feature extraction (`extractor.py`, `execution.py`, `schema.py`) |

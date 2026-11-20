@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp40-c08",
+ "seed_submission_id": "student:CP40:C",
+ "problem_id": "bank-CP40",
+ "operator": "student_cpp_other_error_08",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "9d1d5ee6dc22eb1e",
+ "mutant_sha256": "caecc029e2e28529ac13c4a513accc59dc136b87fb59e00de79ddd2eec369094",
+ "tests_passed": 1,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "+= a[i] * 2;",
+  "after": "+= a[i];",
+  "note": "+= a[i]; -> += a[i] * 2;",
+  "base_sha256": "9d1d5ee6dc22eb1e"
+ }
+}

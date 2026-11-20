@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp32-d01",
+ "seed_submission_id": "student:CP32:D",
+ "problem_id": "bank-CP32",
+ "operator": "student_cpp_range_check_01",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "8968e77b570eea38",
+ "mutant_sha256": "7f107ae0247d74c86b0bae1934e6186ebff4e187e2851445117443c7fc373dfa",
+ "tests_passed": 4,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(c >= 'A' || c <= 'Z')",
+  "after": "(c >= 'A' && c <= 'Z')",
+  "note": "(c >= 'A' && c <= 'Z') -> (c >= 'A' || c <= 'Z')",
+  "base_sha256": "8968e77b570eea38"
+ }
+}

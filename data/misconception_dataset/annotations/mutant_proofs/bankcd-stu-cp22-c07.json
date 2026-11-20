@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp22-c07",
+ "seed_submission_id": "student:CP22:C",
+ "problem_id": "bank-CP22",
+ "operator": "student_cpp_stale_exit_07",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "75f0b20eca977774",
+ "mutant_sha256": "d3fd5166d71f4b1b02465f17001e0146bb20a0dcc889c91765e5d0f037fda8de",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(loop step removed)",
+  "after": "for (int i = 0; i < n; i++)",
+  "note": "for (int i = 0; i < n; i++) -> (loop step removed)",
+  "base_sha256": "75f0b20eca977774"
+ }
+}

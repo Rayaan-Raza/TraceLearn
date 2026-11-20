@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp04-c01",
+ "seed_submission_id": "student:CP04:C",
+ "problem_id": "bank-CP04",
+ "operator": "student_cpp_off_by_one_01",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "ef252fd4548d31da",
+ "mutant_sha256": "edc3331c0494c3d50338c8ca70789d863950e0667b55da2efe14488c62d75981",
+ "tests_passed": 2,
+ "tests_total": 9,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "start 0 -> 1",
+  "after": "for (int i = 0;",
+  "note": "for (int i = 0; -> start 0 -> 1",
+  "base_sha256": "ef252fd4548d31da"
+ }
+}

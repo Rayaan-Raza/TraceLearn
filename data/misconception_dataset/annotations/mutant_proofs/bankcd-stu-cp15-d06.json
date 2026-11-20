@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp15-d06",
+ "seed_submission_id": "student:CP15:D",
+ "problem_id": "bank-CP15",
+ "operator": "student_cpp_assign_vs_compare_06",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "83c746dec586fdce",
+ "mutant_sha256": "aad86096469c44371b93167b171b248042ebc7b3f00ba89eaa01560d3b916ccf",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(v[i] = t)",
+  "after": "(v[i] == t)",
+  "note": "(v[i] == t) -> (v[i] = t)",
+  "base_sha256": "83c746dec586fdce"
+ }
+}

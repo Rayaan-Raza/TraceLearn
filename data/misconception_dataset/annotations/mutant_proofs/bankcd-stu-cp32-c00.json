@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp32-c00",
+ "seed_submission_id": "student:CP32:C",
+ "problem_id": "bank-CP32",
+ "operator": "student_cpp_assign_vs_compare_00",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "33397779701e78a6",
+ "mutant_sha256": "b08faae414db546ff0d89049c235a72f7c355945ec7042b01d854beec609753d",
+ "tests_passed": 5,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(c = vowels[i])",
+  "after": "(c == vowels[i])",
+  "note": "(c == vowels[i]) -> (c = vowels[i])",
+  "base_sha256": "33397779701e78a6"
+ }
+}

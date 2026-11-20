@@ -26,7 +26,11 @@ from typing import Any
 from backend.app.analysis.evidence_models import EvidenceRecord
 from backend.app.analysis.model_evidence import model_evidence
 from backend.app.config import settings
-from backend.app.diagnosis.xgb_classifier import ModelClassifier, ModelPrediction, repair_override
+from backend.app.diagnosis.xgb_classifier import (
+    ModelClassifier,
+    ModelPrediction,
+    rule_override,
+)
 
 log = logging.getLogger(__name__)
 
@@ -114,7 +118,9 @@ def predict_source(source: str, language: str = "cpp", warnings: dict[str, Any] 
     # Repair-first stage: when exactly one class's repair fixes every test, that class
     # replaces the model's label (about 0.9 precision on real rows; see repair_override).
     # The model still runs so the prediction keeps its top-k and probabilities for display.
-    override = repair_override(features)
+    # Failing that, one of the few precise second-set repairs (`cf_narrow` in the run record).
+    # `rule_override` also holds the rules for MISSING_BASE_CASE and WRONG_LOOP_DIR.
+    override = rule_override(features, run_record)
     if override is not None:
         clf = _classifier(settings.model_variant, str(settings.model_dir))
         pred = clf.predict(features)

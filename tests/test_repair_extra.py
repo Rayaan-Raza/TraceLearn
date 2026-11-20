@@ -112,3 +112,83 @@ def test_counter_loop_gets_an_update_inside_its_braces():
     src = "int main(){int i=0,n=3; while(i<n){ cout << i; } return 0;}"
     got = [squash(r.code) for r in extra_stale_exit(parse(src))]
     assert any("{cout<<i;i++;}" in g for g in got)
+
+
+def test_narrow_ops_match_the_backend_list():
+    sys.path.insert(0, str(ROOT))
+    from repair_extra import NARROW_OPS
+
+    from backend.app.diagnosis.xgb_classifier import NARROW_REPAIR_OPS
+
+    assert NARROW_OPS == NARROW_REPAIR_OPS
+
+
+def test_narrow_candidates_keep_only_the_precise_edits():
+    from repair_extra import NARROW_OPS, narrow_candidates
+
+    code = """#include <stdio.h>
+int main(){ float b; int a[5]; int c[5]; scanf("%f", &b);
+  if (18.5 <= b < 25) printf("Normal"); else if (b > 30) printf("Obese");
+  return 0; }
+"""
+    got = narrow_candidates(parse(code))
+    assert set(got) == set(NARROW_OPS)
+    for cls, repairs in got.items():
+        assert all(r.op in NARROW_OPS[cls] for r in repairs)
+    assert [r.op for r in got["CPP_RANGE_CHECK"]] == ["chained_compare_split_all"]
+    assert "18.5 <= b && b < 25" in got["CPP_RANGE_CHECK"][0].code
+    assert [r.op for r in got["CPP_ARRAY_BOUNDS"]] == ["enlarge_every_array"]
+
+
+def test_missing_for_step_is_put_back():
+    code = "int main(){ int n = 5, s = 0; for (int i = 0; i < n; ) { s += i; } return s; }"
+    got = [r for r in extra_stale_exit(parse(code)) if r.op == "for_add_missing_step"]
+    assert [squash(r.code) for r in got] == [squash(code.replace("i < n; )", "i < n;i++)")),
+                                            squash(code.replace("i < n; )", "i < n;i--)"))]
+
+
+def test_for_loop_that_steps_in_its_body_is_left_alone():
+    for body in ("i++;", "i += 2;", "i = i + 1;", "++i;"):
+        code = "int main(){ int n = 5; for (int i = 0; i < n; ) { " + body + " } return 0; }"
+        assert not [r for r in extra_stale_exit(parse(code)) if r.op == "for_add_missing_step"], body
+
+
+def test_range_test_with_the_wrong_joiner_is_swapped():
+    code = "int main(){ int x = 3; if (x >= 1 || x <= 10) return 1; return 0; }"
+    got = [r for r in extra_range_check(parse(code)) if r.op == "range_test_swap_and_or"]
+    assert len(got) == 1 and "x >= 1 && x <= 10" in got[0].code
+    code = "int main(){ int s = 3; if (s < 0 && s > 100) return 1; return 0; }"
+    got = [r for r in extra_range_check(parse(code)) if r.op == "range_test_swap_and_or"]
+    assert len(got) == 1 and "s < 0 || s > 100" in got[0].code
+
+
+def test_conditions_that_are_not_a_two_sided_range_are_not_swapped():
+    for cond in ("x > 3 && n > 2", "x > 1 && x > 5", "a == 0 && b == 0", "x >= 1 && y <= 10"):
+        code = "int main(){ int x = 1, y = 2, n = 3, a = 0, b = 0; if (" + cond + ") return 1; return 0; }"
+        assert not [r for r in extra_range_check(parse(code)) if r.op == "range_test_swap_and_or"], cond
+
+
+def test_bank_operators_do_not_take_a_call_for_a_loop():
+    import pytest
+
+    pytest.importorskip("fcntl")  # the generator imports the Linux-only sandbox runner
+    from build_bank_synthetic import OPERATORS, label_possible
+
+    code = "int cost_for(int w) { if (w <= 0) { return -1; } if (w <= 500) { return 5; } return 10; }\nint main() { return cost_for(3); }\n"
+    assert OPERATORS["CPP_LOOP_BOUNDARY"](code) == []
+    assert OPERATORS["CPP_STALE_EXIT"](code) == []
+    assert not label_possible("CPP_LOOP_BOUNDARY", code) and label_possible("CPP_RANGE_CHECK", code)
+    loop = "int main() { int s = 0; for (int i = 0; i < 5; i++) { s += i; } return s; }"
+    assert [m[2] for m in OPERATORS["CPP_LOOP_BOUNDARY"](loop)] == ["i <= 5"]
+
+
+def test_upward_loop_is_turned_downward():
+    from repair_extra import extra_wrong_loop_dir
+
+    code = "int main(){ int n = 3; for (int i = 0; i < n; i++) { n += 0; } return 0; }"
+    got = extra_wrong_loop_dir(parse(code))
+    assert [r.op for r in got] == ["for_run_downward"]
+    assert "for (int i = (n) - 1; i >= 0; i--)" in got[0].code
+    # an unsigned counter would never end; a loop that does not start at 0 is not this pattern
+    assert extra_wrong_loop_dir(parse("int main(){ for (size_t i = 0; i < 5; i++) {} return 0; }")) == []
+    assert extra_wrong_loop_dir(parse("int main(){ for (int i = 1; i < 5; i++) {} return 0; }")) == []

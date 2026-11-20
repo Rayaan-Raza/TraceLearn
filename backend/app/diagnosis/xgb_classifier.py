@@ -80,6 +80,120 @@ def repair_override(features: Mapping[str, Any]) -> str | None:
     return hits[0] if len(hits) == 1 else None
 
 
+# Narrow second-set repairs: the few `scripts/repair_extra.py` edits that were precise on the
+# training problems (2026-11-14 audit: enlarge_every_array 16/18, output_+-1_added 17/21,
+# chained_compare_split_all 2/2, while_add_update 1/1). The rest of that set also passes every
+# test on unrelated bugs and stays unused. The worker measures them as `cf_narrow`.
+NARROW_REPAIR_OPS: dict[str, tuple[str, ...]] = {
+    "CPP_ARRAY_BOUNDS": ("enlarge_every_array",),
+    "CPP_OFF_BY_ONE": ("output_-1_added", "output_+1_added"),
+    "CPP_RANGE_CHECK": ("chained_compare_split_all", "range_test_swap_and_or"),
+    "CPP_STALE_EXIT": ("while_add_update", "for_add_missing_step"),
+    "CPP_WRONG_LOOP_DIR": ("for_run_downward",),
+}
+
+
+def narrow_repair_override(run_record: Mapping[str, Any] | None, skip: tuple[str, ...] = ()) -> str | None:
+    """The unique class whose narrow second-set repair passes every test, or None.
+
+    Reads the run record's `cf_narrow` block (same shape as `cf_extra`). Used only after
+    `repair_override` found nothing, so a first-set proof always wins.
+    """
+    classes = ((run_record or {}).get("cf_narrow") or {}).get("classes") or {}
+    hits = [
+        cls
+        for cls, rec in classes.items()
+        if cls not in skip and isinstance(rec, Mapping) and rec.get("fix_all") and rec.get("ops")
+        and rec["ops"][-1] in NARROW_REPAIR_OPS.get(cls, ())
+    ]
+    return hits[0] if len(hits) == 1 else None
+
+
+OTHER_LABEL = "CPP_OTHER_ERROR"
+MISSING_BASE_CASE = "CPP_MISSING_BASE_CASE"
+WRONG_LOOP_DIR = "CPP_WRONG_LOOP_DIR"
+
+
+def evidence_rule_override(features: Mapping[str, Any]) -> str | None:
+    """Rules for the two classes real code almost never shows, so no model can be trained or
+    tested on them (3 real rows in 2,600; none in the held-out problems).
+
+    MISSING_BASE_CASE
+      - the compiler's own `-Winfinite-recursion` warning: 43 of 43 right on dataset rows, 6 of 6
+        on the bank benchmark, never raised on a program of another class; or
+      - the base-case repair passes every test AND the program recurses AND the first failing test
+        crashed or timed out: 17 of 19 and 7 of 7. Without the crash or timeout the same repair
+        was right on 4 of 14 (it also "fixes" wrong range tests), so it does not count alone.
+    WRONG_LOOP_DIR
+      - the loop-direction repair passes every test, also when another class's repair does:
+        66 of 67 and 21 of 21.
+
+    The rules were written from the class definitions (ANNOTATION_GUIDELINE section 3) and then
+    counted on every labelled row and the bank benchmark, 2026-11-15; nothing was fitted. Almost
+    all of that evidence is synthetic, which is the point: it is the only evidence there is.
+    """
+    def at_least_one(name: str) -> bool:
+        value = _as_float(features.get(name))
+        return not math.isnan(value) and value >= 1
+
+    if at_least_one("warnings.infinite_recursion"):
+        return MISSING_BASE_CASE
+    stopped = at_least_one("evidence.ff_crash") or at_least_one("evidence.ff_timeout")
+    if _as_float(features.get("repair.missing_base_case_fix_all")) == 1.0 and at_least_one("semantics.recursion") and stopped:
+        return MISSING_BASE_CASE
+    if _as_float(features.get("repair.wrong_loop_dir_fix_all")) == 1.0:
+        return WRONG_LOOP_DIR
+    return None
+
+
+def rule_override(features: Mapping[str, Any], run_record: Mapping[str, Any] | None = None) -> str | None:
+    """Every rule stage, in order; None hands the submission to the model.
+
+    1. `evidence_rule_override`: MISSING_BASE_CASE and WRONG_LOOP_DIR.
+    2. `repair_override`: exactly one class's first-set repair passes every test. A lone
+       base-case repair is not accepted here: stage 1 already took the supported ones.
+    3. `narrow_repair_override`: one of the few precise second-set repairs does. Turning an
+       upward loop downward (`for_run_downward`) counts only when the first failing test printed
+       the expected output in reverse: on 2,233 real failing programs that edit passed every
+       test on up to 40, none of them WRONG_LOOP_DIR, and none of the 40 printed a reversed output.
+    """
+    hit = evidence_rule_override(features)
+    if hit:
+        return hit
+    hit = repair_override(features)
+    if hit == MISSING_BASE_CASE:
+        hit = None
+    if hit:
+        return hit
+    reversed_output = any(
+        not math.isnan(v) and v >= 1
+        for v in (_as_float(features.get("evidence.reversed_tokens")), _as_float(features.get("evidence.reversed_lines"))))
+    return narrow_repair_override(run_record, skip=() if reversed_output else (WRONG_LOOP_DIR,))
+
+
+def decide(probs: Any, classes: list[str], threshold: float,
+           class_thresholds: Mapping[str, float] | None = None) -> tuple[int, bool]:
+    """(index of the label to report, abstained) for one calibrated probability row.
+
+    Without `class_thresholds` this is the old rule: the most probable class, abstaining
+    below `threshold`. A class with its own bar uses that bar instead of `threshold`, and
+    when the most probable class is OTHER_ERROR (or falls short of its bar) the most
+    probable class that clears its own bar is reported instead. That is what lifts a
+    misconception out of the OTHER_ERROR majority. Bars come from
+    `scripts/tune_class_thresholds.py` (grouped out-of-fold, training problems only).
+    """
+    bars = class_thresholds or {}
+    top = int(np.argmax(probs))
+    name = classes[top]
+    if name != OTHER_LABEL and probs[top] >= bars.get(name, threshold):
+        return top, False
+    cleared = [(float(probs[i]), -i) for i, c in enumerate(classes)
+               if c != OTHER_LABEL and c in bars and probs[i] >= bars[c]]
+    if cleared:
+        return -max(cleared)[1], False
+    return top, bool(name != OTHER_LABEL or probs[top] < threshold)
+
+
 class ModelContractError(RuntimeError):
     """The model artifacts are missing, inconsistent, or not loadable."""
 
@@ -153,6 +267,7 @@ class ModelClassifier:
         temperature: float,
         threshold: float,
         model_sha256: str,
+        class_thresholds: Mapping[str, float] | None = None,
     ) -> None:
         self.variant = variant
         self._booster = booster
@@ -160,6 +275,7 @@ class ModelClassifier:
         self.classes = classes
         self.temperature = temperature
         self.threshold = threshold
+        self.class_thresholds = dict(class_thresholds or {})
         self.model_sha256 = model_sha256
 
     @classmethod
@@ -187,6 +303,10 @@ class ModelClassifier:
         threshold = float(calibrator.get("threshold", 0.5))
         if not temperature > 0 or not 0 < threshold <= 1:
             raise ModelContractError(f"calibrator out of range: temperature={temperature}, threshold={threshold}")
+        class_thresholds = {str(k): float(v) for k, v in (calibrator.get("class_thresholds") or {}).items()}
+        bad = sorted(k for k, v in class_thresholds.items() if k not in classes or k == OTHER_LABEL or not 0 < v <= 1)
+        if bad:
+            raise ModelContractError(f"calibrator class_thresholds invalid for: {bad[:5]}")
 
         metrics = _read_json(directory / "metrics_v1.json")
         features = list((metrics.get(variant) or {}).get("features") or [])
@@ -219,6 +339,7 @@ class ModelClassifier:
         model = cls(
             variant=variant, booster=booster, features=features, classes=classes,
             temperature=temperature, threshold=threshold, model_sha256=sha,
+            class_thresholds=class_thresholds,
         )
         # Probe with an all-NaN row: proves the output width matches the class
         # list before the first real request does.
@@ -263,7 +384,7 @@ class ModelClassifier:
             out_rules = ruled_out({k: (None if math.isnan(v) else v) for k, v in numeric.items()})
             scaled = move_ruled_out_mass(scaled, self.classes, out_rules)
         order = np.argsort(-scaled, kind="stable")
-        top = int(order[0])
+        top, abstained = decide(scaled, self.classes, self.threshold, self.class_thresholds)
         top_p = float(scaled[top])
         probabilities = {name: round(float(scaled[i]), 6) for i, name in enumerate(self.classes)}
         return ModelPrediction(
@@ -271,7 +392,7 @@ class ModelClassifier:
             model_sha256=self.model_sha256,
             top_label=self.classes[top],
             top_probability=round(top_p, 6),
-            abstained=top_p < self.threshold,
+            abstained=abstained,
             threshold=self.threshold,
             temperature=self.temperature,
             probabilities=probabilities,

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp40-c00",
+ "seed_submission_id": "student:CP40:C",
+ "problem_id": "bank-CP40",
+ "operator": "student_cpp_uninitialized_var_00",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "9d1d5ee6dc22eb1e",
+ "mutant_sha256": "5b4b6d8d0058f9b14efc2d34593ed90daf64fc1b61bdc289f5e5aeb0e9b53276",
+ "tests_passed": 0,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "long long sum;",
+  "after": "long long sum = 0;",
+  "note": "long long sum = 0; -> long long sum;",
+  "base_sha256": "9d1d5ee6dc22eb1e"
+ }
+}

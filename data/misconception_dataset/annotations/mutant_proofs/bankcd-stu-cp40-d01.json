@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp40-d01",
+ "seed_submission_id": "student:CP40:D",
+ "problem_id": "bank-CP40",
+ "operator": "student_cpp_stale_exit_01",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "ca23dc2a12169f6a",
+ "mutant_sha256": "b7b35c47f05789740bf4a5509906d5280423cd2cfcade2165627055cf622cb5f",
+ "tests_passed": 1,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "i++;",
+  "note": "i++; -> ",
+  "base_sha256": "ca23dc2a12169f6a"
+ }
+}

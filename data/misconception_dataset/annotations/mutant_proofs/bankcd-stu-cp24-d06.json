@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp24-d06",
+ "seed_submission_id": "student:CP24:D",
+ "problem_id": "bank-CP24",
+ "operator": "student_cpp_array_bounds_06",
+ "label": "CPP_ARRAY_BOUNDS",
+ "seed_sha256": "3fad7b35ff3e9324",
+ "mutant_sha256": "2d9f97841b9d93792ba07e3a1676483fde5690bfd0ef805a0cd9950dd93e993a",
+ "tests_passed": 4,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "vector of n / 4",
+  "after": "vector<int> v(n)",
+  "note": "vector<int> v(n) -> vector of n / 4",
+  "base_sha256": "3fad7b35ff3e9324"
+ }
+}
