@@ -21,6 +21,58 @@ measured at the time. Where an entry and the report disagree, the report is curr
 
 ---
 
+## 2026-11-22: Gate 4 decision: PR #17 merges (served model becomes 8860b506)
+
+Decided by the rule in `docs/EVAL_PROTOCOL.md` section 6, written on 16 Nov before any of these
+numbers existed, applied to the Gate 3 report (`reports/heldout_eval.md`, 662 shared rows of the
+development set; reproduced to three decimals by Umaima on #21). Nothing in either model was
+changed between that report and this decision.
+
+| Full runtime | Problem-weighted macro-F1 | Precision when it names a class | False alarm on OTHER |
+|---|---|---|---|
+| audited (0af477c2), all rows | 0.627 | 0.804 (86/107) | 0.026 (12/460) |
+| **#17 (8860b506), all rows** | **0.679** | **0.895 (85/95)** | **0.011 (5/460)** |
+| audited, without tl-progpedia-00000039 | 0.641 | 0.683 (28/41) | 0.031 (9/290) |
+| **#17, without tl-progpedia-00000039** | **0.695** | **0.806 (29/36)** | **0.017 (5/290)** |
+
+Rule: higher problem-weighted macro-F1, precision not lower, false alarm not higher, in both
+scopes. All six hold, so #17 merges. Row-weighted macro-F1 agrees (0.574 against 0.484; 0.541
+against 0.480), so the 0.468 floor of the problem-weighted metric does not decide it.
+
+What the decision does not establish, and what comes with the model:
+
+- **Development evidence only.** The set has been scored many times, and the exclusion of the
+  CodeNet RANGE_CHECK mutants (`stu-cn-rc-`) was chosen with its results (2026-11-14 and 11-15
+  entries). The independent number is Gate 6, on the confirmatory set.
+- **Recall is unchanged.** Named-class recall is 0.421 against 0.426 (85/202 against 86/202); #17
+  abstains on 7.7% of rows against 0.5%. OFF_BY_ONE and RANGE_CHECK are still rarely caught.
+- **Training composition:** 2,475 training rows, 1,367 real-source and 1,108 synthetic (44.8%,
+  up from 40.7%), plus 205 dev-gold rows (`calibrator.json`, `variants.execution.fitted_on`). Row
+  ids were not recorded (the model predates the trainer's row list); the manifest says so.
+- **Deviations from the dataset master plan,** as listed in the protocol section 7: per-class
+  bars (ARRAY_BOUNDS 0.50, INT_OVERFLOW 0.20, LOOP_BOUNDARY 0.20, UNINITIALIZED_VAR 0.55) where
+  the plan allows one global threshold; the largest class holds 0.518 of training weight against
+  a 0.15 cap; the RANGE_CHECK exclusion chosen with held-out results.
+- **Served under the decision-source contract.** #17 was scored through its own code, which
+  reported 1.0 for a rule decision. Merged onto main, its three rule stages report their measured
+  precision instead: class rules 0.934 (126/129, mostly synthetic rows), repair-first 0.816
+  (102/115), narrow repairs 0.722 (36/42). This changes no scored label: no rule decision in the
+  run was cancelled by the missing-feature guard, the one place the old and new code differ. A
+  narrow-repair decision now starts at hint level 1 (0.722 is under the 0.75 cut).
+- **Run-record evidence was a stand-in.** The narrow repairs were scored from the 9 Nov second-set
+  cache; the three narrow ops added on 15 Nov never fired in that evaluation.
+
+Revert to the audited model (code stays; the rule stages stay; the bars come from the old
+`calibrator.json`):
+
+```bash
+git checkout audit-2026-11-15 -- data/misconception_dataset/models
+python scripts/make_model_golden.py
+python scripts/make_dataset_manifest.py
+```
+
+---
+
 ## 2026-11-16: held-out report for both systems (no model change)
 
 The held-out report now scores the classifier alone and the full runtime, through the same
