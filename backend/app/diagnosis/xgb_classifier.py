@@ -25,7 +25,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -80,12 +80,67 @@ def repair_override(features: Mapping[str, Any]) -> str | None:
     return hits[0] if len(hits) == 1 else None
 
 
+# Which stage of the runtime decided a prediction. `model` = the classifier; every other value
+# is a rule that runs before it and replaces its label.
+DECISION_SOURCES = ("model", "repair")
+
+# Measured precision of each rule stage as (correct, total) on real rows of TRAINING problems
+# only, never the held-out ones (docs/EVAL_PROTOCOL.md section 5). A passing repair shows *a*
+# fix, not the cause, so no rule is certain. `repair`: the repair-first rule, 102 of 115
+# (see the comment above `_REPAIR_FIX_ALL_FEATURES`).
+RULE_STAGE_PRECISION: dict[str, tuple[int, int]] = {
+    "repair": (102, 115),
+}
+
+
+def wilson_lower(correct: int, total: int, z: float = 1.96) -> float:
+    """Lower end of the Wilson score interval for a proportion (95% by default)."""
+    if total <= 0:
+        return 0.0
+    p = correct / total
+    centre = p + z * z / (2 * total)
+    spread = z * math.sqrt(p * (1 - p) / total + z * z / (4 * total * total))
+    return (centre - spread) / (1 + z * z / total)
+
+
+def rule_confidence(source: str) -> float:
+    """The confidence a rule stage reports: the lower 95% Wilson bound of its measured precision.
+
+    The lower bound, not the ratio, so that a rule seen right 2 times in 2 does not report 1.0.
+    """
+    if source not in RULE_STAGE_PRECISION:
+        raise KeyError(f"no measured precision for decision source {source!r}")
+    return round(wilson_lower(*RULE_STAGE_PRECISION[source]), 3)
+
+
+def decided_by_rule(pred: "ModelPrediction", label: str, source: str) -> "ModelPrediction":
+    """`pred` with its label replaced by a rule stage's decision.
+
+    The classifier's own answer is kept in `classifier_label`, `classifier_probability` and
+    `classifier_abstained`, and `top_k` / `probabilities` stay the classifier's, so a reader can
+    always tell the decision from what the classifier thought.
+    """
+    if source == "model":
+        raise ValueError("a rule decision needs a rule source, not 'model'")
+    return replace(
+        pred,
+        top_label=label,
+        top_probability=rule_confidence(source),
+        abstained=False,
+        decision_source=source,
+    )
+
+
 class ModelContractError(RuntimeError):
     """The model artifacts are missing, inconsistent, or not loadable."""
 
 
 @dataclass(frozen=True)
 class ModelPrediction:
+    """One decision. `top_label`, `top_probability` and `abstained` are the DECISION, made by the
+    stage named in `decision_source`. The `classifier_*` fields, `top_k` and `probabilities` are
+    always the classifier's own output, whichever stage decided."""
+
     variant: str
     model_sha256: str
     top_label: str
@@ -98,14 +153,31 @@ class ModelPrediction:
     n_features: int
     n_missing: int
     ruled_out: tuple[tuple[str, str], ...] = ()
+    decision_source: str = "model"
+    classifier_label: str | None = None
+    classifier_probability: float | None = None
+    classifier_abstained: bool | None = None
+
+    def __post_init__(self) -> None:
+        if self.decision_source not in DECISION_SOURCES:
+            raise ValueError(f"unknown decision_source {self.decision_source!r}")
+        # A prediction built straight from the classifier: its decision IS the classifier's answer.
+        if self.classifier_label is None:
+            object.__setattr__(self, "classifier_label", self.top_label)
+            object.__setattr__(self, "classifier_probability", self.top_probability)
+            object.__setattr__(self, "classifier_abstained", self.abstained)
 
     def as_dict(self) -> dict[str, Any]:
         return {
             "variant": self.variant,
             "model_sha256": self.model_sha256,
+            "decision_source": self.decision_source,
             "top_label": self.top_label,
             "top_probability": self.top_probability,
             "abstained": self.abstained,
+            "classifier_label": self.classifier_label,
+            "classifier_probability": self.classifier_probability,
+            "classifier_abstained": self.classifier_abstained,
             "threshold": self.threshold,
             "temperature": self.temperature,
             "probabilities": self.probabilities,
@@ -114,6 +186,31 @@ class ModelPrediction:
             "n_missing": self.n_missing,
             "ruled_out": [{"label": label, "reason": reason} for label, reason in self.ruled_out],
         }
+
+    @classmethod
+    def from_dict(cls, d: Mapping[str, Any]) -> "ModelPrediction":
+        """Rebuild a prediction from `as_dict()` output, e.g. the stored evidence `details`.
+
+        Records written before `decision_source` existed read as classifier decisions.
+        """
+        return cls(
+            variant=str(d["variant"]),
+            model_sha256=str(d["model_sha256"]),
+            top_label=str(d["top_label"]),
+            top_probability=float(d["top_probability"]),
+            abstained=bool(d["abstained"]),
+            threshold=float(d["threshold"]),
+            temperature=float(d["temperature"]),
+            probabilities={str(k): float(v) for k, v in (d.get("probabilities") or {}).items()},
+            top_k=tuple((str(x["label"]), float(x["p"])) for x in d.get("top_k") or ()),
+            n_features=int(d.get("n_features") or 0),
+            n_missing=int(d.get("n_missing") or 0),
+            ruled_out=tuple((str(x["label"]), str(x["reason"])) for x in d.get("ruled_out") or ()),
+            decision_source=str(d.get("decision_source") or "model"),
+            classifier_label=d.get("classifier_label"),
+            classifier_probability=d.get("classifier_probability"),
+            classifier_abstained=d.get("classifier_abstained"),
+        )
 
 
 def _read_json(path: Path) -> dict[str, Any]:
