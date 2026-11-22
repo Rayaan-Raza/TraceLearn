@@ -15,7 +15,7 @@ Every number names one of these. "The test set" on its own is not allowed.
 | Name | What it is | Status | May be used for |
 |---|---|---|---|
 | **Development set** | The `test` split of `splits.csv`: real failing programs on 22 problems held out of training (664 rows at `c62f8ba`). | **Exposed.** Scored many times; model and data choices have been made with it (see section 8). | Comparing finished candidates, at most once each, logged. Never called "blind", "final" or "untouched". |
-| **Historical blind set** | The 84 items of `blind_final_eval` (83 certain, 7 problems, 4 named-class truths). | **Exposed.** Scored four times on 6 November. | History only. Not scored again. |
+| **Historical blind set** | The 84 items of `blind_final_eval` (83 certain, 7 problems, 4 named-class truths). | **Exposed.** Scored three times on 6 November (12:00, 15:27 and 16:55 UTC). | History only. Not scored again. |
 | **Bank benchmark** | 273 single-edit bugs on the 40 bank problems (`scripts/eval_bank_benchmark.py`, PR #17). | Synthetic, built with the same operators as training rows. | An upper estimate of behaviour on bank problems. Never a headline result. |
 | **Confirmatory set** | A new set on problems that appear nowhere in `splits.csv`, labelled blind by the three of us before any model output, then frozen (Gate 5). | Does not exist yet. | Scored **once**, by the frozen system (Gate 6). |
 
