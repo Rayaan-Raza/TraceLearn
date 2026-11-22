@@ -21,6 +21,107 @@ measured at the time. Where an entry and the report disagree, the report is curr
 
 ---
 
+## 2026-11-23: rule-only classes, real-row augmentation (candidate model 4fd55a25)
+
+A candidate for the served model. All the figures here are training-side: grouped out-of-fold on
+the train split, through `runtime_decision`. The held-out split was not read. The protocol's single
+development-set read and the section 6 merge rule are still to come (Gate 4 again).
+
+**What changed:**
+
+1. **MISSING_BASE_CASE and WRONG_LOOP_DIR are rule-only** (`RULE_ONLY_CLASSES`,
+   `mask_rule_only` in `backend/app/diagnosis/xgb_classifier.py`). The classifier's probability
+   for them goes to OTHER_ERROR, so only a rule stage can name them: the class rules, or the
+   `for_run_downward` narrow repair with a reversed output. Real code shows these classes 3 times
+   in about 2,600 rows, so nothing the classifier learns for them can be checked. Cost on real
+   training rows: the one real MISSING_BASE_CASE row (`cnx-00219`) the classifier used to catch is
+   now missed. Gain on the 7 estimable classes: none (+0.000, paired).
+2. **`-Wreturn-type` guard on the base-case rule.** A recursive function that falls off its end
+   without returning crashes the way a missing base case does. The one real wrong fire of that
+   rule (`bl-tr-016`, "recursive calls not returned") had the warning, and none of the right fires
+   did. Class-rule precision on train and dev-gold rows is now 115 of 117 (`RULE_STAGE_PRECISION`).
+   The remaining real fire, `bl-t2-tr-223` (loop-direction repair passes, labelled OTHER_ERROR
+   "algorithm"), needs a label review, not a rule change.
+3. **Real-row augmentation for rare classes** (`augment_real_rows` in
+   `scripts/train_xgb_misconception.py`, `--real-augment`). Inside every training fold, a class
+   with fewer than 60 real rows gets up to twice as many new rows at weight 0.5. Each new row
+   starts from one real row of the class and takes about half its feature values from one of that
+   row's 5 nearest real neighbours of the same class. Every value and every missing-value pattern
+   in a new row comes from a real program of that class. Synthetic rows are never parents, and
+   OTHER_ERROR and the rule-only classes are not augmented.
+4. **Options for later candidates:** `--drop-rule-only` (rule-only rows at weight 0, so the
+   booster keeps 11 outputs), `--synthetic-cap`, and profiles `plain_reg3` and `plain_reg2`. The
+   candidate harness and `tune_class_thresholds.py` apply each option the same way the trainer does.
+
+**Candidates** (`reports/candidates/p6_candidates.md`, reference `p6_rule_only`, cross-fitted bars,
+calibration refitted, estimable macro-F1 with a paired cluster bootstrap):
+
+| Candidate | Difference (95%) | False alarm difference | Verdict |
+|---|---|---|---|
+| p6_aug60 (chosen) | +0.017 (-0.002 to +0.049) | -0.004 | no difference shown |
+| same, fold seed 11 (`p6s11_candidates.md`) | +0.034 (+0.008 to +0.059) | -0.004 | better |
+| p6_aug150_w1 | +0.028 (-0.019 to +0.053) | -0.021 | no difference shown; seed 11: +0.015, false alarm +0.012 |
+| p6_cap1 (P1's cap) | +0.013 (+0.005 to +0.043) | -0.009 | better |
+| p6_sqrt (sqrt class balance) | +0.014 (-0.009 to +0.030) | +0.000 | no difference shown |
+| p6_reg3 / p6_reg2 (shallower trees) | +0.002 / -0.005 | -0.004 / -0.016 | no difference shown |
+| p6_rule_only_drop | -0.004 (-0.045 to +0.010) | +0.002 | no difference shown |
+| combinations (drop, cap, augment, reg3) | -0.022 to +0.017 | up to +0.090 | none better |
+
+`p6_aug60` is the only setting that improves macro-F1 on both fold seeds without raising false
+alarm on either. Stacking levers did worse than any one of them alone. RANGE_CHECK (0.31) and
+OFF_BY_ONE (0.51) did not move in any candidate. Augmentation cannot add signal the features do
+not carry, so P2 (features) is still the lever for those two.
+
+**The candidate against the served model**, each with its own calibration and bars
+(`p6_old_served`, `p6_new_served`; 1,367 real rows, mean of 3 repeats). Both use bars fitted on
+these same out-of-fold rows, so both are optimistic by about the same amount:
+
+| | Served (8860b506) | Candidate (4fd55a25) |
+|---|---|---|
+| Estimable macro-F1 (7 classes) | 0.635 | **0.652** (+0.017, 95% +0.004 to +0.035) |
+| Macro-F1, all 11 classes | 0.462 | 0.532 |
+| False alarm on real OTHER_ERROR | 0.033 (33/998) | 0.035 (35/998) |
+
+| Class | Real rows | Served P / R / F1 | Candidate P / R / F1 |
+|---|---|---|---|
+| ARRAY_BOUNDS | 92 | 0.81 / 0.72 / 0.76 | 0.82 / 0.72 / 0.77 |
+| INT_OVERFLOW | 66 | 0.92 / 0.91 / 0.92 | 0.90 / 0.92 / 0.91 |
+| LOOP_BOUNDARY | 26 | 0.57 / 0.81 / 0.67 | 0.62 / 0.81 / 0.70 |
+| OFF_BY_ONE | 92 | 0.78 / 0.38 / 0.51 | 0.78 / 0.38 / 0.51 |
+| OTHER_ERROR | 998 | 0.89 / 0.83 / 0.86 | 0.89 / 0.82 / 0.86 |
+| RANGE_CHECK | 27 | 1.00 / 0.19 / 0.31 | 1.00 / 0.19 / 0.31 |
+| UNINITIALIZED_VAR | 55 | 0.83 / 0.27 / 0.41 | 0.64 / 0.42 / **0.51** |
+| STALE_EXIT | 8 | not estimable (F1 0.31) | not estimable (0.29) |
+| ASSIGN_VS_COMPARE | 1 | not estimable | not estimable |
+| MISSING_BASE_CASE (rule) | 1 | not estimable | not estimable |
+| WRONG_LOOP_DIR (rule) | 1 | not estimable | not estimable |
+
+By the harness rule this is "no difference shown", not "better": macro-F1 rises with its interval
+above 0, but false alarm is 2 rows in 998 higher. The gain is mostly UNINITIALIZED_VAR (recall 0.27
+to 0.42) and LOOP_BOUNDARY.
+
+Model: `execution` sha256 `4fd55a25c6e72297…`, profile `plain_reg`, temperature 1.0, threshold
+0.63, bars ARRAY_BOUNDS 0.50, INT_OVERFLOW 0.15, LOOP_BOUNDARY 0.30, UNINITIALIZED_VAR 0.35. Trained
+on 2,680 rows (train 2,475, dev-gold 205); the row ids are in `training_row_ids.txt`. Grouped
+cross-validation macro-F1 is 0.805 ± 0.027 (served: 0.804 ± 0.022). The largest class still holds
+more than 0.15 of training weight (G8 fails as before).
+
+Reproduce:
+
+```bash
+python scripts/train_xgb_misconception.py --profile plain_reg --models-dir <dir> \
+    --real-augment '{"target": 60, "max_factor": 2, "k": 5, "swap": 0.5, "weight": 0.5}'
+python scripts/tune_class_thresholds.py --models-dir <dir> --write
+```
+
+Revert to the served model (the rule-only runtime stays):
+
+```bash
+git checkout main -- data/misconception_dataset/models backend/tests/fixtures/model_golden.json
+```
+
+---
+
 ## 2026-11-22: P1 synthetic-to-real candidates: no change to the served configuration
 
 No new model. Twelve candidates from `docs/MODEL_IMPROVEMENT_PLAN.md` P1 were scored with
