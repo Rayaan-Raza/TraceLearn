@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-22T20:09:17+00:00",
+  "at": "2026-11-22T20:14:18+00:00",
   "population": "development set (test split), exposed",
   "n_rows": 662,
   "problems": 22,
@@ -15,7 +15,7 @@
     "human/weak_rule": 17,
     "human/repair_verified": 1
   },
-  "served_system": "p6: full runtime",
+  "served_system": "pr17: full runtime",
   "runs": {
     "audited": {
       "tag": "audited",

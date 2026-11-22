@@ -1,21 +1,21 @@
 {
   "schema_version": 2,
-  "created_at": "2026-11-22T19:51:57+00:00",
-  "git_commit": "a11fc3799d1a2e65b76e8e0ee3f909ba9453ce43",
+  "created_at": "2026-11-22T13:38:05+00:00",
+  "git_commit": "5dbf94859231bd354656c03616f1a6a68c252d74",
   "files": {
     "data/misconception_dataset/annotations/labels.jsonl": "42b1b3d7be1ab28f234d6b54b9443a5df06161c5ac45470c71d738fe8834863b",
     "data/misconception_dataset/features/features.csv": "2b4f0c3e65a6668612512bf1407ce37bd5746ac57618877aa9cfef762112ee19",
     "data/misconception_dataset/splits/splits.csv": "cb5f284626fcb0bd8b6ed1e52a7ef8f1292fd5b73f88a84cf9057ad358ee07e9"
   },
   "model_files": {
-    "data/misconception_dataset/models/xgb_v1.json": "ca70d5e8134182069748f5efd5fc75b8583462868895f7b4fb8e6c7dc5be8602",
-    "data/misconception_dataset/models/xgb_masked_v1.json": "ca70d5e8134182069748f5efd5fc75b8583462868895f7b4fb8e6c7dc5be8602",
-    "data/misconception_dataset/models/xgb_common_v1.json": "a607e1aad4c5c8d102bb457e2328be710e91cd6023a24e775fd180b5b44d22a1",
-    "data/misconception_dataset/models/xgb_best_v1.json": "fbc564bb6eef5a74f5954631517f3d50853b61a056182a3db8020f586094cda1",
-    "data/misconception_dataset/models/xgb_execution_v1.json": "4fd55a25c6e722971ccdcf1fa162a22a5cc3069b86a07b1cd31e561e57cc7875",
-    "data/misconception_dataset/models/calibrator.json": "60848d867cbd311f4b743ff56688b7558b2fc388a09a975281308d069c212fbb",
+    "data/misconception_dataset/models/xgb_v1.json": "184bb77b5167990442dd1c57199387b9d71478d6aeebe7998b2a0ff54631336c",
+    "data/misconception_dataset/models/xgb_masked_v1.json": "184bb77b5167990442dd1c57199387b9d71478d6aeebe7998b2a0ff54631336c",
+    "data/misconception_dataset/models/xgb_common_v1.json": "e8e61c23828b40a6aa747c8a3ed0d5fe75d346de6eb61afd822af2dca24efa60",
+    "data/misconception_dataset/models/xgb_best_v1.json": "2da1ba07d86c56b282e94cc0b9e838ba6973e57783eb296f1da12f7560ef6b2a",
+    "data/misconception_dataset/models/xgb_execution_v1.json": "8860b506160ed29c10a83981b937ee06783ff3f7abfb8e7df17163fc4ea123d3",
+    "data/misconception_dataset/models/calibrator.json": "426ea532938e789eb4e1f5e4240b8ac0671d2dc59e92052f4dfe0fe85189ddfd",
     "data/misconception_dataset/models/label_encoder.json": "5b0628c4f9a183d56f4854efe273e32ce14f45e52fc0afcaeef40b2d5551901a",
-    "data/misconception_dataset/models/metrics_v1.json": "ca37df46b9e6e79f5b71eb44d44eaca0d94a8e6695922af8b5a1c480f42825e4"
+    "data/misconception_dataset/models/metrics_v1.json": "e613bb747342a1215abea9dcf8cc8af5d883ced0f5092d9e055d3c8e4d9cbafe"
   },
   "training": {
     "profile": "plain_reg",
@@ -39,11 +39,11 @@
       "stu-cn-rc-"
     ],
     "synthetic_rule": "SYNTHETIC rows are used only if row_id starts with an allowed prefix and not with an excluded one; every other SYNTHETIC row is excluded. Other rows are used only if label_source == 'human'.",
-    "row_ids_file": "data/misconception_dataset/models/training_row_ids.txt",
-    "n_rows": 2475,
-    "n_real_source": 1367,
-    "n_synthetic": 1108,
-    "row_ids_sha256": "75292fb70415c74dc782c81c9ea80a67bcfdf31c8f236ad3520959d42a71323e",
-    "row_ids_note": null
+    "row_ids_file": null,
+    "n_rows": null,
+    "n_real_source": null,
+    "n_synthetic": null,
+    "row_ids_sha256": null,
+    "row_ids_note": "not recorded: this model was trained before the trainer wrote its row-id list, so the data hashes alone do not say which rows it used."
   }
 }

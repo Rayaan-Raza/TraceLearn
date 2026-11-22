@@ -21,11 +21,18 @@ measured at the time. Where an entry and the report disagree, the report is curr
 
 ---
 
-## 2026-11-23: rule-only classes, real-row augmentation (candidate model 4fd55a25)
+## 2026-11-23: rule-only classes, real-row augmentation (candidate 4fd55a25 not served)
 
 A candidate for the served model. The training-side figures come first, then the one
 development-set read and the bank benchmark. **Outcome: the model swap fails the section 6 rule
-(precision and false alarm), and the bank benchmark is level.**
+(precision and false alarm), and the bank benchmark is level.** The served model stays `8860b506`.
+What merges is the code: the rule-only runtime, the `-Wreturn-type` guard, the training options
+and the harness and benchmark fixes. The candidate's files stay at commit `f4b02d7`
+(`git checkout f4b02d7 -- data/misconception_dataset/models`). With the served model under the
+rule-only runtime, the bank benchmark is unchanged (style held out: accuracy 0.958, macro-F1 0.968,
+0/40 false alarms). On real training-side rows the served model under this runtime is `p6_old_served`
+(estimable macro-F1 0.635, false alarm 33/998). The development set was not read again for it: the
+mask moves only the rule-only classes' probability, and no held-out row has either class.
 
 **What changed:**
 
@@ -114,10 +121,10 @@ python scripts/train_xgb_misconception.py --profile plain_reg --models-dir <dir>
 python scripts/tune_class_thresholds.py --models-dir <dir> --write
 ```
 
-Revert to the served model (the rule-only runtime stays):
+Restore the candidate for a later comparison (the golden fixture then needs `make_model_golden.py`):
 
 ```bash
-git checkout main -- data/misconception_dataset/models backend/tests/fixtures/model_golden.json
+git checkout f4b02d7 -- data/misconception_dataset/models
 ```
 
 **Development-set read (one, logged as `p6` in `holdout_evaluations.jsonl`, 662 rows).** Full
