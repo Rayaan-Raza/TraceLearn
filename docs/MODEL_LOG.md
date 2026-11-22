@@ -21,6 +21,39 @@ measured at the time. Where an entry and the report disagree, the report is curr
 
 ---
 
+## 2026-11-22: P0 baseline on real rows (no model change)
+
+No new model. This entry records the baseline that every later candidate in
+`docs/MODEL_IMPROVEMENT_PLAN.md` is compared against, measured with the new harness
+`scripts/eval_candidate_oof.py`. The harness runs grouped out-of-fold on the train split: 3 folds by
+problem cluster, 3 repeats, 1,367 real and 1,107 synthetic rows. Each row goes through
+`runtime_decision`. The held-out split was not read. Full tables are in
+[`reports/candidates/candidates.md`](../data/misconception_dataset/reports/candidates/candidates.md).
+
+| Candidate | Real macro-F1, per repeat (mean ± sd) | Real macro-F1, mean of repeats | All rows | False alarm, real OTHER |
+|---|---|---|---|---|
+| `served`: served bars, no narrow-repair records | 0.516 ± 0.034 | 0.495 | 0.805 | 0.033 (33/998) |
+| `served_runtime`: plus narrow-repair records | 0.539 ± 0.037 | 0.522 | 0.813 | 0.034 (34/998) |
+| `served_crossfit`: bars refitted per fold | 0.526 ± 0.034 | 0.506 | 0.804 | 0.070 (70/998) |
+
+- **The P0 check passes.** `served` gives 0.495 on the mean of the repeats. That is the
+  configuration the 15 Nov entry measured as 0.50 ± 0.03.
+- **The served bars are optimistic.** They were fitted on these same out-of-fold rows.
+  Refitting them per fold on the other folds keeps macro-F1, but false alarm doubles to 0.070.
+  New candidates use `cross_fit`.
+- **Narrow-repair records.** They come from the untracked cache
+  `cache/counterfactual/evidence_extra.jsonl`. The narrow-repair stage fired on 26 real rows and
+  was right on 22. It lifts OFF_BY_ONE real F1 from 0.33 to 0.51.
+- **Class rules.** On real rows they fired twice, both wrong (`bl-t2-tr-223`, `bl-tr-016`). On
+  synthetic rows they were right 86 of 87 times. This matches the plan's diagnosis (P4).
+- **Classes too small to score.** ASSIGN_VS_COMPARE, MISSING_BASE_CASE and WRONG_LOOP_DIR have 1
+  real row each and STALE_EXIT has 8, so the reports mark them "not estimable".
+- **Real/synthetic split from the next retrain.** `metrics_v1.json` gains per-class out-of-fold
+  scores split into real and synthetic rows (`per_class_real`, `per_class_synthetic`,
+  `macro_f1_oof_real`). The served file is unchanged until then.
+
+---
+
 ## 2026-11-22: Gate 4 decision: PR #17 merges (served model becomes 8860b506)
 
 Decided by the rule in `docs/EVAL_PROTOCOL.md` section 6, written on 16 Nov before any of these
