@@ -173,10 +173,36 @@ class TestCheck:
         monkeypatch.setattr(mdm, "ROOT", tmp_path)
         assert mdm.main(["--out", str(tmp_path / "none.json"), "--check"]) == 1
 
-    def test_an_older_manifest_with_only_data_hashes_still_checks(self, tmp_path, monkeypatch):
+    def test_an_older_manifest_with_only_data_hashes_fails_the_check(self, tmp_path, monkeypatch):
+        """It lists no model files, so it cannot vouch for the served model; regenerating fixes it."""
         _tree(tmp_path)
         monkeypatch.setattr(mdm, "ROOT", tmp_path)
         full = mdm.build_manifest()
         out = tmp_path / "v1.json"
         out.write_text(json.dumps({"created_at": "x", "files": full["files"]}), encoding="utf-8")
+        assert mdm.main(["--out", str(out), "--check"]) == 1
+        assert mdm.main(["--out", str(out)]) == 0                 # a plain run rewrites it
         assert mdm.main(["--out", str(out), "--check"]) == 0
+
+
+def test_plain_reg_is_described_as_a_plain_family_profile():
+    """plain_reg selects rows like plain, including the excluded CodeNet RANGE_CHECK mutants (#17)."""
+    import make_dataset_manifest as mdm
+
+    assert mdm._allowed_synthetic_prefixes({"name": "plain_reg"}) == ["stu-s2-", "stu-cp", "stu-cn-"]
+    assert mdm._excluded_synthetic_prefixes({"name": "plain_reg"}) == ["stu-cn-rc-"]
+    assert mdm._excluded_synthetic_prefixes({"name": "default"}) is None
+    recorded = {"name": "plain_reg", "synthetic_prefixes_excluded": []}   # a run with TL_PLAIN_EXCLUDE=""
+    assert mdm._excluded_synthetic_prefixes(recorded) == []
+
+
+def test_an_old_schema_manifest_does_not_pass_the_check():
+    """A schema-1 manifest lists only the three data files; it must not vouch for the model files."""
+    from make_dataset_manifest import differences
+
+    current = build_manifest()
+    old = {"files": dict(current["files"])}            # schema 1: data hashes only, no model files
+    out = differences(old, current)
+    assert any("schema" in line for line in out)
+    assert any("model_files" in line for line in out)
+    assert differences(current, current) == []

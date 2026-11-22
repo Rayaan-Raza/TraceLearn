@@ -669,7 +669,8 @@ def train(
         "seed": seed,
         "profile": {
             "name": profile, "params": PROFILES[profile], "balance": _BALANCE,
-            "synthetic_prefixes_allowed": list(PLAIN_SYNTHETIC_PREFIXES) if profile == "plain" else None,
+            "synthetic_prefixes_allowed": list(PLAIN_SYNTHETIC_PREFIXES) if profile in PLAIN_FAMILY else None,
+            "synthetic_prefixes_excluded": list(PLAIN_EXCLUDED_PREFIXES) if profile in PLAIN_FAMILY else None,
         },
         "n_rows": len(y),
         "n_train": int(train_mask.sum()),

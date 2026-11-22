@@ -23,6 +23,7 @@ import ast
 import datetime as dt
 import hashlib
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -82,19 +83,40 @@ def _git_commit(root: Path) -> str | None:
     return done.stdout.strip() or None if done.returncode == 0 else None
 
 
+PLAIN_FAMILY = ("plain", "plain_reg")  # profiles that select synthetic rows by prefix (trainer's PLAIN_FAMILY)
+
+
+def _trainer_source() -> str:
+    # Read constants from the trainer's source: importing the trainer needs numpy and xgboost,
+    # which the CI job that runs --check does not install. Empty when there is no trainer.
+    path = ROOT / "scripts" / "train_xgb_misconception.py"
+    return path.read_text(encoding="utf-8") if path.exists() else ""
+
+
 def _allowed_synthetic_prefixes(profile: dict) -> list[str] | None:
-    """The synthetic families a 'plain' model may train on; None for profiles that use them all."""
-    if "synthetic_prefixes_allowed" in profile:
+    """The synthetic families a plain-family model may train on; None for profiles that use them all."""
+    if profile.get("synthetic_prefixes_allowed"):
         return profile["synthetic_prefixes_allowed"]
-    if profile.get("name") != "plain":
+    if profile.get("name") not in PLAIN_FAMILY:
         return None
-    # Read the constant from the trainer's source: importing the trainer needs numpy and xgboost,
-    # which the CI job that runs --check does not install.
-    tree = ast.parse((ROOT / "scripts" / "train_xgb_misconception.py").read_text(encoding="utf-8"))
-    for node in tree.body:
+    for node in ast.parse(_trainer_source() or "").body:
         if isinstance(node, ast.Assign) and any(getattr(t, "id", None) == "PLAIN_SYNTHETIC_PREFIXES" for t in node.targets):
             return list(ast.literal_eval(node.value))
     return None
+
+
+def _excluded_synthetic_prefixes(profile: dict) -> list[str] | None:
+    """Families a plain-family model leaves out although their prefix is allowed (PLAIN_EXCLUDED_PREFIXES).
+
+    Read from the metrics when the trainer recorded it, else from the default of TL_PLAIN_EXCLUDE in
+    the trainer's source. A model trained with that variable set records it only in its metrics.
+    """
+    if profile.get("synthetic_prefixes_excluded") is not None:
+        return profile["synthetic_prefixes_excluded"]
+    if profile.get("name") not in PLAIN_FAMILY:
+        return None
+    m = re.search(r'TL_PLAIN_EXCLUDE"\s*,\s*"([^"]*)"', _trainer_source())
+    return [x for x in m.group(1).split(",") if x] if m else None
 
 
 def _training_block(ds: Path) -> dict:
@@ -108,10 +130,12 @@ def _training_block(ds: Path) -> dict:
         "params": profile.get("params"),
         "balance": profile.get("balance"),
         "synthetic_prefixes_allowed": _allowed_synthetic_prefixes(profile),
+        "synthetic_prefixes_excluded": _excluded_synthetic_prefixes(profile),
         "synthetic_rule": (
-            "SYNTHETIC rows are used only if row_id starts with an allowed prefix; every other "
-            "SYNTHETIC row is excluded. Other rows are used only if label_source == 'human'."
-            if name == "plain" else
+            "SYNTHETIC rows are used only if row_id starts with an allowed prefix and not with an "
+            "excluded one; every other SYNTHETIC row is excluded. Other rows are used only if "
+            "label_source == 'human'."
+            if name in PLAIN_FAMILY else
             "every SYNTHETIC row in the train split is used, weighted by the cross-validated multiplier."
             if name else None),
         "row_ids_file": None,
@@ -163,10 +187,17 @@ def build_manifest(root: Path | None = None) -> dict:
 
 
 def differences(stored: dict, current: dict) -> list[str]:
-    """What changed since `stored` was written. Sections an older manifest lacks are not compared."""
+    """What changed since `stored` was written.
+
+    A manifest older than this schema, or one missing a section, is itself a change: it does not
+    pin everything (an old manifest lists no model files), so it must not pass `--check`.
+    """
     out = []
+    if stored.get("schema_version", 1) < SCHEMA_VERSION:
+        out.append(f"  manifest schema {stored.get('schema_version', 1)} is older than {SCHEMA_VERSION}: regenerate it")
     for section in ("files", "model_files"):
         if section not in stored:
+            out.append(f"  section {section!r} missing from the manifest")
             continue
         for key, digest in current[section].items():
             if key in stored[section] and stored[section][key] != digest:
