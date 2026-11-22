@@ -187,6 +187,31 @@ class ModelPrediction:
             "ruled_out": [{"label": label, "reason": reason} for label, reason in self.ruled_out],
         }
 
+    @classmethod
+    def from_dict(cls, d: Mapping[str, Any]) -> "ModelPrediction":
+        """Rebuild a prediction from `as_dict()` output, e.g. the stored evidence `details`.
+
+        Records written before `decision_source` existed read as classifier decisions.
+        """
+        return cls(
+            variant=str(d["variant"]),
+            model_sha256=str(d["model_sha256"]),
+            top_label=str(d["top_label"]),
+            top_probability=float(d["top_probability"]),
+            abstained=bool(d["abstained"]),
+            threshold=float(d["threshold"]),
+            temperature=float(d["temperature"]),
+            probabilities={str(k): float(v) for k, v in (d.get("probabilities") or {}).items()},
+            top_k=tuple((str(x["label"]), float(x["p"])) for x in d.get("top_k") or ()),
+            n_features=int(d.get("n_features") or 0),
+            n_missing=int(d.get("n_missing") or 0),
+            ruled_out=tuple((str(x["label"]), str(x["reason"])) for x in d.get("ruled_out") or ()),
+            decision_source=str(d.get("decision_source") or "model"),
+            classifier_label=d.get("classifier_label"),
+            classifier_probability=d.get("classifier_probability"),
+            classifier_abstained=d.get("classifier_abstained"),
+        )
+
 
 def _read_json(path: Path) -> dict[str, Any]:
     try:
