@@ -14,6 +14,29 @@ git checkout <commit> -- data/misconception_dataset/models
 The backend serves the `execution` variant only with `MODEL_DIAGNOSIS=on`, `MODEL_VARIANT=execution`
 and `MODEL_RUN_RECORDS=on`.
 
+Held-out results are generated, not typed. The current figures for the served model and for any
+candidate are in [`reports/heldout_eval.md`](../data/misconception_dataset/reports/heldout_eval.md),
+written by `scripts/eval_heldout_rows.py`. Tables in the entries below are the record of what was
+measured at the time. Where an entry and the report disagree, the report is current.
+
+---
+
+## 2026-11-16: held-out report for both systems (no model change)
+
+The held-out report now scores the classifier alone and the full runtime, through the same
+`runtime_decision` the backend serves. It covers the served model and the PR #17 candidate on
+the 662 rows both data versions share, overall, per class, per problem, and without
+`tl-progpedia-00000039`. See `reports/heldout_eval.md`.
+
+- The served model's classifier alone reproduces the supervisor's figures of 15 Nov: 75 of 104
+  named predictions right, 75 of 204 named rows found, and 17 of 37 and 17 of 92 without
+  problem 39.
+- The served full runtime is right on 86 of 107 named predictions and finds 86 of 202 named rows
+  (28 of 41 and 28 of 92 without problem 39). The repair-first rule decides 33 rows.
+- Two development-set reads, both logged (`holdout_evaluations.jsonl`, tags `audited` and `pr17`).
+- Problem-weighted macro-F1 has a floor of 0.468 on this set: 6 of the 22 problems have no named
+  row, and always-OTHER scores 1.0 on each.
+
 ---
 
 ## 2026-11-09: sqrt class weights + CodeNet data (rejected, not served)

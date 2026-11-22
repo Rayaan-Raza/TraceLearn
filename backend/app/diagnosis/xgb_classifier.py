@@ -131,6 +131,43 @@ def decided_by_rule(pred: "ModelPrediction", label: str, source: str) -> "ModelP
     )
 
 
+# Share of the classifier's features that may be missing before its decision abstains.
+MAX_MISSING_SHARE = 0.25
+
+
+def too_many_missing(pred: "ModelPrediction") -> bool:
+    """The classifier abstains when too many of its features are missing.
+
+    Only a classifier decision is affected: a rule decision reads its own evidence (a repair that
+    passes every test), not the classifier's feature vector.
+    """
+    return (pred.decision_source == "model" and bool(pred.n_features)
+            and pred.n_missing / pred.n_features > MAX_MISSING_SHARE and not pred.abstained)
+
+
+def runtime_decision(clf: "ModelClassifier", features: Mapping[str, Any],
+                     run_record: Mapping[str, Any] | None = None) -> "ModelPrediction":
+    """What the served system decides for one feature mapping, in serving order.
+
+    1. The classifier runs, so its own answer and top-k are always kept.
+    2. Repair-first: exactly one class's repair passes every test, and that class decides
+       (`decided_by_rule`, at its measured precision).
+    3. Otherwise the classifier decides, and abstains when too many of its features are missing.
+
+    The backend (`model_runner.predict_source`) and the held-out evaluation
+    (`scripts/eval_heldout_rows.py`) both call this function, so the evaluation scores what is
+    served and cannot drift from it (docs/EVAL_PROTOCOL.md section 2). `run_record` is accepted
+    for rule stages that read the run record directly; none on this branch does.
+    """
+    pred = clf.predict(features)
+    override = repair_override(features)
+    if override is not None:
+        return decided_by_rule(pred, override, "repair")
+    if too_many_missing(pred):
+        return replace(pred, abstained=True)
+    return pred
+
+
 class ModelContractError(RuntimeError):
     """The model artifacts are missing, inconsistent, or not loadable."""
 
