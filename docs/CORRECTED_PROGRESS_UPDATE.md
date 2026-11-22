@@ -13,7 +13,7 @@ The first report was drafted from commit messages. In several places it describe
 ## Dataset and model facts, in one place
 
 - Pool on main (commit eec9639): 3,352 rows. PROGPedia 1,206, synthetic 1,064 (31.7%), CodeNet 707, CodeStream 375. Splits: train 2,444, test 674, dev-gold 209, test_iid 25.
-- Served model: the execution variant of the plain profile, sha256 0af477c2. It trained on 1,349 rows (n_train in metrics_v1.json). The work plan splits these into 800 real-source and 549 synthetic rows; the committed files cannot confirm that split, and the ids of the 1,349 rows were never recorded (see docs/MODEL_LOG.md, 22 November entry).
+- Served model: the execution variant of the plain profile, sha256 0af477c2. It trained on 1,349 rows (n_train in metrics_v1.json). Of those, 800 are real-source and 549 synthetic (40.7%): `calibrator.json` at tag audit-2026-11-15 records `rows: 1349, non_synthetic_rows: 800` for the execution variant. The ids of the 1,349 rows were never recorded (see docs/MODEL_LOG.md, 22 November entry).
 - Labels: 2,265 rows carry label_source "human". Of those, 1,733 are agent consensus, 327 blind review and 13 human review. The flag does not mean a person labelled the row. A provenance sidecar (annotations/label_provenance.csv, PR #25) separates code origin, label origin and reviewer; the filters and the dataset-card table are still being moved onto it.
 - Held-out results, classifier only, committed report of 9 November: on 525 programs from 20 problems, agreement with the recorded labels is 0.785, precision 0.807 (71/88) and recall 0.406 (71/175) when it names a class, false alarm 0.026. Always answering OTHER_ERROR scores 0.667 there. On 664 rows from 22 problems: 0.788, precision 0.721 (75/104), recall 0.368 (75/204); always-OTHER scores 0.693. This set has been scored many times and is a development set, not a blind one.
 
@@ -27,13 +27,13 @@ The first report was drafted from commit messages. In several places it describe
 
 | Claim in the first report | State | What stands |
 |---|---|---|
-| "real-only" XGBoost profile | Delivered | The plain profile trains on real-source rows plus three agent-written synthetic families: 800 real-source and 549 synthetic rows. |
+| "real-only" XGBoost profile (wrong: the profile also trains on synthetic rows) | Delivered | The plain profile trains on real-source rows plus three agent-written synthetic families: 800 real-source and 549 synthetic rows. |
 | Multi-annotator labels for 1,123 real PROGPedia failures | Delivered | Two annotator agents of the same model family labelled 1,123 failures; a third adjudicated disagreements. [Rayaan to add what a person checked.] |
 | Second and third opinions on 322 CodeStream failures | Delivered | 322 items: 178 agreed three of three, 138 two of two, 6 two of three, all by agents. |
 | Froze an 84-item blind set for final evaluation | Run | The 84-item set was scored on 6 November (three logged runs of the final set in holdout_evaluations.jsonl) and is now historical. A new set is being built. |
 | The execution model decides by default | Delivered | The default path is rules, then repairs, then the classifier, with the rule engine as fallback. |
 | Decides "without slowing the request path" | Planned | Not measured. To be replaced by the two measured latencies from task R6. |
-| Reviewed most of the team's pull requests | Delivered | Reviewed pull request #16 (review commit 8a72c08). |
+| Reviewed most of the team's pull requests | Delivered | Merged all nine pull requests of the period; five were my own. Of the four by teammates (#6, #11 by Umaima; #14, #16 by Eman), review corrections are recorded only for #16 (commit 8a72c08). No formal GitHub reviews were left. |
 
 ### Umaima Zeeshan
 
@@ -80,7 +80,7 @@ The requirement list is section 22.1 of docs/TraceLearn_FYP_Master_Design_and_Im
 | Multi-source evidence extraction with provenance | Implemented | test_run_record.py, test_model_run_record.py |
 | Rule baseline and XGBoost pipeline | Partial | test_xgb_classifier.py, test_model_runner.py. The runtime scored by the evaluation is not yet the one reported (R5, PR #21) |
 | Temporal learner model with no-future-leakage tests | Partial | test_history_contract.py, test_state_transitions.py. Recovery is tested on Python only; C++ with the model on is task U3 |
-| Five-level adaptive hint policy | Partial | test_hint_model_band.py. The real submission path does not yet pass a prediction (R4, PR #20; E2, PR #24) |
+| Adaptive hint policy (the blueprint says five levels; the code has four template levels and three per bank problem) | Partial | test_hint_model_band.py. The real submission path does not yet pass a prediction (R4, PR #20; E2, PR #24) |
 | Teacher evidence and correction workflow | Partial | A teacher review endpoint (backend/app/api/teachers.py) and the evidence view exist; the panel does not yet say which stage decided (E3). Effects of a correction on learner state are iteration 3 work |
 | Public-data ingestion and local data collection | Implemented | tests/ dataset suite; provenance sidecar (PR #25) |
 | Initial labelled evaluation, reproducible metrics | Partial | Held-out report exists; reproduction by a second person is task U2 |
@@ -89,4 +89,3 @@ The requirement list is section 22.1 of docs/TraceLearn_FYP_Master_Design_and_Im
 ## Still open
 
 - Approvals: each member approves their own section in the pull request. The two bracketed sentences are for Rayaan and Umaima to finish.
-- Counts marked as computed from the work plan (800 real-source, 549 synthetic) cannot be checked from committed files.
