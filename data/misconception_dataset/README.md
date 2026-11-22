@@ -1,6 +1,6 @@
 # TraceLearn Misconception Dataset
 
-**Taxonomy:** `tl-cpp-v2` · **Schema:** `1.1` · **Version:** `0.6` · **Status:** active
+**Taxonomy:** `tl-cpp-v2` · **Schema:** `1.1` · **Pool:** 3,352 rows (22 Nov 2026) · **Status:** active
 
 11-class C++ misconception classifier dataset. See [DATASET_CARD.md](DATASET_CARD.md) for full provenance, splits, model performance, and limitations.
 
@@ -32,7 +32,11 @@ After signing sheets: `apply_prereview_signoff.py` → re-run the labeling lanes
 seconds; picks up the new `lf_audits.csv` confidences) → `merge_dataset.py` →
 `train_xgb_misconception.py`.
 
-## Current model (v0.6)
+## Current state
+
+3,352 rows: PROGPedia 1,206 · synthetic 1,064 (31.7%) · CodeNet 707 · CodeStream 375. Splits: train 2,444 · dev_gold 209 · test 674 · test_iid 25. The served model is the plain-profile `execution` variant (sha256 `0af477c2…`, 1,349 training rows); its results and their limits are in `docs/MODEL_LOG.md` and `reports/heldout_eval.md`. Counts and label provenance: [DATASET_CARD.md](DATASET_CARD.md).
+
+## History: v0.6 (26 October 2026, 702 rows)
 
 | Variant | OOF macro-F1 | CV macro-F1 |
 |---------|-------------|-------------|
@@ -40,7 +44,7 @@ seconds; picks up the new `lf_audits.csv` confidences) → `merge_dataset.py` �
 | best (`static + warnings + semantics`) | 0.703 | 0.711 ± 0.037 |
 | common (`static + warnings`) | 0.696 | 0.705 ± 0.045 |
 
-702 rows (train 588 · dev_gold 45 · test 33 · test_iid 36). Majority baseline 0.035.
+702 rows then (train 588 · dev_gold 45 · test 33 · test_iid 36). Majority baseline 0.035.
 G8: 3/4 PASS; synthetic mass 0.91 by weight > 0.50 cap (see DATASET_CARD).
 
 ## Layout
