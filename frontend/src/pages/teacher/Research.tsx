@@ -95,6 +95,12 @@ export function ResearchPage() {
               {model.data.n_classes ? ` · ${model.data.n_classes} classes` : ''}
               {model.data.n_train ? ` · ${model.data.n_train} training rows` : ''}
             </p>
+            <p className="muted" style={{ margin: '0.35rem 0 0', fontSize: '0.85rem' }}>
+              Training-time figures from metrics_v1.json, not held-out results: cross-validation on the training rows, grouped by
+              problem{model.data.dev_gold_n != null ? `, and ${model.data.dev_gold_n} dev-gold rows used for calibration` : ''}.
+              {model.data.model_sha256 ? ` Model ${model.data.model_sha256}.` : ''} The file does not record a date.
+              Held-out results are in the evaluation report.
+            </p>
           </div>
           <table className="table">
             <thead>

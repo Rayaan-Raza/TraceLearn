@@ -115,6 +115,12 @@ export interface ModelPrediction {
   top_k: ModelTopK[]
   n_features: number
   n_missing: number
+  /** Which stage decided: the classifier, or a rule that runs before it. Absent on older records. */
+  decision_source?: string
+  /** The classifier's own answer, kept when a rule decided. `top_k` and `probabilities` are also the classifier's. */
+  classifier_label?: string | null
+  classifier_probability?: number | null
+  classifier_abstained?: boolean | null
 }
 
 export interface RunResult {
