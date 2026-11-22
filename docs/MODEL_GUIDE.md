@@ -286,11 +286,24 @@ python scripts/verify_dataset.py --per-class-report
 
 ## 7. Evaluate the model
 
-Held-out problems (writes `reports/heldout_eval.md`, `heldout_eval.json` and `heldout_predictions.json`):
+Held-out problems, the classifier alone and the full runtime (`docs/EVAL_PROTOCOL.md`). Each read
+of the held-out split is a logged exposure, so run it once per finished candidate.
+
+1. Score each model with the code it ships with. A run writes
+   `reports/heldout_runs/<tag>.json`. `TL_EVAL_REPO` points at another checkout, for example a
+   candidate branch in a worktree; outputs still land in this repository.
+2. Join the runs on their shared rows. This writes `reports/heldout_eval.md`,
+   `heldout_eval.json` and `heldout_predictions.json`.
 
 ```bash
-wsl python3 scripts/eval_heldout_rows.py --confirm-one-shot
+python scripts/eval_heldout_rows.py run --confirm-one-shot --tag audited
+git worktree add ../tl-candidate <branch>
+TL_EVAL_REPO=../tl-candidate python scripts/eval_heldout_rows.py run --confirm-one-shot --tag candidate
+python scripts/eval_heldout_rows.py report --runs audited candidate --served audited
 ```
+
+Rule stages that read the run record need `data/misconception_dataset/cache/counterfactual/evidence_extra.jsonl`,
+which is not committed. Without it, those stages never fire, and the run header says how many rows had it.
 
 Release gates, and which serving mode the model is cleared for:
 

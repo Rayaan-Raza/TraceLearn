@@ -82,6 +82,15 @@ def test_golden_predictions_match(model, golden):
             assert math.isclose(pred.probabilities[label], p, abs_tol=1e-4), (case["row_id"], label)
 
 
+def test_golden_pins_the_served_variant(golden):
+    """The fixture protects the model students get, not a retired one (it pinned `best` until 16 Nov)."""
+    served = Settings.model_fields["model_variant"].default
+    assert golden["variant"] == served, (
+        f"golden fixture pins {golden['variant']!r} but the backend serves {served!r}: "
+        "run scripts/make_model_golden.py and review the diff"
+    )
+
+
 def test_probabilities_are_a_distribution(model, golden):
     for case in golden["cases"]:
         pred = model.predict(case["features"])

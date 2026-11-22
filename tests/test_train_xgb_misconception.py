@@ -18,6 +18,7 @@ The trainer (R6 -> G8) must:
 
 from __future__ import annotations
 
+import csv
 import json
 from pathlib import Path
 
@@ -311,3 +312,18 @@ def test_deterministic_rerun_same_metrics(tmp_path: Path):
     m2 = _run(ds, tmp_path / "r2")
     assert m1["cv"]["macro_f1_mean"] == m2["cv"]["macro_f1_mean"]
     assert m1["cv"]["grid_scores"] == m2["cv"]["grid_scores"]
+
+
+def test_train_writes_the_row_ids_it_trained_on(tmp_path: Path):
+    """The split file alone does not say which rows a profile kept; the model folder must."""
+    ds = _build_dataset(tmp_path)
+    metrics = _run(ds, tmp_path)
+    ids_file = tmp_path / "models" / "training_row_ids.txt"
+    ids = ids_file.read_text(encoding="utf-8").splitlines()
+    assert len(ids) == metrics["n_train"]
+    assert ids == sorted(ids) and len(set(ids)) == len(ids)
+    splits = {}
+    with (ds / "splits" / "splits.csv").open(newline="", encoding="utf-8") as fh:
+        for rec in csv.DictReader(fh):
+            splits[rec["row_id"]] = rec["split"]
+    assert {splits[r] for r in ids} == {"train"}

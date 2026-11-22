@@ -25,7 +25,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -146,29 +146,38 @@ def evidence_rule_override(features: Mapping[str, Any]) -> str | None:
     return None
 
 
-def rule_override(features: Mapping[str, Any], run_record: Mapping[str, Any] | None = None) -> str | None:
-    """Every rule stage, in order; None hands the submission to the model.
+def staged_rule_override(features: Mapping[str, Any],
+                         run_record: Mapping[str, Any] | None = None) -> tuple[str, str] | None:
+    """(label, stage) of the first rule stage that fires, in order; None hands the submission to the model.
 
-    1. `evidence_rule_override`: MISSING_BASE_CASE and WRONG_LOOP_DIR.
-    2. `repair_override`: exactly one class's first-set repair passes every test. A lone
+    1. `class_rule` (`evidence_rule_override`): MISSING_BASE_CASE and WRONG_LOOP_DIR.
+    2. `repair` (`repair_override`): exactly one class's first-set repair passes every test. A lone
        base-case repair is not accepted here: stage 1 already took the supported ones.
-    3. `narrow_repair_override`: one of the few precise second-set repairs does. Turning an
-       upward loop downward (`for_run_downward`) counts only when the first failing test printed
-       the expected output in reverse: on 2,233 real failing programs that edit passed every
-       test on up to 40, none of them WRONG_LOOP_DIR, and none of the 40 printed a reversed output.
+    3. `narrow_repair` (`narrow_repair_override`): one of the few precise second-set repairs does.
+       Turning an upward loop downward (`for_run_downward`) counts only when the first failing
+       test printed the expected output in reverse: on 2,233 real failing programs that edit
+       passed every test on up to 40, none of them WRONG_LOOP_DIR, and none of the 40 printed a
+       reversed output.
     """
     hit = evidence_rule_override(features)
     if hit:
-        return hit
+        return hit, "class_rule"
     hit = repair_override(features)
     if hit == MISSING_BASE_CASE:
         hit = None
     if hit:
-        return hit
+        return hit, "repair"
     reversed_output = any(
         not math.isnan(v) and v >= 1
         for v in (_as_float(features.get("evidence.reversed_tokens")), _as_float(features.get("evidence.reversed_lines"))))
-    return narrow_repair_override(run_record, skip=() if reversed_output else (WRONG_LOOP_DIR,))
+    hit = narrow_repair_override(run_record, skip=() if reversed_output else (WRONG_LOOP_DIR,))
+    return (hit, "narrow_repair") if hit else None
+
+
+def rule_override(features: Mapping[str, Any], run_record: Mapping[str, Any] | None = None) -> str | None:
+    """The label of `staged_rule_override`, for callers that do not need the stage."""
+    hit = staged_rule_override(features, run_record)
+    return hit[0] if hit else None
 
 
 def decide(probs: Any, classes: list[str], threshold: float,
@@ -193,6 +202,104 @@ def decide(probs: Any, classes: list[str], threshold: float,
         return -max(cleared)[1], False
     return top, bool(name != OTHER_LABEL or probs[top] < threshold)
 
+# Which stage of the runtime decided a prediction. `model` = the classifier; every other value
+# is a rule that runs before it and replaces its label.
+DECISION_SOURCES = ("model", "class_rule", "repair", "narrow_repair")
+
+# Measured precision of each rule stage as (correct, total) on rows of TRAINING-side problems
+# only (train and dev-gold), never the held-out ones (docs/EVAL_PROTOCOL.md section 5). A passing
+# repair shows *a* fix, not the cause, so no rule is certain.
+# - `repair`: the repair-first rule, 102 of 115 real rows (comment above `_REPAIR_FIX_ALL_FEATURES`).
+# - `class_rule`: 43/43 (infinite-recursion warning) + 17/19 (base-case repair with a crash or
+#   timeout) + 66/67 (loop-direction repair) = 126/129, counted on labelled rows on 15 Nov; no
+#   rule fired on a held-out row. Almost all of these rows are synthetic: real code shows these two
+#   classes 3 times in about 2,600 rows (docs/MODEL_LOG.md, 2026-11-16).
+# - `narrow_repair`: enlarge_every_array 16/18, output_+-1_added 17/21, chained_compare_split_all
+#   2/2, while_add_update 1/1 = 36/42 real rows on train and dev problems (docs/MODEL_LOG.md,
+#   2026-11-14). The ops added on 15 Nov had no firing training row and add nothing to the count.
+RULE_STAGE_PRECISION: dict[str, tuple[int, int]] = {
+    "class_rule": (126, 129),
+    "repair": (102, 115),
+    "narrow_repair": (36, 42),
+}
+
+
+def wilson_lower(correct: int, total: int, z: float = 1.96) -> float:
+    """Lower end of the Wilson score interval for a proportion (95% by default)."""
+    if total <= 0:
+        return 0.0
+    p = correct / total
+    centre = p + z * z / (2 * total)
+    spread = z * math.sqrt(p * (1 - p) / total + z * z / (4 * total * total))
+    return (centre - spread) / (1 + z * z / total)
+
+
+def rule_confidence(source: str) -> float:
+    """The confidence a rule stage reports: the lower 95% Wilson bound of its measured precision.
+
+    The lower bound, not the ratio, so that a rule seen right 2 times in 2 does not report 1.0.
+    """
+    if source not in RULE_STAGE_PRECISION:
+        raise KeyError(f"no measured precision for decision source {source!r}")
+    return round(wilson_lower(*RULE_STAGE_PRECISION[source]), 3)
+
+
+def decided_by_rule(pred: "ModelPrediction", label: str, source: str) -> "ModelPrediction":
+    """`pred` with its label replaced by a rule stage's decision.
+
+    The classifier's own answer is kept in `classifier_label`, `classifier_probability` and
+    `classifier_abstained`, and `top_k` / `probabilities` stay the classifier's, so a reader can
+    always tell the decision from what the classifier thought.
+    """
+    if source == "model":
+        raise ValueError("a rule decision needs a rule source, not 'model'")
+    return replace(
+        pred,
+        top_label=label,
+        top_probability=rule_confidence(source),
+        abstained=False,
+        decision_source=source,
+    )
+
+
+# Share of the classifier's features that may be missing before its decision abstains.
+MAX_MISSING_SHARE = 0.25
+
+
+def too_many_missing(pred: "ModelPrediction") -> bool:
+    """The classifier abstains when too many of its features are missing.
+
+    Only a classifier decision is affected: a rule decision reads its own evidence (a repair that
+    passes every test), not the classifier's feature vector.
+    """
+    return (pred.decision_source == "model" and bool(pred.n_features)
+            and pred.n_missing / pred.n_features > MAX_MISSING_SHARE and not pred.abstained)
+
+
+def runtime_decision(clf: "ModelClassifier", features: Mapping[str, Any],
+                     run_record: Mapping[str, Any] | None = None) -> "ModelPrediction":
+    """What the served system decides for one feature mapping, in serving order.
+
+    1. The classifier runs, so its own answer and top-k are always kept.
+    2. The rule stages (`staged_rule_override`): class rules, repair-first, narrow repairs. The
+       first that fires decides (`decided_by_rule`, at that stage's measured precision).
+    3. Otherwise the classifier decides (its threshold and per-class bars), and abstains when too
+       many of its features are missing.
+
+    The backend (`model_runner.predict_source`) and the held-out evaluation
+    (`scripts/eval_heldout_rows.py`) both call this function, so the evaluation scores what is
+    served and cannot drift from it (docs/EVAL_PROTOCOL.md section 2). `run_record` carries the
+    narrow-repair evidence (`cf_narrow`).
+    """
+    pred = clf.predict(features)
+    hit = staged_rule_override(features, run_record)
+    if hit is not None:
+        label, stage = hit
+        return decided_by_rule(pred, label, stage)
+    if too_many_missing(pred):
+        return replace(pred, abstained=True)
+    return pred
+
 
 class ModelContractError(RuntimeError):
     """The model artifacts are missing, inconsistent, or not loadable."""
@@ -200,6 +307,10 @@ class ModelContractError(RuntimeError):
 
 @dataclass(frozen=True)
 class ModelPrediction:
+    """One decision. `top_label`, `top_probability` and `abstained` are the DECISION, made by the
+    stage named in `decision_source`. The `classifier_*` fields, `top_k` and `probabilities` are
+    always the classifier's own output, whichever stage decided."""
+
     variant: str
     model_sha256: str
     top_label: str
@@ -212,14 +323,31 @@ class ModelPrediction:
     n_features: int
     n_missing: int
     ruled_out: tuple[tuple[str, str], ...] = ()
+    decision_source: str = "model"
+    classifier_label: str | None = None
+    classifier_probability: float | None = None
+    classifier_abstained: bool | None = None
+
+    def __post_init__(self) -> None:
+        if self.decision_source not in DECISION_SOURCES:
+            raise ValueError(f"unknown decision_source {self.decision_source!r}")
+        # A prediction built straight from the classifier: its decision IS the classifier's answer.
+        if self.classifier_label is None:
+            object.__setattr__(self, "classifier_label", self.top_label)
+            object.__setattr__(self, "classifier_probability", self.top_probability)
+            object.__setattr__(self, "classifier_abstained", self.abstained)
 
     def as_dict(self) -> dict[str, Any]:
         return {
             "variant": self.variant,
             "model_sha256": self.model_sha256,
+            "decision_source": self.decision_source,
             "top_label": self.top_label,
             "top_probability": self.top_probability,
             "abstained": self.abstained,
+            "classifier_label": self.classifier_label,
+            "classifier_probability": self.classifier_probability,
+            "classifier_abstained": self.classifier_abstained,
             "threshold": self.threshold,
             "temperature": self.temperature,
             "probabilities": self.probabilities,
@@ -228,6 +356,31 @@ class ModelPrediction:
             "n_missing": self.n_missing,
             "ruled_out": [{"label": label, "reason": reason} for label, reason in self.ruled_out],
         }
+
+    @classmethod
+    def from_dict(cls, d: Mapping[str, Any]) -> "ModelPrediction":
+        """Rebuild a prediction from `as_dict()` output, e.g. the stored evidence `details`.
+
+        Records written before `decision_source` existed read as classifier decisions.
+        """
+        return cls(
+            variant=str(d["variant"]),
+            model_sha256=str(d["model_sha256"]),
+            top_label=str(d["top_label"]),
+            top_probability=float(d["top_probability"]),
+            abstained=bool(d["abstained"]),
+            threshold=float(d["threshold"]),
+            temperature=float(d["temperature"]),
+            probabilities={str(k): float(v) for k, v in (d.get("probabilities") or {}).items()},
+            top_k=tuple((str(x["label"]), float(x["p"])) for x in d.get("top_k") or ()),
+            n_features=int(d.get("n_features") or 0),
+            n_missing=int(d.get("n_missing") or 0),
+            ruled_out=tuple((str(x["label"]), str(x["reason"])) for x in d.get("ruled_out") or ()),
+            decision_source=str(d.get("decision_source") or "model"),
+            classifier_label=d.get("classifier_label"),
+            classifier_probability=d.get("classifier_probability"),
+            classifier_abstained=d.get("classifier_abstained"),
+        )
 
 
 def _read_json(path: Path) -> dict[str, Any]:

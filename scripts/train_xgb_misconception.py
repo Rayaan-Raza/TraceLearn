@@ -667,7 +667,10 @@ def train(
 
     metrics: dict[str, Any] = {
         "seed": seed,
-        "profile": {"name": profile, "params": PROFILES[profile], "balance": _BALANCE},
+        "profile": {
+            "name": profile, "params": PROFILES[profile], "balance": _BALANCE,
+            "synthetic_prefixes_allowed": list(PLAIN_SYNTHETIC_PREFIXES) if profile == "plain" else None,
+        },
         "n_rows": len(y),
         "n_train": int(train_mask.sum()),
         "n_dev_gold": n_dev,
@@ -729,8 +732,12 @@ def train(
     (models / "metrics_v1.json").write_text(
         json.dumps(metrics, indent=2) + "\n", encoding="utf-8", newline="\n")
 
+    # The split file alone does not say which rows a model used (profiles drop rows), so record them.
+    from scripts.make_dataset_manifest import write_training_row_ids  # noqa: PLC0415
+    write_training_row_ids(models, [r for r, in_train in zip(rids, train_mask) if in_train])
+
     # Write a dataset manifest so the served model can be traced back to the
-    # exact labels/features/splits snapshot used to train it.
+    # exact labels/features/splits snapshot and training rows used to train it.
     import subprocess  # noqa: PLC0415 — intentional late import to keep this optional
     try:
         subprocess.run(
