@@ -1,0 +1,2 @@
+date_utc,who,what_was_read,what_was_not_read,purpose
+2026-11-22,Rayaan (with Claude Code),"problem statements (HTML) of the 70 local CodeNet problems; the number of files in each problem C++ folder","no submission code, no label, no feature, no run record, no prediction","build candidates_v1.csv (scripts/g5_candidates.py)"
