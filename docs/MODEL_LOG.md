@@ -21,6 +21,68 @@ measured at the time. Where an entry and the report disagree, the report is curr
 
 ---
 
+## 2026-11-22: P1 synthetic-to-real candidates: no change to the served configuration
+
+No new model. Twelve candidates from `docs/MODEL_IMPROVEMENT_PLAN.md` P1 were scored with
+`scripts/eval_candidate_oof.py`, on the train split only; the held-out split was not read. Every
+candidate uses the same setting: calibration refitted, bars cross-fitted and narrow-repair records
+on. The reference `p1_base` is the served configuration in that setting. Full tables are in
+[`reports/candidates/p1_candidates.md`](../data/misconception_dataset/reports/candidates/p1_candidates.md).
+
+**Two changes to the measurement first, made after the first P1 run showed the problem:**
+
+- **Macro-F1 over the estimable classes only.** The plain real-row macro-F1 averages 11 classes, and
+  four of them have 1 to 8 real rows. One prediction on a one-row class moves it by 0.09. For
+  example, `p1_base` scored 0.571 on the mean of the repeats but 0.497 to 0.568 per repeat. The
+  selection score is now macro-F1 over the 7 classes with 10 or more real rows. The old figure stays
+  in every report.
+- **A paired cluster bootstrap replaces the spread over repeats.** The 1,367 real rows come from
+  only 24 problem clusters, and on real rows alone the three repeats give the same partition. Each
+  candidate is now compared with the reference on the same rows, with a 95% interval from
+  resampling whole clusters (2,000 resamples). "Better" needs that interval above 0 and false
+  alarm not higher.
+
+Estimable macro-F1, candidate minus `p1_base` (0.608):
+
+| Candidate | Change | Estimable macro-F1 | Difference (95%) | False alarm difference | Verdict |
+|---|---|---|---|---|---|
+| p1_cap_1 | at most 1 synthetic row per real row (classes with 20+ real rows) | 0.621 | +0.014 (+0.005 to +0.067) | -0.008 | better |
+| p1_w_big_025 | synthetic weight 0.25 for the four classes with 50+ real rows | 0.623 | +0.015 (-0.007 to +0.088) | -0.006 | no difference shown |
+| p1_w_big_000 | synthetic weight 0 for those four classes | 0.618 | +0.010 (-0.005 to +0.062) | -0.025 | no difference shown |
+| p1_w_big_050 | synthetic weight 0.5 for those four classes | 0.614 | +0.007 (-0.002 to +0.078) | -0.003 | no difference shown |
+| p1_drop_style | without six features that separate synthetic from real rows | 0.614 | +0.006 (-0.032 to +0.021) | -0.012 | no difference shown |
+| p1_cap_3 | at most 3 synthetic rows per real row | 0.609 | +0.002 (-0.017 to +0.027) | -0.022 | no difference shown |
+| p1_w_all_025 | every synthetic row at weight 0.25 | 0.608 | +0.001 (-0.012 to +0.071) | -0.014 | no difference shown |
+| p1_drop_testcount | without `evidence.n` (the problem's test count) | 0.606 | -0.002 (-0.042 to +0.005) | -0.015 | no difference shown |
+| p1_w_all_050 | every synthetic row at weight 0.5 | 0.576 | -0.031 (-0.056 to +0.042) | +0.030 | no difference shown |
+| p1_real_only | real rows only | 0.571 | -0.036 (-0.074 to +0.015) | -0.027 | no difference shown |
+| p1_drop_n_incr | without `evidence.n` and the `++` count | 0.584 | -0.024 (-0.063 to -0.003) | +0.063 | worse |
+
+What it shows:
+
+- **The P1 passing check is not met.** The check needs a clear gain, false alarm at 0.03 or less,
+  and a narrower gap for two of OFF_BY_ONE, RANGE_CHECK and UNINITIALIZED_VAR. The only nominal
+  "better" is `p1_cap_1` at +0.014, a third of the plan's +0.05. With 12 comparisons, about one
+  would pass at the 95% level by chance alone. RANGE_CHECK has real F1 0.31 in every candidate, and
+  OFF_BY_ONE stays between 0.49 and 0.53. Reweighting and capping synthetic rows do not move the
+  weak classes.
+- **Synthetic rows earn their place for LOOP_BOUNDARY.** Without them its real F1 falls from 0.59
+  to 0.27. Over all estimable classes, real-only is not clearly worse.
+- **Synthetic and real rows are told apart at AUC 0.977.**
+  [`reports/shift_synthetic_real.md`](../data/misconception_dataset/reports/shift_synthetic_real.md)
+  has the details. Inside a class the leading features are `evidence.n` (12 tests on a typical real
+  row, 9 on a synthetic one) and the `++` count. Dropping `evidence.n` changes nothing measurable.
+  Dropping the `++` count as well hurts and doubles false alarm, so that count carries real signal.
+- **The intervals are wide because there are 24 real problem clusters.** Even a +0.05 gain could
+  fail to clear them. That is a limit of the data, not of the harness.
+- **Decision.** The served configuration stays. `p1_cap_1` is carried to P5 as an option, to be
+  scored again beside whatever P2 and P3 produce. P2 (features) and P3 (real rows) are the levers
+  for OFF_BY_ONE, RANGE_CHECK and UNINITIALIZED_VAR.
+- **The baseline tables above were re-scored.** The P0 baselines were scored again to store their
+  real-row decisions. Their figures are unchanged.
+
+---
+
 ## 2026-11-22: P0 baseline on real rows (no model change)
 
 No new model. This entry records the baseline that every later candidate in
