@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 import math
 import sys
 from pathlib import Path
@@ -150,3 +151,26 @@ def test_committed_baseline_reproduces_the_recorded_figure():
     for cls in ("CPP_ASSIGN_VS_COMPARE", "CPP_WRONG_LOOP_DIR", "CPP_MISSING_BASE_CASE"):
         assert not r["pooled"]["per_class_real"][cls]["estimable"]
     assert all(not math.isnan(v) for v in r["summary"]["macro_f1_real_per_repeat"])
+
+
+def _cap_rows():
+    rows = [{"label": "A", "real": True, "cluster": f"r{i}"} for i in range(10)]
+    rows += [{"label": "A", "real": False, "cluster": f"s{i // 5}"} for i in range(40)]   # 8 clusters of 5
+    rows += [{"label": "B", "real": True, "cluster": "rb"}]
+    rows += [{"label": "B", "real": False, "cluster": "sb"} for _ in range(30)]
+    return rows
+
+
+def test_cap_keeps_whole_clusters_under_the_ratio_and_spares_rare_classes():
+    out = H.cap_synthetic(_cap_rows(), {"ratio": 2, "min_real": 5}, seed=7)
+    synth_a = [r for r in out if r["label"] == "A" and not r["real"]]
+    assert len(synth_a) == 20                                   # 2 x 10 real, in clusters of 5
+    clusters = Counter(r["cluster"] for r in synth_a)
+    assert set(clusters.values()) == {5}
+    assert sum(r["label"] == "B" and not r["real"] for r in out) == 30   # 1 real row: not capped
+    assert sum(r["real"] for r in out) == 11
+
+
+def test_cap_ratio_zero_removes_synthetic_rows_of_capped_classes():
+    out = H.cap_synthetic(_cap_rows(), {"ratio": 0, "min_real": 0}, seed=7)
+    assert all(r["real"] for r in out)

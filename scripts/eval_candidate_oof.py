@@ -15,6 +15,8 @@ A candidate is data (a JSON file):
      "synthetic_multiplier": 1.0, # weight of every synthetic row
      "synthetic_class_weight": {},# extra weight on synthetic rows of one class (P1)
      "exclude_prefixes": null,    # synthetic row-id prefixes left out (null = trainer default)
+     "synthetic_cap": null,       # {"ratio": 3, "min_real": 20}: at most ratio x real synthetic rows
+                                  # per class, for classes with min_real real rows or more (P1)
      "drop_features": [],         # features removed from the variant's list (P1, P2)
      "calibration": "served",     # served | refit: temperature and threshold
      "bars": "served",            # served | none | cross_fit | {class: bar}
@@ -82,7 +84,7 @@ ABSTAIN = "ABSTAIN"
 MIN_SUPPORT = 10
 DEFAULTS: dict[str, Any] = {
     "variant": "execution", "profile": None, "balance": "none", "synthetic_multiplier": 1.0,
-    "synthetic_class_weight": {}, "exclude_prefixes": None, "drop_features": [],
+    "synthetic_class_weight": {}, "exclude_prefixes": None, "synthetic_cap": None, "drop_features": [],
     "calibration": "served", "bars": "served", "include_dev_gold": False, "run_records": True,
     "folds": 3, "repeats": 3, "seed": 7,
 }
@@ -141,7 +143,38 @@ def load_rows(cand: dict[str, Any], profile: str, ds: Path = DS) -> list[dict[st
                 "label_confidence": float(m.get("label_confidence") or 0.6),
                 "dataset_source": m["dataset_source"],
             })
+    if cand["synthetic_cap"] is not None:
+        rows = cap_synthetic(rows, cand["synthetic_cap"], cand["seed"])
     return rows
+
+
+def cap_synthetic(rows: list[dict[str, Any]], cap: dict[str, Any], seed: int) -> list[dict[str, Any]]:
+    """Keep at most `ratio` x real synthetic rows per class, whole problem clusters at a time.
+
+    Only classes with at least `min_real` real rows are capped: for the others synthetic rows are
+    the only evidence there is. Clusters are visited in a seeded random order and one is kept
+    only if it fits under the cap, so a generator family is kept or dropped as a whole.
+    """
+    ratio, min_real = float(cap["ratio"]), int(cap.get("min_real", 20))
+    real = Counter(r["label"] for r in rows if r["real"])
+    by_unit: dict[tuple[str, str], list[int]] = {}
+    for i, r in enumerate(rows):
+        if not r["real"]:
+            by_unit.setdefault((r["label"], r["cluster"]), []).append(i)
+    rng = np.random.default_rng(seed)
+    drop: set[int] = set()
+    for cls in sorted({k[0] for k in by_unit}):
+        if real[cls] < min_real:
+            continue
+        limit, kept = ratio * real[cls], 0
+        units = sorted(k for k in by_unit if k[0] == cls)
+        for j in rng.permutation(len(units)):
+            members = by_unit[units[j]]
+            if kept + len(members) <= limit:
+                kept += len(members)
+            else:
+                drop.update(members)
+    return [r for i, r in enumerate(rows) if i not in drop]
 
 
 def weights(rows: list[dict[str, Any]], cand: dict[str, Any]) -> np.ndarray:
