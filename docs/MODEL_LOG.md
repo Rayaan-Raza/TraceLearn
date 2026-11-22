@@ -102,3 +102,22 @@ Files (sha256):
 | calibrator.json | ddc9489364f39934d101d445439db7d2ed315bddbca46decdd525b9a5ec1190e |
 | label_encoder.json | 5b0628c4f9a183d56f4854efe273e32ce14f45e52fc0afcaeef40b2d5551901a |
 | metrics_v1.json | d0fd18fdde6528f46dbb0919fde9672562213423e0b61e55fef1a3ebed5e81a7 |
+
+Data files at tag `audit-2026-11-15` (`c62f8ba`), computed with
+`git show audit-2026-11-15:<path> | sha256sum` (added 20 November):
+
+| File | sha256 |
+|---|---|
+| annotations/labels.jsonl | 460729f9fba6ff161d6993c4ea3761b014fc1b0ecabc498519c4e3f046ce58bf |
+| features/features.csv | 7e0b6e1291f648bd77a705ab69f58d203afce1ed2e6e85211711b8ea9b8f59ca |
+| splits/splits.csv | 8f340a4b7d06a99ab110e85750205183db4563d79ca10c61f4866222720de40f |
+
+What this cannot prove. The served model was trained on 1,349 rows (`n_train` in `metrics_v1.json`,
+with 208 dev-gold rows held out, 1,557 in all). The ids of those rows were never recorded. Selecting
+rows the way the plain profile does (train split, human-labelled real rows, the three allowed
+synthetic families) from the files at the tag gives 2,184 train rows (1,368 real-source, 816
+synthetic), not 1,349. The data files were re-merged after the model was trained, so the hashes above
+identify the pool as committed, not the rows the model used. The split of the 1,349 into 800
+real-source and 549 synthetic comes from the team's work plan of 16 November and cannot be checked
+from the committed files. Models trained from now on write `training_row_ids.txt` and list its hash in
+`dataset_manifest.json`, so this limit applies to this model only.
