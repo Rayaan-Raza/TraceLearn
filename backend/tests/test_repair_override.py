@@ -155,6 +155,15 @@ class TestEvidenceRules:
         assert evidence_rule_override({**base, "evidence.ff_timeout": 1.0}) == "CPP_MISSING_BASE_CASE"
         assert evidence_rule_override({"repair.missing_base_case_fix_all": 1.0, "evidence.ff_crash": 1.0}) is None
 
+    def test_base_case_repair_is_not_trusted_when_a_function_falls_off_its_end(self):
+        # bl-tr-016: recursive calls whose result is never returned crash like a missing base case.
+        from backend.app.diagnosis.xgb_classifier import evidence_rule_override
+        feats = {"repair.missing_base_case_fix_all": 1.0, "semantics.recursion": 1.0, "evidence.ff_crash": 1.0}
+        assert evidence_rule_override({**feats, "warnings.return_type": 1.0}) is None
+        assert evidence_rule_override({**feats, "warnings.return_type": 0.0}) == "CPP_MISSING_BASE_CASE"
+        # the compiler's own infinite-recursion warning still decides
+        assert evidence_rule_override({"warnings.infinite_recursion": 1.0, "warnings.return_type": 1.0}) == "CPP_MISSING_BASE_CASE"
+
     def test_loop_direction_repair_wins_a_tie(self):
         from backend.app.diagnosis.xgb_classifier import evidence_rule_override, rule_override
         feats = {"repair.wrong_loop_dir_fix_all": 1.0, "repair.loop_boundary_fix_all": 1.0}
@@ -197,3 +206,34 @@ class TestDownwardLoopGuard:
                                          "CPP_RANGE_CHECK": {"fix_all": 1, "ops": ["chained_compare_split_all"]}}}}
         assert rule_override({}, rec) == "CPP_RANGE_CHECK"
         assert rule_override({"evidence.reversed_tokens": 1.0}, rec) is None   # two narrow repairs: a tie
+
+
+class TestRuleOnlyClasses:
+    """The classifier never names MISSING_BASE_CASE or WRONG_LOOP_DIR; only rule stages do."""
+
+    CLASSES = ["CPP_MISSING_BASE_CASE", "CPP_OFF_BY_ONE", "CPP_OTHER_ERROR", "CPP_WRONG_LOOP_DIR"]
+
+    def test_mask_moves_rule_only_mass_to_other(self):
+        import numpy as np
+
+        from backend.app.diagnosis.xgb_classifier import mask_rule_only
+        out = mask_rule_only(np.array([0.5, 0.1, 0.1, 0.3]), self.CLASSES)
+        assert out.tolist() == pytest.approx([0.0, 0.1, 0.9, 0.0])
+        matrix = mask_rule_only(np.array([[0.5, 0.1, 0.1, 0.3], [0.0, 1.0, 0.0, 0.0]]), self.CLASSES)
+        assert matrix[:, [0, 3]].sum() == 0 and matrix.sum(axis=1).tolist() == pytest.approx([1.0, 1.0])
+
+    def test_classifier_cannot_name_a_rule_only_class_but_a_rule_can(self):
+        import numpy as np
+
+        from backend.app.diagnosis.xgb_classifier import ModelClassifier, runtime_decision
+
+        class Fixed(ModelClassifier):
+            def _raw(self, matrix):
+                return np.array([[0.9, 0.04, 0.03, 0.03]])
+
+        clf = Fixed(variant="execution", booster=None, features=["f"], classes=self.CLASSES,
+                    temperature=1.0, threshold=0.5, model_sha256="x")
+        pred = runtime_decision(clf, {"f": 1.0})
+        assert pred.top_label == "CPP_OTHER_ERROR" and pred.probabilities["CPP_MISSING_BASE_CASE"] == 0.0
+        ruled = runtime_decision(clf, {"f": 1.0, "warnings.infinite_recursion": 1.0})
+        assert (ruled.top_label, ruled.decision_source) == ("CPP_MISSING_BASE_CASE", "class_rule")
