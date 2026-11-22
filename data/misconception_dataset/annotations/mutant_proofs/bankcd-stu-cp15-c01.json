@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp15-c01",
+ "seed_submission_id": "student:CP15:C",
+ "problem_id": "bank-CP15",
+ "operator": "student_cpp_off_by_one_01",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "ce2a3197d26192c1",
+ "mutant_sha256": "f018526020128b8d236ddacb6828ced246115e0182d987eec3cfe713f8e3bc89",
+ "tests_passed": 3,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "[i + 1]",
+  "after": "[i]",
+  "note": "[i] -> [i + 1]",
+  "base_sha256": "ce2a3197d26192c1"
+ }
+}

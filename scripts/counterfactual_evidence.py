@@ -175,6 +175,26 @@ def extra_counterfactuals(code: str, lang: str, tests: list[dict], results: list
     return out
 
 
+def narrow_counterfactuals(code: str, lang: str, tests: list[dict], results: list[dict], deadline: float) -> dict:
+    """The few precise second-set edits (`repair_extra.NARROW_OPS`), measured like `cf_extra`."""
+    before = {r["idx"]: r["status"] for r in results}
+    first = next((i for i in sorted(before) if before[i] not in ("pass", "skipped")), None)
+    if first is None:
+        return {"first": None, "classes": {}}
+    try:
+        prog = repair_verify.parse(code)
+    except Exception:  # noqa: BLE001  a program the light parser cannot read has no candidates
+        return {"first": first, "classes": {}, "parse_error": True}
+    w = _Work(tests)
+    out: dict = {"first": first, "classes": {}, "budget_hit": False}
+    try:
+        for cls, cands in repair_extra.narrow_candidates(prog).items():
+            out["classes"][cls] = _measure(w, cands, lang, tests, first, before, deadline, out)
+    finally:
+        w.close()
+    return out
+
+
 def counterfactuals(code: str, lang: str, tests: list[dict], results: list[dict], deadline: float) -> dict:
     """Per class: how many candidate edits exist, compile, fix the first failure, fix everything."""
     before = {r["idx"]: r["status"] for r in results}
@@ -246,6 +266,10 @@ def evidence_for(job: dict) -> dict:
             s2["reports"] = (s2.get("reports") or [])[:6]
         if rec["compiled"] and rec["tests"]:
             rec["cf"] = counterfactuals(code, lang, tests, rec["tests"]["results"], t0 + TIME_BUDGET_S)
+            # Only when no first-set repair passes every test: that proof wins anyway.
+            if not any(c.get("fix_all") for c in (rec["cf"].get("classes") or {}).values()):
+                rec["cf_narrow"] = narrow_counterfactuals(code, lang, tests, rec["tests"]["results"],
+                                                          t0 + TIME_BUDGET_S)
     except Exception as exc:  # noqa: BLE001  one bad row must not kill a bulk run
         rec = {"row_id": rid, "error": f"{type(exc).__name__}: {exc}"}
     rec["seconds"] = round(time.monotonic() - t0, 2)

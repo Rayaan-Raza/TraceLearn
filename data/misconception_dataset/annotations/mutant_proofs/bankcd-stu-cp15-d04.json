@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp15-d04",
+ "seed_submission_id": "student:CP15:D",
+ "problem_id": "bank-CP15",
+ "operator": "student_cpp_stale_exit_04",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "83c746dec586fdce",
+ "mutant_sha256": "7dc8486918b1848bfc27a61833eb0f1a93db35acc9b889994f173ef8e3b4bbba",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "",
+  "after": "i++;",
+  "note": "i++; -> ",
+  "base_sha256": "83c746dec586fdce"
+ }
+}

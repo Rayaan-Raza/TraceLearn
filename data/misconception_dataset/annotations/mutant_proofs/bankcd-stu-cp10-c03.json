@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp10-c03",
+ "seed_submission_id": "student:CP10:C",
+ "problem_id": "bank-CP10",
+ "operator": "student_cpp_off_by_one_03",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "27e7f8aead4ace28",
+ "mutant_sha256": "c44c6b5161c0b0634a8efd93d680725ed1a6ac59774d1eecdeb648fce5c53e6b",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "start 0 -> 1",
+  "after": "for (int i = 0;",
+  "note": "for (int i = 0; -> start 0 -> 1",
+  "base_sha256": "27e7f8aead4ace28"
+ }
+}

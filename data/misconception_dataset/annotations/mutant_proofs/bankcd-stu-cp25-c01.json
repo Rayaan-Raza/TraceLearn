@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp25-c01",
+ "seed_submission_id": "student:CP25:C",
+ "problem_id": "bank-CP25",
+ "operator": "student_cpp_range_check_01",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "cfb7733400bae90e",
+ "mutant_sha256": "a1b2254a4eb8eebf491e9f50d00d7fb282ae9f3b8a2aaa68d052a4f480dadf94",
+ "tests_passed": 7,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(s > 90)",
+  "after": "(s >= 90)",
+  "note": "(s >= 90) -> (s > 90)",
+  "base_sha256": "cfb7733400bae90e"
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp13-c08",
+ "seed_submission_id": "student:CP13:C",
+ "problem_id": "bank-CP13",
+ "operator": "student_cpp_assign_vs_compare_08",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "277e63fdf01c3d55",
+ "mutant_sha256": "322e6a77ef39db680ffd29de30e286f16a242bd2fca9cf96fd6e812daa29b169",
+ "tests_passed": 1,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(i = n - 1 || a[i] != a[i + 1])",
+  "after": "(i == n - 1 || a[i] != a[i + 1])",
+  "note": "(i == n - 1 || a[i] != a[i + 1]) -> (i = n - 1 || a[i] != a[i + 1])",
+  "base_sha256": "277e63fdf01c3d55"
+ }
+}

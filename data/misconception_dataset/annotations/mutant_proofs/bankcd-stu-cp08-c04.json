@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp08-c04",
+ "seed_submission_id": "student:CP08:C",
+ "problem_id": "bank-CP08",
+ "operator": "student_cpp_stale_exit_04",
+ "label": "CPP_STALE_EXIT",
+ "seed_sha256": "d9aafa9f67304f8f",
+ "mutant_sha256": "e5ba01e34a4223cf880fb29b9434e8d92022fc6098b4a8d4fc165831fb4cf390",
+ "tests_passed": 3,
+ "tests_total": 10,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(loop step removed)",
+  "after": "for (int i = 0; i < n; i++)",
+  "note": "for (int i = 0; i < n; i++) -> (loop step removed)",
+  "base_sha256": "d9aafa9f67304f8f"
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp02-d02",
+ "seed_submission_id": "student:CP02:D",
+ "problem_id": "bank-CP02",
+ "operator": "student_cpp_assign_vs_compare_02",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "8a9e368e42400fdd",
+ "mutant_sha256": "87bec20d7d29edd3a9bdc000fabdca4af428820ce8b9cc089cdafc4efc85ea0b",
+ "tests_passed": 6,
+ "tests_total": 10,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(n = 0)",
+  "after": "(n == 0)",
+  "note": "(n == 0) -> (n = 0)",
+  "base_sha256": "8a9e368e42400fdd"
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp37-d03",
+ "seed_submission_id": "student:CP37:D",
+ "problem_id": "bank-CP37",
+ "operator": "student_cpp_other_error_03",
+ "label": "CPP_OTHER_ERROR",
+ "seed_sha256": "41244cac22241995",
+ "mutant_sha256": "b02ea78d90bd458c534fd8121f38aeaa3104a9a323d7aa7151fb424f4751d14f",
+ "tests_passed": 4,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "\"Not found\\n\"",
+  "after": "\"NOT FOUND\\n\"",
+  "note": "\"NOT FOUND\\n\" -> \"Not found\\n\"",
+  "base_sha256": "41244cac22241995"
+ }
+}

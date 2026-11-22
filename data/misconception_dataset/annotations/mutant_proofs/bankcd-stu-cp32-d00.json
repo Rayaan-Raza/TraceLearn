@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp32-d00",
+ "seed_submission_id": "student:CP32:D",
+ "problem_id": "bank-CP32",
+ "operator": "student_cpp_assign_vs_compare_00",
+ "label": "CPP_ASSIGN_VS_COMPARE",
+ "seed_sha256": "8968e77b570eea38",
+ "mutant_sha256": "7881b4370c068c42e08087c5f88ec9eec0d083764aab4f7b7c8aebf59c126896",
+ "tests_passed": 5,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(c = 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')",
+  "after": "(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')",
+  "note": "(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') -> (c = 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')",
+  "base_sha256": "8968e77b570eea38"
+ }
+}

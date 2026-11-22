@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp28-d01",
+ "seed_submission_id": "student:CP28:D",
+ "problem_id": "bank-CP28",
+ "operator": "student_cpp_range_check_01",
+ "label": "CPP_RANGE_CHECK",
+ "seed_sha256": "c3d884672cb38203",
+ "mutant_sha256": "2e1b0bf1d933aa7936fcc56e6b88a71b23a153458d6426918de2cc3f9a4125d6",
+ "tests_passed": 1,
+ "tests_total": 8,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "(age >= 0 || age <= 5)",
+  "after": "(age >= 0 && age <= 5)",
+  "note": "(age >= 0 && age <= 5) -> (age >= 0 || age <= 5)",
+  "base_sha256": "c3d884672cb38203"
+ }
+}

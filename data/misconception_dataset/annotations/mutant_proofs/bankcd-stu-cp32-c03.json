@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp32-c03",
+ "seed_submission_id": "student:CP32:C",
+ "problem_id": "bank-CP32",
+ "operator": "student_cpp_off_by_one_03",
+ "label": "CPP_OFF_BY_ONE",
+ "seed_sha256": "33397779701e78a6",
+ "mutant_sha256": "dd9acf3ede88007a4c96a9185a7d1e3b2b23668a5e8919fcc5307efcde85243e",
+ "tests_passed": 5,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "start 0 -> 1",
+  "after": "for (int i = 0;",
+  "note": "for (int i = 0; -> start 0 -> 1",
+  "base_sha256": "33397779701e78a6"
+ }
+}

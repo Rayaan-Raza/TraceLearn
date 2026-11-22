@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp22-c06",
+ "seed_submission_id": "student:CP22:C",
+ "problem_id": "bank-CP22",
+ "operator": "student_cpp_wrong_loop_dir_06",
+ "label": "CPP_WRONG_LOOP_DIR",
+ "seed_sha256": "75f0b20eca977774",
+ "mutant_sha256": "5dd7b2d0d604ccc500fdea1a4492fda7795f3736f63ff21d34021028191898ba",
+ "tests_passed": 4,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "for (int i = (n) - 1; i >= 0; i--)",
+  "after": "for (int i = 0; i < n; i++)",
+  "note": "for (int i = 0; i < n; i++) -> for (int i = (n) - 1; i >= 0; i--)",
+  "base_sha256": "75f0b20eca977774"
+ }
+}

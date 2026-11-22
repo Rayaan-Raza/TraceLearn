@@ -1,38 +1,44 @@
 {
   "schema_version": 2,
-  "created_at": "2026-11-19T20:43:08+00:00",
-  "git_commit": "5272b6ba118ab7386f60a88a63707107f639b55d",
+  "created_at": "2026-11-22T13:38:05+00:00",
+  "git_commit": "5dbf94859231bd354656c03616f1a6a68c252d74",
   "files": {
-    "data/misconception_dataset/annotations/labels.jsonl": "460729f9fba6ff161d6993c4ea3761b014fc1b0ecabc498519c4e3f046ce58bf",
-    "data/misconception_dataset/features/features.csv": "7e0b6e1291f648bd77a705ab69f58d203afce1ed2e6e85211711b8ea9b8f59ca",
-    "data/misconception_dataset/splits/splits.csv": "8f340a4b7d06a99ab110e85750205183db4563d79ca10c61f4866222720de40f"
+    "data/misconception_dataset/annotations/labels.jsonl": "42b1b3d7be1ab28f234d6b54b9443a5df06161c5ac45470c71d738fe8834863b",
+    "data/misconception_dataset/features/features.csv": "2b4f0c3e65a6668612512bf1407ce37bd5746ac57618877aa9cfef762112ee19",
+    "data/misconception_dataset/splits/splits.csv": "cb5f284626fcb0bd8b6ed1e52a7ef8f1292fd5b73f88a84cf9057ad358ee07e9"
   },
   "model_files": {
-    "data/misconception_dataset/models/xgb_v1.json": "eb6566ac5e923cc7513e9948a24ed25c66675cc83012614954fb7cc1d34343bc",
-    "data/misconception_dataset/models/xgb_masked_v1.json": "eb6566ac5e923cc7513e9948a24ed25c66675cc83012614954fb7cc1d34343bc",
-    "data/misconception_dataset/models/xgb_common_v1.json": "98a71f1c1a0dce9f4edfb024b4799afe05359bdcdad74674666382370982006a",
-    "data/misconception_dataset/models/xgb_best_v1.json": "faba7929e8cc617ec9f67154fb828d31898b4ce17b1cf78cf48c2121d60dc5cc",
-    "data/misconception_dataset/models/xgb_execution_v1.json": "0af477c27ce3955dd9343bb5db2f47aa46778c2816c370bdc20af35bb98790e2",
-    "data/misconception_dataset/models/calibrator.json": "ddc9489364f39934d101d445439db7d2ed315bddbca46decdd525b9a5ec1190e",
+    "data/misconception_dataset/models/xgb_v1.json": "184bb77b5167990442dd1c57199387b9d71478d6aeebe7998b2a0ff54631336c",
+    "data/misconception_dataset/models/xgb_masked_v1.json": "184bb77b5167990442dd1c57199387b9d71478d6aeebe7998b2a0ff54631336c",
+    "data/misconception_dataset/models/xgb_common_v1.json": "e8e61c23828b40a6aa747c8a3ed0d5fe75d346de6eb61afd822af2dca24efa60",
+    "data/misconception_dataset/models/xgb_best_v1.json": "2da1ba07d86c56b282e94cc0b9e838ba6973e57783eb296f1da12f7560ef6b2a",
+    "data/misconception_dataset/models/xgb_execution_v1.json": "8860b506160ed29c10a83981b937ee06783ff3f7abfb8e7df17163fc4ea123d3",
+    "data/misconception_dataset/models/calibrator.json": "426ea532938e789eb4e1f5e4240b8ac0671d2dc59e92052f4dfe0fe85189ddfd",
     "data/misconception_dataset/models/label_encoder.json": "5b0628c4f9a183d56f4854efe273e32ce14f45e52fc0afcaeef40b2d5551901a",
-    "data/misconception_dataset/models/metrics_v1.json": "d0fd18fdde6528f46dbb0919fde9672562213423e0b61e55fef1a3ebed5e81a7"
+    "data/misconception_dataset/models/metrics_v1.json": "e613bb747342a1215abea9dcf8cc8af5d883ced0f5092d9e055d3c8e4d9cbafe"
   },
   "training": {
-    "profile": "plain",
+    "profile": "plain_reg",
     "params": {
       "n_estimators": 200,
       "max_depth": 4,
       "learning_rate": 0.1,
-      "subsample": 0.8,
-      "colsample_bytree": 0.8
+      "subsample": 0.7,
+      "colsample_bytree": 0.5,
+      "min_child_weight": 5,
+      "reg_lambda": 10.0,
+      "gamma": 0.5
     },
-    "balance": null,
+    "balance": "none",
     "synthetic_prefixes_allowed": [
       "stu-s2-",
       "stu-cp",
       "stu-cn-"
     ],
-    "synthetic_rule": "SYNTHETIC rows are used only if row_id starts with an allowed prefix; every other SYNTHETIC row is excluded. Other rows are used only if label_source == 'human'.",
+    "synthetic_prefixes_excluded": [
+      "stu-cn-rc-"
+    ],
+    "synthetic_rule": "SYNTHETIC rows are used only if row_id starts with an allowed prefix and not with an excluded one; every other SYNTHETIC row is excluded. Other rows are used only if label_source == 'human'.",
     "row_ids_file": null,
     "n_rows": null,
     "n_real_source": null,

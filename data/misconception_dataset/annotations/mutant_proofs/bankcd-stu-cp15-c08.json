@@ -1,0 +1,18 @@
+{
+ "run_id": "stu-cp15-c08",
+ "seed_submission_id": "student:CP15:C",
+ "problem_id": "bank-CP15",
+ "operator": "student_cpp_uninitialized_var_08",
+ "label": "CPP_UNINITIALIZED_VAR",
+ "seed_sha256": "ce2a3197d26192c1",
+ "mutant_sha256": "bbadf119011e4b09eaa6ab7926f574002b73bf6143307a2d979131cbb07ffaf9",
+ "tests_passed": 0,
+ "tests_total": 7,
+ "inverse_edit": {
+  "op": "inverse_edit",
+  "before": "int c;",
+  "after": "int c = 0;",
+  "note": "int c = 0; -> int c;",
+  "base_sha256": "ce2a3197d26192c1"
+ }
+}

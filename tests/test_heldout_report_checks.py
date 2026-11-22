@@ -214,9 +214,11 @@ def test_no_scored_row_or_problem_was_trained_on(table, splits):
 # ----------------------------------------------------------------- 7. model matches
 
 def test_model_hash_in_the_header_is_the_committed_model(report, runs, markdown):
+    """The run the report calls served is the committed model (it was `audited` until Gate 4)."""
     digest = _sha256_lf(DS / "models" / "xgb_execution_v1.json")
-    assert report["models"]["audited"]["sha256_16"] == digest[:16]
-    assert runs["audited"]["run"]["model_sha256"] == digest
+    served = report["served_system"].split(":")[0]
+    assert report["models"][served]["sha256_16"] == digest[:16]
+    assert runs[served]["run"]["model_sha256"] == digest
     assert f"`{digest[:16]}`" in markdown
 
 
