@@ -1,0 +1,15 @@
+{
+ "name": "p1_drop_style",
+ "note": "Without the six features that separate synthetic from real rows by test count, style and array sizes.",
+ "calibration": "refit",
+ "bars": "cross_fit",
+ "run_records": true,
+ "drop_features": [
+  "evidence.n",
+  "semantics.increment",
+  "source.arr_fixed_min_log",
+  "source.arr_fixed_max_log",
+  "warnings.total",
+  "warnings.other"
+ ]
+}

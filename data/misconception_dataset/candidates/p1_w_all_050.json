@@ -1,0 +1,8 @@
+{
+ "name": "p1_w_all_050",
+ "note": "Every synthetic row at weight 0.5.",
+ "calibration": "refit",
+ "bars": "cross_fit",
+ "run_records": true,
+ "synthetic_multiplier": 0.5
+}

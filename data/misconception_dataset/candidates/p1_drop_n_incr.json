@@ -1,0 +1,11 @@
+{
+ "name": "p1_drop_n_incr",
+ "note": "Without evidence.n and semantics.increment (the ++ count).",
+ "calibration": "refit",
+ "bars": "cross_fit",
+ "run_records": true,
+ "drop_features": [
+  "evidence.n",
+  "semantics.increment"
+ ]
+}

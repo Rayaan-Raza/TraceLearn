@@ -1,0 +1,11 @@
+{
+ "name": "p1_real_only",
+ "note": "Real rows only: the reference for whether synthetic rows earn their place.",
+ "calibration": "refit",
+ "bars": "cross_fit",
+ "run_records": true,
+ "synthetic_cap": {
+  "ratio": 0,
+  "min_real": 0
+ }
+}

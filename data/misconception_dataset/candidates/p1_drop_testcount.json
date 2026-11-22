@@ -1,0 +1,10 @@
+{
+ "name": "p1_drop_testcount",
+ "note": "Without evidence.n, the number of tests a problem has.",
+ "calibration": "refit",
+ "bars": "cross_fit",
+ "run_records": true,
+ "drop_features": [
+  "evidence.n"
+ ]
+}
