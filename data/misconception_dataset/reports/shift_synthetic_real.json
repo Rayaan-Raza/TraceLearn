@@ -1,0 +1,745 @@
+{
+  "variant": "execution",
+  "profile": "plain_reg",
+  "n_features": 187,
+  "rows": {
+    "real": 1367,
+    "synthetic": 1108
+  },
+  "overall": {
+    "auc": 0.977,
+    "n_a": 1367,
+    "n_b": 1108,
+    "top_features": [
+      {
+        "feature": "semantics.increment",
+        "auc": 0.227,
+        "distance": 0.273,
+        "median_train": 3.0,
+        "median_unseen": 1.0
+      },
+      {
+        "feature": "evidence.n",
+        "auc": 0.239,
+        "distance": 0.261,
+        "median_train": 12.0,
+        "median_unseen": 9.0
+      },
+      {
+        "feature": "evidence.sa_neg_idx",
+        "auc": 0.733,
+        "distance": 0.233,
+        "median_train": 0.0,
+        "median_unseen": 1.0
+      },
+      {
+        "feature": "repair.n_fix_all",
+        "auc": 0.719,
+        "distance": 0.219,
+        "median_train": 0.0,
+        "median_unseen": 1.0
+      },
+      {
+        "feature": "warnings.other",
+        "auc": 0.308,
+        "distance": 0.192,
+        "median_train": 1.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "warnings.total",
+        "auc": 0.317,
+        "distance": 0.183,
+        "median_train": 2.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "source.plus1",
+        "auc": 0.318,
+        "distance": 0.182,
+        "median_train": 1.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "source.lp_lt",
+        "auc": 0.33,
+        "distance": 0.17,
+        "median_train": 2.0,
+        "median_unseen": 1.0
+      },
+      {
+        "feature": "source.arr_fixed_min_log",
+        "auc": 0.657,
+        "distance": 0.157,
+        "median_train": 3.0,
+        "median_unseen": 3.302
+      },
+      {
+        "feature": "repair.n_fix_first",
+        "auc": 0.653,
+        "distance": 0.153,
+        "median_train": 0.0,
+        "median_unseen": 1.0
+      },
+      {
+        "feature": "source.arr_fixed_max_log",
+        "auc": 0.651,
+        "distance": 0.151,
+        "median_train": 3.0,
+        "median_unseen": 3.302
+      },
+      {
+        "feature": "evidence.ff_frac",
+        "auc": 0.405,
+        "distance": 0.095,
+        "median_train": 0.053,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "source.if_strict",
+        "auc": 0.406,
+        "distance": 0.094,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "source.lp_le",
+        "auc": 0.411,
+        "distance": 0.089,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "semantics.loop_lt",
+        "auc": 0.412,
+        "distance": 0.088,
+        "median_train": 1.0,
+        "median_unseen": 1.0
+      },
+      {
+        "feature": "source.arr_vla_n",
+        "auc": 0.412,
+        "distance": 0.088,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "semantics.recursion",
+        "auc": 0.417,
+        "distance": 0.083,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "evidence.sa_n",
+        "auc": 0.417,
+        "distance": 0.083,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "evidence.nd_frac",
+        "auc": 0.422,
+        "distance": 0.078,
+        "median_train": 1.0,
+        "median_unseen": 1.0
+      },
+      {
+        "feature": "semantics.idx_plus1",
+        "auc": 0.423,
+        "distance": 0.077,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "semantics.if_lt",
+        "auc": 0.423,
+        "distance": 0.077,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "source.lp_le_idx",
+        "auc": 0.423,
+        "distance": 0.077,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "source.lp_wrong_idx",
+        "auc": 0.427,
+        "distance": 0.073,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "evidence.sa_past_max_log",
+        "auc": 0.429,
+        "distance": 0.071,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      },
+      {
+        "feature": "source.mult_ident",
+        "auc": 0.434,
+        "distance": 0.066,
+        "median_train": 0.0,
+        "median_unseen": 0.0
+      }
+    ],
+    "verdict": "FAIL"
+  },
+  "per_class": {
+    "CPP_ARRAY_BOUNDS": {
+      "auc": 0.941,
+      "n_a": 92,
+      "n_b": 31,
+      "top_features": [
+        {
+          "feature": "evidence.n",
+          "auc": 0.055,
+          "distance": 0.445,
+          "median_train": 11.0,
+          "median_unseen": 9.0
+        },
+        {
+          "feature": "source.arr_fixed_max_log",
+          "auc": 0.133,
+          "distance": 0.367,
+          "median_train": 2.004,
+          "median_unseen": 1.041
+        },
+        {
+          "feature": "source.arr_fixed_min_log",
+          "auc": 0.143,
+          "distance": 0.357,
+          "median_train": 2.004,
+          "median_unseen": 1.041
+        },
+        {
+          "feature": "semantics.increment",
+          "auc": 0.171,
+          "distance": 0.329,
+          "median_train": 4.0,
+          "median_unseen": 2.0
+        },
+        {
+          "feature": "semantics.init_zero",
+          "auc": 0.783,
+          "distance": 0.283,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "source.plus1",
+          "auc": 0.249,
+          "distance": 0.251,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "warnings.total",
+          "auc": 0.288,
+          "distance": 0.212,
+          "median_train": 2.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "warnings.other",
+          "auc": 0.299,
+          "distance": 0.201,
+          "median_train": 2.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "evidence.sa_heap",
+          "auc": 0.699,
+          "distance": 0.199,
+          "median_train": 0.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "evidence.sa_stack",
+          "auc": 0.315,
+          "distance": 0.185,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        }
+      ]
+    },
+    "CPP_ASSIGN_VS_COMPARE": {
+      "skipped": "1 real / 118 synthetic rows"
+    },
+    "CPP_INT_OVERFLOW": {
+      "auc": 0.97,
+      "n_a": 66,
+      "n_b": 42,
+      "top_features": [
+        {
+          "feature": "source.plus1",
+          "auc": 0.031,
+          "distance": 0.469,
+          "median_train": 3.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "evidence.n",
+          "auc": 0.056,
+          "distance": 0.444,
+          "median_train": 12.0,
+          "median_unseen": 10.0
+        },
+        {
+          "feature": "semantics.increment",
+          "auc": 0.09,
+          "distance": 0.41,
+          "median_train": 4.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "source.minus1",
+          "auc": 0.129,
+          "distance": 0.371,
+          "median_train": 2.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "repair.int_overflow_gain",
+          "auc": 0.812,
+          "distance": 0.312,
+          "median_train": 0.083,
+          "median_unseen": 0.261
+        },
+        {
+          "feature": "semantics.idx_plus1",
+          "auc": 0.189,
+          "distance": 0.311,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "source.lp_lt",
+          "auc": 0.204,
+          "distance": 0.296,
+          "median_train": 2.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "source.lp_idx_plus",
+          "auc": 0.212,
+          "distance": 0.288,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "evidence.pass_frac",
+          "auc": 0.231,
+          "distance": 0.269,
+          "median_train": 0.917,
+          "median_unseen": 0.739
+        },
+        {
+          "feature": "semantics.plus1_index_in_full_loop",
+          "auc": 0.235,
+          "distance": 0.265,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        }
+      ]
+    },
+    "CPP_LOOP_BOUNDARY": {
+      "auc": 0.91,
+      "n_a": 26,
+      "n_b": 141,
+      "top_features": [
+        {
+          "feature": "warnings.total",
+          "auc": 0.103,
+          "distance": 0.397,
+          "median_train": 3.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "warnings.other",
+          "auc": 0.107,
+          "distance": 0.393,
+          "median_train": 3.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "source.lp_lt",
+          "auc": 0.116,
+          "distance": 0.384,
+          "median_train": 2.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "semantics.increment",
+          "auc": 0.19,
+          "distance": 0.31,
+          "median_train": 3.5,
+          "median_unseen": 2.0
+        },
+        {
+          "feature": "source.if_strict",
+          "auc": 0.209,
+          "distance": 0.291,
+          "median_train": 2.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "source.lp_wrong_idx",
+          "auc": 0.221,
+          "distance": 0.279,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "evidence.maxd_log",
+          "auc": 0.234,
+          "distance": 0.266,
+          "median_train": 5.429,
+          "median_unseen": 0.301
+        },
+        {
+          "feature": "semantics.if_lt",
+          "auc": 0.242,
+          "distance": 0.258,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "semantics.if_gt",
+          "auc": 0.26,
+          "distance": 0.24,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "evidence.exp_tok_log",
+          "auc": 0.261,
+          "distance": 0.239,
+          "median_train": 0.602,
+          "median_unseen": 0.301
+        }
+      ]
+    },
+    "CPP_MISSING_BASE_CASE": {
+      "skipped": "1 real / 38 synthetic rows"
+    },
+    "CPP_OFF_BY_ONE": {
+      "auc": 0.961,
+      "n_a": 92,
+      "n_b": 136,
+      "top_features": [
+        {
+          "feature": "evidence.n",
+          "auc": 0.038,
+          "distance": 0.462,
+          "median_train": 18.0,
+          "median_unseen": 8.0
+        },
+        {
+          "feature": "semantics.increment",
+          "auc": 0.125,
+          "distance": 0.375,
+          "median_train": 3.0,
+          "median_unseen": 1.5
+        },
+        {
+          "feature": "evidence.ff_frac",
+          "auc": 0.231,
+          "distance": 0.269,
+          "median_train": 0.111,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "source.arr_fixed_max_log",
+          "auc": 0.749,
+          "distance": 0.249,
+          "median_train": 2.006,
+          "median_unseen": 5.0
+        },
+        {
+          "feature": "source.arr_fixed_min_log",
+          "auc": 0.749,
+          "distance": 0.249,
+          "median_train": 2.006,
+          "median_unseen": 5.0
+        },
+        {
+          "feature": "repair.n_fix_all",
+          "auc": 0.69,
+          "distance": 0.19,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.off_by_one_fix_all",
+          "auc": 0.662,
+          "distance": 0.162,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.array_bounds_tried",
+          "auc": 0.656,
+          "distance": 0.156,
+          "median_train": 0.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "repair.off_by_one_gain",
+          "auc": 0.654,
+          "distance": 0.154,
+          "median_train": 0.0,
+          "median_unseen": 0.332
+        },
+        {
+          "feature": "source.arr_fixed_n",
+          "auc": 0.653,
+          "distance": 0.153,
+          "median_train": 0.0,
+          "median_unseen": 0.0
+        }
+      ]
+    },
+    "CPP_OTHER_ERROR": {
+      "auc": 0.979,
+      "n_a": 998,
+      "n_b": 251,
+      "top_features": [
+        {
+          "feature": "evidence.sa_neg_idx",
+          "auc": 0.904,
+          "distance": 0.404,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "evidence.n",
+          "auc": 0.126,
+          "distance": 0.374,
+          "median_train": 12.0,
+          "median_unseen": 8.0
+        },
+        {
+          "feature": "evidence.sa_past_min",
+          "auc": 0.827,
+          "distance": 0.327,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "semantics.increment",
+          "auc": 0.185,
+          "distance": 0.315,
+          "median_train": 3.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "warnings.total",
+          "auc": 0.258,
+          "distance": 0.242,
+          "median_train": 2.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "source.plus1",
+          "auc": 0.291,
+          "distance": 0.209,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "warnings.other",
+          "auc": 0.296,
+          "distance": 0.204,
+          "median_train": 1.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "evidence.sa_past_max_log",
+          "auc": 0.692,
+          "distance": 0.192,
+          "median_train": 0.301,
+          "median_unseen": 0.699
+        },
+        {
+          "feature": "source.lp_lt",
+          "auc": 0.316,
+          "distance": 0.184,
+          "median_train": 1.5,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "source.arr_fixed_min_log",
+          "auc": 0.663,
+          "distance": 0.163,
+          "median_train": 3.0,
+          "median_unseen": 3.39
+        }
+      ]
+    },
+    "CPP_RANGE_CHECK": {
+      "auc": 0.874,
+      "n_a": 27,
+      "n_b": 103,
+      "top_features": [
+        {
+          "feature": "evidence.n",
+          "auc": 0.059,
+          "distance": 0.441,
+          "median_train": 18.0,
+          "median_unseen": 8.0
+        },
+        {
+          "feature": "semantics.increment",
+          "auc": 0.244,
+          "distance": 0.256,
+          "median_train": 3.0,
+          "median_unseen": 0.0
+        },
+        {
+          "feature": "repair.range_check_gain",
+          "auc": 0.755,
+          "distance": 0.255,
+          "median_train": 0.0,
+          "median_unseen": 0.125
+        },
+        {
+          "feature": "source.if_lit_cmp",
+          "auc": 0.734,
+          "distance": 0.234,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.n_fix_all",
+          "auc": 0.715,
+          "distance": 0.215,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.range_check_fix_first",
+          "auc": 0.714,
+          "distance": 0.214,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.range_check_noreg",
+          "auc": 0.714,
+          "distance": 0.214,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.range_check_fix_all",
+          "auc": 0.713,
+          "distance": 0.213,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.range_check_tried",
+          "auc": 0.705,
+          "distance": 0.205,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "semantics.if_le",
+          "auc": 0.691,
+          "distance": 0.191,
+          "median_train": 0.0,
+          "median_unseen": 0.0
+        }
+      ]
+    },
+    "CPP_STALE_EXIT": {
+      "skipped": "8 real / 111 synthetic rows"
+    },
+    "CPP_UNINITIALIZED_VAR": {
+      "auc": 0.95,
+      "n_a": 55,
+      "n_b": 64,
+      "top_features": [
+        {
+          "feature": "evidence.n",
+          "auc": 0.064,
+          "distance": 0.436,
+          "median_train": 12.0,
+          "median_unseen": 8.0
+        },
+        {
+          "feature": "repair.uninitialized_var_fix_all",
+          "auc": 0.806,
+          "distance": 0.306,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "semantics.increment",
+          "auc": 0.197,
+          "distance": 0.303,
+          "median_train": 3.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.uninitialized_var_gain",
+          "auc": 0.796,
+          "distance": 0.296,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.uninitialized_var_fix_first",
+          "auc": 0.779,
+          "distance": 0.279,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.uninitialized_var_noreg",
+          "auc": 0.778,
+          "distance": 0.278,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "repair.n_fix_all",
+          "auc": 0.771,
+          "distance": 0.271,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        },
+        {
+          "feature": "source.arr_fixed_max_log",
+          "auc": 0.76,
+          "distance": 0.26,
+          "median_train": 2.004,
+          "median_unseen": 4.001
+        },
+        {
+          "feature": "source.arr_fixed_min_log",
+          "auc": 0.76,
+          "distance": 0.26,
+          "median_train": 2.004,
+          "median_unseen": 4.001
+        },
+        {
+          "feature": "warnings.maybe_uninitialized",
+          "auc": 0.739,
+          "distance": 0.239,
+          "median_train": 0.0,
+          "median_unseen": 1.0
+        }
+      ]
+    },
+    "CPP_WRONG_LOOP_DIR": {
+      "skipped": "1 real / 73 synthetic rows"
+    }
+  }
+}
