@@ -86,7 +86,7 @@ describe('ModelPanel, outcomes that are not a named decision', () => {
 
   it('OTHER_ERROR: has its own display name, not the generic fallback', () => {
     render(<ModelPanel items={[record({ top_label: 'CPP_OTHER_ERROR', top_probability: 0.9, top_k: [] }, 'MODEL_OTHER_ERROR')]} />)
-    expect(within(screen.getByTestId('model-panel')).getByText('Other error (no modelled misconception)')).toBeInTheDocument()
+    expect(within(screen.getByTestId('model-panel')).getByRole('heading', { name: 'Other error' })).toBeInTheDocument()
   })
 
   it('shadow run: labelled as not used, and a stored decision is shown in preference to it', () => {

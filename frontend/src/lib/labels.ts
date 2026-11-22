@@ -27,7 +27,7 @@ const MISCONCEPTION_LABELS: Record<string, string> = {
   // The classifier's answer for "none of the modelled beliefs fits". It is not a misconception: the
   // model stores it as neutral evidence, so it never becomes a diagnosis and student pages never show it.
   // Only the teacher's model panel names it, and it is not offered as a correction.
-  CPP_OTHER_ERROR: 'Other error (no modelled misconception)',
+  CPP_OTHER_ERROR: 'Other error',
   NO_MISCONCEPTION: 'No misconception',
   UNCERTAIN: 'Uncertain',
   GENERIC: 'General',
