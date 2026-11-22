@@ -1,0 +1,1 @@
+{"name": "p6_sqrt", "note": "p6_rule_only with sqrt class balance, first scored on real rows with cross-fitted bars.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "balance": "sqrt"}

@@ -1,0 +1,1 @@
+{"name": "p6_combo_d", "note": "p6_combo_b with augmentation up to 200 rows, 4x, weight 1.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "drop_rule_only": true, "synthetic_cap": {"ratio": 1, "min_real": 20}, "real_augment": {"target": 200, "max_factor": 4, "k": 5, "swap": 0.5, "weight": 1.0}}

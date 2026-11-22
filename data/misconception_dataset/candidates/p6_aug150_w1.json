@@ -1,0 +1,1 @@
+{"name": "p6_aug150_w1", "note": "real-row augmentation up to 150 rows per class, 3x at most, weight 1.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "real_augment": {"target": 150, "max_factor": 3, "k": 5, "swap": 0.5, "weight": 1.0}}

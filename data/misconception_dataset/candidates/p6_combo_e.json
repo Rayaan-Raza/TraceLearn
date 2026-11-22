@@ -1,0 +1,1 @@
+{"name": "p6_combo_e", "note": "p6_combo_b with the plain_reg3 profile.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "drop_rule_only": true, "profile": "plain_reg3", "synthetic_cap": {"ratio": 1, "min_real": 20}, "real_augment": {"target": 150, "max_factor": 3, "k": 5, "swap": 0.5, "weight": 1.0}}

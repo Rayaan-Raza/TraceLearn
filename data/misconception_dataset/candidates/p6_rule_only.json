@@ -1,0 +1,1 @@
+{"name": "p6_rule_only", "note": "p1_base with MISSING_BASE_CASE and WRONG_LOOP_DIR rule-only: the classifier's mass for them goes to OTHER_ERROR (served runtime, 23 Nov), and the base-case rule skips -Wreturn-type programs.", "calibration": "refit", "bars": "cross_fit", "run_records": true}
