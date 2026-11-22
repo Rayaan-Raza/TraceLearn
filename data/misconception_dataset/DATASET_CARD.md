@@ -6,13 +6,46 @@
 - **Date**: 2026-10-26
 - **Schema version**: 1.1 (`warnings.infinite_recursion`, `warnings.tautological_compare`, `semantics.*` block)
 
+## Current state (22 November 2026, main at `eec9639`)
+
+Everything below this section up to "Intended use" is current; the version 0.6 tables further down are kept as history and are not current counts.
+
+| | Rows |
+|---|---:|
+| Pool (`annotations/labels.jsonl`) | 3,352 |
+| PROGPedia (real source) | 1,206 |
+| Synthetic | 1,064 (31.7%) |
+| CodeNet (real source) | 707 |
+| CodeStream (real source) | 375 |
+
+Splits: train 2,444 · test 674 · dev_gold 209 · test_iid 25. The held-out report scores 664 rows on 22 problems; see its header for the selection.
+
+**Served model.** The `execution` variant of the plain profile, sha256 `0af477c2…`, trained on 1,349 rows (`n_train` in `models/metrics_v1.json`); the work plan splits these into 800 real-source and 549 synthetic. The ids of those rows were not recorded (`docs/MODEL_LOG.md`, 22 November entry); models trained from now on write `models/training_row_ids.txt`.
+
+**Who made the labels.** `label_source == "human"` is set on 2,265 rows, and it does not mean a person labelled them:
+
+| `label_source` | `label_status` | Rows |
+|---|---|---:|
+| human | agent_consensus | 1,733 |
+| human | blind_review | 327 |
+| human | (none) | 132 |
+| human | weak_rule | 48 |
+| human | human_review | 13 |
+| human | repair_verified | 12 |
+| synthetic | (none) | 1,064 |
+| weak_rule | weak_rule or (none) | 23 |
+
+The sidecar `annotations/label_provenance.csv` separates code origin, label origin and reviewer type. The regenerated table of code origin by label origin by reviewer type, per split, replaces the one above when the filters move onto the sidecar (task U1).
+
+**How we describe the data.** TraceLearn uses real-source student code alongside synthetic training examples. Labels include agent-generated, weak-rule and human-reviewed annotations with differing levels of validation. Our held-out results measure agreement with those recorded labels.
+
 ## Intended use
 - **Primary**: Train and evaluate an XGBoost misconception classifier for C++ student submissions
 - **Taxonomy development**: 11-class `tl-cpp-v2` taxonomy (loop boundary, off-by-one, array bounds, uninitialized variable, integer overflow, missing base case, assign-vs-compare, wrong loop direction, range check, stale exit, other error)
 - **Feature research**: Study which feature blocks (static, warnings, runtime, tests, CPG, semantics) are most predictive per misconception class
 - **Not intended for**: Direct student-facing feedback without human review; production grading
 
-## Sources
+## Sources (version 0.6, history)
 
 | Source | Rows | Lanes | License / access |
 |--------|------|-------|-----------------|
@@ -35,7 +68,7 @@ overflow (e.g. Inversions). See `reports/progpedia_oracle_tests.md` and
 - **Merge script**: `scripts/merge_dataset.py` (G1 row checks, MinHash dedupe, signed review decisions, G7 leakage gate, IID override)
 - **Labeling**: SYNTHETIC labels are deterministic from the mutation operator (execution-verified). Executed lanes (CodeStream, PROGPedia tier1c) label `repair_verified` when one targeted repair makes every test pass, `weak_rule` when a single LF fires; multi-signal and discovery-class rows go to a review pool, never straight to a label. Weak confidence = min(0.85, Beta(1,1) lower-80% bound of the audited LF precision), so unaudited LFs ship at ~0.2. PROGPedia tier1b ships at the §3.4 provisional cap (0.60/0.55).
 
-## Labels
+## Labels (version 0.6, history)
 
 | Class | Rows | PROGPEDIA | CODESTREAM | SYNTHETIC |
 |-------|-----:|----------:|-----------:|----------:|
@@ -54,7 +87,7 @@ overflow (e.g. Inversions). See `reports/progpedia_oracle_tests.md` and
 - **Label sources**: synthetic 384 · weak_rule 266 · repair_verified 52 · human 0 (yet)
 - **Human review**: Claude pre-reviewed 264 items in `review/model_prereview/` (CodeStream weak 33 + dev-gold 30, PROGPedia weak 150, PROGPedia dev-gold 17 + IID 17). **No sheet is signed yet**, so no label has changed and `lf_audits.csv` is still empty. Model-estimated weak-label precision: CodeStream ~45% (15/33), PROGPedia pg-3 ~76% (104/137 judged). Sign-off rules: `review/model_prereview/README.md`.
 
-## Splits
+## Splits (version 0.6, history)
 
 | Split | Rows | Note |
 |-------|-----:|------|
