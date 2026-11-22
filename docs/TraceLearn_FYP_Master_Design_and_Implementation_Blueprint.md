@@ -1320,6 +1320,34 @@ TraceLearn | FYP Master Design and Implementation Blueprint
 
 
 
+## **Implementation update, 22 November 2026: evidence records, hint selection and screens** 
+
+Written by Eman Ihsan from the code on `main` (commit eec9639). It describes what is running, and says so where something is still open. The decision order and the background queue are Rayaan's section; learner-state transitions are Umaima's.
+
+#### **Evidence records** 
+
+Every observation about a submission is one evidence record: a source, a code, a direction (support, conflict or neutral), a weight, a description, an optional misconception, and a `details` object. Records are stored as `evidence_items` rows tied to the submission, so a teacher can see where a diagnosis came from. There are seven sources: `execution`, `test`, `static`, `sequence`, `history`, `context` and `model`.
+
+`AnalysisPipeline.analyze_submission` deletes a submission's evidence and rebuilds it in a fixed order: static analysis (the C++ pattern analyser, or Python AST), test results, runtime, the difference from the student's previous attempt, then the model, then history. The model runs only for failing C++ (`model_applies`: not passing code, not a compile or system error) and, with the background worker on, after the request has returned. `apply_evidence_weights` sets the weights before the rows are written.
+
+The model contributes one record, with a distinct code for each outcome so a teacher can tell them apart. `MODEL_PREDICTION` supports one misconception and is weighted by the probability times a ceiling of 0.40. `MODEL_ABSTAINED` and `MODEL_OTHER_ERROR` are neutral with weight 0: they say the classifier was unsure, or that nothing modelled fits, which is not evidence for any one belief. `MODEL_SHADOW` has weight 0 and is kept only for comparison. The `details` object is the prediction as stored (variant, model hash, label, probability, threshold, temperature, top three, missing-feature count).
+
+Open: the stage that decided a prediction (classifier, repair check, and later the narrow repairs and class rules) is stored on the pull requests #19 to #21 but not on `main` yet. Until it is, a repair decision is stored with probability 1.0, which is not a measured figure.
+
+#### **Hint selection** 
+
+`hint_levels` decides what a student can be shown. An uncertain diagnosis, or one that needs teacher review, gets one generic hint. Otherwise a problem-specific hint in `problem_hints` is used, and failing that the template for the misconception. The bank stores its C++ hints under the bank code (for example `CPP-M05`) while a diagnosis holds the backend code (`CPP_RANGE_CHECK`), so the query accepts every spelling the mapping table knows. The bank supplies three levels per problem and the templates four; there is no fifth level in the code.
+
+`select_hint` starts at the lowest level. It starts at level 2 instead when a model prediction is given that is not abstained, is not OTHER_ERROR, has probability of 0.75 or more, and a level 2 exists. The student then asks for further levels one at a time (`POST /submissions/{id}/next-hint`), and every level shown is stored as a `HintEvent`.
+
+Open: on `main`, `SubmissionService.diagnose` does not pass a prediction to `select_hint`, so the level-2 shortcut cannot fire in a real submission. Pull request #20 passes the stored prediction and adds a guard that it must name the same misconception as the hint; the integration test for this is pull request #24.
+
+#### **What each screen shows** 
+
+Student screens: Dashboard and Progress (charts of the student's own states), Practice and Problem (the problem and the editor), Result (test outcomes, then the diagnosis area and the hints; while a diagnosis is pending it polls for it), Submissions and Submission detail (earlier attempts with their hints), and Classroom. A student sees an area name and a hint, not raw probabilities, and never sees OTHER_ERROR as a finding.
+
+Teacher screens: Classroom and Class overview, Students and Student details, Misconceptions, assignment screens with a per-assignment chart, Research, and Submission detail. Submission detail shows the code, the current-only and history-aware diagnoses side by side, the model panel, the evidence grouped by source with weights, every test including hidden ones, and the confirm or correct form that records a teacher review. Research shows experiment metrics and the classifier's training-time figures. Pull request #30 changes the model panel to say which stage decided and to label a rule's figure as a measured precision.
+
 ## **References and Source Basis** 
 
 Project documents used as the primary scope basis: “Ideas we like” / TraceLearn concept documents, the FAST FYP alignment guide, the updated TraceLearn FYP scope and timeline, the TraceLearn presentation, and the latest POC 
