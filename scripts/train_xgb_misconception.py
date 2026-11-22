@@ -271,8 +271,105 @@ PROFILES: dict[str, dict[str, Any]] = {
     # (docs/MODEL_LOG.md, 2026-11-15). Chosen on those two train-side checks, not on the test split.
     "plain_reg": dict(n_estimators=200, max_depth=4, learning_rate=0.1, subsample=0.7, colsample_bytree=0.5,
                       min_child_weight=5, reg_lambda=10.0, gamma=0.5),
+    # Shallower and slower than plain_reg, for the same rows: on real training rows plain_reg still
+    # fits at 0.80 and scores about 0.53 out-of-fold. Candidates for the 23 Nov comparison
+    # (docs/MODEL_LOG.md), not chosen until the real-row harness says so.
+    "plain_reg3": dict(n_estimators=300, max_depth=3, learning_rate=0.05, subsample=0.7, colsample_bytree=0.5,
+                       min_child_weight=5, reg_lambda=10.0, gamma=0.5),
+    "plain_reg2": dict(n_estimators=400, max_depth=2, learning_rate=0.05, subsample=0.7, colsample_bytree=0.5,
+                       min_child_weight=5, reg_lambda=10.0, gamma=0.5),
 }
-PLAIN_FAMILY = ("plain", "plain_reg")
+PLAIN_FAMILY = ("plain", "plain_reg", "plain_reg3", "plain_reg2")
+
+# Classes the served runtime leaves to its rule stages (backend RULE_ONLY_CLASSES). With
+# `drop_rule_only` the trainer leaves their rows out; the booster still has one output per class.
+RULE_ONLY_LABELS = ("CPP_MISSING_BASE_CASE", "CPP_WRONG_LOOP_DIR")
+OTHER = "CPP_OTHER_ERROR"
+
+
+def augment_real_rows(X: np.ndarray, y: np.ndarray, real: np.ndarray, classes: Sequence[str],
+                      spec: dict[str, Any], seed: int) -> tuple[np.ndarray, np.ndarray]:
+    """New training rows for under-represented classes, each made from two REAL rows of that class.
+
+    For a class with fewer than `target` real rows (and at least `min_real`), up to
+    `min(target - n, max_factor * n)` rows are added. Each one starts from a real row `a` (taken
+    in turn, so every real row is used about equally) and swaps in, feature by feature with
+    probability `swap`, the value of `b`, one of `a`'s `k` nearest real rows of the same class.
+    A feature missing in `a` stays missing, and one missing in `b` keeps `a`'s value, so every
+    value and every missing-value pattern is one a real program of that class produced.
+
+    Rows are drawn from the rows passed in, so inside a cross-validation fold they come from that
+    fold's training rows only. OTHER_ERROR and the rule-only classes are never augmented.
+    Returns (X_new, y_new); the caller sets their weight.
+    """
+    target = int(spec.get("target", 60))
+    max_factor = float(spec.get("max_factor", 2.0))
+    k = int(spec.get("k", 5))
+    swap = float(spec.get("swap", 0.5))
+    min_real = int(spec.get("min_real", 5))
+    only = set(spec.get("classes") or [])
+    rng = np.random.default_rng(seed)
+    ref = X[real]
+    sd = np.nanstd(ref, axis=0) if len(ref) else np.ones(X.shape[1])
+    sd = np.where(np.isfinite(sd) & (sd > 0), sd, 1.0)
+    new_x, new_y = [], []
+    for ci, name in enumerate(classes):
+        if name == OTHER or name in RULE_ONLY_LABELS or (only and name not in only):
+            continue
+        idx = np.flatnonzero(real & (y == ci))
+        n = len(idx)
+        need = min(target - n, int(max_factor * n))
+        if n < max(min_real, 2) or need <= 0:
+            continue
+        Z = X[idx] / sd
+        both = ~np.isnan(Z)[:, None, :] & ~np.isnan(Z)[None, :, :]
+        diff = np.where(both, (Z[:, None, :] - Z[None, :, :]) ** 2, 0.0)
+        shared = np.maximum(both.sum(axis=2), 1)
+        mismatch = (np.isnan(Z)[:, None, :] != np.isnan(Z)[None, :, :]).sum(axis=2)
+        dist = diff.sum(axis=2) / shared + mismatch / Z.shape[1]
+        np.fill_diagonal(dist, np.inf)
+        order = np.argsort(dist, axis=1)[:, :min(k, n - 1)]
+        start = rng.permutation(n)
+        for j in range(need):
+            a = start[j % n]
+            b = order[a, rng.integers(order.shape[1])]
+            xa, xb = X[idx[a]], X[idx[b]]
+            take = (rng.random(X.shape[1]) < swap) & ~np.isnan(xa) & ~np.isnan(xb)
+            new_x.append(np.where(take, xb, xa))
+            new_y.append(ci)
+    if not new_x:
+        return np.empty((0, X.shape[1])), np.empty(0, dtype=int)
+    return np.array(new_x, dtype=float), np.array(new_y, dtype=int)
+
+
+def synthetic_cap_drop(labels: Sequence[str], clusters: Sequence[str], real: Sequence[bool],
+                       cap: dict[str, Any], seed: int) -> set[int]:
+    """Indices of synthetic rows to leave out so each class keeps at most `ratio` x its real rows.
+
+    Only classes with at least `min_real` real rows are capped: for the others synthetic rows are
+    the only evidence there is. Clusters are visited in a seeded random order and one is kept
+    only if it fits under the cap, so a generator family is kept or dropped as a whole.
+    """
+    ratio, min_real = float(cap["ratio"]), int(cap.get("min_real", 20))
+    real_count = Counter(lab for lab, r in zip(labels, real) if r)
+    by_unit: dict[tuple[str, str], list[int]] = {}
+    for i, (lab, clu, r) in enumerate(zip(labels, clusters, real)):
+        if not r:
+            by_unit.setdefault((lab, clu), []).append(i)
+    rng = np.random.default_rng(seed)
+    drop: set[int] = set()
+    for cls in sorted({k[0] for k in by_unit}):
+        if real_count[cls] < min_real:
+            continue
+        limit, kept = ratio * real_count[cls], 0
+        units = sorted(k for k in by_unit if k[0] == cls)
+        for j in rng.permutation(len(units)):
+            members = by_unit[units[j]]
+            if kept + len(members) <= limit:
+                kept += len(members)
+            else:
+                drop.update(members)
+    return drop
 # Synthetic families "plain" leaves out although their prefix is allowed. `stu-cn-rc-` are the
 # CodeNet RANGE_CHECK mutants: a model trained with them flagged 58% of the OTHER programs on the
 # held-out CodeNet problems as RANGE_CHECK (docs/MODEL_LOG.md, 2026-11-14). TL_PLAIN_EXCLUDE
@@ -391,8 +488,18 @@ def train(
     synth_grid: Sequence[float] = SYNTH_GRID,
     profile: str = "default",
     balance: str = "none",
+    drop_rule_only: bool = False,
+    real_augment: dict[str, Any] | None = None,
+    synthetic_cap: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Train the three variants; write models/ artifacts; return metrics."""
+    """Train the three variants; write models/ artifacts; return metrics.
+
+    `drop_rule_only` gives the rows of RULE_ONLY_LABELS weight 0 (the booster keeps one output per
+    class). `real_augment` adds, inside every training fold and to the final fit, rows made from
+    pairs of real rows of a rare class (`augment_real_rows`). `synthetic_cap` leaves out synthetic
+    train rows above `ratio` x real per class (`synthetic_cap_drop`). The three are scored first
+    with `scripts/eval_candidate_oof.py`, which applies them the same way.
+    """
     set_profile(profile)
     set_balance(balance)
     import pandas as pd
@@ -450,6 +557,13 @@ def train(
 
     keep = [i for i, r in enumerate(rids) if splits[r][1] in ("train", "dev_gold")
             and not (_ACTIVE_PROFILE in PLAIN_FAMILY and _plain_excludes(r))]
+    if synthetic_cap:
+        sub = [i for i in keep if splits[rids[i]][1] == "train"]
+        gone = synthetic_cap_drop([y_str[i] for i in sub], [splits[rids[i]][0] for i in sub],
+                                  [meta_by_rid[rids[i]]["dataset_source"] != "SYNTHETIC" for i in sub],
+                                  synthetic_cap, seed)
+        gone_rows = {sub[j] for j in gone}
+        keep = [i for i in keep if i not in gone_rows]
     rids = [rids[i] for i in keep]
     y_str = [y_str[i] for i in keep]
     X = X[keep]
@@ -457,7 +571,7 @@ def train(
     cluster = np.array([splits[r][0] for r in rids])
     split = np.array([splits[r][1] for r in rids])
 
-    classes = sorted(set(y_str))
+    classes = sorted(set(y_str) | (set(RULE_ONLY_LABELS) if drop_rule_only else set()))
     class_to_idx = {c: i for i, c in enumerate(classes)}
     y = np.array([class_to_idx[s] for s in y_str])
     train_mask = split == "train"
@@ -475,6 +589,20 @@ def train(
     y_tr = y[tr_idx]
     cluster_tr = cluster[tr_idx]
     meta_tr = meta_df.iloc[tr_idx].reset_index(drop=True)
+    real_tr = (meta_tr["dataset_source"] != "SYNTHETIC").to_numpy()
+    # 1.0, or 0.0 for a rule-only row when they are left out of training.
+    keep_w = np.array([0.0 if drop_rule_only and lab in RULE_ONLY_LABELS else 1.0 for lab in y_str])
+    keep_w_tr = keep_w[tr_idx]
+
+    def fit_augmented(X_fit: np.ndarray, y_fit: np.ndarray, w_fit: np.ndarray, real_fit: np.ndarray,
+                      aug_seed: int):
+        """`_fit_model` on the rows given plus, with `real_augment`, rows made from their real rows."""
+        if real_augment:
+            X_new, y_new = augment_real_rows(X_fit, y_fit, real_fit, classes, real_augment, aug_seed)
+            X_fit = np.vstack([X_fit, X_new])
+            y_fit = np.concatenate([y_fit, y_new])
+            w_fit = np.concatenate([w_fit, np.full(len(y_new), float(real_augment.get("weight", 0.5)))])
+        return _fit_model(X_fit, y_fit, w_fit, seed)
 
     def oof_for(X_train_src: np.ndarray, X_val_src: np.ndarray,
                 multiplier: float,
@@ -496,11 +624,11 @@ def train(
             folds = StratifiedGroupKFold(
                 n_splits=cv_folds, shuffle=True, random_state=seed + rep
             )
-            for tr, va in folds.split(X_train_src, y_tr, groups=cluster_tr):
+            for k, (tr, va) in enumerate(folds.split(X_train_src, y_tr, groups=cluster_tr)):
                 w, _ = compute_weights(meta_tr.iloc[tr], multiplier)
-                probs = _fit_predict(
-                    X_train_src[tr], y_tr[tr], w, X_val_src[va], seed, len(classes)
-                )
+                fold_model, present = fit_augmented(X_train_src[tr], y_tr[tr], w * keep_w_tr[tr],
+                                                    real_tr[tr], seed + 100 * rep + k)
+                probs = _to_global(fold_model.predict_proba(X_val_src[va]), present, len(classes))
                 oof_sum[va] += probs
                 oof_count[va] += 1.0
                 rep_probs[va] = probs
@@ -517,8 +645,6 @@ def train(
         _, scores = oof_for(X[tr_idx], X[tr_idx], m, repeats=cv_repeats)
         grid_scores[float(m)] = float(np.mean(scores))
     best_mult = min(grid_scores, key=lambda m: (-grid_scores[m], m))
-
-    real_tr = (meta_tr["dataset_source"] != "SYNTHETIC").to_numpy()
 
     def variant_metrics(oof: np.ndarray, fold_scores: list[float]) -> dict[str, Any]:
         pred = oof.argmax(axis=1)
@@ -602,7 +728,9 @@ def train(
 
     # ------------------------------------------- final fit + calibration
     w_final, weight_stats = compute_weights(meta_df[train_mask], best_mult)
-    final_model, final_present = _fit_model(X[train_mask], y[train_mask], w_final, seed)
+    w_final = w_final * keep_w[train_mask]
+    real_all = (meta_df["dataset_source"] != "SYNTHETIC").to_numpy()
+    final_model, final_present = fit_augmented(X[train_mask], y[train_mask], w_final, real_all[train_mask], seed)
 
     def final_proba(A: np.ndarray) -> np.ndarray:
         return _to_global(final_model.predict_proba(A), final_present, len(classes))
@@ -619,6 +747,10 @@ def train(
     # the 45 dev-gold rows (see scripts/calibration.py). `full` keeps the legacy
     # dev-gold fit above; it is not servable (R4 source-shortcut gate).
     is_real_tr = (meta_tr["dataset_source"] != "SYNTHETIC").to_numpy()
+    if drop_rule_only:
+        # The served classifier moves the rule-only classes' mass to OTHER_ERROR, so calibrate on that.
+        from backend.app.diagnosis.xgb_classifier import mask_rule_only  # noqa: PLC0415
+        reps_exec = [mask_rule_only(r, classes) for r in reps_exec]
     calibrator["variants"] = {
         name: calibrate_variant(reps, y_tr, cluster_tr, is_real_tr, seed,
                                 other_idx=classes.index("CPP_OTHER_ERROR") if "CPP_OTHER_ERROR" in classes else None)
@@ -689,6 +821,9 @@ def train(
             "name": profile, "params": PROFILES[profile], "balance": _BALANCE,
             "synthetic_prefixes_allowed": list(PLAIN_SYNTHETIC_PREFIXES) if profile in PLAIN_FAMILY else None,
             "synthetic_prefixes_excluded": list(PLAIN_EXCLUDED_PREFIXES) if profile in PLAIN_FAMILY else None,
+            "rule_only_dropped": list(RULE_ONLY_LABELS) if drop_rule_only else [],
+            "real_augment": real_augment,
+            "synthetic_cap": synthetic_cap,
         },
         "n_rows": len(y),
         "n_train": int(train_mask.sum()),
@@ -715,13 +850,14 @@ def train(
 
     # ---------------------------------------------------------- outputs
     final_model.get_booster().save_model(str(models / "xgb_v1.json"))
-    masked_model, _ = _fit_model(X_masked[train_mask], y[train_mask], w_final, seed)
+    real_fit = real_all[train_mask]
+    masked_model, _ = fit_augmented(X_masked[train_mask], y[train_mask], w_final, real_fit, seed)
     masked_model.get_booster().save_model(str(models / "xgb_masked_v1.json"))
-    common_model, _ = _fit_model(X_common[train_mask], y[train_mask], w_final, seed)
+    common_model, _ = fit_augmented(X_common[train_mask], y[train_mask], w_final, real_fit, seed)
     common_model.get_booster().save_model(str(models / "xgb_common_v1.json"))
-    best_model, _ = _fit_model(X_best[train_mask], y[train_mask], w_final, seed)
+    best_model, _ = fit_augmented(X_best[train_mask], y[train_mask], w_final, real_fit, seed)
     best_model.get_booster().save_model(str(models / "xgb_best_v1.json"))
-    exec_model, _ = _fit_model(X_exec[train_mask], y[train_mask], w_final, seed)
+    exec_model, _ = fit_augmented(X_exec[train_mask], y[train_mask], w_final, real_fit, seed)
     exec_model.get_booster().save_model(str(models / "xgb_execution_v1.json"))
 
     # Descriptive check of each served calibrator on the dev-gold rows (45 rows,
@@ -783,6 +919,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--profile", choices=sorted(PROFILES), default="default")
     parser.add_argument("--balance", choices=BALANCES, default="none",
                         help="class balance for the plain profile (other profiles always use full balance)")
+    parser.add_argument("--drop-rule-only", action="store_true",
+                        help="train with weight 0 on the rule-only classes (MISSING_BASE_CASE, WRONG_LOOP_DIR)")
+    parser.add_argument("--real-augment", type=json.loads, default=None, metavar="JSON",
+                        help="rows for rare classes made from pairs of real rows, e.g. "
+                             '{"target": 150, "max_factor": 3, "k": 5, "swap": 0.5, "weight": 1.0}')
+    parser.add_argument("--synthetic-cap", type=json.loads, default=None, metavar="JSON",
+                        help='at most ratio x real synthetic rows per class, e.g. {"ratio": 1, "min_real": 20}')
     parser.add_argument("--force", action="store_true",
                         help="overwrite an existing served model; without this flag the script refuses "
                              "if <models-dir>/xgb_execution_v1.json (the served variant) already exists")
@@ -811,6 +954,9 @@ def main(argv: list[str] | None = None) -> int:
             cv_repeats=args.cv_repeats,
             profile=args.profile,
             balance=args.balance,
+            drop_rule_only=args.drop_rule_only,
+            real_augment=args.real_augment,
+            synthetic_cap=args.synthetic_cap,
         )
     except ValueError as exc:
         print(f"FAIL  {exc}")
