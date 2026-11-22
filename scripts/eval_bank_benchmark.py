@@ -171,7 +171,7 @@ def _system(model, probs, row) -> str | None:
     import numpy as np
 
     from backend.app.diagnosis.applicability import move_ruled_out_mass, ruled_out
-    from backend.app.diagnosis.xgb_classifier import decide, rule_override
+    from backend.app.diagnosis.xgb_classifier import decide, mask_rule_only, rule_override
 
     override = rule_override(row["features"], row["record"])
     if override:
@@ -180,6 +180,8 @@ def _system(model, probs, row) -> str | None:
     if sum(feats.get(f) is None for f in model.features) / len(model.features) > MAX_MISSING_SHARE:
         return None
     p = move_ruled_out_mass(np.asarray(probs, dtype=float), model.classes, ruled_out(feats))
+    # As ModelClassifier.predict: the classifier never names a rule-only class.
+    p = mask_rule_only(p, model.classes)
     idx, abstained = decide(p, model.classes, model.threshold, model.class_thresholds)
     return None if abstained else model.classes[idx]
 
@@ -210,8 +212,9 @@ def score(models_dir: Path, hold_out_styles: bool, report: Path | None) -> int:
         import pandas as pd
         import train_xgb_misconception as T
 
-        profile = (json.loads((models_dir / "metrics_v1.json").read_text(encoding="utf-8")).get("profile") or {}).get("name", "plain")
-        T.set_profile(profile)
+        prof = json.loads((models_dir / "metrics_v1.json").read_text(encoding="utf-8")).get("profile") or {}
+        T.set_profile(prof.get("name", "plain"))
+        augment = prof.get("real_augment")
         meta = {}
         for line in (DS / "annotations" / "labels.jsonl").open(encoding="utf-8"):
             if line.strip():
@@ -238,8 +241,14 @@ def score(models_dir: Path, hold_out_styles: bool, report: Path | None) -> int:
                                   "label_confidence": [float(meta[t[0]].get("label_confidence") or 0.6) for t in keep],
                                   "dataset_source": [meta[t[0]]["dataset_source"] for t in keep]})
             w, _ = T.compute_weights(frame, 1.0)
-            probs = rescale(T._fit_predict(np.array([t[2] for t in keep]), np.array([model.classes.index(t[1]) for t in keep]),
-                                           w, X[test], 7, len(model.classes)), model.temperature)
+            X_fit = np.array([t[2] for t in keep])
+            y_fit = np.array([model.classes.index(t[1]) for t in keep])
+            if augment:   # the trainer's real-row augmentation, as the model being scored was trained
+                real = (frame["dataset_source"] != "SYNTHETIC").to_numpy()
+                X_new, y_new = T.augment_real_rows(X_fit, y_fit, real, model.classes, augment, 7)
+                X_fit, y_fit = np.vstack([X_fit, X_new]), np.concatenate([y_fit, y_new])
+                w = np.concatenate([w, np.full(len(y_new), float(augment.get("weight", 0.5)))])
+            probs = rescale(T._fit_predict(X_fit, y_fit, w, X[test], 7, len(model.classes)), model.temperature)
             pairs += [(_system(model, probs[j], rows[i]), rows[i]["label"]) for j, i in enumerate(test)]
         lines += _table(pairs, "Solution style held out of training (the number to quote)")
     text = "\n".join(lines)
