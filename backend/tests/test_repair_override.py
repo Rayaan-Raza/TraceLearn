@@ -1,7 +1,7 @@
 """Tests for the repair_override() first-stage inference rule."""
 import pytest
 
-from backend.app.diagnosis.xgb_classifier import repair_override
+from backend.app.diagnosis.xgb_classifier import repair_override, rule_confidence
 
 
 def _features(**kw) -> dict:
@@ -101,7 +101,10 @@ class TestNarrowRepairOverride:
         monkeypatch.setattr(model_runner, "code_features", lambda *a, **k: {})
         rec = self._record(RANGE_CHECK={"fix_all": 1, "ops": ["chained_compare_split_all"]})
         pred = model_runner.predict_source("int main(){}", "cpp", None, rec)
-        assert pred.top_label == "CPP_RANGE_CHECK" and pred.top_probability == 1.0 and not pred.abstained
+        assert pred.top_label == "CPP_RANGE_CHECK" and not pred.abstained
+        # A rule reports its measured precision, never certainty (Gate 2).
+        assert pred.decision_source == "narrow_repair"
+        assert pred.top_probability == rule_confidence("narrow_repair") < 1.0
 
 
 class TestDecide:

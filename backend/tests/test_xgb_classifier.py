@@ -96,8 +96,13 @@ def test_probabilities_are_a_distribution(model, golden):
         pred = model.predict(case["features"])
         assert math.isclose(sum(pred.probabilities.values()), 1.0, abs_tol=1e-4)
         assert all(0.0 <= p <= 1.0 for p in pred.probabilities.values())
-        assert pred.top_probability == max(pred.probabilities.values())
-        assert pred.top_k[0] == (pred.top_label, pred.top_probability)
+        # The reported probability is the reported class's own. With per-class bars the reported
+        # class need not be the most probable one: a class that clears its own bar is reported
+        # when the most probable class is OTHER_ERROR or falls short of the threshold (`decide`).
+        assert pred.top_probability == pred.probabilities[pred.top_label]
+        if not model.class_thresholds:
+            assert pred.top_probability == max(pred.probabilities.values())
+        assert pred.top_k[0][1] == max(pred.probabilities.values())          # top_k is the ranking
         assert [p for _, p in pred.top_k] == sorted((p for _, p in pred.top_k), reverse=True)
 
 

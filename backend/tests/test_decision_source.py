@@ -136,3 +136,33 @@ def test_no_hard_coded_certainty_left_in_the_backend():
     hits = [str(p.relative_to(REPO)) for p in (REPO / "backend" / "app").rglob("*.py")
             if "top_probability=1.0" in p.read_text(encoding="utf-8")]
     assert hits == []
+
+
+# ----------------------------------------------------------------- the stages added by #17
+
+def test_class_rule_stage_reports_its_precision(runner):
+    """MISSING_BASE_CASE from the compiler's infinite-recursion warning: a class rule, not certainty."""
+    runner({"warnings.infinite_recursion": 1.0}, _classifier_pred())
+    out = model_runner.predict_source(SOURCE)
+    assert (out.decision_source, out.top_label) == ("class_rule", "CPP_MISSING_BASE_CASE")
+    assert out.top_probability == rule_confidence("class_rule") < 1.0
+    assert out.classifier_label == "CPP_OFF_BY_ONE"
+
+
+def test_narrow_repair_stage_reads_the_run_record(runner):
+    """A narrow second-set repair decides only from the run record the worker passes in."""
+    record = {"cf_narrow": {"classes": {"CPP_ARRAY_BOUNDS": {"fix_all": 1, "ops": ["enlarge_every_array"]}}}}
+    runner({}, _classifier_pred())
+    assert model_runner.predict_source(SOURCE).decision_source == "model"       # no record, no rule
+    out = model_runner.predict_source(SOURCE, run_record=record)
+    assert (out.decision_source, out.top_label) == ("narrow_repair", "CPP_ARRAY_BOUNDS")
+    assert out.top_probability == rule_confidence("narrow_repair") < 0.75       # below the level-2 hint cut
+
+
+def test_stages_are_tried_in_serving_order(runner):
+    """A class rule wins over a repair, and a repair over a narrow repair."""
+    record = {"cf_narrow": {"classes": {"CPP_ARRAY_BOUNDS": {"fix_all": 1, "ops": ["enlarge_every_array"]}}}}
+    runner({"warnings.infinite_recursion": 1.0, "repair.loop_boundary_fix_all": 1.0}, _classifier_pred())
+    assert model_runner.predict_source(SOURCE, run_record=record).decision_source == "class_rule"
+    runner({"repair.loop_boundary_fix_all": 1.0}, _classifier_pred())
+    assert model_runner.predict_source(SOURCE, run_record=record).decision_source == "repair"
