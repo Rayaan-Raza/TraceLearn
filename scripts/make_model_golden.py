@@ -5,7 +5,11 @@ return for one real row per class. When the model is retrained, the test
 fails on purpose; run this script, read the diff, and commit it with the new
 model so the change is reviewed instead of silent.
 
-    python scripts/make_model_golden.py [--variant best]
+    python scripts/make_model_golden.py [--variant execution]
+
+The variant defaults to the one the backend serves (`settings.model_variant`), so the fixture and
+the release check (`check_model_release.py`, gate S1) protect the model students actually get.
+Until 16 Nov 2026 the fixture pinned `best`, a variant that had stopped being served on 9 Nov.
 """
 from __future__ import annotations
 
@@ -19,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from backend.app.config import settings  # noqa: E402
 from backend.app.diagnosis.xgb_classifier import ModelClassifier  # noqa: E402
 
 FEATURES_CSV = ROOT / "data" / "misconception_dataset" / "features" / "features.csv"
@@ -33,7 +38,8 @@ def _cell(value: str) -> float | None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--variant", default="best")
+    parser.add_argument("--variant", default=settings.model_variant,
+                        help=f"default: the served variant ({settings.model_variant})")
     args = parser.parse_args(argv)
 
     model = ModelClassifier.load(args.variant)
