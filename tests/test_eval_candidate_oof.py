@@ -174,3 +174,35 @@ def test_cap_keeps_whole_clusters_under_the_ratio_and_spares_rare_classes():
 def test_cap_ratio_zero_removes_synthetic_rows_of_capped_classes():
     out = H.cap_synthetic(_cap_rows(), {"ratio": 0, "min_real": 0}, seed=7)
     assert all(r["real"] for r in out)
+
+
+def test_estimable_macro_f1_ignores_classes_under_ten_rows():
+    truth = ["A"] * 10 + ["B"]
+    pred = ["A"] * 10 + ["A"]
+    assert H.estimable_classes(truth) == ["A"]
+    assert H.macro_f1_over(truth, pred, H.estimable_classes(truth)) == pytest.approx(20 / 21)
+
+
+def _preds(pred):
+    truth = (["A"] * 12 + [OTHER] * 12) * 2
+    return {"real_predictions": {"row_id": [str(i) for i in range(len(truth))],
+                                 "cluster": [f"c{i % 8}" for i in range(len(truth))],
+                                 "truth": truth, "pred": pred}}
+
+
+def test_paired_difference_is_zero_for_the_same_predictions_and_positive_for_a_clear_gain():
+    truth = _preds([])["real_predictions"]["truth"]
+    weak = [OTHER if t == "A" and i % 2 else t for i, t in enumerate(truth)]
+    same = H.paired_difference(_preds(weak), _preds(weak), n=200)
+    assert same["macro_f1_estimable_diff"] == 0 and same["macro_f1_estimable_diff_95"] == [0, 0]
+    gain = H.paired_difference(_preds(weak), _preds(list(truth)), n=200)
+    assert gain["macro_f1_estimable_diff"] > 0 and gain["macro_f1_estimable_diff_95"][0] > 0
+    assert H.verdict(gain) == "better" and H.verdict(same) == "no difference shown"
+
+
+def test_paired_difference_refuses_different_rows():
+    a = _preds(["A"] * 48)
+    b = _preds(["A"] * 48)
+    b["real_predictions"]["row_id"] = list(reversed(b["real_predictions"]["row_id"]))
+    with pytest.raises(ValueError):
+        H.paired_difference(a, b)

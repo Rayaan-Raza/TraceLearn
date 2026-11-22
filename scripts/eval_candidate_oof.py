@@ -278,6 +278,24 @@ def macro_f1(truth: list[str], pred: list[str]) -> float:
     return float(np.mean([f1(c) for c in labels])) if labels else 0.0
 
 
+def estimable_classes(truth: list[str]) -> list[str]:
+    """Classes with at least MIN_SUPPORT rows in `truth`."""
+    counts = Counter(truth)
+    return sorted(c for c, n in counts.items() if n >= MIN_SUPPORT)
+
+
+def macro_f1_over(truth: list[str], pred: list[str], classes: list[str]) -> float:
+    """Mean F1 over a fixed class list (an abstention is a miss)."""
+    if not classes:
+        return 0.0
+    vals = []
+    for cls in classes:
+        tp = sum(t == cls and p == cls for t, p in zip(truth, pred))
+        miss = sum((t == cls) != (p == cls) for t, p in zip(truth, pred))
+        vals.append(2 * tp / (2 * tp + miss) if tp + miss else 0.0)
+    return float(np.mean(vals))
+
+
 def false_alarm(truth: list[str], pred: list[str]) -> dict[str, Any]:
     other = [p for t, p in zip(truth, pred) if t == OTHER_LABEL]
     k = sum(p not in (OTHER_LABEL, ABSTAIN) for p in other)
@@ -308,6 +326,9 @@ def score(rows, decided: list[tuple[str, str]], classes: list[str]) -> dict[str,
     return {
         "real_rows": len(real), "all_rows": len(rows),
         "macro_f1_real": round(macro_f1(truth_r, pred_r), 4),
+        # The selection score from P1 on: classes with a single real row move the plain mean by 0.09
+        # per prediction, so it averages only the classes with MIN_SUPPORT real rows or more.
+        "macro_f1_real_estimable": round(macro_f1_over(truth_r, pred_r, estimable_classes(truth_r)), 4),
         "macro_f1_all": round(macro_f1(truth_a, pred_a), 4),
         "false_alarm_real_other": false_alarm(truth_r, pred_r),
         "abstain_rate_real": round(sum(p == ABSTAIN for p in pred_r) / max(len(pred_r), 1), 4),
@@ -371,13 +392,16 @@ def evaluate(cand: dict[str, Any], models_dir: Path = DS / "models", ds: Path = 
                            class_thresholds=fixed_bars)
     records = load_run_records(RUN_RECORDS) if cand["run_records"] else {}
 
-    def run(raw: np.ndarray, folds: np.ndarray) -> dict[str, Any]:
+    def run(raw: np.ndarray, folds: np.ndarray) -> tuple[dict[str, Any], list[tuple[str, str]]]:
         per_row = cross_fit_bars(clf, rows, raw, folds) if bars_spec == "cross_fit" else None
-        return score(rows, decisions(clf, rows, raw, records, per_row), model.classes)
+        decided = decisions(clf, rows, raw, records, per_row)
+        return score(rows, decided, model.classes), decided
 
-    per_repeat = [run(reps[k], fold_of[k]) for k in range(cand["repeats"])]
-    pooled = run(reps.mean(axis=0), fold_of[0])
+    per_repeat = [run(reps[k], fold_of[k])[0] for k in range(cand["repeats"])]
+    pooled, pooled_decided = run(reps.mean(axis=0), fold_of[0])
     real_f1 = [s["macro_f1_real"] for s in per_repeat]
+    est_f1 = [s["macro_f1_real_estimable"] for s in per_repeat]
+    real_idx = [i for i, r in enumerate(rows) if r["real"]]
     all_f1 = [s["macro_f1_all"] for s in per_repeat]
     composition = Counter((r["label"], "real" if r["real"] else "synthetic") for r in rows)
     return {
@@ -397,14 +421,84 @@ def evaluate(cand: dict[str, Any], models_dir: Path = DS / "models", ds: Path = 
             "macro_f1_real_sd": round(float(np.std(real_f1, ddof=1)) if len(real_f1) > 1 else 0.0, 4),
             "macro_f1_real_per_repeat": real_f1,
             "macro_f1_real_pooled": pooled["macro_f1_real"],
+            "macro_f1_real_estimable_pooled": pooled["macro_f1_real_estimable"],
+            "macro_f1_real_estimable_mean": round(float(np.mean(est_f1)), 4),
+            "macro_f1_real_estimable_sd": round(float(np.std(est_f1, ddof=1)) if len(est_f1) > 1 else 0.0, 4),
+            "real_clusters": len({rows[i]["cluster"] for i in real_idx}),
             "macro_f1_all_mean": round(float(np.mean(all_f1)), 4),
             "macro_f1_all_pooled": pooled["macro_f1_all"],
             "false_alarm_real_other_pooled": pooled["false_alarm_real_other"],
         },
         "pooled": pooled,
-        "per_repeat": [{k: s[k] for k in ("macro_f1_real", "macro_f1_all", "false_alarm_real_other",
-                                          "abstain_rate_real")} for s in per_repeat],
+        "per_repeat": [{k: s[k] for k in ("macro_f1_real", "macro_f1_real_estimable", "macro_f1_all",
+                                          "false_alarm_real_other", "abstain_rate_real")} for s in per_repeat],
+        # The mean-of-repeats decision on every real row, for paired comparisons between candidates.
+        "real_predictions": {
+            "row_id": [rows[i]["row_id"] for i in real_idx],
+            "cluster": [rows[i]["cluster"] for i in real_idx],
+            "truth": [rows[i]["label"] for i in real_idx],
+            "pred": [pooled_decided[i][0] for i in real_idx],
+        },
     }
+
+
+BOOTSTRAP = 2000
+BOOTSTRAP_SEED = 20261122
+
+
+def paired_difference(ref: dict[str, Any], cand: dict[str, Any], n: int = BOOTSTRAP,
+                      seed: int = BOOTSTRAP_SEED) -> dict[str, Any]:
+    """Candidate minus reference on the same real rows, with a cluster bootstrap 95% interval.
+
+    The real rows come from few problem clusters (24 on the train split), so rows of one problem
+    are not independent: whole clusters are resampled. The class list of the estimable macro-F1
+    is fixed from the full rows, so every resample averages the same classes.
+    """
+    a, b = ref["real_predictions"], cand["real_predictions"]
+    if a["row_id"] != b["row_id"]:
+        raise ValueError("candidates were scored on different real rows")
+    truth, pa, pb, clusters = a["truth"], a["pred"], b["pred"], a["cluster"]
+    classes = estimable_classes(truth)
+
+    def fa(pred, idx):
+        other = [i for i in idx if truth[i] == OTHER_LABEL]
+        return sum(pred[i] not in (OTHER_LABEL, ABSTAIN) for i in other) / max(len(other), 1)
+
+    def stats(idx):
+        t = [truth[i] for i in idx]
+        return (macro_f1_over(t, [pb[i] for i in idx], classes) - macro_f1_over(t, [pa[i] for i in idx], classes),
+                fa(pb, idx) - fa(pa, idx))
+
+    by_cluster: dict[str, list[int]] = {}
+    for i, c in enumerate(clusters):
+        by_cluster.setdefault(c, []).append(i)
+    names = sorted(by_cluster)
+    rng = np.random.default_rng(seed)
+    draws = []
+    for _ in range(n):
+        idx = [i for j in rng.integers(0, len(names), len(names)) for i in by_cluster[names[j]]]
+        draws.append(stats(idx))
+    d = np.array(draws)
+    point = stats(list(range(len(truth))))
+    return {
+        "macro_f1_estimable_diff": round(point[0], 4),
+        "macro_f1_estimable_diff_95": [round(float(np.percentile(d[:, 0], 2.5)), 4),
+                                       round(float(np.percentile(d[:, 0], 97.5)), 4)],
+        "false_alarm_diff": round(point[1], 4),
+        "false_alarm_diff_95": [round(float(np.percentile(d[:, 1], 2.5)), 4),
+                                round(float(np.percentile(d[:, 1], 97.5)), 4)],
+        "clusters": len(names), "resamples": n,
+    }
+
+
+def verdict(diff: dict[str, Any]) -> str:
+    """Better only when the macro-F1 interval is above 0 and false alarm does not rise."""
+    lo, hi = diff["macro_f1_estimable_diff_95"]
+    if lo > 0 and diff["false_alarm_diff"] <= 0:
+        return "better"
+    if hi < 0:
+        return "worse"
+    return "no difference shown"
 
 
 # ------------------------------------------------------------------ comparison table
@@ -415,8 +509,10 @@ def _cell(stats: dict[str, Any]) -> str:
     return f"{stats['f1']:.2f} (R {stats['recall_95'][0]:.2f}-{stats['recall_95'][1]:.2f}, n={stats['support']})"
 
 
-def compare(directory: Path = OUT) -> str:
-    results = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(directory.glob("*.json"))]
+def compare(directory: Path = OUT, reference: str | None = None, prefix: str = "",
+            name: str = "candidates.md") -> str:
+    results = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(directory.glob(f"{prefix}*.json"))]
+    ref = next((r for r in results if r["candidate"]["name"] == reference), None) if reference else None
     lines = ["# Candidates, grouped out-of-fold on real training-side rows", "",
              "Generated by `scripts/eval_candidate_oof.py compare`. Do not edit by hand.", "",
              "The selection score is real-row macro-F1 (mean and spread over the repeats); the all-row",
@@ -431,6 +527,21 @@ def compare(directory: Path = OUT) -> str:
         lines.append(f"| {r['candidate']['name']} | {r['rows']['real']} | {s['macro_f1_real_mean']:.3f} ± "
                      f"{s['macro_f1_real_sd']:.3f} | {s['macro_f1_real_pooled']:.3f} | {s['macro_f1_all_pooled']:.3f} | "
                      f"{fa['value']} ({fa['k']}/{fa['n']}) | {r['candidate']['bars'] if isinstance(r['candidate']['bars'], str) else 'given'} |")
+    if ref is not None:
+        lines += ["", f"## Against `{reference}` (paired, same real rows)", "",
+                  "Macro-F1 over the classes with at least 10 real rows, candidate minus reference, with a 95% "
+                  "interval from resampling whole problem clusters. A candidate is better only when the "
+                  "interval is above 0 and false alarm is not higher.", "",
+                  "| Candidate | Estimable macro-F1 | Difference (95%) | False alarm difference (95%) | Verdict |",
+                  "|---|---|---|---|---|"]
+        for r in results:
+            if r is ref or "real_predictions" not in r:
+                continue
+            d = paired_difference(ref, r)
+            lines.append(f"| {r['candidate']['name']} | {r['summary']['macro_f1_real_estimable_pooled']:.3f} | "
+                         f"{d['macro_f1_estimable_diff']:+.3f} ({d['macro_f1_estimable_diff_95'][0]:+.3f} to "
+                         f"{d['macro_f1_estimable_diff_95'][1]:+.3f}) | {d['false_alarm_diff']:+.3f} "
+                         f"({d['false_alarm_diff_95'][0]:+.3f} to {d['false_alarm_diff_95'][1]:+.3f}) | {verdict(d)} |")
     if results:
         classes = list(results[0]["pooled"]["per_class_real"])
         lines += ["", "## Per class on real rows (mean of repeats)", "",
@@ -451,7 +562,7 @@ def compare(directory: Path = OUT) -> str:
                              f"{e['synthetic']['fires']} ({e['synthetic']['right']}) | "
                              f"{', '.join(e['real']['wrong_rows']) or '-'} |")
     text = "\n".join(lines) + "\n"
-    (directory / "candidates.md").write_text(text, encoding="utf-8", newline="\n")
+    (directory / name).write_text(text, encoding="utf-8", newline="\n")
     return text
 
 
@@ -464,10 +575,13 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--out", default=str(OUT))
     c = sub.add_parser("compare", help="write candidates.md from every result")
     c.add_argument("--out", default=str(OUT))
+    c.add_argument("--reference", help="candidate every other one is compared with, paired")
+    c.add_argument("--prefix", default="", help="only results whose file name starts with this")
+    c.add_argument("--name", default="candidates.md", help="output file name")
     a = ap.parse_args(argv)
 
     if a.cmd == "compare":
-        print(compare(Path(a.out)))
+        print(compare(Path(a.out), a.reference, a.prefix, a.name))
         return 0
     cand = load_candidate(a.candidate)
     result = evaluate(cand, Path(a.models_dir))
