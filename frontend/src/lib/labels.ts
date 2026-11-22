@@ -24,13 +24,17 @@ const MISCONCEPTION_LABELS: Record<string, string> = {
   CPP_WRONG_LOOP_DIR: 'Loop Direction',
   CPP_RANGE_CHECK: 'Range Checks',
   CPP_STALE_EXIT: 'Stale Loop Exit',
+  // The classifier's answer for "none of the modelled beliefs fits". It is not a misconception: the
+  // model stores it as neutral evidence, so it never becomes a diagnosis and student pages never show it.
+  // Only the teacher's model panel names it, and it is not offered as a correction.
+  CPP_OTHER_ERROR: 'Other error (no modelled misconception)',
   NO_MISCONCEPTION: 'No misconception',
   UNCERTAIN: 'Uncertain',
   GENERIC: 'General',
 }
 
 export const KNOWN_MISCONCEPTIONS = Object.keys(MISCONCEPTION_LABELS).filter(
-  (k) => !['NO_MISCONCEPTION', 'UNCERTAIN', 'GENERIC'].includes(k),
+  (k) => !['NO_MISCONCEPTION', 'UNCERTAIN', 'GENERIC', 'CPP_OTHER_ERROR'].includes(k),
 )
 
 export function misconceptionLabel(id: string | null | undefined): string {
@@ -224,4 +228,17 @@ export function confidenceBand(p: number | null | undefined): 'low' | 'medium' |
 export function confidenceBandLabel(p: number | null | undefined): string {
   const band = confidenceBand(p)
   return band === 'high' ? 'High confidence' : band === 'medium' ? 'Some confidence' : 'Low confidence'
+}
+
+/** Which stage of the runtime decided a model prediction, in the words a teacher reads. */
+const DECISION_SOURCE_LABELS: Record<string, string> = {
+  model: 'classifier',
+  repair: 'repair check',
+  narrow_repair: 'narrow repair',
+  class_rule: 'class rule',
+}
+
+export function decisionSourceLabel(source: string | null | undefined): string {
+  if (!source) return DECISION_SOURCE_LABELS.model
+  return DECISION_SOURCE_LABELS[source] ?? source.replace(/_/g, ' ')
 }
