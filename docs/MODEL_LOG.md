@@ -23,9 +23,9 @@ measured at the time. Where an entry and the report disagree, the report is curr
 
 ## 2026-11-23: rule-only classes, real-row augmentation (candidate model 4fd55a25)
 
-A candidate for the served model. All the figures here are training-side: grouped out-of-fold on
-the train split, through `runtime_decision`. The held-out split was not read. The protocol's single
-development-set read and the section 6 merge rule are still to come (Gate 4 again).
+A candidate for the served model. The training-side figures come first, then the one
+development-set read and the bank benchmark. **Outcome: the model swap fails the section 6 rule
+(precision and false alarm), and the bank benchmark is level.**
 
 **What changed:**
 
@@ -119,6 +119,38 @@ Revert to the served model (the rule-only runtime stays):
 ```bash
 git checkout main -- data/misconception_dataset/models backend/tests/fixtures/model_golden.json
 ```
+
+**Development-set read (one, logged as `p6` in `holdout_evaluations.jsonl`, 662 rows).** Full
+runtime, against the served `pr17` run, by the `EVAL_PROTOCOL.md` section 6 rule:
+
+| Full runtime | pr17 (served) | p6 (this candidate) | Rule |
+|---|---|---|---|
+| Problem-weighted macro-F1, all rows | 0.679 | 0.684 | higher: met |
+| Precision when it names a class, all rows | 0.895 (85/95) | 0.858 (91/106) | not lower: **failed** |
+| False alarm on OTHER, all rows | 0.011 (5/460) | 0.020 (9/460) | not higher: **failed** |
+| Without tl-progpedia-00000039 | 0.695 / 0.806 / 0.017 | 0.698 / 0.795 / 0.021 | same two failures |
+
+Recall rises from 0.421 to 0.450 (85 to 91 of 202). Per-class F1 changes: ARRAY_BOUNDS 0.70 to 0.72,
+LOOP_BOUNDARY 0.86 to 0.90, UNINITIALIZED_VAR 0.42 to 0.44, STALE_EXIT 0.33 to 0.29 (4 rows). The
+others are unchanged: OFF_BY_ONE 0.21, RANGE_CHECK 0.15, INT_OVERFLOW 0.63, OTHER_ERROR 0.88.
+**By the rule, the model swap does not merge.** The same direction as on the training side: more
+recall bought with a few more false alarms.
+
+**Bank benchmark** (`reports/bank_benchmark.md`, 273 verified single-edit bugs on the 40 bank
+problems students see; the scorer now applies the rule-only mask and, for the style-held-out
+retrain, the model's own augmentation):
+
+| | 8860b506 | 4fd55a25 |
+|---|---|---|
+| All programs: accuracy / macro-F1 | 0.963 / 0.974 | 0.967 / 0.976 |
+| False alarm on OTHER | 0/40 | 0/40 |
+| Solution style held out: accuracy / macro-F1 | 0.958 / 0.968 | 0.958 / 0.968 |
+
+The only difference is one more RANGE_CHECK program found. On bank code the rules decide 181 of 273
+programs: repair-first 106, narrow repair 47, class rules 28. Every MISSING_BASE_CASE (7) and
+WRONG_LOOP_DIR (21) program is caught by its class rule, so making those classes rule-only costs
+nothing on the problems students attempt. The classifier decides 92: OTHER_ERROR 40,
+LOOP_BOUNDARY 29, ARRAY_BOUNDS 13, and a few others.
 
 ---
 
