@@ -215,6 +215,7 @@ def score(models_dir: Path, hold_out_styles: bool, report: Path | None) -> int:
         prof = json.loads((models_dir / "metrics_v1.json").read_text(encoding="utf-8")).get("profile") or {}
         T.set_profile(prof.get("name", "plain"))
         augment = prof.get("real_augment")
+        balance = prof.get("class_balance")
         meta = {}
         for line in (DS / "annotations" / "labels.jsonl").open(encoding="utf-8"):
             if line.strip():
@@ -248,7 +249,13 @@ def score(models_dir: Path, hold_out_styles: bool, report: Path | None) -> int:
                 X_new, y_new = T.augment_real_rows(X_fit, y_fit, real, model.classes, augment, 7)
                 X_fit, y_fit = np.vstack([X_fit, X_new]), np.concatenate([y_fit, y_new])
                 w = np.concatenate([w, np.full(len(y_new), float(augment.get("weight", 0.5)))])
-            probs = rescale(T._fit_predict(X_fit, y_fit, w, X[test], 7, len(model.classes)), model.temperature)
+            if balance:   # the served model's balanced bags with prior correction
+                real = (frame["dataset_source"] != "SYNTHETIC").to_numpy()
+                raw = T.fit_predict_balanced(np.array([t[2] for t in keep]), np.array([model.classes.index(t[1]) for t in keep]),
+                                             w[:len(keep)], real, X[test], model.classes, balance, 7)
+            else:
+                raw = T._fit_predict(X_fit, y_fit, w, X[test], 7, len(model.classes))
+            probs = rescale(raw, model.temperature)
             pairs += [(_system(model, probs[j], rows[i]), rows[i]["label"]) for j, i in enumerate(test)]
         lines += _table(pairs, "Solution style held out of training (the number to quote)")
     text = "\n".join(lines)

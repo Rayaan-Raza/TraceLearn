@@ -237,3 +237,38 @@ class TestRuleOnlyClasses:
         assert pred.top_label == "CPP_OTHER_ERROR" and pred.probabilities["CPP_MISSING_BASE_CASE"] == 0.0
         ruled = runtime_decision(clf, {"f": 1.0, "warnings.infinite_recursion": 1.0})
         assert (ruled.top_label, ruled.decision_source) == ("CPP_MISSING_BASE_CASE", "class_rule")
+
+
+class TestBaggedModel:
+    """A class-balanced model: several boosters plus a prior correction (docs/CLASS_BALANCE_PLAN.md)."""
+
+    def test_combine_bags_corrects_each_bag_then_averages(self):
+        import numpy as np
+        from backend.app.diagnosis.xgb_classifier import combine_bags
+        a = np.array([[0.5, 0.5]])
+        b = np.array([[0.2, 0.8]])
+        assert combine_bags([a, b], None)[0].tolist() == pytest.approx([0.35, 0.65])
+        ratio = np.array([3.0, 1.0])            # class 0 was 3x rarer in the balanced rows
+        out = combine_bags([a, b], ratio)
+        assert out[0].tolist() == pytest.approx([(0.75 + 0.6 / 1.4) / 2, (0.25 + 0.8 / 1.4) / 2])
+        assert out.sum() == pytest.approx(1.0)
+
+    def test_load_refuses_a_missing_bag_and_averages_the_ones_present(self, tmp_path):
+        import json
+        import shutil
+
+        import numpy as np
+        from backend.app.diagnosis.xgb_classifier import DEFAULT_MODELS_DIR, ModelClassifier, ModelContractError
+        for f in ("xgb_execution_v1.json", "label_encoder.json", "calibrator.json", "metrics_v1.json"):
+            shutil.copy(DEFAULT_MODELS_DIR / f, tmp_path / f)
+        single = ModelClassifier.load("execution", tmp_path)
+        metrics = json.loads((tmp_path / "metrics_v1.json").read_text(encoding="utf-8"))
+        metrics["execution"]["bags"] = 2
+        (tmp_path / "metrics_v1.json").write_text(json.dumps(metrics), encoding="utf-8")
+        with pytest.raises(ModelContractError, match="bagged model files missing"):
+            ModelClassifier.load("execution", tmp_path)
+        shutil.copy(tmp_path / "xgb_execution_v1.json", tmp_path / "xgb_execution_v1.bag1.json")
+        bagged = ModelClassifier.load("execution", tmp_path)
+        row = np.full((1, len(single.features)), np.nan, dtype=np.float32)
+        assert bagged._raw(row)[0].tolist() == pytest.approx(single._raw(row)[0].tolist())   # two identical bags
+        assert bagged.model_sha256 != single.model_sha256                            # hash covers every bag

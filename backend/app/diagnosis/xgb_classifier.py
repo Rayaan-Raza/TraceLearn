@@ -426,6 +426,24 @@ def _as_float(value: Any) -> float:
     return number if math.isfinite(number) else math.nan
 
 
+def combine_bags(per_bag: list[np.ndarray], prior_ratio: np.ndarray | None) -> np.ndarray:
+    """One probability matrix from the raw output of every bag (docs/CLASS_BALANCE_PLAN.md).
+
+    Each bag was fitted on class-balanced rows, so each one's probabilities are first multiplied by
+    `prior_ratio` (each class's share of the unbalanced training rows over its share of the balanced
+    ones, to the trainer's alpha) and renormalised; the bags are then averaged. The trainer, the
+    candidate harness and this server all use this one function.
+    """
+    out = np.zeros_like(np.asarray(per_bag[0], dtype=float))
+    for probs in per_bag:
+        p = np.asarray(probs, dtype=float)
+        if prior_ratio is not None:
+            p = p * prior_ratio
+            p = p / np.maximum(p.sum(axis=1, keepdims=True), 1e-12)
+        out += p
+    return out / len(per_bag)
+
+
 def rescale(probs: np.ndarray, temperature: float) -> np.ndarray:
     """Temperature scaling; identical to `_rescale` in the trainer."""
     logp = np.log(np.clip(probs, 1e-12, 1.0)) / temperature
@@ -447,9 +465,14 @@ class ModelClassifier:
         threshold: float,
         model_sha256: str,
         class_thresholds: Mapping[str, float] | None = None,
+        extra_boosters: tuple[Any, ...] = (),
+        prior_ratio: Any = None,
     ) -> None:
         self.variant = variant
         self._booster = booster
+        # A class-balanced model is several bags (`<file>.bagN.json`) plus a prior correction.
+        self._extra_boosters = tuple(extra_boosters)
+        self.prior_ratio = None if prior_ratio is None else np.asarray(prior_ratio, dtype=float)
         self.features = features
         self.classes = classes
         self.temperature = temperature
@@ -489,6 +512,14 @@ class ModelClassifier:
 
         metrics = _read_json(directory / "metrics_v1.json")
         features = list((metrics.get(variant) or {}).get("features") or [])
+        bags = int((metrics.get(variant) or {}).get("bags") or 1)
+        prior_ratio = (metrics.get(variant) or {}).get("prior_ratio")
+        if prior_ratio is not None and len(prior_ratio) != len(classes):
+            raise ModelContractError("metrics_v1.json prior_ratio has the wrong length")
+        bag_paths = [model_path.with_name(f"{model_path.stem}.bag{b}.json") for b in range(1, bags)]
+        missing_bags = [p.name for p in bag_paths if not p.is_file()]
+        if missing_bags:
+            raise ModelContractError(f"bagged model files missing: {missing_bags}")
         if not features or len(set(features)) != len(features):
             raise ModelContractError(f"metrics_v1.json has no usable feature list for variant {variant!r}")
         unknown = sorted(set(features) - set(schema_feature_names()))
@@ -513,12 +544,27 @@ class ModelClassifier:
             raise ModelContractError(
                 f"booster expects {booster.num_features()} features, metrics list {len(features)}"
             )
+        extra = []
+        for path in bag_paths:
+            bag = xgb.Booster()
+            try:
+                bag.load_model(str(path))
+            except Exception as exc:
+                raise ModelContractError(f"cannot load {path.name}: {exc}") from exc
+            bag.set_param({"nthread": 1})
+            if bag.num_features() != len(features):
+                raise ModelContractError(f"{path.name} expects {bag.num_features()} features")
+            extra.append(bag)
 
-        sha = hashlib.sha256(model_path.read_bytes()).hexdigest()
+        # One file: its own hash, as before. Several bags: the hash of all their bytes in bag order.
+        digest = hashlib.sha256(model_path.read_bytes())
+        for path in bag_paths:
+            digest.update(path.read_bytes())
+        sha = digest.hexdigest()
         model = cls(
             variant=variant, booster=booster, features=features, classes=classes,
             temperature=temperature, threshold=threshold, model_sha256=sha,
-            class_thresholds=class_thresholds,
+            class_thresholds=class_thresholds, extra_boosters=tuple(extra), prior_ratio=prior_ratio,
         )
         # Probe with an all-NaN row: proves the output width matches the class
         # list before the first real request does.
@@ -528,8 +574,16 @@ class ModelClassifier:
     def _raw(self, matrix: np.ndarray) -> np.ndarray:
         import xgboost as xgb
 
-        out = self._booster.predict(xgb.DMatrix(matrix, missing=np.nan))
-        out = np.asarray(out, dtype=float).reshape(len(matrix), -1)
+        dm = xgb.DMatrix(matrix, missing=np.nan)
+        per_bag = [np.asarray(b.predict(dm), dtype=float).reshape(len(matrix), -1)
+                   for b in (self._booster, *self._extra_boosters)]
+        if any(p.shape[1] != len(self.classes) for p in per_bag):
+            raise ModelContractError(
+                f"model returned {per_bag[0].shape[1]} classes, label encoder has {len(self.classes)}"
+            )
+        if len(per_bag) == 1 and self.prior_ratio is None:
+            return per_bag[0]
+        out = combine_bags(per_bag, self.prior_ratio)
         if out.shape[1] != len(self.classes):
             raise ModelContractError(
                 f"model returned {out.shape[1]} classes, label encoder has {len(self.classes)}"

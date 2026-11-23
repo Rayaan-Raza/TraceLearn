@@ -75,7 +75,7 @@ def system_label(probs: np.ndarray, features: dict, classes: list[str], threshol
 
 
 def oof_rows(model: ModelClassifier, profile: str, folds: int = 3, repeats: int = 3, seed: int = 7,
-             real_augment: dict | None = None):
+             real_augment: dict | None = None, class_balance: dict | None = None):
     """(row ids, labels, feature dicts, is_real, calibrated out-of-fold probabilities) for the TRAIN split.
 
     `real_augment` is the trainer's setting (metrics_v1.json, profile.real_augment): each fold's
@@ -127,7 +127,11 @@ def oof_rows(model: ModelClassifier, profile: str, folds: int = 3, repeats: int 
                 X_new, y_new = T.augment_real_rows(X_tr, y_tr, real[tr], classes, real_augment, seed + 100 * rep + k)
                 X_tr, y_tr = np.vstack([X_tr, X_new]), np.concatenate([y_tr, y_new])
                 w = np.concatenate([w, np.full(len(y_new), float(real_augment.get("weight", 0.5)))])
-            total[va] += T._fit_predict(X_tr, y_tr, w, X[va], seed, len(classes))
+            if class_balance:   # the served model's balanced bags with prior correction
+                total[va] += T.fit_predict_balanced(X[tr], y[tr], w[:len(tr)], real[tr], X[va], classes,
+                                                    class_balance, seed + 100 * rep + k)
+            else:
+                total[va] += T._fit_predict(X_tr, y_tr, w, X[va], seed, len(classes))
             count[va] += 1
     # The served classifier never names a rule-only class, so the bars are fitted without them too.
     probs = mask_rule_only(rescale(total / count[:, None], model.temperature), classes)
@@ -180,7 +184,8 @@ def main(argv: list[str] | None = None) -> int:
     models = Path(args.models_dir)
     model = ModelClassifier.load(args.variant, models)
     prof = json.loads((models / "metrics_v1.json").read_text(encoding="utf-8")).get("profile") or {}
-    rows, probs = oof_rows(model, prof.get("name", "default"), real_augment=prof.get("real_augment"))
+    rows, probs = oof_rows(model, prof.get("name", "default"), real_augment=prof.get("real_augment"),
+                           class_balance=prof.get("class_balance"))
     bars, report = tune(rows, probs, model.classes, model.threshold)
     print(json.dumps({"class_thresholds": bars, **report}, indent=2))
     if args.write:

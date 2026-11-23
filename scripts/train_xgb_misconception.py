@@ -413,21 +413,51 @@ def fit_predict_balanced(X: np.ndarray, y: np.ndarray, w: np.ndarray, real: np.n
     (its share of the unbalanced rows / its share of the balanced rows) ** alpha and the row is
     renormalised: the trees keep what balancing taught them, the decision sees realistic priors.
     """
-    bags = max(1, int(spec.get("bags", 1)))
-    alpha = float(spec.get("prior_correction", 0.0))
-    out = np.zeros((len(X_eval), len(classes)))
-    model_rows = np.array([classes[c] not in RULE_ONLY_LABELS for c in y])
-    before = np.bincount(y[model_rows], minlength=len(classes)).astype(float)
-    for b in range(bags):
+    from backend.app.diagnosis.xgb_classifier import combine_bags  # noqa: PLC0415
+
+    per_bag, ratio = [], None
+    for b in range(max(1, int(spec.get("bags", 1)))):
         Xb, yb, wb = balance_to_ratio(X, y, w, real, classes, spec, seed + 1009 * b)
-        probs = _fit_predict(Xb, yb, wb, X_eval, seed, len(classes))
-        if alpha:
-            after = np.bincount(yb, minlength=len(classes)).astype(float)
-            ratio = np.where(after > 0, (before / before.sum()) / np.maximum(after / after.sum(), 1e-12), 0.0)
-            probs = probs * ratio ** alpha
-            probs = probs / np.maximum(probs.sum(axis=1, keepdims=True), 1e-12)
-        out += probs
-    return out / bags
+        per_bag.append(_fit_predict(Xb, yb, wb, X_eval, seed, len(classes)))
+        ratio = prior_ratio(y, yb, classes, float(spec.get("prior_correction", 0.0)))
+    return combine_bags(per_bag, ratio)
+
+
+def prior_ratio(y_before: np.ndarray, y_after: np.ndarray, classes: Sequence[str], alpha: float) -> np.ndarray | None:
+    """(class share before balancing / share after) ** alpha; 0 for a class the balanced rows lack.
+
+    None when alpha is 0. The rule-only classes are not counted before balancing, as the balanced
+    rows do not have them.
+    """
+    if not alpha:
+        return None
+    model_rows = np.array([classes[c] not in RULE_ONLY_LABELS for c in y_before])
+    before = np.bincount(y_before[model_rows], minlength=len(classes)).astype(float)
+    after = np.bincount(y_after, minlength=len(classes)).astype(float)
+    ratio = np.where(after > 0, (before / before.sum()) / np.maximum(after / after.sum(), 1e-12), 0.0)
+    return ratio ** alpha
+
+
+def balanced_boosters(X: np.ndarray, y: np.ndarray, w: np.ndarray, real: np.ndarray,
+                      classes: Sequence[str], spec: dict[str, Any], seed: int):
+    """The final fit of `fit_predict_balanced`: (one fitted model per bag, prior ratio or None).
+
+    The rule-only rows ride along at weight 0 so every booster has one output per class, which the
+    served label encoder needs; the prior ratio then gives those classes probability 0.
+    """
+    rule_only = np.array([classes[c] in RULE_ONLY_LABELS for c in y])
+    models, ratio = [], None
+    for b in range(max(1, int(spec.get("bags", 1)))):
+        Xb, yb, wb = balance_to_ratio(X, y, w, real, classes, spec, seed + 1009 * b)
+        ratio = prior_ratio(y, yb, classes, float(spec.get("prior_correction", 0.0)))
+        Xb = np.vstack([Xb, X[rule_only]])
+        yb = np.concatenate([yb, y[rule_only]])
+        wb = np.concatenate([wb, np.zeros(int(rule_only.sum()))])
+        model, present = _fit_model(Xb, yb, wb, seed)
+        if len(present) != len(classes):
+            raise ValueError("a balanced bag lacks a class; the booster would not match the label encoder")
+        models.append(model)
+    return models, ratio
 
 
 def synthetic_cap_drop(labels: Sequence[str], clusters: Sequence[str], real: Sequence[bool],
@@ -580,6 +610,7 @@ def train(
     drop_rule_only: bool = False,
     real_augment: dict[str, Any] | None = None,
     synthetic_cap: dict[str, Any] | None = None,
+    class_balance: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Train the three variants; write models/ artifacts; return metrics.
 
@@ -588,6 +619,10 @@ def train(
     pairs of real rows of a rare class (`augment_real_rows`). `synthetic_cap` leaves out synthetic
     train rows above `ratio` x real per class (`synthetic_cap_drop`). The three are scored first
     with `scripts/eval_candidate_oof.py`, which applies them the same way.
+
+    `class_balance` applies to the served `execution` variant only: its out-of-fold predictions
+    and its final fit use `fit_predict_balanced` / `balanced_boosters` (docs/CLASS_BALANCE_PLAN.md),
+    and it is saved as one booster file per bag plus `bags` and `prior_ratio` in metrics_v1.json.
     """
     set_profile(profile)
     set_balance(balance)
@@ -696,7 +731,8 @@ def train(
     def oof_for(X_train_src: np.ndarray, X_val_src: np.ndarray,
                 multiplier: float,
                 repeats: int = 1,
-                collect: list[np.ndarray] | None = None) -> tuple[np.ndarray, list[float]]:
+                collect: list[np.ndarray] | None = None,
+                balanced: bool = False) -> tuple[np.ndarray, list[float]]:
         """OOF probabilities over the TRAIN rows. For the masked variant
         the fold-train matrix is masked while the fold-validation matrix
         is not — mirroring deployment (disclosed in metrics).
@@ -715,9 +751,13 @@ def train(
             )
             for k, (tr, va) in enumerate(folds.split(X_train_src, y_tr, groups=cluster_tr)):
                 w, _ = compute_weights(meta_tr.iloc[tr], multiplier)
-                fold_model, present = fit_augmented(X_train_src[tr], y_tr[tr], w * keep_w_tr[tr],
-                                                    real_tr[tr], seed + 100 * rep + k)
-                probs = _to_global(fold_model.predict_proba(X_val_src[va]), present, len(classes))
+                if balanced and class_balance:
+                    probs = fit_predict_balanced(X_train_src[tr], y_tr[tr], w * keep_w_tr[tr], real_tr[tr],
+                                                 X_val_src[va], classes, class_balance, seed + 100 * rep + k)
+                else:
+                    fold_model, present = fit_augmented(X_train_src[tr], y_tr[tr], w * keep_w_tr[tr],
+                                                        real_tr[tr], seed + 100 * rep + k)
+                    probs = _to_global(fold_model.predict_proba(X_val_src[va]), present, len(classes))
                 oof_sum[va] += probs
                 oof_count[va] += 1.0
                 rep_probs[va] = probs
@@ -789,7 +829,7 @@ def train(
     X_exec = X[:, exec_idx]
     reps_exec: list[np.ndarray] = []
     oof_exec, fold_exec = oof_for(
-        X_exec[tr_idx], X_exec[tr_idx], best_mult, repeats=cv_repeats, collect=reps_exec
+        X_exec[tr_idx], X_exec[tr_idx], best_mult, repeats=cv_repeats, collect=reps_exec, balanced=True
     )
     exec_metrics = variant_metrics(oof_exec, fold_exec)
     exec_metrics["features"] = [feature_list[i] for i in exec_idx]
@@ -913,6 +953,7 @@ def train(
             "rule_only_dropped": list(RULE_ONLY_LABELS) if drop_rule_only else [],
             "real_augment": real_augment,
             "synthetic_cap": synthetic_cap,
+            "class_balance": class_balance,
         },
         "n_rows": len(y),
         "n_train": int(train_mask.sum()),
@@ -946,8 +987,25 @@ def train(
     common_model.get_booster().save_model(str(models / "xgb_common_v1.json"))
     best_model, _ = fit_augmented(X_best[train_mask], y[train_mask], w_final, real_fit, seed)
     best_model.get_booster().save_model(str(models / "xgb_best_v1.json"))
-    exec_model, _ = fit_augmented(X_exec[train_mask], y[train_mask], w_final, real_fit, seed)
-    exec_model.get_booster().save_model(str(models / "xgb_execution_v1.json"))
+    for stale in models.glob("xgb_execution_v1.bag*.json"):
+        stale.unlink()
+    exec_ratio = None
+    if class_balance:
+        exec_bags, exec_ratio = balanced_boosters(X_exec[train_mask], y[train_mask], w_final, real_fit,
+                                                  classes, class_balance, seed)
+        for b, bag in enumerate(exec_bags):
+            name = "xgb_execution_v1.json" if b == 0 else f"xgb_execution_v1.bag{b}.json"
+            bag.get_booster().save_model(str(models / name))
+        exec_model = exec_bags[0]
+        exec_metrics["bags"] = len(exec_bags)
+        exec_metrics["prior_ratio"] = None if exec_ratio is None else [round(float(v), 6) for v in exec_ratio]
+        exec_metrics["class_balance"] = class_balance
+        exec_metrics["class_ratio_final_fit"] = round(class_ratio(
+            balance_to_ratio(X_exec[train_mask], y[train_mask], w_final, real_fit, classes, class_balance, seed)[1]), 3)
+    else:
+        exec_bags = None
+        exec_model, _ = fit_augmented(X_exec[train_mask], y[train_mask], w_final, real_fit, seed)
+        exec_model.get_booster().save_model(str(models / "xgb_execution_v1.json"))
 
     # Descriptive check of each served calibrator on the dev-gold rows (45 rows,
     # mostly weak labels: a sanity figure, never a basis for tuning).
@@ -956,8 +1014,12 @@ def train(
         for vname, vmodel, vcols in (("best", best_model, best_idx), ("common", common_model, common_idx),
                                      ("execution", exec_model, exec_idx)):
             cal = calibrator["variants"][vname]
-            probs = _rescale(_to_global(vmodel.predict_proba(X[dev_mask][:, vcols]), final_present, len(classes)),
-                             cal["temperature"])
+            if vname == "execution" and exec_bags:
+                from backend.app.diagnosis.xgb_classifier import combine_bags  # noqa: PLC0415
+                raw = combine_bags([m.predict_proba(X[dev_mask][:, vcols]) for m in exec_bags], exec_ratio)
+            else:
+                raw = _to_global(vmodel.predict_proba(X[dev_mask][:, vcols]), final_present, len(classes))
+            probs = _rescale(raw, cal["temperature"])
             answered = probs.max(axis=1) >= cal["threshold"]
             dev_variants[vname] = {
                 "n": n_dev,
@@ -1015,6 +1077,9 @@ def main(argv: list[str] | None = None) -> int:
                              '{"target": 150, "max_factor": 3, "k": 5, "swap": 0.5, "weight": 1.0}')
     parser.add_argument("--synthetic-cap", type=json.loads, default=None, metavar="JSON",
                         help='at most ratio x real synthetic rows per class, e.g. {"ratio": 1, "min_real": 20}')
+    parser.add_argument("--class-balance", type=json.loads, default=None, metavar="JSON",
+                        help="execution variant: no class above max_ratio x another in any fit, e.g. "
+                             '{"max_ratio": 2, "floor": 300, "bags": 5, "prior_correction": 1.0}')
     parser.add_argument("--force", action="store_true",
                         help="overwrite an existing served model; without this flag the script refuses "
                              "if <models-dir>/xgb_execution_v1.json (the served variant) already exists")
@@ -1046,6 +1111,7 @@ def main(argv: list[str] | None = None) -> int:
             drop_rule_only=args.drop_rule_only,
             real_augment=args.real_augment,
             synthetic_cap=args.synthetic_cap,
+            class_balance=args.class_balance,
         )
     except ValueError as exc:
         print(f"FAIL  {exc}")

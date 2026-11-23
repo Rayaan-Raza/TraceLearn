@@ -181,7 +181,8 @@ def build_manifest(root: Path | None = None) -> dict:
         "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "git_commit": _git_commit(root),
         "files": hashes(ds, DATA_FILES),
-        "model_files": hashes(ds / "models", MODEL_FILES),
+        "model_files": hashes(ds / "models", MODEL_FILES + tuple(
+            p.name for p in sorted((ds / "models").glob("xgb_execution_v1.bag*.json")))),
         "training": _training_block(ds),
     }
 
