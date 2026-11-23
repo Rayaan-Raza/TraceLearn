@@ -1,0 +1,11 @@
+{
+ "name": "p1_cap_3",
+ "note": "At most 3 synthetic rows per real row, classes with 20+ real rows.",
+ "calibration": "refit",
+ "bars": "cross_fit",
+ "run_records": true,
+ "synthetic_cap": {
+  "ratio": 3,
+  "min_real": 20
+ }
+}

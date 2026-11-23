@@ -12,6 +12,15 @@ beats the served model by more than the spread of both (docs/MODEL_IMPROVEMENT_P
 | served_crossfit | 1367 | 0.526 ± 0.034 | 0.506 | 0.804 | 0.0701 (70/998) | cross_fit |
 | served_runtime | 1367 | 0.539 ± 0.037 | 0.522 | 0.813 | 0.0341 (34/998) | served |
 
+## Against `served` (paired, same real rows)
+
+Macro-F1 over the classes with at least 10 real rows, candidate minus reference, with a 95% interval from resampling whole problem clusters. A candidate is better only when the interval is above 0 and false alarm is not higher.
+
+| Candidate | Estimable macro-F1 | Difference (95%) | False alarm difference (95%) | Verdict |
+|---|---|---|---|---|
+| served_crossfit | 0.609 | -0.002 (-0.060 to +0.054) | +0.037 (+0.011 to +0.068) | no difference shown |
+| served_runtime | 0.634 | +0.022 (-0.007 to +0.066) | +0.001 (+0.000 to +0.004) | no difference shown |
+
 ## Per class on real rows (mean of repeats)
 
 F1, the 95% interval on recall, and the real support; under 10 real rows the cell reads "not estimable". The composition column is the first candidate's training rows.

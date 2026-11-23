@@ -1,0 +1,7 @@
+{
+ "name": "p1_base",
+ "note": "The P1 reference: the served configuration with calibration refitted and bars cross-fitted, the setting every P1 candidate uses.",
+ "calibration": "refit",
+ "bars": "cross_fit",
+ "run_records": true
+}

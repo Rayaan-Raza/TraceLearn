@@ -1,0 +1,13 @@
+{
+ "name": "p1_w_big_000",
+ "note": "No synthetic weight for the four classes with 50+ real rows.",
+ "calibration": "refit",
+ "bars": "cross_fit",
+ "run_records": true,
+ "synthetic_class_weight": {
+  "CPP_OFF_BY_ONE": 0.0,
+  "CPP_UNINITIALIZED_VAR": 0.0,
+  "CPP_INT_OVERFLOW": 0.0,
+  "CPP_ARRAY_BOUNDS": 0.0
+ }
+}

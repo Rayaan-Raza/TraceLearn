@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 import math
 import sys
 from pathlib import Path
@@ -150,3 +151,58 @@ def test_committed_baseline_reproduces_the_recorded_figure():
     for cls in ("CPP_ASSIGN_VS_COMPARE", "CPP_WRONG_LOOP_DIR", "CPP_MISSING_BASE_CASE"):
         assert not r["pooled"]["per_class_real"][cls]["estimable"]
     assert all(not math.isnan(v) for v in r["summary"]["macro_f1_real_per_repeat"])
+
+
+def _cap_rows():
+    rows = [{"label": "A", "real": True, "cluster": f"r{i}"} for i in range(10)]
+    rows += [{"label": "A", "real": False, "cluster": f"s{i // 5}"} for i in range(40)]   # 8 clusters of 5
+    rows += [{"label": "B", "real": True, "cluster": "rb"}]
+    rows += [{"label": "B", "real": False, "cluster": "sb"} for _ in range(30)]
+    return rows
+
+
+def test_cap_keeps_whole_clusters_under_the_ratio_and_spares_rare_classes():
+    out = H.cap_synthetic(_cap_rows(), {"ratio": 2, "min_real": 5}, seed=7)
+    synth_a = [r for r in out if r["label"] == "A" and not r["real"]]
+    assert len(synth_a) == 20                                   # 2 x 10 real, in clusters of 5
+    clusters = Counter(r["cluster"] for r in synth_a)
+    assert set(clusters.values()) == {5}
+    assert sum(r["label"] == "B" and not r["real"] for r in out) == 30   # 1 real row: not capped
+    assert sum(r["real"] for r in out) == 11
+
+
+def test_cap_ratio_zero_removes_synthetic_rows_of_capped_classes():
+    out = H.cap_synthetic(_cap_rows(), {"ratio": 0, "min_real": 0}, seed=7)
+    assert all(r["real"] for r in out)
+
+
+def test_estimable_macro_f1_ignores_classes_under_ten_rows():
+    truth = ["A"] * 10 + ["B"]
+    pred = ["A"] * 10 + ["A"]
+    assert H.estimable_classes(truth) == ["A"]
+    assert H.macro_f1_over(truth, pred, H.estimable_classes(truth)) == pytest.approx(20 / 21)
+
+
+def _preds(pred):
+    truth = (["A"] * 12 + [OTHER] * 12) * 2
+    return {"real_predictions": {"row_id": [str(i) for i in range(len(truth))],
+                                 "cluster": [f"c{i % 8}" for i in range(len(truth))],
+                                 "truth": truth, "pred": pred}}
+
+
+def test_paired_difference_is_zero_for_the_same_predictions_and_positive_for_a_clear_gain():
+    truth = _preds([])["real_predictions"]["truth"]
+    weak = [OTHER if t == "A" and i % 2 else t for i, t in enumerate(truth)]
+    same = H.paired_difference(_preds(weak), _preds(weak), n=200)
+    assert same["macro_f1_estimable_diff"] == 0 and same["macro_f1_estimable_diff_95"] == [0, 0]
+    gain = H.paired_difference(_preds(weak), _preds(list(truth)), n=200)
+    assert gain["macro_f1_estimable_diff"] > 0 and gain["macro_f1_estimable_diff_95"][0] > 0
+    assert H.verdict(gain) == "better" and H.verdict(same) == "no difference shown"
+
+
+def test_paired_difference_refuses_different_rows():
+    a = _preds(["A"] * 48)
+    b = _preds(["A"] * 48)
+    b["real_predictions"]["row_id"] = list(reversed(b["real_predictions"]["row_id"]))
+    with pytest.raises(ValueError):
+        H.paired_difference(a, b)
