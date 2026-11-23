@@ -1,8 +1,8 @@
 {
  "variant": "execution",
- "model_sha256": "8860b506160ed29c10a83981b937ee06783ff3f7abfb8e7df17163fc4ea123d3",
+ "model_sha256": "8aa8dcac606200017db0304dc7ad904f45789096ea3cd42b5fc08ace00ab6646",
  "temperature": 1.0,
- "threshold": 0.63,
+ "threshold": 0.71,
  "cases": [
   {
    "row_id": "bl-t2-tr-050",
@@ -202,14 +202,14 @@
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0016,
-     "CPP_LOOP_BOUNDARY": 0.0025,
+     "CPP_INT_OVERFLOW": 0.0006,
+     "CPP_LOOP_BOUNDARY": 0.0011,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0148,
-     "CPP_OTHER_ERROR": 0.9356,
-     "CPP_RANGE_CHECK": 0.004,
-     "CPP_STALE_EXIT": 0.0348,
-     "CPP_UNINITIALIZED_VAR": 0.0067,
+     "CPP_OFF_BY_ONE": 0.0191,
+     "CPP_OTHER_ERROR": 0.9446,
+     "CPP_RANGE_CHECK": 0.0024,
+     "CPP_STALE_EXIT": 0.0295,
+     "CPP_UNINITIALIZED_VAR": 0.0029,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -411,15 +411,15 @@
     "abstained": false,
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
-     "CPP_ASSIGN_VS_COMPARE": 0.9723,
-     "CPP_INT_OVERFLOW": 0.0007,
-     "CPP_LOOP_BOUNDARY": 0.0003,
+     "CPP_ASSIGN_VS_COMPARE": 0.9692,
+     "CPP_INT_OVERFLOW": 0.0001,
+     "CPP_LOOP_BOUNDARY": 0.0001,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.001,
-     "CPP_OTHER_ERROR": 0.0217,
-     "CPP_RANGE_CHECK": 0.0008,
-     "CPP_STALE_EXIT": 0.0025,
-     "CPP_UNINITIALIZED_VAR": 0.0008,
+     "CPP_OFF_BY_ONE": 0.0007,
+     "CPP_OTHER_ERROR": 0.0279,
+     "CPP_RANGE_CHECK": 0.0004,
+     "CPP_STALE_EXIT": 0.0014,
+     "CPP_UNINITIALIZED_VAR": 0.0002,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -622,14 +622,14 @@
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.9688,
-     "CPP_LOOP_BOUNDARY": 0.0025,
+     "CPP_INT_OVERFLOW": 0.9631,
+     "CPP_LOOP_BOUNDARY": 0.0015,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0055,
-     "CPP_OTHER_ERROR": 0.016,
-     "CPP_RANGE_CHECK": 0.0048,
-     "CPP_STALE_EXIT": 0.0006,
-     "CPP_UNINITIALIZED_VAR": 0.0019,
+     "CPP_OFF_BY_ONE": 0.0051,
+     "CPP_OTHER_ERROR": 0.0264,
+     "CPP_RANGE_CHECK": 0.003,
+     "CPP_STALE_EXIT": 0.0003,
+     "CPP_UNINITIALIZED_VAR": 0.0006,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -832,14 +832,14 @@
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0048,
-     "CPP_LOOP_BOUNDARY": 0.7366,
+     "CPP_INT_OVERFLOW": 0.0013,
+     "CPP_LOOP_BOUNDARY": 0.7067,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0934,
-     "CPP_OTHER_ERROR": 0.0857,
-     "CPP_RANGE_CHECK": 0.0651,
-     "CPP_STALE_EXIT": 0.0077,
-     "CPP_UNINITIALIZED_VAR": 0.0067,
+     "CPP_OFF_BY_ONE": 0.1473,
+     "CPP_OTHER_ERROR": 0.095,
+     "CPP_RANGE_CHECK": 0.0444,
+     "CPP_STALE_EXIT": 0.0028,
+     "CPP_UNINITIALIZED_VAR": 0.0024,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -1042,14 +1042,14 @@
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0016,
-     "CPP_LOOP_BOUNDARY": 0.0036,
+     "CPP_INT_OVERFLOW": 0.002,
+     "CPP_LOOP_BOUNDARY": 0.0049,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0385,
-     "CPP_OTHER_ERROR": 0.9274,
-     "CPP_RANGE_CHECK": 0.0044,
-     "CPP_STALE_EXIT": 0.0111,
-     "CPP_UNINITIALIZED_VAR": 0.0134,
+     "CPP_OFF_BY_ONE": 0.0861,
+     "CPP_OTHER_ERROR": 0.7366,
+     "CPP_RANGE_CHECK": 0.012,
+     "CPP_STALE_EXIT": 0.1112,
+     "CPP_UNINITIALIZED_VAR": 0.0472,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -1247,19 +1247,19 @@
     "repair.uninit_zero_fixes": 0.0
    },
    "expected": {
-    "top_label": "CPP_LOOP_BOUNDARY",
-    "abstained": false,
+    "top_label": "CPP_OFF_BY_ONE",
+    "abstained": true,
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0012,
-     "CPP_LOOP_BOUNDARY": 0.3873,
+     "CPP_INT_OVERFLOW": 0.0005,
+     "CPP_LOOP_BOUNDARY": 0.3908,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.4929,
-     "CPP_OTHER_ERROR": 0.0948,
-     "CPP_RANGE_CHECK": 0.0037,
-     "CPP_STALE_EXIT": 0.0018,
-     "CPP_UNINITIALIZED_VAR": 0.0183,
+     "CPP_OFF_BY_ONE": 0.4934,
+     "CPP_OTHER_ERROR": 0.1053,
+     "CPP_RANGE_CHECK": 0.0015,
+     "CPP_STALE_EXIT": 0.0009,
+     "CPP_UNINITIALIZED_VAR": 0.0075,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -1461,15 +1461,15 @@
     "abstained": false,
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
-     "CPP_ASSIGN_VS_COMPARE": 0.0039,
-     "CPP_INT_OVERFLOW": 0.0004,
-     "CPP_LOOP_BOUNDARY": 0.0005,
+     "CPP_ASSIGN_VS_COMPARE": 0.0011,
+     "CPP_INT_OVERFLOW": 0.0001,
+     "CPP_LOOP_BOUNDARY": 0.0002,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0048,
-     "CPP_OTHER_ERROR": 0.9754,
-     "CPP_RANGE_CHECK": 0.0118,
-     "CPP_STALE_EXIT": 0.0008,
-     "CPP_UNINITIALIZED_VAR": 0.0024,
+     "CPP_OFF_BY_ONE": 0.0026,
+     "CPP_OTHER_ERROR": 0.9902,
+     "CPP_RANGE_CHECK": 0.0045,
+     "CPP_STALE_EXIT": 0.0002,
+     "CPP_UNINITIALIZED_VAR": 0.0011,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -1671,15 +1671,15 @@
     "abstained": false,
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
-     "CPP_ASSIGN_VS_COMPARE": 0.003,
-     "CPP_INT_OVERFLOW": 0.0009,
-     "CPP_LOOP_BOUNDARY": 0.0004,
+     "CPP_ASSIGN_VS_COMPARE": 0.0011,
+     "CPP_INT_OVERFLOW": 0.0001,
+     "CPP_LOOP_BOUNDARY": 0.0001,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0015,
-     "CPP_OTHER_ERROR": 0.963,
-     "CPP_RANGE_CHECK": 0.0281,
-     "CPP_STALE_EXIT": 0.0021,
-     "CPP_UNINITIALIZED_VAR": 0.0011,
+     "CPP_OFF_BY_ONE": 0.0013,
+     "CPP_OTHER_ERROR": 0.9759,
+     "CPP_RANGE_CHECK": 0.0203,
+     "CPP_STALE_EXIT": 0.0008,
+     "CPP_UNINITIALIZED_VAR": 0.0004,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -1882,14 +1882,14 @@
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.001,
-     "CPP_LOOP_BOUNDARY": 0.0016,
+     "CPP_INT_OVERFLOW": 0.0002,
+     "CPP_LOOP_BOUNDARY": 0.0003,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0087,
-     "CPP_OTHER_ERROR": 0.3473,
-     "CPP_RANGE_CHECK": 0.0021,
-     "CPP_STALE_EXIT": 0.6323,
-     "CPP_UNINITIALIZED_VAR": 0.0069,
+     "CPP_OFF_BY_ONE": 0.0049,
+     "CPP_OTHER_ERROR": 0.1846,
+     "CPP_RANGE_CHECK": 0.0007,
+     "CPP_STALE_EXIT": 0.8084,
+     "CPP_UNINITIALIZED_VAR": 0.001,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -2092,14 +2092,14 @@
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0009,
-     "CPP_LOOP_BOUNDARY": 0.0014,
+     "CPP_INT_OVERFLOW": 0.0004,
+     "CPP_LOOP_BOUNDARY": 0.001,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0084,
-     "CPP_OTHER_ERROR": 0.7957,
-     "CPP_RANGE_CHECK": 0.0016,
-     "CPP_STALE_EXIT": 0.0476,
-     "CPP_UNINITIALIZED_VAR": 0.1446,
+     "CPP_OFF_BY_ONE": 0.0115,
+     "CPP_OTHER_ERROR": 0.8763,
+     "CPP_RANGE_CHECK": 0.0019,
+     "CPP_STALE_EXIT": 0.0222,
+     "CPP_UNINITIALIZED_VAR": 0.0868,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }
@@ -2302,14 +2302,14 @@
     "probabilities": {
      "CPP_ARRAY_BOUNDS": 0.0,
      "CPP_ASSIGN_VS_COMPARE": 0.0,
-     "CPP_INT_OVERFLOW": 0.0011,
-     "CPP_LOOP_BOUNDARY": 0.0011,
+     "CPP_INT_OVERFLOW": 0.0003,
+     "CPP_LOOP_BOUNDARY": 0.0003,
      "CPP_MISSING_BASE_CASE": 0.0,
-     "CPP_OFF_BY_ONE": 0.0024,
-     "CPP_OTHER_ERROR": 0.9771,
-     "CPP_RANGE_CHECK": 0.0011,
-     "CPP_STALE_EXIT": 0.0027,
-     "CPP_UNINITIALIZED_VAR": 0.0145,
+     "CPP_OFF_BY_ONE": 0.0013,
+     "CPP_OTHER_ERROR": 0.9854,
+     "CPP_RANGE_CHECK": 0.0004,
+     "CPP_STALE_EXIT": 0.0004,
+     "CPP_UNINITIALIZED_VAR": 0.0119,
      "CPP_WRONG_LOOP_DIR": 0.0
     }
    }

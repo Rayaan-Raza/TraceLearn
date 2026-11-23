@@ -1,0 +1,1 @@
+{"name": "cb_new_served", "note": "The trained 2x-balanced model (floor 300, 5 bags, prior correction 1.0) with its own calibration and bars, run records on.", "run_records": true, "class_balance": {"max_ratio": 2, "floor": 300, "bags": 5, "aug_weight": 1.0, "prior_correction": 1.0}}
