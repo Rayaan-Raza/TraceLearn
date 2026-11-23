@@ -1348,6 +1348,50 @@ Student screens: Dashboard and Progress (charts of the student's own states), Pr
 
 Teacher screens: Classroom and Class overview, Students and Student details, Misconceptions, assignment screens with a per-assignment chart, Research, and Submission detail. Submission detail shows the code, the current-only and history-aware diagnoses side by side, the model panel, the evidence grouped by source with weights, every test including hidden ones, and the confirm or correct form that records a teacher review. Research shows experiment metrics and the classifier's training-time figures. Pull request #30 changes the model panel to say which stage decided and to label a rule's figure as a measured precision.
 
+## **Implementation update, 23 November 2026: learner-state transitions for C++** 
+
+Written by Umaima Zeeshan from `backend/app/learner_model/updater.py` and `docs/LEARNER_STATE_RULES.md` on `main`. Rules and thresholds are in the code and in `config/evidence_weights.yaml`; this section describes what runs and says where a claim is not yet tested.
+
+#### **States and transitions** 
+
+There are six states per student and misconception: `NEW`, `PERSISTENT`, `IMPROVING`, `RESOLVED`, `RECURRED` and `REQUIRES_TEACHER_REVIEW`. There is one shared update algorithm; each student has their own states. Every change is appended to `learner_state_history` with the rule name, the counts and the submission ids in `reason_json`. History is never rewritten, so a `RESOLVED` episode stays in the record after a recurrence.
+
+A submission can move a state in two ways.
+
+| Path | Condition (checked in this order) | New state | Rule name |
+|---|---|---|---|
+| Support (the history-aware diagnosis names misconception M) | The diagnosis has a review flag | `REQUIRES_TEACHER_REVIEW` | `review_flag` |
+| | M was `RESOLVED`, confidence 0.45 or more | `RECURRED` | `strong_evidence_after_resolved` |
+| | M was `RESOLVED`, confidence below 0.45 | `REQUIRES_TEACHER_REVIEW` | `weak_evidence_after_resolved` |
+| | M was `RECURRED` | `RECURRED` | `support_while_recurred` |
+| | Observed support on 2 or more different problems | `PERSISTENT` | `cross_problem_recurrence` (`regression_after_improving` when M was `IMPROVING`) |
+| | Otherwise | `NEW` | `isolated_or_same_problem` |
+| Verified success (every test passed, no review flag) | M was `PERSISTENT` or `RECURRED` and the confidence fell | `IMPROVING` | `related_success_after_persistent` |
+| | M was `IMPROVING`, at least 2 related successes on at least 2 different problems, confidence below 0.25 | `RESOLVED` | `sustained_related_success` |
+| | M is `REQUIRES_TEACHER_REVIEW` | no change | `success_does_not_clear_review` |
+
+On a success the confidence is `clip(0.80 * C_old - 0.20 * S, 0, 1)`, where S counts the related successes since the last observed support. One success takes a confidence of 1.0 to 0.60, and a second takes it to 0.08.
+
+#### **What counts as evidence for a C++ submission** 
+
+- **Observed support** for M is an evidence row with direction `support` from `execution`, `test` or `static`. Rows of source type `history` and `sequence` restate earlier attempts, so they never count as observed support. A model prediction, when the model is on, is one more observed source for the diagnosis; it does not change the state rules.
+- **A problem probes M** only when one of its diagnostic tests maps to M. A concept tag alone does not make a problem related. This mapping is the reason a pass on an unrelated problem cannot resolve anything.
+- **A related success** is a pass on a problem that probes M, after the most recent observed support for M. A pass before the student first showed M is not evidence of recovery.
+- **A verified success** needs a `NO_MISCONCEPTION` diagnosis with no review flag and every test passed. A C++ compile error is also `NO_MISCONCEPTION` but carries a review flag, so it is not a success and changes nothing.
+
+#### **What changes nothing** 
+
+An uncertain diagnosis; a compile error; a failing submission with no named misconception; and a pass on a problem that does not probe M. These stay out on purpose: unrelated success and uncertainty never move a misconception towards `RESOLVED`.
+
+#### **Recovery and recurrence** 
+
+Both need more than one problem. Three rules in `LEARNER_STATE_RULES.md` carry this: one submission never makes a state `PERSISTENT`; repeating one problem stays `NEW`; and sustained related success on two different problems is needed for `RESOLVED`. Time order is strict: the rules read only the current and earlier submissions, and a stored state that a later submission already set is not overwritten when an older submission is diagnosed again. Recovery does not erase the earlier episode; a `RECURRED` row after `RESOLVED` is a new transition in the history.
+
+#### **What is tested, and what is not** 
+
+- Recovery and recurrence are tested through real submissions on the Python problems P05 and P06 in `backend/tests/test_learner_recovery.py`, with the model, run records and background worker off (the default test fixture).
+- The same sequence on a C++ misconception, with the model, run records, `model_first` fusion and the background worker on, is task U3 and is not finished. Until its test is on `main`, this section describes the rules and their Python evidence, not a tested C++ lifecycle. A diagnosis takes about 48 seconds with run records on, so the planned test has a fast layer (recorded run records as fixtures, in CI) and a slow layer (the real sandbox, once, with its log committed).
+
 ## **References and Source Basis** 
 
 Project documents used as the primary scope basis: “Ideas we like” / TraceLearn concept documents, the FAST FYP alignment guide, the updated TraceLearn FYP scope and timeline, the TraceLearn presentation, and the latest POC 
