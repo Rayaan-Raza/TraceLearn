@@ -162,3 +162,39 @@ learner_state:
 ```
 
 The tests are in `backend/tests/test_learner_recovery.py` and `backend/tests/test_history_contract.py`.
+
+## C++ with the model on (task U3)
+
+`backend/tests/test_learner_recovery_cpp.py` runs real C++ submissions with the shipped model
+settings (`model_diagnosis=on`, `execution` variant, run records on, `model_first`). The
+misconception is `CPP_LOOP_BOUNDARY`; CP09 to CP12 probe it and CP13 does not. The code and this
+document agree: the rules above are the rules that ran. What the run showed (model
+`8860b506`, commit `cf20938`; log in `docs/qa/u3_cpp_recovery_slow_log.json`):
+
+| Step | State | Confidence | Rule |
+|------|-------|-----------:|------|
+| fail CP09 | `NEW` | 0.961 | `isolated_or_same_problem` |
+| fail CP10 | `PERSISTENT` | 0.965 | `cross_problem_recurrence` |
+| pass CP09 | `IMPROVING` | 0.572 | `related_success_after_persistent` |
+| pass CP10 | `RESOLVED` | 0.058 | `sustained_related_success` |
+| fail CP12 | `RECURRED` | 0.959 | `strong_evidence_after_resolved` |
+| fail CP11 instead of CP12 | `REQUIRES_TEACHER_REVIEW` | 0.213 | `weak_evidence_after_resolved` |
+
+- **Recurrence is not guaranteed.** A relapse is `RECURRED` only when the history-aware confidence is
+  0.45 or more. On CP11 the classifier's own answer is `CPP_OTHER_ERROR` 0.34, then
+  `CPP_OFF_BY_ONE` 0.27, then `CPP_LOOP_BOUNDARY` 0.21, so the confidence is 0.21 and the state goes
+  to teacher review. Two programs with the same misconception and the same rule path end in different
+  states because the model is less sure of one of them. The test asserts that the state follows the
+  rule for whichever confidence it gets, and both outcomes are in the log.
+- **Unrelated success, compile error:** no change (tested).
+- **The model answers `CPP_OTHER_ERROR` for a failure:** the diagnosis is `UNCERTAIN` and no state
+  changes (tested).
+- **The model abstains:** the work plan expected "no change". With `model_first`, an abstention
+  falls back to the rule scores. If the program's failing diagnostic tests still name the
+  misconception, the state is refreshed (here it stays `PERSISTENT`). It never moves towards
+  `RESOLVED`. The test records this behaviour.
+- **Tested here:** the fast layer in CI reads recorded run records
+  (`backend/tests/fixtures/cpp_recovery_run_records.json`) and runs the real compile and tests; the
+  slow layer (`TL_SLOW_CPP_RECOVERY=1`) builds every run record in the sandbox. If the served model is
+  replaced, the fast layer still checks the rule consistency, but the recorded run records and the
+  log should be regenerated.
