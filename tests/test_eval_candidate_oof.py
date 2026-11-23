@@ -241,3 +241,33 @@ def test_real_augmentation_skips_classes_at_target_or_too_small():
 def test_candidate_can_drop_rule_only_rows():
     cand = H.load_candidate({"name": "x", "drop_rule_only": True, "real_augment": {"target": 10}})
     assert cand["drop_rule_only"] is True and cand["real_augment"] == {"target": 10}
+
+
+def test_balance_to_ratio_keeps_every_class_within_twice_the_smallest():
+    rng = np.random.default_rng(3)
+    classes = ["CPP_ARRAY_BOUNDS", "CPP_MISSING_BASE_CASE", OTHER, "CPP_RANGE_CHECK"]
+    y = np.array([0] * 30 + [1] * 10 + [2] * 300 + [3] * 8)   # class 3: too few real rows, parents are all rows
+    X = rng.integers(0, 4, size=(len(y), 5)).astype(float)
+    real = np.ones(len(y), dtype=bool)
+    real[40:100] = False                     # 60 synthetic OTHER rows, dropped before real ones
+    real[340:345] = False                    # 3 real RANGE_CHECK rows of 8
+    Xb, yb, wb = T.balance_to_ratio(X, y, np.ones(len(y)), real, classes, {"floor": 40, "max_ratio": 2}, seed=1)
+    counts = Counter(yb.tolist())
+    assert 1 not in counts                   # the rule-only class is left out
+    assert counts[0] == 40 and counts[3] == 40 and counts[2] == 80
+    assert T.class_ratio(yb) <= 2.0
+    kept_other = Xb[yb == 2]
+    synthetic_other = {tuple(r) for r in X[40:100]}
+    real_other = {tuple(r) for r in X[100:340]}
+    # 80 kept of 240 real OTHER rows: the synthetic ones went first (barring identical rows)
+    assert sum(tuple(r) in real_other for r in kept_other) == 80 or not (synthetic_other - real_other)
+
+
+def test_balanced_bags_see_different_other_rows():
+    classes = ["CPP_ARRAY_BOUNDS", OTHER]
+    y = np.array([0] * 20 + [1] * 200)
+    X = np.arange(len(y) * 2, dtype=float).reshape(-1, 2)
+    real = np.ones(len(y), dtype=bool)
+    a = T.balance_to_ratio(X, y, np.ones(len(y)), real, classes, {"floor": 20}, seed=1)[0]
+    b = T.balance_to_ratio(X, y, np.ones(len(y)), real, classes, {"floor": 20}, seed=1010)[0]
+    assert {tuple(r) for r in a} != {tuple(r) for r in b}

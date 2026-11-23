@@ -1,0 +1,1 @@
+{"name": "cb_f300_bag5", "note": "Every fold balanced to max/min 2: classes filled to 300 rows from their real rows, OTHER_ERROR cut to 2x, 5 bag(s); rule-only classes left out (docs/CLASS_BALANCE_PLAN.md).", "calibration": "refit", "bars": "cross_fit", "run_records": true, "class_balance": {"max_ratio": 2, "floor": 300, "bags": 5, "aug_weight": 1.0}}

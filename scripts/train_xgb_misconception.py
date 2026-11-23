@@ -306,6 +306,10 @@ def augment_real_rows(X: np.ndarray, y: np.ndarray, real: np.ndarray, classes: S
     Rows are drawn from the rows passed in, so inside a cross-validation fold they come from that
     fold's training rows only. OTHER_ERROR and the rule-only classes are never augmented.
     Returns (X_new, y_new); the caller sets their weight.
+
+    With `count_all`, `target` and `max_factor` count every row of the class (real and synthetic),
+    and a class with fewer than `min_real` real rows takes its parents from all its rows, since it
+    has nothing else (used by `balance_to_ratio`).
     """
     target = int(spec.get("target", 60))
     max_factor = float(spec.get("max_factor", 2.0))
@@ -313,6 +317,7 @@ def augment_real_rows(X: np.ndarray, y: np.ndarray, real: np.ndarray, classes: S
     swap = float(spec.get("swap", 0.5))
     min_real = int(spec.get("min_real", 5))
     only = set(spec.get("classes") or [])
+    count_all = bool(spec.get("count_all", False))
     rng = np.random.default_rng(seed)
     ref = X[real]
     sd = np.nanstd(ref, axis=0) if len(ref) else np.ones(X.shape[1])
@@ -324,7 +329,14 @@ def augment_real_rows(X: np.ndarray, y: np.ndarray, real: np.ndarray, classes: S
         idx = np.flatnonzero(real & (y == ci))
         n = len(idx)
         need = min(target - n, int(max_factor * n))
-        if n < max(min_real, 2) or need <= 0:
+        least = max(min_real, 2)
+        if count_all:
+            total = int((y == ci).sum())
+            if n < min_real:
+                idx = np.flatnonzero(y == ci)
+                n, least = len(idx), 2
+            need = min(target - total, int(max_factor * total))
+        if n < least or need <= 0:
             continue
         Z = X[idx] / sd
         both = ~np.isnan(Z)[:, None, :] & ~np.isnan(Z)[None, :, :]
@@ -345,6 +357,77 @@ def augment_real_rows(X: np.ndarray, y: np.ndarray, real: np.ndarray, classes: S
     if not new_x:
         return np.empty((0, X.shape[1])), np.empty(0, dtype=int)
     return np.array(new_x, dtype=float), np.array(new_y, dtype=int)
+
+
+def balance_to_ratio(X: np.ndarray, y: np.ndarray, w: np.ndarray, real: np.ndarray,
+                     classes: Sequence[str], spec: dict[str, Any], seed: int
+                     ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Training rows in which no model class has more than `max_ratio` x the rows of another.
+
+    docs/CLASS_BALANCE_PLAN.md. The rule-only classes are left out (the model never names them).
+    1. Classes under `floor` rows are filled with `augment_real_rows` (count_all; weight `aug_weight`).
+    2. The cap is `max_ratio` x the smallest class's row count. A class above it, OTHER_ERROR in
+       practice, is cut to the cap at random, synthetic rows first. `seed` picks which rows stay,
+       so bags with different seeds see different OTHER_ERROR rows.
+    Returns (X, y, w).
+    """
+    keep = np.array([classes[c] not in RULE_ONLY_LABELS for c in y])
+    X, y, w, real = X[keep], y[keep], w[keep], real[keep]
+    aug = {"target": int(spec.get("floor", 200)), "max_factor": float(spec.get("max_factor", 4.0)),
+           "k": int(spec.get("k", 5)), "swap": float(spec.get("swap", 0.5)),
+           "min_real": int(spec.get("min_real", 5)), "count_all": True}
+    X_new, y_new = augment_real_rows(X, y, real, classes, aug, seed)
+    synthetic = np.concatenate([~real, np.zeros(len(y_new), dtype=bool)])   # made rows count as real-derived
+    X = np.vstack([X, X_new])
+    y = np.concatenate([y, y_new])
+    w = np.concatenate([w, np.full(len(y_new), float(spec.get("aug_weight", 1.0)))])
+    counts = {c: int((y == c).sum()) for c in np.unique(y)}
+    cap = int(float(spec.get("max_ratio", 2.0)) * min(counts.values()))
+    rng = np.random.default_rng(seed + 7919)
+    drop: list[int] = []
+    for c, n in counts.items():
+        if n <= cap:
+            continue
+        idx = np.flatnonzero(y == c)
+        order = idx[np.lexsort((rng.random(len(idx)), ~synthetic[idx]))]   # synthetic first, random within
+        drop.extend(order[: n - cap].tolist())
+    mask = np.ones(len(y), dtype=bool)
+    mask[drop] = False
+    return X[mask], y[mask], w[mask]
+
+
+def class_ratio(y: np.ndarray) -> float:
+    """Largest over smallest class row count among the classes present."""
+    counts = np.bincount(y)
+    counts = counts[counts > 0]
+    return float(counts.max() / counts.min()) if len(counts) else 0.0
+
+
+def fit_predict_balanced(X: np.ndarray, y: np.ndarray, w: np.ndarray, real: np.ndarray, X_eval: np.ndarray,
+                         classes: Sequence[str], spec: dict[str, Any], seed: int) -> np.ndarray:
+    """Mean probabilities over `bags` boosters, each fitted on its own `balance_to_ratio` rows.
+
+    `prior_correction` (alpha, 0 = off): a booster fitted on balanced rows believes every class is
+    about as common as the others, so OTHER_ERROR, 73% of real failing programs, looks rare to it and
+    its probabilities spread out. Each class's probability is multiplied by
+    (its share of the unbalanced rows / its share of the balanced rows) ** alpha and the row is
+    renormalised: the trees keep what balancing taught them, the decision sees realistic priors.
+    """
+    bags = max(1, int(spec.get("bags", 1)))
+    alpha = float(spec.get("prior_correction", 0.0))
+    out = np.zeros((len(X_eval), len(classes)))
+    model_rows = np.array([classes[c] not in RULE_ONLY_LABELS for c in y])
+    before = np.bincount(y[model_rows], minlength=len(classes)).astype(float)
+    for b in range(bags):
+        Xb, yb, wb = balance_to_ratio(X, y, w, real, classes, spec, seed + 1009 * b)
+        probs = _fit_predict(Xb, yb, wb, X_eval, seed, len(classes))
+        if alpha:
+            after = np.bincount(yb, minlength=len(classes)).astype(float)
+            ratio = np.where(after > 0, (before / before.sum()) / np.maximum(after / after.sum(), 1e-12), 0.0)
+            probs = probs * ratio ** alpha
+            probs = probs / np.maximum(probs.sum(axis=1, keepdims=True), 1e-12)
+        out += probs
+    return out / bags
 
 
 def synthetic_cap_drop(labels: Sequence[str], clusters: Sequence[str], real: Sequence[bool],

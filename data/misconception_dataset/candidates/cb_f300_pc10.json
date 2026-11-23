@@ -1,0 +1,1 @@
+{"name": "cb_f300_pc10", "note": "Balanced to max/min 2 (floor 300, 1 bag(s)), then prior correction alpha 1.0 before the decision (docs/CLASS_BALANCE_PLAN.md).", "calibration": "refit", "bars": "cross_fit", "run_records": true, "class_balance": {"max_ratio": 2, "floor": 300, "bags": 1, "aug_weight": 1.0, "prior_correction": 1.0}}

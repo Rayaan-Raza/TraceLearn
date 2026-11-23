@@ -20,6 +20,9 @@ A candidate is data (a JSON file):
      "drop_features": [],         # features removed from the variant's list (P1, P2)
      "drop_rule_only": false,     # train without the rows of the rule-only classes (RULE_ONLY_CLASSES);
                                   # they are still scored, so the real rows stay paired
+     "class_balance": null,       # {"max_ratio": 2, "floor": 200, "bags": 1, "aug_weight": 1.0}: every
+                                  # fold's rows balanced so no class has more than max_ratio x another
+                                  # (train_xgb_misconception.balance_to_ratio, docs/CLASS_BALANCE_PLAN.md)
      "real_augment": null,        # {"target": 60, "max_factor": 2, "k": 5, "swap": 0.5, "weight": 0.5}:
                                   # per fold, new rows for rare classes made from pairs of that fold's
                                   # REAL training rows (train_xgb_misconception.augment_real_rows)
@@ -91,7 +94,7 @@ MIN_SUPPORT = 10
 DEFAULTS: dict[str, Any] = {
     "variant": "execution", "profile": None, "balance": "none", "synthetic_multiplier": 1.0,
     "synthetic_class_weight": {}, "exclude_prefixes": None, "synthetic_cap": None, "drop_features": [],
-    "drop_rule_only": False, "real_augment": None,
+    "drop_rule_only": False, "real_augment": None, "class_balance": None,
     "calibration": "served", "bars": "served", "include_dev_gold": False, "run_records": True,
     "folds": 3, "repeats": 3, "seed": 7,
 }
@@ -201,7 +204,11 @@ def oof_probabilities(rows, features: list[str], classes: list[str], cand: dict[
                 X_tr = np.vstack([X_tr, X_new])
                 y_tr = np.concatenate([y_tr, y_new])
                 w_tr = np.concatenate([w_tr, np.full(len(y_new), float(aug.get("weight", 0.5)))])
-            reps[rep, va] = T._fit_predict(X_tr, y_tr, w_tr, X[va], cand["seed"], len(classes))
+            if cand["class_balance"]:
+                reps[rep, va] = T.fit_predict_balanced(X_tr, y_tr, w_tr, real[tr], X[va], classes,
+                                                       cand["class_balance"], cand["seed"] + 100 * rep + k)
+            else:
+                reps[rep, va] = T._fit_predict(X_tr, y_tr, w_tr, X[va], cand["seed"], len(classes))
             fold_of[rep, va] = k
     return reps, fold_of, y
 
