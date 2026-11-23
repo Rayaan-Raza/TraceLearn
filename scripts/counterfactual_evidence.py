@@ -38,11 +38,6 @@ for p in (ROOT, ROOT / "scripts"):
         sys.path.insert(0, str(p))
 
 import repair_extra  # noqa: E402
-
-try:  # run as `python scripts/x.py` (scripts/ on sys.path) or imported as scripts.x
-    from label_provenance import has_human_flag_origin
-except ImportError:  # pragma: no cover
-    from scripts.label_provenance import has_human_flag_origin
 import repair_verify  # noqa: E402
 
 from sandbox_runner import RunConfig, run_submission  # noqa: E402
@@ -314,6 +309,9 @@ def _reference_outputs(problem: dict, workdir: str) -> list[dict] | None:
 def build_jobs(raw_root: Path, include: tuple[str, ...]) -> tuple[list[dict], Counter]:
     """(jobs, skipped) for every row with a usable label. Code resolves exactly as the merge does."""
     import merge_dataset as M
+    # Imported here, not at module level: the live run-record worker copies a fixed list of scripts
+    # into the sandbox and imports this module there, and it does not need label provenance.
+    from label_provenance import has_human_flag_origin
     from codestream_common import load_problems
     from progpedia_oracle_tests import load_tests
 
