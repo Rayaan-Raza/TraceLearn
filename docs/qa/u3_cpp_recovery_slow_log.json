@@ -1,0 +1,124 @@
+[
+ {
+  "commit": "cf20938b7aa828c32e77b476395c0411ebe0b6de",
+  "recurrence_problem": "CP11",
+  "settings": {
+   "model_diagnosis": "on",
+   "model_variant": "execution",
+   "model_run_records": "on",
+   "model_fusion": "model_first",
+   "model_async": "False",
+   "execution_timeout_seconds": "5",
+   "max_memory_mb": "256"
+  },
+  "model_sha256": "8860b506160ed29c10a83981b937ee06783ff3f7abfb8e7df17163fc4ea123d3",
+  "steps": [
+   {
+    "submission_id": 1,
+    "problem": "CP09",
+    "execution_status": "wrong_answer",
+    "diagnosis": "CPP_LOOP_BOUNDARY",
+    "state": "NEW",
+    "confidence": 0.961,
+    "rule": "isolated_or_same_problem"
+   },
+   {
+    "submission_id": 2,
+    "problem": "CP10",
+    "execution_status": "wrong_answer",
+    "diagnosis": "CPP_LOOP_BOUNDARY",
+    "state": "PERSISTENT",
+    "confidence": 0.965,
+    "rule": "cross_problem_recurrence"
+   },
+   {
+    "submission_id": 3,
+    "problem": "CP09",
+    "execution_status": "success",
+    "diagnosis": "NO_MISCONCEPTION",
+    "state": "IMPROVING",
+    "confidence": 0.572,
+    "rule": "related_success_after_persistent"
+   },
+   {
+    "submission_id": 4,
+    "problem": "CP10",
+    "execution_status": "success",
+    "diagnosis": "NO_MISCONCEPTION",
+    "state": "RESOLVED",
+    "confidence": 0.058,
+    "rule": "sustained_related_success"
+   },
+   {
+    "submission_id": 5,
+    "problem": "CP11",
+    "execution_status": "wrong_answer",
+    "diagnosis": "CPP_LOOP_BOUNDARY",
+    "state": "REQUIRES_TEACHER_REVIEW",
+    "confidence": 0.213,
+    "rule": "weak_evidence_after_resolved"
+   }
+  ]
+ },
+ {
+  "commit": "cf20938b7aa828c32e77b476395c0411ebe0b6de",
+  "recurrence_problem": "CP12",
+  "settings": {
+   "model_diagnosis": "on",
+   "model_variant": "execution",
+   "model_run_records": "on",
+   "model_fusion": "model_first",
+   "model_async": "False",
+   "execution_timeout_seconds": "5",
+   "max_memory_mb": "256"
+  },
+  "model_sha256": "8860b506160ed29c10a83981b937ee06783ff3f7abfb8e7df17163fc4ea123d3",
+  "steps": [
+   {
+    "submission_id": 1,
+    "problem": "CP09",
+    "execution_status": "wrong_answer",
+    "diagnosis": "CPP_LOOP_BOUNDARY",
+    "state": "NEW",
+    "confidence": 0.961,
+    "rule": "isolated_or_same_problem"
+   },
+   {
+    "submission_id": 2,
+    "problem": "CP10",
+    "execution_status": "wrong_answer",
+    "diagnosis": "CPP_LOOP_BOUNDARY",
+    "state": "PERSISTENT",
+    "confidence": 0.965,
+    "rule": "cross_problem_recurrence"
+   },
+   {
+    "submission_id": 3,
+    "problem": "CP09",
+    "execution_status": "success",
+    "diagnosis": "NO_MISCONCEPTION",
+    "state": "IMPROVING",
+    "confidence": 0.572,
+    "rule": "related_success_after_persistent"
+   },
+   {
+    "submission_id": 4,
+    "problem": "CP10",
+    "execution_status": "success",
+    "diagnosis": "NO_MISCONCEPTION",
+    "state": "RESOLVED",
+    "confidence": 0.058,
+    "rule": "sustained_related_success"
+   },
+   {
+    "submission_id": 5,
+    "problem": "CP12",
+    "execution_status": "wrong_answer",
+    "diagnosis": "CPP_LOOP_BOUNDARY",
+    "state": "RECURRED",
+    "confidence": 0.959,
+    "rule": "strong_evidence_after_resolved"
+   }
+  ]
+ }
+]
