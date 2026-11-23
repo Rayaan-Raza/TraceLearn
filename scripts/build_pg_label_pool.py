@@ -34,6 +34,11 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import progpedia_oracle_tests as oracle  # noqa: E402
 from label_progpedia_exec import collect  # noqa: E402
 
+try:  # run as `python scripts/x.py` (scripts/ on sys.path) or imported as scripts.x
+    from label_provenance import has_human_flag_origin
+except ImportError:  # pragma: no cover
+    from scripts.label_provenance import has_human_flag_origin
+
 from sandbox_runner import RunConfig, run_many  # noqa: E402
 
 DS = ROOT / "data" / "misconception_dataset"
@@ -69,7 +74,7 @@ def main() -> int:
     humans = set()
     for line in (DS / "annotations" / "labels.jsonl").open(encoding="utf-8"):
         r = json.loads(line)
-        if r.get("dataset_source") == "PROGPEDIA" and r.get("label_source") == "human":
+        if r.get("dataset_source") == "PROGPEDIA" and has_human_flag_origin(r):
             humans.add(r["source_record_id"])
     subs, seen = [], set()
     for s in collect(a.raw_root, sorted(tests)):

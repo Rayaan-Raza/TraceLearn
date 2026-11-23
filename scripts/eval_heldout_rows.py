@@ -55,6 +55,7 @@ for p in (ROOT, ROOT / "scripts", SCRIPT_ROOT / "scripts"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
+from label_provenance import HUMAN_FLAG_LABEL_ORIGINS, derive_provenance  # noqa: E402
 from eval_blind_test import ABSTAIN, OTHER, bootstrap_macro_f1, macro_f1, summarize, wilson  # noqa: E402
 
 DS = ROOT / "data" / "misconception_dataset"
@@ -120,6 +121,7 @@ def load_rows(split: str, ds: Path = DS) -> list[dict]:
             rows.append({"row_id": rec[0], "truth": meta["label"], "source": meta["dataset_source"],
                          "problem": meta["problem_id"], "lane": lanes.get(rec[0], "?"),
                          "label_source": meta.get("label_source"), "label_status": meta.get("label_status"),
+                         "label_origin": derive_provenance(meta)["label_origin"],
                          "features": feats})
     return rows
 
@@ -176,7 +178,8 @@ def cmd_run(a: argparse.Namespace) -> int:
     models_dir = Path(a.models_dir) if a.models_dir else DS / "models"
     clf = ModelClassifier.load("execution", models_dir)
     how, decide = runtime_function()
-    rows = [r for r in load_rows(a.split) if r["label_source"] == "human"]
+    # Same rows as the old `label_source == "human"` filter; agent-consensus rows are scored (G3 unchanged).
+    rows = [r for r in load_rows(a.split) if r["label_origin"] in HUMAN_FLAG_LABEL_ORIGINS]
     rr_path = Path(a.run_records) if a.run_records else next(
         (p for p in (DS / "cache" / "counterfactual" / "evidence_extra.jsonl",
                      SCRIPT_ROOT / "data" / "misconception_dataset" / "cache" / "counterfactual" / "evidence_extra.jsonl")

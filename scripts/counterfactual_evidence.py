@@ -38,6 +38,11 @@ for p in (ROOT, ROOT / "scripts"):
         sys.path.insert(0, str(p))
 
 import repair_extra  # noqa: E402
+
+try:  # run as `python scripts/x.py` (scripts/ on sys.path) or imported as scripts.x
+    from label_provenance import has_human_flag_origin
+except ImportError:  # pragma: no cover
+    from scripts.label_provenance import has_human_flag_origin
 import repair_verify  # noqa: E402
 
 from sandbox_runner import RunConfig, run_submission  # noqa: E402
@@ -332,7 +337,7 @@ def build_jobs(raw_root: Path, include: tuple[str, ...]) -> tuple[list[dict], Co
     for r in rows:
         rid = r["row_id"]
         real = r["dataset_source"] != "SYNTHETIC"
-        if real and r.get("label_source") != "human":
+        if real and not has_human_flag_origin(r):
             skipped["real_not_human_labelled"] += 1
             continue
         if not real and not rid.startswith(include):
