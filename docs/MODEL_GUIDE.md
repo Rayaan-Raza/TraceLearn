@@ -335,6 +335,23 @@ sandbox tests fail because there is no g++; run them in WSL.
 
 ---
 
+### Reproduction by a second person (U2)
+
+| | |
+|---|---|
+| Date | 20 November 2026 |
+| By | Umaima Zeeshan, for Gate 3 (PR #21) |
+| Machine | Windows 11 Home, WSL 2 Ubuntu; Python 3.14.4, g++ 15.2.0; a new virtual environment from `requirements.txt` (`pip freeze` and `g++ --version` were saved) |
+| Commit | fresh clone, branch `feat/real-path-eval` at `2ff06b3b105e337fdbecfc737ae4f2094beae2b4`; PR #17 as a second worktree at `5dbf948` (`TL_EVAL_REPO`) |
+| Commands | the two `eval_heldout_rows.py run --confirm-one-shot` runs (`--tag audited`, `--tag pr17`) and the `report` command from section 7 |
+
+**Needed from outside the repository:** `data/misconception_dataset/cache/counterfactual/evidence_extra.jsonl` (3,238 run records with second-set repairs). It is not in git. It was sent by Rayaan, and its sha256 was checked against the one posted on PR #21 before anything ran:
+`7b48a7729b777bc9b8ecc6c50991fc7ade656095a73d81057521227a1b4e33c9`. Nothing else was needed: the evaluator ran from committed files plus that cache. The raw source programs were not used.
+
+**Result:** the four headline rows (two models, classifier only and full runtime) matched Rayaan's report to three decimals on the 662 shared rows: problem-weighted macro-F1 0.578 / 0.627 for the audited model and 0.646 / 0.679 for PR #17, with the same precision, recall, false-alarm and abstain figures. The always-OTHER baseline (0.468) matched too. The audited run scored 664 rows and the PR #17 run 662; the report uses the 662 they share. Not repeated: the tables without problem `tl-progpedia-00000039`.
+
+The numbers and the environment are in the comment on PR #21.
+
 ## 8. Performance and confusion matrices
 
 ### Summary
