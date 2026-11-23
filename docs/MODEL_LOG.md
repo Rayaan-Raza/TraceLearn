@@ -21,6 +21,27 @@ measured at the time. Where an entry and the report disagree, the report is curr
 
 ---
 
+## 2026-11-23: every fit balanced to a 2x class ratio (candidate acbdd3a3 not served)
+
+No change to the served model. OTHER_ERROR had 11.6 times the training rows of the smallest class the
+model predicts. Every fit was rebalanced so no class has more than twice another: classes filled
+to 300 rows from their real rows, OTHER_ERROR cut to 600, five bags with different OTHER samples,
+probabilities corrected back to the real class mix. Plan, every candidate and the full tables:
+`docs/CLASS_BALANCE_PLAN.md`.
+
+| | Served 8860b506 | Balanced 2x |
+|---|---|---|
+| Training side, estimable macro-F1 / false alarm | 0.635 / 33 of 998 | 0.660 / 33 of 998 |
+| Held-out (one read, `cb2x`): problem-weighted F1 / precision / false alarm | 0.679 / 0.895 / 5 of 460 | 0.674 / 0.736 / 24 of 460 |
+| Bank benchmark: accuracy / false alarm | 0.963 / 0 of 40 | 0.934 / 4 of 40 |
+
+It fails every part of the section 6 rule in both scopes, so the served model is restored. The
+candidate's files are at `344ad48`. Without the prior correction, balancing alone made the model
+abstain on 44 to 55% of real programs. Bagged serving (`combine_bags`, `--class-balance`) stays in
+the code for later candidates.
+
+---
+
 ## 2026-11-23: rule-only classes, real-row augmentation (candidate 4fd55a25 not served)
 
 A candidate for the served model. The training-side figures come first, then the one

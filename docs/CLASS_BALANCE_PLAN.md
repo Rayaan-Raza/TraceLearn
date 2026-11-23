@@ -100,7 +100,47 @@ The classes that fail (OFF_BY_ONE, RANGE_CHECK, STALE_EXIT) fail because their r
 like OTHER_ERROR to the current features. That is P2 (features) and P3 (more real rows) in
 `MODEL_IMPROVEMENT_PLAN.md`.
 
-**Next, if the 2x rule is to be served:** train `cb_f300_bag5_pc10` (best precision and false
+**Next (done, see below):** train `cb_f300_bag5_pc10` (best precision and false
 alarm) or `cb_f300_pc05` (best recall). Bagging needs the five boosters served together (one file
 per bag, or merged); the single-bag variant needs only the prior-correction vector stored in
 `calibrator.json`. Either needs one development-set read and the section 6 rule before serving.
+
+## Trained and gated (23 Nov): not served
+
+`cb_f300_bag5_pc10` was trained as a full model (`--class-balance '{"max_ratio": 2, "floor": 300,
+"bags": 5, "aug_weight": 1.0, "prior_correction": 1.0}'`, commit `344ad48`, five bags, final-fit
+class ratio 2.00). The backend can now serve a bagged model (`combine_bags`, `<file>.bagN.json`).
+
+| | Served 8860b506 | Balanced 2x (acbdd3a3) |
+|---|---|---|
+| **Training side**, 1,367 real rows: estimable macro-F1 | 0.635 | 0.660 (+0.025, 95% -0.004 to +0.047) |
+| misconception recall / precision | 0.556 / 0.782 | 0.583 / 0.782 |
+| false alarm on real OTHER | 33/998 | 33/998 |
+| **Held-out** (one read, tag `cb2x`, 662 rows): problem-weighted macro-F1 | 0.679 | 0.674 |
+| precision when it names a class | 0.895 (85/95) | 0.736 (92/125) |
+| false alarm on OTHER | 0.011 (5/460) | **0.052 (24/460)** |
+| recall | 0.421 | 0.455 |
+| without tl-progpedia-00000039: F1 / precision / false alarm | 0.695 / 0.806 / 0.017 | 0.690 / 0.627 / 0.059 |
+| **Bank benchmark**, 273 programs: accuracy / false alarm | 0.963 / 0/40 | 0.934 / 4/40 |
+| bank, solution style held out | 0.958 / 0/40 | 0.934 / 2/40 |
+
+Held-out F1 per class, served to balanced: ARRAY_BOUNDS 0.70 to 0.71, RANGE_CHECK 0.15 to 0.16,
+STALE_EXIT 0.33 to 0.40 (4 rows), LOOP_BOUNDARY 0.86 to 0.77, OTHER_ERROR 0.88 to 0.85,
+ASSIGN_VS_COMPARE 1.00 to 0.80 (3 rows). OFF_BY_ONE (0.21), INT_OVERFLOW and UNINITIALIZED_VAR
+are unchanged.
+
+**It fails all three parts of the section 6 rule, in both scopes, and the bank benchmark is worse.**
+The served model is restored. On the training problems the balanced model looked level on false
+alarms. On problems it had not seen, it flags almost five times as many OTHER_ERROR programs. A
+model that has seen OTHER_ERROR as one class in three no longer recognises unfamiliar wrong
+answers as "something else". This is the same failure the class-weight experiments showed on 9
+and 14 Nov, now with row balancing, bagging and prior correction.
+
+**Conclusion.** Bringing OTHER_ERROR down to 2x the smallest class does not fix accuracy; it
+trades precision on new problems for a few more caught bugs. The data imbalance mirrors the real
+mix of student errors, and the model needs that mix to judge unfamiliar code. The weak classes
+need signal (P2 features) or more real examples (P3), not a different class mix.
+
+Tooling gap, only for a future bagged model: `eval_heldout_rows.py` records the hash of
+`xgb_execution_v1.json` alone, while `ModelClassifier` hashes every bag, so the two disagree for a
+bagged model (`acbdd3a3` against `8aa8dcac`).
