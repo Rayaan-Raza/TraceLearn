@@ -1,0 +1,631 @@
+{
+  "candidate": {
+    "variant": "execution",
+    "profile": null,
+    "balance": "none",
+    "synthetic_multiplier": 1.0,
+    "synthetic_class_weight": {},
+    "exclude_prefixes": null,
+    "drop_features": [],
+    "calibration": "served",
+    "bars": "cross_fit",
+    "include_dev_gold": false,
+    "run_records": true,
+    "folds": 3,
+    "repeats": 3,
+    "seed": 7,
+    "name": "served_crossfit",
+    "note": "The served configuration with its per-class bars refitted for each fold on the other folds only, the honest setting every new candidate uses."
+  },
+  "served_model": {
+    "variant": "execution",
+    "model_sha256": "8860b506160e",
+    "profile": "plain_reg"
+  },
+  "trained_profile": "plain_reg",
+  "n_features": 187,
+  "temperature": 1.0,
+  "threshold": 0.63,
+  "bars": "cross_fit (per fold)",
+  "run_records": 3238,
+  "rows": {
+    "real": 1367,
+    "synthetic": 1108,
+    "by_split": {
+      "train": 2475
+    }
+  },
+  "composition": {
+    "CPP_ARRAY_BOUNDS": {
+      "real": 92,
+      "synthetic": 31
+    },
+    "CPP_ASSIGN_VS_COMPARE": {
+      "real": 1,
+      "synthetic": 118
+    },
+    "CPP_INT_OVERFLOW": {
+      "real": 66,
+      "synthetic": 42
+    },
+    "CPP_LOOP_BOUNDARY": {
+      "real": 26,
+      "synthetic": 141
+    },
+    "CPP_MISSING_BASE_CASE": {
+      "real": 1,
+      "synthetic": 38
+    },
+    "CPP_OFF_BY_ONE": {
+      "real": 92,
+      "synthetic": 136
+    },
+    "CPP_OTHER_ERROR": {
+      "real": 998,
+      "synthetic": 251
+    },
+    "CPP_RANGE_CHECK": {
+      "real": 27,
+      "synthetic": 103
+    },
+    "CPP_STALE_EXIT": {
+      "real": 8,
+      "synthetic": 111
+    },
+    "CPP_UNINITIALIZED_VAR": {
+      "real": 55,
+      "synthetic": 64
+    },
+    "CPP_WRONG_LOOP_DIR": {
+      "real": 1,
+      "synthetic": 73
+    }
+  },
+  "summary": {
+    "macro_f1_real_mean": 0.5263,
+    "macro_f1_real_sd": 0.0344,
+    "macro_f1_real_per_repeat": [
+      0.5633,
+      0.4952,
+      0.5203
+    ],
+    "macro_f1_real_pooled": 0.5065,
+    "macro_f1_all_mean": 0.8039,
+    "macro_f1_all_pooled": 0.8036,
+    "false_alarm_real_other_pooled": {
+      "k": 70,
+      "n": 998,
+      "value": 0.0701,
+      "ci95": [
+        0.0559,
+        0.0877
+      ]
+    }
+  },
+  "pooled": {
+    "real_rows": 1367,
+    "all_rows": 2475,
+    "macro_f1_real": 0.5065,
+    "macro_f1_all": 0.8036,
+    "false_alarm_real_other": {
+      "k": 70,
+      "n": 998,
+      "value": 0.0701,
+      "ci95": [
+        0.0559,
+        0.0877
+      ]
+    },
+    "abstain_rate_real": 0.1075,
+    "per_class_real": {
+      "CPP_ARRAY_BOUNDS": {
+        "support": 92,
+        "flagged": 91,
+        "tp": 68,
+        "precision": 0.7473,
+        "precision_95": [
+          0.6492,
+          0.8253
+        ],
+        "recall": 0.7391,
+        "recall_95": [
+          0.6411,
+          0.818
+        ],
+        "f1": 0.7432,
+        "estimable": true
+      },
+      "CPP_ASSIGN_VS_COMPARE": {
+        "support": 1,
+        "flagged": 5,
+        "tp": 1,
+        "precision": 0.2,
+        "precision_95": [
+          0.0362,
+          0.6245
+        ],
+        "recall": 1.0,
+        "recall_95": [
+          0.2065,
+          1.0
+        ],
+        "f1": 0.3333,
+        "estimable": false
+      },
+      "CPP_INT_OVERFLOW": {
+        "support": 66,
+        "flagged": 65,
+        "tp": 58,
+        "precision": 0.8923,
+        "precision_95": [
+          0.794,
+          0.9468
+        ],
+        "recall": 0.8788,
+        "recall_95": [
+          0.7786,
+          0.9373
+        ],
+        "f1": 0.8855,
+        "estimable": true
+      },
+      "CPP_LOOP_BOUNDARY": {
+        "support": 26,
+        "flagged": 32,
+        "tp": 17,
+        "precision": 0.5312,
+        "precision_95": [
+          0.3645,
+          0.6913
+        ],
+        "recall": 0.6538,
+        "recall_95": [
+          0.4622,
+          0.8059
+        ],
+        "f1": 0.5862,
+        "estimable": true
+      },
+      "CPP_MISSING_BASE_CASE": {
+        "support": 1,
+        "flagged": 2,
+        "tp": 1,
+        "precision": 0.5,
+        "precision_95": [
+          0.0945,
+          0.9055
+        ],
+        "recall": 1.0,
+        "recall_95": [
+          0.2065,
+          1.0
+        ],
+        "f1": 0.6667,
+        "estimable": false
+      },
+      "CPP_OFF_BY_ONE": {
+        "support": 92,
+        "flagged": 45,
+        "tp": 35,
+        "precision": 0.7778,
+        "precision_95": [
+          0.6373,
+          0.8746
+        ],
+        "recall": 0.3804,
+        "recall_95": [
+          0.2879,
+          0.4825
+        ],
+        "f1": 0.5109,
+        "estimable": true
+      },
+      "CPP_OTHER_ERROR": {
+        "support": 998,
+        "flagged": 911,
+        "tp": 815,
+        "precision": 0.8946,
+        "precision_95": [
+          0.873,
+          0.9129
+        ],
+        "recall": 0.8166,
+        "recall_95": [
+          0.7914,
+          0.8394
+        ],
+        "f1": 0.8539,
+        "estimable": true
+      },
+      "CPP_RANGE_CHECK": {
+        "support": 27,
+        "flagged": 5,
+        "tp": 5,
+        "precision": 1.0,
+        "precision_95": [
+          0.5655,
+          1.0
+        ],
+        "recall": 0.1852,
+        "recall_95": [
+          0.0818,
+          0.367
+        ],
+        "f1": 0.3125,
+        "estimable": true
+      },
+      "CPP_STALE_EXIT": {
+        "support": 8,
+        "flagged": 5,
+        "tp": 2,
+        "precision": 0.4,
+        "precision_95": [
+          0.1176,
+          0.7693
+        ],
+        "recall": 0.25,
+        "recall_95": [
+          0.0715,
+          0.5907
+        ],
+        "f1": 0.3077,
+        "estimable": false
+      },
+      "CPP_UNINITIALIZED_VAR": {
+        "support": 55,
+        "flagged": 58,
+        "tp": 21,
+        "precision": 0.3621,
+        "precision_95": [
+          0.2505,
+          0.4907
+        ],
+        "recall": 0.3818,
+        "recall_95": [
+          0.2652,
+          0.5139
+        ],
+        "f1": 0.3717,
+        "estimable": true
+      },
+      "CPP_WRONG_LOOP_DIR": {
+        "support": 1,
+        "flagged": 1,
+        "tp": 0,
+        "precision": 0.0,
+        "precision_95": [
+          0.0,
+          0.7935
+        ],
+        "recall": 0.0,
+        "recall_95": [
+          0.0,
+          0.7935
+        ],
+        "f1": 0.0,
+        "estimable": false
+      }
+    },
+    "per_class_all": {
+      "CPP_ARRAY_BOUNDS": {
+        "support": 123,
+        "flagged": 114,
+        "tp": 89,
+        "precision": 0.7807,
+        "precision_95": [
+          0.6963,
+          0.8468
+        ],
+        "recall": 0.7236,
+        "recall_95": [
+          0.6387,
+          0.7949
+        ],
+        "f1": 0.7511,
+        "estimable": true
+      },
+      "CPP_ASSIGN_VS_COMPARE": {
+        "support": 119,
+        "flagged": 119,
+        "tp": 115,
+        "precision": 0.9664,
+        "precision_95": [
+          0.9168,
+          0.9869
+        ],
+        "recall": 0.9664,
+        "recall_95": [
+          0.9168,
+          0.9869
+        ],
+        "f1": 0.9664,
+        "estimable": true
+      },
+      "CPP_INT_OVERFLOW": {
+        "support": 108,
+        "flagged": 108,
+        "tp": 100,
+        "precision": 0.9259,
+        "precision_95": [
+          0.8606,
+          0.962
+        ],
+        "recall": 0.9259,
+        "recall_95": [
+          0.8606,
+          0.962
+        ],
+        "f1": 0.9259,
+        "estimable": true
+      },
+      "CPP_LOOP_BOUNDARY": {
+        "support": 167,
+        "flagged": 184,
+        "tp": 152,
+        "precision": 0.8261,
+        "precision_95": [
+          0.7648,
+          0.874
+        ],
+        "recall": 0.9102,
+        "recall_95": [
+          0.8571,
+          0.9448
+        ],
+        "f1": 0.8661,
+        "estimable": true
+      },
+      "CPP_MISSING_BASE_CASE": {
+        "support": 39,
+        "flagged": 31,
+        "tp": 27,
+        "precision": 0.871,
+        "precision_95": [
+          0.7115,
+          0.9487
+        ],
+        "recall": 0.6923,
+        "recall_95": [
+          0.5358,
+          0.8143
+        ],
+        "f1": 0.7714,
+        "estimable": true
+      },
+      "CPP_OFF_BY_ONE": {
+        "support": 228,
+        "flagged": 145,
+        "tp": 116,
+        "precision": 0.8,
+        "precision_95": [
+          0.7275,
+          0.857
+        ],
+        "recall": 0.5088,
+        "recall_95": [
+          0.4443,
+          0.573
+        ],
+        "f1": 0.622,
+        "estimable": true
+      },
+      "CPP_OTHER_ERROR": {
+        "support": 1249,
+        "flagged": 1177,
+        "tp": 1018,
+        "precision": 0.8649,
+        "precision_95": [
+          0.8442,
+          0.8833
+        ],
+        "recall": 0.8151,
+        "recall_95": [
+          0.7926,
+          0.8356
+        ],
+        "f1": 0.8392,
+        "estimable": true
+      },
+      "CPP_RANGE_CHECK": {
+        "support": 130,
+        "flagged": 78,
+        "tp": 71,
+        "precision": 0.9103,
+        "precision_95": [
+          0.8262,
+          0.9558
+        ],
+        "recall": 0.5462,
+        "recall_95": [
+          0.4605,
+          0.6292
+        ],
+        "f1": 0.6827,
+        "estimable": true
+      },
+      "CPP_STALE_EXIT": {
+        "support": 119,
+        "flagged": 85,
+        "tp": 82,
+        "precision": 0.9647,
+        "precision_95": [
+          0.9013,
+          0.9879
+        ],
+        "recall": 0.6891,
+        "recall_95": [
+          0.6011,
+          0.7652
+        ],
+        "f1": 0.8039,
+        "estimable": true
+      },
+      "CPP_UNINITIALIZED_VAR": {
+        "support": 119,
+        "flagged": 118,
+        "tp": 80,
+        "precision": 0.678,
+        "precision_95": [
+          0.5892,
+          0.7555
+        ],
+        "recall": 0.6723,
+        "recall_95": [
+          0.5837,
+          0.7501
+        ],
+        "f1": 0.6751,
+        "estimable": true
+      },
+      "CPP_WRONG_LOOP_DIR": {
+        "support": 74,
+        "flagged": 67,
+        "tp": 66,
+        "precision": 0.9851,
+        "precision_95": [
+          0.9202,
+          0.9974
+        ],
+        "recall": 0.8919,
+        "recall_95": [
+          0.8009,
+          0.9442
+        ],
+        "f1": 0.9362,
+        "estimable": true
+      }
+    },
+    "rule_stages": {
+      "class_rule": {
+        "real": {
+          "fires": 2,
+          "right": 0,
+          "wrong_rows": [
+            "bl-t2-tr-223",
+            "bl-tr-016"
+          ]
+        },
+        "synthetic": {
+          "fires": 87,
+          "right": 86,
+          "wrong_rows": [
+            "stu-cn-av-031"
+          ]
+        }
+      },
+      "repair": {
+        "real": {
+          "fires": 124,
+          "right": 112,
+          "wrong_rows": [
+            "cnx-00029",
+            "cnx-00047",
+            "cnx-00069",
+            "cnx-00625",
+            "cnx-00639",
+            "cnx-00737",
+            "pgx-a00032",
+            "pgx-a00085",
+            "pgx-a00364",
+            "pgx-a00432",
+            "pgx-a00716",
+            "pgx-a01056"
+          ]
+        },
+        "synthetic": {
+          "fires": 413,
+          "right": 395,
+          "wrong_rows": [
+            "stu-cn-se-009",
+            "stu-cp04-b01",
+            "stu-cp08-b06",
+            "stu-cp09-b06",
+            "stu-cp20-b04",
+            "stu-cp21-a00",
+            "stu-cp21-a02",
+            "stu-cp21-b01",
+            "stu-cp30-b04",
+            "stu-cp39-b01",
+            "stu-s2-f-01-03",
+            "stu-s2-f-08-02",
+            "stu-s2-f-09-02",
+            "stu-s2-f-13-03",
+            "stu-s2-l-09-02",
+            "stu-s2-l-13-02",
+            "stu-s2-m-07-02",
+            "stu-s2-s-06-02"
+          ]
+        }
+      },
+      "narrow_repair": {
+        "real": {
+          "fires": 26,
+          "right": 22,
+          "wrong_rows": [
+            "cnx-00244",
+            "cnx-00643",
+            "pgx-a00368",
+            "pgx-a01020"
+          ]
+        },
+        "synthetic": {
+          "fires": 37,
+          "right": 30,
+          "wrong_rows": [
+            "stu-cn-lb-001",
+            "stu-cn-lb-010",
+            "stu-cn-lb-012",
+            "stu-cn-lb-026",
+            "stu-cn-lb-044",
+            "stu-cp03-b03",
+            "stu-cp34-a02"
+          ]
+        }
+      }
+    }
+  },
+  "per_repeat": [
+    {
+      "macro_f1_real": 0.5633,
+      "macro_f1_all": 0.8011,
+      "false_alarm_real_other": {
+        "k": 68,
+        "n": 998,
+        "value": 0.0681,
+        "ci95": [
+          0.0541,
+          0.0855
+        ]
+      },
+      "abstain_rate_real": 0.1112
+    },
+    {
+      "macro_f1_real": 0.4952,
+      "macro_f1_all": 0.8013,
+      "false_alarm_real_other": {
+        "k": 79,
+        "n": 998,
+        "value": 0.0792,
+        "ci95": [
+          0.064,
+          0.0976
+        ]
+      },
+      "abstain_rate_real": 0.101
+    },
+    {
+      "macro_f1_real": 0.5203,
+      "macro_f1_all": 0.8093,
+      "false_alarm_real_other": {
+        "k": 67,
+        "n": 998,
+        "value": 0.0671,
+        "ci95": [
+          0.0532,
+          0.0844
+        ]
+      },
+      "abstain_rate_real": 0.1105
+    }
+  ]
+}

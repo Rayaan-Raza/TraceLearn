@@ -354,6 +354,24 @@ def _to_global(proba: np.ndarray, classes_present: np.ndarray, n_classes: int) -
     return padded
 
 
+def per_class_metrics(y_true: np.ndarray, pred: np.ndarray, classes: Sequence[str],
+                      mask: np.ndarray | None = None) -> dict[str, dict[str, Any]]:
+    """Precision, recall, F1 and support per class, over the rows in `mask` (all rows by default)."""
+    if mask is not None:
+        y_true, pred = y_true[mask], pred[mask]
+    out = {}
+    for i, c in enumerate(classes):
+        tp = int(((pred == i) & (y_true == i)).sum())
+        fp = int(((pred == i) & (y_true != i)).sum())
+        fn = int(((y_true == i) & (pred != i)).sum())
+        prec = tp / (tp + fp) if tp + fp else 0.0
+        rec = tp / (tp + fn) if tp + fn else 0.0
+        f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+        out[c] = {"precision": round(prec, 4), "recall": round(rec, 4),
+                  "f1": round(f1, 4), "support": int((y_true == i).sum())}
+    return out
+
+
 def _fit_predict(X_train, y_train, w, X_eval, seed: int, n_classes: int) -> np.ndarray:
     model, present = _fit_model(X_train, y_train, w, seed)
     return _to_global(model.predict_proba(X_eval), present, n_classes)
@@ -506,23 +524,23 @@ def train(
         grid_scores[float(m)] = float(np.mean(scores))
     best_mult = min(grid_scores, key=lambda m: (-grid_scores[m], m))
 
+    real_tr = (meta_tr["dataset_source"] != "SYNTHETIC").to_numpy()
+
     def variant_metrics(oof: np.ndarray, fold_scores: list[float]) -> dict[str, Any]:
         pred = oof.argmax(axis=1)
-        per_class = {}
-        for i, c in enumerate(classes):
-            tp = int(((pred == i) & (y_tr == i)).sum())
-            fp = int(((pred == i) & (y_tr != i)).sum())
-            fn = int(((y_tr == i) & (pred != i)).sum())
-            prec = tp / (tp + fp) if tp + fp else 0.0
-            rec = tp / (tp + fn) if tp + fn else 0.0
-            f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
-            per_class[c] = {"precision": round(prec, 4), "recall": round(rec, 4),
-                            "f1": round(f1, 4), "support": int((y_tr == i).sum())}
+        per_class = per_class_metrics(y_tr, pred, classes)
+        real_classes = sorted(set(y_tr[real_tr].tolist()))
         conf = [[int(((y_tr == i) & (pred == j)).sum()) for j in range(len(classes))]
                 for i in range(len(classes))]
         return {
             "macro_f1_oof": round(macro_f1(y_tr, pred, range(len(classes))), 4),
             "per_class": per_class,
+            # The same out-of-fold predictions split by row source, so the synthetic-to-real gap
+            # shows on every retrain (docs/MODEL_IMPROVEMENT_PLAN.md, P0). Real-row macro-F1 is over
+            # the classes with real rows; it is the classifier alone, without the rule stages.
+            "per_class_real": per_class_metrics(y_tr, pred, classes, real_tr),
+            "per_class_synthetic": per_class_metrics(y_tr, pred, classes, ~real_tr),
+            "macro_f1_oof_real": round(macro_f1(y_tr[real_tr], pred[real_tr], real_classes), 4) if real_classes else None,
             "confusion": conf,
             "ece_oof": round(ece(oof, y_tr), 4),
             "cv_macro_f1_mean": round(float(np.mean(fold_scores)), 4),

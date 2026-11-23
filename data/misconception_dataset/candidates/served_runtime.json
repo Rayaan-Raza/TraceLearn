@@ -1,0 +1,3 @@
+{"name": "served_runtime",
+ "note": "The served configuration with the narrow-repair stage fed from the cached second-set repairs, as the held-out evaluator does.",
+ "run_records": true}
