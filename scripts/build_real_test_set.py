@@ -22,6 +22,11 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
+try:  # run as `python scripts/x.py` (scripts/ on sys.path) or imported as scripts.x
+    from label_provenance import is_human_signed
+except ImportError:  # pragma: no cover
+    from scripts.label_provenance import is_human_signed
+
 ROOT = Path(__file__).resolve().parents[1]
 DS = ROOT / "data" / "misconception_dataset"
 
@@ -49,7 +54,7 @@ def main() -> int:
     test_rows: dict[str, list[str]] = defaultdict(list)
     test_probs: dict[str, Counter] = defaultdict(Counter)
     for row_id, meta in labels.items():
-        if meta.get("label_source") != "human":
+        if not is_human_signed(meta):
             continue
         if splits.get(row_id) != "test":
             continue
@@ -78,7 +83,7 @@ def main() -> int:
     # Collect non-test human rows as candidates to promote
     candidates: list[dict] = []
     for row_id, meta in labels.items():
-        if meta.get("label_source") != "human":
+        if not is_human_signed(meta):
             continue
         if splits.get(row_id) in ("test",):
             continue

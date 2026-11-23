@@ -309,6 +309,9 @@ def _reference_outputs(problem: dict, workdir: str) -> list[dict] | None:
 def build_jobs(raw_root: Path, include: tuple[str, ...]) -> tuple[list[dict], Counter]:
     """(jobs, skipped) for every row with a usable label. Code resolves exactly as the merge does."""
     import merge_dataset as M
+    # Imported here, not at module level: the live run-record worker copies a fixed list of scripts
+    # into the sandbox and imports this module there, and it does not need label provenance.
+    from label_provenance import has_human_flag_origin
     from codestream_common import load_problems
     from progpedia_oracle_tests import load_tests
 
@@ -332,7 +335,7 @@ def build_jobs(raw_root: Path, include: tuple[str, ...]) -> tuple[list[dict], Co
     for r in rows:
         rid = r["row_id"]
         real = r["dataset_source"] != "SYNTHETIC"
-        if real and r.get("label_source") != "human":
+        if real and not has_human_flag_origin(r):
             skipped["real_not_human_labelled"] += 1
             continue
         if not real and not rid.startswith(include):

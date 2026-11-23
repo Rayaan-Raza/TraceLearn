@@ -54,3 +54,48 @@ def test_sidecar_roundtrip_and_check(tmp_path):
     assert main(["--dataset-dir", str(tmp_path), "--check"]) == 1
     assert main(["--dataset-dir", str(tmp_path)]) == 0
     assert main(["--dataset-dir", str(tmp_path), "--check"]) == 0
+
+
+# ---- U1: filters keep their row sets -------------------------------------------------------------
+
+import csv as _csv
+from label_provenance import has_human_flag_origin, is_human_signed
+
+_DS = Path(__file__).resolve().parents[1] / "data" / "misconception_dataset"
+_LABELS = _DS / "annotations" / "labels.jsonl"
+
+
+def _committed_rows():
+    if not _LABELS.exists():
+        import pytest
+        pytest.skip("labels.jsonl not present")
+    return [json.loads(line) for line in _LABELS.open(encoding="utf-8") if line.strip()]
+
+
+def test_origin_list_selects_exactly_the_old_human_flag_rows():
+    """The explicit label_origin list must give the same row ids as `label_source == "human"`."""
+    rows = _committed_rows()
+    old = {r["row_id"] for r in rows if r.get("label_source") == "human"}
+    new = {r["row_id"] for r in rows if has_human_flag_origin(r)}
+    assert new == old and len(old) > 2000
+
+
+def test_trainer_selects_the_identical_row_ids():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from scripts.train_xgb_misconception import PLAIN_EXCLUDED_PREFIXES, PLAIN_SYNTHETIC_PREFIXES, plain_row_selected
+
+    def old(row_id, row):  # the selection before U1
+        if row["dataset_source"] == "SYNTHETIC":
+            return row_id.startswith(PLAIN_SYNTHETIC_PREFIXES) and not row_id.startswith(PLAIN_EXCLUDED_PREFIXES)
+        return row.get("label_source") == "human"
+
+    rows = _committed_rows()
+    assert {r["row_id"] for r in rows if plain_row_selected(r["row_id"], r)} == \
+           {r["row_id"] for r in rows if old(r["row_id"], r)}
+
+
+def test_signed_rows_are_a_strict_subset_of_the_human_flag():
+    rows = _committed_rows()
+    signed = {r["row_id"] for r in rows if is_human_signed(r)}
+    flagged = {r["row_id"] for r in rows if r.get("label_source") == "human"}
+    assert signed and signed < flagged

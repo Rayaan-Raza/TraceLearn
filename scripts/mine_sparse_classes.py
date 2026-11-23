@@ -22,6 +22,11 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
+try:  # run as `python scripts/x.py` (scripts/ on sys.path) or imported as scripts.x
+    from label_provenance import is_human_signed
+except ImportError:  # pragma: no cover
+    from scripts.label_provenance import is_human_signed
+
 ROOT = Path(__file__).resolve().parents[1]
 DS = ROOT / "data" / "misconception_dataset"
 
@@ -59,7 +64,7 @@ def main() -> int:
     class_problems: dict[str, Counter] = defaultdict(Counter)  # label -> Counter(problem_id)
 
     for row_id, meta in labels.items():
-        if meta.get("label_source") != "human":
+        if not is_human_signed(meta):
             continue
         if row_id not in train_ids:
             continue

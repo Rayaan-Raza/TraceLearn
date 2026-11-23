@@ -6,36 +6,39 @@
 - **Date**: 2026-10-26
 - **Schema version**: 1.1 (`warnings.infinite_recursion`, `warnings.tautological_compare`, `semantics.*` block)
 
-## Current state (22 November 2026, main at `eec9639`)
+## Current state (23 November 2026, `main` after PR #17)
 
 Everything below this section up to "Intended use" is current; the version 0.6 tables further down are kept as history and are not current counts.
 
 | | Rows |
 |---|---:|
-| Pool (`annotations/labels.jsonl`) | 3,352 |
-| PROGPedia (real source) | 1,206 |
-| Synthetic | 1,064 (31.7%) |
+| Pool (`annotations/labels.jsonl`) | 3,697 |
+| Synthetic | 1,416 (38.3%) |
+| PROGPedia (real source) | 1,200 |
 | CodeNet (real source) | 707 |
-| CodeStream (real source) | 375 |
+| CodeStream (real source) | 374 |
 
-Splits: train 2,444 · test 674 · dev_gold 209 · test_iid 25. The held-out report scores 664 rows on 22 problems; see its header for the selection.
+Splits: train 2,794 · test 672 · dev_gold 206 · test_iid 25.
 
-**Served model.** The `execution` variant of the plain profile, sha256 `0af477c2…`, trained on 1,349 rows (`n_train` in `models/metrics_v1.json`); the work plan splits these into 800 real-source and 549 synthetic. The ids of those rows were not recorded (`docs/MODEL_LOG.md`, 22 November entry); models trained from now on write `models/training_row_ids.txt`.
+**Served model.** The `execution` variant of the `plain_reg` profile, sha256 `8860b506…`, trained on 2,475 rows (`n_train` in `models/metrics_v1.json`): 1,367 real-source and 1,108 synthetic, per `docs/MODEL_LOG.md`. The model it replaced (sha256 `0af477c2…`) is fixed by the tag `audit-2026-11-15`.
 
-**Who made the labels.** `label_source == "human"` is set on 2,265 rows, and it does not mean a person labelled them:
+**Who made the labels.** `label_source == "human"` is set on 2,259 rows. It does not mean a person labelled them. Each row now carries three separate facts in `annotations/label_provenance.csv` (a sidecar built from `labels.jsonl` by `scripts/label_provenance.py`; `labels.jsonl` itself is unchanged):
 
-| `label_source` | `label_status` | Rows |
-|---|---|---:|
-| human | agent_consensus | 1,733 |
-| human | blind_review | 327 |
-| human | (none) | 132 |
-| human | weak_rule | 48 |
-| human | human_review | 13 |
-| human | repair_verified | 12 |
-| synthetic | (none) | 1,064 |
-| weak_rule | weak_rule or (none) | 23 |
+- `code_origin`: `real_student` or `synthetic_mutant`.
+- `label_origin`: `agent_consensus`, `blind_review`, `human_review`, `weak_rule` or `synthetic_by_construction`.
+- `reviewer_type`: `model_agents`, `human_assumed` (signed "assumed-human" on the owner's instruction), `human_signed` (signed by a named person), `rule` or `none`.
 
-The sidecar `annotations/label_provenance.csv` separates code origin, label origin and reviewer type. The regenerated table of code origin by label origin by reviewer type, per split, replaces the one above when the filters move onto the sidecar (task U1).
+| code origin | label origin | reviewer type | train | dev_gold | test | test_iid | total |
+|---|---|---|---:|---:|---:|---:|---:|
+| real_student | agent_consensus | model_agents | 1,179 | 133 | 415 | 0 | 1,727 |
+| synthetic_mutant | synthetic_by_construction | none | 1,416 | 0 | 0 | 0 | 1,416 |
+| real_student | blind_review | human_assumed | 137 | 15 | 174 | 0 | 326 |
+| real_student | human_review | human_signed | 8 | 53 | 25 | 25 | 111 |
+| real_student | human_review | human_assumed | 43 | 4 | 48 | 0 | 95 |
+| real_student | weak_rule | rule | 11 | 1 | 10 | 0 | 22 |
+| **all rows** | | | **2,794** | **206** | **672** | **25** | **3,697** |
+
+Reading the table: of the 3,697 rows only **111** are `human_signed`. 1,727 are agent consensus (annotators of the same model family) and 421 more are `human_assumed`: blind labels by a model-assisted reviewer, and sign-offs recorded as assumed-human. The 111 signed rows include the 25 `test_iid` rows. These counts come from the recorded sign-off fields; where a record does not say who signed, the row is not counted as signed. 45 of the first-round sign-offs changed after the model's answer was shown, so even signed rows are partly anchored (see `docs/CORRECTED_PROGRESS_UPDATE.md`, claim U02). `build_real_test_set.py` and `mine_sparse_classes.py` now count only `human_signed` rows, so their counts are lower than before; that lower number is the true one.
 
 **How we describe the data.** TraceLearn uses real-source student code alongside synthetic training examples. Labels include agent-generated, weak-rule and human-reviewed annotations with differing levels of validation. Our held-out results measure agreement with those recorded labels.
 

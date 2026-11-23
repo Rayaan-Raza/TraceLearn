@@ -22,6 +22,15 @@ ROOT = Path(__file__).resolve().parents[1]
 DS = ROOT / "data" / "misconception_dataset"
 FIELDS = ["row_id", "label_source", "code_origin", "label_origin", "reviewer_type"]
 
+# Label origins that used to be reported as `label_source == "human"`. Written out on purpose: it
+# shows that agent-consensus and assumed-human rows are in this set. A script that selects with this
+# list keeps exactly the rows it selected with the old flag (tests/test_label_provenance.py checks
+# that against the committed labels.jsonl). "legacy_human_flag" is a human-flagged row with no
+# recorded origin; it is kept so that such a row is not dropped silently.
+HUMAN_FLAG_LABEL_ORIGINS = ("agent_consensus", "blind_review", "human_review", "legacy_human_flag")
+# The only rows a named person signed: reviewer_type human_signed.
+HUMAN_SIGNED = "human_signed"
+
 CODE_ORIGIN = {"SYNTHETIC": "synthetic_mutant"}  # everything else is a real student submission
 
 
@@ -68,6 +77,16 @@ def derive_provenance(row: dict) -> dict:
     return {"code_origin": code_origin, "label_origin": "legacy_human_flag", "reviewer_type": _reviewer_from_signer(_signer(row))}
 
 
+def has_human_flag_origin(row: dict) -> bool:
+    """True for the rows `label_source == "human"` used to select (see HUMAN_FLAG_LABEL_ORIGINS)."""
+    return derive_provenance(row)["label_origin"] in HUMAN_FLAG_LABEL_ORIGINS
+
+
+def is_human_signed(row: dict) -> bool:
+    """True when a named person signed this row's label (not assumed-human, not agent consensus)."""
+    return derive_provenance(row)["reviewer_type"] == HUMAN_SIGNED
+
+
 def build_rows(labels_path: Path) -> list[dict]:
     out = []
     with labels_path.open(encoding="utf-8") as fh:
@@ -76,6 +95,27 @@ def build_rows(labels_path: Path) -> list[dict]:
                 r = json.loads(line)
                 out.append({"row_id": r["row_id"], "label_source": r.get("label_source"), **derive_provenance(r)})
     return sorted(out, key=lambda x: str(x["row_id"]))
+
+
+def card_table(ds: Path) -> str:
+    """Markdown table for DATASET_CARD.md: code origin x label origin x reviewer type, by split."""
+    rows = build_rows(ds / "annotations" / "labels.jsonl")
+    with (ds / "splits" / "splits.csv").open(encoding="utf-8") as fh:
+        split = {r["row_id"]: r["split"] for r in csv.DictReader(fh)}
+    order = ["train", "dev_gold", "test", "test_iid"]
+    seen = sorted({split.get(r["row_id"], "unsplit") for r in rows},
+                  key=lambda s: (order.index(s) if s in order else 99, s))
+    cnt = Counter((r["code_origin"], r["label_origin"], r["reviewer_type"], split.get(r["row_id"], "unsplit"))
+                  for r in rows)
+    keys = sorted({k[:3] for k in cnt}, key=lambda k: (-sum(v for kk, v in cnt.items() if kk[:3] == k), k))
+    out = ["| code origin | label origin | reviewer type | " + " | ".join(seen) + " | total |",
+           "|---|---|---|" + "---:|" * (len(seen) + 1)]
+    for k in keys:
+        vals = [cnt.get((*k, s), 0) for s in seen]
+        out.append(f"| {k[0]} | {k[1]} | {k[2]} | " + " | ".join(f"{v:,}" for v in vals) + f" | {sum(vals):,} |")
+    tot = [sum(v for kk, v in cnt.items() if kk[3] == s) for s in seen]
+    out.append("| **all rows** | | | " + " | ".join(f"**{v:,}**" for v in tot) + f" | **{sum(tot):,}** |")
+    return "\n".join(out)
 
 
 def _render(rows: list[dict]) -> str:
@@ -91,9 +131,13 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset-dir", type=Path, default=DS)
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--card-table", action="store_true", help="print the DATASET_CARD.md provenance table")
     a = ap.parse_args(argv)
+    if a.card_table:
+        print(card_table(a.dataset_dir))
+        return 0
     rows = build_rows(a.dataset_dir / "annotations" / "labels.jsonl")
-    out = a.dataset_dir / "annotations" / "label_provenance.csv"
+    out =a.dataset_dir / "annotations" / "label_provenance.csv"
     text = _render(rows)
     if a.check:
         if not out.exists() or out.read_text(encoding="utf-8") != text:

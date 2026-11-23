@@ -60,6 +60,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.calibration import calibrate_variant  # noqa: E402
+
+try:  # run as `python scripts/x.py` (scripts/ on sys.path) or imported as scripts.x
+    from label_provenance import has_human_flag_origin
+except ImportError:  # pragma: no cover
+    from scripts.label_provenance import has_human_flag_origin
 from tracelearn_features.schema import feature_names  # noqa: E402
 
 DEFAULT_DATASET_DIR = ROOT / "data" / "misconception_dataset"
@@ -285,7 +290,8 @@ def plain_row_selected(row_id: str, row: dict) -> bool:
     """Whether a "plain"-family model trains on this row (split membership is the caller's check)."""
     if row["dataset_source"] == "SYNTHETIC":
         return row_id.startswith(PLAIN_SYNTHETIC_PREFIXES) and not row_id.startswith(PLAIN_EXCLUDED_PREFIXES)
-    return row.get("label_source") == "human"
+    # Same rows the old `label_source == "human"` selected: agent-consensus rows ARE training data.
+    return has_human_flag_origin(row)
 _ACTIVE_PROFILE = "default"
 # "plain" trains on real rows plus these agent-written synthetic families: round-2 programs on new problems
 # (stu-s2-*) and student-style programs on the product's own bank problems (stu-cp*). The bank programs lift
