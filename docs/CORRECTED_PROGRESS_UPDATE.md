@@ -40,7 +40,7 @@ The first report was drafted from commit messages. In several places it describe
 | Claim in the first report | State | What stands |
 |---|---|---|
 | First sign-off round: 135 rows signed | Delivered | 135 sign-off entries by one rater. 45 labels changed after the model's answer was revealed, so these are partly anchored reviews, not independent gold labels. |
-| Four-rater calibration round, kappa 0.76 | Run | Four raters on 15 items, kappa 0.76, 12 unanimous. A readiness exercise before a gold round. It does not measure agreement on LOOP_BOUNDARY against OFF_BY_ONE. [Umaima to name the external rater's role.] |
+| Four-rater calibration round, kappa 0.76 | Run | Four raters on 15 items, kappa 0.76, 12 unanimous. A readiness exercise before a gold round. It does not measure agreement on LOOP_BOUNDARY against OFF_BY_ONE. The fourth rater was external to the team: a teaching assistant or lecturer. |
 | Decision note to serve the best variant | Held back | The 8 November note recommended the best variant. On 9 November the backend moved to the execution variant with background run records. |
 | Fixed learner-state recovery | Delivered | Recovery and recurrence are fixed and tested on Python problems P05 and P06. The C++ path with the model on is being tested now (task U3). |
 | Poster review | Planned | The poster was not supplied to the audit. It will be committed with its source (task E6). |
