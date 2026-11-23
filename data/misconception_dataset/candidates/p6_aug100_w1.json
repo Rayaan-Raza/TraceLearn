@@ -1,0 +1,1 @@
+{"name": "p6_aug100_w1", "note": "p6_aug100 with augmented rows at weight 1.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "real_augment": {"target": 100, "max_factor": 2, "k": 5, "swap": 0.5, "weight": 1.0}}

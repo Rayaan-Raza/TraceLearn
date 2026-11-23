@@ -21,3 +21,4 @@
 {"split": "heldout_rows_test", "at": "2026-11-09T05:52:03+00:00", "n": 664, "models": {"best": {"sha256_16": "faba7929e8cc617e", "temperature": 1.7, "threshold": 0.37}, "common": {"sha256_16": "98a71f1c1a0dce9f", "temperature": 1.8, "threshold": 0.41}, "execution": {"sha256_16": "0af477c27ce3955d", "temperature": 1.4, "threshold": 0.44}}}
 {"split": "heldout_rows_test", "at": "2026-11-16T15:36:17+00:00", "n": 664, "tag": "audited", "models": {"execution": {"sha256_16": "0af477c27ce3955d"}}}
 {"split": "heldout_rows_test", "at": "2026-11-16T15:36:44+00:00", "n": 662, "tag": "pr17", "models": {"execution": {"sha256_16": "8860b506160ed29c"}}}
+{"split": "heldout_rows_test", "at": "2026-11-22T20:08:49+00:00", "n": 662, "tag": "p6", "models": {"execution": {"sha256_16": "4fd55a25c6e72297"}}}

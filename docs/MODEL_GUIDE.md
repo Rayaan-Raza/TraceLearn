@@ -233,6 +233,14 @@ python scripts/train_xgb_misconception.py --profile plain_reg --models-dir C:/tm
 python scripts/tune_class_thresholds.py --models-dir C:/tmp/new_models --write   # per-class bars
 ```
 
+Options scored first with `scripts/eval_candidate_oof.py` (docs/MODEL_LOG.md, 2026-11-23):
+`--real-augment JSON` adds, in every fold and in the final fit, rows for rare classes made from
+pairs of real rows of that class (`augment_real_rows`); `--drop-rule-only` trains with weight 0 on
+MISSING_BASE_CASE and WRONG_LOOP_DIR; `--synthetic-cap JSON` limits synthetic rows per class.
+`tune_class_thresholds.py` reads `real_augment` from `metrics_v1.json` and applies it to its folds.
+MISSING_BASE_CASE and WRONG_LOOP_DIR are rule-only at serving time (`RULE_ONLY_CLASSES`): the
+classifier's probability for them goes to OTHER_ERROR, and only the class rules name them.
+
 `plain_reg` is the served profile since 2026-11-15: the rows and weights of `plain`, with
 `subsample=0.7, colsample_bytree=0.5, min_child_weight=5, reg_lambda=10, gamma=0.5` so it memorises
 the training problems less (`plain` settings are described below).

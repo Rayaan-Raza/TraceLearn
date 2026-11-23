@@ -1,0 +1,1 @@
+{"name": "p6_aug60", "note": "p6_rule_only + real-row augmentation: classes under 60 real rows per fold get up to 2x new rows from pairs of their real rows, weight 0.5.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "real_augment": {"target": 60, "max_factor": 2, "k": 5, "swap": 0.5, "weight": 0.5}}

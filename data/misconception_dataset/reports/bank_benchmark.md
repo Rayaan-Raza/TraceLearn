@@ -8,7 +8,7 @@ Every bug is one clean edit to a correct bank solution, so these are upper estim
 
 ### Served system, all programs
 
-273 programs. Accuracy 0.963, macro-F1 0.965, precision when it names a class 223/227 = 0.982, recall 0.957, false alarms on OTHER_ERROR 0/40, abstained 0.015.
+273 programs. Accuracy 0.963, macro-F1 0.974, precision when it names a class 223/225 = 0.991, recall 0.957, false alarms on OTHER_ERROR 0/40, abstained 0.015.
 
 | Class | Programs | Precision | Recall | F1 |
 |---|---:|---:|---:|---:|
@@ -16,9 +16,9 @@ Every bug is one clean edit to a correct bank solution, so these are upper estim
 | ASSIGN_VS_COMPARE | 24 | 1.00 | 1.00 | 1.00 |
 | INT_OVERFLOW | 9 | 1.00 | 1.00 | 1.00 |
 | LOOP_BOUNDARY | 33 | 0.94 | 1.00 | 0.97 |
-| MISSING_BASE_CASE | 7 | 0.78 | 1.00 | 0.88 |
+| MISSING_BASE_CASE | 7 | 1.00 | 1.00 | 1.00 |
 | OFF_BY_ONE | 40 | 1.00 | 0.90 | 0.95 |
-| OTHER_ERROR | 40 | 0.95 | 1.00 | 0.98 |
+| OTHER_ERROR | 40 | 0.91 | 1.00 | 0.95 |
 | RANGE_CHECK | 27 | 1.00 | 0.85 | 0.92 |
 | STALE_EXIT | 39 | 1.00 | 1.00 | 1.00 |
 | UNINITIALIZED_VAR | 19 | 1.00 | 1.00 | 1.00 |
@@ -41,17 +41,17 @@ Every bug is one clean edit to a correct bank solution, so these are upper estim
 
 ### Solution style held out of training (the number to quote)
 
-212 programs. Accuracy 0.953, macro-F1 0.943, precision when it names a class 162/166 = 0.976, recall 0.942, false alarms on OTHER_ERROR 0/40, abstained 0.014.
+212 programs. Accuracy 0.958, macro-F1 0.968, precision when it names a class 163/164 = 0.994, recall 0.948, false alarms on OTHER_ERROR 0/40, abstained 0.014.
 
 | Class | Programs | Precision | Recall | F1 |
 |---|---:|---:|---:|---:|
 | ARRAY_BOUNDS | 14 | 1.00 | 0.79 | 0.88 |
 | ASSIGN_VS_COMPARE | 18 | 1.00 | 1.00 | 1.00 |
 | INT_OVERFLOW | 5 | 1.00 | 1.00 | 1.00 |
-| LOOP_BOUNDARY | 14 | 0.88 | 1.00 | 0.93 |
-| MISSING_BASE_CASE | 3 | 0.60 | 1.00 | 0.75 |
-| OFF_BY_ONE | 40 | 1.00 | 0.90 | 0.95 |
-| OTHER_ERROR | 40 | 0.93 | 1.00 | 0.96 |
+| LOOP_BOUNDARY | 14 | 0.93 | 1.00 | 0.97 |
+| MISSING_BASE_CASE | 3 | 1.00 | 1.00 | 1.00 |
+| OFF_BY_ONE | 40 | 1.00 | 0.93 | 0.96 |
+| OTHER_ERROR | 40 | 0.89 | 1.00 | 0.94 |
 | RANGE_CHECK | 17 | 1.00 | 0.82 | 0.90 |
 | STALE_EXIT | 34 | 1.00 | 1.00 | 1.00 |
 | UNINITIALIZED_VAR | 10 | 1.00 | 1.00 | 1.00 |

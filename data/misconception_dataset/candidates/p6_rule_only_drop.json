@@ -1,0 +1,1 @@
+{"name": "p6_rule_only_drop", "note": "p6_rule_only, and the rule-only classes' rows are left out of training.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "drop_rule_only": true}

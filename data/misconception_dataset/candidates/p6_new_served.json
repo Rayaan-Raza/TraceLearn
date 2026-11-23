@@ -1,0 +1,1 @@
+{"name": "p6_new_served", "note": "The 23 Nov model: plain_reg + real-row augmentation (target 60, 2x, weight 0.5), its own calibration and bars, run records on, rule-only runtime.", "run_records": true, "real_augment": {"target": 60, "max_factor": 2, "k": 5, "swap": 0.5, "weight": 0.5}}

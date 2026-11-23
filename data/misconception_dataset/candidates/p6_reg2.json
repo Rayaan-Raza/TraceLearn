@@ -1,0 +1,1 @@
+{"name": "p6_reg2", "note": "p6_rule_only with the plain_reg2 profile (depth 2, lr 0.05, 400 trees).", "calibration": "refit", "bars": "cross_fit", "run_records": true, "profile": "plain_reg2"}

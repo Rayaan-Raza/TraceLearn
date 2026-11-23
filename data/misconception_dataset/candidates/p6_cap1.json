@@ -1,0 +1,1 @@
+{"name": "p6_cap1", "note": "p6_rule_only with P1's p1_cap_1 synthetic cap.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "synthetic_cap": {"ratio": 1, "min_real": 20}}

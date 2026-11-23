@@ -206,3 +206,38 @@ def test_paired_difference_refuses_different_rows():
     b["real_predictions"]["row_id"] = list(reversed(b["real_predictions"]["row_id"]))
     with pytest.raises(ValueError):
         H.paired_difference(a, b)
+
+
+def test_real_augmentation_uses_only_real_rows_of_the_class_and_keeps_their_values():
+    rng = np.random.default_rng(0)
+    classes = ["CPP_OFF_BY_ONE", OTHER, "CPP_RANGE_CHECK", "CPP_WRONG_LOOP_DIR"]
+    X = rng.integers(0, 5, size=(40, 6)).astype(float)
+    X[::7, 2] = np.nan
+    y = np.array([0] * 10 + [1] * 20 + [2] * 6 + [3] * 4)
+    real = np.ones(40, dtype=bool)
+    real[6:10] = False                     # four synthetic OFF_BY_ONE rows are never parents
+    X_new, y_new = T.augment_real_rows(X, y, real, classes, {"target": 30, "max_factor": 2, "k": 3}, seed=1)
+    counts = Counter(y_new.tolist())
+    assert counts == {0: 12, 2: 12}        # 2x the real rows; OTHER and the rule-only class untouched
+    for x, c in zip(X_new, y_new):
+        parents = X[real & (y == c)]
+        for j in range(X.shape[1]):
+            col = parents[:, j]
+            if np.isnan(x[j]):
+                assert np.isnan(col).any()
+            else:
+                assert x[j] in col[~np.isnan(col)]
+
+
+def test_real_augmentation_skips_classes_at_target_or_too_small():
+    X = np.arange(30, dtype=float).reshape(15, 2)
+    y = np.array([0] * 12 + [2] * 3)
+    real = np.ones(15, dtype=bool)
+    classes = ["CPP_OFF_BY_ONE", OTHER, "CPP_RANGE_CHECK"]
+    X_new, y_new = T.augment_real_rows(X, y, real, classes, {"target": 12, "min_real": 5}, seed=0)
+    assert len(y_new) == 0 and X_new.shape == (0, 2)
+
+
+def test_candidate_can_drop_rule_only_rows():
+    cand = H.load_candidate({"name": "x", "drop_rule_only": True, "real_augment": {"target": 10}})
+    assert cand["drop_rule_only"] is True and cand["real_augment"] == {"target": 10}

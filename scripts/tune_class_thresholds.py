@@ -41,6 +41,7 @@ from backend.app.diagnosis.xgb_classifier import (  # noqa: E402
     OTHER_LABEL,
     ModelClassifier,
     decide,
+    mask_rule_only,
     rescale,
     rule_override,
 )
@@ -73,8 +74,13 @@ def system_label(probs: np.ndarray, features: dict, classes: list[str], threshol
     return None if abstained else classes[idx]
 
 
-def oof_rows(model: ModelClassifier, profile: str, folds: int = 3, repeats: int = 3, seed: int = 7):
-    """(row ids, labels, feature dicts, is_real, calibrated out-of-fold probabilities) for the TRAIN split."""
+def oof_rows(model: ModelClassifier, profile: str, folds: int = 3, repeats: int = 3, seed: int = 7,
+             real_augment: dict | None = None):
+    """(row ids, labels, feature dicts, is_real, calibrated out-of-fold probabilities) for the TRAIN split.
+
+    `real_augment` is the trainer's setting (metrics_v1.json, profile.real_augment): each fold's
+    model then gets the same rows made from pairs of real rows as the served model did.
+    """
     import pandas as pd
     from sklearn.model_selection import StratifiedGroupKFold
 
@@ -111,12 +117,20 @@ def oof_rows(model: ModelClassifier, profile: str, folds: int = 3, repeats: int 
     })
     total = np.zeros((len(rows), len(classes)))
     count = np.zeros(len(rows))
+    real = np.array([r[3] for r in rows])
     for rep in range(repeats):
-        for tr, va in StratifiedGroupKFold(folds, shuffle=True, random_state=seed + rep).split(X, y, groups):
+        splitter = StratifiedGroupKFold(folds, shuffle=True, random_state=seed + rep)
+        for k, (tr, va) in enumerate(splitter.split(X, y, groups)):
             w, _ = T.compute_weights(frame.iloc[tr].reset_index(drop=True), 1.0)
-            total[va] += T._fit_predict(X[tr], y[tr], w, X[va], seed, len(classes))
+            X_tr, y_tr = X[tr], y[tr]
+            if real_augment:
+                X_new, y_new = T.augment_real_rows(X_tr, y_tr, real[tr], classes, real_augment, seed + 100 * rep + k)
+                X_tr, y_tr = np.vstack([X_tr, X_new]), np.concatenate([y_tr, y_new])
+                w = np.concatenate([w, np.full(len(y_new), float(real_augment.get("weight", 0.5)))])
+            total[va] += T._fit_predict(X_tr, y_tr, w, X[va], seed, len(classes))
             count[va] += 1
-    probs = rescale(total / count[:, None], model.temperature)
+    # The served classifier never names a rule-only class, so the bars are fitted without them too.
+    probs = mask_rule_only(rescale(total / count[:, None], model.temperature), classes)
     for i, r in enumerate(rows):
         out = ruled_out({k: (None if math.isnan(v) else v) for k, v in r[2].items()})
         probs[i] = move_ruled_out_mass(probs[i], classes, out)
@@ -165,8 +179,8 @@ def main(argv: list[str] | None = None) -> int:
 
     models = Path(args.models_dir)
     model = ModelClassifier.load(args.variant, models)
-    profile = (json.loads((models / "metrics_v1.json").read_text(encoding="utf-8")).get("profile") or {}).get("name", "default")
-    rows, probs = oof_rows(model, profile)
+    prof = json.loads((models / "metrics_v1.json").read_text(encoding="utf-8")).get("profile") or {}
+    rows, probs = oof_rows(model, prof.get("name", "default"), real_augment=prof.get("real_augment"))
     bars, report = tune(rows, probs, model.classes, model.threshold)
     print(json.dumps({"class_thresholds": bars, **report}, indent=2))
     if args.write:

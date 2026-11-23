@@ -18,6 +18,11 @@ A candidate is data (a JSON file):
      "synthetic_cap": null,       # {"ratio": 3, "min_real": 20}: at most ratio x real synthetic rows
                                   # per class, for classes with min_real real rows or more (P1)
      "drop_features": [],         # features removed from the variant's list (P1, P2)
+     "drop_rule_only": false,     # train without the rows of the rule-only classes (RULE_ONLY_CLASSES);
+                                  # they are still scored, so the real rows stay paired
+     "real_augment": null,        # {"target": 60, "max_factor": 2, "k": 5, "swap": 0.5, "weight": 0.5}:
+                                  # per fold, new rows for rare classes made from pairs of that fold's
+                                  # REAL training rows (train_xgb_misconception.augment_real_rows)
      "calibration": "served",     # served | refit: temperature and threshold
      "bars": "served",            # served | none | cross_fit | {class: bar}
      "include_dev_gold": false,   # also train and score on the dev-gold rows (training-side)
@@ -73,6 +78,7 @@ from eval_heldout_rows import load_run_records  # noqa: E402
 from backend.app.diagnosis.xgb_classifier import (  # noqa: E402
     OTHER_LABEL,
     ModelClassifier,
+    mask_rule_only,
     rescale,
     runtime_decision,
 )
@@ -85,6 +91,7 @@ MIN_SUPPORT = 10
 DEFAULTS: dict[str, Any] = {
     "variant": "execution", "profile": None, "balance": "none", "synthetic_multiplier": 1.0,
     "synthetic_class_weight": {}, "exclude_prefixes": None, "synthetic_cap": None, "drop_features": [],
+    "drop_rule_only": False, "real_augment": None,
     "calibration": "served", "bars": "served", "include_dev_gold": False, "run_records": True,
     "folds": 3, "repeats": 3, "seed": 7,
 }
@@ -149,31 +156,9 @@ def load_rows(cand: dict[str, Any], profile: str, ds: Path = DS) -> list[dict[st
 
 
 def cap_synthetic(rows: list[dict[str, Any]], cap: dict[str, Any], seed: int) -> list[dict[str, Any]]:
-    """Keep at most `ratio` x real synthetic rows per class, whole problem clusters at a time.
-
-    Only classes with at least `min_real` real rows are capped: for the others synthetic rows are
-    the only evidence there is. Clusters are visited in a seeded random order and one is kept
-    only if it fits under the cap, so a generator family is kept or dropped as a whole.
-    """
-    ratio, min_real = float(cap["ratio"]), int(cap.get("min_real", 20))
-    real = Counter(r["label"] for r in rows if r["real"])
-    by_unit: dict[tuple[str, str], list[int]] = {}
-    for i, r in enumerate(rows):
-        if not r["real"]:
-            by_unit.setdefault((r["label"], r["cluster"]), []).append(i)
-    rng = np.random.default_rng(seed)
-    drop: set[int] = set()
-    for cls in sorted({k[0] for k in by_unit}):
-        if real[cls] < min_real:
-            continue
-        limit, kept = ratio * real[cls], 0
-        units = sorted(k for k in by_unit if k[0] == cls)
-        for j in rng.permutation(len(units)):
-            members = by_unit[units[j]]
-            if kept + len(members) <= limit:
-                kept += len(members)
-            else:
-                drop.update(members)
+    """Keep at most `ratio` x real synthetic rows per class (`train_xgb_misconception.synthetic_cap_drop`)."""
+    drop = T.synthetic_cap_drop([r["label"] for r in rows], [r["cluster"] for r in rows],
+                                [r["real"] for r in rows], cap, seed)
     return [r for i, r in enumerate(rows) if i not in drop]
 
 
@@ -200,10 +185,23 @@ def oof_probabilities(rows, features: list[str], classes: list[str], cand: dict[
     w_all = weights(rows, cand)
     reps = np.zeros((cand["repeats"], len(rows), len(classes)))
     fold_of = np.zeros((cand["repeats"], len(rows)), dtype=int)
+    real = np.array([r["real"] for r in rows])
+    if cand["drop_rule_only"]:
+        # Weight 0, the trainer's way (`train(drop_rule_only=True)`): the booster keeps one output
+        # per class, so the served label encoder still matches, and those rows teach nothing.
+        w_all = w_all * np.array([r["label"] not in T.RULE_ONLY_LABELS for r in rows], dtype=float)
+    aug = cand["real_augment"]
     for rep in range(cand["repeats"]):
         splitter = StratifiedGroupKFold(cand["folds"], shuffle=True, random_state=cand["seed"] + rep)
         for k, (tr, va) in enumerate(splitter.split(X, y, groups)):
-            reps[rep, va] = T._fit_predict(X[tr], y[tr], w_all[tr], X[va], cand["seed"], len(classes))
+            X_tr, y_tr, w_tr = X[tr], y[tr], w_all[tr]
+            if aug:
+                X_new, y_new = T.augment_real_rows(X_tr, y_tr, real[tr], classes, aug,
+                                                   cand["seed"] + 100 * rep + k)
+                X_tr = np.vstack([X_tr, X_new])
+                y_tr = np.concatenate([y_tr, y_new])
+                w_tr = np.concatenate([w_tr, np.full(len(y_new), float(aug.get("weight", 0.5)))])
+            reps[rep, va] = T._fit_predict(X_tr, y_tr, w_tr, X[va], cand["seed"], len(classes))
             fold_of[rep, va] = k
     return reps, fold_of, y
 
@@ -342,10 +340,11 @@ def score(rows, decided: list[tuple[str, str]], classes: list[str]) -> dict[str,
 
 def cross_fit_bars(clf: PresetClassifier, rows, raw: np.ndarray, folds: np.ndarray) -> list[dict[str, float]]:
     """Per row, the bars `tune_class_thresholds.tune` picks on the OTHER folds' rows only."""
-    from backend.app.diagnosis.applicability import move_ruled_out_mass, ruled_out
     from tune_class_thresholds import tune
 
-    calibrated = rescale(raw, clf.temperature)
+    from backend.app.diagnosis.applicability import move_ruled_out_mass, ruled_out
+
+    calibrated = mask_rule_only(rescale(raw, clf.temperature), clf.classes)
     for i, r in enumerate(rows):
         out = ruled_out({k: (None if math.isnan(v) else v) for k, v in r["features"].items()})
         calibrated[i] = move_ruled_out_mass(calibrated[i], clf.classes, out)
@@ -370,6 +369,9 @@ def evaluate(cand: dict[str, Any], models_dir: Path = DS / "models", ds: Path = 
         features = [f for f in model.features if f not in set(cand["drop_features"])]
         rows = load_rows(cand, profile, ds)
         reps, fold_of, y = oof_probabilities(rows, features, model.classes, cand)
+        # The served classifier never names a rule-only class (RULE_ONLY_CLASSES), so calibration
+        # and bars are fitted on probabilities with that mass already on OTHER_ERROR.
+        reps = mask_rule_only(reps, model.classes)
     finally:
         T.set_profile("default")
         T.set_balance("none")

@@ -1,0 +1,1 @@
+{"name": "p6_aug100", "note": "p6_rule_only + real-row augmentation up to 100 rows per class (OFF_BY_ONE included), weight 0.5.", "calibration": "refit", "bars": "cross_fit", "run_records": true, "real_augment": {"target": 100, "max_factor": 2, "k": 5, "swap": 0.5, "weight": 0.5}}

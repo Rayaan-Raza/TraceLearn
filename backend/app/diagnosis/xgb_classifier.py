@@ -113,6 +113,26 @@ OTHER_LABEL = "CPP_OTHER_ERROR"
 MISSING_BASE_CASE = "CPP_MISSING_BASE_CASE"
 WRONG_LOOP_DIR = "CPP_WRONG_LOOP_DIR"
 
+# Classes only the rule stages may name. Real code shows them 3 times in about 2,600 rows, so
+# whatever the classifier learns for them is learnt from synthetic programs and cannot be checked
+# on real ones. The classifier's probability for them goes to OTHER_ERROR (`mask_rule_only`); a
+# rule stage (`evidence_rule_override`, or the `for_run_downward` narrow repair) still names them.
+RULE_ONLY_CLASSES: tuple[str, ...] = (MISSING_BASE_CASE, WRONG_LOOP_DIR)
+
+
+def mask_rule_only(probs: np.ndarray, classes: list[str]) -> np.ndarray:
+    """`probs` (one row or a matrix) with the rule-only classes' mass moved to OTHER_ERROR."""
+    out = np.array(probs, dtype=float, copy=True)
+    if OTHER_LABEL not in classes:
+        return out
+    sink = classes.index(OTHER_LABEL)
+    for label in RULE_ONLY_CLASSES:
+        if label in classes:
+            i = classes.index(label)
+            out[..., sink] += out[..., i]
+            out[..., i] = 0.0
+    return out
+
 
 def evidence_rule_override(features: Mapping[str, Any]) -> str | None:
     """Rules for the two classes real code almost never shows, so no model can be trained or
@@ -124,6 +144,10 @@ def evidence_rule_override(features: Mapping[str, Any]) -> str | None:
       - the base-case repair passes every test AND the program recurses AND the first failing test
         crashed or timed out: 17 of 19 and 7 of 7. Without the crash or timeout the same repair
         was right on 4 of 14 (it also "fixes" wrong range tests), so it does not count alone.
+        Not when the compiler also reports `-Wreturn-type`: a recursive function that falls off
+        its end without returning crashes the same way, and adding a base case papers over it.
+        On the labelled rows that guard removes the one real wrong fire (bl-tr-016, "recursive
+        calls not returned") and none of the right ones (2026-11-23).
     WRONG_LOOP_DIR
       - the loop-direction repair passes every test, also when another class's repair does:
         66 of 67 and 21 of 21.
@@ -139,7 +163,8 @@ def evidence_rule_override(features: Mapping[str, Any]) -> str | None:
     if at_least_one("warnings.infinite_recursion"):
         return MISSING_BASE_CASE
     stopped = at_least_one("evidence.ff_crash") or at_least_one("evidence.ff_timeout")
-    if _as_float(features.get("repair.missing_base_case_fix_all")) == 1.0 and at_least_one("semantics.recursion") and stopped:
+    if (_as_float(features.get("repair.missing_base_case_fix_all")) == 1.0 and at_least_one("semantics.recursion")
+            and stopped and not at_least_one("warnings.return_type")):
         return MISSING_BASE_CASE
     if _as_float(features.get("repair.wrong_loop_dir_fix_all")) == 1.0:
         return WRONG_LOOP_DIR
@@ -210,15 +235,16 @@ DECISION_SOURCES = ("model", "class_rule", "repair", "narrow_repair")
 # only (train and dev-gold), never the held-out ones (docs/EVAL_PROTOCOL.md section 5). A passing
 # repair shows *a* fix, not the cause, so no rule is certain.
 # - `repair`: the repair-first rule, 102 of 115 real rows (comment above `_REPAIR_FIX_ALL_FEATURES`).
-# - `class_rule`: 43/43 (infinite-recursion warning) + 17/19 (base-case repair with a crash or
-#   timeout) + 66/67 (loop-direction repair) = 126/129, counted on labelled rows on 15 Nov; no
-#   rule fired on a held-out row. Almost all of these rows are synthetic: real code shows these two
-#   classes 3 times in about 2,600 rows (docs/MODEL_LOG.md, 2026-11-16).
+# - `class_rule`: recounted on 23 Nov on train and dev-gold rows after the `-Wreturn-type` guard:
+#   MISSING_BASE_CASE 49 of 50, WRONG_LOOP_DIR 66 of 67 = 115/117. Every right fire is on a
+#   synthetic row; the one real fire (bl-t2-tr-223, labelled OTHER_ERROR) is wrong. Real code
+#   shows these two classes 3 times in about 2,600 rows (docs/MODEL_LOG.md, 2026-11-16), which is
+#   why they are rule-only (`RULE_ONLY_CLASSES`).
 # - `narrow_repair`: enlarge_every_array 16/18, output_+-1_added 17/21, chained_compare_split_all
 #   2/2, while_add_update 1/1 = 36/42 real rows on train and dev problems (docs/MODEL_LOG.md,
 #   2026-11-14). The ops added on 15 Nov had no firing training row and add nothing to the count.
 RULE_STAGE_PRECISION: dict[str, tuple[int, int]] = {
-    "class_rule": (126, 129),
+    "class_rule": (115, 117),
     "repair": (102, 115),
     "narrow_repair": (36, 42),
 }
@@ -536,6 +562,7 @@ class ModelClassifier:
             numeric = {k: _as_float(v) for k, v in features.items()}
             out_rules = ruled_out({k: (None if math.isnan(v) else v) for k, v in numeric.items()})
             scaled = move_ruled_out_mass(scaled, self.classes, out_rules)
+        scaled = mask_rule_only(scaled, self.classes)
         order = np.argsort(-scaled, kind="stable")
         top, abstained = decide(scaled, self.classes, self.threshold, self.class_thresholds)
         top_p = float(scaled[top])
