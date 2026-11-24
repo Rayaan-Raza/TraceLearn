@@ -1,24 +1,18 @@
-"""S1 of docs/WEAK_CLASS_STRATEGY.md: a blind review of the OTHER_ERROR rows the guideline's own test disputes.
+"""S1 of docs/WEAK_CLASS_STRATEGY.md: a local, blind label review package.
 
-    python scripts/build_fixfirst_review.py [--raw-root G:/TraceLearn/Datasets_RAW] [--out DIR]
+    python scripts/build_fixfirst_review.py --raw-root G:/TraceLearn/Datasets_RAW
 
-Selects every real, training-side row (train and dev-gold; never the held-out split) labelled
-OTHER_ERROR where exactly one class's single edit makes the first failing test pass
-(`repair.<class>_fix_first == 1`, the check in ANNOTATION_GUIDELINE.md section 2). Mixes in control
-rows so a rater cannot tell a disputed row from any other: OTHER_ERROR rows with no such edit, and
-rows already labelled with the class whose edit passes. Writes to
-`review/fixfirst_conflicts/`:
+Selects real, training-side OTHER_ERROR rows (train and dev-gold; never the held-out split) where
+exactly one class's single edit passes the first failing test, plus controls. Writes only under the
+git-ignored cache, because raw programs are not redistributable (DATASET_CARD.md) and because the
+item-to-row mapping must stay private:
 
-- `blind_sheet.csv`  pass 1, for raters: locator, problem, first failing test (input, expected
-  and actual output when available) and blank answer columns. No current label, no edit,
-  no model output, as in the U4 blind sheets.
-- `evidence.md`      pass 2, for adjudication after pass 1 only: each row's fixing edit, its test
-  gains and, with `--raw-root`, the code and the candidate edits of that kind as diffs.
-- `key.csv`          the group of each item and the recorded label. Not for raters.
-- `README.md`        instructions for raters, without the purpose or the group sizes.
-- `COORDINATOR.md`   group sizes and how decisions are recorded. Not for raters.
+- `rater/`        sheet, instructions, programs, statements and tests, under neutral ids. No row id,
+                  problem id, label, edit or model output.
+- `coordinator/`  key.csv (item to row), evidence.md, COORDINATOR.md and seed.txt. Not for raters.
 
-Raters must not open evidence.md or key.csv before their pass-1 answers are submitted.
+The item order and the controls come from a random seed kept in `coordinator/seed.txt`, so the
+mapping cannot be rebuilt from this script. Re-running with the same folder keeps the seed.
 """
 from __future__ import annotations
 
@@ -26,9 +20,13 @@ import argparse
 import csv
 import difflib
 import gzip
+import html
 import json
 import math
 import random
+import re
+import secrets
+import shutil
 import sys
 from collections import Counter
 from pathlib import Path
@@ -39,8 +37,7 @@ for p in (ROOT, ROOT / "scripts"):
         sys.path.insert(0, str(p))
 
 DS = ROOT / "data" / "misconception_dataset"
-OUT = DS / "review" / "fixfirst_conflicts"
-# With --raw-root the output holds program text that may not be redistributed (DATASET_CARD.md), so it goes
+# The output holds program text that may not be redistributed (DATASET_CARD.md), so it goes
 # to the git-ignored cache and never to a tracked folder.
 RAW_OUT = DS / "cache" / "fixfirst_review"
 CACHE = DS / "cache" / "counterfactual" / "evidence.jsonl"
@@ -48,7 +45,6 @@ OTHER = "CPP_OTHER_ERROR"
 # The classes whose first-set repair the cache measures with fix_first.
 FIX_CLASSES = ("LOOP_BOUNDARY", "OFF_BY_ONE", "ARRAY_BOUNDS", "UNINITIALIZED_VAR", "INT_OVERFLOW",
                "RANGE_CHECK", "ASSIGN_VS_COMPARE", "STALE_EXIT")
-SEED = 20261124
 N_CONTROL_OTHER = 20
 N_CONTROL_CLASS = 15
 CHOICES = ("OFF_BY_ONE | LOOP_BOUNDARY | ARRAY_BOUNDS | INT_OVERFLOW | UNINITIALIZED_VAR | RANGE_CHECK | "
@@ -84,7 +80,7 @@ def load_rows(ds: Path = DS) -> list[dict]:
     return rows
 
 
-def select(rows: list[dict], seed: int = SEED) -> list[dict]:
+def select(rows: list[dict], seed: int) -> list[dict]:
     """The disputed rows plus seeded controls, each tagged with its group; shuffled."""
     disputed = [dict(r, group="disputed", evidence_class=r["fix_first"][0]) for r in rows
                 if r["label"] == OTHER and len(r["fix_first"]) == 1]
@@ -100,7 +96,7 @@ def select(rows: list[dict], seed: int = SEED) -> list[dict]:
     items = sorted(disputed + controls, key=lambda r: r["row_id"])
     rng.shuffle(items)
     for i, r in enumerate(items, 1):
-        r["item_id"] = f"FF-{i:03d}"
+        r["item_id"] = f"R-{i:03d}"
     return items
 
 
@@ -204,13 +200,37 @@ def candidate_diffs(code: str, cls: str, ops: list[str]) -> list[str]:
     return diffs[:6]
 
 
-def build(out: Path = OUT, raw_root: Path | None = None, ds: Path = DS) -> dict:
-    if raw_root and DS / "cache" not in out.resolve().parents:
-        raise ValueError(f"--raw-root output must stay under {DS / 'cache'}: raw programs are not redistributable")
+def statement_of(pid: str, raw_root: Path, codestream: dict) -> str | None:
+    """The problem statement as plain text, or None."""
+    if pid.startswith("tl-codestream-"):
+        return codestream[pid].statement if pid in codestream else None
+    num = pid.rsplit("-", 1)[1]
+    if pid.startswith("tl-progpedia-"):
+        for copy in ("progpedia", "progpedia (1)"):
+            path = raw_root / copy / num / "statement.md"
+            if path.is_file():
+                return path.read_text(encoding="utf-8", errors="replace")
+        return None
+    path = raw_root / "Project_CodeNet" / "Project_CodeNet" / "problem_descriptions" / f"{num}.html"
+    if not path.is_file():
+        return None
+    text = path.read_text(encoding="utf-8", errors="replace")
+    text = re.sub(r"(?i)<(br|/p|/h[1-6]|/li|/pre|/div)[^>]*>", "\n", text)
+    return re.sub(r"\n{3,}", "\n\n", html.unescape(re.sub(r"<[^>]+>", "", text)))
+
+
+def build(out: Path, raw_root: Path, ds: Path = DS) -> dict:
+    if DS / "cache" not in out.resolve().parents:
+        raise ValueError(f"the output must stay under {DS / 'cache'}: raw programs are not redistributable")
     rows = load_rows(ds)
-    items = select(rows)
+    seed_file = out / "coordinator" / "seed.txt"
+    if not seed_file.is_file():
+        seed_file.parent.mkdir(parents=True, exist_ok=True)
+        seed_file.write_text(str(secrets.randbits(64)), encoding="utf-8")
+    seed = int(seed_file.read_text(encoding="utf-8"))
+    items = select(rows, seed)
     ev = evidence_of(items)
-    codes = resolve_code(items, raw_root) if raw_root else {}
+    codes = resolve_code(items, raw_root)
     tests_cache: dict[str, list[dict] | None] = {}
     with_input = 0
     if raw_root:
@@ -228,37 +248,62 @@ def build(out: Path = OUT, raw_root: Path | None = None, ds: Path = DS) -> dict:
                 ext = "c" if r["meta"].get("language") == "c" else "cpp"
                 r["program"] = f"programs/{r['item_id']}.{ext}"
                 (rater / r["program"]).write_text(codes[r["row_id"]], encoding="utf-8", newline="")
-    out.mkdir(parents=True, exist_ok=True)
+    from codestream_common import load_problems
+    codestream = load_problems(raw_root)
+    for pid, prob in codestream.items():
+        tests_cache[pid] = prob.tests or None
+    rater, coord = out / "rater", out / "coordinator"
+    if rater.exists():
+        shutil.rmtree(rater)
+    for folder in ("programs", "statements", "tests"):
+        (rater / folder).mkdir(parents=True)
 
-    blind_fields = ["item_id", "row_id", "problem_id", "source_code_path", "first_failing_test",
-                    "first_failing_input", "expected_output", "actual_output_head",
-                    "rater_label", "cause_line", "rater", "note"]
-    with (rater / "blind_sheet.csv").open("w", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=blind_fields, lineterminator="\n")
+    pids = sorted({r["problem_id"] for r in items})
+    random.Random(seed + 1).shuffle(pids)
+    neutral = {pid: f"P{i:02d}" for i, pid in enumerate(pids, 1)}
+    missing = []
+    for pid, name in neutral.items():
+        text = statement_of(pid, raw_root, codestream)
+        if text and text.strip():
+            (rater / "statements" / f"{name}.txt").write_text(text, encoding="utf-8")
+        else:
+            missing.append(pid)
+
+    with_input = 0
+    fields = ["item_id", "problem", "statement", "program", "first_failing_test", "first_failing_input",
+              "expected_output", "actual_output_head", "rater_label", "cause_line", "rater", "note"]
+    with (rater / "blind_sheet.csv").open("w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=fields, lineterminator="\n")
         w.writeheader()
         for r in items:
-            ff = first_failure(ev.get(r["row_id"]))
-            pid = r["problem_id"]
+            pid, code = r["problem_id"], codes.get(r["row_id"])
+            name, ff = neutral[pid], first_failure(ev.get(r["row_id"]))
             if pid not in tests_cache:
                 tests_cache[pid] = _tests_offline(pid)
-            tests = tests_cache[pid]
-            test = tests[ff["index"]] if tests and ff.get("index") is not None and ff["index"] < len(tests) else None
+            tests, idx = tests_cache[pid], ff.get("index")
+            test = tests[idx] if tests and idx is not None and idx < len(tests) else None
             with_input += test is not None
-            w.writerow({"item_id": r["item_id"], "row_id": r["row_id"], "problem_id": pid,
-                        "source_code_path": r.get("program") or r["source_code_path"],
-                        "first_failing_test": "" if ff.get("index") is None else
-                        f"#{ff['index']} ({ff.get('passed')}/{ff.get('total')} tests pass)",
-                        "first_failing_input": _cut(test["input"]) if test else "(needs the raw copy)",
-                        "expected_output": _cut(test["output"]) if test else "(needs the raw copy)",
-                        "actual_output_head": _cut(ff.get("actual_head")),
-                        "rater_label": "", "cause_line": "", "rater": "", "note": ""})
+            program = ""
+            if code:
+                program = f"programs/{r['item_id']}.{'c' if r['meta'].get('language') == 'c' else 'cpp'}"
+                (rater / program).write_text(code, encoding="utf-8", newline="")
+            if test:
+                (rater / "tests" / f"{r['item_id']}.in").write_text(test["input"], encoding="utf-8", newline="")
+                (rater / "tests" / f"{r['item_id']}.expected").write_text(test["output"], encoding="utf-8", newline="")
+            w.writerow({"item_id": r["item_id"], "problem": name, "statement": f"statements/{name}.txt",
+                        "program": program,
+                        "first_failing_test": "" if idx is None else f"#{idx} ({ff.get('passed')}/{ff.get('total')} tests pass)",
+                        "first_failing_input": _cut(test["input"]) if test else "",
+                        "expected_output": _cut(test["output"]) if test else "",
+                        "actual_output_head": _cut(ff.get("actual_head"))})
 
     with (coord / "key.csv").open("w", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=["item_id", "row_id", "group", "recorded_label", "label_status",
+        w = csv.DictWriter(fh, fieldnames=["item_id", "row_id", "problem", "problem_id", "group", "recorded_label", "label_status",
                                            "evidence_class", "split"], lineterminator="\n")
         w.writeheader()
         for r in sorted(items, key=lambda r: r["item_id"]):
-            w.writerow({"item_id": r["item_id"], "row_id": r["row_id"], "group": r["group"],
+            w.writerow({"item_id": r["item_id"], "row_id": r["row_id"], "problem": neutral[r["problem_id"]],
+                        "problem_id": r["problem_id"], "group": r["group"],
                         "recorded_label": r["label"], "label_status": r["label_status"],
                         "evidence_class": r["evidence_class"], "split": r["split"]})
 
@@ -294,11 +339,11 @@ def build(out: Path = OUT, raw_root: Path | None = None, ds: Path = DS) -> dict:
 
     groups = Counter(r["group"] for r in items)
     by_class = Counter(r["evidence_class"] for r in items if r["group"] == "disputed")
-    where = "in this folder" if raw_root else "in the raw copy (Datasets_RAW)"
     readme = f"""# Label review: instructions for raters
 
 {len(items)} real student programs. Fill a copy of `blind_sheet.csv` alone and save it as
-`rater_<name>.csv`. Open each program at `source_code_path` {where}.
+`rater_<name>.csv`. For each row read `statement`, open `program`, and look at the
+first failing test. Long text is cut in the sheet; `tests/<item_id>.in` and `.expected` hold it in full.
 
 - `rater_label`: one of {CHOICES}. ANNOTATION_GUIDELINE.md section 2: the misconception that **causes**
   the first failing test.
@@ -320,19 +365,19 @@ signed_off_by, note); never edit labels in place.
     (coord / "COORDINATOR.md").write_text(coordinator, encoding="utf-8", newline="\n")
     (rater / "README.md").write_text(readme, encoding="utf-8", newline="\n")
     return {"items": len(items), "groups": dict(groups), "disputed_by_class": dict(by_class),
-            "with_test_input": with_input, "code_embedded": len(codes), "rows_with_diffs": n_diffs}
+            "with_test_input": with_input, "code_embedded": len(codes), "problems": len(neutral),
+            "missing_statements": missing, "rows_with_diffs": n_diffs}
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--raw-root", type=Path, default=None, help="Datasets_RAW, to embed code and diffs in evidence.md")
-    ap.add_argument("--out", type=Path, default=None,
-                    help="default: the tracked review folder, or the git-ignored cache with --raw-root")
+    ap.add_argument("--raw-root", type=Path, required=True, help="Datasets_RAW")
+    ap.add_argument("--out", type=Path, default=RAW_OUT, help="must be under the git-ignored cache")
     a = ap.parse_args(argv)
-    if a.raw_root and not a.raw_root.is_dir():
+    if not a.raw_root.is_dir():
         print(f"raw root not found: {a.raw_root}")
         return 2
-    print(json.dumps(build(a.out or (RAW_OUT if a.raw_root else OUT), a.raw_root), indent=2))
+    print(json.dumps(build(a.out, a.raw_root), indent=2))
     return 0
 
 
