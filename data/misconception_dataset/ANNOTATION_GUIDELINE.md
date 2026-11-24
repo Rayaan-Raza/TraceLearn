@@ -27,7 +27,7 @@ should pass.
 
 | Label | Pick it when… | Not when… |
 |---|---|---|
-| `CPP_LOOP_BOUNDARY` | the **loop-test comparison operator** is wrong (`<=` vs `<`, `< n+1`, `!= n+1`); changing only the operator fixes it | the operator is right and an index or start value is off → `OFF_BY_ONE` |
+| `CPP_LOOP_BOUNDARY` | the **loop-test comparison operator** is wrong (`<=` vs `<`); changing only the operator fixes it | the operator is right and an index or start value is off → `OFF_BY_ONE` |
 | `CPP_OFF_BY_ONE` | index / count / initial-value arithmetic is off by one (`a[i+1]`, start at 1, `n` vs `n-1`) and the loop operator is right | the array is far too small → `ARRAY_BOUNDS` |
 | `CPP_ARRAY_BOUNDS` | the access is more than one past the end, or a fixed array is smaller than the input needs | the access is exactly one past the end because of `<=` → `LOOP_BOUNDARY` |
 | `CPP_UNINITIALIZED_VAR` | a declared variable is read before it is set (often flagged by Valgrind "uninitialised") | it is set on every path before use |
@@ -95,7 +95,7 @@ decides, and note the item id when one comes up during gold annotation):
 
 ## 6. LOOP_BOUNDARY vs OFF_BY_ONE — formal boundary rule
 
-**Added 10 Nov 2026 after senior-review finding: ~40 real rows labelled inconsistently across the two classes. All relabellers must use this rule.**
+**Added 10 Nov 2026 after senior-review finding: 19 real rows labelled inconsistently across the two classes. All relabellers must use this rule.**
 
 ### The one-sentence rule
 
@@ -106,7 +106,7 @@ decides, and note the item id when one comes up during gold annotation):
 | Situation | Label |
 |---|---|
 | Loop runs `i <= n` where `i < n` was needed, accessing `a[n]` | `LOOP_BOUNDARY` |
-| Loop runs `i != n+1` or `i < n+1` instead of `i <= n` | `LOOP_BOUNDARY` |
+| Loop runs `i < n+1` or `i != n+1` where `i <= n` was needed (integer `i`, step 1, starting at or below `n+1`) | not a bug: the same iterations. Look elsewhere |
 | Loop runs `i < n` (correct) but array declared as `a[n-1]` or starts at `i=1` instead of `i=0` | `OFF_BY_ONE` |
 | Final element skipped because counter starts at 1 instead of 0 | `OFF_BY_ONE` |
 | Loop accesses `a[i+1]` inside the body (body-index shift), operator correct | `OFF_BY_ONE` |
@@ -128,4 +128,4 @@ Rows flagged as LOOP_BOUNDARY/OFF_BY_ONE conflicts in `review/label_conflicts/lb
 2. Record your decision and a one-line justification in that CSV's `relabel` and `note` columns.
 3. If you disagree with the rule → flag as `UNCERTAIN` and schedule a team discussion; do **not** apply a personal interpretation.
 
-Target: relabel all ~40 conflict rows before the next model training run.
+Target: relabel all 19 conflict rows before the next model training run.
