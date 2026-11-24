@@ -127,6 +127,9 @@ automatically in `data/misconception_dataset/reports/holdout_evaluations.jsonl` 
 | 2026-11-13 to 14 | Development set | 0af477c27ce3955d and a mutant model | Per-class bars, narrow repairs, mutant model compared | `MODEL_LOG.md` 2026-11-14 only |
 | 2026-11-15 | Development set | 8860b506160ed29c and 0af477c27ce3955d | PR #17 candidate; RANGE_CHECK exclusion chosen here | `MODEL_LOG.md` 2026-11-15 only |
 | 2026-11-16 | Development set | 8860b506160ed29c | Class rules for MISSING_BASE_CASE and WRONG_LOOP_DIR | `MODEL_LOG.md` 2026-11-16 only |
+| 2026-11-23 | Development set | 4fd55a25c6e72297 | Real-row augmentation candidate, failed section 6 (tag `p6`) | `holdout_evaluations.jsonl`, `heldout_eval.md` |
+| 2026-11-23 | Development set | acbdd3a38d901675 | 2x-balanced candidate, failed section 6 (tag `cb2x`) | branch `feat/class-ratio-2x` |
+| 2026-11-23 | Development set | 8860b506160ed29c (stored `pr17` run) | Not a scoring: per-row errors and features of missed rows inspected before choosing the weak-class strategies | `WEAK_CLASS_STRATEGY.md` |
 
 The `test_iid` split (25 rows) was also scored six times on 6 and 8 November.
 
