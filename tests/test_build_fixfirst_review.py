@@ -42,3 +42,11 @@ def test_committed_sheet_is_blind_and_training_side_only():
     assert set(key) == {r["item_id"] for r in sheet}
     assert {r["split"] for r in key.values()} <= {"train", "dev_gold"}
     assert all(r["recorded_label"] == B.OTHER for r in key.values() if r["group"] == "disputed")
+
+
+def test_raw_programs_are_refused_outside_the_ignored_cache(tmp_path):
+    import pytest
+
+    for tracked in (B.OUT, tmp_path):
+        with pytest.raises(ValueError, match="not redistributable"):
+            B.build(tracked, raw_root=tmp_path)
